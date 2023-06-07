@@ -85,7 +85,7 @@ DEF GANTRY Robot {
   children [
     DEF PILLARS_GROUP Group {
       children [
-        DEF BRIDGE_TRANS Transform {
+        DEF BRIDGE_TRANS Pose {
           translation 0 0 0.11
           children [
             Shape {
@@ -100,7 +100,7 @@ DEF GANTRY Robot {
             }
           ]
         }
-        DEF PILLAR1_TRANS Transform {
+        DEF PILLAR1_TRANS Pose {
           translation 0.4 -0.5 -0.44
           children [
             DEF PILLAR_SHAPE Shape {
@@ -111,25 +111,25 @@ DEF GANTRY Robot {
             }
           ]
         }
-        DEF PILLAR2_TRANS Transform {
+        DEF PILLAR2_TRANS Pose {
           translation 0.4 0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
-        DEF PILLAR3_TRANS Transform {
+        DEF PILLAR3_TRANS Pose {
           translation -0.4 -0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
-        DEF PILLAR4_TRANS Transform {
+        DEF PILLAR4_TRANS Pose {
           translation -0.4 0.5 -0.44
           children [
             USE PILLAR_SHAPE
           ]
         }
-        DEF TRANSVERSE1 Transform {
+        DEF TRANSVERSE1 Pose {
           translation 0 0.5 0.11
           children [
             DEF TRANSVERSE_SHAPE Shape {
@@ -140,7 +140,7 @@ DEF GANTRY Robot {
             }
           ]
         }
-        DEF TRANSVERSE2 Transform {
+        DEF TRANSVERSE2 Pose {
           translation 0 -0.5 0.11
           children [
             USE TRANSVERSE_SHAPE
@@ -161,7 +161,7 @@ DEF GANTRY Robot {
       endPoint Solid {
         translation 0.4 -0.5 -0.9
         children [
-          DEF WHEEL1_TRANS Transform {
+          DEF WHEEL1_TRANS Pose {
             rotation -1 0 0 1.5708
             children [
               DEF WHEEL_SHAPE Shape {
@@ -197,7 +197,7 @@ DEF GANTRY Robot {
       endPoint Solid {
         translation 0.4 0.5 -0.9
         children [
-          DEF WHEEL2_TRANS Transform {
+          DEF WHEEL2_TRANS Pose {
             rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
@@ -222,7 +222,7 @@ DEF GANTRY Robot {
       endPoint Solid {
         translation -0.4 -0.5 -0.9
         children [
-          DEF WHEEL3_TRANS Transform {
+          DEF WHEEL3_TRANS Pose {
             rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
@@ -247,7 +247,7 @@ DEF GANTRY Robot {
       endPoint Solid {
         translation -0.4 0.5 -0.9
         children [
-          DEF WHEEL4_TRANS Transform {
+          DEF WHEEL4_TRANS Pose {
             rotation -1 0 0 1.5708
             children [
               USE WHEEL_SHAPE
@@ -318,7 +318,7 @@ DEF GANTRY Robot {
                     children [
                       DEF PISTON_GROUP Group {
                         children [
-                          Transform {
+                          Pose {
                             translation -0.5 0 0
                             children [
                               Shape {
@@ -329,7 +329,7 @@ DEF GANTRY Robot {
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             rotation 0 -1 0 1.5708
                             children [
                               Shape {

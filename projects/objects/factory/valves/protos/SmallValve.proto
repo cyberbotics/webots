@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/valves/protos/SmallValve.proto
+# keywords: industrial/plumbing
 # Small Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
@@ -189,7 +190,7 @@ PROTO SmallValve [
               }
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.0492 0 -0.0102
             rotation 0 1 0 1.5707963
             children [
@@ -209,7 +210,7 @@ PROTO SmallValve [
     model "small valve"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.018 0 -0.0102
           children [
             Box {

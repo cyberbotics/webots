@@ -1,9 +1,10 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/citroen/CitroenCZeroSimple.proto
+# keywords: vehicle/car
 # Simple kinematic model of the Citroën C-Zero to be moved with a Supervisor.
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 EXTERNPROTO "CitroenCZeroHeadLight.proto"
 EXTERNPROTO "CitroenCZeroRightIndicator.proto"
@@ -41,23 +42,23 @@ PROTO CitroenCZeroSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         translation 3.075 0 0.05
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -0.425 0 0.3
         rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 1.075 0 1.35
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           CitroenCZeroHeadLight {
@@ -139,7 +140,7 @@ PROTO CitroenCZeroSimple [
     controller IS controller
     controllerArgs IS controllerArgs
     model "Citroen C-Zero"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.25 0 0.5
       children [
         Box {

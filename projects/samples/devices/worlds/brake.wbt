@@ -39,7 +39,7 @@ RectangleArena {
 Robot {
   translation 0 0 0.4
   children [
-    Transform {
+    Pose {
       translation 0 -0.2 -0.125
       children [
         Shape {
@@ -51,7 +51,7 @@ Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 0.2 -0.125
       children [
         Shape {
@@ -63,7 +63,7 @@ Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -0.23 0.2
       rotation -1 0 0 1.5708
       children [
@@ -77,7 +77,7 @@ Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 0.23 0.2
       rotation 0 0.7071067811865476 -0.7071067811865476 3.14159
       children [

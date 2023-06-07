@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/DogHouse.proto
+# keywords: exterior/garden
 # A dog house.
 
 PROTO DogHouse [
@@ -69,7 +70,7 @@ PROTO DogHouse [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.5
           children [
             Box {

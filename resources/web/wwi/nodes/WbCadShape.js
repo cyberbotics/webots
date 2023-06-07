@@ -2,16 +2,15 @@ import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
-import {getAnId} from './utils/id_provider.js';
-import {findUpperTransform} from './utils/node_utilities.js';
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import { getAnId } from './utils/id_provider.js';
+import { arrayXPointerFloat, arrayXPointerInt } from './utils/utils.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 import MeshLoader from '../MeshLoader.js';
 import ImageLoader from '../ImageLoader.js';
@@ -24,7 +23,6 @@ export default class WbCadShape extends WbBaseNode {
   #isPickable;
   #pbrAppearances;
   #promises;
-  #upperTransformFirstTimeSearch;
   #url;
   #wrenMaterials;
   #wrenMeshes;
@@ -32,7 +30,7 @@ export default class WbCadShape extends WbBaseNode {
   #wrenTransforms;
   constructor(id, url, ccw, castShadows, isPickable, prefix) {
     super(id);
-    if (url.endsWith('.obj') || url.endsWith('.dae'))
+    if (url.toLowerCase().endsWith('.obj') || url.toLowerCase().endsWith('.dae'))
       this.#url = url;
 
     if (typeof this.#url === 'undefined') { // no '.dae' or '.obj' was provided
@@ -40,7 +38,7 @@ export default class WbCadShape extends WbBaseNode {
       return;
     }
 
-    this.#isCollada = this.#url.endsWith('.dae');
+    this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
     this.prefix = prefix;
 
@@ -96,7 +94,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   set url(newUrl) {
-    if (newUrl.endsWith('.obj') || newUrl.endsWith('.dae'))
+    if (newUrl.toLowerCase().endsWith('.obj') || newUrl.toLowerCase().endsWith('.dae'))
       this.#url = newUrl;
     else
       console.error('Unknown file provided to CadShape node: ' + newUrl);
@@ -110,7 +108,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   absoluteScale() {
-    const ut = this.#upperTransform();
+    const ut = this.upperTransform;
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 
@@ -477,7 +475,7 @@ export default class WbCadShape extends WbBaseNode {
 
   #updateUrl() {
     if (this.#url)
-      this.#isCollada = this.#url.endsWith('.dae');
+      this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
     MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
       this.scene = meshContent[0];
@@ -489,15 +487,5 @@ export default class WbCadShape extends WbBaseNode {
           this.createWrenObjects();
       }
     });
-  }
-
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
   }
 }

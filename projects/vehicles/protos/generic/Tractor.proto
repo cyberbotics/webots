@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/Tractor.proto
+# keywords: vehicle/farm
 # A simple tractor.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
@@ -41,7 +42,7 @@ Car {
   suspensionRearSpringConstant 30000
   suspensionRearDampingConstant 2000
   extensionSlot [
-    DEF FRONT_AXLE_CYL Transform {
+    DEF FRONT_AXLE_CYL Pose {
       translation 0.05 0 0.07
       rotation -0.605815 0.605817 0.515727 -2.189295
       children [
@@ -62,7 +63,7 @@ Car {
                 top FALSE
               }
             }
-            Transform {
+            Pose {
               translation 0.280006 -1.74 0.43
               rotation 0 0 1 1.5708
               children [
@@ -75,14 +76,14 @@ Car {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.05 0 0.52
               rotation 0 -1 0 1.5708
               children [
                 USE FRONT_AXLE_DIR_SHAPE
               ]
             }
-            Transform {
+            Pose {
               translation 0.05 0 -0.52
               rotation 0 -1 0 1.5708
               children [
@@ -95,7 +96,7 @@ Car {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.280006 -1.74 -0.43
               rotation 0 0 1 1.5708
               children [
@@ -106,27 +107,27 @@ Car {
           boundingObject Group {
             children [
               USE FRONT_AXLE_CYL
-              Transform {
+              Pose {
                 translation 0.280006 -1.74 -0.43
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.05 0 0.52
                 rotation 0 -1 0 1.5708
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.05 0 -0.52
                 rotation 0 -1 0 1.5708
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.280006 -1.74 0.43
                 children [
                   USE FRONT_AXLE_DIR_SHAPE
@@ -139,7 +140,7 @@ Car {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.05 0 0.07
       rotation -0.605815 0.605817 0.515727 -2.189295
       children [
@@ -732,11 +733,11 @@ Car {
             creaseAngle 0.2
           }
         }
-        DEF ROPS Transform {
+        DEF ROPS Pose {
           translation 0 0 -0.1
           rotation 1 0 0 0.17
           children [
-            DEF ROPS_TOP_BAR Transform {
+            DEF ROPS_TOP_BAR Pose {
               translation 0 1.7 0
               rotation -0.577349 -0.577351 0.577351 2.094397
               children [
@@ -753,7 +754,7 @@ Car {
                 }
               ]
             }
-            DEF ROPS_RIGHT_BAR Transform {
+            DEF ROPS_RIGHT_BAR Pose {
               translation 0.58 1.2 0
               rotation 1 0 0 -1.570796
               children [
@@ -767,7 +768,7 @@ Car {
                 }
               ]
             }
-            DEF ROPS_LEFT_BAR Transform {
+            DEF ROPS_LEFT_BAR Pose {
               translation -0.58 1.2 0
               rotation 1 0 0 -1.570796
               children [
@@ -781,7 +782,7 @@ Car {
                 }
               ]
             }
-            DEF ROPS_LEFT_LIGHT_HOLDER Transform {
+            DEF ROPS_LEFT_LIGHT_HOLDER Pose {
               translation -0.66 0.95 0
               rotation 1 0 0 -3.141592
               children [
@@ -793,7 +794,7 @@ Car {
                 }
               ]
             }
-            DEF ROPS_LEFT_RIGHT_HOLDER Transform {
+            DEF ROPS_LEFT_RIGHT_HOLDER Pose {
               translation 0.66 0.95 0
               rotation 1 0 0 -3.141592
               children [
@@ -821,7 +822,7 @@ Car {
                 size 0.08 0.12 0.05
               }
             }
-            Transform {
+            Pose {
               translation 0 0 -0.01
               children [
                 Shape {
@@ -849,7 +850,7 @@ Car {
                 size 0.08 0.12 0.05
               }
             }
-            Transform {
+            Pose {
               translation 0 0 -0.01
               children [
                 Shape {
@@ -869,7 +870,7 @@ Car {
           children [
             Group {
               children [
-                Transform {
+                Pose {
                   translation -0.69 0 0
                   children [
                     Shape {
@@ -884,7 +885,7 @@ Car {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.69 0 0
                   children [
                     Shape {
@@ -901,7 +902,7 @@ Car {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.69 0 -0.01
               children [
                 Shape {
@@ -912,7 +913,7 @@ Car {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.69 0 -0.01
               children [
                 Shape {
@@ -1062,7 +1063,7 @@ Car {
             1 1 1
           ]
         }
-        DEF STEERING_WHEEL Transform {
+        DEF STEERING_WHEEL Pose {
           translation 0 0.71 -0.8
           rotation 1 0 0 -1.170796
           children [
@@ -1079,7 +1080,7 @@ Car {
                 top FALSE
               }
             }
-            Transform {
+            Pose {
               translation 0 -0.008 0.14
               children [
                 Shape {
@@ -1125,7 +1126,7 @@ Car {
   ]
   boundingObject Group {
     children [
-      DEF BONNET_MAIN_BO Transform {
+      DEF BONNET_MAIN_BO Pose {
         translation 1.35 0 0.52
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1134,7 +1135,7 @@ Car {
           }
         ]
       }
-      DEF BONNET_FRONT_BO Transform {
+      DEF BONNET_FRONT_BO Pose {
         translation 1.79 0 0.57
         rotation -0.355071 -0.355071 0.864783 1.715565
         children [
@@ -1143,7 +1144,7 @@ Car {
           }
         ]
       }
-      DEF SEAT_BO Transform {
+      DEF SEAT_BO Pose {
         translation 0.14 0 0.36
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1152,7 +1153,7 @@ Car {
           }
         ]
       }
-      DEF FRONT_BRACKET_BO Transform {
+      DEF FRONT_BRACKET_BO Pose {
         translation 2.11 0 0.41
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1161,7 +1162,7 @@ Car {
           }
         ]
       }
-      DEF BOTTOM_FRONT_BO Transform {
+      DEF BOTTOM_FRONT_BO Pose {
         translation 1.7 0 0.01
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1170,7 +1171,7 @@ Car {
           }
         ]
       }
-      DEF BOTTOM_REAR_BO Transform {
+      DEF BOTTOM_REAR_BO Pose {
         translation 0.1 0 -0.23
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1179,7 +1180,7 @@ Car {
           }
         ]
       }
-      DEF CABIN_FLOOR_BO Transform {
+      DEF CABIN_FLOOR_BO Pose {
         translation 0.65 0 0.186
         rotation 0.546245 0.546245 0.635006 2.010069
         children [
@@ -1188,7 +1189,7 @@ Car {
           }
         ]
       }
-      DEF ROPS_BO Transform {
+      DEF ROPS_BO Pose {
         translation -0.26 0 1.25
         rotation 0.505214 0.505214 0.699655 1.920604
         children [

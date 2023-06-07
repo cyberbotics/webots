@@ -1,12 +1,13 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/puma
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/unimation/puma/protos/Puma560.proto
+# keywords: robot/arm
 # The PUMA robotic arm (for "Programmable Universal Machine for Assembly") is a six axes arm with three axes making up a spherical wrist.
 
 PROTO Puma560 [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "PUMA 560"  # Is `Solid.name`.
   field SFString   controller      "puma560"   # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -34,7 +35,7 @@ PROTO Puma560 [
       }
       DEF BASE_GROUP Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 0.308
             children [
               Shape {
@@ -50,7 +51,7 @@ PROTO Puma560 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.02
             children [
               Shape {
@@ -63,7 +64,7 @@ PROTO Puma560 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.146 0.185
             children [
               Shape {
@@ -75,7 +76,7 @@ PROTO Puma560 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.146 0.05
             children [
               Shape {
@@ -109,7 +110,7 @@ PROTO Puma560 [
           children [
             DEF SHOULDER_GROUP Group {
               children [
-                DEF SHOULDER_SHAFT Transform {
+                DEF SHOULDER_SHAFT Pose {
                   translation -0.035 0 0
                   rotation 0 1 0 -1.5708
                   children [
@@ -125,7 +126,7 @@ PROTO Puma560 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.177 0 0
                   rotation 0 1 0 -1.5708
                   children [
@@ -138,7 +139,7 @@ PROTO Puma560 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0 -0.041
                   children [
                     Shape {
@@ -169,7 +170,7 @@ PROTO Puma560 [
               endPoint Solid {
                 translation -0.1622 0 0
                 children [
-                  Transform {
+                  Pose {
                     rotation 0 0 1 1.5708
                     children [
                       DEF UNIMATE_LOGO Transform {
@@ -317,7 +318,7 @@ PROTO Puma560 [
                                 endPoint Solid {
                                   translation 0 0 0.079
                                   children [
-                                    DEF JOINT5_TRANS Transform {
+                                    DEF JOINT5_TRANS Pose {
                                       rotation 0 1 0 -1.571
                                       children [
                                         Shape {
@@ -355,7 +356,7 @@ PROTO Puma560 [
                                           }
                                           DEF WRIST_GROUP Group {
                                             children [
-                                              Transform {
+                                              Pose {
                                                 translation 0 0 0.136
                                                 children [
                                                   Shape {
@@ -367,7 +368,7 @@ PROTO Puma560 [
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 0 0.1845
                                                 children [
                                                   Shape {
@@ -379,7 +380,7 @@ PROTO Puma560 [
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 0 0.222
                                                 children [
                                                   Shape {
@@ -408,7 +409,7 @@ PROTO Puma560 [
                                               translation 0 -0.007 0.23
                                               rotation 0 0 1 -1.5708
                                               children [
-                                                Transform {
+                                                Pose {
                                                   rotation 0 0 1 1.5708
                                                   children [
                                                     Shape {
@@ -440,7 +441,7 @@ PROTO Puma560 [
                                                 }
                                               ]
                                               name "GripperR"
-                                              boundingObject DEF GRIP_BO Transform {
+                                              boundingObject DEF GRIP_BO Pose {
                                                 translation 0 0 0.023
                                                 children [
                                                   Box {
@@ -467,7 +468,7 @@ PROTO Puma560 [
                                               translation 0 0.007 0.23
                                               rotation 0 0 1 1.5708
                                               children [
-                                                DEF GripperL Transform {
+                                                DEF GripperL Pose {
                                                   rotation 0 0 1 -1.5708
                                                   children [
                                                     Shape {
@@ -512,7 +513,7 @@ PROTO Puma560 [
                                   }
                                 }
                               }
-                              DEF JOINT4_TRANS Transform {
+                              DEF JOINT4_TRANS Pose {
                                 translation 0 0 0.019
                                 children [
                                   Shape {
@@ -529,7 +530,7 @@ PROTO Puma560 [
                             }
                           }
                         }
-                        Transform {
+                        Pose {
                           translation -0.074 0 0
                           rotation 0 0 1 1.571
                           children [
@@ -549,7 +550,7 @@ PROTO Puma560 [
                             }
                           ]
                         }
-                        DEF ARTLAB_LOGO Transform {
+                        DEF ARTLAB_LOGO Pose {
                           translation -0.03 -0.016 0.122
                           rotation 0.707105 0 0.707108 3.14159
                           children [
@@ -572,7 +573,7 @@ PROTO Puma560 [
                       ]
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation -0.074 -0.034 0.13
                             rotation 1 0 0 -0.05
                             children [
@@ -581,7 +582,7 @@ PROTO Puma560 [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.074 0.015 0.13
                             rotation 1 0 0 0.14
                             children [
@@ -602,7 +603,7 @@ PROTO Puma560 [
                 ]
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.082 -0.056 -0.007
                       children [
                         Box {
@@ -610,7 +611,7 @@ PROTO Puma560 [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.082 0.27 0.031
                       rotation 1 0 0 -0.16
                       children [
@@ -619,7 +620,7 @@ PROTO Puma560 [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.082 0.267 -0.039
                       rotation 1 0 0 0.2
                       children [

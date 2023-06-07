@@ -1,7 +1,7 @@
-import {resetIfNegative, resetVector3IfNegative} from './utils/WbFieldChecker.js';
-import {findUpperTransform} from './utils/node_utilities.js';
+import { resetIfNegative, resetVector3IfNegative } from './utils/WbFieldChecker.js';
+import { findUpperPose } from './utils/node_utilities.js';
 import WbVector3 from './utils/WbVector3.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 import WbLight from './WbLight.js';
 
@@ -65,7 +65,7 @@ export default class WbPointLight extends WbLight {
       return;
 
     this.#wrenLight = _wr_point_light_new();
-    this.#attachToUpperTransform();
+    this.#attachToUpperPose();
     super.createWrenObjects();
 
     this.#applyLightAttenuationToWren();
@@ -74,7 +74,7 @@ export default class WbPointLight extends WbLight {
 
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this.#detachFromUpperTransform();
+      this.#detachFromUpperPose();
       _wr_node_delete(this.#wrenLight);
     }
 
@@ -83,11 +83,11 @@ export default class WbPointLight extends WbLight {
 
   // Private functions
 
-  #attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+  #attachToUpperPose() {
+    const upperPose = findUpperPose(this);
 
-    if (typeof upperTransform !== 'undefined')
-      _wr_transform_attach_child(upperTransform.wrenNode, this.#wrenLight);
+    if (typeof upperPose !== 'undefined')
+      _wr_transform_attach_child(upperPose.wrenNode, this.#wrenLight);
   }
 
   #applyLightAttenuationToWren() {
@@ -123,7 +123,7 @@ export default class WbPointLight extends WbLight {
     _wr_point_light_set_position_relative(this.#wrenLight, position);
   }
 
-  #detachFromUpperTransform() {
+  #detachFromUpperPose() {
     const node = this.#wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')

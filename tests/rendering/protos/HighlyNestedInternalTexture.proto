@@ -5,7 +5,7 @@ EXTERNPROTO "./depth_2/NestedInternalTexture.proto"
 PROTO HighlyNestedInternalTexture [
 ]
 {
-  Transform {
+  Pose {
     children[
       NestedInternalTexture {
         name "HighlyNestedInternalTexture"

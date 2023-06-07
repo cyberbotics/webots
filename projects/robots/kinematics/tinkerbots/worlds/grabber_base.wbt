@@ -136,7 +136,7 @@ DEF OBJECT Solid {
   name "object"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.0025
         children [
           Box {
@@ -144,7 +144,7 @@ DEF OBJECT Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.015
         children [
           Box {

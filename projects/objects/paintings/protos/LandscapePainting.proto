@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/paintings/protos/LandscapePainting.proto
+# keywords: household/living room
 # A painting (0.05 x 1.5 x 1 m).
 
 PROTO LandscapePainting [

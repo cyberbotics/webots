@@ -42,7 +42,7 @@ PROTO Thymio2LED [
                 url = fields.textureUrls.value[i];
                 size = fields.sizes.value[i];
             >%
-              Transform {
+              Pose {
                 translation %<= translation.x >% %<= translation.y >% %<= translation.z >%
                 rotation %<= rotation.x >% %<= rotation.y >% %<= rotation.z >% %<= rotation.a >%
                 children [

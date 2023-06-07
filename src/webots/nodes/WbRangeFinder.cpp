@@ -124,6 +124,7 @@ float *WbRangeFinder::rangeFinderImage() const {
 
 void WbRangeFinder::createWrenCamera() {
   WbAbstractCamera::createWrenCamera();
+  applyCameraSettings();
   applyMaxRangeToWren();
   applyResolutionToWren();
 

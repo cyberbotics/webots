@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/TableWithUmbrella.proto
+# keywords: exterior/garden
 # A table with a central umbrella and optional physics.
 # template language: javascript
 
@@ -120,7 +121,7 @@ PROTO TableWithUmbrella [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.89
           children [
             Cylinder {
@@ -129,7 +130,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.98
           children [
             Cylinder {
@@ -138,7 +139,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.61
           children [
             Cylinder {
@@ -147,7 +148,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.63 0 0.45
           children [
             DEF CYLINDER Cylinder {
@@ -156,19 +157,19 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.63 0 0.45
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.63 0.45
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.63 0.45
           children [
             USE CYLINDER

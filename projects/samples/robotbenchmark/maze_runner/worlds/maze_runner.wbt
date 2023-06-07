@@ -242,7 +242,6 @@ DEF THYMIO2 Thymio2 {
   translation -0.279509 0.02923 0.610695
   rotation 0.0014800006661173696 0.9997794499798363 0.020949009428711335 -0.014665
   controller "move_in_maze"
-  controllerArgs []
 }
 MazeRunnerBenchmark {
 }
@@ -490,18 +489,22 @@ Clock {
 DEF FINISH_LINE Solid {
   translation -0.044528 3.4 0.01
   rotation 0 0 1 3.141593
-  scale 0.97109691 0.97109691 0.97109691
   children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.862745 0.247059 0.254902
-        transparency 0.20000000298023224
-        roughness 0.32941200000000004
-        metalness 0
-      }
-      geometry Plane {
-        size 8.1 0.05
-      }
+    Transform {
+      scale 0.97109691 0.97109691 0.97109691
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.862745 0.247059 0.254902
+            transparency 0.20000000298023224
+            roughness 0.32941200000000004
+            metalness 0
+          }
+          geometry Plane {
+            size 8.1 0.05
+          }
+        }
+      ]
     }
   ]
 }

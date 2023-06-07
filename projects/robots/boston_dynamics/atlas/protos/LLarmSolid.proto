@@ -22,7 +22,7 @@ Solid {
   name "LLarm"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.056065 0 0
         rotation -0.0004 1 0.0004 1.5708
         children [
@@ -32,7 +32,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.0556155 0 0
         rotation -0.0004 1 0.0004 1.5708
         children [
@@ -42,7 +42,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.0940525 0.0
         rotation 1 0 0 1.5708
         children [

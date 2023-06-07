@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/components/protos/HotPlate.proto
+# keywords: furniture/kitchen
 # An hot plate.
 
 PROTO HotPlate [
@@ -92,7 +93,7 @@ Solid {
   ]
   name IS name
   model "hot plate"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.112 0 0.031
     children [
       Shape {

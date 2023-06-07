@@ -2,8 +2,9 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
+# keywords: vehicle/other
 # Set of lights found in a standard vehicle: front, right and left indicators, antifog, braking, rear and backwards
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 PROTO VehicleLights [
   field MFNode    front           [ ]

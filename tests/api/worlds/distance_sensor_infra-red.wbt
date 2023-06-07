@@ -19,7 +19,7 @@ DEF BOARD Solid {
   translation 0 0.005 0
   rotation 1 0 0 0
   children [
-    DEF BOARD_GREEN_TRANSFORM Transform {
+    DEF BOARD_GREEN_POSE Pose {
       translation 0 0 -0.075
       rotation 1 0 0 -1.57079632679
       children [
@@ -41,7 +41,7 @@ DEF BOARD Solid {
         }
       ]
     }
-    DEF BOARD_WHITE_TRANSFORM Transform {
+    DEF BOARD_WHITE_POSE Pose {
       translation 0 0 0.075
       rotation 1 0 0 -1.57079632679
       children [
@@ -60,14 +60,14 @@ DEF BOARD Solid {
   ]
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.075
         rotation 1 0 0 -1.57079632679
         children [
           USE BOARD_GREEN
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.075
         rotation 1 0 0 -1.57079632679
         children [

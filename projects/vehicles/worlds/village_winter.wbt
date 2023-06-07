@@ -4231,7 +4231,7 @@ SimpleTree {
   withSnow TRUE
   enableBoundingObject FALSE
 }
-Transform {
+Pose {
   translation 215.37 -101.44 -0.49
   children [
     Shape {
@@ -4264,7 +4264,7 @@ Transform {
     }
   ]
 }
-DEF water Transform {
+DEF water Pose {
   translation 215.37494 -101.43607 0
   children [
     Shape {
@@ -4309,7 +4309,7 @@ DEF water Transform {
     }
   ]
 }
-DEF water Transform {
+DEF water Pose {
   translation 293.65354 -175.87775 0
   children [
     Shape {
@@ -4370,7 +4370,7 @@ Forest {
   shape []
   withSnow TRUE
 }
-DEF water Transform {
+DEF water Pose {
   translation 123.61298 -380.57449 0
   children [
     Shape {
@@ -4413,7 +4413,7 @@ Forest {
   shape []
   withSnow TRUE
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation 8.425716 -366.98881 0
   children [
     Shape {
@@ -4448,7 +4448,7 @@ DEF farmland Transform {
     }
   ]
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation -0.471732 -313.05833 0
   children [
     Shape {
@@ -4483,7 +4483,7 @@ DEF farmland Transform {
     }
   ]
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation -8.366795 -264.82664 0
   children [
     Shape {
@@ -4518,7 +4518,7 @@ DEF farmland Transform {
     }
   ]
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation 2.496285 -213.64309 0
   children [
     Shape {
@@ -4553,7 +4553,7 @@ DEF farmland Transform {
     }
   ]
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation -17.671526 -89.213474 0
   children [
     Shape {

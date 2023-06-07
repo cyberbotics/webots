@@ -2,13 +2,14 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/adept/pioneer3/protos/Pioneer3at.proto
+# keywords: robot/wheeled
 # Pioneer 3AT robot (Adept MobileRobots) is an all terrain four wheels drive robot.
 
 EXTERNPROTO "Pioneer3DistanceSensor.proto"
 
 PROTO Pioneer3at [
-  field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0          # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0        # Is `Pose.rotation`.
   field SFString   name            "Pioneer 3-AT" # Is `Solid.name`.
   field SFString   controller      "<generic>"    # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
@@ -26,7 +27,7 @@ PROTO Pioneer3at [
       DEF EXTENSION_SLOT Group {
         children IS extensionSlot
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -76,7 +77,7 @@ PROTO Pioneer3at [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -246,7 +247,7 @@ PROTO Pioneer3at [
             }
           ]
           name "back left wheel"
-          boundingObject DEF BOUNDING_WHEEL Transform {
+          boundingObject DEF BOUNDING_WHEEL Pose {
             rotation 0.577349 0.577351 0.577351 2.094396
             children [
               Cylinder {
@@ -262,7 +263,7 @@ PROTO Pioneer3at [
           }
         }
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -485,7 +486,7 @@ PROTO Pioneer3at [
         rotation 0.313147 -0.67154 -0.671546 2.534654
         name "so9"
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -508,7 +509,7 @@ PROTO Pioneer3at [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -544,7 +545,7 @@ PROTO Pioneer3at [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -567,7 +568,7 @@ PROTO Pioneer3at [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.11
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -595,7 +596,7 @@ PROTO Pioneer3at [
     model "Adept Pioneer 3-AT"
     boundingObject Group {
       children [
-        DEF MAIN_BODY_BOX Transform {
+        DEF MAIN_BODY_BOX Pose {
           rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 0 0.173
           children [
@@ -604,7 +605,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BODY_BOX Transform {
+        DEF BODY_BOX Pose {
           rotation -0.577352 0.577348 0.577352 -2.094405
           translation 0 0 0.173
           children [
@@ -613,7 +614,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF FRONT_TOP_CYLINDER Transform {
+        DEF FRONT_TOP_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation 0.064 0 0.273
           children [
@@ -624,7 +625,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BACK_TOP_CYLINDER Transform {
+        DEF BACK_TOP_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation -0.0835 0 0.273
           children [
@@ -635,7 +636,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF FRONT_RING_CYLINDER Transform {
+        DEF FRONT_RING_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation 0.106 0 0.247
           children [
@@ -646,7 +647,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BACK_RING_CYLINDER Transform {
+        DEF BACK_RING_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation -0.104 0 0.247
           children [
@@ -657,7 +658,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF LEFT_ANTENNA_CYLINDER Transform {
+        DEF LEFT_ANTENNA_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation -0.0167 0.0828 0.284
           children [
@@ -668,7 +669,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF RIGHT_ANTENNA_CYLINDER Transform {
+        DEF RIGHT_ANTENNA_CYLINDER Pose {
           rotation 0 0 1 -1.5708
           translation -0.017 -0.0855 0.284
           children [
@@ -679,7 +680,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF FRONT_LEFT_CORNER_BOX Transform {
+        DEF FRONT_LEFT_CORNER_BOX Pose {
           translation 0.1758 0.097 0.148
           rotation 0.873501 -0.344235 -0.344235 1.705643
           children [
@@ -688,7 +689,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF FRONT_RIGHT_CORNER_BOX Transform {
+        DEF FRONT_RIGHT_CORNER_BOX Pose {
           translation 0.1758 -0.097 0.148
           rotation 0.268435 -0.681151 -0.681158 2.617097
           children [
@@ -697,7 +698,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BACK_RIGHT_CORNER_BOX Transform {
+        DEF BACK_RIGHT_CORNER_BOX Pose {
           translation -0.1558 -0.097 0.148
           rotation 0.873501 -0.344235 -0.344235 1.705643
           children [
@@ -706,7 +707,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BACK_LEFT_CORNER_BOX Transform {
+        DEF BACK_LEFT_CORNER_BOX Pose {
           translation -0.1558 0.098 0.148
           rotation 0.268435 -0.681151 -0.681158 2.617097
           children [
@@ -715,7 +716,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF FRONT_AXLE Transform {
+        DEF FRONT_AXLE Pose {
           translation 0.134 0 0.111
           rotation 0.577349 0.577351 0.577351 -2.094397
           children [
@@ -726,7 +727,7 @@ PROTO Pioneer3at [
             }
           ]
         }
-        DEF BACK_AXLE Transform {
+        DEF BACK_AXLE Pose {
           translation -0.132 0 0.111
           rotation 0.577349 0.577351 0.577351 -2.094397
           children [

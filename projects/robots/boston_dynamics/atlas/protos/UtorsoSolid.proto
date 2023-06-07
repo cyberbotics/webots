@@ -22,7 +22,7 @@ Solid {
   name "Utorso"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.0446 0 0.1869
         rotation 0 1 0 0
         children [
@@ -31,7 +31,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.024 0.16 0.18
         rotation 1 0 0 -0.5244
         children [
@@ -41,7 +41,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.024 -0.16 0.18
         rotation 1 0 0 0.5228
         children [

@@ -26,6 +26,7 @@
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -268,11 +269,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      cleanLine = cleanLine.replace("mtllib ", "").trimmed();
-      cleanLine = cleanLine.replace("\"", "");
-      materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
-      for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
-        materials[i] += ".mtl";
+      materials << cleanLine.replace("mtllib ", "").replace("\"", "").trimmed();
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -565,8 +562,8 @@ void WbCadShape::recomputeBoundingSphere() const {
 }
 
 const WbVector3 WbCadShape::absoluteScale() const {
-  const WbTransform *const ut = upperTransform();
-  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbTransform *const up = upperTransform();
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {

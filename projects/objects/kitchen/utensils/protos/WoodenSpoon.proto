@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/utensils/protos/WoodenSpoon.proto
+# keywords: household/kitchen
 # A wooden spoon.
 
 PROTO WoodenSpoon [
@@ -47,7 +48,7 @@ PROTO WoodenSpoon [
     model "wooden spoon"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.045 0 0.0029
           children [
             Shape {
@@ -57,7 +58,7 @@ PROTO WoodenSpoon [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.091 0 0.0033
           rotation 0 1 0 0
           children [

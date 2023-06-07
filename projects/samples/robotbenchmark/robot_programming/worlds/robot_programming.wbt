@@ -38,11 +38,10 @@ CircleArena {
 DEF THYMIO2 Thymio2 {
   rotation 0 0 1 3.14159
   controller "move"
-  controllerArgs []
 }
 RobotProgrammingBenchmark {
 }
-Transform {
+Pose {
   translation -0.25 0 0
   children [
     Shape {

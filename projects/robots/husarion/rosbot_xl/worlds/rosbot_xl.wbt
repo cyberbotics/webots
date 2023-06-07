@@ -14,7 +14,7 @@ WorldInfo {
   lineScale 0.15
 }
 Viewpoint {
-  orientation 0.247297 -0.168564 -0.954165 -1.93179
+  orientation 0.24729694120144977 -0.16856395992139483 -0.9541647731330397 -1.93179
   position 6.40263 -11.291 6.82282
   follow "Rosbot"
 }
@@ -35,30 +35,37 @@ Floor {
   }
 }
 Solid {
-  scale 10 10 10
-  translation -26.6 16.8 0.0
+  translation -26.6 16.8 0
   children [
-    DEF BORDER Shape {
-      geometry Mesh {
-        url "meshes/husarion_world.dae"
-        materialIndex 0
-      }
-      appearance PBRAppearance {
-        baseColor 0.6307572 0.005605392 0.02415763
-      }
-    }
-    DEF LOGO Shape {
-      geometry Mesh {
-        url "meshes/husarion_world.dae"
-        materialIndex 1
-      }
-      appearance PBRAppearance {
-        baseColor 1 1 1
-      }
+    Transform {
+      scale 10 10 10
+      children [
+        DEF BORDER Shape {
+          appearance PBRAppearance {
+            baseColor 0.6307572 0.005605392 0.02415763
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
+            ]
+            materialIndex 0
+          }
+        }
+        DEF LOGO Shape {
+          appearance PBRAppearance {
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
+            ]
+            materialIndex 1
+          }
+        }
+      ]
     }
   ]
-  boundingObject Group{
-    children[
+  boundingObject Group {
+    children [
       USE LOGO
       USE BORDER
     ]
@@ -67,5 +74,4 @@ Solid {
 RosbotXl {
   translation 3 -2 0
   controller "<extern>"
-  name "rosbot_xl"
 }

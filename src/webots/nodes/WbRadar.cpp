@@ -39,8 +39,9 @@
 
 class WbRadarTarget : public WbObjectDetection {
 public:
-  WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, bool needToCheckCollision, double maxRange) :
-    WbObjectDetection(radar, solidTarget, needToCheckCollision, maxRange) {
+  WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, const bool needToCheckCollision, const double maxRange) :
+    WbObjectDetection(radar, solidTarget, needToCheckCollision ? WbObjectDetection::ONE_RAY : WbObjectDetection::NONE, maxRange,
+                      radar->horizontalFieldOfView()) {
     mTargetDistance = 0.0;
     mReceivedPower = 0.0;
     mSpeed = 0.0;
@@ -104,11 +105,7 @@ WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {
   init();
 }
 
-WbRadar::WbRadar(const WbRadar &other) :
-  WbSolidDevice(other),
-  mRadarTargets(),
-  mInvalidRadarTargets(),
-  mRadarTargetsPreviousTranslations() {
+WbRadar::WbRadar(const WbRadar &other) : WbSolidDevice(other) {
   init();
 }
 
@@ -302,9 +299,12 @@ void WbRadar::prePhysicsStep(double ms) {
     // create rays
     computeTargets(false, true);
 
-    if (!mRadarTargets.isEmpty())
+    if (!mRadarTargets.isEmpty()) {
       // radar or targets could move during physics step
-      subscribeToRaysUpdate(mRadarTargets[0]->geom());
+      const QList<dGeomID> &rays = mRadarTargets[0]->geoms();
+      if (!rays.isEmpty())
+        subscribeToRaysUpdate(rays.first());
+    }
   }
 }
 
@@ -327,7 +327,7 @@ void WbRadar::updateRaysSetupIfNeeded() {
   const WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
   const WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   const WbAffinePlane *frustumPlanes =
-    WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView(), horizontalFieldOfView(), maxRange());
+    WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView(), horizontalFieldOfView(), maxRange(), true);
   foreach (WbRadarTarget *target, mRadarTargets) {
     target->object()->updateTransformForPhysicsStep();
     if (!target->recomputeRayDirection(frustumPlanes) ||
@@ -343,10 +343,10 @@ void WbRadar::updateRaysSetupIfNeeded() {
 void WbRadar::rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth) {
   foreach (WbRadarTarget *target, mRadarTargets) {
     // check if this target is the one that collides
-    if (target->geom() == geom) {
+    if (target->contains(geom)) {
       // make sure the colliding solid is not the target itself
       if (target->object() != collidingSolid && !target->object()->solidChildren().contains(collidingSolid))
-        target->setCollided(depth);
+        target->setCollided(geom, depth);
       return;
     }
   }
@@ -422,7 +422,7 @@ void WbRadar::computeTargets(bool finalSetup, bool needCollisionDetection) {
   const WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
   const WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   const WbAffinePlane *frustumPlanes =
-    WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView(), horizontalFieldOfView(), maxRange());
+    WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView(), horizontalFieldOfView(), maxRange(), true);
 
   // loop for each possible target to check if it is visible
   QList<WbSolid *> targets = WbWorld::instance()->radarTargetSolids();
@@ -524,9 +524,8 @@ bool WbRadar::refreshSensorIfNeeded() {
     // rays can be created at the end of the step when all the body positions
     // are up-to-date
     computeTargets(true, false);
-
-  // post process targets
-  if (mOcclusion->value())
+  else
+    // post process targets
     removeOccludedTargets();
 
   if (mCellDistance->value() > 0.0)

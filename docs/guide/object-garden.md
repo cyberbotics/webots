@@ -99,7 +99,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Pergolas {
-  SFVec3f    translation 0 0 0
+  SFVec3f    translation 0 0 0.23
   SFRotation rotation    0 0 1 0
   SFString   name        "pergola"
 }

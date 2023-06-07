@@ -108,7 +108,7 @@ PROTO CabinetDrawer [
             density -1
             mass %<= mass >%
           }
-          boundingObject Transform {
+          boundingObject Pose {
             translation %<= - 0.5 * thickness >% 0 0
             children [
               Sphere {

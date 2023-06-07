@@ -263,7 +263,7 @@ export default class Node {
       while (p instanceof Parameter && p.aliasLinks.length > 0)
         p = p.aliasLinks[0];
 
-      if (this.name === 'ImageTexture' || (p.name === 'boundingObject' && ['Group', 'Transform'].includes(this.name)))
+      if (this.name === 'ImageTexture' || (p.name === 'boundingObject' && ['Group', 'Pose'].includes(this.name)))
         nodeElement.setAttribute('role', p.name);
     }
 

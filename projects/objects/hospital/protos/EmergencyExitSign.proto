@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/hospital/protos/EmergencyExitSign.proto
+# keywords: household/hospital, industrial/safety
 # An emergency exit sign.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
@@ -18,7 +19,7 @@ PROTO EmergencyExitSign [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.04
         children [
           Shape {
@@ -46,7 +47,7 @@ PROTO EmergencyExitSign [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 -0.04
       children [
         Box {

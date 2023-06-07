@@ -6,7 +6,7 @@ PROTO TemplateTransformSlot [
 ]
 {
   %< const test = fields.slot.value; >%
-  Transform {
+  Pose {
     children IS slot
   }
 }

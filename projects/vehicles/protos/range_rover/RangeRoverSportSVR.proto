@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/range_rover/RangeRoverSportSVR.proto
+# keywords: vehicle/car
 # Model of a Range Rover Sport SVR 2015.
 # template language: javascript
 
@@ -112,23 +113,23 @@ PROTO RangeRoverSportSVR [
     }
     extensionSlot [
       # Sensors slots
-      Transform {
+      Pose {
         translation 3.5 0 0.5
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -1.06 0 0.33
         rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 1.4 0 1.3
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           # lights
@@ -362,7 +363,7 @@ PROTO RangeRoverSportSVR [
             rotation 0 1 0 3.1416
             scale 0.8 0.8 1
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 -0.19
                 children [
                   Shape {
@@ -422,7 +423,7 @@ PROTO RangeRoverSportSVR [
     ]
     boundingObject Group {
       children [
-        DEF LOWER_BOX Transform {
+        DEF LOWER_BOX Pose {
           translation 1.25 0 0.35
           rotation 0 1 0 0.02
           children [
@@ -431,7 +432,7 @@ PROTO RangeRoverSportSVR [
             }
           ]
         }
-        DEF CENTRAL_BOX Transform {
+        DEF CENTRAL_BOX Pose {
           translation 0.6 0 0.85
           children [
             Box {

@@ -5,7 +5,7 @@ EXTERNPROTO "./depth_2/NestedExposedTextureWithParameter.proto"
 PROTO HighlyNestedExposedTextureWithOverwrittenParameter [
 ]
 {
-  Transform {
+  Pose {
     children[
       NestedExposedTextureWithParameter {
         name "HighlyNestedExposedTextureWithOverwrittenParameter"

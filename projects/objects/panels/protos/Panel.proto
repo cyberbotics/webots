@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/panels/protos/Panel.proto
+# keywords: building/component
 # Customizable simple panel.
 # template language: javascript
 
@@ -60,7 +61,7 @@ PROTO Panel [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 %<= halfSizeY >% %<= halfSizeZ >%
         children [
           Shape {
@@ -220,7 +221,7 @@ PROTO Panel [
     ]
     name IS name
     model "panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 %<= halfSizeY >% %<= halfSizeZ >%
       children [
         Box {

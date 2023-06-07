@@ -38,7 +38,7 @@ Robot {
       ]
       endPoint Solid {
         children [
-          DEF THICK_CYLINDER Transform {
+          DEF THICK_CYLINDER Pose {
             translation 0 0 0.05
             children [
               Shape {
@@ -55,7 +55,7 @@ Robot {
               }
             ]
           }
-          DEF THIN_CYLINDER Transform {
+          DEF THIN_CYLINDER Pose {
             translation 0.1 0 0.05
             rotation 0 -1 0 1.5708
             children [
@@ -69,7 +69,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.25 0 0.05
             rotation 0 -1 0 -1.5708
             children [
@@ -117,7 +117,7 @@ Robot {
   controller "ziegler_nichols"
   supervisor TRUE
 }
-DEF TARGET_POSITION Transform {
+DEF TARGET_POSITION Pose {
   translation 0 0.3 0.01
   children [
     Shape {

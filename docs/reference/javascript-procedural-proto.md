@@ -912,7 +912,7 @@ PROTO DominoSpawner [
   Group {
     children [
       %< for (let i = 0; i < dominoSet.length; ++i) { >%
-        Transform {
+        Pose {
           translation %<= dominoSet[i].coordinates.x >% %<= dominoSet[i].coordinates.y >% %<= dominoSet[i].coordinates.z >%
           rotation 0 1 0 %<= Math.PI - angle >%
           children [

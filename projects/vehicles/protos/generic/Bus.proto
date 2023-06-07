@@ -1,9 +1,10 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/Bus.proto
+# keywords: vehicle/public
 # A simple bus.
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"
@@ -51,23 +52,23 @@ Car {
   gearRatio [-14 16 11 7 4.5 3 1.9 1.2]
   model "bus"
   extensionSlot [
-    Transform {
+    Pose {
       children IS sensorsSlotCenter
     }
-    Transform {
+    Pose {
       translation 11.5 0 0.2
       children IS sensorsSlotFront
     }
-    Transform {
+    Pose {
       translation 2.5 0 5.3
       children IS sensorsSlotTop
     }
-    Transform {
+    Pose {
       translation -6.2 0 1
       rotation 0 0 1 3.14159
       children IS sensorsSlotRear
     }
-    Transform{
+    Pose {
       rotation 0.57735 0.57735 0.57735 2.094395
       children [
         BusShape {
@@ -77,7 +78,7 @@ Car {
     }
     VehicleLights {
       front [
-        Transform {
+        Pose {
           translation 6.26 -0.9 0.56
           rotation 0 1 0 1.5708
           children [
@@ -95,7 +96,7 @@ Car {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 6.26 0.9 0.56
           rotation 0 1 0 1.5708
           children [
@@ -109,7 +110,7 @@ Car {
   recognitionColors [
     %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 1.4625 0 1.35
     children [
       Box {

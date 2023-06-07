@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/computers/protos/ComputerMouse.proto
+# keywords: household/electronics
 # A computer mouse.
 # template language: javascript
 
@@ -57,7 +58,7 @@ PROTO ComputerMouse [
     ]
     name IS name
     model "computer mouse"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.015
       rotation 1 0 0 1.5708
       children [

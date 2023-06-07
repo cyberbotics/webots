@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/valves/protos/LargeValve.proto
+# keywords: industrial/plumbing
 # Large Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
@@ -57,7 +58,7 @@ PROTO LargeValve [
         ]
         endPoint Solid {
           children [
-            Transform {
+            Pose {
               children [
                 DEF VALVE_HANDLE Shape {
                   appearance PBRAppearance {
@@ -97,7 +98,7 @@ PROTO LargeValve [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0.102 -0.0005 -0.0085
 
                 rotation 1 0 0 5.4977871
@@ -107,7 +108,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 -0.087352815 0.016883076
                 rotation 0 0.287476 0.957788 3.14159
                 children [
@@ -118,7 +119,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 -0.023022692 0.08000486
                 rotation 0 0.499998 0.866027 3.14159
                 children [
@@ -129,7 +130,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 -0.0584583 0.053969325
                 rotation 0 0.382682 0.92388 3.14159
                 children [
@@ -140,7 +141,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 0.017427502 -0.100912205
                 rotation 0 0.525574 0.850748 3.14159
                 children [
@@ -151,7 +152,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 0.0565 -0.071
                 rotation 0 0.382682 0.92388 3.14159
                 children [
@@ -162,7 +163,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 0.089226045 -0.031069521
                 rotation 0 0.258817 0.965926 3.14159
                 children [
@@ -173,7 +174,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.113 0 -0.010000001
                 rotation -0.513644 -0.679556 -0.523807 -1.96182
                 children [
@@ -184,7 +185,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.117 -0.0005 -0.0085
                 rotation -0.513644 -0.679556 -0.523807 -1.96182
                 children [
@@ -195,7 +196,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1155 0.0374199285 0.071
                 rotation 0 0.427382 -0.904071 -3.141592
                 children [
@@ -206,7 +207,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1155 -0.080068905 -0.0443522655
                 rotation 0 -0.946299 -0.323292 -3.14159
                 children [
@@ -217,7 +218,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1155 -0.039567281 -0.08575768
                 rotation 0 0.427382 -0.904071 -3.141592
                 children [
@@ -228,7 +229,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.10682963 0.05964817 0.0026
                 rotation 0.134632 0.571524 0.809466 2.935707
                 children [
@@ -237,7 +238,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.113705725 0.0835 0.00535
                 rotation -0.092655 -0.770852 -0.63024 -3.064871
                 children [
@@ -246,7 +247,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.105262965 -0.065172045 -0.020223628
                 rotation -0.079131 0.576384 0.813338 -3.045799
                 children [
@@ -255,7 +256,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1135 -0.087459195 -0.022
                 rotation -0.151633 0.765738 0.625022 -3.033318
                 children [
@@ -264,7 +265,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.10454788 0.0101649655 0.05075571
                 rotation -0.148691 -0.128827 -0.980456 -3.119911
                 children [
@@ -273,7 +274,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.11263274 0.014485822 0.07229081
                 rotation -0.269965 -0.000884 -0.96287 -3.014967
                 children [
@@ -282,7 +283,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1035 -0.009042317 -0.066095735
                 rotation -0.112176 0.254786 0.960469 -3.124994
                 children [
@@ -291,7 +292,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1095 -0.0155 -0.0895
                 rotation -0.235147 -0.007302 0.971932 -3.068761
                 children [
@@ -300,7 +301,7 @@ PROTO LargeValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.1155 0.078824255 0.031
                 rotation 0 -0.939099 -0.343648 -3.14159
                 children [
@@ -322,7 +323,7 @@ PROTO LargeValve [
     model "large valve"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.02 0 -0.0085
           children [
             Box {

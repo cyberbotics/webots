@@ -55,9 +55,11 @@ namespace wren {
     return count;
   }
 
-  Transform::Transform() {}
+  Transform::Transform() {
+  }
 
-  Transform::Transform(Transform *source) : TransformNode(source) {}
+  Transform::Transform(Transform *source) : TransformNode(source) {
+  }
 
   Transform::~Transform() {
     for (Node *child : mChildren)

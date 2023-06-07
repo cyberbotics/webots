@@ -216,7 +216,7 @@ class Motor(Device):
 
     @target_acceleration.setter
     def target_acceleration(self, acceleration: float):
-        wb.wb_motor_set_acceleration(acceleration)
+        wb.wb_motor_set_acceleration(self._tag, ctypes.c_double(acceleration))
 
     force = property(fset=setForce)
     torque = property(fset=setTorque)

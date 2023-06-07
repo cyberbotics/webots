@@ -185,7 +185,7 @@ Released on January 14th, 2020.
 Released on December 18th, 2019.
 
   - New Robots
-    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGopp](../guide/tiagopp.md).
+    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](https://cyberbotics.com/doc/guide/tiago-iron?version=R2020a), [TIAGo Steel](https://cyberbotics.com/doc/guide/tiago-steel?version=R2020a), [TIAGo Titanium](https://cyberbotics.com/doc/guide/tiago-titanium?version=R2020a) and [TIAGopp](https://cyberbotics.com/doc/guide/tiagopp?version=R2020a).
     - Added a model of the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/).
     - Added a model of the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) from [Robotis](http://www.robotis.us/) and its [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor.
   - New Samples

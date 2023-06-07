@@ -71,7 +71,7 @@ Robot {
       name "sick"
       type "800001S01"
     }
-    DEF BODY_SHAPE Transform {
+    DEF BODY_SHAPE Pose {
       translation 0 0 0.7
       children [
         Shape {

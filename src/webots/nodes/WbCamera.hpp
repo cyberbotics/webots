@@ -109,7 +109,8 @@ private:
   bool refreshRecognitionSensorIfNeeded();
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
-  void computeRecognizedObjects(bool finalSetup, bool needCollisionDetection);
+  WbVector2 applyCameraDistortionToImageCoordinate(const WbVector2 &uv);  // uv coordinates expected in range [0, 1]
+  void computeRecognizedObjects();
   bool setRecognizedObjectProperties(WbRecognizedObject *recognizedObject);
   void updateRaysSetupIfNeeded() override;
   short mRecognitionRefreshRate;
@@ -149,6 +150,7 @@ private slots:
   void applyNearToWren() override;
   void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
+  void applyLensToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
 };

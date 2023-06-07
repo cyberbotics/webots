@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: traffic/sign
 # Basic traffic light without lamp.
 
 PROTO TrafficLight [
@@ -20,7 +21,7 @@ PROTO TrafficLight [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      Transform {
+      Pose {
         rotation -0.577351 0.577347 0.577351 -2.094405
         children [
           LED {
@@ -98,7 +99,7 @@ PROTO TrafficLight [
     model "traffic light"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.05 0 0.37
           rotation -0.5773516025189619 0.5773476025217157 0.5773516025189619 -2.094405307179586
           children [
@@ -107,7 +108,7 @@ PROTO TrafficLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.2 0 0.64
           rotation 0.577347 -0.577354 0.577350 -2.094389
           children [
@@ -117,7 +118,7 @@ PROTO TrafficLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.183 0 0.4
           rotation 0.577347 -0.577354 0.577350 -2.094389
           children [
@@ -127,7 +128,7 @@ PROTO TrafficLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.183 0 0.16
           rotation 0.577347 -0.577354 0.577350 -2.094389
           children [

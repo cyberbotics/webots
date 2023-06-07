@@ -24,7 +24,7 @@ PointLight {
 DEF FLOOR Solid {
   translation -0.5 0 0.5
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -38,7 +38,7 @@ DEF FLOOR Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.5 0 -0.5
     children [
       Plane {

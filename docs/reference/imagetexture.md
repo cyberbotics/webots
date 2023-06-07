@@ -36,7 +36,7 @@ If the width or the height of a texture image is not a power of two, then an int
 A PNG image may contain an alpha channel.
 If such an alpha channel exists, the texture becomes semi-transparent.
 This is useful to render for example a scissor cut texture.
-Semi-transparent objects are sorted according to their center (the local position of the parent Transform) and are rendered in the same rendering queue as the objects having a transparent material (see the `transparency` field of the [Material](material.md) node).
+Semi-transparent objects are sorted according to their center (the local position of the parent Pose) and are rendered in the same rendering queue as the objects having a transparent material (see the `transparency` field of the [Material](material.md) node).
 Semi-transparent objects cannot receive and cannot cast shadows.
 
 If the image contains an alpha channel no texture filtering is performed, otherwise both a trilinear interpolation and an anisotropic texture filtering is applied (the texture is subsampled according to the distance and the angle between the textured polygon and the camera).

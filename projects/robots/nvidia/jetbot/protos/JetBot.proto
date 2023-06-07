@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/jetbot
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/nvidia/jetbot/protos/JetBot.proto
+# keywords: robot/wheeled
 # JetBot open source robot based on NVIDIA Jetson Nano.
 # More info here: https://jetbot.org
 # Some of the meshes are taken from the original robot GitHub repository: https://github.com/NVIDIA-AI-IOT/jetbot
@@ -13,8 +14,8 @@ EXTERNPROTO "webots://projects/objects/solids/protos/SolidRoundedBox.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO JetBot [
-  field SFVec3f            translation                  0 0 0                    # Is `Transform.translation`.
-  field SFRotation         rotation                     0 0 1 0                  # Is `Transform.rotation`.
+  field SFVec3f            translation                  0 0 0                    # Is `Pose.translation`.
+  field SFRotation         rotation                     0 0 1 0                  # Is `Pose.rotation`.
   field SFString           name                         "JetBot"                 # Is `Solid.name`.
   field SFString           controller                   "jetbot_basic_motion"    # Is `Robot.controller`.
   field MFString           controllerArgs               []                       # Is `Robot.controllerArgs`.
@@ -37,11 +38,11 @@ PROTO JetBot [
       JetsonNano {
         translation -0.013 0.002 0.0719
       }
-      DEF BODY Transform {
+      DEF BODY Pose {
         translation 0 0 0.043
         children [
           %< if (fields.chassis.value) { >%
-          DEF CHASSIS Transform {
+          DEF CHASSIS Pose {
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
               Shape {
@@ -82,7 +83,7 @@ PROTO JetBot [
              appearance USE BLACK_APPEARANCE
              enableBoundingObject FALSE
            }
-           Transform {
+           Pose {
              translation -0.08 -0.044 0.01
              children [
                DEF SCREW_SHAPE Shape {
@@ -96,25 +97,25 @@ PROTO JetBot [
                }
              ]
            }
-           Transform {
+           Pose {
              translation -0.08 0.044 0.01
              children [
                USE SCREW_SHAPE
              ]
            }
-           Transform {
+           Pose {
              translation 0.05 0.044 0.01
              children [
                USE SCREW_SHAPE
              ]
            }
-           Transform {
+           Pose {
              translation 0.05 -0.044 0.01
              children [
                USE SCREW_SHAPE
              ]
            }
-           Transform {
+           Pose {
              translation 0.043 0 0.026
              children [
                Shape {
@@ -127,7 +128,7 @@ PROTO JetBot [
              ]
            }
           %< } >%
-          DEF LEFT_MOTOR Transform {
+          DEF LEFT_MOTOR Pose {
             translation 0.01 0.034 -0.01
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -141,7 +142,7 @@ PROTO JetBot [
                   size 0.013 0.014 0.065
                 }
               }
-              Transform {
+              Pose {
                 translation 0.002 -0.0026 0.0209
                 rotation 0 1 0 -1.5708
                 children [
@@ -160,7 +161,7 @@ PROTO JetBot [
               }
             ]
           }
-          DEF RIGHT_MOTOR Transform {
+          DEF RIGHT_MOTOR Pose {
             translation 0.01 -0.034 -0.01
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -170,7 +171,7 @@ PROTO JetBot [
                   size 0.013 0.014 0.065
                 }
               }
-              Transform {
+              Pose {
                 translation -0.002 -0.0026 0.0209
                 rotation 0 1 0 -1.5708
                 children [
@@ -185,7 +186,7 @@ PROTO JetBot [
               }
             ]
           }
-          DEF POWER_BANK Transform {
+          DEF POWER_BANK Pose {
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
               Shape {
@@ -202,7 +203,7 @@ PROTO JetBot [
               }
             ]
           }
-          DEF DISPLAY Transform {
+          DEF DISPLAY Pose {
             translation -0.0606 0.01197 0.0395
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -238,7 +239,7 @@ PROTO JetBot [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.0488 0 0.042
             children [
               Slot {
@@ -260,7 +261,7 @@ PROTO JetBot [
               radius 0.0153
             }
           }
-          Transform {
+          Pose {
             translation 0 0 -0.0123
             children [
               Shape {
@@ -280,7 +281,7 @@ PROTO JetBot [
         contactMaterial "jetbot rear wheel"
         boundingObject Group {
           children [
-            DEF REAR_WHEEL Transform {
+            DEF REAR_WHEEL Pose {
               translation 0 0 -0.0123
               children [
                 Sphere {
@@ -288,7 +289,7 @@ PROTO JetBot [
                 }
               ]
             }
-            Transform {
+            Pose {
               children [
                 Cylinder {
                   height 0.032
@@ -333,7 +334,7 @@ PROTO JetBot [
           ]
           name "left wheel"
           contactMaterial "jetbot wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.00401 0 0
             rotation -0.57735 0.57735 0.57735 -2.094395
             children [
@@ -369,7 +370,7 @@ PROTO JetBot [
           ]
           name "right wheel"
           contactMaterial "jetbot wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.00401 0 0
             rotation -0.57735 0.57735 0.57735 -2.094395
             children [
@@ -384,7 +385,7 @@ PROTO JetBot [
           translationStep 0.001
         }
       }
-      Transform {
+      Pose {
         translation 0 0 0.0725
         children IS extensionSlot
       }
@@ -392,7 +393,7 @@ PROTO JetBot [
     name IS name
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.004 0 0.0565
           children [
             Box {
@@ -400,7 +401,7 @@ PROTO JetBot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0129 0.0013 0.0843
           children [
             Box {
@@ -408,7 +409,7 @@ PROTO JetBot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0007 -0.034 0.0308
           children [
             Box {
@@ -416,7 +417,7 @@ PROTO JetBot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0007 0.034 0.0308
           children [
             Box {

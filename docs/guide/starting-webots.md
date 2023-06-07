@@ -56,6 +56,9 @@ Options:
   --batch
     Prevent Webots from creating blocking pop-up windows.
 
+  --clear-cache
+    Clear the cache of Webots on startup.
+
   --stdout
     Redirect the stdout of the controllers to the terminal.
 

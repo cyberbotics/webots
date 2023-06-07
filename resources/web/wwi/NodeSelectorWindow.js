@@ -2,7 +2,6 @@ import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
 
-
 class NodeInfo {
   #url;
   #baseType;
@@ -406,12 +405,16 @@ export default class NodeSelectorWindow {
     else if (fieldName === 'endPoint' || fieldName === 'children') {
       if (fieldName === 'children' && isInBoundingObject) {
         baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'Mesh', 'Plane', 'Shape',
-          'Sphere', 'Transform'];
+          'Sphere', 'Pose'];
       } else {
-        baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
-          'Charger'];
-        if (this.isRobotDescendant())
-          baseType = baseType.concat(this.#devices);
+        if (this.isTransformOrTransformDescendant(p))
+          baseType = ['Shape', 'CadShape', 'Group', 'Pose', 'Transform'];
+        else {
+          baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'Pose', 'SpotLight',
+            'Propeller', 'Charger'];
+          if (this.isRobotDescendant())
+            baseType = baseType.concat(this.#devices);
+        }
       }
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
       'emissiveColorMap', 'texture'].includes(fieldName))
@@ -419,8 +422,8 @@ export default class NodeSelectorWindow {
     else if (fieldName === 'textureTransform')
       baseType = ['TextureTransform'];
     else if (fieldName === 'boundingObject') {
-      baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'Group', 'IndexedFaceSet',  'Mesh', 'Plane', 'Shape',
-        'Sphere', 'Transform'];
+      baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'Group', 'IndexedFaceSet', 'Mesh', 'Plane', 'Shape',
+        'Sphere', 'Pose'];
     } else if (fieldName === 'physics')
       baseType = ['Physics'];
     else if (fieldName === 'immersionProperties')
@@ -443,6 +446,21 @@ export default class NodeSelectorWindow {
       baseType = ['Solid', 'Robot', 'Charger', 'Track'].concat(this.#devices);
 
     return baseType;
+  }
+
+  isTransformOrTransformDescendant(field) {
+    let node = field?.node;
+
+    if (typeof node === 'undefined')
+      return false;
+
+    if (node.isProto)
+      node = node.baseType;
+
+    if (node.name === 'Transform')
+      return true;
+
+    return this.isTransformOrTransformDescendant(node.parentField);
   }
 
   getSlotType() {
@@ -474,6 +492,12 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
+    // global variable set by webots.cloud
+    if (window.webotsJSPreventAddNode) {
+      alert('New nodes can only be inserted in protos that are registered on webots.cloud.');
+      return;
+    }
+
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';

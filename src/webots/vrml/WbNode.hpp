@@ -116,9 +116,8 @@ public:
   void setDefName(const QString &defName, bool recurse = true);
   const QString &useName() const { return mUseName; }
   void setUseName(const QString &useName, bool signal = true);
-  QString fullName() const;                                             // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
-  virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
-  virtual const QString &x3dName() const { return vrmlName(); }
+  QString fullName() const;  // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
+  virtual const QString &x3dName() const { return nodeModelName(); }
   virtual const QString urdfName() const;
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
@@ -133,6 +132,8 @@ public:
             bool parsingMessage = false) const;  // show standard warning message formatted for this node
   void info(const QString &message, bool parsingMessage = false) const;  // show standard info message formatted for this node
   QString usefulName() const;                                            // user friendy node name for error messages
+  virtual QString endPointName() const { return QString(); };
+  QString computeName() const;  // USE, DEF or "name" field value
 
   // destruction
   bool isBeingDeleted() const { return mIsBeingDeleted; }

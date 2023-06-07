@@ -87,7 +87,8 @@ namespace wren {
     }
   }
 
-  Texture2d::Texture2d() : mData(NULL), mIsCachePersistent(false), mCacheData(NULL) {}
+  Texture2d::Texture2d() : mData(NULL), mIsCachePersistent(false), mCacheData(NULL) {
+  }
 
   void Texture2d::prepareGl() {
     assert(mCacheData);

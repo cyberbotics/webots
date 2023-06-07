@@ -34,7 +34,6 @@ WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinem
 WbTranslateViewpointEvent::WbTranslateViewpointEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, double scale) :
   WbDragViewpointEvent(viewpoint),
   mInitialMousePosition(initialMousePosition),
-  mDifference(),
   mInitialCameraPosition(viewpoint->position()->value()),
   mScaleFactor(scale) {
 }

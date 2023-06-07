@@ -152,7 +152,7 @@ DEF MYBOT Robot {
   translation 0.202001 0.131552 0
   rotation 0 0 1 3.63077
   children [
-    Transform {
+    Pose {
       translation 0 0 0.0415
       rotation 0 0 1 -1.570796
       children [
@@ -187,7 +187,7 @@ DEF MYBOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -241,7 +241,7 @@ DEF MYBOT Robot {
       translation 0.042 0.02 0.063
       rotation 0 0 -1 -0.499205
       children [
-        DEF SENSOR Transform {
+        DEF SENSOR Pose {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
@@ -285,7 +285,7 @@ DEF MYBOT Robot {
     Camera {
       translation 0.04 0 0.0915
       children [
-        Transform {
+        Pose {
           translation -0.015 0 0
           rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
           children [
@@ -363,7 +363,7 @@ DEF MYBOT Robot {
     }
   ]
   name "MyBot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     rotation 0 0 1 -1.570796
     children [

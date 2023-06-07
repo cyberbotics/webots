@@ -48,6 +48,7 @@ public:
                             // avoids infinite recursion
 
 public slots:
+  // cppcheck-suppress virtualCallInConstructor
   void accept() override;
 
 private slots:

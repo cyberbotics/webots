@@ -6,7 +6,7 @@
 PROTO CitroenCZeroFogLight [
 ]
 {
-  DEF FOGLIGHT Transform {
+  DEF FOGLIGHT Pose {
     children [
       DEF FRONT_FOGLIGHT Shape {
         appearance PBRAppearance {

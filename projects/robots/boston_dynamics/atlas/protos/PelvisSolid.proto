@@ -22,7 +22,7 @@ Solid {
   name "pelvis"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.046 0.0 -0.02
         rotation 1 0 0 1.5708
         children [
@@ -32,7 +32,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.03 0.0 -0.02
         rotation 1 0 0 1.5708
         children [
@@ -42,7 +42,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.042 0.06
         children [
           Cylinder {
@@ -51,7 +51,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.042 0.06
         children [
           Cylinder {

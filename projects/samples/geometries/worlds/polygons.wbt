@@ -17,7 +17,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF TRIANGLE_POLYGON Transform {
+DEF TRIANGLE_POLYGON Pose {
   children [
     Shape {
       appearance PBRAppearance {
@@ -40,7 +40,7 @@ DEF TRIANGLE_POLYGON Transform {
     }
   ]
 }
-DEF QUAD_POLYGON Transform {
+DEF QUAD_POLYGON Pose {
   translation 1 0 0
   children [
     Shape {
@@ -65,7 +65,7 @@ DEF QUAD_POLYGON Transform {
     }
   ]
 }
-DEF CONVEX_POLYGON Transform {
+DEF CONVEX_POLYGON Pose {
   translation 2 0 0
   children [
     Shape {
@@ -92,7 +92,7 @@ DEF CONVEX_POLYGON Transform {
     }
   ]
 }
-DEF NON_CONVEX_POLYGON Transform {
+DEF NON_CONVEX_POLYGON Pose {
   translation 3 0 0
   children [
     Shape {

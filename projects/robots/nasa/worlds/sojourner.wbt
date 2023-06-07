@@ -3,8 +3,7 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/robots/nasa/protos/Sojourner.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Soil.proto"
 
 WorldInfo {
@@ -18,6 +17,11 @@ WorldInfo {
   gravity 3.73
   basicTimeStep 16
   lineScale 0.2
+  contactProperties [
+    ContactProperties {
+      maxContactJoints 21
+    }
+  ]
 }
 Viewpoint {
   fieldOfView 0.895398
@@ -41,7 +45,7 @@ DEF FLAG Solid {
   translation -1.2932 -0.108 0.3813
   rotation 0 0 1 0.294
   children [
-    Transform {
+    Pose {
       translation 0 0.25 0.25
       children [
         Shape {
@@ -78,38 +82,42 @@ Sojourner {
   translation 0 0 0.1088
   rotation 0 0 1 -1.5707953071795862
 }
-Rock17cm {
+Rock {
   translation -0.9251 -1.0081 -0.0885
   rotation 0 0 1 -2.8628553071795864
+  type "flat"
   color 0.8 0.35 0.3
 }
-Rock17cm {
+Rock {
   translation -0.5519 -2.8026 -0.0938
   rotation 0 0 1 1.92062
-  name "rock 17 cm(1)"
+  name "rock (1)"
+  type "flat"
   color 0.8 0.4 0.3
 }
-Rock17cm {
+Rock {
   translation 0.1709 -1.2281 -0.0979
   rotation 0 0 1 1.44753
-  name "rock 17 cm(2)"
+  name "rock (2)"
+  type "flat"
   color 0.9 0.4 0.3
 }
-Rock10cm {
+Rock {
   translation -0.4689 -1.8252 -0.0216
   rotation 0 0 1 -1.5707953071795862
+  name "rock (3)"
   color 0.8 0.4 0.3
 }
-Rock10cm {
+Rock {
   translation 0.8756 -0.3002 -0.1125
   rotation 0 0 1 -1.5707953071795862
-  name "rock 10 cm(1)"
+  name "rock (4)"
   color 0.9 0.4 0.35
 }
-Rock10cm {
+Rock {
   translation 0.1779 -0.3873 -0.1161
-  rotation 0 0 1 -1.8325953071795862
-  name "rock 10 cm(2)"
+  rotation 0 0 -1 1.0472
+  name "rock (5)"
   color 0.9 0.4 0.3
 }
 DEF GROUND Solid {

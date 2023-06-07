@@ -52,7 +52,7 @@ DEF ROBOT Robot {
         ]
       }
     }
-    DEF BASIS_GROUP Transform {
+    DEF BASIS_GROUP Pose {
       translation 0.03 -0.1025 0
       rotation 0 -1 0 1.570795
       children [

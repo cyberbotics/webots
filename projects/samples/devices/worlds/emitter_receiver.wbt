@@ -118,7 +118,7 @@ DEF RECEIVER_BOT Robot {
   translation 0 -0.15 0
   rotation 0 0 1 1
   children [
-    DEF MAIN_BODY Transform {
+    DEF MAIN_BODY Pose {
       translation 0 0 0.0415
       rotation 0 0 1 1.570796
       children [
@@ -154,7 +154,7 @@ DEF RECEIVER_BOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -209,7 +209,7 @@ DEF RECEIVER_BOT Robot {
       translation 0.042 0.02 0.063
       rotation 0 0 -1 -0.499205
       children [
-        DEF SENSOR Transform {
+        DEF SENSOR Pose {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
@@ -250,7 +250,7 @@ DEF RECEIVER_BOT Robot {
       numberOfRays 2
       aperture 1
     }
-    DEF SMILE Transform {
+    DEF SMILE Pose {
       translation 0.036 0 0.025
       rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
@@ -276,7 +276,7 @@ DEF RECEIVER_BOT Robot {
     }
   ]
   name "MyBot receiver"
-  boundingObject DEF MYBOT_BOUNDING Transform {
+  boundingObject DEF MYBOT_BOUNDING Pose {
     translation 0 0 0.0415
     rotation 0 0 1 1.570796
     children [
@@ -313,7 +313,7 @@ DEF EMITTER_BOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -368,7 +368,7 @@ DEF EMITTER_BOT Robot {
       translation 0.042 0.02 0.063
       rotation 0 0 -1 -0.499205
       children [
-        DEF SENSOR Transform {
+        DEF SENSOR Pose {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
@@ -414,7 +414,7 @@ DEF EMITTER_BOT Robot {
       translation 0 0 -0.06
       rotation 0 0.7071067811865476 0.7071067811865476 3.141527
       children [
-        DEF RANGE Transform {
+        DEF RANGE Pose {
           translation 0 0.05 0
           children [
             Shape {

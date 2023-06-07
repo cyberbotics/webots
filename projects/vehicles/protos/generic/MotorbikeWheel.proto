@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/MotorbikeWheel.proto
+# keywords: vehicle/wheel
 # Model of a motorbike wheel using the generic VehicleWheel PROTO.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"

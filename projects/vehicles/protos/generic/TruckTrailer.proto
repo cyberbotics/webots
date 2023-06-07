@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckTrailer.proto
+# keywords: vehicle/truck
 # A non-controllable truck trailer model with physics properties.
 # The length and number of wheels is configurable.
 # template language: javascript
@@ -31,9 +33,8 @@ PROTO TruckTrailer [
     endPoint Solid {
       translation 0 0 %<= -2.48 + fields.kingPinDistance.value + 0.5 * (fields.length.defaultValue - length) >%
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 2.48 - 0.5 * (fields.length.defaultValue - length) >%
-          scale 1 1 %<= length / fields.length.defaultValue >%
           children [
             DEF REAR_LIGHTS LED {
               translation 0 0 -2.48
@@ -44,15 +45,20 @@ PROTO TruckTrailer [
               name "rear_lights"
               color 0.7 0.12 0.12
             }
-            TruckTrailerMesh {
-              appearance IS appearance
-              translation 0 0 -2.48
+            Transform {
+              scale 1 1 %<= length / fields.length.defaultValue >%
+              children [
+                TruckTrailerMesh {
+                  appearance IS appearance
+                  translation 0 0 -2.48
+                }
+              ]
             }
           ]
         }
         %< for (let i = 0; i < wheelAxlesNumber; ++i) { >%
         # right wheel
-        Transform {
+        Pose {
           translation %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >% -1 0
           children [
             HingeJoint {
@@ -76,7 +82,7 @@ PROTO TruckTrailer [
           ]
         }
         # left wheel
-        Transform {
+        Pose {
           translation %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >% 1 0
           rotation 0 0 1 3.14159
           children [
@@ -103,7 +109,7 @@ PROTO TruckTrailer [
       model "truck trailer"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -3.1 0 2.21
             children [
               Box {
@@ -111,7 +117,7 @@ PROTO TruckTrailer [
               }
             ]
           }
-          Transform {
+          Pose {
             translation %<= -6.0+ 0.3 * (fields.length.defaultValue - length) >% 0 0.27
             children [
               Box {
@@ -119,7 +125,7 @@ PROTO TruckTrailer [
               }
             ]
           }
-          Transform {
+          Pose {
             translation %<= -8.38 + 0.48 * (fields.length.defaultValue - length) >% 0 0.52
             children [
               Box {

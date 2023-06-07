@@ -116,7 +116,6 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   vlayout->setSpacing(0);
   vlayout->setContentsMargins(0, 0, 0, 0);
   vlayout->addWidget(mTitleBar, 0);
-  mToolBar->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   if (toolBarAlign == "center") {
     QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->addWidget(mToolBar);
@@ -270,6 +269,7 @@ QToolBar *WbSimulationView::createToolBar() {
     mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
 
   mSoundVolumeSlider->setFocusPolicy(Qt::ClickFocus);
+  mSoundVolumeSlider->setFixedWidth(102);
   mToolBar->addWidget(mSoundVolumeSlider);
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
 
@@ -834,8 +834,8 @@ void WbSimulationView::prepareWorldLoading() {
   // solid selection
   disconnect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   disconnect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   disconnect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
 }
 
@@ -864,8 +864,8 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   // solid selection
   connect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   connect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
 
   WbActionManager *const actionManager = WbActionManager::instance();

@@ -47,14 +47,12 @@ public:
 public slots:
   // recursions through solid children with bounding objects for material updates
   void propagateBoundingObjectMaterialUpdate(bool onSelection = false) override;
+  void updateBoundingObject() override;
 
 protected:
   // this constructor is reserved for derived classes only
   WbFluid(const QString &modelName, WbTokenizer *tokenizer);
 
-  // Scale
-  void propagateScale() override;
-  void updateScale(bool warning = false) override;
   void setGeomMatter(dGeomID g, WbBaseNode *node = NULL) override;
 
 private:
@@ -76,12 +74,9 @@ private:
   void attachGeomsToFluid(dGeomID g);
 
   void createOdeGeoms() override;
-  // rescale all the ODE dGeoms lying inside the Bounding Object when the WbFluid's scale field has changed
-  void applyToOdeScale() override;
 
 private slots:
   void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) override;
-  void updateBoundingObject() override;
   void updateStreamVelocity();
   void updateDensity();
   void updateViscosity();

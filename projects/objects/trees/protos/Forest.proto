@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/trees/protos/Forest.proto
 # tags: nonDeterministic
+# keywords: exterior/tree
 # Efficient and customizable forest.
 # Tree types are:
 #  - 'oak tree'
@@ -150,7 +151,7 @@ PROTO Forest [
         types.push(type);
     }
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

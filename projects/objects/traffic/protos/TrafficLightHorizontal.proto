@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: traffic/sign
 # Horizontal traffic light without lamp to put on the big pole above the road.
 
 PROTO TrafficLightHorizontal [
@@ -38,7 +39,7 @@ Solid {
         creaseAngle 1
       }
     }
-    Transform {
+    Pose {
       rotation -0.577351 0.577347 0.577351 -2.094405
       children [
         LED {
@@ -99,7 +100,7 @@ Solid {
   model "horizontal traffic light"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.028 0 0.234
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -108,7 +109,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.198 0.002 0.249
         rotation 0.577347 -0.577354 0.577350 -2.094389
         children [
@@ -118,7 +119,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.198 -0.22 0.249
         rotation 0.577347 -0.577354 0.577350 -2.094389
         children [
@@ -128,7 +129,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.198 0.23 0.25
         rotation 0.577347 -0.577354 0.577350 -2.094389
         children [

@@ -62,7 +62,7 @@ Background {
     0.15 0.45 1
   ]
 }
-DEF TEST_RHO Transform {
+DEF TEST_RHO Pose {
   children [
     Solid {
       translation -25 0 1.2
@@ -99,7 +99,7 @@ DEF TEST_RHO Transform {
     }
   ]
 }
-DEF TEST_RHO2` Transform {
+DEF TEST_RHO2` Pose {
   translation 0 -26 0
   children [
     Solid {

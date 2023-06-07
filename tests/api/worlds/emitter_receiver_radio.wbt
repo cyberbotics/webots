@@ -17,7 +17,7 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -71,10 +71,10 @@ DEF ROBOT0 Robot {
     Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -85,7 +85,7 @@ DEF ROBOT0 Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -126,10 +126,10 @@ DEF ROBOT1 Robot {
     Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -140,7 +140,7 @@ DEF ROBOT1 Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -171,7 +171,7 @@ DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
   rotation 0 1 0 1.5708
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -185,10 +185,10 @@ DEF ROBOT2 Robot {
     Receiver {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -199,7 +199,7 @@ DEF ROBOT2 Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -227,7 +227,7 @@ DEF ROBOT2 Robot {
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -242,10 +242,10 @@ DEF ROBOT3 Robot {
       translation 0 0.11 0
       rotation 0 1 0 1.5708
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -256,7 +256,7 @@ DEF ROBOT3 Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {

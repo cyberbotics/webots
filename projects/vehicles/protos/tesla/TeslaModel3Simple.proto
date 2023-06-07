@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/tesla/TeslaModel3Simple.proto
+# keywords: vehicle/car
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 EXTERNPROTO "TeslaModel3Wheel.proto"
@@ -35,20 +37,20 @@ PROTO TeslaModel3Simple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         translation 3.79 0 0.142
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -1.05 0 0.2
         rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 1.11 0 1.16
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
       DEF FRONT_RIGHT_WHEEL Slot {
@@ -91,7 +93,7 @@ PROTO TeslaModel3Simple [
           boundingObject IS wheelBoundingObject
         }
       }
-      Transform {
+      Pose {
         translation 1.39 0 -0.36
         rotation 0 -0.707107 -0.707107 -3.141588
         children [
@@ -104,7 +106,7 @@ PROTO TeslaModel3Simple [
           }
           TeslaModel3Details {
           }
-          DEF FRONT_PLATE Transform {
+          DEF FRONT_PLATE Pose {
             translation -2.335 0.5199999997602552 7.192344581019582e-10
             rotation 0 1 0 -1.570796
             children [
@@ -122,7 +124,7 @@ PROTO TeslaModel3Simple [
               }
             ]
           }
-          DEF REAR_PLATE Transform {
+          DEF REAR_PLATE Pose {
             translation 2.299835640686857 0.773269651734629 7.434408060502636e-8
             rotation -0.129428 0.983106 0.129428 1.587834
             children [
@@ -149,7 +151,7 @@ PROTO TeslaModel3Simple [
     model "Tesla model 3"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 1.37 0 0.21
           rotation 1 0 0 1.570796
           children [
@@ -158,7 +160,7 @@ PROTO TeslaModel3Simple [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.68 0 0.76
           rotation 1 0 0 1.570796
           children [

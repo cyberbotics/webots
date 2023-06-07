@@ -1,12 +1,13 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/qrio
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/sony/qrio/protos/QRIO.proto
+# keywords: robot/legged
 # QRIO ("Quest for cuRIOsity", originally named Sony Dream Robot or SDR) is a bipedal humanoid entertainment robot developed and marketed by Sony.
 
 PROTO QRIO [
-  field SFVec3f    translation     0 0 0.42    # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.42    # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "QRIO"      # Is `Solid.name`.
   field SFString   controller      "qrio"      # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -82,7 +83,7 @@ PROTO QRIO [
                     endPoint Solid {
                       translation -0.013 0.048 -0.032
                       children [
-                        DEF HIP Transform {
+                        DEF HIP Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -131,7 +132,7 @@ PROTO QRIO [
                                         radius 0.04
                                       }
                                     }
-                                    DEF UPPER_LEG Transform {
+                                    DEF UPPER_LEG Pose {
                                       translation 0 0.011 -0.056
                                       children [
                                         Shape {
@@ -165,7 +166,7 @@ PROTO QRIO [
                                       endPoint Solid {
                                         translation 0 0 -0.116
                                         children [
-                                          DEF LOWER_LEG Transform {
+                                          DEF LOWER_LEG Pose {
                                             translation 0.006 0.002 -0.056
                                             children [
                                               Shape {
@@ -186,7 +187,7 @@ PROTO QRIO [
                                               }
                                             ]
                                           }
-                                          DEF KNEE_CYLINDER Transform {
+                                          DEF KNEE_CYLINDER Pose {
                                             rotation 0 0.706825 0.707388 3.141593
                                             children [
                                               Shape {
@@ -226,7 +227,7 @@ PROTO QRIO [
                                                   ]
                                                   endPoint Solid {
                                                     children [
-                                                      DEF FOOT_SENSOR Transform {
+                                                      DEF FOOT_SENSOR Pose {
                                                         translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
@@ -242,7 +243,7 @@ PROTO QRIO [
                                                         ]
                                                       }
                                                       USE FOOT_BOWL
-                                                      DEF FOOT Transform {
+                                                      DEF FOOT Pose {
                                                         translation 0.01 0 -0.007
                                                         children [
                                                           Shape {
@@ -266,7 +267,7 @@ PROTO QRIO [
                                                       }
                                                     ]
                                                     contactMaterial "foot"
-                                                    boundingObject DEF FOOT_BB Transform {
+                                                    boundingObject DEF FOOT_BB Pose {
                                                       translation 0.01 0 -0.0435
                                                       children [
                                                         Box {
@@ -289,7 +290,7 @@ PROTO QRIO [
                                             }
                                           }
                                         ]
-                                        boundingObject DEF LOWER_LEG_BO Transform {
+                                        boundingObject DEF LOWER_LEG_BO Pose {
                                           translation 0 0 -0.06
                                           children [
                                             Box {
@@ -303,7 +304,7 @@ PROTO QRIO [
                                       }
                                     }
                                   ]
-                                  boundingObject DEF UPPER_LEG_BO Transform {
+                                  boundingObject DEF UPPER_LEG_BO Pose {
                                     translation 0 0 -0.052
                                     children [
                                       Shape {
@@ -331,7 +332,7 @@ PROTO QRIO [
                         }
                       ]
                       name "left leg"
-                      boundingObject DEF HIP_BO Transform {
+                      boundingObject DEF HIP_BO Pose {
                         translation 0 0 -0.012
                         children [
                           Shape {
@@ -429,7 +430,7 @@ PROTO QRIO [
                                                   ]
                                                   endPoint Solid {
                                                     children [
-                                                      DEF FOOT_SENSOR Transform {
+                                                      DEF FOOT_SENSOR Pose {
                                                         translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
@@ -492,7 +493,7 @@ PROTO QRIO [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.016
                   children [
                     Shape {
@@ -543,7 +544,7 @@ PROTO QRIO [
               ]
               endPoint Solid {
                 children [
-                  DEF SHOULDER Transform {
+                  DEF SHOULDER Pose {
                     rotation 0 0 1 -1.5708
                     children [
                       DEF SHOULDER_WHITE_SHAPE Shape {
@@ -583,7 +584,7 @@ PROTO QRIO [
                       }
                     ]
                   }
-                  DEF UPPER_ARM Transform {
+                  DEF UPPER_ARM Pose {
                     translation 0 0 -0.07
                     children [
                       Shape {
@@ -618,7 +619,7 @@ PROTO QRIO [
                     endPoint Solid {
                       translation 0.012 0 -0.082
                       children [
-                        DEF ELBOW_CYLINDER Transform {
+                        DEF ELBOW_CYLINDER Pose {
                           rotation 1 0 0 1.57
                           children [
                             Shape {
@@ -634,7 +635,7 @@ PROTO QRIO [
                             }
                           ]
                         }
-                        DEF LOWER_ARM Transform {
+                        DEF LOWER_ARM Pose {
                           translation -0.012 0 -0.047
                           rotation 0 0 1 -1.57
                           children [
@@ -657,7 +658,7 @@ PROTO QRIO [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation -0.012 0 -0.142
                           children [
                             DEF HAND_SHAPE Shape {
@@ -680,7 +681,7 @@ PROTO QRIO [
                           ]
                         }
                       ]
-                      boundingObject DEF LOWER_ARM_BO Transform {
+                      boundingObject DEF LOWER_ARM_BO Pose {
                         translation 0 0 -0.06
                         children [
                           Shape {
@@ -700,7 +701,7 @@ PROTO QRIO [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.039
                   children [
                     Shape {
@@ -751,7 +752,7 @@ PROTO QRIO [
               ]
               endPoint Solid {
                 children [
-                  Transform {
+                  Pose {
                     rotation 0 0 1 1.57
                     children [
                       USE SHOULDER_WHITE_SHAPE
@@ -774,7 +775,7 @@ PROTO QRIO [
                       children [
                         USE ELBOW_CYLINDER
                         USE LOWER_ARM
-                        Transform {
+                        Pose {
                           translation -0.012 0 -0.142
                           rotation 0 0 1 3.1415
                           children [
@@ -790,7 +791,7 @@ PROTO QRIO [
                   }
                 ]
                 name "right arm"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.039
                   children [
                     Shape {
@@ -844,7 +845,6 @@ PROTO QRIO [
                         0.0357312 0.0427269 0.0006904 0.0369051 0.0392838 -0.0090635 0.038162 0.0277607 -0.0139574 0.045034 0.0158027 -0.0088493 0.0450341 0.0158029 0.0102317 0.0416822 0.027099 0.0155726 0.0369162 0.039123 0.0108325 0.045034 0.0125188 0.0006907 0.0405621 0.0275149 0.0007686
                       ]
                     }
-                    solid FALSE
                     coordIndex [
                       0, 6, 8, -1, 6, 5, 8, -1, 5, 4, 8, -1, 4, 7, 8, -1, 7, 3, 8, -1, 3, 2, 8, -1, 2, 1, 8, -1, 1, 0, 8, -1
                     ]
@@ -872,7 +872,6 @@ PROTO QRIO [
                         0.0481259 -0.0157703 -0.008142 0.0412529 -0.0277283 -0.0132499 0.0400078 -0.0390912 -0.0087427 0.0357308 -0.0431191 0.0006913 0.0359529 -0.039642 0.0103293 0.043153 -0.028115 0.0153101 0.045034 -0.0161951 0.010232 0.04658 -0.0126992 0.001045 0.0419799 -0.0277951 0.0009341
                       ]
                     }
-                    solid FALSE
                     coordIndex [
                       7, 6, 8, -1, 6, 5, 8, -1, 5, 4, 8, -1, 4, 3, 8, -1, 3, 2, 8, -1, 2, 1, 8, -1, 1, 0, 8, -1, 0, 7, 8, -1
                     ]
@@ -900,7 +899,6 @@ PROTO QRIO [
                         0.0327632 0.0066673 0.0430548 0.0368262 0.0078762 0.0348038 0.0388551 -0.0008428 0.0297609 0.0365481 -0.0085128 0.034539 0.0327631 -0.0069097 0.043055 0.0327592 -0.0001216 0.0458669 0.0350861 -0.0003067 0.0385129
                       ]
                     }
-                    solid FALSE
                     coordIndex [
                       0, 5, 6, -1, 5, 4, 6, -1, 4, 3
                       6, -1, 3, 2, 6, -1, 2, 1, 6, -1
@@ -915,7 +913,7 @@ PROTO QRIO [
                 0 1 0
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.07
               children [
                 Shape {
@@ -929,7 +927,6 @@ PROTO QRIO [
                         0.0357312 0.0427269 0.0006904 0.0369051 0.0392838 -0.0090635 0.038162 0.0277607 -0.0139574 0.045034 0.0158027 -0.0088493 0.0450341 0.0158029 0.0102317 0.0416822 0.027099 0.0155726 0.0369162 0.039123 0.0108325 0.0481259 -0.0157703 -0.008142 0.0412529 -0.0277283 -0.0132499 0.0400078 -0.0390912 -0.0087427 0.0357308 -0.0431191 0.0006913 0.0359529 -0.039642 0.0103293 0.043153 -0.028115 0.0153101 0.045034 -0.0161951 0.010232 0.0327632 0.0066673 0.0430548 0.0368262 0.0078762 0.0348038 0.0388551 -0.0008428 0.0297609 0.0365481 -0.0085128 0.034539 0.0327631 -0.0069097 0.043055 0.0327592 -0.0001216 0.0458669 0.0323142 0.0541488 -0.0084357 0.0323138 -0.053868 0.0118525 0.0323138 -0.0538682 -0.0084345 0.0046013 0.0673051 0.0110723 0.0046008 -0.0670239 0.0110737 0.0147453 0.0541493 0.0294204 0.0147449 -0.0538677 0.0294215 0.0046007 -0.0567993 -0.0222664 0.0046011 0.0570787 -0.0222676 -0.0048047 0.0611093 0.0226494 -0.0048051 -0.0608287 0.0226507 -0.0483748 0.0396775 0.0267518 -0.0293961 -0.0538677 0.0204127 -0.048375 -0.0393965 0.0267526 -0.0483748 0.0396772 0.0062848 0.0146263 0.0278484 0.0444437 0.014745 -0.0393966 0.0395654 -0.0050177 0.0396775 0.0412846 -0.005018 -0.0393965 0.0412854 -0.0117271 0.0001398 -0.024283 0.0353022 0.0439401 0.0221754 0.0353018 -0.0436603 -0.0187587 0.0353021 0.0439397 -0.0187596 -0.0347392 -0.04366 -0.0081374 -0.0347389 0.04394 -0.0081383 -0.0139688 0.0144426 0.0497759 -0.0139689 -0.0141604 0.0497762 0.0424579 -0.0143314 -0.022477 0.042537 0.0144416 -0.0225133 -0.048375 0.0146121 -0.006875 -0.0571001 -0.0275677 0.0064045 0.0245702 0.0001404 0.0473349 -0.0483748 0.0146126 0.041831 -0.0536478 0.0001406 0.0423132 -0.0405341 0.00014 -0.0142989 -0.0648649 0.0001405 0.0270532 -0.0689629 0.0134893 0.0056061 -0.070774 -0.0001217 0.0070623 0.051679 -0.0005002 0.0009018 0.051679 -0.0005003 -0.0079762 0.04658 -0.0126992 0.001045 0.045034 0.0125188 0.0006907
                       ]
                     }
-                    solid FALSE
                     coordIndex [
                       36, 18, 19, -1, 58, 7, 59, -1, 13, 60, 58, -1, 48, 2, 3, -1, 27, 33, 43, -1, 58, 59, 3, -1, 13, 17, 12, -1, 54, 49, 39, -1, 45, 31, 52, -1, 1, 2, 42, -1, 33, 50, 43, -1, 31, 37, 29, -1, 27, 43, 39, -1, 13, 16, 17, -1, 23, 29, 20, -1, 33, 57, 50, -1, 48, 47, 39, -1, 29, 25, 20, -1, 36, 21, 18, -1, 31, 55, 52, -1, 21, 12, 17, -1, 24, 27, 22, -1, 24, 30, 32, -1, 35, 14, 40, -1, 34, 56, 31, -1, 44, 23, 28, -1, 43, 50, 54, -1, 25, 40, 20, -1, 37, 45, 35, -1, 29, 35, 25, -1, 39, 47, 27, -1, 45, 51, 35, -1, 43, 54, 39, -1, 37, 31, 45, -1, 11, 12, 21, -1, 11, 22, 10, -1, 40, 5, 6, -1, 4, 16, 58, -1, 35, 40, 25, -1, 24, 21, 30, -1, 51, 45, 46, -1, 59, 47, 48, -1, 30, 21, 26, -1, 3, 61, 58, -1, 24, 22, 21, -1, 30, 26, 38, -1, 38, 33, 32, -1, 59, 48, 3, -1, 34, 49, 56, -1, 53, 52, 55, -1, 38, 26, 36, -1, 24, 32, 33, -1, 28, 23, 20, -1, 35, 51, 19, -1, 49, 50, 56, -1, 33, 53, 55, -1, 15, 4, 5, -1, 26, 21, 36, -1, 21, 17, 18, -1, 42, 2, 48, -1, 31, 56, 55, -1, 8, 47, 7, -1, 15, 16, 4, -1, 13, 58, 16, -1, 24, 33, 27, -1, 52, 53, 46, -1, 38, 32, 30, -1, 11, 21, 22, -1, 29, 37, 35, -1, 33, 55, 57, -1, 49, 54, 50, -1, 56, 50, 57, -1, 28, 20, 42, -1, 47, 59, 7, -1, 28, 42, 48, -1, 27, 41, 22, -1, 22, 41, 9, -1, 22, 9, 10, -1, 41, 8, 9, -1, 27, 47, 41, -1, 41, 47, 8, -1, 56, 57, 55, -1, 35, 19, 14, -1, 36, 19, 51, -1, 48, 39, 28, -1, 44, 34, 23, -1, 44, 49, 34, -1, 45, 52, 46, -1, 38, 46, 53, -1, 38, 53, 33, -1, 5, 40, 14, -1, 5, 14, 15, -1, 34, 31, 29, -1, 34, 29, 23, -1, 0, 20, 40, -1, 0, 40, 6, -1, 39, 49, 44, -1, 39, 44, 28, -1, 36, 51, 46, -1, 36, 46, 38, -1, 1, 42, 20, -1, 1, 20, 0, -1, 58, 60, 7, -1, 58, 61, 4, -1
                     ]
@@ -938,7 +935,7 @@ PROTO QRIO [
                 }
               ]
             }
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -955,7 +952,7 @@ PROTO QRIO [
             }
           ]
           name "head"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 0.08
             children [
               Shape {
@@ -1000,7 +997,7 @@ PROTO QRIO [
           0 1 0
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 0 0.02
         rotation 0 0 1 -1.57
         children [
@@ -1025,7 +1022,7 @@ PROTO QRIO [
       }
     ]
     description "Sony's biped robot modeled by Stephane Mojon and Olivier Michel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.01
       children [
         Shape {

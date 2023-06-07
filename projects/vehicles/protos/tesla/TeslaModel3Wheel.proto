@@ -72,7 +72,7 @@ PROTO TeslaModel3Wheel [
         }
       ]
       %< if (fields.boundingObject.value) { >%
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 -0.04
         children [
           Cylinder {

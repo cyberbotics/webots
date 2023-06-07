@@ -95,7 +95,9 @@ namespace wren {
     }
   }
 
-  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) { mShadowVolumes.erase(light); }
+  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) {
+    mShadowVolumes.erase(light);
+  }
 
   static glm::vec3 computeNormal(const Mesh *mesh, const unsigned int *indices) {
     const std::vector<glm::vec3> &coords = mesh->coords();

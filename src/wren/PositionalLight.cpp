@@ -27,7 +27,8 @@ namespace wren {
     mRadius(100.0f),
     mAttenuationConstant(1.0f),
     mAttenuationLinear(0.0f),
-    mAttenuationQuadratic(0.0f) {}
+    mAttenuationQuadratic(0.0f) {
+  }
 
   void PositionalLight::setPosition(const glm::vec3 &position) {
     mPositionRelative = position;

@@ -119,8 +119,6 @@ void WbDragRotateAroundAxisSolidEvent::apply(const QPoint &currentMousePosition)
 WbDragPhysicsEvent::WbDragPhysicsEvent(const QSize &widgetSize, WbViewpoint *viewpoint, WbSolid *selectedSolid) :
   WbDragView3DEvent(viewpoint),
   mSelectedSolid(selectedSolid),
-  mVector(),
-  mMouseRay(),
   mIsLocked(false),
   mWidgetSize(widgetSize),
   mViewDistanceScaling(1.0f) {
@@ -217,9 +215,6 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
   mRepresentation = new WbForceRepresentation();
   mOrigin = viewpoint->rotationCenter();
   mRelativeOrigin = selectedSolid->matrix().pseudoInversed(mOrigin);
-  double s = selectedSolid->absoluteScale().x();
-  s *= s;
-  mRelativeOrigin /= s;
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
   mScalingFactor = WbWorld::instance()->worldInfo()->dragForceScale() * selectedSolid->mass();

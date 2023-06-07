@@ -23,7 +23,7 @@ TexturedBackground {
 }
 Robot {
   children [
-    DEF FRONT_BEARING Transform {
+    DEF FRONT_BEARING Pose {
       children [
         SolidPipe {
           translation 0.07 0 0
@@ -37,7 +37,7 @@ Robot {
           }
           enableBoundingObject FALSE
         }
-        Transform {
+        Pose {
           translation 0.07 0.02 0
           children [
             DEF BALL Shape {
@@ -50,43 +50,43 @@ Robot {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.02 0
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0 0.02
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0 -0.02
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0.014 -0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.014 -0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.014 0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0.014 0.014
           children [
             USE BALL
@@ -94,7 +94,7 @@ Robot {
         }
       ]
     }
-    DEF BACK_BEARING Transform {
+    DEF BACK_BEARING Pose {
       translation -0.18 0 0
       children [
         SolidPipe {
@@ -110,49 +110,49 @@ Robot {
           }
           enableBoundingObject FALSE
         }
-        Transform {
+        Pose {
           translation 0.07 0.02 0
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.02 0
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0 0.02
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0 -0.02
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0.014 -0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.014 -0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 -0.014 0.014
           children [
             USE BALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.07 0.014 0.014
           children [
             USE BALL
@@ -160,7 +160,7 @@ Robot {
         }
       ]
     }
-    DEF BLACK_BOX Transform {
+    DEF BLACK_BOX Pose {
       translation 0.145 0 0
       rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
       children [
@@ -177,7 +177,7 @@ Robot {
     }
     DEF STATOR_FRAME Group {
       children [
-        Transform {
+        Pose {
           translation -0.02 0.04 0
           children [
             DEF STATOR_BAR Shape {
@@ -191,13 +191,13 @@ Robot {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.02 -0.04 0
           children [
             USE STATOR_BAR
           ]
         }
-        Transform {
+        Pose {
           translation -0.02 0 -0.04
           rotation 1 0 0 1.5708
           children [
@@ -222,7 +222,7 @@ Robot {
       startPoint [
         Group {
           children [
-            DEF ROTOR_ARMATURE_1 Transform {
+            DEF ROTOR_ARMATURE_1 Pose {
               translation -0.02 -0.015 0
               children [
                 Shape {
@@ -235,7 +235,7 @@ Robot {
                 }
               ]
             }
-            DEF ROTOR_ARMATURE_2 Transform {
+            DEF ROTOR_ARMATURE_2 Pose {
               translation -0.02 0.015 0
               children [
                 Shape {
@@ -248,7 +248,7 @@ Robot {
                 }
               ]
             }
-            DEF ROTOR_ARMATURE_3 Transform {
+            DEF ROTOR_ARMATURE_3 Pose {
               translation -0.02 0 0.015
               rotation 1 0 0 1.5708
               children [
@@ -262,7 +262,7 @@ Robot {
                 }
               ]
             }
-            DEF ROTOR_ARMATURE_4 Transform {
+            DEF ROTOR_ARMATURE_4 Pose {
               translation -0.02 0 -0.015
               rotation 1 0 0 1.5708
               children [
@@ -287,7 +287,7 @@ Robot {
               }
               enableBoundingObject FALSE
             }
-            DEF CORE Transform {
+            DEF CORE Pose {
               translation -0.02 0 0
               rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
@@ -302,7 +302,7 @@ Robot {
                 }
               ]
             }
-            DEF SHAFT Transform {
+            DEF SHAFT Pose {
               translation 0.025 0 0
               rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
@@ -317,7 +317,7 @@ Robot {
                 }
               ]
             }
-            DEF INPUT_MARKER Transform {
+            DEF INPUT_MARKER Pose {
               translation 0.095 0 0.0075
               rotation 0 0.7071067811865476 0.7071067811865476 -3.141593
               children [
@@ -331,7 +331,7 @@ Robot {
                 }
               ]
             }
-            DEF FRONT_INNER_BEARING Transform {
+            DEF FRONT_INNER_BEARING Pose {
               translation 0.07 0 0
               rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
@@ -352,7 +352,7 @@ Robot {
                 }
               ]
             }
-            DEF BACK_INNER_BEARING Transform {
+            DEF BACK_INNER_BEARING Pose {
               translation -0.11 0 0
               rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
               children [
@@ -378,7 +378,7 @@ Robot {
       ]
       endPoint Solid {
         children [
-          DEF OUTPUT_SHAFT Transform {
+          DEF OUTPUT_SHAFT Pose {
             translation 0.185 0 0
             rotation 0.5773489358556708 -0.5773509358554485 0.5773509358554485 -2.094397
             children [
@@ -393,7 +393,7 @@ Robot {
               }
             ]
           }
-          DEF OUTPUT_MARKER Transform {
+          DEF OUTPUT_MARKER Pose {
             translation 0.195 0 0.0075
             rotation 0 0.7071067811865476 0.7071067811865476 -3.141593
             children [

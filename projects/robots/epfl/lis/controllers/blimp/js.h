@@ -326,7 +326,7 @@ class jsJoystick {
     if (error)
       return;
 
-    sprintf(joyfname, "%s/.joy%drc", ::getenv("HOME"), id);
+    snprintf(joyfname, sizeof(joyfname), "%s/.joy%drc", ::getenv("HOME"), id);
 
     joyfile = fopen(joyfname, "r");
     if (joyfile == NULL)
@@ -459,33 +459,61 @@ public:
     fd = -1;
 #if defined(__FreeBSD__) || defined(__NetBSD__)
     id = ident;
-    sprintf(fname, "/dev/joy%d", ident);
+    snprintf(fname, sizeof(fname), "/dev/joy%d", ident);
 #else
-    sprintf(fname, "/dev/js%d", ident);
+    snprintf(fname, sizeof(fname), "/dev/js%d", ident);
 #endif
     open();
 #endif
   }
 
-  ~jsJoystick() { close(); }
+  ~jsJoystick() {
+    close();
+  }
 
-  int getNumAxes() const { return num_axes; }
-  int notWorking() const { return error; }
-  void setError() { error = JS_TRUE; }
+  int getNumAxes() const {
+    return num_axes;
+  }
+  int notWorking() const {
+    return error;
+  }
+  void setError() {
+    error = JS_TRUE;
+  }
 
-  float getDeadBand(int axis) const { return dead_band[axis]; }
-  void setDeadBand(int axis, float db) { dead_band[axis] = db; }
+  float getDeadBand(int axis) const {
+    return dead_band[axis];
+  }
+  void setDeadBand(int axis, float db) {
+    dead_band[axis] = db;
+  }
 
-  float getSaturation(int axis) const { return saturate[axis]; }
-  void setSaturation(int axis, float st) { saturate[axis] = st; }
+  float getSaturation(int axis) const {
+    return saturate[axis];
+  }
+  void setSaturation(int axis, float st) {
+    saturate[axis] = st;
+  }
 
-  void setMinRange(float *axes) { memcpy(min, axes, num_axes * sizeof(float)); }
-  void setMaxRange(float *axes) { memcpy(max, axes, num_axes * sizeof(float)); }
-  void setCenter(float *axes) { memcpy(center, axes, num_axes * sizeof(float)); }
+  void setMinRange(float *axes) {
+    memcpy(min, axes, num_axes * sizeof(float));
+  }
+  void setMaxRange(float *axes) {
+    memcpy(max, axes, num_axes * sizeof(float));
+  }
+  void setCenter(float *axes) {
+    memcpy(center, axes, num_axes * sizeof(float));
+  }
 
-  void getMinRange(float *axes) { memcpy(axes, min, num_axes * sizeof(float)); }
-  void getMaxRange(float *axes) { memcpy(axes, max, num_axes * sizeof(float)); }
-  void getCenter(float *axes) { memcpy(axes, center, num_axes * sizeof(float)); }
+  void getMinRange(float *axes) {
+    memcpy(axes, min, num_axes * sizeof(float));
+  }
+  void getMaxRange(float *axes) {
+    memcpy(axes, max, num_axes * sizeof(float));
+  }
+  void getCenter(float *axes) {
+    memcpy(axes, center, num_axes * sizeof(float));
+  }
 
   void read(int *buttons, float *axes) {
     if (error) {

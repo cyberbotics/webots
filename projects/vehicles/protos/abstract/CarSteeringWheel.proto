@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/abstract/CarSteeringWheel.proto
+# keywords: vehicle/steering
 # A generic steering wheel to insert in the 'steeringWheel' field of some vehicles.
 
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"

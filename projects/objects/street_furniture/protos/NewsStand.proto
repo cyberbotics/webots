@@ -163,7 +163,7 @@ PROTO NewsStand [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.255 0 2.84
           children [
             Box {
@@ -171,7 +171,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.185 0 1.35
           children [
             Box {
@@ -179,7 +179,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.075 0 0.55
           children [
             Box {
@@ -187,7 +187,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.3789 1.945 1.1
           rotation -0.377964 0.654654 0.654654 -2.418858
           children [

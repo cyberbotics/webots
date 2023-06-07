@@ -333,20 +333,26 @@ QString WbNode::fullName() const {
   return modelName();
 }
 
-QString WbNode::usefulName() const {
+QString WbNode::computeName() const {
   if (isUseNode())
-    return "USE " + mUseName;
-
-  QString usefulName = "";
-
+    return mUseName;
   if (!defName().isEmpty())
-    usefulName += QString("DEF ") + defName() + " ";
+    return mDefName;
+  const WbSFString *name = findSFString("name");
+  return name ? "\"" + name->value() + "\"" : QString();
+}
 
-  usefulName += modelName();
+QString WbNode::usefulName() const {
+  QString usefulName = fullName();
 
-  if (isProtoInstance())
-    usefulName += " (PROTO)";
+  if (isUseNode() || !defName().isEmpty())
+    return usefulName;
 
+  const WbSFString *name = findSFString("name");
+  if (name)
+    usefulName += " \"" + name->value() + "\"";
+  else
+    usefulName += " " + endPointName();
   return usefulName;
 }
 
@@ -1217,7 +1223,7 @@ void WbNode::writeExport(WbWriter &writer) const {
 
 bool WbNode::operator==(const WbNode &other) const {
   if (mModel != other.mModel || isProtoInstance() != other.isProtoInstance() ||
-      (mProto && mProto->name() != other.mProto->name()) || mDefName != other.mDefName)
+      (mProto && mProto->url() != other.mProto->url()) || mDefName != other.mDefName)
     return false;
 
   if (this == &other)
@@ -1226,7 +1232,9 @@ bool WbNode::operator==(const WbNode &other) const {
   const QList<WbField *> fieldsList = fieldsOrParameters();
   const QList<WbField *> otherFieldsList = other.fieldsOrParameters();
   const int size = fieldsList.size();
+
   assert(size == otherFieldsList.size());
+
   for (int i = 0; i < size; ++i) {
     const WbField *const f1 = fieldsList[i];
     const WbField *const f2 = otherFieldsList[i];
@@ -1604,7 +1612,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   parametersDefMap.clear();
 
   return createProtoInstanceFromParameters(proto, parametersList, worldPath);
-  ;
 }
 
 WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QList<WbField *> &parameters,

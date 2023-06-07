@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto
+# keywords: robot/wheeled
 # This is a proto file for Webots for the RosbotXl
 
 EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
@@ -40,7 +42,7 @@ PROTO RosbotXl [
     }
     boundingObject DEF body_collision Group {
       children [
-        DEF MAIN_BODY_BOX Transform {
+        DEF MAIN_BODY_BOX Pose {
           translation 0 0 0.048
           children [
             Mesh {
@@ -51,7 +53,7 @@ PROTO RosbotXl [
       ]
     }
     children [
-      DEF MAIN_BODY Transform {
+      DEF MAIN_BODY Pose {
         translation 0 0 0.048
         children [
           CadShape {
@@ -85,7 +87,7 @@ PROTO RosbotXl [
             }
           ]
           name "front left wheel"
-          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+          boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               DEF WHEEL_CYLINDER Cylinder {
@@ -125,7 +127,7 @@ PROTO RosbotXl [
         endPoint Solid {
           translation 0.085 -0.135 0.048
           children [
-            Transform {
+            Pose {
               rotation 0 0 1 3.141592
               children [
                 DEF WHEEL_SHAPE_A CadShape {
@@ -135,7 +137,7 @@ PROTO RosbotXl [
             }
           ]
           name "front right wheel"
-          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
@@ -165,14 +167,14 @@ PROTO RosbotXl [
         endPoint Solid {
           translation -0.085 0.135 0.048
           children [
-            Transform {
+            Pose {
               children [
                 USE WHEEL_SHAPE_A
               ]
             }
           ]
           name "rear left wheel"
-          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+          boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
@@ -202,7 +204,7 @@ PROTO RosbotXl [
         endPoint Solid {
           translation -0.085 -0.135 0.048
           children [
-            Transform {
+            Pose {
               rotation 0 0 1 3.141592
               children [
                 USE WHEEL_SHAPE_B
@@ -210,7 +212,7 @@ PROTO RosbotXl [
             }
           ]
           name "rear right wheel"
-          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
@@ -219,7 +221,7 @@ PROTO RosbotXl [
           physics USE WHEEL_PHYSICS
         }
       }
-      DEF LIDAR_SLOT Transform {
+      DEF LIDAR_SLOT Pose {
         translation 0 0 0.13145
         children IS lidarSlot
       }

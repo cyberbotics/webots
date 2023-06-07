@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/utensils/protos/Glass.proto
+# keywords: household/kitchen
 # A glass.
 # template language: javascript
 
@@ -50,7 +51,7 @@ PROTO Glass [
     ]
     name IS name
     model "glass"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.029
       children [
         Shape {

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/stairs/protos/StraightStairsLanding.proto
+# keywords: building/component
 # Generic and customizable landing model for straight stairs.
 # template language: javascript
 
@@ -55,7 +56,7 @@ PROTO StraightStairsLanding [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LANDING_SHAPE Transform {
+      DEF LANDING_SHAPE Pose {
         translation 0 0 %<= height >%
         children [
           Shape {
@@ -66,7 +67,7 @@ PROTO StraightStairsLanding [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 %<= height >%
         children IS rail
       }

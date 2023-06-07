@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/DoorKnob.proto
+# keywords: building/component
 # A door knob.
 # This object can be used in the 'doorHandle' field of the Door object.
 # template language: javascript
@@ -48,7 +49,7 @@ PROTO DoorKnob [
       translation IS translation
       rotation IS rotation
       children [
-        DEF HANDLE_SUPPORT Transform { # handle support
+        DEF HANDLE_SUPPORT Pose { # handle support
           rotation 0 1 0 1.57
           children [
             Shape {
@@ -61,7 +62,7 @@ PROTO DoorKnob [
             }
           ]
         }
-        DEF HANDLE_AXIS Transform { # handle axis
+        DEF HANDLE_AXIS Pose { # handle axis
           rotation 0 1 0 1.57
           children [
             Shape {
@@ -74,7 +75,7 @@ PROTO DoorKnob [
             }
           ]
         }
-        DEF BACK_KNOB Transform { # back handle
+        DEF BACK_KNOB Pose { # back handle
           translation %<= -handlePositionX >% 0 0
           children [
             Shape {
@@ -87,7 +88,7 @@ PROTO DoorKnob [
             }
           ]
         }
-        DEF FRONT_KNOB Transform { # front handle
+        DEF FRONT_KNOB Pose { # front handle
           translation %<= handlePositionX >% 0 0
           children [
             Shape {

@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/geometries/protos/Extrusion.proto
+# keywords: primitive/geometry
 # Generic extrusion geometry.
 # The shape (defined by the 'crossSection' field) is extruded along the path defined by the field 'spine'.
 # template language: javascript
@@ -13,7 +15,6 @@ PROTO Extrusion [
   field SFBool     beginCap                  TRUE                            # Defines whether the extrusion should have a cap at the begining.
   field SFBool     endCap                    TRUE                            # Defines whether the extrusion should have a cap at the end.
   field SFBool     ccw                       TRUE                            # Is `IndexedFaceSet.ccw`.
-  field SFBool     solid                     TRUE                            # Is `IndexedFaceSet.solid`.
   field SFBool     convex                    TRUE                            # Is `IndexedFaceSet.convex`.
   field SFFloat    creaseAngle               0.0                             # Is `IndexedFaceSet.creaseAngle`.
   field SFInt32    splineSubdivision         4                               # If bigger than 1, defines the B-Spline subdivion of the extrusion along it's path.
@@ -280,7 +281,6 @@ PROTO Extrusion [
         -1
       %< } >%
     ]
-    solid IS solid
     convex IS convex
     ccw IS ccw
     creaseAngle IS creaseAngle

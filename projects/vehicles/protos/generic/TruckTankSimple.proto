@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckTankSimple.proto
+# keywords: vehicle/truck
 # A simple non-controllable truck tank model without physics properties.
 
 EXTERNPROTO "TruckWheel.proto"
@@ -119,7 +121,7 @@ PROTO TruckTankSimple [
       model "truck tank"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -3.1 0 2.21
             children [
               Box {
@@ -127,7 +129,7 @@ PROTO TruckTankSimple [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -6.33 0 0.27
             children [
               Box {

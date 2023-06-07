@@ -153,6 +153,7 @@ Monitor {
   SFString   name        "monitor"
   SFColor    color       0.15 0.15 0.15
   SFFloat    mass        0
+  SFFloat    scale       1
 }
 ```
 

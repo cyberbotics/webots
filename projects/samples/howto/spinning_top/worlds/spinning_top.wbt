@@ -44,7 +44,7 @@ DEF FLOOR Solid {
 }
 DEF WALL_1 Solid {
   children [
-    DEF WALL_SHAPE Transform {
+    DEF WALL_SHAPE Pose {
       translation 0 2.25 0.1
       children [
         Shape {
@@ -100,7 +100,7 @@ DEF SPINNING_TOP Solid {
   translation -0.0227592 0.137365 -0.0128314
   rotation 0.07777647904039245 0.996970730517767 0.00042637888022143566 0
   children [
-    DEF TIP Transform {
+    DEF TIP Pose {
       translation 0 0 0.1
       rotation 0 -1 0 3.14159
       children [
@@ -128,7 +128,7 @@ DEF SPINNING_TOP Solid {
         }
       ]
     }
-    DEF TOP Transform {
+    DEF TOP Pose {
       translation 0 0 0.301
       children [
         Shape {
@@ -142,7 +142,7 @@ DEF SPINNING_TOP Solid {
         }
       ]
     }
-    DEF TAIL Transform {
+    DEF TAIL Pose {
       translation 0 0 0.38
       children [
         Shape {
@@ -160,7 +160,7 @@ DEF SPINNING_TOP Solid {
         }
       ]
     }
-    DEF MAIN_CYLINDER Transform {
+    DEF MAIN_CYLINDER Pose {
       translation 0 0 0.21
       children [
         Shape {
@@ -196,7 +196,7 @@ DEF SPINNING_TOP Solid {
     children [
       USE TAIL
       USE MAIN_CYLINDER
-      Transform {
+      Pose {
         translation 0 0 0.232
         children [
           Cylinder {
@@ -206,7 +206,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.244
         children [
           Cylinder {
@@ -216,7 +216,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.255
         children [
           Cylinder {
@@ -226,7 +226,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.272
         children [
           Cylinder {
@@ -236,7 +236,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.298
         children [
           Cylinder {
@@ -246,7 +246,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.334
         children [
           Cylinder {
@@ -256,7 +256,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.175
         children [
           Cylinder {
@@ -266,7 +266,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.136
         children [
           Cylinder {
@@ -276,7 +276,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.097
         children [
           Cylinder {
@@ -286,7 +286,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.058
         children [
           Cylinder {
@@ -296,7 +296,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.03
         children [
           Cylinder {
@@ -306,7 +306,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.0168
         children [
           Cylinder {
@@ -316,7 +316,7 @@ DEF SPINNING_TOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.01181
         children [
           Sphere {
@@ -513,7 +513,7 @@ DEF WHITE_TOWER Solid {
   name "tower"
   boundingObject DEF BOUNDING_TOWER Group {
     children [
-      Transform {
+      Pose {
         children [
           Cylinder {
             height 0.41
@@ -522,7 +522,7 @@ DEF WHITE_TOWER Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 -0.151
         children [
           Cylinder {
@@ -567,7 +567,7 @@ DEF BLACK_BISHOP Solid {
   name "bishop"
   boundingObject DEF BOUNDING_BISHOP Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.062
         children [
           Capsule {
@@ -577,7 +577,7 @@ DEF BLACK_BISHOP Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 -0.241
         children [
           Cylinder {
@@ -621,7 +621,7 @@ DEF CULBUTO_QUEEN Solid {
   name "culbuto_queen"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.336
         children [
           Sphere {
@@ -630,7 +630,7 @@ DEF CULBUTO_QUEEN Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.2
         children [
           Capsule {

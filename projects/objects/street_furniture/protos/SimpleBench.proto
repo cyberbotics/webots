@@ -70,7 +70,7 @@ PROTO SimpleBench [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.486
           children [
             Box {
@@ -78,7 +78,7 @@ PROTO SimpleBench [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.59 0.23
           children [
             DEF BOX Box {
@@ -86,7 +86,7 @@ PROTO SimpleBench [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.59 0.23
           children [
             USE BOX
