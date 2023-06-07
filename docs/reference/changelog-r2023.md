@@ -27,8 +27,8 @@ Released on ??
 Released on ??
   - Enhancements
     - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
-    - Added default [Solid](solid.md).`recognitionColors` value for [animals](../guide/object-animals.md) and [Barn](../guide/object-buildings.md#barn) PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
-    - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Added default [Solid](solid.md).`recognitionColors` value for animals and `Barn` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Added `recognitionColors` field to `SolidBox` and `Tractor` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
     - Improved the bounding objects of the Nao robot PROTO so that `selfCollision` can be activated without any issue ([#5622](https://github.com/cyberbotics/webots/pull/5622)).
     - Improved warnings when passing invalid arguments to [`wb_supervisor_node_enable_pose_tracking`/`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_enable_pose_tracking), [`wb_supervisor_node_enable_contact_points_tracking`/`wb_supervisor_node_disable_contact_points_tracking`](supervisor.md#wb_supervisor_node_enable_contact_points_tracking) and [`wb_supervisor_field_enable_sf_tracking`/`wb_supervisor_field_disable_sf_tracking`](supervisor.md#wb_supervisor_field_enable_sf_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
@@ -58,7 +58,7 @@ Released on ??
     - Fixed invalid default NULL `from_node` argument in [`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_disable_pose_tracking) ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
     - Lowered the connection retry delay for extern controllers ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
-    - Fixed default translation of [RangeRoverSportSVRSimple](../automobile/vehicle-range-rover.md#rangeroversportsvrsimple) and [TruckSimple](../automobile/vehicle-generic.md#trucksimple) not converted to ENU ([#5653](https://github.com/cyberbotics/webots/pull/5653)).
+    - Fixed default translation of [RangeRoverSportSVRSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto) and [TruckSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckSimple.proto) not converted to ENU ([#5653](https://github.com/cyberbotics/webots/pull/5653)).
     - Fixed a crash when setting the `Robot.battery` after the simulation start ([#5669](https://github.com/cyberbotics/webots/pull/5669)).
     - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
@@ -106,12 +106,12 @@ Released on November 29th, 2022.
     - Added warning if external mesh used in [CadShape](cadshape.md) node is fully transparent ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
     - Added warning if external mesh used in [Mesh](mesh.md) node has more than 100'000 vertices ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
   - New Robots
-    - Added a model of the [ROSbot](../guide/rosbot.md) robot from [Husarion](https://husarion.com/) and an obstacle avoidance demo ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
+    - Added a model of the ROSbot robot from [Husarion](https://husarion.com/) and an obstacle avoidance demo ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
   - New Devices and Objects
     - Added some static animals (cow, horse, deer, sheep, dog, fox, cat and rabbit) and a barn ([#4539](https://github.com/cyberbotics/webots/pull/4539)).
-    - Added a model of the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
-    - Added a model of the [RPLidarA2](../guide/lidar-sensors.md#slamtec-rplidar-a2) lidar ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
-    - Added a model of the [Astra](../guide/range-finder-sensors.md#orbbec-astra) RGB-D camera ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
+    - Added a model of the Mpu-9250 IMU ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
+    - Added a model of the RPLidarA2 lidar ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
+    - Added a model of the Astra RGB-D camera ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
   - New Examples
     - Added a sample world showing how to compute the attitude of a robot from IMU sensors ([#5256](https://github.com/cyberbotics/webots/pull/5256)).
   - Bug Fixes
