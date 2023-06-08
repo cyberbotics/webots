@@ -50,6 +50,8 @@ public:
 
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
+  QString endPointName() const override;
+
 signals:
   void changed();
 

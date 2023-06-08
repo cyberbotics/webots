@@ -1,10 +1,12 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/components/protos/Sink.proto
+# keywords: furniture/kitchen
 # A sink.
 
 PROTO Sink [
-  field SFVec3f    translation 0 0 0.72
+  field SFVec3f    translation 0 0 0.04
   field SFRotation rotation    0 0 1 0
   field SFString   name        "sink"
   field MFString   textureUrl  "textures/components.jpg"  # Defines the texture used for the sink.
@@ -54,7 +56,7 @@ PROTO Sink [
     model "sink"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.029 0.145 0.099
           rotation 0.1414 0.9769 0.1599 4.27485
           children [
@@ -65,7 +67,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.109 0.18 0.063
           children [
             Shape {
@@ -75,7 +77,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.27 0 -0.004
           children [
             Shape {
@@ -85,7 +87,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.07 0 -0.004
           children [
             Shape {
@@ -95,7 +97,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0.198 -0.004
           children [
             Shape {
@@ -105,7 +107,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 -0.198 -0.004
           children [
             Shape {
@@ -115,7 +117,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0 -0.037
           children [
             Shape {

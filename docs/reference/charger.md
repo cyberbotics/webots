@@ -20,6 +20,7 @@ Instead, it is a battery itself: it accumulates energy with time.
 It could be compared to a solar power panel charging a battery.
 When the robot comes to get energy, it can't get more than the charger has presently accumulated.
 Note that only one robot can be charged at a time.
+Additionally, if a robot is connected, the charger cannot recharge itself.
 
 The appearance of the [Charger](#charger) node can be altered by its current energy.
 When the [Charger](#charger) node is full, the resulting color corresponds to its `emissiveColor` field, while when the [Charger](#charger) node is empty, its resulting color corresponds to its original one.

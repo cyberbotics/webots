@@ -143,6 +143,8 @@ public:
 
   WbKinematicDifferentialWheels *kinematicDifferentialWheels() { return mKinematicDifferentialWheels; }
 
+  QString encodedName() const;  // name used for controller connections
+
 public slots:
   void receiveFromJavascript(const QByteArray &message);
   void updateControllerDir();

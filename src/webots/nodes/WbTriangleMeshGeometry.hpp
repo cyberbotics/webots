@@ -88,10 +88,6 @@ protected:
   WbTriangleMeshGeometry(const WbNode &other);
 
   virtual int indexSize() const { return 0; }
-  const QString &vrmlName() const override {
-    static const QString name("IndexedFaceSet");
-    return name;
-  }
 
   // WREN
   void buildWrenMesh(bool updateCache);

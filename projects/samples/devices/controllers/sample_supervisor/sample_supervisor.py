@@ -61,7 +61,7 @@ class Controller(Supervisor):
         print('Going to import a Sphere in 2 seconds (simulation time)...')
         self.step(2000)
         root_children_field.importMFNodeFromString(-1,  # import at the end of the root children field
-                                                   'Transform { children [ Shape { appearance PBRAppearance { } '
+                                                   'Pose { children [ Shape { appearance PBRAppearance { } '
                                                    'geometry Sphere { radius 0.1 subdivision 3 } } ] }')
 
         # main simulation loop

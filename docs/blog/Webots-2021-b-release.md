@@ -63,7 +63,7 @@ We enhanced the [Motor](../reference/motor.md) node to support coupled motors sp
 This new functionality is particularly useful, for example, to simplify multi-fingered grippers.
 
 
-Then, we added three new PROTO nodes. The [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) and [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) allow users to easily add a backlash effect in hinges. The [Gear](../guide/object-gear.md) model can be used to simulate a collision-based transmission.
+Then, we added three new PROTO nodes. The `HingeJointWithBacklash` and `Hinge2JointWithBacklash` allow users to easily add a backlash effect in hinges. The `Gear` model can be used to simulate a collision-based transmission.
 
 
 %figure "Coupled Motors with Gears. In this example gears are not physically enabled."
@@ -84,7 +84,7 @@ All these models have predefined fields to mount additional devices on the platf
 | | | |
 | :---: | :---: | :---: |
 | ![Summit-XL Steel](images/summit_xl_steel.wbt.thumbnail.jpg) | ![MiR100](images/mir100.wbt.thumbnail.jpg) | ![Fabtino](images/fabtino.wbt.thumbnail.jpg) |
-| [Robotnik Summit-XL Steel](../guide/summit-xl-steel.md) | [Mobile Industrial Robots MiR100](../guide/mir100.md) | [REC Fabtino](../guide/fabtino.md) |
+| Robotnik Summit-XL Steel | Mobile Industrial Robots MiR100 | REC Fabtino |
 
 ### Nyrio Ned
 
@@ -94,19 +94,19 @@ The Nyrio Ned is a 6-axis collaborative robot designed for teaching programming 
 
 ### NVIDIA JetBot
 
-The NVIDIA [JetBot](../guide/jetbot.md) is an affordable two-wheeled robot based on the NVIDIA Jetson Nano board widely used in AI robotics applications.
+The NVIDIA JetBot is an affordable two-wheeled robot based on the NVIDIA Jetson Nano board widely used in AI robotics applications.
 
 %figure "JetBot in Webots"
 ![JetBot in Webots](images/jetbot.wbt.thumbnail.jpg)
 %end
 
-A standalone model of the NVIDIA [Jetson Nano](../guide/single-board-computers.md#nvidia-jetson-nano) board is also available.
+A standalone model of the NVIDIA Jetson Nano board is also available.
 
 ---
 
 ## New Sensors
 
-The [SICK S300](../guide/lidar-sensors.md#sick-s300) lidar model is now included in our sensors library.
+The SICK S300 lidar model is now included in our sensors library.
 
 %figure "SICK S300"
 ![SICK S300](images/sick_s300.thumbnail.png)

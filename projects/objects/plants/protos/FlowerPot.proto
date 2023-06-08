@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/plants/protos/FlowerPot.proto
+# keywords: household/potted plant
 # A flower pot.
 
 PROTO FlowerPot [
@@ -15,7 +17,7 @@ PROTO FlowerPot [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation -0.01 0 0
         rotation 0 0 1 1.5708
         children [
@@ -71,7 +73,7 @@ PROTO FlowerPot [
         ]
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.0425
       children [
         Cylinder {

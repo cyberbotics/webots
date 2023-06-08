@@ -72,6 +72,8 @@ public:
   // lazy matrix multiplication system
   void setMatrixNeedUpdate() override;
 
+  QString endPointName() const override;
+
 signals:
   void endPointInserted(WbBaseNode *);  // called when a node is inserted in the endPoint
 

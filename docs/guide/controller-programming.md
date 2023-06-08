@@ -75,6 +75,8 @@ public class HelloWorld {
 
 %tab "MATLAB"
 ```MATLAB
+function hello_world
+
 while wb_robot_step(32) ~= -1
   wb_console_print(sprintf('Hello World!\n'), WB_STDOUT);
 end
@@ -207,6 +209,8 @@ public class ReadingSensor {
 
 %tab "MATLAB"
 ```MATLAB
+function read_sensor
+
 TIME_STEP = 32;
 
 sensor = wb_robot_get_device('my_distance_sensor');
@@ -484,17 +488,19 @@ public class Actuators {
 
 %tab "MATLAB"
 ```MATLAB
+function actuators
+
 TIME_STEP = 32;
 
 motor = wb_robot_get_device('my_motor');
 
-double F = 2.0;   % frequency 2 Hz
-double t = 0.0;   % elapsed simulation time
+F = 2;   % frequency 2 Hz
+t = 0;   % elapsed simulation time
 
 while wb_robot_step(TIME_STEP) ~= -1
-  position = sin(t * 2.0 * pi * F);
+  position = sin(t * 2 * pi * F);
   wb_motor_set_position(motor, position);
-  t += TIME_STEP / 1000.0;
+  t = t + TIME_STEP / 1000;
 end
 ```
 %tab-end
@@ -953,7 +959,7 @@ import com.cyberbotics.webots.controller.DistanceSensor;
 import com.cyberbotics.webots.controller.Motor;
 import com.cyberbotics.webots.controller.Robot;
 
-public class ActuSensorJava {
+public class ActuSensor {
 
   public static void main(String[] args) {
 
@@ -993,6 +999,8 @@ public class ActuSensorJava {
 
 %tab "MATLAB"
 ```MATLAB
+function actu_sensor
+
 TIME_STEP = 32;
 left_sensor = wb_robot_get_device('left_sensor');
 right_sensor = wb_robot_get_device('right_sensor');
@@ -1028,7 +1036,8 @@ end
 In the ".wbt" file, it is possible to specify arguments that are passed to a controller when it starts.
 They are specified in the `controllerArgs` field of the [Robot](../reference/robot.md) node, and they are passed as parameters of the `main` function.
 For example, this can be used to specify parameters that vary for each robot's controller.
-Note that using MATLAB, the controller arguments retrieval is not supported.
+Note that the implementation will differ significantly across the different languages. 
+If using MATLAB, you should add the optional argument [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to the function declaration. 
 
 For example if we have:
 
@@ -1051,8 +1060,7 @@ And if the controller's name is *"demo"*, then this sample controller code:
 int main(int argc, const char *argv[]) {
   wb_robot_init();
 
-  int i;
-  for (i = 0; i < argc; i++)
+  for (int i = 1; i < argc; i++)
     printf("argv[%i]=%s\n", i, argv[i]);
 
   wb_robot_cleanup();
@@ -1072,8 +1080,7 @@ int main(int argc, const char *argv[]) {
 
   Robot *robot = new Robot();
 
-  int i;
-  for (i = 0; i < argc; i++)
+  for (int i = 1; i < argc; i++)
     std::cout << "argv[" << i << "]=" << argv[i] << std::endl;
 
   delete robot;
@@ -1089,7 +1096,7 @@ import sys
 
 robot = Robot()
 
-for i in range(0, len(sys.argv)):
+for i in range(1, len(sys.argv)):
     print("argv[%i]=%s" % (i, sys.argv[i]))
 ```
 %tab-end
@@ -1098,16 +1105,26 @@ for i in range(0, len(sys.argv)):
 ```java
 import com.cyberbotics.webots.controller.Robot;
 
-public class Arguments {
+public class Demo {
 
   public static void main(String[] args) {
 
     final Robot robot = new Robot();
 
-    for(int i=0; i < args.length ; i++)
+    for(int i=1; i < args.length ; i++)
       System.out.format("argv[%d]=%s\n",i, args[i]);
   }
 }
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+function demo(varargin)
+
+for i=1:nargin 
+    wb_console_print(sprintf('argv[%d]=%s\n', i, varargin{i}), WB_STDOUT);
+end
 ```
 %tab-end
 %end
@@ -1115,7 +1132,6 @@ public class Arguments {
 This will print:
 
 ```
-argv[0]=demo
 argv[1]=one
 argv[2]=two
 argv[3]=three
@@ -1258,6 +1274,8 @@ public class ReadingSensor {
 
 %tab "MATLAB"
 ```MATLAB
+function reading_sensor
+
 TIME_STEP = 32;
 sensor = wb_robot_get_device('my_distance_sensor');
 wb_distance_sensor_enable(sensor, TIME_STEP);

@@ -36,7 +36,7 @@ The small [Solids](../reference/solid.md) are affected by the fluids' viscosity 
 **Keywords**: [Box](../reference/box.md), [Capsule](../reference/capsule.md), [Cone](../reference/cone.md), [Cylinder](../reference/cylinder.md), [ElevationGrid](../reference/elevationgrid.md), [IndexedLineSet](../reference/indexedlineset.md), [IndexedFaceSet](../reference/indexedfaceset.md), [Plane](../reference/plane.md), [Sphere](../reference/sphere.md)
 
 ![geometric_primitives.png](images/samples/geometric_primitives.thumbnail.jpg) This example demonstrates the geometric primitives natively supported in Webots.
-The primitives are inserted into [Transform](../reference/transform.md) and [Shape](../reference/shape.md) nodes.
+The primitives are inserted into [Pose](../reference/pose.md) and [Shape](../reference/shape.md) nodes.
 Therefore they are static, i.e. physics is not applied on them.
 
 ### [high\_resolution\_indexedfaceset.wbt]({{ url.github_tree }}/projects/samples/geometries/worlds/high_resolution_indexedfaceset.wbt)
