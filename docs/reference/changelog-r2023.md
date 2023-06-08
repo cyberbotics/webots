@@ -35,7 +35,6 @@ Released on ??
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
     - Improved handling of non-ASCII robot names and possible crashes resulting from long names ([#5959](https://github.com/cyberbotics/webots/pull/5959)).
-    - Change the Windows version of SUMO to 1.13 to match the one used on Linux and MacOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
     - Added `proto_formatter.py` script to automatically indent PROTO files ([#6167](https://github.com/cyberbotics/webots/pull/6167)).
   - Bug Fixes
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
@@ -92,6 +91,9 @@ Released on ??
     - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
     - Fixed a bug in ODE that caused minStop and maxStop limits to be violated in HingeJoints ([#6118](https://github.com/cyberbotics/webots/pull/6118)).
     - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
+  - Dependency Updates
+    - Change the Windows version of SUMO to 1.13 to match the one used on Linux and macOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
+    - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
