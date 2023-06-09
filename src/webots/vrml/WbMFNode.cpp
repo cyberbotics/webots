@@ -60,7 +60,6 @@ void WbMFNode::clear() {
   QVector<WbNode *> tmp = mVector;
   mVector.clear();
   emit changed();
-  emit cleared();  // notify that all children have been removed
 
   // We don't want to use qDeleteAll(tmp) because we need to delete USE nodes before DEF nodes
   const int n = tmp.size() - 1;
