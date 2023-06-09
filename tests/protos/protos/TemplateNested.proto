@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # template language: javascript
 
 PROTO TemplateNested [
@@ -6,7 +6,7 @@ PROTO TemplateNested [
 ]
 {
   %< const p = fields.nestedParameter.value ? 'TRUE' : 'FALSE'; >%
-  Transform {
+  Pose {
     rotation 1 0 0 -1.5708
     children [
       Shape {

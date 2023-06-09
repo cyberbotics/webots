@@ -1,11 +1,13 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/franka_emika/panda/protos/PandaHand.proto
+# keywords: robot/extension, actuator/gripper
 # This is a PROTO file for Franka Emika's Panda Hand.
 
 PROTO PandaHand [
-  field  SFVec3f     translation     0 0 0          # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0        # Is `Transform.rotation`.
+  field  SFVec3f     translation     0 0 0          # Is `Pose.translation`.
+  field  SFRotation  rotation        0 0 1 0        # Is `Pose.rotation`.
   field  SFString    name            "panda hand"   # Is `Solid.name`.
 ]
 {
@@ -14,7 +16,7 @@ PROTO PandaHand [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 -0.785398
         children [
           CadShape {
@@ -29,13 +31,13 @@ PROTO PandaHand [
             }
             device [
               LinearMotor {
-                name "panda_finger_joint1"
+                name "panda_finger::right"
                 maxVelocity 0.2
                 maxPosition 0.04
                 maxForce 100.0
               }
               PositionSensor {
-                name "panda_finger_joint1_sensor"
+                name "panda_finger::right_sensor"
               }
             ]
             endPoint DEF panda_leftfinger Solid {
@@ -50,7 +52,7 @@ PROTO PandaHand [
               name "panda_leftfinger"
               boundingObject Group {
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0.007 0.045
                     children [
                       Box {
@@ -58,7 +60,7 @@ PROTO PandaHand [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.0185 0.012
                     children [
                       Box {
@@ -66,7 +68,7 @@ PROTO PandaHand [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.0175 0.026
                     rotation 1 0 0 0.523599
                     children [
@@ -95,19 +97,19 @@ PROTO PandaHand [
             }
             device [
               LinearMotor {
-                name "panda_finger_joint2"
+                name "panda_finger::left"
                 maxVelocity 0.2
                 maxPosition 0.04
                 maxForce 100
               }
               PositionSensor {
-                name "panda_finger_joint2_sensor"
+                name "panda_finger::left_sensor"
               }
             ]
             endPoint DEF panda_rightfinger Solid {
               translation 0 0 0.0584
               children [
-                Transform {
+                Pose {
                   rotation 0 0 1 3.141593
                   children [
                     DEF finger CadShape {
@@ -117,7 +119,7 @@ PROTO PandaHand [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   rotation 0 0 1 3.141593
                   children USE finger
                 }
@@ -125,7 +127,7 @@ PROTO PandaHand [
               name "panda_rightfinger"
               boundingObject Group {
                 children [
-                  Transform {
+                  Pose {
                     translation 0 -0.007 0.045
                     children [
                       Box {
@@ -133,7 +135,7 @@ PROTO PandaHand [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0185 0.012
                     children [
                       Box {
@@ -141,7 +143,7 @@ PROTO PandaHand [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0175 0.026
                     rotation 1 0 0 -0.523599
                     children [
@@ -169,7 +171,7 @@ PROTO PandaHand [
     name "hand"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.03
           rotation 0 0 1 -0.785398
           children [
@@ -178,7 +180,7 @@ PROTO PandaHand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.04 0.04 -0.003
           rotation 0 0 1 -0.785398
           children [
@@ -187,7 +189,7 @@ PROTO PandaHand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.004
           children [
             Cylinder {

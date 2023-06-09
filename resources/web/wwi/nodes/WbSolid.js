@@ -1,6 +1,21 @@
-import WbTransform from './WbTransform.js';
+import WbPose from './WbPose.js';
+import { WbNodeType } from './wb_node_type.js';
 
-export default class WbSolid extends WbTransform {
+export default class WbSolid extends WbPose {
+  #name;
+  constructor(id, translation, rotation, name) {
+    super(id, translation, rotation);
+    this.#name = name;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SOLID;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
   clone(customID) {
     console.error('Trying to clone a solid');
   }
@@ -8,13 +23,11 @@ export default class WbSolid extends WbTransform {
   createWrenObjects() {
     super.createWrenObjects(true);
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.createWrenObjects();
+    this.boundingObject?.createWrenObjects();
   }
 
   delete(isBoundingObject) {
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.delete(true);
+    this.boundingObject?.delete(true);
 
     super.delete(isBoundingObject);
   }
@@ -22,21 +35,18 @@ export default class WbSolid extends WbTransform {
   preFinalize() {
     super.preFinalize();
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.preFinalize();
+    this.boundingObject?.preFinalize();
   }
 
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.postFinalize();
+    this.boundingObject?.postFinalize();
   }
 
   updateBoundingObjectVisibility() {
     super.updateBoundingObjectVisibility();
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.updateBoundingObjectVisibility();
+    this.boundingObject?.updateBoundingObjectVisibility();
   }
 }

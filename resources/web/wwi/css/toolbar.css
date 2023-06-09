@@ -1,5 +1,9 @@
 @import "fonts.css";
 
+webots-view *, ::after, ::before {
+    box-sizing: border-box;
+}
+
 body {
   scroll-behavior: smooth;
 }
@@ -74,7 +78,7 @@ webots-view .toolbar-btn {
   width: 44px;
   box-sizing: border-box;
   padding: 4px 8px;
-  border:none;
+  border: none;
   box-shadow: none;
   appearance: none;
   -moz-appearance: none;
@@ -125,19 +129,63 @@ webots-view .icon {
   pointer-events: none;
 }
 
-webots-view .icon-step            { background-image: url(../images/icons/step.svg); background-position: -6px; }
-webots-view .icon-reset           { background-image: url(../images/icons/reset.svg); }
-webots-view .icon-reset-scene     { background-image: url(../images/icons/reload.svg); }
-webots-view .icon-reload          { background-image: url(../images/icons/reload.svg); }
-webots-view .icon-quit            { background-image: url(../images/icons/quit.svg); }
-webots-view .icon-info            { background-image: url(../images/icons/info.svg); }
-webots-view .icon-settings        { background-image: url(../images/icons/settings.svg); }
-webots-view .icon-fullscreen      { background-image: url(../images/icons/fullscreen.svg); }
-webots-view .icon-windowed        { background-image: url(../images/icons/windowed.svg); }
-webots-view .icon-robot-window, webots-view .icon-custom-window    { background-image: url(../images/icons/robot-window.svg); }
-webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
-webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
-webots-view .icon-terminal        { background-image: url(../images/icons/terminal.svg); }
+webots-view .icon-step {
+  background-image: url(../images/icons/step.svg);
+  background-position: -6px;
+}
+
+webots-view .icon-reset {
+  background-image: url(../images/icons/reset.svg);
+}
+
+webots-view .icon-reset-scene {
+  background-image: url(../images/icons/reload.svg);
+}
+
+webots-view .icon-reload {
+  background-image: url(../images/icons/reload.svg);
+}
+
+webots-view .icon-quit {
+  background-image: url(../images/icons/quit.svg);
+}
+
+webots-view .icon-info {
+  background-image: url(../images/icons/info.svg);
+}
+
+webots-view .icon-settings {
+  background-image: url(../images/icons/settings.svg);
+}
+
+webots-view .icon-fullscreen {
+  background-image: url(../images/icons/fullscreen.svg);
+}
+
+webots-view .icon-windowed {
+  background-image: url(../images/icons/windowed.svg);
+}
+
+webots-view .icon-robot-window,
+webots-view .icon-custom-window {
+  background-image: url(../images/icons/robot-window.svg);
+}
+
+webots-view .icon-ide {
+  background-image: url(../images/icons/ide.svg);
+}
+
+webots-view .icon-world-selection {
+  background-image: url(../images/icons/world-selection.svg);
+}
+
+webots-view .icon-terminal {
+  background-image: url(../images/icons/terminal.svg);
+}
+
+webots-view .icon-proto-parameter {
+  background-image: url(../images/icons/proto_parameter.svg);
+}
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
@@ -148,32 +196,34 @@ webots-view #step-button {
 }
 
 webots-view .toolbar-btn:focus .icon-ide,
-  .toolbar-btn:focus .icon-robot-window,
-  .toolbar-btn:focus .icon-info,
-  .toolbar-btn:focus .icon-quit,
-  .toolbar-btn:focus .icon-step,
-  .toolbar-btn:focus .icon-world-selection {
+.toolbar-btn:focus .icon-robot-window,
+.toolbar-btn:focus .icon-info,
+.toolbar-btn:focus .icon-quit,
+.toolbar-btn:focus .icon-step,
+.toolbar-btn:focus .icon-proto-parameter,
+.toolbar-btn:focus .icon-world-selection {
   animation: animation-scale-down 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-ide,
-  .toolbar-btn:active .icon-robot-window,
-  .toolbar-btn:active .icon-info,
-  .toolbar-btn:active .icon-quit,
-  .toolbar-btn:active .icon-step,
-  .toolbar-btn:active .icon-world-selection {
+.toolbar-btn:active .icon-robot-window,
+.toolbar-btn:active .icon-info,
+.toolbar-btn:active .icon-quit,
+.toolbar-btn:active .icon-step,
+.toolbar-btn:active .icon-proto-parameter,
+.toolbar-btn:active .icon-world-selection {
   animation: none;
 }
 
 webots-view .toolbar-btn:focus .icon-settings,
-  .toolbar-btn:focus .icon-reset-scene,
-  .toolbar-btn:focus .icon-reload {
+.toolbar-btn:focus .icon-reset-scene,
+.toolbar-btn:focus .icon-reload {
   animation: animation-rotate 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-settings,
-  .toolbar-btn:active .icon-reset-scene,
-  .toolbar-btn:active .icon-reload {
+.toolbar-btn:active .icon-reset-scene,
+.toolbar-btn:active .icon-reload {
   animation: none;
 }
 
@@ -186,76 +236,74 @@ webots-view .toolbar-btn:hover .icon-windowed {
 }
 
 @keyframes animation-scale-down {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(0.9); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-scale-up {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-scale-up-lg {
-  0%   { transform: scale(1); }
-  35%  { transform: scale(1); }
-  50%  { transform: scale(1.2); }
-  65%  { transform: scale(1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  35% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  65% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-rotate {
-  0%   { transform: rotate(0deg); }
-  50%  { transform: rotate(20deg); }
-  100% { transform: rotate(0deg); }
-}
+  0% {
+    transform: rotate(0deg);
+  }
 
-/* Tooltips */
+  50% {
+    transform: rotate(20deg);
+  }
 
-webots-view .tooltip {
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  color: rgb(240, 240, 240);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Arial';
-  text-shadow: 0 0 2px black;
-  border-radius: 2px;
-  padding: 5px 10px;
-  white-space: nowrap;
-  position: absolute;
-  white-space: nowrap;
-  bottom: 55px;
-}
-
-webots-view .fullscreen-tooltip, .windowed-tooltip {
-  right: 0px;
-}
-
-webots-view .settings-tooltip,
-  .info-tooltip,
-  .robot-window-tooltip,
-  .ide-tooltip,
-  .reset-scene-tooltip,
-  .world-selection-tooltip,
-  .reset-tooltip,
-  .run-tooltip,
-  .play-tooltip,
-  .step-tooltip,
-  .quit-tooltip  {
-  transform: translateX(-55%);
-}
-
-webots-view .toolbar-btn:hover .tooltip {
-  visibility: visible;
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 /* Time Indicator */
 
-webots-view .current-time, .total-time, .time-divider {
+webots-view .current-time,
+.total-time,
+.time-divider {
   display: inline-block;
   padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
@@ -266,22 +314,28 @@ webots-view .current-time, .total-time, .time-divider {
   -webkit-user-select: none;
 }
 
-webots-view .current-time { margin-left: 8px; }
+webots-view .current-time {
+  margin-left: 8px;
+}
 
-webots-view .total-time { margin-right: 8px; }
+webots-view .total-time {
+  margin-right: 8px;
+}
 
 /* Hide arrow icon in IE browsers */
 webots-view .select-css::-ms-expand {
   display: none;
 }
+
 /* Hide dashed box when on focus in Firefox browsers */
 webots-view .select-css:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
+
 /* Set options to normal weight */
 webots-view .select-css option {
-  font-weight:normal;
+  font-weight: normal;
 }
 
 /* Information panel */
@@ -337,15 +391,17 @@ webots-view .information-panel .cloud {
   font-size: 12px;
 }
 
-webots-view .information-panel .info-tabs-bar {
+webots-view .information-panel .info-tabs-bar,
+.floating-window-content .proto-tabs-bar {
   height: 28px;
+  width: 100%;
   background-color: #333;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab {
-  width: 220px;
+webots-view .information-panel .info-tabs-bar .info-tab,
+.floating-window-content .proto-tabs-bar .proto-tab {
   height: 28px;
   position: absolute;
   color: white;
@@ -354,9 +410,20 @@ webots-view .information-panel .info-tabs-bar .info-tab {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border-bottom: 1px #222 solid;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab:hover {
+webots-view .information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .proto-tab {
+  width: 33%;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab:hover,
+.floating-window-content .proto-tabs-bar .proto-tab:hover {
   border-bottom: 2px solid rgb(0, 122, 204);
   cursor: pointer;
 }
@@ -370,7 +437,21 @@ webots-view .information-panel .info-tabs-bar .tab1 {
   background-color: #333;
 }
 
-webots-view .information-panel .simulation-text{
+webots-view .floating-window-content .proto-tabs-bar .tab0 {
+  left: 0px;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .tab1 {
+  left: 33%;
+  background-color: #333;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .tab2 {
+  left: 66%;
+  background-color: #333;
+}
+
+webots-view .information-panel .simulation-text {
   margin-top: 5px;
   overflow-y: auto;
   overflow-x: none;
@@ -404,7 +485,7 @@ webots-view .settings-pane {
   max-height: 90%;
   max-width: 50%;
   min-width: 265px;
-  background: rgba(0,0,0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
@@ -456,7 +537,7 @@ webots-view .setting-text {
   color: white;
 }
 
-webots-view .arrow-right{
+webots-view .arrow-right {
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;
@@ -464,7 +545,7 @@ webots-view .arrow-right{
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
   position: absolute;
-  top: 11px;
+  top: 13px;
   right: 17px;
   pointer-events: none;
 }
@@ -476,7 +557,8 @@ webots-view .first-li {
   padding-left: 19px !important;
 }
 
-webots-view .check-speed, .check-gtao{
+webots-view .check-speed,
+.check-gtao {
   display: inline-block;
   min-width: 12px;
   pointer-events: none;
@@ -490,7 +572,7 @@ webots-view .setting-span {
   color: white;
 }
 
-webots-view .arrow-left{
+webots-view .arrow-left {
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;
@@ -498,7 +580,7 @@ webots-view .arrow-left{
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
   position: absolute;
-  top: 11px;
+  top: 13px;
   left: 11px;
   right: auto;
 }
@@ -546,17 +628,17 @@ webots-view .slider:before {
   transition: transform 0.1s ease-in-out;
 }
 
-webots-view input:checked + .slider {
+webots-view input:checked+.slider {
   background-color: rgb(0, 122, 204);
   pointer-events: none;
 }
 
-webots-view input:focus + .slider {
+webots-view input:focus+.slider {
   box-shadow: 0 0 1px rgb(0, 122, 204);
   pointer-events: none;
 }
 
-webots-view input:checked + .slider:before {
+webots-view input:checked+.slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
@@ -621,10 +703,12 @@ webots-view .floating-window-header {
 webots-view .floating-window-header p {
   color: white;
 }
-webots-view .floating-window-text{
+
+webots-view .floating-window-text {
   margin-left: 10px;
   font-size: 14px;
   margin-top: 12px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 webots-view .floating-window-close {
@@ -643,7 +727,8 @@ webots-view .floating-window-close:hover {
 }
 
 webots-view .floating-window-content {
-  height: calc(100% - 45px);
+  height: calc(100% - 40px);
+  width: calc(100% - 5px);
 }
 
 webots-view .floating-window-content iframe {
@@ -746,6 +831,7 @@ webots-view .terminal-button {
   background-color: transparent;
   border: 0px;
 }
+
 webots-view .icon-clear {
   height: 24px;
   width: 24px;
@@ -770,7 +856,9 @@ webots-view .terminal-separator {
   border-left: 1px solid #777;
 }
 
-webots-view #separator-1 { left: 170px }
+webots-view #separator-1 {
+  left: 170px
+}
 
 webots-view .terminal-std {
   position: absolute;
@@ -784,20 +872,29 @@ webots-view .terminal-std {
   background-color: rgba(119, 119, 119, 0.5);
 }
 
-webots-view .terminal-stdout { left: 54px; }
-webots-view .terminal-stderr { left: 112px; }
+webots-view .terminal-stdout {
+  left: 54px;
+}
+
+webots-view .terminal-stderr {
+  left: 112px;
+}
+
 webots-view .terminal-info {
   left: 183px;
   width: 43px;
 }
+
 webots-view .terminal-warning {
-  width:72px;
+  width: 72px;
   left: 238px;
 }
+
 webots-view .terminal-error {
   width: 55px;
   left: 322px;
 }
+
 webots-view .terminal-other {
   width: 42px;
   left: 389px;
@@ -812,7 +909,7 @@ webots-view .vertical-list-pane {
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
-  background: rgba(0,0,0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
@@ -867,6 +964,451 @@ webots-view .visibility-dot {
   pointer-events: none;
 }
 
-webots-view input:checked + .visibility-dot {
+webots-view input:checked+.visibility-dot {
   background-color: rgb(0, 122, 204);
+}
+
+webots-view #proto-parameter-content, #joints-tab, #devices-tab {
+  color: white;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  grid-auto-rows: max-content;
+  overflow-x: auto;
+  align-items: center;
+  height: inherit;
+  padding-bottom: 10px; /* To position the scrollbar correctly */
+}
+
+webots-view #proto-parameter {
+  min-width: 440px;
+}
+
+webots-view #proto-parameter-content p {
+  white-space: nowrap;
+}
+
+webots-view .key-parameter {
+  margin: 10px 0px 10px 3px;
+}
+
+webots-view .value-parameter {
+  margin: 10px 10px 10px 10px;
+}
+
+webots-view .sfnode-button {
+  border-width: 2px;
+  border-color:white;
+  background-color: #444;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  color:rgba(240, 240, 240, 1)
+}
+
+webots-view .sfnode-button:hover {
+  background-color: #007acc;
+}
+
+webots-view .node-library {
+  position: absolute;
+  top: calc(50% - 300px);
+  left: calc(50% - 350px);
+  background-color: #333;
+  width: 700px;
+  height: 600px;
+  border-radius: 5px;
+  opacity: 0.95;
+  display: none;
+  z-index: 5;
+  overflow: hidden;
+  opacity: 1.0;
+}
+
+webots-view .node-library .node-filter {
+  width: 700px;
+  height: 50px;
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  display: flex;
+  justify-content: flex-end;
+  background-color: #111;
+}
+
+webots-view .node-library .node-list {
+  width: 350px;
+  height: 500px;
+  float: left;
+  font-family: Arial;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #222;
+}
+
+webots-view .node-library .node-buttons {
+  width: 700px;
+  height: 50px;
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  display: flex;
+  justify-content: flex-end;
+  background-color: #111;
+}
+
+webots-view .node-library .node-info {
+  width: 350px;
+  height: 500px;
+  float: left;
+  font-family: Arial;
+  align-items: top;
+  display: flex;
+  flex-direction: column;
+  background-color: #222;
+}
+
+webots-view .node-library .node-image {
+  width: 150px;
+  height: 150px;
+  aspect-ratio: 1.0;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: initial;
+}
+
+webots-view .node-library .node-description {
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  scrollbar-width: none;
+  float: left;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 225px;
+}
+
+webots-view .node-library .node-description::-webkit-scrollbar {
+  display: none;
+}
+
+webots-view .node-library .node-license {
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  position: absolute;
+  bottom: 50px;
+}
+
+webots-view .node-library ol {
+  display: block;
+  padding: 0px 0px 0px 0px;
+  margin: 0;
+  list-style-type: none;
+  text-align: left;
+}
+
+webots-view .node-library button {
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border: none;
+  box-shadow: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid transparent;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  outline: none;
+  color: rgba(240, 240, 240, 1);
+}
+
+webots-view .node-library button:hover {
+  background-color: grey;
+  cursor: pointer;
+}
+
+webots-view .configure-button {
+  background-image: url(../images/icons/settings.svg);
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 0px;
+  background-size: cover;
+  cursor: pointer;
+}
+
+webots-view .configure-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .delete-button {
+  background-image: url(../images/icons/clear.svg);
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 0px;
+  margin-right: 5px;
+  background-size: cover;
+  cursor: pointer;
+}
+
+webots-view .delete-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .mf-parameter {
+  display: none;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  align-items: center;
+}
+
+webots-view .bool-field {
+    margin-left: 0px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+webots-view .mf-expand-button {
+  margin-left: 10px;
+  background-image: url(../images/icons/arrow_left.svg);
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+}
+
+webots-view .mf-expand-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .mf-add-button {
+  margin-left: 30px;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  display: none;
+}
+
+webots-view .mf-add-button:hover {
+  background-color: grey;
+  border-radius: 2px;
+}
+
+webots-view .add-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border: 2px solid transparent;
+  height: 2px;
+  background-color: transparent;
+  background-clip: padding-box;
+  cursor: cell;
+}
+
+webots-view .add-row:hover {
+  background-color: rgb(0, 122, 204);
+}
+
+webots-view .remove-row-button {
+  height: 20px;
+  width: 20px;
+  background-image: url(../images/icons/clear.svg);
+  background-size: cover;
+  border: 0px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+webots-view .remove-row-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .reset-field-button {
+  background-image: url(../images/icons/reload.svg);
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+  background-color: transparent;
+  border: none;
+  filter: brightness(50%);
+  cursor: pointer;
+  margin-left: 5px;
+  pointer-events: none;
+}
+
+webots-view .reset-field-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .export-checkbox {
+  margin: 10px 0px 10px 10px;
+}
+
+webots-view #devices-tab h1,
+#joints-tab h1 {
+  color: white;
+  text-align: center;
+}
+
+webots-view .device-title {
+  text-align: center;
+  font-size: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+webots-view hr {
+  align-self: center;
+  background: white;
+  width: 50%;
+  height: 1px;
+  border:0;
+  margin: 0px
+}
+
+webots-view .device-title-container {
+  display: flex;
+  padding-top: 20px;
+}
+
+webots-view .devices-button {
+  background-image: url(../images/icons/arrow_left.svg);
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  align-self: center;
+}
+
+webots-view .devices-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .proto-joint {
+  padding-top: 10px;
+}
+
+webots-view .proto-joint .joint-details-grid {
+  display: grid;
+  padding-left: 20px;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 10px;
+}
+
+webots-view .proto-joint .proto-joint-name {
+  color: white;
+  text-align: left;
+  word-wrap: break-word;
+  font-size: 14px;
+  align-self: center;
+}
+
+webots-view .proto-joint .joint-details-grid .joint-grid-filler {
+  width: 20px;
+}
+
+webots-view .proto-joint .proto-slider-element {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+webots-view .proto-joint .proto-joint-value-label {
+  color: white;
+}
+
+webots-view .proto-joint .proto-slider {
+  -webkit-appearance: none;
+  background: transparent;
+  width: 60%;
+  padding: 0;
+  margin: 0px 10px;
+}
+
+webots-view .proto-device .proto-device-name {
+  color: white;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 10px 0px 10px 20px;
+  font-size: 14px;
+}
+
+webots-view .proto-device .proto-device-name:hover {
+  background-color: grey;
+  cursor: pointer;
+}
+
+webots-view .proto-slider::-webkit-slider-runnable-track {
+  margin: 18px 0;
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: #ddd;
+  border: none;
+}
+
+webots-view .proto-slider::-webkit-slider-thumb {
+  border: none;
+  height: 15px;
+  width: 15px;
+  background: rgb(0, 122, 204);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
+  border-radius: 12px;
+}
+
+webots-view .proto-slider:focus::-webkit-slider-runnable-track {
+  background: white;
+}
+
+webots-view .proto-slider::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: white;
+  border: none;
+}
+
+webots-view .proto-slider::-moz-range-thumb {
+  border: none;
+  height: 15px;
+  width: 15px;
+  background: rgb(0, 122, 204);
+  cursor: pointer;
+  border-radius: 12px;
 }

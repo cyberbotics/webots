@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "BasenodesInParameter.proto"
 
@@ -8,7 +8,7 @@ PROTO NestedProtoCase1 [
   field SFString   name        ""
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

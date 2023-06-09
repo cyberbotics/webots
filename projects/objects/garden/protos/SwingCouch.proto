@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/SwingCouch.proto
+# keywords: exterior/garden
 # A swing couch.
 
 PROTO SwingCouch [
@@ -69,7 +71,7 @@ PROTO SwingCouch [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.2 0.4
           children [
             Box {
@@ -78,7 +80,7 @@ PROTO SwingCouch [
           ]
           rotationStep 0.01
         }
-        Transform {
+        Pose {
           translation -0.1 0.2 1.2
           children [
             Box {
@@ -87,7 +89,7 @@ PROTO SwingCouch [
           ]
           rotationStep 0.01
         }
-        Transform {
+        Pose {
           translation -0.1337552930221453 0.2 1.861323569636716
           rotation 0 -1 0 0.6263706143591734
           children [

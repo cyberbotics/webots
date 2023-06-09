@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckSimple.proto
+# keywords: vehicle/truck
 # Simple kinematic model of truck to be moved with a Supervisor.
 
 EXTERNPROTO "TruckTrailerSimple.proto"
@@ -39,23 +40,23 @@ PROTO TruckSimple [
     model "truck"
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform {
+      Pose {
         translation 6.75 0 1.1
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation 4.3 0 4.15
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         translation -7.3 0 2.7
         rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           TruckFrontLight {
@@ -127,7 +128,7 @@ PROTO TruckSimple [
     radarCrossSection 200
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 5.4 0 2.0
           children [
             Box {
@@ -135,7 +136,7 @@ PROTO TruckSimple [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.55 0 0.35
           children [
             Box {

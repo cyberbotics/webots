@@ -22,6 +22,7 @@
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <QtCore/QStack>
 #include <cassert>
@@ -49,10 +50,13 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
 
-  WbNodeModel *const model = WbNodeModel::findModel(modelName);
-  if (model)
-    return new WbNode(modelName, worldPath, tokenizer);
-
+  if (modelName == "Transform")
+    return WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer) ? new WbNode("Pose", worldPath, tokenizer) :
+                                                                            new WbNode("Transform", worldPath, tokenizer);
+  else {
+    if (WbNodeModel::findModel(modelName))
+      return new WbNode(modelName, worldPath, tokenizer);
+  }
   WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);

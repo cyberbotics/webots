@@ -38,7 +38,7 @@ public:
   // getters
   double maxRange() const { return mMaxRange->value(); }
   int maxObjects() const { return mMaxObjects->value(); }
-  bool occlusion() const { return mOcclusion->value(); }
+  int occlusion() const { return mOcclusion->value(); }
   const WbRgb frameColor() const { return mFrameColor->value(); }
   int frameThickness() const { return mFrameThickness->value(); }
   bool segmentation() const { return mSegmentation->value(); }
@@ -56,7 +56,7 @@ private:
 
   WbSFDouble *mMaxRange;
   WbSFInt *mMaxObjects;
-  WbSFBool *mOcclusion;
+  WbSFInt *mOcclusion;
   WbSFColor *mFrameColor;
   WbSFInt *mFrameThickness;
   WbSFBool *mSegmentation;
@@ -64,6 +64,7 @@ private:
 private slots:
   void updateMaxRange();
   void updateMaxObjects();
+  void updateOcclusion();
   void updateFrameThickness();
 };
 

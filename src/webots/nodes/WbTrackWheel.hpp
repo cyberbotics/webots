@@ -17,19 +17,18 @@
 //
 
 // Implemented node class representing a wheel of the WbTrack node
-//   special WbTransform node where 'translation', 'rotation, 'scale',
-//   'translationStep' and 'rotationStep' fields are not open to the user
-//    but defined internally
+//   special WbPose node where 'translation', 'rotation, 'translationStep'
+//   and 'rotationStep' fields are not open to the user but defined internally
 
 #ifndef WB_TRACK_WHEEL_HPP
 #define WB_TRACK_WHEEL_HPP
 
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFVector2.hpp"
-#include "WbTransform.hpp"
 
-class WbTrackWheel : public WbTransform {
+class WbTrackWheel : public WbPose {
   Q_OBJECT
 public:
   explicit WbTrackWheel(WbTokenizer *tokenizer = NULL);
@@ -49,16 +48,10 @@ public:
   double radius() const { return mRadius->value(); }
   bool inner() const { return mInner->value(); }
 
-  void rotate(double travelledDistance);
+  void rotate(double traveledDistance);
 
 signals:
   void changed();
-
-protected:
-  const QString &vrmlName() const override {
-    static const QString name("Transform");
-    return name;
-  }
 
 private:
   WbTrackWheel &operator=(const WbTrackWheel &);  // non copyable

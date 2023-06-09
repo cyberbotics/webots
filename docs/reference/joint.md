@@ -25,7 +25,7 @@ This field must be filled with an [HingeJointParameters](hingejointparameters.md
 
     For a [BallJoint](balljoint.md), the `jointParameters` field is related to the first rotation axis while two additional fields called `jointParameters2` and `jointParameters3` refer to the second and third rotation axes.
 
-    3D-vector parameters (e.g `axis, anchor`) are always expressed in relative coordinates with respect to the closest upper [Transform](transform.md)'s frame using the meter as unit. If the `jointParameters` field is not specified, parameters are set with the default values defined in the corresponding parameter node.
+    3D-vector parameters (e.g `axis, anchor`) are always expressed in relative coordinates with respect to the closest upper [Pose](pose.md)'s frame using the meter as unit. If the `jointParameters` field is not specified, parameters are set with the default values defined in the corresponding parameter node.
 
 - `endPoint`: this field specifies which [Solid](solid.md) will be subjected to the joint constraints.
 It must be either a [Solid](solid.md) child, or a reference to an existing [Solid](solid.md), i.e. a [SolidReference](solidreference.md).

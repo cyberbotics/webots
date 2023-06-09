@@ -426,11 +426,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   assert(s);
 
   if (solidReference()) {
-    const WbTransform *const ut = upperTransform();
-    WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
-    double scale = 1.0 / ut->absoluteScale().x();
-    scale *= scale;
-    m *= scale;
+    WbMatrix4 m = upperPose()->matrix().pseudoInversed() * s->matrix();
     ir = WbRotation(m.extracted3x3Matrix());
     it = m.translation();
   } else {
@@ -509,4 +505,14 @@ QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedW
   if (mEndPoint->value())
     list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
   return list;
+}
+
+QString WbBasicJoint::endPointName() const {
+  if (!mEndPoint->value())
+    return QString();
+
+  QString name = mEndPoint->value()->computeName();
+  if (name.isEmpty())
+    name = mEndPoint->value()->endPointName();
+  return name;
 }

@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Museum.proto
+# keywords: building/civil
 # An old museum.
 
 PROTO Museum [
@@ -92,7 +94,7 @@ PROTO Museum [
     model "museum"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 8.7
           rotation 0 0.707107 0.707107 -3.141593
           children [
@@ -101,7 +103,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 9.65 5.6 3.4
           rotation 0 -1.0 0 -3.141592
           children [
@@ -111,7 +113,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 9.65 -5.57 3.4
           rotation 0 -1.0 0 -3.141592
           children [
@@ -121,7 +123,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.0 0 8.3
           rotation 0 0.707107 0.707107 -3.141593
           children [

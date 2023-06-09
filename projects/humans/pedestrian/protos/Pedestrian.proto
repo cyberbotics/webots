@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/humans/pedestrian/protos/Pedestrian.proto
+# keywords: robot/other
 # Simple model of a pedestrian
 # Based on the model of Paul Salvador (zxys.com)
 # template language: javascript
@@ -127,7 +129,7 @@ Robot {
                     %< } >%
                         rotation 0 1 0 0
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0.25 -0.45
                             children IS leftHandSlot
                           }
@@ -138,7 +140,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation -0.02 0.253 -0.44
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -154,7 +156,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.04 0.254 -0.23
                     children [
                       Capsule {
@@ -173,7 +175,7 @@ Robot {
           %< if (fields.enableBoundingObject.value) { >%
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0.23 0.2
                   rotation 1 0 0 1.5708
                   children [
@@ -182,7 +184,7 @@ Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.03 0.25 0.03
                   rotation 1 0 0 0.1409
                   children [
@@ -246,7 +248,7 @@ Robot {
                     %< } >%
                         rotation 0 1 0 0
                         children [
-                          Transform {
+                          Pose {
                             translation 0.02 -0.26 -0.45
                             rotation 1 0 0 1.5708
 
@@ -259,7 +261,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0.02 -0.253 -0.44
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -275,7 +277,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.025 -0.254 -0.23
                     children [
                       Capsule {
@@ -294,7 +296,7 @@ Robot {
           %< if (fields.enableBoundingObject.value) { >%
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 -0.23 0.2
                   rotation 1 0 0 1.5708
                   children [
@@ -303,7 +305,7 @@ Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.02 -0.25 0.03
                   rotation 1 0 0 0.1409
                   children [
@@ -379,7 +381,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.115 -1.21
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -395,7 +397,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.056 0.116 -0.965
                     rotation 1 0 0 0.1
                     children [
@@ -413,7 +415,7 @@ Robot {
             ]
             name "left leg"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.033 0.116 -0.5
               rotation 1 0 0 1.5708
               children [
@@ -478,7 +480,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0.031 -0.115 -1.21
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -494,10 +496,9 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.044 -0.116 -0.965
                     rotation 1 0 0 0.1
-
                     children [
                       Capsule {
                         height 0.335
@@ -513,7 +514,7 @@ Robot {
             ]
             name "right leg"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.033 -0.116 -0.5
               rotation 1 0 0 1.5708
               children [
@@ -545,7 +546,7 @@ Robot {
             ]
             name "head"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.04 0 0.436
               rotation 0 1 0 -0.5236
               children [
@@ -567,7 +568,7 @@ Robot {
           DEF TORSO_BO Box {
             size 0.24 0.35 0.6
           }
-          DEF NECK_BO Transform {
+          DEF NECK_BO Pose {
             translation 0.01 0 0.3
             children [
               Capsule {

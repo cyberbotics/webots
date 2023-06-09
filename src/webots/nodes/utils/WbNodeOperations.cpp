@@ -158,7 +158,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   if (sfnode && sfnode->value() != NULL)
     // clear selection and set mSelectedItem to NULL
-    WbSelection::instance()->selectTransformFromView3D(NULL);
+    WbSelection::instance()->selectPoseFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParentNode(parentNode);
@@ -242,8 +242,14 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   } else {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
-    if (sfnode)
-      sfnode->setValue(newNode);
+    if (sfnode) {
+      if (isInsideATemplateRegenerator) {
+        sfnode->blockSignals(true);  // otherwise, the node regeneration is called too early
+        sfnode->setValue(newNode);
+        upperTemplate->regenerateNode();
+      } else
+        sfnode->setValue(newNode);
+    }
   }
   mNodesAreAboutToBeInserted = false;
 
@@ -252,6 +258,9 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   // and the scene tree was updated
   if (isInsideATemplateRegenerator)
     return REGENERATION_REQUIRED;
+
+  if (parentNode && parentNode->isProtoInstance())
+    parentNode->redirectInternalFields(field);
 
   // update flag for PROTO nodes and their instances if any
   baseNode->updateNestedProtoFlag();
@@ -263,7 +272,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
-    WbTemplateManager::instance()->subscribe(newNode);
+    WbTemplateManager::instance()->subscribe(newNode, WbTemplateManager::isNodeChangeTriggeringRegeneration(baseNode));
 
   updateDictionary(baseNode->isUseNode(), baseNode);
 
@@ -271,6 +280,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 }
 
 void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
+  const QList<WbNode *> instances = node->protoParameterNodeInstances();
+  if (!instances.isEmpty()) {
+    foreach (WbNode *n, instances)
+      resolveSolidNameClashIfNeeded(n);
+    return;
+  }
   QList<WbSolid *> solidNodes;
   WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
   if (solidNode)
@@ -296,7 +311,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
+  const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
   WbField *parentField = node->parentField();
   assert(parentField);
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());

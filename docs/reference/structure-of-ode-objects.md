@@ -17,7 +17,7 @@ This information shall be useful for implementing physics plugins.
 | Solid { boundingObject IndexedFaceSet {...} } | dGeomID (dTriMeshClass)                        |
 | Solid { boundingObject Mesh {...} }           | dGeomID (dTriMeshClass)                        |
 | Solid { boundingObject ElevationGrid {...} }  | dGeomID (dHeightfieldClass)                    |
-| Solid { boundingObject Transform {...} }      | dGeomID (dGeomTransformClass)                  |
+| Solid { boundingObject Pose {...} }           | dGeomID (dGeomTransformClass)                  |
 | Solid { boundingObject Group {...} }          | dSpaceID (dSimpleSpaceClass)                   |
 | BallJoint { }                                 | dJointID (dJointTypeBall)                      |
 | HingeJoint { }                                | dJointID (dJointTypeHinge)                     |

@@ -14,7 +14,7 @@
 
 #include "WbSceneTree.hpp"
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbAddInertiaMatrixDialog.hpp"
 #include "WbAddItemCommand.hpp"
 #include "WbAddNodeDialog.hpp"
@@ -462,7 +462,7 @@ void WbSceneTree::del(WbNode *nodeToDel) {
 
   bool dictionaryUpdated = false;
   if (node) {
-    dictionaryUpdated = node->hasAreferredDefNodeDescendant();
+    dictionaryUpdated = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
     if (dictionaryUpdated &&
         WbMessageBox::question(
           tr("This node is a DEF node, or has a descendant DEF node, on which at least one external USE node depends. "
@@ -525,12 +525,12 @@ void WbSceneTree::reset() {
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
     if (sfnode) {
       mRowsAreAboutToBeRemoved = sfnode->value();
-      containsReferredNode = sfnode->value() && sfnode->value()->hasAreferredDefNodeDescendant();
+      containsReferredNode = sfnode->value() && WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(sfnode->value());
     } else if (mfnode) {
       mRowsAreAboutToBeRemoved = mfnode->size() > 0;
       WbMFIterator<WbMFNode, WbNode *> it(mfnode);
       while (it.hasNext()) {
-        if (it.next()->hasAreferredDefNodeDescendant()) {
+        if (WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(it.next())) {
           containsReferredNode = true;
           break;
         }
@@ -634,11 +634,12 @@ void WbSceneTree::transform(const QString &modelName) {
   // check if loosing information
   const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, NULL);
   if (answer == WbNodeUtilities::LOOSING_INFO) {
-    if (WbMessageBox::question(tr("Warning: Transforming a %1 into a %2 node will loose some information.")
-                                   .arg(currentNode->nodeModelName())
-                                   .arg(modelName) +
-                                 "\n" + tr("Do you still want to proceed?"),
-                               this) == QMessageBox::Cancel) {
+    const QString message = tr("Warning: Turning a %1 into a %2 will loose some information%3")
+                              .arg(currentNode->nodeModelName())
+                              .arg(modelName)
+                              .arg(modelName == "Transform" ? tr(", including possibly children.") : ".") +
+                            "\n" + tr("Do you still want to proceed?");
+    if (WbMessageBox::question(message, this) == QMessageBox::Cancel) {
       mFieldEditor->updateValue();
       return;
     }
@@ -649,6 +650,12 @@ void WbSceneTree::transform(const QString &modelName) {
 
   const QModelIndex currentModelIndex = mModel->itemToIndex(mSelectedItem);
   const bool isExpanded = mTreeView->isExpanded(currentModelIndex);
+
+  WbTreeItem *selectedItem = mSelectedItem;
+
+  WbGroup *group = dynamic_cast<WbGroup *>(currentNode);
+  if (group && modelName == "Transform")
+    group->deleteAllSolids();
 
   // create new node
   WbNode::setGlobalParentNode(currentNode->parentNode());
@@ -672,34 +679,31 @@ void WbSceneTree::transform(const QString &modelName) {
   WbNode::setGlobalParentNode(NULL);
 
   // reassign pointer in parent
-  WbField *parentField = mSelectedItem->parent()->field();
+  WbField *parentField = selectedItem->parent()->field();
   WbNode *upperTemplate =
     WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
-  if (mSelectedItem->isSFNode()) {
-    WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
+  if (selectedItem->isSFNode()) {
+    WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(selectedItem->field()->value());
     assert(sfnode);
     WbNodeOperations::instance()->notifyNodeDeleted(currentNode);
     WbTemplateManager::instance()->blockRegeneration(true);
-    mSelectedItem->del();  // remove previous item
+    selectedItem->del();  // remove previous item
     sfnode->setValue(newNode);
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
   } else {
-    assert(mSelectedItem->parent()->isField());
+    assert(selectedItem->parent()->isField());
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
     assert(mfnode);
     int nodeIndex = mfnode->nodeIndex(currentNode);
     WbNodeOperations::instance()->notifyNodeDeleted(currentNode);
     WbTemplateManager::instance()->blockRegeneration(true);
-    // remove currentNode
-    mfnode->removeItem(nodeIndex);  // delete currentNode instance
-    // insert just after currentNode
-    mfnode->insertItem(nodeIndex, newNode);
-    // mfnode->setItem(nodeIndex, newNode); // TODO: make WbMFNode::setItem() work!
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
+    mfnode->setItem(nodeIndex, newNode);
   }
+
+  newNode->validate();
+  if (newNode->parentNode() && newNode->parentNode()->isProtoInstance())
+    newNode->parentNode()->redirectInternalFields(parentField);
+  WbTemplateManager::instance()->blockRegeneration(false);
 
   if (!isInsideATemplateRegenerator)
     static_cast<WbBaseNode *>(newNode)->finalize();
@@ -1235,20 +1239,20 @@ void WbSceneTree::handleRowRemoval(const QModelIndex &parentIndex, int start, in
   updateToolbar();
 }
 
-void WbSceneTree::selectTransform(WbAbstractTransform *t) {
-  if (t == NULL) {
+void WbSceneTree::selectPose(WbAbstractPose *p) {
+  if (p == NULL) {
     clearSelection();
     return;
   }
 
-  QModelIndex newIndex = mModel->findModelIndexFromNode(t->baseNode());
+  QModelIndex newIndex = mModel->findModelIndexFromNode(p->baseNode());
   if (newIndex.isValid()) {
     mTreeView->clearSelection();
     mTreeView->setCurrentIndex(newIndex);
     mTreeView->scrollToModelIndex(newIndex);
-  } else if (t->baseNode()->protoParameterNode())
+  } else if (p->baseNode()->protoParameterNode())
     // if m is proto parameter node instance, select the corresponding parameter node in the scene tree
-    selectTransform(dynamic_cast<WbAbstractTransform *>(t->baseNode()->protoParameterNode()));
+    selectPose(dynamic_cast<WbAbstractPose *>(p->baseNode()->protoParameterNode()));
 }
 
 // for the translation and rotation fields of Solid node we need to set

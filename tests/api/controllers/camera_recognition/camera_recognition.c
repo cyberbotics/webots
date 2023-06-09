@@ -45,18 +45,17 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 9, "The spherical camera should initially see %d objects and not %d (without occlusion).",
-                      9, object_number);
+  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
+                      object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 7,
-                      "The cylindrical camera should initially see %d objects and not %d (without occlusion).", 7,
-                      object_number);
+  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+                      7, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
-  wb_supervisor_field_set_sf_bool(occlusion_field, true);
+  wb_supervisor_field_set_sf_int32(occlusion_field, 2);
 
   ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
                           "The Recognition.segmentation field should be set to TRUE.");
@@ -89,12 +88,6 @@ int main(int argc, char **argv) {
   ts_assert_color_in_delta(red, green, blue, 0, 0, 0, 2,
                            "Image should not contain any object at (95, 77): found color (%d, %d, %d) expected (%d, %d, %d).",
                            red, green, blue, 0, 0, 0);
-  red = wb_camera_image_get_red(image, width, 85, 200);
-  green = wb_camera_image_get_green(image, width, 85, 200);
-  blue = wb_camera_image_get_blue(image, width, 85, 200);
-  ts_assert_color_in_delta(red, green, blue, 0, 255, 0, 5,
-                           "Image should contain a green box at (85, 200)): found color (%d, %d, %d) expected (%d, %d, %d).",
-                           red, green, blue, 0, 255, 0);
   red = wb_camera_image_get_red(image, width, 52, 124);
   green = wb_camera_image_get_green(image, width, 52, 124);
   blue = wb_camera_image_get_blue(image, width, 52, 124);
@@ -228,7 +221,7 @@ int main(int argc, char **argv) {
   for (i = 0; i < object_number; ++i) {
     if (strcmp(objects[i].model, occcluded_solid_model) == 0) {
       // position
-      double expected_position[3] = {-0.719, 0.00, 0.429};
+      double expected_position[3] = {-0.550, 0.0, 0.429};
       ts_assert_doubles_in_delta(
         3, objects[i].position, expected_position, 0.001,
         "Position of 'occluded box' is not correct for spherical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
@@ -248,13 +241,13 @@ int main(int argc, char **argv) {
         "Size of 'occluded box' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).", objects[i].size[0],
         objects[i].size[1], expected_size[0], expected_size[1]);
       // size on image
-      int expected_size_on_image[2] = {154, 43};
+      int expected_size_on_image[2] = {146, 42};
       ts_assert_integers_in_delta(
         2, objects[i].size_on_image, expected_size_on_image, 1,
         "Size on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
-      int expected_position_on_image[2] = {127, 43};
+      int expected_position_on_image[2] = {128, 47};
       ts_assert_integers_in_delta(
         2, objects[i].position_on_image, expected_position_on_image, 1,
         "Position on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
@@ -262,7 +255,7 @@ int main(int argc, char **argv) {
         expected_position_on_image[1]);
 
       // check segmentation image content
-      int u = 68, v = 42;
+      int u = 69, v = 47;
       red = wb_camera_image_get_red(image, width, u, v);
       green = wb_camera_image_get_green(image, width, u, v);
       blue = wb_camera_image_get_blue(image, width, u, v);
