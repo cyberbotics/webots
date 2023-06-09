@@ -180,13 +180,6 @@ class Command(object):
             outFile.close()
             errFile.close()
             self.returncode = p.returncode
-            # outFile = open(self.outFileName, "w")
-            # errFile = open(self.errFileName, "w")
-            # print('command = ' + str(self.cmd))
-            # self.returncode = subprocess.call(self.cmd, shell=shell, bufsize=1,
-            #                                   universal_newlines=True, stdout=outFile, stderr=errFile)
-            # outFile.close()
-            # errFile.close()
 
         self.outFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stdout.txt')
         self.errFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stderr.txt')
