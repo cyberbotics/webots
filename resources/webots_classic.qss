@@ -57,7 +57,7 @@ QWidget#DocumentationWebView {
 }
 
 QFrame#consoleTitleBar {
-  background: #efefef;
+  background: #d4d4d4;
 }
 
 QFrame#floatableDockTitleFrame:hover, QFrame#consoleTitleBar:hover {
@@ -386,6 +386,16 @@ QLabel#nodePixmapLabel {
 
 /* field editor */
 
+QWidget#wrapper {
+  border: 1px solid darkgray;
+  border-top: 0px;
+}
+
+QLabel#titleLabel {
+  border: 1px solid darkgray;
+  border-bottom: 0px;
+}
+
 QGroupBox#fieldEditorGroupBox {
   margin-top: 2.5ex;
   margin-left: 0;
@@ -437,7 +447,7 @@ QScrollArea#editorPane {
 
 #NodePane QLineEdit,
 #LoginTabs QLineEdit {
-  background-color: #fff;
+  background-color: #e6e6e6;
   color: black;
   border: 1px solid #ababab;
   border-radius: 3px;
@@ -447,7 +457,7 @@ QScrollArea#editorPane {
 #NodePane QLineEdit:focus,
 #LoginTabs QLineEdit:focus {
   border-color: #308cc6;
-  background-color: #333;
+  background-color: white;
 }
 
 #NodePane QAbstractSpinBox,
@@ -798,7 +808,7 @@ QTabBar::close-button:hover {
 /* dialog-level widgets */
 
 QLineEdit {
-  background-color: #fff;
+  background-color: #efefef;
   color: black;
   border: 1px solid #555;
   border-radius: 3px;
@@ -806,7 +816,7 @@ QLineEdit {
 }
 
 QAbstractSpinBox {
-  background-color: #fff;
+  background-color: #efefef;
   color: black;
   border: 1px solid #555;
   border-radius: 3px;
@@ -815,10 +825,12 @@ QAbstractSpinBox {
 
 QLineEdit:focus {
   border-color: #308cc6;
+  background-color: white;
 }
 
 QAbstractSpinBox:focus {
   border-color: #308cc6;
+  background-color: white;
 }
 
 QComboBox {
@@ -879,7 +891,7 @@ QAbstractSpinBox::down-arrow {
 
 QGroupBox {
   padding: 10px;
-  background: #fbfbfb;
+  background: #efefef;
 }
 
 QFontDialog QListView, QListWidget {
