@@ -32,7 +32,6 @@ PROTO MotorbikeSimple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform{
-        rotation 0.57735 0.57735 0.57735 2.094395
         children[
           DEF DRIVER Slot {
             type "motorbike driver"
@@ -55,7 +54,6 @@ PROTO MotorbikeSimple [
       DEF FRONT_WHEEL Solid {
         angularVelocity IS frontWheelAngularVelocity
         translation 1.78 0 0
-        rotation 0 0 1 1.57
         children [
           Slot {
             type "vehicle wheel"
@@ -68,7 +66,6 @@ PROTO MotorbikeSimple [
       }
       DEF REAR_WHEEL Solid {
         angularVelocity IS rearWheelAngularVelocity
-        rotation 0 0 1 1.57
         children [
           Slot {
             type "vehicle wheel"

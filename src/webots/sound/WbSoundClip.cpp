@@ -28,7 +28,7 @@
 #include <AL/al.h>
 #endif
 
-WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
+WbSoundClip::WbSoundClip() : mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
 }
 
 WbSoundClip::~WbSoundClip() {

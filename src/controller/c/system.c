@@ -84,16 +84,24 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
+// path to the 'webots-%d' folder computed by Webots instance
+// intern controllers only
+const char *wbu_system_webots_instance_path(bool refresh) {
+  static const char *WEBOTS_INSTANCE_PATH = NULL;
+  if (WEBOTS_INSTANCE_PATH && !refresh)
+    return WEBOTS_INSTANCE_PATH;
+  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
+  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
+    return WEBOTS_INSTANCE_PATH;
+  return NULL;
+}
+
+// compute the path to the tmp directory
+// extern controllers only
 const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
     return tmpdir;
-  // if WEBOTS_TMPDIR environment variable is defined, use it for the tmpdir
-  const char *WEBOTS_TMPDIR = getenv("WEBOTS_TMPDIR");
-  if (WEBOTS_TMPDIR && WEBOTS_TMPDIR[0]) {
-    tmpdir = (char *)WEBOTS_TMPDIR;
-    return tmpdir;
-  }
 #ifdef _WIN32
   const char *LOCALAPPDATA = getenv("LOCALAPPDATA");
   assert(LOCALAPPDATA && LOCALAPPDATA[0]);
@@ -101,23 +109,18 @@ const char *wbu_system_tmpdir() {
   tmpdir = malloc(len);
   snprintf(tmpdir, len, "%s\\Temp", LOCALAPPDATA);
 #elif defined(__linux__)
-  // if the ~/.WEBOTS_TMPDIR directory exists and contains some webots-* files,
-  // use it as the tmpdir, otherwise fallback to /tmp
-  const char *HOME = getenv("HOME");
-  if (HOME && HOME[0]) {
-    const size_t len = strlen(HOME) + strlen("/snap/webots/common/tmp") + 1;
-    char *path = malloc(len);
-    snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
-    DIR *dir = opendir(path);
-    if (dir) {
-      struct dirent *entry;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, "webots-", 7) == 0) {
-          tmpdir = path;
-          break;
-        }
+  // choose between snap or default tmp path
+  const char *WEBOTS_HOME = getenv("WEBOTS_HOME");
+  if (WEBOTS_HOME && WEBOTS_HOME[0]) {
+    // if WEBOTS_HOME environment variable contains snap path, use snap tmp folder
+    if (strstr(WEBOTS_HOME, "/snap/webots") != NULL) {
+      const char *HOME = getenv("HOME");
+      if (HOME && HOME[0]) {
+        const size_t len = strlen(HOME) + strlen("/snap/webots/common/tmp") + 1;
+        char *path = malloc(len);
+        snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
+        tmpdir = path;
       }
-      closedir(dir);
     }
   }
   if (tmpdir == NULL)
@@ -130,14 +133,4 @@ const char *wbu_system_tmpdir() {
   }
 #endif
   return tmpdir;
-}
-
-const char *wbu_system_webots_instance_path(bool refresh) {
-  static const char *WEBOTS_INSTANCE_PATH = NULL;
-  if (WEBOTS_INSTANCE_PATH && !refresh)
-    return WEBOTS_INSTANCE_PATH;
-  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
-  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
-    return WEBOTS_INSTANCE_PATH;
-  return NULL;
 }

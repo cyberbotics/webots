@@ -268,11 +268,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      cleanLine = cleanLine.replace("mtllib ", "").trimmed();
-      cleanLine = cleanLine.replace("\"", "");
-      materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
-      for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
-        materials[i] += ".mtl";
+      materials << cleanLine.replace("mtllib ", "").replace("\"", "").trimmed();
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -554,15 +550,12 @@ void WbCadShape::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  const WbVector3 &scale = absoluteScale();
   for (WrStaticMesh *mesh : mWrenMeshes) {
     float sphere[4];
     wr_static_mesh_get_bounding_sphere(mesh, sphere);
 
     const WbVector3 center(sphere[0], sphere[1], sphere[2]);
-    double radius = sphere[3];
-    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    const WbBoundingSphere meshBoundingSphere(NULL, center, sphere[3]);
     mBoundingSphere->enclose(&meshBoundingSphere);
   }
 }

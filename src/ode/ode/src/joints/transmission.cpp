@@ -206,6 +206,11 @@ dxJointTransmission::getInfo2( dReal worldFPS,
         }
 
         break;
+    default:
+        dSetZero(c[0], 3);
+        dSetZero(c[1], 3);
+
+        break;
     }
 
     if (update) {

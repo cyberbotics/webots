@@ -68,15 +68,16 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
+        pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -97,7 +98,7 @@ jobs:
       with:
          ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-ubuntu-20.04
         path: artifact
@@ -136,7 +137,7 @@ jobs:
          submodules: true
          ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -162,43 +163,33 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v3
-      with:
-         ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-ubuntu-20.04
         path: artifact
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.1
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+        cp -R artifact/ untouched-artifact/
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
-    - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_runtime_dependencies.sh
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        git config --global user.name ${GITHUB_ACTOR}
-        git config --global user.email ${GITHUB_ACTOR}@github.com
+        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
-        git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
-        if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_before=0; fi
-        xvfb-run --auto-servernum python tests/test_worlds.py
-        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
-        if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_after=0; fi
-        # Note: need an offset of 22 because world 'url.wbt' uses non-cached assets on purpose
-        if [ "$cached_files_after" -ne "$((cached_files_before + 22))" ]; then
-          echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
-          exit 1
-        fi
+        sudo apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
+        xvfb-run --auto-servernum python3 test_worlds.py
+        if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, test-worlds]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}

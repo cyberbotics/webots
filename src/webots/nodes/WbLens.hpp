@@ -33,9 +33,9 @@ public:
   void postFinalize() override;
 
   // getters
-  WbVector2 center() const { return mCenter->value(); }
-  WbVector2 radialCoefficients() const { return mRadialCoefficients->value(); }
-  WbVector2 tangentialCoefficients() const { return mTangentialCoefficients->value(); }
+  const WbVector2 &center() const { return mCenter->value(); }
+  const WbVector2 &radialCoefficients() const { return mRadialCoefficients->value(); }
+  const WbVector2 &tangentialCoefficients() const { return mTangentialCoefficients->value(); }
 
 signals:
   void centerChanged();

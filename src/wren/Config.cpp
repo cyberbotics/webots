@@ -48,14 +48,18 @@ namespace wren {
     static bool cRequiresFlushAfterDraw = false;
     static bool cRequiresDepthBufferDistortion = false;
 
-    void enableShadows(bool enable) { cAreShadowsEnabled = enable; }
+    void enableShadows(bool enable) {
+      cAreShadowsEnabled = enable;
+    }
 
     void enabledPointSize(bool enable) {
       cIsPointSizeEnabled = enable;
       glstate::enablePointSize(enable);
     }
 
-    void setLineScale(float lineScale) { cLineScale = lineScale; }
+    void setLineScale(float lineScale) {
+      cLineScale = lineScale;
+    }
 
     void setShowBoundingSpheres(bool show) {
       if (show == cShowBoundingSpheres)
@@ -101,11 +105,17 @@ namespace wren {
       }
     }
 
-    void setBoundingVolumeProgram(ShaderProgram *program) { cBoundingVolumeProgram = program; }
+    void setBoundingVolumeProgram(ShaderProgram *program) {
+      cBoundingVolumeProgram = program;
+    }
 
-    void setRequiresFlushAfterDraw(bool require) { cRequiresFlushAfterDraw = require; }
+    void setRequiresFlushAfterDraw(bool require) {
+      cRequiresFlushAfterDraw = require;
+    }
 
-    void setRequiresDepthBufferDistortion(bool require) { cRequiresDepthBufferDistortion = require; }
+    void setRequiresDepthBufferDistortion(bool require) {
+      cRequiresDepthBufferDistortion = require;
+    }
 
     void drawAabb(const primitive::Aabb &aabb) {
       if (!cShowAabbs && !cShowShadowAabbs)
@@ -176,29 +186,53 @@ namespace wren {
       glstate::setPolygonMode(Scene::instance()->currentViewport()->polygonMode());
     }
 
-    bool showAabbs() { return cShowAabbs; }
+    bool showAabbs() {
+      return cShowAabbs;
+    }
 
-    bool showShadowAabbs() { return cShowShadowAabbs; }
+    bool showShadowAabbs() {
+      return cShowShadowAabbs;
+    }
 
-    bool showBoundingSpheres() { return cShowBoundingSpheres; }
+    bool showBoundingSpheres() {
+      return cShowBoundingSpheres;
+    }
 
-    bool requiresFlushAfterDraw() { return cRequiresFlushAfterDraw; }
+    bool requiresFlushAfterDraw() {
+      return cRequiresFlushAfterDraw;
+    }
 
-    bool requiresDepthBufferDistortion() { return cRequiresDepthBufferDistortion; }
+    bool requiresDepthBufferDistortion() {
+      return cRequiresDepthBufferDistortion;
+    }
 
-    bool areShadowsEnabled() { return cAreShadowsEnabled; }
+    bool areShadowsEnabled() {
+      return cAreShadowsEnabled;
+    }
 
-    bool isPointSizeEnabled() { return cIsPointSizeEnabled; }
+    bool isPointSizeEnabled() {
+      return cIsPointSizeEnabled;
+    }
 
-    float lineScale() { return cLineScale; }
+    float lineScale() {
+      return cLineScale;
+    }
 
-    int maxActiveSpotLightCount() { return gMaxActiveSpotLights; }
+    int maxActiveSpotLightCount() {
+      return gMaxActiveSpotLights;
+    }
 
-    int maxActivePointLightCount() { return gMaxActivePointLights; }
+    int maxActivePointLightCount() {
+      return gMaxActivePointLights;
+    }
 
-    int maxActiveDirectionalLightCount() { return gMaxActiveDirectionalLights; }
+    int maxActiveDirectionalLightCount() {
+      return gMaxActiveDirectionalLights;
+    }
 
-    unsigned int maxVerticesPerMeshForShadowRendering() { return gMaxVerticesPerMeshForShadowRendering; }
+    unsigned int maxVerticesPerMeshForShadowRendering() {
+      return gMaxVerticesPerMeshForShadowRendering;
+    }
 
     void cleanup() {
       Mesh::deleteMesh(cSphereMesh);

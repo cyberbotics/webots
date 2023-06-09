@@ -57,7 +57,7 @@ jobs:
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
@@ -73,7 +73,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -83,7 +83,7 @@ jobs:
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
     - name: Set up Python 3.11
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.11
     - name: Test

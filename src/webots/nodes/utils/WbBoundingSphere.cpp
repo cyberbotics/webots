@@ -89,10 +89,13 @@ void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
 
-double WbBoundingSphere::radius() {
+double WbBoundingSphere::scaledRadius() {
   if (mBoundSpaceDirty)
     recomputeIfNeeded();
-  return mRadius;
+  double globalRadius;
+  WbVector3 globalCenter;
+  computeSphereInGlobalCoordinates(globalCenter, globalRadius);
+  return globalRadius;
 }
 
 double WbBoundingSphere::radiusInParentCoordinates() {

@@ -190,6 +190,8 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    Minimize the Webots window on startup.").toUtf8().constData() << endl << endl;
   cerr << "  --batch" << endl;
   cerr << tr("    Prevent Webots from creating blocking pop-up windows.").toUtf8().constData() << endl << endl;
+  cerr << "  --clear-cache" << endl;
+  cerr << tr("    Clear the cache of Webots on startup.").toUtf8().constData() << endl << endl;
   cerr << "  --stdout" << endl;
   cerr << tr("    Redirect the stdout of the controllers to the terminal.").toUtf8().constData() << endl << endl;
   cerr << "  --stderr" << endl;

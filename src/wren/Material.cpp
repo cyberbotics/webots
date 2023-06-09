@@ -84,7 +84,8 @@ namespace wren {
     mDefaultProgram(NULL),
     mStencilAmbientEmissiveProgram(NULL),
     mStencilDiffuseSpecularProgram(NULL),
-    mEffectiveProgram(NULL) {}
+    mEffectiveProgram(NULL) {
+  }
 
   Material::~Material() {
     for (auto &t : mTextures) {

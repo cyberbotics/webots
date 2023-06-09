@@ -72,7 +72,9 @@ namespace wren {
       uniform.second->uploadValue();
   }
 
-  void ShaderProgram::release() const { glstate::releaseProgram(mGlName); }
+  void ShaderProgram::release() const {
+    glstate::releaseProgram(mGlName);
+  }
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
 #ifdef _WIN32                           // mbstowcs doesn't work properly on Windows
