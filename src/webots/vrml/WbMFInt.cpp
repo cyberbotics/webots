@@ -23,7 +23,7 @@ void WbMFInt::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
 void WbMFInt::clear() {
   if (mVector.size() > 0) {
     mVector.clear();
-    emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 

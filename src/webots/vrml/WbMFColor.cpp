@@ -37,7 +37,7 @@ void WbMFColor::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath)
 void WbMFColor::clear() {
   if (!mVector.empty()) {
     mVector.clear();
-    emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 
