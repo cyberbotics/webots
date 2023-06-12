@@ -1217,14 +1217,14 @@ dBodyID WbNodeUtilities::findBodyMerger(const WbNode *node) {
   if (!node)
     return NULL;
 
-  const WbSolid *n = node;
+  const WbNode *n = node;
   while (n) {
-    WbSolid *s = dynamic_cast<const WbSolid *>(p);
+    const WbSolid *s = dynamic_cast<const WbSolid *>(n);
     if (s && s->bodyMerger())
       return s->bodyMerger();
     if (dynamic_cast<const WbBasicJoint *>(n))
       break;
-    n = parentNode();
+    n = n->parentNode();
   }
   return NULL;
 }

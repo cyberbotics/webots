@@ -17,6 +17,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
