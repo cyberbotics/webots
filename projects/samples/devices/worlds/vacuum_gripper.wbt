@@ -1,0 +1,285 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+
+WorldInfo {
+  info [
+    "Example world demonstrating how to use the VacuumGripper device to simulate a vacuum suction gripper."
+  ]
+  title "Vacuum suction gripper"
+}
+Viewpoint {
+  orientation 0.1576382961609778 -0.2536475203473648 -0.9543652880344596 5.337911687401406
+  position -1.258356394497621 -1.3486617680869215 0.8068296582838627
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+CardboardBox {
+  translation 0.2 0 0.14
+  name "big box"
+  size 0.3 0.3 0.27
+  mass 2
+}
+CardboardBox {
+  translation 0.149588 0 0.353745
+  name "small box"
+  size 0.1 0.2 0.17
+  mass 0.5
+}
+DEF ROBOT Robot {
+  translation -0.25 0 0
+  children [
+    DEF YAW_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        position 2
+        axis 0 0 1
+      }
+      device [
+        RotationalMotor {
+          name "yaw motor"
+          controlPID 1.5 0 0
+        }
+      ]
+      endPoint Solid {
+        rotation 0 0 1 2
+        children [
+          DEF PITCH_HINGE_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 0 0.33
+            }
+            device [
+              RotationalMotor {
+                name "pitch motor"
+                controlPID 1.5 0 0
+                minPosition -2.3
+                maxPosition 1.5
+              }
+            ]
+            endPoint Solid {
+              translation 0 0 0.33
+              rotation 0 0 1 1.57078
+              children [
+                DEF ROLL_HINGE_JOINT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position -1.4131
+                    axis 0 -1 0
+                    anchor 0 -0.3 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "roll motor"
+                      controlPID 1.5 0 0
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 -0.3 0
+                    children [
+                      SliderJoint {
+                        jointParameters JointParameters {
+                          axis 0 -1 0
+                        }
+                        device [
+                          LinearMotor {
+                            name "gripper motor"
+                            acceleration 1
+                            maxVelocity 0.1
+                          }
+                        ]
+                        endPoint VacuumGripper {
+                          rotation 0.5167457898427649 0.6053820811185048 0.6053811398948641 4.095499540775012
+                          children [
+                            Pose {
+                              translation 0 0 0.01
+                              children [
+                                Shape {
+                                  appearance CorrodedMetal {
+                                  }
+                                  geometry Cylinder {
+                                    height 0.04
+                                    radius 0.015
+                                  }
+                                }
+                              ]
+                            }
+                            InertialUnit {
+                              translation 2.59116e-08 2.59116e-08 -0.03
+                              rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                            }
+                            DEF ROLL_GROUP Group {
+                              children [
+                                Pose {
+                                  translation 0 0 -0.02
+                                  rotation 0 0 1 1.5708
+                                  children [
+                                    Shape {
+                                      appearance DEF PLASTIC_APPEARANCE PBRAppearance {
+                                        baseColor 1 0.666667 0
+                                        roughness 1
+                                        metalness 0
+                                      }
+                                      geometry Cylinder {
+                                        height 0.02
+                                        radius 0.042
+                                        subdivision 16
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                          boundingObject USE ROLL_GROUP
+                          physics Physics {
+                          }
+                          tensileStrength 65
+                          shearStrength 162
+                        }
+                      }
+                    ]
+                    name "slider"
+                    boundingObject Pose {
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.02
+                          radius 0.04
+                        }
+                      ]
+                    }
+                    physics Physics {
+                    }
+                  }
+                }
+                DEF PITCH_GROUP Group {
+                  children [
+                    Pose {
+                      rotation 0 1 0 1.5708
+                      children [
+                        Shape {
+                          appearance USE PLASTIC_APPEARANCE
+                          geometry Cylinder {
+                            height 0.04
+                            radius 0.06
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                    Pose {
+                      translation 0 -0.15 0
+                      children [
+                        Shape {
+                          appearance DEF METAL_APPEARANCE PBRAppearance {
+                            baseColor 0.5 0.5 0.5
+                            roughness 1.1102230246251565e-16
+                            metalness 0
+                          }
+                          geometry Box {
+                            size 0.03 0.3 0.04
+                          }
+                        }
+                      ]
+                    }
+                    Pose {
+                      translation 0 -0.3 0
+                      rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Cylinder {
+                            height 0.02
+                            radius 0.04
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              boundingObject USE PITCH_GROUP
+              physics Physics {
+              }
+            }
+          }
+          DEF YAW_GROUP Group {
+            children [
+              Pose {
+                translation 0 0 0.18
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.04
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 0.33
+                rotation 1 0 0 -1.570795
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.09
+                      radius 0.05
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject USE YAW_GROUP
+        physics Physics {
+        }
+      }
+    }
+    DEF BASIS_GROUP Group {
+      children [
+        Pose {
+          translation 0 0 0.02
+          children [
+            Shape {
+              appearance USE METAL_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.1
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.04
+          children [
+            Shape {
+              appearance USE PLASTIC_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.07
+                subdivision 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE BASIS_GROUP
+  controller "vacuum_gripper"
+}

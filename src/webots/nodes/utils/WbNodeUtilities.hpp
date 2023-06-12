@@ -21,8 +21,10 @@
 //              For generic node functions please refer to WbVrmlNodeUtilities namespace.
 //
 
-#include <QtCore/QList>
 #include "WbNode.hpp"
+#include "WbOdeTypes.hpp"
+
+#include <QtCore/QList>
 
 class WbBaseNode;
 class WbBoundingSphere;
@@ -150,6 +152,8 @@ namespace WbNodeUtilities {
   QString slotType(const WbNode *node);
 
   bool isTrackAnimatedGeometry(const WbNode *node);
+
+  dBodyID findBodyMerger(const WbNode *node);
 
   ///////////
   // Other //
