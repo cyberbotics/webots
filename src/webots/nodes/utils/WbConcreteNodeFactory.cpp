@@ -103,6 +103,7 @@
 #include "WbTrackWheel.hpp"
 #include "WbTransform.hpp"
 #include "WbUrl.hpp"
+#include "WbVacuumGripper.hpp"
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
@@ -288,6 +289,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
                                                                               new WbTransform(tokenizer);
     return new WbTransform(tokenizer);
   }
+  if (modelName == "VacuumGripper")
+    return new WbVacuumGripper(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")
@@ -493,6 +496,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbTrackWheel(original);
   if (modelName == "Transform")
     return new WbTransform(original);
+  if (modelName == "VacuumGripper")
+    return new WbVacuumGripper(original);
   if (modelName == "Viewpoint")
     return new WbViewpoint(original);
   if (modelName == "WorldInfo")

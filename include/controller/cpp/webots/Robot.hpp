@@ -47,6 +47,7 @@ namespace webots {
   class Skin;
   class Speaker;
   class TouchSensor;
+  class VacuumGripper;
 
   class Robot {
   public:
@@ -119,6 +120,7 @@ namespace webots {
     Skin *getSkin(const std::string &name);
     Speaker *getSpeaker(const std::string &name);
     TouchSensor *getTouchSensor(const std::string &name);
+    VacuumGripper *getVacuumGripper(const std::string &name);
 
     void *windowCustomFunction(void *arg);
     void wwiSend(const char *data, int size);
@@ -163,6 +165,7 @@ namespace webots {
     virtual Skin *createSkin(const std::string &name) const;
     virtual Speaker *createSpeaker(const std::string &name) const;
     virtual TouchSensor *createTouchSensor(const std::string &name) const;
+    virtual VacuumGripper *createVacuumGripper(const std::string &name) const;
 
   private:
     Keyboard *mKeyboard;

@@ -19,7 +19,7 @@ Radar {
   field     MFColor    recognitionColors   []               # colors returned for this Solid by Cameras with a Recognition node
   #fields specific to the Radar node:
   field     SFFloat    minRange                1           # minimum detection range
-  field     SFFloat    maxRange               50.0         # maximum detection range
+  field     SFFloat    maxRange                50.0        # maximum detection range
   field     SFFloat    horizontalFieldOfView   0.78        # horizontal field of view of the detection frustum
   field     SFFloat    verticalFieldOfView     0.1         # vertical field of view of the detection frustum
   field     SFFloat    minAbsoluteRadialSpeed  0.0         # minimum absolute relative speed to be able to detect the target

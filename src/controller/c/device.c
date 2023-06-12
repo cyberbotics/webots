@@ -61,13 +61,14 @@ extern void wb_microphone_init(WbDevice *);
 extern void wb_motor_init(WbDevice *);
 extern void wb_pen_init(WbDevice *);
 extern void wb_position_sensor_init(WbDevice *);
-extern void wb_touch_sensor_init(WbDevice *);
 extern void wb_radar_init(WbDevice *);
 extern void wb_radio_init(WbDevice *);
 extern void wb_range_finder_init(WbDevice *);
 extern void wb_receiver_init(WbDevice *);
 extern void wb_skin_init(WbDevice *);
 extern void wb_speaker_init(WbDevice *);
+extern void wb_touch_sensor_init(WbDevice *);
+extern void wb_vacuum_gripper_init(WbDevice *);
 
 void wb_device_init(WbDevice *d) {
   d->toggle_remote = NULL;
@@ -130,12 +131,6 @@ void wb_device_init(WbDevice *d) {
     case WB_NODE_POSITION_SENSOR:
       wb_position_sensor_init(d);
       break;
-    case WB_NODE_ROTATIONAL_MOTOR:
-      wb_motor_init(d);
-      break;
-    case WB_NODE_TOUCH_SENSOR:
-      wb_touch_sensor_init(d);
-      break;
     case WB_NODE_RADAR:
       wb_radar_init(d);
       break;
@@ -148,11 +143,20 @@ void wb_device_init(WbDevice *d) {
     case WB_NODE_RECEIVER:
       wb_receiver_init(d);
       break;
+    case WB_NODE_ROTATIONAL_MOTOR:
+      wb_motor_init(d);
+      break;
     case WB_NODE_SKIN:
       wb_skin_init(d);
       break;
     case WB_NODE_SPEAKER:
       wb_speaker_init(d);
+      break;
+    case WB_NODE_TOUCH_SENSOR:
+      wb_touch_sensor_init(d);
+      break;
+    case WB_NODE_VACUUM_GRIPPER:
+      wb_vacuum_gripper_init(d);
       break;
     default:
       fprintf(stderr, "%s(): node not handled\n", __FUNCTION__);
