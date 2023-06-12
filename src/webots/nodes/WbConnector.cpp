@@ -411,7 +411,7 @@ void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2
 
 // this function must be called once the connectors are aligned
 void WbConnector::createFixedJoint(WbConnector *other, const dBodyID b1, const dBodyID b2) {
-    if (!b1 && !b2) {
+  if (!b1 && !b2) {
     warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has Physics nodes."));
     return;
   }
