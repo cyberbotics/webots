@@ -4,6 +4,8 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_extensions/protos/TiagoRobotiqGripper.proto
 # keywords: actuator/gripper
 # template language: javascript
+# Coupler linking a ROBOTIQ gripper to the TIAGo robot.
+# Available gripper models are: "2F-85", "2F-140", and "EPick".
 
 EXTERNPROTO "webots://projects/devices/robotiq/protos/Robotiq2f85Gripper.proto"
 EXTERNPROTO "webots://projects/devices/robotiq/protos/Robotiq2f140Gripper.proto"
@@ -24,7 +26,7 @@ PROTO TiagoRobotiqGripper [
     gripper_name = 'Robotiq2f140Gripper';
   else if (fields.model.value === 'EPick')
     gripper_name = 'RobotiqEPickGripper';
-    
+
   let side = '';
   if (fields.side.value === 'left')
     side = 'left hand ';
