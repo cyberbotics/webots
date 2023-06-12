@@ -42,6 +42,7 @@ from .receiver import Receiver
 from .skin import Skin
 from .speaker import Speaker
 from .touch_sensor import TouchSensor
+from .vacuum_gripper import VacuumGripper
 
 from .joystick import Joystick
 from .keyboard import Keyboard
@@ -180,6 +181,8 @@ class Robot:
                 self.devices[name] = Speaker(tag)
             elif type == Node.TOUCH_SENSOR:
                 self.devices[name] = TouchSensor(tag)
+            elif type == Node.VACUUM_GRIPPER:
+                self.devices[name] = VacuumGripper(tag)
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
         self.keyboard = Keyboard(0)

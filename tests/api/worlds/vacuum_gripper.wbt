@@ -1,0 +1,86 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
+WorldInfo {
+  title "Vacuum end effector"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.11463654231766245 -0.04380515152568545 0.9924412183425589 3.866547083002611
+  position 0.49709223582202433 0.45864608810285784 0.3073775149119582
+}
+Background {
+  skyColor [
+    0.15 0.45 1
+  ]
+}
+Floor {
+  size 2 2
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+      }
+      device [
+        LinearMotor {
+          maxForce 1000
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.185
+        children [
+          DEF ARM Shape {
+            appearance PBRAppearance {
+              baseColor 0.870588 0.866667 0.854902
+            }
+            geometry Cylinder {
+              height 0.16
+              radius 0.018
+            }
+          }
+          VacuumGripper {
+            translation 0 0 -0.08
+            children [
+              DEF CUP Shape {
+                appearance PBRAppearance {
+                  baseColor 0.101961 0.372549 0.705882
+                }
+                geometry Cylinder {
+                  height 0.014
+                  radius 0.03
+                }
+              }
+            ]
+            boundingObject USE CUP
+          }
+        ]
+        boundingObject USE ARM
+        physics Physics {
+        }
+      }
+    }
+  ]
+  controller "vacuum_gripper"
+  supervisor TRUE
+}
+DEF OBJECT Solid {
+  translation 0 0 0.05
+  children [
+    DEF BOX Shape {
+      geometry Box {
+        size 0.1 0.2 0.1
+      }
+    }
+  ]
+  boundingObject USE BOX
+  physics Physics {
+  }
+}
+TestSuiteSupervisor {
+}

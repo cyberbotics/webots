@@ -334,9 +334,9 @@ void WbSolid::preFinalize() {
     }
   }
 
-  if (nodeType() != WB_NODE_TOUCH_SENSOR && mBoundingObject->value() && mPhysics->value() == NULL &&
-      mJointParents.size() == 0 && upperSolid() && upperSolid()->physics())
-    parsingWarn(tr("As 'physics' is set to NULL, collisions will have no effect"));
+  if (nodeType() != WB_NODE_TOUCH_SENSOR && nodeType() != WB_NODE_VACUUM_GRIPPER && mBoundingObject->value() &&
+      mPhysics->value() == NULL && mJointParents.size() == 0 && upperSolid() && upperSolid()->physics())
+    parsingWarn(tr("As 'physics' is set to NULL, collisions will have no effect."));
 }
 
 bool WbSolid::restoreHiddenKinematicParameters(const HiddenKinematicParametersMap &map, int &counter) {

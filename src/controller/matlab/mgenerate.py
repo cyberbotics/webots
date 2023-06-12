@@ -586,6 +586,15 @@ def main(args=None):
     generator.gen(FUNC, "wb_touch_sensor_get_value(tag)", "touchsensor")
     # generator.gen(FUNC, "wb_touch_sensor_get_values(tag)", "touchsensor")
 
+    # vacuum_gripper.h
+    generator.gen(PROC, "wb_vacuum_gripper_disable_presence(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_enable_presence(tag, sampling_period)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_get_presence(tag)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_get_presence_sampling_period(tag)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_is_on(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_turn_on(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_turn_off(tag)", "vacuum_gripper")
+
     # utils/motion.h
     generator.gen(PROC, "wbu_motion_delete(motionref)", "motion")
     generator.gen(FUNC, "wbu_motion_get_duration(motionref)", "motion")
@@ -708,7 +717,7 @@ def main(args=None):
         WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
         WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
         WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-        WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+        WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR, WB_NODE_VACUUM_GRIPPER,
         WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
         WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
         WB_NODE_FOCUS, WB_NODE_HINGE_JOINT, WB_NODE_HINGE_JOINT_PARAMETERS,

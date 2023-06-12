@@ -30,6 +30,7 @@ import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
+import WbVacuumGripper from './nodes/WbVacuumGripper.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
@@ -1438,6 +1439,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     map.set('Receiver', []);
     map.set('Speaker', []);
     map.set('TouchSensor', []);
+    map.set('VacuumGripper', []);
 
     return map;
   }
@@ -1485,6 +1487,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.devicesList.get('Speaker').push(div);
     else if (device instanceof WbTouchSensor)
       this.devicesList.get('TouchSensor').push(div);
+    else if (device instanceof WbVacuumGripper)
+      this.devicesList.get('VacuumGripper').push(div);
   }
 
   #appendDevices() {
