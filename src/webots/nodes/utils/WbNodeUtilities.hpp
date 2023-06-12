@@ -21,9 +21,10 @@
 //              For generic node functions please refer to WbVrmlNodeUtilities namespace.
 //
 
-#include <ode/ode.h>
-#include <QtCore/QList>
 #include "WbNode.hpp"
+#include "WbOdeTypes.hpp"
+
+#include <QtCore/QList>
 
 class WbBaseNode;
 class WbBoundingSphere;
