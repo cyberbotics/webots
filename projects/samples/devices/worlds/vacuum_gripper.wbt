@@ -129,7 +129,7 @@ DEF ROBOT Robot {
                                       }
                                       geometry Cylinder {
                                         height 0.02
-                                        radius 0.04
+                                        radius 0.042
                                         subdivision 16
                                       }
                                     }
