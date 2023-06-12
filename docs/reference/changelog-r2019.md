@@ -4,7 +4,7 @@
 Released on October 3rd, 2019.
 
   - New Robots
-    - Added a [DJI Mavic 2 PRO](../guide/mavic-2-pro.md) quadcopter drone model.
+    - Added a DJI Mavic 2 PRO quadcopter drone model.
   - Removed robots
     - Removed the Telemax PRO robot model, following a request from Telerob.
   - New Features

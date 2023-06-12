@@ -3,9 +3,9 @@
 ## Webots R2022b
 Released on September, 13th, 2022.
   - New Robots
-    - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
-    - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
-    - Added a model of the [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
+    - Added a model of the Crazyflie quadrotor robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
+    - Added a model of the Panda robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
+    - Added a model of the SCARA T6 robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
   - New Objects
     - Added some hospital themed objects: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
@@ -34,8 +34,8 @@ Released on September, 13th, 2022.
     - Changed the way MATLAB is detected in the system using a new Webots preference ([#4233](https://github.com/cyberbotics/webots/pull/4233)).
     - Forbid the `USE` of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
-    - Added a python controller for the [Mavic 2 Pro](../guide/mavic-2-pro.md) demonstrating how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
-    - Improved the structure of the [Nao](../guide/nao.md) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Added a python controller for the Mavic 2 Pro demonstrating how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
+    - Improved the structure of the `Nao` PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
@@ -138,7 +138,7 @@ Released on December 21th, 2021.
     - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240)).
     - Fixed pickable state for cone and cylinder ([#3644](https://github.com/cyberbotics/webots/pull/3644)).
     - Fixed mass calculation of Mesh nodes ([#3719](https://github.com/cyberbotics/webots/pull/3719)).
-    - Fixed regression where the v3.3 (21 DoF) variant of the [Nao](../guide/nao.md) PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
+    - Fixed regression where the v3.3 (21 DoF) variant of the `Nao` PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
     - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
     - Fixed propagation of rotation change from supervisor ([#3752](https://github.com/cyberbotics/webots/pull/3752)).
     - Fixed incorrect update of the differential slip ratio in 4x4 vehicles ([#3770](https://github.com/cyberbotics/webots/pull/3770)).
