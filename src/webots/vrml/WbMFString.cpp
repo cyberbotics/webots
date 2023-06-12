@@ -24,6 +24,7 @@ void WbMFString::clear() {
   if (!mValue.empty()) {
     mValue.clear();
     emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 
