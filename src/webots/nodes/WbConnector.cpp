@@ -17,6 +17,7 @@
 #include "WbDataStream.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbPhysics.hpp"
 #include "WbRobot.hpp"
@@ -237,10 +238,7 @@ static inline void rotateVector(const dQuaternion q, WbVector3 &v) {
 
 // rotate "this" connector's parent dBody by q
 // and rotate "other" connector's parent dBody by inverse of q
-void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
-
+void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q, const dBodyID b1, const dBodyID b2) {
   // get current quaternions of bodies
   const dReal *q1 = b1 ? dBodyGetQuaternion(b1) : NULL;
   const dReal *q2 = b2 ? dBodyGetQuaternion(b2) : NULL;
@@ -263,7 +261,7 @@ void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q) {
 // become anti-parallel (collinear but in opposite directions)
 // each body performs half of the necessary rotation
 // output: q, the half rotation quaternion
-void WbConnector::snapXAxes(WbConnector *other, dQuaternion q) {
+void WbConnector::snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1, const dBodyID b2) {
   // x-axes of connector 1 and 2
   WbVector3 x1 = xAxis();
   WbVector3 x2 = -other->xAxis();
@@ -279,7 +277,7 @@ void WbConnector::snapXAxes(WbConnector *other, dQuaternion q) {
     dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2) / 2.0);
   else  // rotate only one body (the other one is static)
     dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2));
-  rotateBodies(other, q);
+  rotateBodies(other, q, b1, b2);
 }
 
 // search for possible rotational alignment matching alpha angle
@@ -304,7 +302,8 @@ double WbConnector::findClosestRotationalAlignment(double alpha) const {
 // rotate both (parent) bodies such that the connectors z-axes
 // correspond to the closest allowed rotational alignment
 // each body performs half of the necessary rotation
-void WbConnector::snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2) {
+void WbConnector::snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2, const dBodyID b1,
+                               const dBodyID b2) {
   // if n == 0 we don't need to mSnap
   const int n = mNumberOfRotations->value();
   if (n == 0)
@@ -340,7 +339,7 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &z1, const Wb
     dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);  // rotate b1 and b2 towards each other halfway
   else
     dQFromAxisAndAngle(q, w[0], w[1], w[2], alpha - beta);  // rotate b1 or b2 towards the other
-  rotateBodies(other, q);
+  rotateBodies(other, q, b1, b2);
 }
 
 // return the vrml origin ([0 0 0] point) of the connector in world (global) coordinate system
@@ -353,10 +352,7 @@ void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
 
 // shift both connectors (parent) bodies such that the connectors VRML origins match
 // the shift is performed halfway by each body
-void WbConnector::snapOrigins(WbConnector *other) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
-
+void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2) {
   // get positions of connector 1 and 2
   dVector3 p1, p2;
   getOriginInWorldCoordinates(p1);
@@ -389,10 +385,10 @@ void WbConnector::snapOrigins(WbConnector *other) {
 // temporarily change body position and orientation so that the fixed joint
 // will be created with the adjusted ("snapped") relative position and
 // orientation between the two bodies
-void WbConnector::snapNow(WbConnector *other) {
+void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2) {
   // rotate bodies such that x-axes become aligned and return corresponding quaternion
   dQuaternion qa;
-  snapXAxes(other, qa);
+  snapXAxes(other, qa, b1, b2);
 
   // z-axes of connector 1 and 2
   // z1 and z2 have unit length
@@ -407,18 +403,16 @@ void WbConnector::snapNow(WbConnector *other) {
   rotateVector(aq, z2);
 
   // now mSnap rotational alignement (z-axes)
-  snapRotation(other, z1, z2);
+  snapRotation(other, z1, z2, b1, b2);
 
   // finally shift bodies such that the CS origins match
-  snapOrigins(other);
+  snapOrigins(other, b1, b2);
 }
 
 // this function must be called once the connectors are aligned
-void WbConnector::createFixedJoint(WbConnector *other) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
-  if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+void WbConnector::createFixedJoint(WbConnector *other, const dBodyID b1, const dBodyID b2) {
+    if (!b1 && !b2) {
+    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has Physics nodes."));
     return;
   }
 
@@ -456,10 +450,10 @@ void WbConnector::attachTo(WbConnector *other) {
   if (!(mUnilateralLock->isTrue() || other->mIsLocked->isTrue()))
     return;
 
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
+  const dBodyID b1 = WbNodeUtilities::findBodyMerger(this);
+  const dBodyID b2 = WbNodeUtilities::findBodyMerger(other);
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has Physics nodes."));
     return;
   }
 
@@ -477,9 +471,9 @@ void WbConnector::attachTo(WbConnector *other) {
     }
 
     // move the bodies to the snapped position
-    snapNow(other);
+    snapNow(other, b1, b2);
     // attach now !
-    createFixedJoint(other);
+    createFixedJoint(other, b1, b2);
     // restore original position and orientation
     if (b1) {
       dBodySetPosition(b1, p1[0], p1[1], p1[2]);
@@ -490,7 +484,7 @@ void WbConnector::attachTo(WbConnector *other) {
       dBodySetQuaternion(b2, q2);
     }
   } else
-    createFixedJoint(other);
+    createFixedJoint(other, b1, b2);
 }
 
 // destroy ODE fixed joint and remove feedback structure
@@ -909,7 +903,7 @@ void WbConnector::assembleWith(WbConnector *other) {
     mIsLocked->setValue(true);
 
   if (mIsLocked->isTrue())
-    createFixedJoint(other);
+    createFixedJoint(other, WbNodeUtilities::findBodyMerger(this), WbNodeUtilities::findBodyMerger(other));
 }
 
 void WbConnector::hasMoved() {
