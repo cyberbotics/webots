@@ -14,6 +14,7 @@
 
 #include "WbVacuumGripper.hpp"
 
+#include "WbBasicJoint.hpp"
 #include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbSFDouble.hpp"
@@ -111,7 +112,18 @@ void WbVacuumGripper::updateContactPoints() {
 }
 
 void WbVacuumGripper::createFixedJoint(WbSolid *other) {
-  const dBodyID b1 = upperSolid()->bodyMerger();
+  // retrieve body merger
+  dBodyID b1 = bodyMerger();
+  WbNode *p;
+  while (!b1) {
+    p = parentNode();
+    if (!p || dynamic_cast<WbBasicJoint *>(p))
+      break;
+    WbSolid *s = dynamic_cast<WbSolid *>(p);
+    if (s)
+      b1 = s->bodyMerger();
+  }
+
   const dBodyID b2 = other->bodyMerger();
   if (!b1 && !b2) {
     warn(tr(
