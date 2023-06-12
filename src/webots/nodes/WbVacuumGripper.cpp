@@ -14,8 +14,11 @@
 
 #include "WbVacuumGripper.hpp"
 
+
+#include "WbBasicJoint.hpp"
 #include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
@@ -111,8 +114,9 @@ void WbVacuumGripper::updateContactPoints() {
 }
 
 void WbVacuumGripper::createFixedJoint(WbSolid *other) {
-  const dBodyID b1 = upperSolid()->bodyMerger();
-  const dBodyID b2 = other->bodyMerger();
+  // retrieve body merger
+  const dBodyID b1 = WbNodeUtilities::findBodyMerger(this);
+  const dBodyID b2 = WbNodeUtilities::findBodyMerger(other);
   if (!b1 && !b2) {
     warn(tr(
       "VacuumGripper could not be attached because neither the VacuumGripper node nor the solid object have Physics nodes."));
