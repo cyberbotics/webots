@@ -171,9 +171,10 @@ class Command(object):
                     break
                 if line[0] == '2':  # stderr
                     errFile.write(line[1:])
+                    errFile.flush()
                 else:  # stdout
                     outFile.write(line[1:])
-
+                    outFile.flush()
             tp.join()
             to.join()
             te.join()
