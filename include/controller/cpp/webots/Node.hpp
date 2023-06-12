@@ -94,6 +94,7 @@ namespace webots {
       SKIN,
       SPEAKER,
       TOUCH_SENSOR,
+      VACUUM_GRIPPER,
       // misc
       BALL_JOINT,
       BALL_JOINT_PARAMETERS,
