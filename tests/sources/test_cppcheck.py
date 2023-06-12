@@ -184,6 +184,7 @@ class TestCppCheck(unittest.TestCase):
         command += self.platformOptions
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
+        command += ' --suppress=missingMemberCopy'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
