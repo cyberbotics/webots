@@ -3,6 +3,7 @@
 ## Webots R2023a Revision 1
 Released on ??
   - Enhancements
+    - Improved the performance of deleting and editing points in large [IndexedFaceSet](indexedfaceset.md) and [ElevationGrid](elevationgrid.md) nodes ([#3924](https://github.com/cyberbotics/webots/pull/3924)).
     - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
     - Added default [Solid](solid.md).`recognitionColors` value for [animals](../guide/object-animals.md) and [Barn](../guide/object-buildings.md#barn) PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
     - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
