@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/RobotiqEpickGripper.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/RobotiqEPickGripper.proto
 # keywords: actuator/gripper
 # template language: javascript
 # A vacuum robot gripper from ROBOTIQ.
