@@ -113,18 +113,8 @@ void WbVacuumGripper::updateContactPoints() {
 
 void WbVacuumGripper::createFixedJoint(WbSolid *other) {
   // retrieve body merger
-  dBodyID b1 = bodyMerger();
-  WbNode *p;
-  while (!b1) {
-    p = parentNode();
-    if (!p || dynamic_cast<WbBasicJoint *>(p))
-      break;
-    WbSolid *s = dynamic_cast<WbSolid *>(p);
-    if (s)
-      b1 = s->bodyMerger();
-  }
-
-  const dBodyID b2 = other->bodyMerger();
+  const dBodyID b1 = WbNodeUtilities::findBodyMerger(this);
+  const dBodyID b2 = WbNodeUtilities::findBodyMerger(other);
   if (!b1 && !b2) {
     warn(tr(
       "VacuumGripper could not be attached because neither the VacuumGripper node nor the solid object have Physics nodes."));

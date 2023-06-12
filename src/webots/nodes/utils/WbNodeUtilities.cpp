@@ -1213,6 +1213,22 @@ const WbShape *WbNodeUtilities::findIntersectingShape(const WbRay &ray, double m
   return shape;
 }
 
+dBodyID WbNodeUtilities::findBodyMerger(const WbNode *node) {
+  if (!node)
+    return NULL;
+
+  const WbSolid *n = node;
+  while (n) {
+    WbSolid *s = dynamic_cast<const WbSolid *>(p);
+    if (s && s->bodyMerger())
+      return s->bodyMerger();
+    if (dynamic_cast<const WbBasicJoint *>(n))
+      break;
+    n = parentNode();
+  }
+  return NULL;
+}
+
 bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
   if (node == NULL)
     return false;
