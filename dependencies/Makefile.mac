@@ -6,7 +6,7 @@ WEBOTS_HOME_LIB = $(WEBOTS_HOME)/Contents/lib/webots
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/mac/release
 WGET = LANG=en_US.UTF-8 wget -qq
 
-QT_PACKAGE = qt-6.2.3-release.tar.bz2
+QT_PACKAGE = qt-6.4.3-release.tar.bz2
 ASSIMP_PACKAGE = assimp-5.2.3.tar.bz2
 FFMPEG_PACKAGE = ffmpeg.tar.bz2
 FREETYPE_PACKAGE = freetype2.tar.bz2
@@ -72,7 +72,7 @@ $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@echo "# downloading $(QT_PACKAGE)"
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 	@$(WGET) $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "4b9acde6a2e0b611851c5a1bb388d3ef" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@if [ "71c339a01c8cf324bc8c00b39d6fbd1e" != `md5 -q $(QT_PACKAGE)` ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 assimp-clean:
