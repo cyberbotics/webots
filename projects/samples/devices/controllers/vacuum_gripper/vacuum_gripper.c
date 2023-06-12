@@ -29,17 +29,11 @@
 #define TARGETS_COUNT 10
 
 static int time_step = 32;
-static double TARGET_ANGLES[TARGETS_COUNT][3] = {{ 2.137462, -0.147864,  1.778765},
-                                                 { 1.875154,  0.576306, -1.900341},
-                                                 {-1.035326,  0.375521, -1.396283},
-                                                 { 0.339103, -0.031644,  0.809720},
-                                                 {-1.035326,  0.375521, -1.396283},
-                                                 { 2.615031,  0.189996,  1.365317},
-                                                 {-2.157149, -0.138678, -2.326095},
-                                                 { 0.339103, -0.031644,  0.809720},
-                                                 { 1.875154,  0.576306, -1.900341},
-                                                 {-1.035326, -0.375521, -1.396283}
-                                                };
+static double TARGET_ANGLES[TARGETS_COUNT][3] = {{2.137462, -0.147864, 1.778765},   {1.875154, 0.576306, -1.900341},
+                                                 {-1.035326, 0.375521, -1.396283},  {0.339103, -0.031644, 0.809720},
+                                                 {-1.035326, 0.375521, -1.396283},  {2.615031, 0.189996, 1.365317},
+                                                 {-2.157149, -0.138678, -2.326095}, {0.339103, -0.031644, 0.809720},
+                                                 {1.875154, 0.576306, -1.900341},   {-1.035326, -0.375521, -1.396283}};
 
 static void wait_until_target_position(WbDeviceTag inertial_unit, const double roll_target, const double pitch_target,
                                        const double yaw_target, const int maxSteps) {
@@ -87,16 +81,16 @@ int main(int argc, const char *argv[]) {
   printf("Turn on vacuum gripper\n");
   wb_vacuum_gripper_turn_on(vacuum_gripper);
   wb_vacuum_gripper_enable_presence(vacuum_gripper, time_step);
-  
+
   double slider_position = 0.0;
   while (wb_robot_step(time_step) != -1) {
     if (wb_vacuum_gripper_get_presence(vacuum_gripper))
       break;
-    
+
     slider_position += 0.001;
     wb_motor_set_position(gripper_motor, slider_position);
   }
-  
+
   wb_robot_step(time_step);
   wb_motor_set_position(gripper_motor, 0.0);
   wb_robot_step(10 * time_step);
