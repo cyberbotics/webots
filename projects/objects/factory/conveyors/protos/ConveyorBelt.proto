@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/conveyors/protos/ConveyorBelt.proto
+# keywords: industrial/conveyor
 # A customizable conveyor belt moving at a constant speed.
 # template language: javascript
 
@@ -165,7 +167,7 @@ PROTO ConveyorBelt [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation %<= 0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -173,7 +175,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -181,7 +183,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= -0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -189,7 +191,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= 0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {

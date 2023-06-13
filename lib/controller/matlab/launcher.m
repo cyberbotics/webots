@@ -8,6 +8,7 @@ else
   WEBOTS_HOME_PATH = WEBOTS_HOME;
 end
 WEBOTS_CONTROLLER_NAME = getenv('WEBOTS_CONTROLLER_NAME');
+WEBOTS_CONTROLLER_ARGS = getenv('WEBOTS_CONTROLLER_ARGS');
 WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 
 if isempty(WEBOTS_CONTROLLER_NAME)
@@ -123,6 +124,7 @@ try
         'addheader','speaker.h', ...
         'addheader','supervisor.h', ...
         'addheader','touch_sensor.h', ...
+        'addheader','vacuum_gripper.h', ...
         'addheader',['utils' filesep 'motion.h'], ...
         'addheader',['utils' filesep 'system.h']);
       disp('Load Library successful');
@@ -133,8 +135,8 @@ try
         libcontrollerloaded = true;
       else
         disp('Load Library failed.');
-        rethrow(ME);
         loadlibrary = false;
+        rethrow(ME);
       end
     end
     delete(lockfile);
@@ -164,14 +166,25 @@ try
 
   cd([WEBOTS_PROJECT '/controllers/' WEBOTS_CONTROLLER_NAME]);
 
+  % get controller args and wrap as character vectors for eval
+  % also escape the char terminator "'" inside in an argument
+  args = '';
+  if ~isempty(WEBOTS_CONTROLLER_ARGS)
+      if ispc, envsep = ';'; else, envsep = ':'; end
+      split_args = split(WEBOTS_CONTROLLER_ARGS, envsep);
+      for i=1:length(split_args)
+          args = [args,' ''', strrep(split_args{i},'''',''''''), ''''];
+      end
+  end
+
   % sanitize controller name if needed
   if ~isvarname(WEBOTS_CONTROLLER_NAME)
     newname = matlab.lang.makeValidName(WEBOTS_CONTROLLER_NAME);
     copyfile(append(WEBOTS_CONTROLLER_NAME, '.m'), append(newname, '.m'), 'f');
-    eval(newname);
+    eval([newname, args]);
     delete(append(newname, '.m')); % delete temporary file
   else
-    eval(WEBOTS_CONTROLLER_NAME);
+    eval([WEBOTS_CONTROLLER_NAME, args]);
   end
 
 catch ME

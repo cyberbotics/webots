@@ -268,9 +268,7 @@ wb_supervisor_field_get_sf_node.m
 wb_supervisor_field_get_sf_string.m
 wb_supervisor_field_get_type.m
 wb_supervisor_field_get_type_name.m
-wb_supervisor_field_import_mf_node.m
 wb_supervisor_field_import_mf_node_from_string.m
-wb_supervisor_field_import_sf_node.m
 wb_supervisor_field_import_sf_node_from_string.m
 wb_supervisor_field_insert_mf_bool.m
 wb_supervisor_field_insert_mf_float.m
@@ -294,11 +292,11 @@ wb_supervisor_movie_stop_recording.m
 wb_supervisor_node_add_force.m
 wb_supervisor_node_add_force_with_offset.m
 wb_supervisor_node_add_torque.m
-wb_supervisor_node_disable_contact_point_tracking.m
 wb_supervisor_node_disable_contact_points_tracking.m
+wb_supervisor_node_disable_contact_point_tracking.m
 wb_supervisor_node_disable_pose_tracking.m
-wb_supervisor_node_enable_contact_point_tracking.m
 wb_supervisor_node_enable_contact_points_tracking.m
+wb_supervisor_node_enable_contact_point_tracking.m
 wb_supervisor_node_enable_pose_tracking.m
 wb_supervisor_node_export_string.m
 wb_supervisor_node_get_base_type_name.m
@@ -346,6 +344,13 @@ wb_touch_sensor_enable.m
 wb_touch_sensor_get_sampling_period.m
 wb_touch_sensor_get_type.m
 wb_touch_sensor_get_value.m
+wb_vacuum_gripper_disable_presence.m
+wb_vacuum_gripper_enable_presence.m
+wb_vacuum_gripper_get_presence.m
+wb_vacuum_gripper_get_presence_sampling_period.m
+wb_vacuum_gripper_is_on.m
+wb_vacuum_gripper_turn_on.m
+wb_vacuum_gripper_turn_off.m
 wbu_motion_delete.m
 wbu_motion_get_duration.m
 wbu_motion_get_time.m
@@ -467,6 +472,7 @@ WB_NODE_PBR_APPEARANCE.m
 WB_NODE_PLANE.m
 WB_NODE_POINT_LIGHT.m
 WB_NODE_POINT_SET.m
+WB_NODE_POSE.m
 WB_NODE_SHAPE.m
 WB_NODE_SPHERE.m
 WB_NODE_SPOT_LIGHT.m
@@ -501,6 +507,7 @@ WB_NODE_ROTATIONAL_MOTOR.m
 WB_NODE_SKIN.m
 WB_NODE_SPEAKER.m
 WB_NODE_TOUCH_SENSOR.m
+WB_NODE_VACUUM_GRIPPER.m
 WB_NODE_BALL_JOINT.m
 WB_NODE_BALL_JOINT_PARAMETERS.m
 WB_NODE_CHARGER.m

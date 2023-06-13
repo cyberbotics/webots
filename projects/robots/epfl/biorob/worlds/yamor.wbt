@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -40,7 +40,6 @@ Floor {
   size 100 100
 }
 DEF MODULE_1 Yamor {
-  translation 0 0 0.03
   rotation 1 0 0 1.5708
   name "module_1"
 }

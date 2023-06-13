@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/surveyor
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/mobsya/thymio/protos/Thymio2.proto
+# keywords: robot/wheeled
 # Thymio II mobile robot.
 # template language: javascript
 
@@ -13,8 +14,8 @@ EXTERNPROTO "Thymio2DistanceSensor.proto"
 EXTERNPROTO "Thymio2LED.proto"
 
 PROTO Thymio2 [
-  field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0          # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0        # Is `Pose.rotation`.
   field SFString   name            "Thymio II"    # Is `Solid.name`.
   field SFString   controller      "thymio2_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
@@ -39,7 +40,7 @@ PROTO Thymio2 [
     name IS name
     model "Thymio II"
     children [
-      Transform {
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Shape {
@@ -62,7 +63,7 @@ PROTO Thymio2 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.02 0 0.0533
         rotation 0 0 1 -3.141589
         children [
@@ -82,7 +83,7 @@ PROTO Thymio2 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.0168 0 0.0533
         rotation 0 0 1 -3.141589
         children [
@@ -102,7 +103,7 @@ PROTO Thymio2 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.0168 0 0.0533
         rotation 0 0 1 -3.141589
         children [
@@ -162,7 +163,7 @@ PROTO Thymio2 [
             }
           ]
           name "right wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -0.577349 -0.577351 0.577351 2.094397
             children [
               DEF WHEEL_BO_SHAPE Shape {
@@ -197,7 +198,7 @@ PROTO Thymio2 [
           translation 0 0.05 0.021
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
-            Transform {
+            Pose {
               rotation 0 1 0 3.14159
               children [
                 USE WHEEL_SHAPE
@@ -206,7 +207,7 @@ PROTO Thymio2 [
             }
           ]
           name "left wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -0.577349 -0.577351 0.577351 2.094397
             children [
               DEF WHEEL_BO_SHAPE Shape {
@@ -228,7 +229,7 @@ PROTO Thymio2 [
         rotation 0 0 1 1.570796
         name "button.left"
         children [
-          DEF TOUCH_SENSOR_TRANSFORM Transform {
+          DEF TOUCH_SENSOR_TRANSFORM Pose {
             children [
               Shape {
                 appearance USE MAIN_APPEARANCE
@@ -591,7 +592,7 @@ PROTO Thymio2 [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.013 0 0.0316
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
@@ -600,7 +601,7 @@ PROTO Thymio2 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0677 0 0.0316
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
@@ -609,35 +610,35 @@ PROTO Thymio2 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0643 0.0214 0.0316
           rotation -0.457027 -0.628938 -0.628938 -2.284229
           children [
             USE FRONT_BOX
           ]
         }
-        Transform {
+        Pose {
           translation 0.0542 0.0403 0.0316
           rotation -0.330927 -0.667266 -0.667266 -2.502426
           children [
             USE FRONT_BOX
           ]
         }
-        Transform {
+        Pose {
           translation 0.0643 -0.0214 0.0316
           rotation -0.697397 -0.506773 -0.506773 -1.92364
           children [
             USE FRONT_BOX
           ]
         }
-        Transform {
+        Pose {
           translation 0.0542 -0.0403 0.0316
           rotation 0.818704 0.406032 0.406032 1.769508
           children [
             USE FRONT_BOX
           ]
         }
-        Transform {
+        Pose {
           translation 0.0612 0 0.009
           rotation 0.57735 0.57735 0.57735 2.094395
           children [

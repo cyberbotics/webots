@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -41,7 +41,7 @@ DEF THYMIO2 Thymio2 {
 }
 RobotProgrammingBenchmark {
 }
-Transform {
+Pose {
   translation -0.25 0 0
   children [
     Shape {

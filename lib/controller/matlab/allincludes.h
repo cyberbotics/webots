@@ -36,5 +36,6 @@
 #include "../../../include/controller/c/webots/speaker.h"
 #include "../../../include/controller/c/webots/supervisor.h"
 #include "../../../include/controller/c/webots/touch_sensor.h"
+#include "../../../include/controller/c/webots/vacuum_gripper.h"
 #include "../../../include/controller/c/webots/utils/motion.h"
 #include "../../../include/controller/c/webots/utils/system.h"

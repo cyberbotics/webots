@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/DrinkingFountain.proto
+# keywords: exterior/street furniture
 # A drinking fountain.
 
 PROTO DrinkingFountain [
@@ -68,7 +70,7 @@ PROTO DrinkingFountain [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.16 0 0.04
           children [
             Box {
@@ -76,7 +78,7 @@ PROTO DrinkingFountain [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.65
           children [
             Box {

@@ -27,25 +27,25 @@ Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots
 %end
 
 Several models of the robot have been created for Webots:
-  - [TIAGo Base](../guide/tiago-base.md)
-  - [TIAGo Iron](../guide/tiago-iron.md)
-  - [TIAGo Steel](../guide/tiago-steel.md)
-  - [TIAGo Titanium](../guide/tiago-titanium.md)
-  - [TIAGo++](../guide/tiagopp.md)
+  - [TIAGo Base](https://cyberbotics.com/doc/guide/tiago-base?version=R2020a)
+  - [TIAGo Iron](https://cyberbotics.com/doc/guide/tiago-iron?version=R2020a)
+  - [TIAGo Steel](https://cyberbotics.com/doc/guide/tiago-steel?version=R2020a)
+  - [TIAGo Titanium](https://cyberbotics.com/doc/guide/tiago-titanium?version=R2020a)
+  - [TIAGo++](https://cyberbotics.com/doc/guide/tiagopp?version=R2020a)
 
 ### TurtleBot3 Burger
 
-Simulate the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) robot from [Robotis](http://www.robotis.us) in Webots.
+Simulate the TurtleBot3 Burger robot from [Robotis](http://www.robotis.us) in Webots.
 
 %figure "TurtleBot3 Burger Model in Webots"
 ![TurtleBot3 Burger in Webots](images/turtlebot3.jpg)
 %end
 
-The [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor is now available too, just plug it on your favorite simulated robot.
+The LDS-01 lidar sensor is now available too, just plug it on your favorite simulated robot.
 
 ### Robotino 3
 
-Simulate the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/) in Webots.
+Simulate the Robotino 3 from [Festo](https://www.festo-didactic.com/int-en/) in Webots.
 
 %figure "Robotino 3 Model in Webots"
 ![Robotino 3](images/robotino3.jpg)
@@ -115,7 +115,7 @@ You can find them on the [Webots GitHub repository](https://github.com/cyberboti
 
 ### Updated TexturedBackground PROTO
 
-The [TexturedBackground PROTO](../guide/object-backgrounds.md#texturedbackground) has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
+The TexturedBackground PROTO has been updated accordingly to the new [Background](../reference/background.md) node definition and we added some new HDR textures.
 
 Note that we deprecated some of the old default backgrounds that were not in HDR format.
 

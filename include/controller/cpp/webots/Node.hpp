@@ -57,6 +57,7 @@ namespace webots {
       PLANE,
       POINT_LIGHT,
       POINT_SET,
+      POSE,
       SHAPE,
       SPHERE,
       SPOT_LIGHT,
@@ -93,6 +94,7 @@ namespace webots {
       SKIN,
       SPEAKER,
       TOUCH_SENSOR,
+      VACUUM_GRIPPER,
       // misc
       BALL_JOINT,
       BALL_JOINT_PARAMETERS,

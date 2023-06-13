@@ -481,6 +481,13 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_touch_sensor_get_value "
                                      "wb_touch_sensor_get_lookup_table_size "
                                      "wb_touch_sensor_get_lookup_table "
+                                     "wb_vacuum_gripper_turn_on "
+                                     "wb_vacuum_gripper_turn_off "
+                                     "wb_vacuum_gripper_disable_presence "
+                                     "wb_vacuum_gripper_enable_presence "
+                                     "wb_vacuum_gripper_get_presence "
+                                     "wb_vacuum_gripper_get_presence_sampling_period "
+                                     "wb_vacuum_gripper_is_on "
                                      "wbu_car_cleanup "
                                      "wbu_car_enable_indicator_auto_disabling "
                                      "wbu_car_init "
@@ -667,6 +674,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_POINT_LIGHT "
                                      "WB_NODE_POINT_SET "
                                      "WB_NODE_POSITION_SENSOR "
+                                     "WB_NODE_POSE "
                                      "WB_NODE_PROPELLER "
                                      "WB_NODE_RADAR "
                                      "WB_NODE_RANGE_FINDER "
@@ -689,6 +697,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
                                      "WB_NODE_TRANSFORM "
+                                     "WB_NODE_VACUUM_GRIPPER "
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
@@ -701,7 +710,7 @@ static const char *API_CLASSES =
   "CoordinateSystem Driver Display DistanceSensor Emitter EngineType Field GPS Gyro Keyboard "
   "InertialUnit ImageRef IndicatorState Joystick LED Lidar LidarPoint LightSensor LinearMotor Mode Motion Motor "
   "MouseState Node Pen PositionSensor Radar RadarTarget RangeFinder Receiver Robot RotationalMotor "
-  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent WiperMode WheelIndex";
+  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent VacuumGripper WiperMode WheelIndex";
 
 static const char *WBT_OBJECTS =
   "Appearance Background BallJoint BallJointParameters Billboard Box "
@@ -709,7 +718,7 @@ static const char *WBT_OBJECTS =
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
-  "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
+  "Physics Plane PointLight Pose Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
   "Transform Viewpoint WorldInfo Zoom";
 

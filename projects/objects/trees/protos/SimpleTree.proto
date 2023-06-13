@@ -1,7 +1,9 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/trees/protos/SimpleTree.proto
 # tags: nonDeterministic
+# keywords: exterior/tree
 # Efficient (with only 8 polygones) and customizable outdoor tree.
 # Tree types are:
 #  - 'oak tree'
@@ -111,7 +113,7 @@ Solid {
             %< for (let i = 0; i <= skip - 1; ++i) { >%
               %<= circle[i].x >% %<= circle[i].y >% %<= 0 >%
             %< } >%
-            
+
             # top cylinder
             %< for (let i = 0; i <= skip - 1; ++i) { >%
               %<= circle[i].x >% %<= circle[i].y >% %<= height >%
@@ -156,8 +158,8 @@ Solid {
     %< } >%
   ]
   %< if (boundingObject) { >%
-    boundingObject Transform {
-      translation 0 0 %<= height * 0.5 >% 
+    boundingObject Pose {
+      translation 0 0 %<= height * 0.5 >%
       children [
         Cylinder {
           height %<= height >%

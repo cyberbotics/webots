@@ -229,7 +229,7 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 
 **Keywords**: Backlash, [HingeJoint](../reference/hingejoint.md)
 
-![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hinge-joint-with-backlash.md).
+![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/HingeJointWithBacklash.proto).
 The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
 When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
 
@@ -237,8 +237,8 @@ When the rotor is motorized, the output axis lags behind due to the effect of ba
 
 **Keywords**: Backlash, [Hinge2Joint](../reference/hinge2joint.md)
 
-![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md).
-The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) with a large backlash.
+![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/Hinge2JointWithBacklash.proto).
+The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/Hinge2JointWithBacklash.proto) with a large backlash.
 Given the added joint play, in the presence of gravity, at rest the end-point is unstable and therefore slumps down compared to the case without backlash.
 In a real scenario, this is analogous to having a large clearance in between the driving and driven gear.
 
@@ -373,7 +373,7 @@ This noisy position is compared to the actual [Emitter](../reference/emitter.md)
 
 ### [sick.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick.wbt)
 
-**Keywords**: [Sick LMS 291](lidar-sensors.md#sick-lms-291), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
+**Keywords**: [Sick LMS 291](https://webots.cloud/run?url={{ url.github_tree }}/projects/devices/sick/protos/SickLms291.proto), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
 
 ![sick.png](images/samples/sick.thumbnail.jpg) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
 The robot use the lidar depth output to avoid collisions.
@@ -381,7 +381,7 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 
 ### [sick\_point\_cloud.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick_point_cloud.wbt)
 
-**Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
+**Keywords**: [Sick LD MRS](https://webots.cloud/run?url={{ url.github_tree }}/projects/devices/sick/protos/SickLdMrs.proto), [Lidar](../reference/lidar.md), cloud point
 
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
 A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.

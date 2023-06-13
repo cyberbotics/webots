@@ -16,4 +16,4 @@ It can be used in the jointParameters field of [BallJoint](balljoint.md) only.
 
 ### Field Summary
 
-- `anchor`: This field specifies the anchor position expressed in relative coordinates with respect to the center of the closest upper [Transform](transform.md) node's frame.
+- `anchor`: This field specifies the anchor position expressed in relative coordinates with respect to the center of the closest upper [Pose](pose.md) node's frame.

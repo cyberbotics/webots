@@ -362,10 +362,6 @@ void WbConnector::snapOrigins(WbConnector *other) {
   getOriginInWorldCoordinates(p1);
   other->getOriginInWorldCoordinates(p2);
 
-  // retrieve current body positions
-  const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
-  const dReal *d2 = b2 ? dBodyGetPosition(b2) : other->matrix().translation().ptr();
-
   // each body must be shifted towards the other by half the distance
   dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
   if (b1 && b2) {
@@ -379,12 +375,15 @@ void WbConnector::snapOrigins(WbConnector *other) {
   (__GNUC__ == 13 && __GNUC_MINOR__ == 1 && __GNUC_PATCHLEVEL__ == 0)
 #pragma GCC diagnostic ignored "-Wdangling-pointer"
 #endif
-  // shift bodies
-  if (b1)
+  // retrive current body positions and shift them
+  if (b1) {
+    const dReal *d1 = dBodyGetPosition(b1);
     dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
-  if (b2)
+  }
+  if (b2) {
+    const dReal *d2 = dBodyGetPosition(b2);
     dBodySetPosition(b2, d2[0] - h[0], d2[1] - h[1], d2[2] - h[2]);
-#pragma GCC diagnostic pop
+  }
 }
 
 // temporarily change body position and orientation so that the fixed joint

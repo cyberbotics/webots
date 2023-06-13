@@ -35,6 +35,7 @@
 #include "WbSolid.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
+#include "WbVacuumGripper.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 
@@ -197,13 +198,27 @@ static void debugSurfaceParameters(const dSurfaceParameters *surf) {
 }
 */
 
-// fill surface parameters using values in ContactProperties and Track nodes
-const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2,
-                                                                      const WbGeometry *wg1, const WbGeometry *wg2,
-                                                                      dContact *contact) {
+// find the ContactProperties object to use for collisions between two solids
+const WbContactProperties *WbSimulationCluster::findContactProperties(const WbSolid *s1, const WbSolid *s2) {
   const WbWorldInfo *const info = WbWorld::instance()->worldInfo();
-  int j;
 
+  const WbContactProperties *contactProperties = NULL;
+  // search in list
+  const int size = info->contactPropertiesCount();
+  for (int i = 0; i < size; ++i) {
+    const WbContactProperties *const cp = info->contactProperties(i);
+    if ((cp->material1() == s1->contactMaterial() && cp->material2() == s2->contactMaterial()) ||
+        (cp->material1() == s2->contactMaterial() && cp->material2() == s1->contactMaterial())) {
+      contactProperties = cp;
+      break;
+    }
+  }
+  return contactProperties;
+}
+
+// fill surface parameters using values in ContactProperties and Track nodes
+void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2,
+                                                const WbGeometry *wg1, const WbGeometry *wg2, dContact *contact) {
   // default values
   int frictionSize = 1;
   int fdsSize = 1;
@@ -216,37 +231,28 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   double soft_erp = 0.2;
   bool inversed = false;
   WbVector2 frictionRotation(0, 0);
-  const WbContactProperties *contactProperties = NULL;
-  // search in list
-  const int size = info->contactPropertiesCount();
-  for (int i = 0; i < size; ++i) {
-    const WbContactProperties *const cp = info->contactProperties(i);
-    if ((cp->material1() == s1->contactMaterial() && cp->material2() == s2->contactMaterial()) ||
-        (cp->material1() == s2->contactMaterial() && cp->material2() == s1->contactMaterial())) {
-      contactProperties = cp;
-      if (cp->material2() == s1->contactMaterial())
-        inversed = true;
-      frictionSize = cp->coulombFrictionSize();
-      bounce = cp->bounce();
-      bounce_vel = cp->bounceVelocity();
-      fdsSize = cp->forceDependentSlipSize();
-      soft_cfm = cp->softCFM();
-      soft_erp = cp->softERP();
-      for (j = 0; (j < frictionSize) && (j < 4); ++j) {
-        mu[j] = cp->coulombFriction(j);
-        if (mu[j] == -1.0)
-          mu[j] = dInfinity;
-      }
-      const WbVector3 rf = cp->rollingFriction();
-      for (j = 0; j < 3; ++j)
-        rho[j] = rf[j] == -1.0 ? dInfinity : rf[j];
-      for (j = 0; (j < fdsSize) && (j < 4); ++j)
-        fds[j] = cp->forceDependentSlip(j);
-      // get friction direction only if needed
-      if ((frictionSize > 1) || (fdsSize > 1))  // asymetric contact
-        frictionRotation = cp->frictionRotation();
-      break;
+  if (cp) {
+    if (cp->material2() == s1->contactMaterial())
+      inversed = true;
+    frictionSize = cp->coulombFrictionSize();
+    bounce = cp->bounce();
+    bounce_vel = cp->bounceVelocity();
+    fdsSize = cp->forceDependentSlipSize();
+    soft_cfm = cp->softCFM();
+    soft_erp = cp->softERP();
+    for (int j = 0; (j < frictionSize) && (j < 4); ++j) {
+      mu[j] = cp->coulombFriction(j);
+      if (mu[j] == -1.0)
+        mu[j] = dInfinity;
     }
+    const WbVector3 rf = cp->rollingFriction();
+    for (int j = 0; j < 3; ++j)
+      rho[j] = rf[j] == -1.0 ? dInfinity : rf[j];
+    for (int j = 0; (j < fdsSize) && (j < 4); ++j)
+      fds[j] = cp->forceDependentSlip(j);
+    // get friction direction only if needed
+    if ((frictionSize > 1) || (fdsSize > 1))  // asymetric contact
+      frictionRotation = cp->frictionRotation();
   }
 
   WbVector3 globalFdirS1, globalFdirS2;
@@ -413,7 +419,6 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       contact->fdir1[2] = forceDir.z() * (invertedSign ? -1 : 1);
     }
   }
-  return contactProperties;
 }
 
 // fill surface parameters using values in ImmersionProperties nodes
@@ -471,13 +476,20 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
   }
 }
 
-void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints(const QString &material1, const QString &material2, int max,
+                                                                 int n) {
   static QMutex mutex;
   QMutexLocker<QMutex> lock(&mutex);
   static double lastWarningTime = -INFINITY;
   const double currentSimulationTime = WbSimulationState::instance()->time();
   if (currentSimulationTime > lastWarningTime + 1000.0) {
-    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    WbLog::warning(QObject::tr("Contact joints between materials '%1' and '%2' will only be created for the %3 deepest contact "
+                               "points instead of all the %4 contact points.")
+                     .arg(material1)
+                     .arg(material2)
+                     .arg(max)
+                     .arg(n),
+                   false, WbLog::ODE);
     lastWarningTime = currentSimulationTime;
   }
 }
@@ -652,10 +664,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       n = n->parentNode();
     }
   }
+  const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
+  const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
 
-  const int maxContactJoints = MAX_CONTACT_JOINTS;
   thread_local QVector<dContact> contactVector;
-
   int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
 
   int n;
@@ -673,10 +685,13 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (n == 0)
     return;
 
+  bool areContactPointsSorted = false;
   if (n > maxContactJoints) {
-    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints(s1->contactMaterial(), s2->contactMaterial(), maxContactJoints,
+                                                                n);
     std::nth_element(contact, contact + maxContactJoints, contact + n,
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    areContactPointsSorted = true;
     n = maxContactJoints;
   }
 
@@ -688,6 +703,21 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
+  WbVacuumGripper *vg = dynamic_cast<WbVacuumGripper *>(s1);
+  WbSolid *vgSolid;
+  if (vg)
+    vgSolid = isRayGeom2 ? NULL : s2;
+  else {
+    vg = dynamic_cast<WbVacuumGripper *>(s2);
+    vgSolid = isRayGeom1 ? NULL : s1;
+  }
+  if (vg && vgSolid && vg->isWaitingForConnection() && n >= vg->contactPoints()) {
+    if (!areContactPointsSorted)
+      std::nth_element(contact, contact, contact + n,
+                       [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    vg->addCollidedSolid(vgSolid, contact[0].geom.depth);
+  }
+
   const WbPhysics *const p1 = s1->physics();
   const WbPhysics *const p2 = s2->physics();
 
@@ -696,8 +726,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
     WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
     // Ensure that the deepest contact point is first for calls to collideKinematicRobots() below.
-    std::nth_element(contact, contact, contact + n,
-                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    if (!areContactPointsSorted)
+      std::nth_element(contact, contact, contact + n,
+                       [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
       cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());
@@ -833,8 +864,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   for (int i = 0; i < n; ++i) {
     assert(o1 == contact[i].geom.g1 && o2 == contact[i].geom.g2);
 
-    // using contact properties specified in WorldInfo
-    const WbContactProperties *contactProperties = cl->fillSurfaceParameters(s1, s2, wg1, wg2, &contact[i]);
+    // using contact properties for the materials associated with two solids
+    cl->fillSurfaceParameters(contactProperties, s1, s2, wg1, wg2, &contact[i]);
 
     // add these joints to the simulation
     dWorldID jointWorld = b1 ? dBodyGetWorld(b1) : dBodyGetWorld(b2);
