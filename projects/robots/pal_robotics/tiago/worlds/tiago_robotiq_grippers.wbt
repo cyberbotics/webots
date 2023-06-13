@@ -37,8 +37,9 @@ WorldInfo {
     ContactProperties {
       material1 "ROBOTIQ gripper pad"
       coulombFriction [
-        80
+        10
       ]
+      softCFM 0.01
     }
   ]
 }

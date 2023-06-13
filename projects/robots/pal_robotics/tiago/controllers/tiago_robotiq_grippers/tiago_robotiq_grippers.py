@@ -31,10 +31,10 @@ target_positions = [[0.105, 0.07, 0, 0, 0, 0, 0, 0, 0, 0],
                     [0.105, 0.331, 0.0337, -1.575, 1.403, 0, 0, 0, 1.0, 1.0],
                     [0.105, 0.331, 0.0337, -1.575, 1.403, 0, GRIPPER_VELOCITY[0], GRIPPER_VELOCITY[0], 0, 0],
                     [0.105, 0.331, 0.0337, -2.237, 1.403, -0.5, GRIPPER_VELOCITY[1], GRIPPER_VELOCITY[1], 0, 0],
-                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, 0, 0, 0, 0],
+                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, GRIPPER_VELOCITY[1], GRIPPER_VELOCITY[1], 0, 0],
                     [0.105, 0.331, 0.0337, -1.65, 1.403, 0, -GRIPPER_VELOCITY[0], -GRIPPER_VELOCITY[0], 0, 0],
                     [0.105, 0.331, 0.0337, -2.237, 1.403, 0, 0, 0, 0, 0]]
-target_steps = [0, 60, 50, MOVE_FORWARDS_STEPS, CLOSE_GRIPPER_STEPS, 50, 50, 50, 50]
+target_steps = [0, 60, 50, MOVE_FORWARDS_STEPS, CLOSE_GRIPPER_STEPS, 70, 50, 50, 50]
 
 
 

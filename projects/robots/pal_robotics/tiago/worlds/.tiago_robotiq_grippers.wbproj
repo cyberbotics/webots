@@ -5,5 +5,9 @@ sceneTreePerspectives: 000000ff000000010000000300000016000000c000000000010000000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/tiago_robotiq_grippers/tiago_robotiq_grippers.c"
+textFiles: 0 "controllers/tiago_robotiq_grippers/tiago_robotiq_grippers.py"
 consoles: Console:All:All
+renderingDevicePerspectives: TIAGo 2F-140:Astra depth;0;1;0;0
+renderingDevicePerspectives: TIAGo 2F-140:Astra rgb;0;1;0;0
+renderingDevicePerspectives: TIAGo 2F-85:Astra depth;0;1;0;0
+renderingDevicePerspectives: TIAGo 2F-85:Astra rgb;0;1;0;0
