@@ -1,16 +1,24 @@
 # Webots R2023 Change Log
 
 ## Webots R2023b
-Released on ??
+Released on June 20th, 2023.
   - New Features
     - Added a new [Pose](pose.md) node which inherits from [Group](group.md) and derives to [Transform](transform.md) and [Solid](solid.md) ([#5978](https://github.com/cyberbotics/webots/pull/5978)).
     - Added a new [VacuumGripper](vacuumgripper.md) node ([#6127](https://github.com/cyberbotics/webots/pull/6127)).
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
-    - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
     - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
-  - Cleanup
-    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+    - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
   - Enhancements
+    - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
+    - Added default [Solid](solid.md).`recognitionColors` value for animals and `Barn` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Added `recognitionColors` field to `SolidBox` and `Tractor` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Improved the bounding objects of the Nao robot PROTO so that `selfCollision` can be activated without any issue ([#5622](https://github.com/cyberbotics/webots/pull/5622)).
+    - Improved warnings when passing invalid arguments to [`wb_supervisor_node_enable_pose_tracking`/`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_enable_pose_tracking), [`wb_supervisor_node_enable_contact_points_tracking`/`wb_supervisor_node_disable_contact_points_tracking`](supervisor.md#wb_supervisor_node_enable_contact_points_tracking) and [`wb_supervisor_field_enable_sf_tracking`/`wb_supervisor_field_disable_sf_tracking`](supervisor.md#wb_supervisor_field_enable_sf_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
+    - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
+    - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
+    - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
+    - Improved handling of non-ASCII robot names and possible crashes resulting from long names ([#5959](https://github.com/cyberbotics/webots/pull/5959)).
+    - Added `proto_formatter.py` script to automatically indent PROTO files ([#6167](https://github.com/cyberbotics/webots/pull/6167)).
     - Improved the error message path by including the [Solid](solid.md) name / DEF name ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
     - Display the [Solid](solid.md) name / DEF name of the joint `endPoint` one level upper, to ease tree usage ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
     - Removed "(PROTO)" text when copying a PROTO node name in the system clipboard ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
@@ -23,20 +31,6 @@ Released on ??
     - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt32` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
     - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
-
-## Webots R2023a Revision 1
-Released on ??
-  - Enhancements
-    - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
-    - Added default [Solid](solid.md).`recognitionColors` value for animals and `Barn` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
-    - Added `recognitionColors` field to `SolidBox` and `Tractor` PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
-    - Improved the bounding objects of the Nao robot PROTO so that `selfCollision` can be activated without any issue ([#5622](https://github.com/cyberbotics/webots/pull/5622)).
-    - Improved warnings when passing invalid arguments to [`wb_supervisor_node_enable_pose_tracking`/`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_enable_pose_tracking), [`wb_supervisor_node_enable_contact_points_tracking`/`wb_supervisor_node_disable_contact_points_tracking`](supervisor.md#wb_supervisor_node_enable_contact_points_tracking) and [`wb_supervisor_field_enable_sf_tracking`/`wb_supervisor_field_disable_sf_tracking`](supervisor.md#wb_supervisor_field_enable_sf_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
-    - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
-    - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
-    - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
-    - Improved handling of non-ASCII robot names and possible crashes resulting from long names ([#5959](https://github.com/cyberbotics/webots/pull/5959)).
-    - Added `proto_formatter.py` script to automatically indent PROTO files ([#6167](https://github.com/cyberbotics/webots/pull/6167)).
   - Bug Fixes
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
@@ -95,6 +89,8 @@ Released on ??
   - Dependency Updates
     - Change the Windows version of SUMO to 1.13 to match the one used on Linux and macOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
+  - Cleanup
+    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
