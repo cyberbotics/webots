@@ -26,6 +26,7 @@ void WbMFVector2::clear() {
   if (!mVector.empty()) {
     mVector.clear();
     emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 
