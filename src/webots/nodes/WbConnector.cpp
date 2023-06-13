@@ -453,7 +453,7 @@ void WbConnector::attachTo(WbConnector *other) {
   const dBodyID b1 = WbNodeUtilities::findBodyMerger(this);
   const dBodyID b2 = WbNodeUtilities::findBodyMerger(other);
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has Physics nodes."));
+    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has a Physics node."));
     return;
   }
 
