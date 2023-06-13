@@ -23,27 +23,27 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 
 ---
 
+## Changes for Solid Nodes
+
+In this new version, we removed the `scale` field from [Solid](../reference/solid.md) and its descendants.
+
+This decision was taken because the `scale` field was causing incoherent behavior in solid, devices and robot nodes as it makes no real sense to scale a sensor or a bounding object.
+
+To compensate, we introduced a new node: [Pose](../reference/pose.md) which is the new parent of [Solid](../reference/solid.md). Basically, a [Pose](../reference/pose.md) is a [Transform](../reference/transform.md) without scale.
+
+[Transform](../reference/transform.md) can still be used to scale geometries but not anymore in boundingObjects and it cannot contain any Solid or descendants of Solid like Device and Robot.
+
+A mecanism has been implemented in Webots to automatically convert the Transform in Pose when you open your world except for the case where the scale is not the default one.
+
+If you want to convert your protos, you can use [this script](https://github.com/cyberbotics/webots/blob/develop/scripts/converter/convert_transform_to_pose.py).
+
+---
+
 ## New Device Node
 
 A new node have been added to Webots: the [vacuum gripper](../reference/vacuumgripper.md)
 
 You can see this new node at work in its demo world under `File > Open Sample World > vacuum_gripper.wbt`.
-
----
-
-## Changes for Solid Nodes
-
-In this new version, we removed the `scale` field from [Solid](../reference/solid.md) and its descendants.
-
-This decision was taken because the `scale` field was causing incoherent behavior in solid, devices and robot nodes as it make no real sense to scale a sensor or a bounding object.
-
-To compensate, we introduced a new node: [Pose](../reference/pose.md) which is the new parent of [Solid](../reference/solid.md). Basically, a [Pose](../reference/pose.md) is a [Transform](../reference/transform.md) without scale.
-
-The [Transform](../reference/transform.md) can still be used to scale geometries but not anymore in boundingObjects and it cannot contain any Solid or descendants of Solid like Device and Robot.
-
-A mecanism has been implemented in Webots to automatically convert the Transform in Pose when you open your world except for the case where the scale is not the default one.
-
-If you want to convert your protos, you can use [this script](https://github.com/cyberbotics/webots/blob/develop/scripts/converter/convert_transform_to_pose.py).
 
 ---
 
@@ -67,13 +67,7 @@ Read more about the new documentation system for protos [here](https://cyberboti
 
 ## ROS2
 
-With this release we are continuing to develop and improve the support for ROS 2 in Webots.
-New features include:
-
-- Added support for Windows Subsystem for Linux (WSL) and macOS.
-- Added reset handler to all examples of [`webots_ros2`](https://github.com/cyberbotics/webots_ros2) to support simulation reset from Webots.
-
-And many bug fixes.
+TODO
 
 ---
 
@@ -88,8 +82,7 @@ And many bug fixes.
 
 ## Acknowledgements
 
-The current release includes contributions from [Daniel Dias](https://github.com/ad-daniel), [Kimberly McGuire](https://github.com/knmcguire), [Chandan Bharadwaj](https://github.com/Chandan-Bharadwaj), [Songyang Zhao](https://github.com/songyangZhao), [ShuffleWire](https://github.com/ShuffleWire), [Jakub Delicat](https://github.com/delihus), [Léo Duggan](Jean-Eudes-le-retour), [nilsjor](https://github.com/nilsjor), [Simon Gene Gottlieb](https://github.com/SGSSGene), [Tsubasaya](https://github.com/Minimerl), [Dean Brettle](https://github.com/brettle), [Chirath Pansilu](https://github.com/ChirathPansilu), [fparat](https://github.com/fparat), [Gaël Écorchard](https://github.com/galou), [Ian Burwell](https://github.com/IanBurwell), [Stephan Kunz](https://github.com/stepkun), [Kode Creer](https://github.com/kodecreer), [Toshiharu Tabuchi](https://github.com/toshiharutf), [Justin Beri](https://github.com/justinberi), [DrakerDG](https://github.com/DrakerDG), [Jolon Behrent](https://github.com/JolonB), [Darko Lukić](https://github.com/lukicdarkoo), [Angel Ayala](https://github.com/angel-ayala),
-(Sebastian Ohl)[https://github.com/sebastianohl] and (GnSight)[https://github.com/ftyghome].
+The current release includes contributions from [Daniel Dias](https://github.com/ad-daniel), [Kimberly McGuire](https://github.com/knmcguire), [Chandan Bharadwaj](https://github.com/Chandan-Bharadwaj), [Songyang Zhao](https://github.com/songyangZhao), [ShuffleWire](https://github.com/ShuffleWire), [Jakub Delicat](https://github.com/delihus), [Léo Duggan](https://github.com/Jean-Eudes-le-retour), [nilsjor](https://github.com/nilsjor), [Simon Gene Gottlieb](https://github.com/SGSSGene), [Tsubasaya](https://github.com/Minimerl), [Dean Brettle](https://github.com/brettle), [Chirath Pansilu](https://github.com/ChirathPansilu), [fparat](https://github.com/fparat), [Gaël Écorchard](https://github.com/galou), [Ian Burwell](https://github.com/IanBurwell), [Stephan Kunz](https://github.com/stepkun), [Kode Creer](https://github.com/kodecreer), [Toshiharu Tabuchi](https://github.com/toshiharutf), [Justin Beri](https://github.com/justinberi), [DrakerDG](https://github.com/DrakerDG), [Jolon Behrent](https://github.com/JolonB), [Darko Lukić](https://github.com/lukicdarkoo), [Angel Ayala](https://github.com/angel-ayala), [Sebastian Ohl](https://github.com/sebastianohl) and [GnSight](https://github.com/ftyghome).
 
 Special thanks go to these contributors and the many other members of our community who have contributed by reporting issues, bugs or provided support and moderation in our [Discord](https://discord.com/invite/nTWbN9m) channel.
 
