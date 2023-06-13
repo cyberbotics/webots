@@ -47,9 +47,9 @@ You can see this new node at work in its demo world under `File > Open Sample Wo
 
 ---
 
-## Launcher For Extern Controller
+## Launcher for Extern Controller
 
-TODO
+TODO.
 
 ---
 
@@ -67,7 +67,7 @@ Read more about the new documentation system for protos [here](https://cyberboti
 
 ## ROS2
 
-TODO
+TODO.
 
 ---
 
