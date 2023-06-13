@@ -35,6 +35,8 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
         jointParameters HingeJointParameters {
           axis -1 0 0
           anchor 0 -0.030601 0.054904
+          minStop 0
+          maxStop 0.801
           dampingConstant 0.03
         }
         device [
@@ -107,7 +109,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                           }
                         ]
                         name "left inner finger pad"
-                        contactMaterial "ROBOTIQ 2F-85 Gripper pad"
+                        contactMaterial "ROBOTIQ gripper pad"
                         boundingObject Box {
                           size 0.022 0.00635 0.0375
                         }
@@ -484,12 +486,15 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
       HingeJoint {
         jointParameters HingeJointParameters {
           anchor 0 0.030601 0.054904
+          minStop 0
+          maxStop 0.801
+          dampingConstant 0.03
         }
         device [
           RotationalMotor {
             name %<= '"' + fields.name.value + ' right finger joint"' >%
             maxVelocity 2.0
-            maxPosition 0.81
+            maxPosition 0.8
             maxTorque 0.1
           }
           PositionSensor {
@@ -524,7 +529,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                           USE INNER_FINGER_PAD
                         ]
                         name "right inner finger pad"
-                        contactMaterial "ROBOTIQ 2F-85 Gripper pad"
+                        contactMaterial "ROBOTIQ gripper pad"
                         boundingObject Box {
                           size 0.022 0.00635 0.0375
                         }

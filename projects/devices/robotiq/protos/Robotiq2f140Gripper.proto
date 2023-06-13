@@ -32,6 +32,8 @@ PROTO Robotiq2f140Gripper [
         jointParameters HingeJointParameters {
           axis -1 0 0
           anchor 0 -0.030601 0.054905
+          minStop 0
+          maxStop 0.701
           dampingConstant 0.03
         }
         device [
@@ -94,6 +96,7 @@ PROTO Robotiq2f140Gripper [
                           }
                         ]
                         name "left inner finger pad"
+                        contactMaterial "ROBOTIQ gripper pad"
                         boundingObject DEF INNER_FINGER_PAD_BO Box {
                           size 0.03 0.07 0.0075
                         }
@@ -297,6 +300,9 @@ PROTO Robotiq2f140Gripper [
         jointParameters HingeJointParameters {
           axis 1 0 0
           anchor 0 0.030601 0.054905
+          minStop 0
+          maxStop 0.701
+          dampingConstant 0.03
         }
         device [
           RotationalMotor {
@@ -334,6 +340,7 @@ PROTO Robotiq2f140Gripper [
                           USE INNER_FINGER_PAD
                         ]
                         name "right inner finger pad"
+                        contactMaterial "ROBOTIQ gripper pad"
                         boundingObject USE INNER_FINGER_PAD_BO
                         physics Physics {
                         }
