@@ -62,6 +62,11 @@ void WbTransform::applyToScale() {
     updateTranslateRotateHandlesSize();
 }
 
+void WbTransform::updateTranslateRotateHandlesSize() {
+  WbAbstractPose::updateTranslateRotateHandlesSize();
+  mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr());
+}
+
 void WbTransform::updateScale(bool warning) {
   sanitizeScale();
 

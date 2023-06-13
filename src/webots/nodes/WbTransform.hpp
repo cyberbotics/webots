@@ -63,6 +63,7 @@ public:
 protected:
   void applyToScale();
   void applyScaleToWren();
+  virtual void updateTranslateRotateHandlesSize();
 
   // A specific scale check is done in the WbSolid class
   WbSFVector3 *mScale;
