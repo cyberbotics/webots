@@ -500,13 +500,6 @@ QScrollArea#editorPane {
   border-style: solid;
 }
 
-#NodePane QComboBox QAbstractItemView,
-#LoginTabs QComboBox QAbstractItemView {
-  selection-background-color: #9b93ff;
-  selection-color: black;
-  outline: none;
-}
-
 QInputDialog QAbstractItemView {
   background: #222;
   outline: none;
@@ -834,6 +827,8 @@ QAbstractSpinBox:focus {
 }
 
 QComboBox {
+  selection-background-color: #9b93ff;
+  selection-color: black;
   background-color: #222;
   border-style: solid;
   border: 1px solid #76797C;
@@ -856,8 +851,6 @@ QComboBox::drop-down {
 }
 
 QComboBox QAbstractItemView {
-  selection-background-color: #9b93ff;
-  selection-color: black;
   outline: none;
 }
 
