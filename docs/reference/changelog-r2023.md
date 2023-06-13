@@ -20,6 +20,7 @@ Released on ??
     - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt32` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
     - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
+    - Relaxed constraints on [Physics](physics.md) node setup for [Connector](connector.md) devices ([#6190](https://github.com/cyberbotics/webots/pull/6190)).
   - New Devices and Objects
     - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
     - Added 2-finger 2F-85 and 2F-140 grippers and vaccum EPick gripper from ROBOTIQ ([#6165](https://github.com/cyberbotics/webots/pull/6165)).

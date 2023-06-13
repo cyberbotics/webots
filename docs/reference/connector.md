@@ -140,8 +140,7 @@ If these design criteria are not met, the [Connector](#connector) nodes will not
 
 %end
 
-> **Note**: To be functional, at least one of the two [Connector](#connector) nodes requires the presence of a [Physics](physics.md) node in its parent node.
-But it is not necessary to add a [Physics](physics.md) node to the [Connector](#connector) itself.
+> **Note**: To be functional, at least one of the two [Connector](#connector) nodes requires the presence of a [Physics](physics.md) node in its definition or in a parent node.
 
 ### Connector Functions
 
