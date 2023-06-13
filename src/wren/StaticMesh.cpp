@@ -1902,7 +1902,7 @@ namespace wren {
     glVertexAttribPointer(GlslLayout::gLocationCoords, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
     glEnableVertexAttribArray(GlslLayout::gLocationCoords);
 
-    if (mCoords.size() <= config::maxVerticesPerMeshForShadowRendering()) {
+    if (mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled()) {
       computeTrianglesAndEdges();
       mCacheData->mSupportShadows = true;
     } else
