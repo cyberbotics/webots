@@ -53,7 +53,7 @@ TODO.
 
 ---
 
-## Overhaul of the protos documentation
+## Overhaul of the Protos Documentation
 
 All the documentation concerning robots, sensors, actuators and objects have been moved to [webots.cloud](https://webots.cloud/proto).
 
