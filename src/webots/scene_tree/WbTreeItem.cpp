@@ -98,6 +98,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
+  connect(multipleValue, &WbMultipleValue::cleared, this, &WbTreeItem::emitDeleteAllChildren);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }
 
@@ -416,6 +417,13 @@ int WbTreeItem::makeInvalid() {
 void WbTreeItem::emitChildNeedsDeletion(int row) {
   mChildren.at(row)->makeInvalid();
   emit childrenNeedDeletion(row, 1);
+}
+
+void WbTreeItem::emitDeleteAllChildren() {
+  for (int i = mChildren.size() - 1; i >= 0; --i)
+    mChildren.at(i)->makeInvalid();
+
+  deleteAllChildren();
 }
 
 void WbTreeItem::addChild(int row) {
