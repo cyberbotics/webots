@@ -72,6 +72,7 @@ int main(int argc, const char *argv[]) {
   WbDeviceTag yaw_motor = wb_robot_get_device("yaw motor");
   WbDeviceTag gripper_motor = wb_robot_get_device("gripper motor");
 
+  // move arm to pick position
   wb_motor_set_position(roll_motor, 0);
   wb_motor_set_position(pitch_motor, 0);
   wb_motor_set_position(yaw_motor, 0);
