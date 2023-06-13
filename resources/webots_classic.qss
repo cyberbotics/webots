@@ -447,7 +447,7 @@ QScrollArea#editorPane {
 
 #NodePane QLineEdit,
 #LoginTabs QLineEdit {
-  background-color: #e6e6e6;
+  background-color: white;
   color: black;
   border: 1px solid #ababab;
   border-radius: 3px;
@@ -464,7 +464,7 @@ QScrollArea#editorPane {
 #LoginTabs QAbstractSpinBox {
   background-color: #fff;
   color: black;
-  border: 1px solid #555;
+  border: 1px solid #ababab;
   border-radius: 3px;
   padding: 2px;
 }
@@ -477,7 +477,7 @@ QScrollArea#editorPane {
 
 #NodePane QComboBox,
 #LoginTabs QComboBox {
-  background-color: #eee;
+  background-color: white;
   border-style: solid;
   border: 1px solid #76797C;
   border-radius: 2px;
@@ -498,13 +498,6 @@ QScrollArea#editorPane {
 #NodePane QComboBox::drop-down,
 #LoginTabs QComboBox::drop-down {
   border-style: solid;
-}
-
-#NodePane QComboBox QAbstractItemView,
-#LoginTabs QComboBox QAbstractItemView {
-  selection-background-color: #308cc6;
-  selection-color: black;
-  outline: none;
 }
 
 QInputDialog QAbstractItemView {
@@ -610,7 +603,7 @@ QPlainTextEdit#ConsoleEdit {
 QPlainTextEdit#ProtoDescription {
   background-color: #fff;
   color: black;
-  border: 1px solid #555;
+  border: 1px solid #ababab;
   border-radius: 3px;
   padding: 2px;
 }
@@ -708,7 +701,7 @@ QTreeWidget::item {
 
 QComboBoxListView {
   padding: 2px;
-  background: white;
+  background: #efefef;
 }
 
 /* scrollbar customization */
@@ -808,17 +801,17 @@ QTabBar::close-button:hover {
 /* dialog-level widgets */
 
 QLineEdit {
-  background-color: #efefef;
+  background-color: white;
   color: black;
-  border: 1px solid #555;
+  border: 1px solid #ababab;
   border-radius: 3px;
   padding: 2px;
 }
 
 QAbstractSpinBox {
-  background-color: #efefef;
+  background-color: white;
   color: black;
-  border: 1px solid #555;
+  border: 1px solid #ababab;
   border-radius: 3px;
   padding: 2px;
 }
@@ -834,7 +827,9 @@ QAbstractSpinBox:focus {
 }
 
 QComboBox {
-  background-color: #eee;
+  selection-background-color: #308cc6;
+  selection-color: black;
+  background-color: white;
   border-style: solid;
   border: 1px solid #76797C;
   border-radius: 2px;
@@ -844,7 +839,7 @@ QComboBox {
 
 QComboBox:on, QComboBox:focus {
   border-color: #308cc6;
-  background-color: #eee;
+  background-color: white;
 }
 
 QComboBox::disabled {
@@ -856,8 +851,6 @@ QComboBox::drop-down {
 }
 
 QComboBox QAbstractItemView {
-  selection-background-color: #308cc6;
-  selection-color: black;
   outline: none;
 }
 
