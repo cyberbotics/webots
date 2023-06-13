@@ -27,11 +27,13 @@ PROTO TiagoRobotiqGripper [
   else if (fields.model.value === 'EPick')
     gripper_name = 'RobotiqEPickGripper';
 
-  let side = '';
+  let side;
   if (fields.side.value === 'left')
     side = 'left hand ';
   else if (fields.side.value === 'right')
     side = 'right hand ';
+  else
+    side = 'front'
 >%
   Slot {
     type "tiago hand"
