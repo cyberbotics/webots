@@ -31,6 +31,8 @@ Released on June 20th, 2023.
     - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt32` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
     - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
+    - Relaxed constraints on [Physics](physics.md) node setup for [Connector](connector.md) devices ([#6190](https://github.com/cyberbotics/webots/pull/6190)).
+    - Improved the performance of deleting and editing points in large [IndexedFaceSet](indexedfaceset.md) and [ElevationGrid](elevationgrid.md) nodes ([#3924](https://github.com/cyberbotics/webots/pull/3924)).
   - Bug Fixes
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).

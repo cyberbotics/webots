@@ -60,7 +60,8 @@ void WbMFNode::clear() {
   QVector<WbNode *> tmp = mVector;
   mVector.clear();
   emit changed();
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
+
+  // We don't want to use qDeleteAll(tmp) because we need to delete USE nodes before DEF nodes
   const int n = tmp.size() - 1;
   for (int i = n; i >= 0; --i)
     delete tmp[i];
