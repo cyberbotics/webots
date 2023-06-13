@@ -14,7 +14,6 @@
 
 #include "WbVacuumGripper.hpp"
 
-
 #include "WbBasicJoint.hpp"
 #include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
