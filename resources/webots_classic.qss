@@ -501,7 +501,7 @@ QScrollArea#editorPane {
 }
 
 QInputDialog QAbstractItemView {
-  background: #eee;
+  background: white;
   outline: none;
 }
 
