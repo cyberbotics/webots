@@ -25,6 +25,7 @@ WbSplashScreen {
 WbNewVersionDialog {
   qproperty-newVersionIconPath: "icons/dark";
 }
+
 QCheckBox#telemetryCheckBox:indicator:checked {
   border: 1px solid black;
   image: url(newVersionIconPath:checkboxCheckmark.png);
