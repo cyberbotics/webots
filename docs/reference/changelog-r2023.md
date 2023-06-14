@@ -6,7 +6,6 @@ Released on June 20th, 2023.
     - Added a new [Pose](pose.md) node which inherits from [Group](group.md) and derives to [Transform](transform.md) and [Solid](solid.md) ([#5978](https://github.com/cyberbotics/webots/pull/5978)).
     - Added a new [VacuumGripper](vacuumgripper.md) node ([#6127](https://github.com/cyberbotics/webots/pull/6127)).
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
-    - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
     - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
   - Enhancements
     - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
@@ -32,7 +31,14 @@ Released on June 20th, 2023.
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
     - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
     - Relaxed constraints on [Physics](physics.md) node setup for [Connector](connector.md) devices ([#6190](https://github.com/cyberbotics/webots/pull/6190)).
+    - Disabled the computation of shadow reception on meshes when shadows are globally disabled([#6201](https://github.com/cyberbotics/webots/pull/6201)).
     - Improved the performance of deleting and editing points in large [IndexedFaceSet](indexedfaceset.md) and [ElevationGrid](elevationgrid.md) nodes ([#3924](https://github.com/cyberbotics/webots/pull/3924)).
+  - New Devices and Objects
+    - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
+    - Added 2-finger 2F-85 and 2F-140 grippers and vaccum EPick gripper from ROBOTIQ ([#6165](https://github.com/cyberbotics/webots/pull/6165)).
+    - Added a model of suction cup ([#6165](https://github.com/cyberbotics/webots/pull/6165)).
+  - Cleanup
+    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Bug Fixes
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
