@@ -3,7 +3,7 @@ from controller import Robot
 
 
 def is_motor_velocity_control_mode(name):
-    return name in ("front left finger joint", "front right finger joint", "wheel_right_joint", "wheel_left_joint")
+    return name in ("front::left finger joint", "wheel_right_joint", "wheel_left_joint")
 
 
 # create the Robot instance.
@@ -18,8 +18,7 @@ motor_names = ["torso_lift_joint",
                "arm_3_joint",
                "arm_4_joint",
                "arm_6_joint",
-               "front left finger joint",
-               "front right finger joint",
+               "front::left finger joint",  # gripper motors are coupled, only left one is directly controlled
                "wheel_right_joint",
                "wheel_left_joint"]
 
@@ -27,13 +26,13 @@ GRIPPER_VELOCITY = [0.4, 0.4] if robot.getName() == "TIAGo 2F-85" else [0.3, 0]
 MOVE_FORWARDS_STEPS = 120 if robot.getName() == "TIAGo 2F-85" else 100
 CLOSE_GRIPPER_STEPS = 30 if robot.getName() == "TIAGo 2F-85" else 50
 
-target_positions = [[0.105, 0.07, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, 0, 0, 0, 0],
-                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, 0, 0, 1.0, 1.0],
-                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, GRIPPER_VELOCITY[0], GRIPPER_VELOCITY[0], 0, 0],
-                    [0.105, 0.331, 0.0337, -2.237, 1.403, -0.5, GRIPPER_VELOCITY[1], GRIPPER_VELOCITY[1], 0, 0],
-                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, GRIPPER_VELOCITY[1], GRIPPER_VELOCITY[1], 0, 0],
-                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, -GRIPPER_VELOCITY[0], -GRIPPER_VELOCITY[0], 0, 0],
+target_positions = [[0.105, 0.07, 0, 0, 0, 0, 0, 0, 0],
+                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, 0, 0, 0],
+                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, 0, 1.0, 1.0],
+                    [0.105, 0.331, 0.0337, -1.575, 1.403, 0, GRIPPER_VELOCITY[0], 0, 0],
+                    [0.105, 0.331, 0.0337, -2.237, 1.403, -0.5, GRIPPER_VELOCITY[1], 0, 0],
+                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, GRIPPER_VELOCITY[1], 0, 0],
+                    [0.105, 0.331, 0.0337, -1.65, 1.403, 0, -GRIPPER_VELOCITY[0], 0, 0],
                     [0.105, 0.331, 0.0337, -2.237, 1.403, 0, 0, 0, 0, 0]]
 target_steps = [0, 60, 50, MOVE_FORWARDS_STEPS, CLOSE_GRIPPER_STEPS, 70, 50, 50, 50]
 

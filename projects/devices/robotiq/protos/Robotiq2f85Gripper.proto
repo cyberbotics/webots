@@ -4,7 +4,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/Robotiq2f85Gripper.proto
 # keywords: actuator/gripper
 # template language: javascript
-# A 2-finger adaptive robot gripper from ROBOTIQ with 85mm stroke.
+# A 2-finger adaptive robot gripper from ROBOTIQ with 85 mm opening.
 
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
@@ -41,7 +41,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
         }
         device [
           RotationalMotor {
-            name %<= '"' + fields.name.value + ' left finger joint"' >%
+            name %<= '"' + fields.name.value + '::left finger joint"' >%
             maxVelocity 2
             maxPosition 0.8
             maxTorque 0.1
@@ -492,7 +492,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
         }
         device [
           RotationalMotor {
-            name %<= '"' + fields.name.value + ' right finger joint"' >%
+            name %<= '"' + fields.name.value + '::right finger joint"' >%
             maxVelocity 2.0
             maxPosition 0.8
             maxTorque 0.1

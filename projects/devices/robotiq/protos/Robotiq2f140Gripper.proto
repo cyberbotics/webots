@@ -4,7 +4,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/Robotiq2f140Gripper.proto
 # keywords: actuator/gripper
 # template language: javascript
-# A 2-finger adaptive robot gripper from ROBOTIQ with 140mm stroke.
+# A 2-finger adaptive robot gripper from ROBOTIQ with 140 mm opening.
 
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
@@ -38,7 +38,7 @@ PROTO Robotiq2f140Gripper [
         }
         device [
           RotationalMotor {
-            name %<= '"' + fields.name.value + ' left finger joint"' >%
+            name %<= '"' + fields.name.value + '::left finger joint"' >%
             maxVelocity 2
             maxPosition 0.7
             maxTorque 0.12
@@ -306,7 +306,7 @@ PROTO Robotiq2f140Gripper [
         }
         device [
           RotationalMotor {
-            name %<= '"' + fields.name.value + ' right finger joint"' >%
+            name %<= '"' + fields.name.value + '::right finger joint"' >%
             maxVelocity 2
             maxPosition 0.7
             maxTorque 0.12
