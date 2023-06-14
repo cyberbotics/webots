@@ -20,6 +20,8 @@
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
 
+#include <QtCore/QDir>
+
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGroupBox>
@@ -45,6 +47,8 @@ bool WbNewVersionDialog::run() {
 }
 
 WbNewVersionDialog::WbNewVersionDialog() {
+  style()->polish(this);
+  QDir::addSearchPath("newVersionIconPath", WbStandardPaths::resourcesPath() + newVersionIconPath());
   style()->polish(this);
 
   const WbVersion &version = WbApplicationInfo::version();
@@ -121,6 +125,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   telemetryLayout->addWidget(label);
   telemetryLayout->addStretch();
   mTelemetryCheckBox = new QCheckBox(tr("Allow to send lightweight anonymous technical data to Webots developers."));
+  mTelemetryCheckBox->setObjectName("telemetryCheckBox");
   mTelemetryCheckBox->setChecked(true);
   telemetryLayout->addWidget(mTelemetryCheckBox);
   telemetryBox->setLayout(telemetryLayout);
