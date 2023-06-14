@@ -182,6 +182,16 @@ void WbSlot::endPointChanged() {
   }
 }
 
+QString WbSlot::endPointName() const {
+  if (!mEndPoint->value())
+    return QString();
+
+  QString name = mEndPoint->value()->computeName();
+  if (name.isEmpty())
+    name = mEndPoint->value()->endPointName();
+  return name;
+}
+
 void WbSlot::reset(const QString &id) {
   WbBaseNode::reset(id);
 

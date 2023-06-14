@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/Slide.proto
+# keywords: exterior/garden
 # A slide.
 
 PROTO Slide [
@@ -69,7 +71,7 @@ PROTO Slide [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.03129493780399109 -0.16 0.9539684843024302
           rotation -0.479916 0.47991 0.734416 -1.874697
           children [
@@ -78,7 +80,7 @@ PROTO Slide [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 2.0782566165050556 -0.16 1.021241210451583
           rotation 0.686294 -0.686294 -0.240835 2.668938
           children [
@@ -87,7 +89,7 @@ PROTO Slide [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.7282566165050555 -0.16 1.8812412104515837
           children [
             Box {
@@ -95,7 +97,7 @@ PROTO Slide [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.2882566165050537 -0.16 0.17124121045158214
           children [
             Box {

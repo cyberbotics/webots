@@ -1,0 +1,48 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_lite/protos/TiagoLite.proto
+# keywords: robot/wheeled
+# LITE version of the TIAGo robot from PAL Robotics.
+# The robot is composed by the TIAGo base and a body without arm.
+
+EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
+EXTERNPROTO "webots://projects/devices/orbbec/protos/Astra.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
+
+PROTO TiagoLite [
+  field  SFVec3f     translation      0 0 0.095
+  field  SFRotation  rotation         0 0 1 0
+  field  SFString    name             "TIAGo LITE"
+  field  SFString    controller       "tiago_lite"
+  field  MFString    controllerArgs   []
+  field  SFString    window           "<generic>"
+  field  SFString    customData       ""
+  field  SFBool      supervisor       FALSE
+  field  SFBool      synchronization  TRUE
+  field  SFBool      selfCollision    FALSE                                                             # Enables/disables the detection of collisions within the robot.
+  field  MFNode      cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}  # Extends the robot with a camera at head level.
+  field  MFNode      lidarSlot        HokuyoUrg04lxug01 {}                                              # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+]
+{
+  TiagoBase {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    window IS window
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    name IS name
+    model "PAL Robotics - TIAGo LITE"
+    bodySlot [
+      TiagoBody {
+        cameraSlot IS cameraSlot
+      }
+    ]
+    lidarSlot IS lidarSlot
+  }
+}

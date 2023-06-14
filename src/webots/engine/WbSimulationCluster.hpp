@@ -61,8 +61,9 @@ private:
   void handleKinematicsCollisions();
   void swapBuffer();
   static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
-  static const WbContactProperties *fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
-                                                          const WbGeometry *wg2, dContact *contact);
+  static const WbContactProperties *findContactProperties(const WbSolid *s1, const WbSolid *s2);
+  static void fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
+                                    const WbGeometry *wg2, dContact *contact);
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,
                                              dImmersionSurfaceParameters *surf);
   static void odeNearCallback(void *data, dGeomID o1, dGeomID o2);
@@ -71,8 +72,7 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
-
-  static void warnMoreContactPointsThanContactJoints();
+  static void warnMoreContactPointsThanContactJoints(const QString &material1, const QString &material2, int max, int n);
 };
 
 #endif

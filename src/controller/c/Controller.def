@@ -74,6 +74,7 @@ wb_NODE_PBR_APPEARANCE
 wb_NODE_PLANE
 wb_NODE_POINT_LIGHT
 wb_NODE_POINT_SET
+wb_NODE_POSE
 wb_NODE_SHAPE
 wb_NODE_SPHERE
 wb_NODE_SPOT_LIGHT
@@ -108,6 +109,7 @@ wb_NODE_ROTATIONAL_MOTOR
 wb_NODE_SKIN
 wb_NODE_SPEAKER
 wb_NODE_TOUCH_SENSOR
+wb_NODE_VACUUM_GRIPPER
 wb_NODE_BALL_JOINT
 wb_NODE_BALL_JOINT_PARAMETERS
 wb_NODE_CHARGER
@@ -587,6 +589,13 @@ wb_touch_sensor_get_value
 wb_touch_sensor_get_values
 wb_touch_sensor_get_lookup_table_size
 wb_touch_sensor_get_lookup_table
+wb_vacuum_gripper_disable_presence
+wb_vacuum_gripper_enable_presence
+wb_vacuum_gripper_get_presence
+wb_vacuum_gripper_get_presence_sampling_period
+wb_vacuum_gripper_is_on
+wb_vacuum_gripper_turn_on
+wb_vacuum_gripper_turn_off
 wbr_accelerometer_set_values
 wbr_camera_get_image_buffer
 wbr_camera_set_image

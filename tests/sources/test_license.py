@@ -90,6 +90,7 @@ class TestLicense(unittest.TestCase):
         directories = [
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'src/webots',
             'src/wren',
             'projects',
@@ -127,7 +128,9 @@ class TestLicense(unittest.TestCase):
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h',
-            'scripts/packaging/iscc_formatter.c'
+            'scripts/packaging/iscc_formatter.c',
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
         ]
 
         skippedDirectories = [

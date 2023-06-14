@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/franka_emika/panda/protos/Panda.proto
+# keywords: robot/arm
 # This is a proto file for Franka Emika's Panda arm.
 # The PROTO has been generated from the officially provided xacro description of the robot, available at https://github.com/frankaemika/franka_ros.
 # template language: javascript
@@ -8,12 +10,12 @@
 EXTERNPROTO "PandaHand.proto"
 
 PROTO Panda [
-  field  SFVec3f     translation        0 0 0         # Is `Transform.translation`.
-  field  SFRotation  rotation           0 0 1 0       # Is `Transform.rotation`.
+  field  SFVec3f     translation        0 0 0         # Is `Pose.translation`.
+  field  SFRotation  rotation           0 0 1 0       # Is `Pose.rotation`.
   field  SFString    name               "panda"       # Is `Solid.name`.
   field  SFString    controller         "<generic>"   # Is `Robot.controller`.
   field  MFString    controllerArgs     []            # Is `Robot.controllerArgs`.
-  field SFString     window             "<generic>"   # Is `Robot.window`.
+  field  SFString    window             "<generic>"   # Is `Robot.window`.
   field  SFString    customData         ""            # Is `Robot.customData`.
   field  SFBool      supervisor         FALSE         # Is `Robot.supervisor`.
   field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
@@ -222,7 +224,7 @@ PROTO Panda [
                                                       ]
                                                     }
                                                     %< if (fields.endEffectorSlot.value.length > 0) { >%
-                                                    DEF panda_link8 Transform {
+                                                    DEF panda_link8 Pose {
                                                       translation 0 0 0.107
                                                       children IS endEffectorSlot
                                                     }
@@ -231,7 +233,7 @@ PROTO Panda [
                                                   name "panda_link7"
                                                   boundingObject Group {
                                                     children [
-                                                      Transform {
+                                                      Pose {
                                                         translation 0 0 0.075
                                                         children [
                                                           Cylinder {
@@ -240,7 +242,7 @@ PROTO Panda [
                                                           }
                                                         ]
                                                       }
-                                                      Transform {
+                                                      Pose {
                                                         translation 0.0424265 0.0424265 0.082
                                                         rotation 0 0 1 0.785398
                                                         children [
@@ -264,7 +266,7 @@ PROTO Panda [
                                               }
                                             ]
                                             name "panda_link6"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.09 -0.015 0
                                               rotation 1 0 0 1.5708
                                               children [
@@ -290,7 +292,7 @@ PROTO Panda [
                                       name "panda_link5"
                                       boundingObject Group {
                                         children [
-                                          Transform {
+                                          Pose {
                                             translation 0 0.037 0
                                             rotation 1 0 0 -1.5707953071795862
                                             children [
@@ -301,7 +303,7 @@ PROTO Panda [
                                               }
                                             ]
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0 0.085 -0.104824
                                             rotation 1 0 0 -0.19
                                             children [
@@ -325,7 +327,7 @@ PROTO Panda [
                                   }
                                 ]
                                 name "panda_link4"
-                                boundingObject Transform {
+                                boundingObject Pose {
                                   translation -0.08 0.115 0
                                   rotation 1 0 0 -1.5707953071795862
                                   children [
@@ -349,7 +351,7 @@ PROTO Panda [
                             }
                           ]
                           name "panda_link3"
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation 0.0825 0 0
                             rotation 1 0 0 -1.5708
                             children [
@@ -375,7 +377,7 @@ PROTO Panda [
                     name "panda_link2"
                     boundingObject Group {
                       children [
-                        Transform {
+                        Pose {
                           translation 0 -0.195 0
                           rotation 1 0 0 -1.5707953071795862
                           children [
@@ -386,7 +388,7 @@ PROTO Panda [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation 0 -0.0696408 0.0406215
                           rotation 1 0 0 -1.047195307179586
                           children [
@@ -413,7 +415,7 @@ PROTO Panda [
               name "panda_link1"
               boundingObject Group {
                 children [
-                  Transform {
+                  Pose {
                     rotation 1 0 0 -1.5707953071795862
                     children [
                       Capsule {
@@ -423,7 +425,7 @@ PROTO Panda [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0346408 -0.08
                     rotation 1 0 0 0.5236
                     children [
@@ -449,7 +451,7 @@ PROTO Panda [
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation -0.04 0 0.005
               children [
                 Box {
@@ -457,7 +459,7 @@ PROTO Panda [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.11
               children [
                 Cylinder {

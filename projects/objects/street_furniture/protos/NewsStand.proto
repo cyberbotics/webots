@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/NewsStand.proto
 # A news stand.
 
 PROTO NewsStand [
@@ -162,7 +163,7 @@ PROTO NewsStand [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.255 0 2.84
           children [
             Box {
@@ -170,7 +171,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.185 0 1.35
           children [
             Box {
@@ -178,7 +179,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.075 0 0.55
           children [
             Box {
@@ -186,7 +187,7 @@ PROTO NewsStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.3789 1.945 1.1
           rotation -0.377964 0.654654 0.654654 -2.418858
           children [

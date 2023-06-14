@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/breakfast/protos/CerealBox.proto
+# keywords: household/kitchen
 # A customizable (size, texture, etc.) cereal box.
 # template language: javascript
 
@@ -59,7 +61,7 @@ PROTO CerealBox [
     ]
     name IS name
     model "cereal box"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 %<= size.z * 0.5 >%
       children [
         Shape {
