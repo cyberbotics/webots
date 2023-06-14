@@ -28,7 +28,7 @@ WbNewVersionDialog {
 
 
 QCheckBox#telemetryCheckBox:indicator:checked {
-  border: 1px solid dimgrey;
+  border: 1px solid black;
   image: url(newVersionIconPath:checkboxCheckmark.png);
 }
 
