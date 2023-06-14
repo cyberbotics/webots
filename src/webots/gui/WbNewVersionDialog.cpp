@@ -20,6 +20,8 @@
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
 
+#include <QtCore/QDir>
+
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGroupBox>
@@ -45,6 +47,8 @@ bool WbNewVersionDialog::run() {
 }
 
 WbNewVersionDialog::WbNewVersionDialog() {
+  style()->polish(this);
+  QDir::addSearchPath("enabledIcons", WbStandardPaths::resourcesPath() + enabledIconPath());
   style()->polish(this);
 
   const WbVersion &version = WbApplicationInfo::version();

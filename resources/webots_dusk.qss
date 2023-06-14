@@ -22,6 +22,10 @@ WbSplashScreen {
   qproperty-loadingColor: #b4b4b4;
 }
 
+WbNewVersionDialog {
+  qproperty-enabledIconPath: "icons/light";
+}
+
 WbMainWindow {
   qproperty-enabledIconPath: "icons/light";
   qproperty-disabledIconPath: "icons/dark";
