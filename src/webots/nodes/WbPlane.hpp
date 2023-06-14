@@ -64,14 +64,11 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
   void exportNodeFields(WbWriter &writer) const override;
-  const QString &vrmlName() const override {
-    static const QString name("IndexedFaceSet");
-    return name;
-  }
-  const QString &x3dName() const override { return nodeModelName(); }
 
 private:
   // user accessible fields

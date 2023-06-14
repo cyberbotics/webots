@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/robots/epfl/lis/protos/Blimp.proto"
@@ -134,7 +134,7 @@ DEF OUTSIDE_WEST_WALL Solid {
   ]
   name "outside west wall 1"
   description "designed by jcz"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 1.5
     children [
       Box {
@@ -226,7 +226,7 @@ DEF OUTSIDE_SOUTH_WALL Solid {
     }
   ]
   name "outside south wall"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 1.5
     children [
       Box {
@@ -276,7 +276,7 @@ DEF OUTSIDE_EAST_WALL Solid {
     }
   ]
   name "outside east wall 1"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 1.5
     children [
       Box {
@@ -368,7 +368,7 @@ DEF OUTSIDE_NORTH_WALL Solid {
     }
   ]
   name "outside north wall"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 1.5
     children [
       Box {

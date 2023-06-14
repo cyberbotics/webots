@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/bounding_objects/protos/TorusBoundingObject.proto
+# keywords: primitive/geometry
 # This bounding object with a torus shape is formed by a group of spheres.
 # template language: javascript
 
@@ -39,12 +41,18 @@ PROTO TorusBoundingObject [
   Group { # set of spheres
     children [
        %< for (let i = 0; i < referenceCircle.length; ++i) { >%
-        Transform {
+        Pose {
           translation %<= majorRadius * referenceCircle[i].x >% %<= majorRadius * referenceCircle[i].y >% 0
           children [
-            Sphere {
-              radius %<= minorRadius >%
-              subdivision 2
+            Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Sphere {
+                radius %<= minorRadius >%
+                subdivision 2
+              }
             }
           ]
         }

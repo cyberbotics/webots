@@ -14,9 +14,9 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## New Robots
 
-New robot models have been added to the Webots library, the [Crazyflie](../guide/crazyflie.md) quadrotor from [Bitcraze](https://www.bitcraze.io/).
-The [Franka Emika](https://www.franka.de/)'s [Panda](../guide/panda.md) robot comes with the [PandaHand](../guide/panda.md#panda-hand) gripper.
-Last but not least, Webots finally includes a SCARA-type robot, namely the [SCARA T6](../guide/scara-epson-t6.md) from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
+New robot models have been added to the Webots library, the Crazyflie quadrotor from [Bitcraze](https://www.bitcraze.io/).
+The [Franka Emika](https://www.franka.de/)'s Panda robot comes with the PandaHand gripper.
+Last but not least, Webots finally includes a SCARA-type robot, namely the SCARA T6 from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS).
 
 %figure "Scara T6, Panda and Crazyflie"
 ![Added Robots](images/robots_r2022b.thumbnail.jpg)
@@ -34,7 +34,7 @@ Additional models have been added to the Webots library, namely hospital-themed 
 ![Added Assets](images/assets_r2022b.thumbnail.jpg)
 %end
 
-Two new appearances have also been included, namely [WornBurlap](../guide/appearances.md#wornburlap) and [ScuffedPlastic](../guide/appearances.md#scuffedplastic).
+Two new appearances have also been included, namely `WornBurlap` and `ScuffedPlastic`.
 
 %figure "New appearances"
 ![New Appearances](images/appearances_r2022b.thumbnail.jpg)
@@ -80,8 +80,8 @@ This tool could be used to publish open-science results where both reviewers and
 
 #### Simulations
 
-- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt)
-- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt)
+- [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt&type=demo)
+- [Spot Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/2_compile_controller/worlds/spot.wbt&type=demo)
 
 ---
 

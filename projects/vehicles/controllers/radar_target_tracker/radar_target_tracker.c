@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   WbFieldRef children_field = wb_supervisor_node_get_field(wb_supervisor_node_get_self(), "children");
 
   // target string defines the target node
-  const char *target_string = "Transform {\n"
+  const char *target_string = "Pose {\n"
                               "  translation 0 0 -10.0\n"
                               "  children [\n"
                               "    Shape {\n"

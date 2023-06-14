@@ -1,26 +1,50 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbBillboard from './WbBillboard.js';
+import WbSolid from './WbSolid.js';
+import { WbNodeType } from './wb_node_type.js';
 import WbWorld from './WbWorld.js';
-import {isDescendantOfBillboard} from './utils/utils.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
+import { findUpperPose, nodeIsInBoundingObject } from './utils/node_utilities.js';
+import WbGroup from './WbGroup.js';
 
 export default class WbGeometry extends WbBaseNode {
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
+  #upperPoseFirstTimeSearch;
   #wrenScaleTransform;
   constructor(id) {
     super(id);
 
     this.pickable = false;
     this._isShadedGeometryPickable = true;
+
+    this.#boundingObjectFirstTimeSearch = true;
+    this.#isInBoundingObject = false;
+
+    this.#upperPoseFirstTimeSearch = true;
+    this.upperPose = false;
+  }
+
+  absoluteScale() {
+    const up = this.upperTransform;
+    return up ? up.absoluteScale() : new WbVector3(1, 1, 1);
+  }
+
+  boundingSphere() {
+    return this._boundingSphere;
   }
 
   computeCastShadows(enabled) {
     if (typeof this._wrenRenderable === 'undefined')
       return;
 
-    if (this.isInBoundingObject() || isDescendantOfBillboard(this)) {
+    if (this.isInBoundingObject() || WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     } else
@@ -32,6 +56,16 @@ export default class WbGeometry extends WbBaseNode {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined')
         parent.geometry = undefined;
+
+      if (this.isInBoundingObject()) {
+        if (parent instanceof WbSolid)
+          parent.boundingObject = undefined;
+        else if (parent instanceof WbGroup) {
+          const index = parent.children.indexOf(this);
+          console.assert(index !== -1, 'The parent node should have this node as a child for it to be deleted.');
+          parent.children.splice(index, 1);
+        }
+      }
     }
 
     if (this.wrenObjectsCreatedCalled)
@@ -39,6 +73,26 @@ export default class WbGeometry extends WbBaseNode {
 
     super.delete();
   }
+
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.#isInBoundingObject;
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    this._boundingSphere = new WbBoundingSphere(this);
+    this._boundingSphere.geomOwner = true;
+    this.recomputeBoundingSphere();
+  }
+
+  recomputeBoundingSphere() { }
 
   setPickable(pickable) {
     if (typeof this._wrenRenderable === 'undefined' || this.isInBoundingObject())
@@ -60,6 +114,16 @@ export default class WbGeometry extends WbBaseNode {
     this.#applyVisibilityFlagToWren(this.#isSelected());
   }
 
+  #upperPose() {
+    if (this.#upperPoseFirstTimeSearch) {
+      this.upperPose = findUpperPose(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperPoseFirstTimeSearch = false;
+    }
+
+    return this.upperPose;
+  }
+
   // Private functions
 
   #applyVisibilityFlagToWren(selected) {
@@ -70,9 +134,24 @@ export default class WbGeometry extends WbBaseNode {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
         _wr_node_set_visible(this.#wrenScaleTransform, true);
-      } else if (_wr_node_get_parent(this.#wrenScaleTransform))
-        _wr_node_set_visible(this.#wrenScaleTransform, false);
-    } else if (isDescendantOfBillboard(this)) {
+      } else {
+        let shouldRender = false;
+        let parent = WbWorld.instance.nodes.get(this.parent);
+        while (parent) {
+          if (parent.nodeType === WbNodeType.WB_NODE_TOUCH_SENSOR || parent.nodeType === WbNodeType.WB_NODE_VACUUM_GRIPPER) {
+            shouldRender = parent.showOptionalRendering;
+            break;
+          } else
+            parent = WbWorld.instance.nodes.get(parent.parent);
+        }
+
+        if (shouldRender) {
+          _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
+          _wr_node_set_visible(this.#wrenScaleTransform, true);
+        } else if (_wr_node_get_parent(this.#wrenScaleTransform))
+          _wr_node_set_visible(this.#wrenScaleTransform, false);
+      }
+    } else if (WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
       _wr_node_set_visible(this.#wrenScaleTransform, true);
     } else {
@@ -82,9 +161,6 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   _computeWrenRenderable() {
-    if (this._wrenRenderable)
-      return;
-
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 
@@ -126,6 +202,12 @@ export default class WbGeometry extends WbBaseNode {
 
   _deleteWrenRenderable() {
     if (typeof this._wrenRenderable !== 'undefined') {
+      if (this.wrenMaterial) {
+        this.setWrenMaterial(null, false);
+        _wr_material_delete(this.wrenMaterial);
+        this.wrenMaterial = undefined;
+      }
+
       // Delete picking material
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'],
         [this._wrenRenderable, 'picking']));
@@ -145,8 +227,8 @@ export default class WbGeometry extends WbBaseNode {
     if (!this.isInBoundingObject())
       return false;
 
-    const upperTransform = super.upperTransform();
-    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry !== this)
+    const upperPose = this.#upperPose();
+    if (typeof upperPose !== 'undefined' && upperPose.isInBoundingObject() && upperPose.geometry() !== this)
       return false;
 
     return true;

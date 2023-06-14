@@ -133,9 +133,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
   if (mVector == other.mVector)
     return *this;
 
-  // QVector<WbNode*> tmp = mVector;
-  // mVector.clear();
-
   while (mVector.size() > 0)
     removeItem(0);
 
@@ -145,17 +142,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
     assert(copy);  // test clone() function
     addItem(copy);
   }
-
-  // foreach (WbNode *node, other.mVector) {
-  //   WbNode *copy = node->clone();
-  //   assert(copy);  // test clone() function
-  //   mVector.append(copy);
-  // }
-
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
-  // const int n = tmp.size() - 1;
-  // for (int i = n; i >= 0; i--)
-  //   delete tmp[i];
 
   emit changed();
   return *this;

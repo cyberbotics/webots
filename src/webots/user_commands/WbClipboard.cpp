@@ -172,7 +172,7 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
     mLinkedDefNodeDefinitions.append(data);
   }
 
-  mStringValue = n->usefulName();
+  mStringValue = n->fullName();
   mSystemClipboard->blockSignals(true);
   mSystemClipboard->setText(mStringValue, QClipboard::Clipboard);
   mSystemClipboard->blockSignals(false);

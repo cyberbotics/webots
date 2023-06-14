@@ -48,7 +48,7 @@ class WbBoundingSphere;
 class WbShape;
 class WbSkin;
 
-class WbAbstractTransform;
+class WbPose;
 class WbBaseNode;
 class WbGeometry;
 class WbRay;
@@ -121,11 +121,10 @@ private:
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
   const WbSkin *mSkinOwner;
-  const WbAbstractTransform *mTransformOwner;
+  const WbPose *mPoseOwner;
 
   // Cached values
   bool mBoundSpaceDirty;  // center and radius update required
-  bool mGeomSphereDirty;
   // to speed-up recomputation
   bool mParentCoordinatesDirty;
   WbVector3 mCenterInParentCoordinates;

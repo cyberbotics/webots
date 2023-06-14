@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
@@ -29,7 +29,7 @@ DEF AIRPLANE Robot {
     InertialUnit {
       noise 0.000005
     }
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -48,7 +48,7 @@ DEF AIRPLANE Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       rotation 1 0 0 1.57080367321
       children [
         Shape {

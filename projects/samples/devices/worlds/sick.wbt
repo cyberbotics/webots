@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -456,7 +456,7 @@ Robot {
             endPoint Solid {
               rotation -0.707104781184338 0 0.7071087811831002 3.141585
               children [
-                DEF WHEEL_TRANSFORM Transform {
+                DEF WHEEL_TRANSFORM Pose {
                   children [
                     Shape {
                       appearance PBRAppearance {

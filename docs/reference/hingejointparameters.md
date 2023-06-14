@@ -22,7 +22,7 @@ The [HingeJointParameters](#hingejointparameters) node can be used to specify th
 
 - `anchor`: This field specifies the anchor position, i.e. a point through which the hinge axis passes.
 Together with the `axis` field inherited from the [JointParameters](jointparameters.md) node, the `anchor` field determines the hinge rotation axis in a unique way.
-It is expressed in relative coordinates with respect to the closest upper [Transform](transform.md) node's frame.
+It is expressed in relative coordinates with respect to the closest upper [Pose](pose.md) node's frame.
 
 - `suspensionSpringConstant`: This field specifies the suspension spring constant along the suspension axis.
 

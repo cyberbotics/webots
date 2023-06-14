@@ -37,6 +37,10 @@ class TestCppCheck(unittest.TestCase):
         else:
             self.platformOptions = ' -D__APPLE__'
 
+        with open(os.path.join(self.WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
+            version = file.readlines()[0].strip()
+            self.platformOptions += ' -DLIBCONTROLLER_VERSION=' + version
+
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
         self.assertTrue(
@@ -61,7 +65,7 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
         os.chdir(curdir)
 
-    def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
+    def add_source_files(self, sourceDirs, skippedDirs, skippedFiles=[]):
         command = ''
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         if os.path.isfile(modified_files):
@@ -74,17 +78,17 @@ class TestCppCheck(unittest.TestCase):
                     for sourceDir in sourceDirs:
                         if line.startswith(sourceDir):
                             shouldSkip = False
-                            for skipped in skippedDirs + skippedfiles:
+                            for skipped in skippedDirs + skippedFiles:
                                 if line.startswith(skipped):
                                     shouldSkip = True
                                     break
                             if not shouldSkip:
                                 command += ' \"' + line + '\"'
                             continue
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
         else:
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
             for source in skippedDirs:
                 command += ' -i\"' + source + '\"'
@@ -99,6 +103,7 @@ class TestCppCheck(unittest.TestCase):
             'src/wren',
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'resources/projects'
         ]
         skippedDirs = [
@@ -132,7 +137,12 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        skippedfiles = [] if sys.platform.startswith('win32') else ['src/webots/core/WbWindowsRegistry.hpp']
+        skippedFiles = [
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
+        ]
+        if not sys.platform.startswith('win32'):
+            skippedFiles.append('src/webots/core/WbWindowsRegistry.hpp')
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
         command += self.platformOptions
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
@@ -142,7 +152,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
             command += ' -I\"' + include + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources
@@ -165,9 +175,6 @@ class TestCppCheck(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
@@ -176,7 +183,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
             'projects/vehicles/plugins/robot_windows/automobile_window/build'
         ]
-        skippedfiles = [
+        skippedFiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics/utils.h'
         ]
@@ -186,7 +193,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources

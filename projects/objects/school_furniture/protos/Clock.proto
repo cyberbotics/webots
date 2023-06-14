@@ -1,10 +1,12 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/school_furniture/protos/Clock.proto
+# keywords: household/school, household/living room
 # A clock (radius 16.5 cm).
 
 PROTO Clock [
-  field SFVec3f    translation 0 0 0
+  field SFVec3f    translation 0 0 0.17
   field SFRotation rotation    0 0 1 0
   field SFString   name        "clock"
 ]
@@ -13,7 +15,7 @@ PROTO Clock [
     translation IS translation
     rotation IS rotation
     children [
-      DEF MINUTE_HAND Transform {
+      DEF MINUTE_HAND Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -34,7 +36,7 @@ PROTO Clock [
           }
         ]
       }
-      DEF CENTRAL_PIN Transform {
+      DEF CENTRAL_PIN Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -55,7 +57,7 @@ PROTO Clock [
           }
         ]
       }
-      DEF HOUR_HAND Transform {
+      DEF HOUR_HAND Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -94,7 +96,7 @@ PROTO Clock [
           creaseAngle 1
         }
       }
-      DEF FACE Transform {
+      DEF FACE Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -133,7 +135,7 @@ PROTO Clock [
       }
     ]
     name IS name
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57734898 0.57735092 -0.57735091 4.1887883
       children [
         Cylinder {

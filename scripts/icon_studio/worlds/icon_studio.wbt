@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 IMPORTABLE EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"
@@ -183,8 +183,7 @@ IMPORTABLE EXTERNPROTO "webots://projects/objects/road/protos/Roundabout.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/road/protos/StraightRoadSegment.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumGoal.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/objects/rocks/protos/Rock.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/school_furniture/protos/Blackboard.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/school_furniture/protos/Book.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/school_furniture/protos/Clock.proto"
@@ -302,11 +301,10 @@ IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/Ti
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago/protos/Tiago.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_lite/protos/TiagoLite.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto"
@@ -409,6 +407,7 @@ IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTankSimpl
 IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailer.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckTrailerSimple.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/vehicles/protos/generic/TruckWheel.proto"
+IMPORTABLE EXTERNPROTO "webots://scripts/icon_studio/protos/TiagoEyesCap.proto"
 
 WorldInfo {
   gravity 0

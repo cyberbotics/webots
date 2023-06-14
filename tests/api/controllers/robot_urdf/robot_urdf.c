@@ -28,7 +28,7 @@ int compare_files(FILE *file_1, FILE *file_2) {
 }
 
 int main(int argc, char **argv) {
-  char reference_filename[64], generated_filename[64], test[256], command[128];
+  char reference_filename[64], generated_filename[64], test[256];
   snprintf(generated_filename, 64, "%s.urdf", argv[1]);
   snprintf(reference_filename, 64, "%s_reference.urdf", argv[1]);
   snprintf(test, 256, "%s_%s", argv[0], argv[1]);
@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
   fprintf(f_urdf, "%s", urdf);
   fclose(f_urdf);
 #ifndef _WIN32  // check_urdf is not available on Windows
+  char command[128];
   // Save output of `check_urdf` to file
   snprintf(command, 128, "check_urdf %s > result.txt 2> /dev/null", generated_filename);
   const int urdf_check_status = system(command);

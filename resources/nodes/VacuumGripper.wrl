@@ -1,0 +1,29 @@
+# VacuumGripper nodes are used to simulate vacuum suction systems.
+# The physical connection with a Solid can be created and destroyed at run time by the robot controller program.
+
+VacuumGripper {
+  #fields that inherit from the Solid node:
+  vrmlField SFVec3f    translation         0 0 0
+  vrmlField SFRotation rotation            0 0 1 0
+  vrmlField MFNode     children            []           # shape and solids fixed to that solid
+  field     SFString   name                "vacuum gripper" # used by wb_robot_get_device()
+  field     SFString   model               ""           # generic name (eg: "chair")
+  field     SFString   description         ""           # a short (1 line) of description
+  field     SFString   contactMaterial     "default"    # see ContactProperties node
+  field     MFNode     immersionProperties []           # see ImmersionProperties node
+  field     SFNode     boundingObject      NULL         # for collision detection
+  field     SFNode     physics             NULL         # physics props (Physics node)
+  field     SFBool     locked              FALSE        # to avoid moving objects with the mouse
+  field     SFFloat    translationStep     0.01         # step size used by translation manipulator
+  field     SFFloat    rotationStep        0.261799387  # step size used by rotation manipulator (PI/12)
+  field     SFFloat    radarCrossSection   0.0          # radar cross section of this solid
+  field     MFColor    recognitionColors   []           # colors returned for this Solid by Cameras with a Recognition node
+  #fields specific to the VacuumGripper node:
+  field     SFBool     isOn                FALSE        # current state
+  field     SFFloat    tensileStrength    -1            # max pull force that the suction mechanism can withstand before breaking (Newtons)
+  field     SFFloat    shearStrength      -1            # max shear force that the suction mechanism can withstand before breaking (Newtons)
+  field     SFInt32    contactPoints      3             # minimum number of contact points with a Solid to create a physical connection
+  # hidden fields
+  hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
+  hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+}

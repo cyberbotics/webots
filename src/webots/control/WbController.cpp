@@ -245,13 +245,23 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    const QString localUrl =
-      "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
-    const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
-                              QUrl::toPercentEncoding(mRobot->name());
-    info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    QString message;
+    if (mRobot->encodedName() == mRobot->name())
+      message = tr("Waiting for local or remote connection on port %1 targeting robot named '%2'.")
+                  .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
+                  .arg(mRobot->name());
+    else
+      message = tr("Waiting for local or remote connection on port %1 targeting robot named '%2' (%3).")
+                  .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
+                  .arg(mRobot->name())
+                  .arg(mRobot->encodedName());
+
+    info(message);
     WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
+      const QString localUrl = "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + mRobot->encodedName();
+      const QString remoteUrl =
+        "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + mRobot->encodedName();
       std::cout << localUrl.toUtf8().constData() << std::endl;
       std::cout << remoteUrl.toUtf8().constData() << std::endl;
     }
@@ -296,14 +306,13 @@ void WbController::start() {
     }
   }
 
-  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(mRobot->name());
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + mRobot->encodedName();
   QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
 #else
-  const QString serverName =
-    "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + QUrl::toPercentEncoding(mRobot->name());
+  const QString serverName = "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + mRobot->encodedName();
   // create an empty file, so that the controllers can see an extern controller is available here
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -590,6 +599,11 @@ void WbController::setProcessEnvironment() {
     // these variables are read by lib/matlab/launcher.m
     env.insert("WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
     env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
+#ifdef _WIN32
+    env.insert("WEBOTS_CONTROLLER_ARGS", mRobot->controllerArgs().join(';').toUtf8());
+#else
+    env.insert("WEBOTS_CONTROLLER_ARGS", mRobot->controllerArgs().join(':').toUtf8());
+#endif
     env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
   env.insert("WEBOTS_INSTANCE_PATH", WbStandardPaths::webotsTmpPath());
@@ -888,9 +902,8 @@ void WbController::startMatlab() {
 
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab"
-             << "-r"
+             << "-batch"
              << "launcher";
-  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {
@@ -929,7 +942,7 @@ void WbController::startDocker() {
                                        "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_INSTANCE_PATH=" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
-                                       image};
+                                       image};  // the raw robot name is set, if needed libController will encode it
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }

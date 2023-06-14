@@ -17,8 +17,10 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbGeometry.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbOdeContext.hpp"
 #include "WbSlot.hpp"
+#include "WbSolid.hpp"
 
 using namespace WbHiddenKinematicParameters;
 
@@ -97,6 +99,7 @@ void WbGroup::postFinalize() {
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
+  connect(mChildren, &WbMFNode::itemChanged, this, &WbGroup::insertChildPrivate);
   // if parent is a slot, it needs to be notified when a new node is inserted
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)
@@ -146,14 +149,6 @@ void WbGroup::addChild(WbNode *child) {
   mChildren->addItem(child);
 }
 
-bool WbGroup::removeChild(WbNode *node) {
-  if (mChildren->removeNode(node)) {
-    node->setParentNode(NULL);
-    return true;
-  } else
-    return false;
-}
-
 void WbGroup::clear() {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
@@ -165,6 +160,24 @@ void WbGroup::clear() {
 
 void WbGroup::deleteAllChildren() {
   mChildren->clear();
+}
+
+void WbGroup::deleteAllSolids() {
+  WbMFNode::Iterator it(mChildren);
+  QList<WbSolid *> solids;
+  while (it.hasNext()) {
+    WbNode *const n = it.next();
+    WbSolid *s = dynamic_cast<WbSolid *const>(n);
+    if (s)
+      solids << s;
+    else {
+      WbGroup *g = dynamic_cast<WbGroup *>(n);
+      if (g)
+        g->deleteAllSolids();
+    }
+  }
+  foreach (WbSolid *s, solids)
+    WbNodeOperations::instance()->deleteNode(s);
 }
 
 WbBaseNode *WbGroup::child(int index) const {

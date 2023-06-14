@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://tests/manual_tests/protos/SolidSlot.proto"
 
@@ -31,7 +31,7 @@ PointLight {
 }
 SolidSlot {
   slot [
-    Transform {
+    Pose {
       rotation 0.7071067811865476 0.7071067811865476 0 1.57
       children [
         Shape {
