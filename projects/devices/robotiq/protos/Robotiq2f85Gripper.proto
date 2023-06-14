@@ -35,7 +35,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
         jointParameters HingeJointParameters {
           axis -1 0 0
           anchor 0 -0.030601 0.054904
-          minStop 0
+          minStop -0.01
           maxStop 0.801
           dampingConstant 0.03
         }
@@ -122,7 +122,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                         }
                       }
                     ]
-                    name "left inner finger"
+                    name %<= '"' + fields.name.value + ' left inner finger"' >%
                     boundingObject DEF INNER_FINGER_BO Group {
                       children [
                         Pose {
@@ -376,7 +376,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                 anchor 0 0.037 0.0435
               }
               endPoint SolidReference {
-                solidName "left inner finger"
+                solidName %<= '"' + fields.name.value + ' left inner finger"' >%
               }
             }
           ]
@@ -486,7 +486,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
       HingeJoint {
         jointParameters HingeJointParameters {
           anchor 0 0.030601 0.054904
-          minStop 0
+          minStop -0.01
           maxStop 0.801
           dampingConstant 0.03
         }
@@ -542,7 +542,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                         }
                       }
                     ]
-                    name "right inner finger"
+                    name %<= '"' + fields.name.value + ' right inner finger"' >%
                     boundingObject USE INNER_FINGER_BO
                     physics Physics {
                       density -1
@@ -589,7 +589,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                 anchor 0 0.037 0.0435
               }
               endPoint SolidReference {
-                solidName "right inner finger"
+                solidName %<= '"' + fields.name.value + ' right inner finger"' >%
               }
             }
           ]
