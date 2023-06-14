@@ -31,17 +31,17 @@ class QRadioButton;
 class WbNewVersionDialog : public QDialog {
   Q_OBJECT
   Q_PROPERTY(QColor backgroundColor MEMBER mBackgroundColor READ backgroundColor WRITE setBackgroundColor)
-  Q_PROPERTY(QString enabledIconPath MEMBER mEnabledIconPath READ enabledIconPath WRITE setEnabledIconPath)
+  Q_PROPERTY(QString newVersionIconPath MEMBER mNewVersionIconPath READ newVersionIconPath WRITE setNewVersionIconPath)
 
 public:
   static bool run();
 
   // qproperty methods
   const QColor &backgroundColor() const { return mBackgroundColor; }
-  const QString &enabledIconPath() const { return mEnabledIconPath; }
+  const QString &newVersionIconPath() const { return mNewVersionIconPath; }
 
   void setBackgroundColor(const QColor &color) { mBackgroundColor = color; }
-  void setEnabledIconPath(const QString &path) { mEnabledIconPath = path; }
+  void setNewVersionIconPath(const QString &path) { mNewVersionIconPath = path; }
 
 private slots:
   void startButtonPressed();
@@ -52,7 +52,7 @@ private:
   virtual ~WbNewVersionDialog() {}
 
   QColor mBackgroundColor;
-  QString mEnabledIconPath;
+  QString mNewVersionIconPath;
   QRadioButton *mRadioButtons[NUMBER_OF_THEMES];
   QLabel *mPreviewLabel;
   QCheckBox *mTelemetryCheckBox;

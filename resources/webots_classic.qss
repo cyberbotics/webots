@@ -23,7 +23,13 @@ WbSplashScreen {
 }
 
 WbNewVersionDialog {
-  qproperty-enabledIconPath: "icons/dark";
+  qproperty-newVersionIconPath: "icons/dark";
+}
+
+
+QCheckBox#telemetryCheckBox:indicator:checked {
+  border: 1px solid dimgrey;
+  image: url(newVersionIconPath:checkboxCheckmark.png);
 }
 
 WbMainWindow {
@@ -130,7 +136,7 @@ QCheckBox:indicator {
   border: 1px solid black;
 }
 
-QCheckBox:indicator:checked {
+WbMainWindow QCheckBox:indicator:checked {
   border: 1px solid black;
   image: url(enabledIcons:checkboxCheckmark.png);
 }
