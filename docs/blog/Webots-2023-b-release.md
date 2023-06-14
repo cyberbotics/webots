@@ -23,6 +23,16 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 
 ---
 
+## New Device Objects
+
+Several [Robotiq](https://robotiq.com/) grippers have also been added to the Webots library, namely the 2F-85 and the 2F-140 parallel grippers as well as the EPick vacuum gripper.
+
+%figure "New devices"
+![Added Devices](images/devices_r2023b.thumbnail.png)
+%end
+
+---
+
 ## Changes for Solid Nodes
 
 In this new version, we removed the `scale` field from [Solid](../reference/solid.md) and its descendants.
