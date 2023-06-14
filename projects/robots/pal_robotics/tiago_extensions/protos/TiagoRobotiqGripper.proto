@@ -64,7 +64,7 @@ PROTO TiagoRobotiqGripper [
           name %<= '"' + side + '"' >%
         }
       ]
-      name %<= '"' + side + 'gripper_coupler_link"' >%
+      name %<= '"' + side + '_gripper_coupler_link"' >%
       boundingObject USE COUPLING
       physics Physics {
         density -1
