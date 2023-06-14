@@ -1,0 +1,99 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/SuctionCup.proto
+# keywords: industrial/tool
+# A suction cup.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO SuctionCup [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 0 1 0
+  field SFFloat    radius          0.02
+  field SFString   name            "suction cup"
+  field SFNode     appearance      MattePaint { baseColor 0.871 0.871 0.871 }
+  field SFString   contactMaterial "default"
+  field SFBool     boundingObject  TRUE
+  field SFNode     physics         NULL
+]
+{
+  %<
+    let scale, radius;
+    if (fields.radius.value <= 0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' should be position. \'radius\' value reset to ' + fields.radius.defaultValue + '.');
+      scale = 1.0;
+    } else {
+      radius = fields.radius.value;
+      scale = radius / fields.radius.defaultValue;
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+    %< if (scale != 1.0) { >%
+      Transform {
+        scale %<= scale >% %<= scale >% 1.0
+        children [
+    %< } >%
+          Shape {
+            appearance IS appearance
+            geometry Mesh {
+              url "meshes/suction_cup.obj"
+            }
+          }
+    %< if (scale != 1.0) { >%
+        ]
+      }
+    %< } >%
+    ]
+    name IS name
+    model "suction cup"
+    contactMaterial IS contactMaterial
+    %< if (fields.boundingObject.value) { >%
+    boundingObject Group {
+      children [
+        Pose {
+          translation 0 0 0.0015
+          children [
+            Cylinder {
+              height 0.003
+              radius %<= 0.02 * scale>%
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.0045
+          children [
+            Cylinder {
+              height 0.003
+              radius %<= 0.015 * scale>%
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.008
+          children [
+            Cylinder {
+              height 0.0037
+              radius %<= 0.005 * scale>%
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.0121
+          children [
+            Cylinder {
+              height 0.0045
+              radius %<= 0.00427 * scale>%
+            }
+          ]
+        }
+      ]
+    }
+    %< } >%
+  }
+}
