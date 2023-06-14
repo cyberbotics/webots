@@ -1,7 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbBillboard from './WbBillboard.js';
 import WbSolid from './WbSolid.js';
-import WbTouchSensor from './WbTouchSensor.js';
+import { WbNodeType } from './wb_node_type.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -138,7 +138,7 @@ export default class WbGeometry extends WbBaseNode {
         let shouldRender = false;
         let parent = WbWorld.instance.nodes.get(this.parent);
         while (parent) {
-          if (parent instanceof WbTouchSensor) {
+          if (parent.nodeType === WbNodeType.WB_NODE_TOUCH_SENSOR || parent.nodeType === WbNodeType.WB_NODE_VACUUM_GRIPPER) {
             shouldRender = parent.showOptionalRendering;
             break;
           } else
