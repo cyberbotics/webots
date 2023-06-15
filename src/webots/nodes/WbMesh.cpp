@@ -134,9 +134,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
   const aiScene *scene;
-  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
-                       aiProcess_FlipUVs;
+  const unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                             aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                             aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
@@ -151,8 +151,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       return;
     }
     const QByteArray data = file.readAll();
-    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
-    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+    const QByteArray hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint.constData());
   } else
     scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
 

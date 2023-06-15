@@ -44,6 +44,7 @@ Released on ??
     - Added `proto_formatter.py` script to automatically indent PROTO files ([#6167](https://github.com/cyberbotics/webots/pull/6167)).
     - Disabled the computation of shadow reception on meshes when shadows are globally disabled([#6201](https://github.com/cyberbotics/webots/pull/6201)).
   - Bug Fixes
+    - Fixed random crashes while creating [Skin](skin.md) and Mesh(mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
