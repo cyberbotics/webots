@@ -22,7 +22,7 @@ You can then add your proto by clicking the `Add a new proto` button at the bott
 
 To add a proto from the library to a world, copy the github url of the proto and convert it to `raw.githubusercontent.com`. To to that, change `github.com` into `raw.githubusercontent.com` and remove the `/blob`. Then paste it at the top of the world file like this:
 ```
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/RoughOak.proto"
 
