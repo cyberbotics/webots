@@ -135,7 +135,7 @@ QCheckBox:indicator {
   border: 1px solid black;
 }
 
-WbMainWindow QCheckBox:indicator:checked {
+WbMainWindow QCheckBox:indicator:checked, WbVideoRecorderDialog QCheckBox:indicator:checked {
   border: 1px solid black;
   image: url(enabledIcons:checkboxCheckmark.png);
 }
