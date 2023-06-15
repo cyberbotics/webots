@@ -95,8 +95,12 @@ WbTreeItem::WbTreeItem(WbField *field) {
 
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
   // slots are executed in the order they have been connected
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild);
+  if (mField->singleType() == WB_MF_NODE) {
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild);
+  } else
+    // otherwise there is no need to recreate the item when the value changes
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::cleared, this, &WbTreeItem::emitDeleteAllChildren);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
