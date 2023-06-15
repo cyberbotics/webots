@@ -137,7 +137,7 @@ PROTO Toilet [
           translation -0.04 0 0.12
           children [
             Box {
-              size 0.5 0.6 0.24
+              size 0.5 0.36 0.24
             }
           ]
         }
