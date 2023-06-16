@@ -40,7 +40,7 @@ Released on June 20th, 2023.
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Bug Fixes
-    - Fixed random crashes while creating [Skin](skin.md) and Mesh(mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
+    - Fixed random crashes while creating [Skin](skin.md) and [Mesh](mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
