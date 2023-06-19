@@ -44,6 +44,8 @@ Released on ??
     - Added `proto_formatter.py` script to automatically indent PROTO files ([#6167](https://github.com/cyberbotics/webots/pull/6167)).
     - Disabled the computation of shadow reception on meshes when shadows are globally disabled([#6201](https://github.com/cyberbotics/webots/pull/6201)).
   - Bug Fixes
+    - Fixed the size of the Kondo [KHR-3HV](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kondo/khr-3hv/protos/Khr3hv.proto) robot which was twice too large ([#6228](https://github.com/cyberbotics/webots/pull/6228)).
+    - Fixed random crashes while creating [Skin](skin.md) and Mesh(mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
@@ -98,6 +100,7 @@ Released on ??
     - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
     - Fixed a bug in ODE that caused minStop and maxStop limits to be violated in HingeJoints ([#6118](https://github.com/cyberbotics/webots/pull/6118)).
     - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
+    - Fixed crash when deleting a [Group](group.md) or a [Pose](pose.md) in a [Led](led.md) or [Charger](charger.md) ([#6226](https://github.com/cyberbotics/webots/pull/6226)).
   - Dependency Updates
     - Change the Windows version of SUMO to 1.13 to match the one used on Linux and macOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
