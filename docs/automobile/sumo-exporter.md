@@ -8,6 +8,16 @@ The SUMO exporter can create SUMO network files from a Webots simulation.
 The SUMO exporter is using the `shapely` Python module.
 Please refer to [these instructions](openstreetmap-importer.md#dependencies) to install it.
 
+### Linux
+
+On Linux, you also need to install `libgdal` and `libfox` to run the SUMO `netconvert` and `duarouter` binaries.
+On Ubuntu 22.04, please run this command:
+```sh
+sudo apt install libgdal30 libfox-1.6-0
+```
+On Ubuntu 20.04, `libdgal30` is not available and you have to install the previous version `libgdal26` instead.
+
+
 ## Expectations on the Webots Simulation
 
 If the Webots simulation has been created from the OpenStreetMap importer, then the export should be straight forward.
