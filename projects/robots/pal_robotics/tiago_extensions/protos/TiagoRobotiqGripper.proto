@@ -1,0 +1,82 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_extensions/protos/TiagoRobotiqGripper.proto
+# keywords: actuator/gripper
+# template language: javascript
+# Coupler linking a ROBOTIQ gripper to the TIAGo robot.
+# Available gripper models are: "2F-85", "2F-140", and "EPick".
+
+EXTERNPROTO "webots://projects/devices/robotiq/protos/Robotiq2f85Gripper.proto"
+EXTERNPROTO "webots://projects/devices/robotiq/protos/Robotiq2f140Gripper.proto"
+EXTERNPROTO "webots://projects/devices/robotiq/protos/RobotiqEPickGripper.proto"
+
+PROTO TiagoRobotiqGripper [
+  field  SFVec3f                               translation  0 0.013 0
+  field  SFRotation                            rotation     0 0.7071 0.7071 3.14159
+  field  SFString{"2F-85", "2F-140", "EPick"}  model        "2F-85"
+  field  SFString{"front", "left", "right"}    side         "front"
+]
+{
+%<
+  let gripper_name;
+  if (fields.model.value === '2F-85')
+    gripper_name = 'Robotiq2f85Gripper';
+  else if (fields.model.value === '2F-140')
+    gripper_name = 'Robotiq2f140Gripper';
+  else if (fields.model.value === 'EPick')
+    gripper_name = 'RobotiqEPickGripper';
+
+  let side;
+  if (fields.side.value === 'left')
+    side = 'left hand ';
+  else if (fields.side.value === 'right')
+    side = 'right hand ';
+  else
+    side = 'front'
+>%
+  Slot {
+    type "tiago hand"
+    endPoint Solid {
+      translation IS translation
+      rotation IS rotation
+      children [
+        DEF COUPLING Pose {
+          translation 0 0 -0.0041
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.0082
+                radius 0.023
+              }
+              appearance DEF BLACK_METAL PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.4
+                metalness 0
+              }
+            }
+          ]
+        }
+        %<= gripper_name >% {
+          %< if (fields.model.value === 'EPick') { >%
+            rotation 0 0 1 1.57079
+          %< } >%
+          name %<= '"' + side + '"' >%
+        }
+      ]
+      name %<= '"' + side + '_gripper_coupler_link"' >%
+      boundingObject USE COUPLING
+      physics Physics {
+        density -1
+        mass 0.2
+        centerOfMass [
+          0 0 -0.01
+        ]
+        inertiaMatrix [
+          1e-06 1e-06 1e-06
+          0 0 0
+        ]
+      }
+    }
+  }
+}

@@ -41,6 +41,7 @@
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 #include <webots/touch_sensor.h>
+#include <webots/vacuum_gripper.h>
 
 #include <assert.h>
 #include <stdio.h>
@@ -171,6 +172,7 @@ static double number_of_components(WbDeviceTag tag) {
     case WB_NODE_LIGHT_SENSOR:
     case WB_NODE_LINEAR_MOTOR:
     case WB_NODE_ROTATIONAL_MOTOR:
+    case WB_NODE_VACUUM_GRIPPER:
       return 1;
     case WB_NODE_ACCELEROMETER:
     case WB_NODE_COMPASS:
@@ -748,6 +750,22 @@ static void touch_sensor_collect_value(WbDeviceTag tag, struct UpdateElement *ue
   }
 }
 
+static void vacuum_gripper_collect_value(WbDeviceTag tag, struct UpdateElement *ue, double update_time) {
+  if (wb_vacuum_gripper_get_presence_sampling_period(tag) <= 0)
+    return;
+  const double value = wb_vacuum_gripper_get_presence(tag) ? 1.0 : 0.0;
+  ue_append(ue, update_time, &value);
+}
+
+static void vacuum_gripper_update(WbDeviceTag tag, struct UpdateElement *ue) {
+  if (wb_vacuum_gripper_get_presence_sampling_period(tag) > 0) {
+    ue_write_values(ue);
+    buffer_append(",");
+  }
+  buffer_append("\"vacuumGripperOn\":");
+  buffer_append(wb_vacuum_gripper_is_on(tag) ? "true" : "false");
+}
+
 void wbu_default_robot_window_update() {
   if (buffer != NULL)
     return;  // prevent to mix 2 updates.
@@ -809,6 +827,9 @@ void wbu_default_robot_window_update() {
         case WB_NODE_TOUCH_SENSOR:
           touch_sensor_collect_value(tag, update_element, simulated_time);
           break;
+        case WB_NODE_VACUUM_GRIPPER:
+          vacuum_gripper_collect_value(tag, update_element, simulated_time);
+          break;
         default:
           break;
       }
@@ -849,6 +870,9 @@ void wbu_default_robot_window_update() {
             break;
           case WB_NODE_RANGE_FINDER:
             range_finder_update(tag);
+            break;
+          case WB_NODE_VACUUM_GRIPPER:
+            vacuum_gripper_update(tag, update_element);
             break;
           default:
             break;

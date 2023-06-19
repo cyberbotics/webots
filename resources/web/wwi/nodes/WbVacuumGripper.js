@@ -3,8 +3,8 @@ import {WbNodeType} from './wb_node_type.js';
 
 // This class is used to retrieve the type of device
 export default class WbVacuumGripper extends WbDevice {
-  constructor(id, translation, scale, rotation, name) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name) {
+    super(id, translation, rotation, name);
 
     this.showOptionalRendering = false;
   }
@@ -19,4 +19,3 @@ export default class WbVacuumGripper extends WbDevice {
     this.updateBoundingObjectVisibility();
   }
 }
-
