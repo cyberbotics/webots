@@ -26,6 +26,7 @@
 class WbField;
 class WbNode;
 class WbProtoModel;
+class WbTokenizer;
 
 namespace WbVrmlNodeUtilities {
   //////////////////////////
@@ -87,5 +88,6 @@ namespace WbVrmlNodeUtilities {
   ///////////
   QString exportNodeToString(WbNode *node);
 
+  bool transformBackwardCompatibility(WbTokenizer *tokenizer);
 }  // namespace WbVrmlNodeUtilities
 #endif

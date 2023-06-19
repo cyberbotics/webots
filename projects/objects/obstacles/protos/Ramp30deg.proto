@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/obstacles/protos/Ramp30deg.proto
+# keywords: industrial/other
 # A simple ramp made of two 30° slopes and a flat top.
 # The ramp is a static object (not physics-enabled) so it will not move when hit.
 

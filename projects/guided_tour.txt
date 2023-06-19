@@ -76,3 +76,4 @@ projects/samples/devices/worlds/speaker_text_to_speech.wbt 20
 projects/samples/devices/worlds/spherical_camera.wbt 20
 projects/samples/devices/worlds/supervisor.wbt 20
 projects/samples/devices/worlds/track.wbt 20
+projects/samples/devices/worlds/vacuum_gripper.wbt 20

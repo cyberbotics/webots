@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/epfl/biorob/protos/GhostDog.proto
+# keywords: robot/legged
 # The "GhostDog" robot is a dog-like robot developed by the EPFL BioRob laboratory.
 
 PROTO GhostDog [

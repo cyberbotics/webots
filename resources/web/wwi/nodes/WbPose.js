@@ -21,7 +21,6 @@ export default class WbPose extends WbGroup {
     this.#rotation = rotation;
     this.#rotation.normalizeRotation();
 
-    this._absoluteScaleNeedUpdate = true;
     this.#upperPoseFirstTimeSearch = true;
     this._vrmlMatrix = new WbMatrix4();
     this._vrmlMatrixNeedUpdate = true;
@@ -52,23 +51,6 @@ export default class WbPose extends WbGroup {
     this.#rotation.normalizeRotation();
 
     this.#updateRotation();
-  }
-
-  absoluteScale() {
-    if (this._absoluteScaleNeedUpdate)
-      this._updateAbsoluteScale();
-
-    return this._absoluteScale;
-  }
-
-  _updateAbsoluteScale() {
-    this._absoluteScale = new WbVector3(1.0, 1.0, 1.0);
-    // multiply with upper pose scale if any
-    const up = this.#upperPose();
-    if (typeof up !== 'undefined')
-      this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
-
-    this._absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/adept/pioneer3/protos/Pioneer3at.proto
+# keywords: robot/wheeled
 # Pioneer 3AT robot (Adept MobileRobots) is an all terrain four wheels drive robot.
 
 EXTERNPROTO "Pioneer3DistanceSensor.proto"

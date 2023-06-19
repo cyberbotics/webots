@@ -1,7 +1,6 @@
 import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
-import { WbNodeType } from './nodes/wb_node_type.js';
 
 class NodeInfo {
   #url;
@@ -43,7 +42,7 @@ export default class NodeSelectorWindow {
   #rootProto;
   #devices = ['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
     'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
-    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor'];
+    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'VacuumGripper'];
 
   constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;
@@ -86,7 +85,7 @@ export default class NodeSelectorWindow {
     img.id = 'node-image';
     img.className = 'node-image';
     img.draggable = false;
-    img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
+    img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/resources/images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
     const line = document.createElement('hr');
@@ -345,7 +344,7 @@ export default class NodeSelectorWindow {
       nodeImage.src = info.icon;
       nodeImage.onerror = () => {
         nodeImage.onerror = undefined;
-        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
+        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/resources/images/missing_proto_icon.png';
       };
       description.innerHTML = info.description;
       license.innerHTML =
@@ -493,6 +492,12 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
+    // global variable set by webots.cloud
+    if (window.webotsJSPreventAddNode) {
+      alert('New nodes can only be inserted in protos that are registered on webots.cloud.');
+      return;
+    }
+
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';

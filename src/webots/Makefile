@@ -304,7 +304,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
   WbImageTexture.cpp \
-  WbImportWizard.cpp \
   WbImmersionProperties.cpp \
   WbIntEditor.cpp \
   WbIntSpinBox.cpp \
@@ -461,6 +460,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
   WbMultimediaStreamingServer.cpp \
+  WbVacuumGripper.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \
   WbVisualBoundingSphere.cpp \

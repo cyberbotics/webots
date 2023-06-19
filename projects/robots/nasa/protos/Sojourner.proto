@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/nasa/protos/Sojourner.proto
+# keywords: robot/wheeled
 # Sojourner is the NASA Pathfinder robotic rover that landed on 1997 in the Ares Vallis region, and explored Mars for around three months.
 
 EXTERNPROTO "webots://projects/appearances/protos/SolarCell.proto"

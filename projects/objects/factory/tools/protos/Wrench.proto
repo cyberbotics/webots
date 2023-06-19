@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/Wrench.proto
+# keywords: industrial/tool
 # A 15cm Open-End wrench.
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"

@@ -856,9 +856,9 @@ namespace wren {
   StaticMesh *StaticMesh::createUnitIcosphere(int subdivision, bool outline) {
     char uniqueName[25];
     if (outline)
-      sprintf(uniqueName, "IcosphereOutline%d", subdivision);
+      snprintf(uniqueName, sizeof(uniqueName), "IcosphereOutline%d", subdivision);
     else
-      sprintf(uniqueName, "Icosphere%d", subdivision);
+      snprintf(uniqueName, sizeof(uniqueName), "Icosphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
@@ -909,9 +909,9 @@ namespace wren {
   StaticMesh *StaticMesh::createUnitUVSphere(int subdivision, bool outline) {
     char uniqueName[24];
     if (outline)
-      sprintf(uniqueName, "UVSphereOutline%d", subdivision);
+      snprintf(uniqueName, sizeof(uniqueName), "UVSphereOutline%d", subdivision);
     else
-      sprintf(uniqueName, "UVSphere%d", subdivision);
+      snprintf(uniqueName, sizeof(uniqueName), "UVSphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
@@ -1902,7 +1902,7 @@ namespace wren {
     glVertexAttribPointer(GlslLayout::gLocationCoords, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
     glEnableVertexAttribArray(GlslLayout::gLocationCoords);
 
-    if (mCoords.size() <= config::maxVerticesPerMeshForShadowRendering()) {
+    if (mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled()) {
       computeTrianglesAndEdges();
       mCacheData->mSupportShadows = true;
     } else

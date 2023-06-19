@@ -1,0 +1,316 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/RobotiqEPickGripper.proto
+# keywords: actuator/gripper
+# template language: javascript
+# A vacuum robot gripper from ROBOTIQ.
+
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/SuctionCup.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+
+PROTO RobotiqEPickGripper [
+  field  SFVec3f    translation 0 0 0
+  field  SFRotation rotation     0 0 1 0
+  field  SFString   name        "ROBOTIQ EPick Gripper"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Pose {
+        translation 0 0 0.095
+        children [
+          DEF EPICK Shape {
+            appearance DEF BLACK_METAL PBRAppearance {
+              baseColor 0 0 0
+              roughness 0.4
+              metalness 0
+            }
+            geometry Mesh {
+              url [
+                "meshes/robotiq_epick.stl"
+              ]
+            }
+          }
+          DEF SCREW1 CapScrew {
+            translation -0.0185 0.028 0.0016
+            rotation 0 1 0 1.5708
+            appearance DEF SCREW_MATERIAL CorrodedMetal {
+            }
+            screwRadius 0.0021
+            screwLength 0.01
+            name "screw1 "
+          }
+          DEF SCREW2 CapScrew {
+            translation 0.0185 0.028 0.0016
+            rotation 0 1 0 1.5708
+            appearance USE SCREW_MATERIAL
+            screwRadius 0.0021
+            screwLength 0.01
+            name "screw 2"
+          }
+          DEF SCREW3 CapScrew {
+            translation 0.0185 -0.028 0.0016
+            rotation 0 1 0 1.5708
+            appearance USE SCREW_MATERIAL
+            screwRadius 0.0021
+            screwLength 0.01
+            name "screw 3"
+          }
+          DEF SCREW4 CapScrew {
+            translation -0.0185 -0.028 0.0016
+            rotation 0 1 0 1.5708
+            appearance USE SCREW_MATERIAL
+            screwRadius 0.0021
+            screwLength 0.01
+            name "screw 4"
+          }
+        ]
+      }
+      DEF METAL_CYLINDER Pose {
+        translation 0 0 0.11
+        children [
+          Shape {
+            appearance CorrodedMetal {
+            }
+            geometry Cylinder {
+              height 0.03
+              radius 0.006
+            }
+          }
+        ]
+      }
+      SliderJoint {
+        jointParameters JointParameters {
+          dampingConstant 0.1
+          staticFriction 0.01
+        }
+        device [
+          LinearMotor {
+            name %<= '"' + fields.name.value + ' vacuum joint"' >%
+            maxVelocity 2
+            minPosition -0.01
+            maxForce 1000
+          }
+          PositionSensor {
+            name %<= '"' + fields.name.value + ' vacuum joint sensor"' >%
+          }
+        ]
+        endPoint VacuumGripper {
+          translation 0 0 0.137
+          children [
+            SuctionCup {
+              rotation 0 1 0 3.14
+              radius 0.0225
+              name "end effector"
+              boundingObject FALSE
+            }
+          ]
+          boundingObject Group {
+            children [
+              Pose {
+                translation 0 0 -0.0015
+                children [
+                  Cylinder {
+                    height 0.003
+                    radius 0.0225
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.0045
+                children [
+                  Cylinder {
+                    height 0.003
+                    radius 0.0169
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.008
+                children [
+                  Cylinder {
+                    height 0.0037
+                    radius 0.0056
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.0121
+                children [
+                  Cylinder {
+                    height 0.0045
+                    radius 0.0048
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.001
+          }
+        } 
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        Pose {
+          translation 0 0 0.012
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.018
+                radius 0.038
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0.01 0.03 0.056
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.07
+                radius 0.012
+              }
+            }
+          ]
+        }
+        Pose {
+          translation -0.01 0.03 0.056
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.07
+                radius 0.012
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0.01 -0.03 0.056
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.07
+                radius 0.012
+              }
+            }
+          ]
+        }
+        Pose {
+          translation -0.01 -0.03 0.056
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.07
+                radius 0.012
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.056
+          children [
+            Shape {
+              geometry Box {
+                size 0.022 0.084 0.07
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.056
+          children [
+            Shape {
+              geometry Box {
+                size 0.045 0.06 0.07
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0.01 0.02 0.096
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.02
+              }
+            }
+          ]
+        }
+        Pose {
+          translation -0.01 0.02 0.096
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.02
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0.01 -0.02 0.096
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.02
+              }
+            }
+          ]
+        }
+        Pose {
+          translation -0.01 -0.02 0.096
+          children [
+            Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.02
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.096
+          children [
+            Shape {
+              geometry Box {
+                size 0.06 0.045 0.01
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 0 0 0.096
+          children [
+            Shape {
+              geometry Box {
+                size 0.027 0.08 0.01
+              }
+            }
+          ]
+        }
+        USE METAL_CYLINDER
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.745
+      centerOfMass [
+        0 0 0.055
+      ]
+      inertiaMatrix [
+        0.003084 0.002999 0.000546
+        0 0 0
+      ]
+    }
+  }
+}

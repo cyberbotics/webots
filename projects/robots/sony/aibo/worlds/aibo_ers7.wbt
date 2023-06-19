@@ -166,9 +166,6 @@ DEF GROUND Solid {
   }
   locked TRUE
 }
-DEF FRAME Solid {
-  locked TRUE
-}
 DEF BLUE_GOAL Solid {
   children [
     DEF BLUE_ROOF Pose {
@@ -705,7 +702,7 @@ DEF STATION Charger {
         USE BLOCKER_SHAPE
       ]
     }
-    DEF TARGET Transform {
+    DEF TARGET Pose {
       translation 0 0.001 0.3
       rotation 0 1 0 3.14159
       children [

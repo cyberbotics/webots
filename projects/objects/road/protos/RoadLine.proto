@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/road/protos/RoadLine.proto
+# keywords: traffic/road
 # tags: no3dView
 # Defines the properties of a road line.
 # This node should be used in the `lines` field of a road node.

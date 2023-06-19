@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/samples/contests/tower_of_hanoi/protos/YoubotFlag.proto
+# keywords: robot/accessory
 # A flag
 
 EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"

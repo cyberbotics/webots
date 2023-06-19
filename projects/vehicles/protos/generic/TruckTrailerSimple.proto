@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckTrailerSimple.proto
+# keywords: vehicle/truck
 # A simple non-controllable truck trailer model without physics properties.
 
 EXTERNPROTO "TruckWheel.proto"

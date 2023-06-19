@@ -23,7 +23,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v3.3.0
+        uses: fkirc/skip-duplicate-actions@v5.3.0
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
@@ -49,18 +49,18 @@ jobs:
     - name: OS check
       if: (matrix.os == 'ubuntu-22.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        echo "::set-output name=job_needed::true"
+        echo "job_needed=true" >> "$GITHUB_OUTPUT"
       id: os_check
     - name: Set git to use LF
       if: matrix.os == 'windows-2019'
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
       if: steps.os_check.outputs.job_needed == 'true'
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
     - name: Tests

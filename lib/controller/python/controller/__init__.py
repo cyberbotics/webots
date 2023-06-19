@@ -42,6 +42,7 @@ from controller.skin import Skin                               # noqa
 from controller.speaker import Speaker                         # noqa
 from controller.supervisor import Supervisor                   # noqa
 from controller.touch_sensor import TouchSensor                # noqa
+from controller.vacuum_gripper import VacuumGripper            # noqa
 from controller.keyboard import Keyboard                       # noqa
 from controller.mouse import Mouse                             # noqa
 from controller.mouse import MouseState                        # noqa
@@ -52,5 +53,5 @@ __all__ = [
     Accelerometer, Altimeter, AnsiCodes, Brake, Camera, CameraRecognitionObject, Compass, Connector, ContactPoint, Display,
     DistanceSensor, Emitter, Field, GPS, Gyro, InertialUnit, Joystick, Keyboard, LED, Lidar, LidarPoint, LightSensor, Motion,
     Motor, Mouse, MouseState, Node, PositionSensor, Radar, RadarTarget, RangeFinder, Receiver, Robot, Skin, Speaker,
-    Supervisor, TouchSensor
+    Supervisor, TouchSensor, VacuumGripper
 ]

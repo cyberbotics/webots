@@ -39,7 +39,6 @@ WorldInfo {
     "This simulation has the Crazyflie in an apartement with wall following'"
   ]
   title "Crazyflie Apartment"
-  basicTimeStep 16
 }
 Viewpoint {
   orientation -0.2069634151755047 0.17139042951652655 0.9632193236480631 1.794980546924951
@@ -81,7 +80,7 @@ DEF ROOF Solid {
         baseColor 0.8 0.8 0.8
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/roughcast.jpg"
+            "webots://projects/default/worlds/textures/roughcast.jpg"
           ]
         }
         roughness 0.5
