@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -279,6 +279,11 @@
 // TouchSensor device
 #define C_TOUCH_SENSOR_DATA 40
 #define C_TOUCH_SENSOR_DATA_3D 41
+
+// VacuumGripper device
+#define C_VACUUM_GRIPPER_GET_PRESENCE 1
+#define C_VACUUM_GRIPPER_TURN_ON 2
+#define C_VACUUM_GRIPPER_TURN_OFF 3
 
 // Speaker device
 // ctr -> sim

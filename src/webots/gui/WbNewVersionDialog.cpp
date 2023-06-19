@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,8 @@
 #include "WbPreferences.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbVersion.hpp"
+
+#include <QtCore/QDir>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
@@ -45,6 +47,8 @@ bool WbNewVersionDialog::run() {
 }
 
 WbNewVersionDialog::WbNewVersionDialog() {
+  style()->polish(this);
+  QDir::addSearchPath("newVersionIconPath", WbStandardPaths::resourcesPath() + newVersionIconPath());
   style()->polish(this);
 
   const WbVersion &version = WbApplicationInfo::version();
@@ -121,6 +125,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   telemetryLayout->addWidget(label);
   telemetryLayout->addStretch();
   mTelemetryCheckBox = new QCheckBox(tr("Allow to send lightweight anonymous technical data to Webots developers."));
+  mTelemetryCheckBox->setObjectName("telemetryCheckBox");
   mTelemetryCheckBox->setChecked(true);
   telemetryLayout->addWidget(mTelemetryCheckBox);
   telemetryBox->setLayout(telemetryLayout);

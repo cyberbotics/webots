@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,7 @@ APACHE2_LICENSE_C = """/*
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,7 +53,7 @@ APACHE2_LICENSE_CPP = """// Copyright 1996-20XX Cyberbotics Ltd.
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,7 +67,7 @@ APACHE2_LICENSE_PYTHON = """# Copyright 1996-20XX Cyberbotics Ltd.
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,6 +90,7 @@ class TestLicense(unittest.TestCase):
         directories = [
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'src/webots',
             'src/wren',
             'projects',
@@ -127,7 +128,9 @@ class TestLicense(unittest.TestCase):
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.c',
             'projects/robots/gctronic/e-puck/controllers/e-puck2_server/play_melody.h',
-            'scripts/packaging/iscc_formatter.c'
+            'scripts/packaging/iscc_formatter.c',
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
         ]
 
         skippedDirectories = [

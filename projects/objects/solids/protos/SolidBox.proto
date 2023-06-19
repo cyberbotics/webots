@@ -1,13 +1,15 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/solids/protos/SolidBox.proto
+# keywords: primitive/geometry
 # A box object implemented at the Solid-node level.
 # The box has similar properties as the VRML Box node in term of axis and fields.
 # The UV-mapping is defined in a metric way (the textures are not deformed - the reference is the longest edge).
 # template language: javascript
 
 PROTO SolidBox [
-  field SFVec3f    translation           0 0 0
+  field SFVec3f    translation           0 0 1
   field SFRotation rotation              0 0 1 0
   field SFString   name                  "box"
   field SFVec3f    size                  2 2 2                                                                                                         # Defines the size of the box.                                                                                                             # Defines the number of polygons used to represent the box and so its resolution.
@@ -16,6 +18,7 @@ PROTO SolidBox [
   field SFNode     physics               NULL                                                                                                          # Is `Solid.physics`.
   field SFBool     enableBoundingObject  TRUE                                                                                                          # Defines whether the solid should have a bounding object.
   field SFBool     castShadows           TRUE                                                                                                          # Defines whether this object should cast shadows.
+  field MFColor    recognitionColors     []                                                                                                            # Is `Solid.recognitionColors`.
 ]
 {
   %<
@@ -61,7 +64,7 @@ PROTO SolidBox [
         {x: -halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.y, v: 0       },
         {x:  halfSize.x, y:  halfSize.y, z: -halfSize.z, u: ratio.y, v: ratio.x }
       ],
-      // quadBack 
+      // quadBack
       [
         {x: -halfSize.x, y: -halfSize.y, z: -halfSize.z, u: ratio.y, v: 0       },
         {x: -halfSize.x, y: -halfSize.y, z:  halfSize.z, u: ratio.y, v: ratio.z },
@@ -136,5 +139,6 @@ PROTO SolidBox [
     }
     %< } >%
     physics IS physics
+    recognitionColors IS recognitionColors
   }
 }

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,6 +60,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
                 << "Fast";
 
   mTabWidget = new QTabWidget(this);
+  mTabWidget->setObjectName("preferenceTabWidget");
   mTabWidget->addTab(createGeneralTab(), tr("General"));
   mTabWidget->addTab(createOpenGLTab(), tr("OpenGL"));
   mTabWidget->addTab(createNetworkTab(), tr("Network"));
@@ -268,6 +269,7 @@ void WbPreferencesDialog::removeSelectedIp() {
 
 QWidget *WbPreferencesDialog::createGeneralTab() {
   QWidget *widget = new QWidget(this);
+  widget->setObjectName("preferenceWidget");
   QGridLayout *layout = new QGridLayout(widget);
 
   mLanguageCombo = new QComboBox(this);
@@ -446,6 +448,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
 
 QWidget *WbPreferencesDialog::createOpenGLTab() {
   QWidget *widget = new QWidget(this);
+  widget->setObjectName("preferenceWidget");
   QGridLayout *layout = new QGridLayout(widget);
 
   // row 0
@@ -487,6 +490,7 @@ QWidget *WbPreferencesDialog::createOpenGLTab() {
 
 QWidget *WbPreferencesDialog::createNetworkTab() {
   QWidget *widget = new QWidget(this);
+  widget->setObjectName("preferenceWidget");
   QGridLayout *network = new QGridLayout(widget);
   QGroupBox *proxy = new QGroupBox(tr("Proxy"), this);
   proxy->setObjectName("networkGroupBox");

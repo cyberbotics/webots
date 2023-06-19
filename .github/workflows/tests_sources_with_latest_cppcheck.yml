@@ -1,0 +1,69 @@
+name: Test Sources with Latest Cppcheck
+
+on:
+  schedule:
+    - cron:  '0 22 * * *'
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  job-skipper:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5.3.0
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          paths_ignore: '["docs/**"]'
+          do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
+
+  test-sources:
+    needs: [job-skipper]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-11, windows-2019]
+        python: [3.9]
+        include:
+          - os: ubuntu-22.04
+            DEPENDENCIES_INSTALLATION: "sudo apt -y install cppcheck"
+          - os: macos-11
+            DEPENDENCIES_INSTALLATION: "brew install cppcheck; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
+          - os: windows-2019
+            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+    runs-on: ${{ matrix.os }}
+    if: needs.job-skipper.outputs.should_skip != 'true'
+    steps:
+    - name: OS check
+      if: (matrix.os == 'ubuntu-22.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      run: |
+        echo "job_needed=true" >> "$GITHUB_OUTPUT"
+      id: os_check
+    - name: Set git to use LF
+      if: matrix.os == 'windows-2019'
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@v3
+      if: steps.os_check.outputs.job_needed == 'true'
+    - name: Set up Python ${{ matrix.python }}
+      if: steps.os_check.outputs.job_needed == 'true'
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Tests
+      if: steps.os_check.outputs.job_needed == 'true'
+      run: |
+        ${{ matrix.DEPENDENCIES_INSTALLATION }}
+        cp dependencies/.clang-format-9 .clang-format
+        pip install -r tests/sources/requirements.txt
+        export WEBOTS_HOME=$PWD
+        python -m unittest discover -s tests/sources

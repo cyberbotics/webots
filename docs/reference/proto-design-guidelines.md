@@ -43,16 +43,124 @@ For that purpose, the name of the license should be specified in the `license:` 
 #### Tags
 
 If needed, the `tags:` comment should be properly specified.
-It currently supports three possible options: `deprecated`, `hidden` and `nonDeterministic` which may be used simultaneously separated with a coma:
+It currently supports four possible options: `deprecated`, `hidden`, `nonDeterministic` and `no3dView` which may be used simultaneously separated with a coma:
 - `deprecated` means this PROTO should not be used any more in new simulations, but is kept for backwards compatibility. When using a deprecated PROTO, Webots will display a warning message about it.
 - `hidden` tells Webots not to display this PROTO in the Add Node dialog when the user wants to insert a new PROTO.
 Hidden PROTO nodes are typically used as sub-PROTO nodes, that is they are used from another PROTO file, but not directly from a world file.
 - `nonDeterministic` tells Webots that this PROTO may yield a different result with each execution.
 This is typically the case if randomness is involved in the execution of the PROTO, which most commonly occurs if a time-based seed is used in the random process.
+- `no3dView` tells [webots.cloud](https://webots.cloud/proto) not to load the 3D view when displaying the page of this PROTO.
 
 #### Documentation
 
 The `documentation url:` comment can be used to link to the PROTO documentation. The link will be displayed in the add node dialog and openned from the node help menu.
+
+#### Keywords
+
+The `keywords:` comment should be added to classify the proto correctly on [webots.cloud](https://webots.cloud/proto).
+The following keywords are available:
+```
+robot
+  - arm
+  - flying
+  - tracked
+  - legged
+  - wheeled
+  - other
+  - accessory
+  - extension
+sensor
+  - camera
+  - distance-sensor
+  - imu
+  - lidar
+  - radar
+  - range-finder
+actuator
+  - gripper
+  - motor
+  - other
+industrial
+  - cart
+  - container
+  - conveyor
+  - ironmongery
+  - light
+  - plumbing
+  - safety
+  - tool
+  - other
+household
+  - electronics
+  - hospital
+  - kitchen
+  - light
+  - living room
+  - potted plant
+  - school
+  - toy
+vehicle
+  - car
+  - farm
+  - public
+  - truck
+  - two wheels
+  - wheel
+  - steering
+  - other
+furniture
+  - bathroom
+  - bedroom
+  - chair
+  - kitchen
+  - laundry
+  - living room
+  - storage
+  - table
+building
+  - business
+  - civil
+  - component
+  - farm
+  - hotel
+  - house
+  - industry
+  - residential
+  - shop
+animal
+  - farm
+  - pet
+  - wild
+exterior
+  - garden
+  - obstacle
+  - sport
+  - street furniture
+  - tree
+traffic
+  - road
+  - sign
+appearance
+  - electronics
+  - fabric
+  - leather
+  - metal
+  - mineral
+  - other
+  - paint
+  - plastic
+  - rubber
+  - wood
+primitive
+  - background
+  - geometry
+  - ground
+  - joint
+```
+
+You should declare the keywords as follow:
+- If the proto fits in a category which has subcategories, you have to choose a subcategory. The syntax is then: `keywords:first level category/second level category`, for example: `keywords: robot/walking`.
+- If the robot fits in several categories, the different categories must be separated by a comma, for example: `keywords: vehicle/car, appearance/metal`.
 
 #### Description
 
@@ -139,9 +247,9 @@ It is better to use more descriptive names, like `left arm pivot`.
 Here is a simple example of a good PROTO declaration (the implementation is not shown):
 
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # A color pencil
 
 PROTO ColorPencil [

@@ -321,6 +321,7 @@ typedef enum {
   WB_NODE_PLANE,
   WB_NODE_POINT_LIGHT,
   WB_NODE_POINT_SET,
+  WB_NODE_POSE,
   WB_NODE_SHAPE,
   WB_NODE_SPHERE,
   WB_NODE_SPOT_LIGHT,
@@ -357,6 +358,7 @@ typedef enum {
   WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
+  WB_NODE_VACUUM_GRIPPER,
   /* misc */
   WB_NODE_BALL_JOINT,
   WB_NODE_BALL_JOINT_PARAMETERS,
@@ -404,7 +406,7 @@ namespace webots {
       APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
       CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
       INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-      PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+      PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
       ROBOT,
@@ -413,6 +415,7 @@ namespace webots {
       DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
       LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
       RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
+      VACUUM_GRIPPER,
       // misc
       BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
       DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -441,7 +444,7 @@ class Node:
     APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
     INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-    PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+    PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
     ROBOT,
@@ -450,6 +453,7 @@ class Node:
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
     RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
+    VACUUM_GRIPPER,
     # misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -476,7 +480,7 @@ public class Node {
     APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
     INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-    PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+    PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
     ROBOT,
@@ -485,6 +489,7 @@ public class Node {
     DISTANCE_SENSOR, EMITTER, GPS, GYRO, INERTIAL_UNIT, LED, LIDAR,
     LIGHT_SENSOR, LINEAR_MOTOR, PEN, POSITION_SENSOR, PROPELLER,
     RADAR, RANGE_FINDER, RECEIVER, ROTATIONAL_MOTOR, SKIN, SPEAKER, TOUCH_SENSOR,
+    VACUUM_GRIPPER,
     // misc
     BALL_JOINT, BALL_JOINT_PARAMETERS, CHARGER, CONTACT_PROPERTIES,
     DAMPING, FLUID, FOCUS, HINGE_JOINT, HINGE_JOINT_PARAMETERS, HINGE_2_JOINT,
@@ -510,7 +515,7 @@ WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
 WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID, WB_NODE_FOG,
 WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET, WB_NODE_INDEXED_LINE_SET,
 WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
-WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
+WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_POSE,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
 % robots
@@ -522,7 +527,7 @@ WB_NODE_GPS, WB_NODE_GYRO, WB_NODE_INERTIAL_UNIT, WB_NODE_LED, WB_NODE_LIDAR,
 WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
 WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
 WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR, WB_NODE_VACUUM_GRIPPER,
 % misc
 WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
 WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
@@ -881,7 +886,7 @@ To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_fie
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
-void wb_supervisor_node_enable_pose_tracking(int sampling_period, WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node);
 void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
 ```
 
@@ -971,11 +976,11 @@ wb_supervisor_node_disable_pose_tracking(node, from_node)
 *get the global (world) position/orientation of a node*
 
 The `wb_supervisor_node_get_position` function returns the position of a node expressed in the global (world) coordinate system.
-The `node` argument must be a [Transform](transform.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
+The `node` argument must be a [Pose](pose.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 3 values.
 
 The `wb_supervisor_node_get_orientation` function returns a matrix that represents the rotation of the node in the global (world) coordinate system.
-The `node` argument must be a [Transform](transform.md) node (or a derived node), otherwise the function will print a warning message and return 9 `NaN` (Not a Number) values.
+The `node` argument must be a [Pose](pose.md) node (or a derived node), otherwise the function will print a warning message and return 9 `NaN` (Not a Number) values.
 This function returns a matrix containing exactly 9 values that shall be interpreted as a 3 x 3 orthogonal rotation matrix:
 
 ```
@@ -1017,8 +1022,11 @@ The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
+Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Pose](pose.md) node (or a derived node).
+If the `from_node` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
+Both the node and the `from_node` arguments should match the ones passed to the `wb_supervisor_node_enable_pose_tracking` to successfully disable the tracking.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this (see [the controller]({{ url.github_tree }}/projects/robots/neuronics/ipr/controllers/target_coordinates/target_coordinates.c)).
 
@@ -1114,8 +1122,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 ---
 
 #### `wb_supervisor_node_get_contact_points`
-#### `wb_supervisor_node_enable_contact_point_tracking`
-#### `wb_supervisor_node_disable_contact_point_tracking`
+#### `wb_supervisor_node_enable_contact_points_tracking`
+#### `wb_supervisor_node_disable_contact_points_tracking`
 
 
 %tab-component "language"
@@ -1126,8 +1134,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 #include <webots/supervisor.h>
 
 WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
-wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
-wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
+wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
+wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node);
 ```
 
 %tab-end
@@ -1141,7 +1149,7 @@ namespace webots {
   class Node {
     ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
-    void disableContactPointsTracking(bool includeDescendants = false) const;
+    void disableContactPointsTracking() const;
     // ...
   }
 }
@@ -1157,7 +1165,7 @@ from controller import Node
 class Node:
     def getContactPoints(includeDescendants=False):
     def enableContactPointsTracking(samplingPeriod, includeDescendants=False):
-    def disableContactPointsTracking(includeDescendants=False):
+    def disableContactPointsTracking():
     # ...
 ```
 
@@ -1171,7 +1179,7 @@ import com.cyberbotics.webots.controller.Node;
 public class Node {
   public ContactPoint[] getContactPoints(boolean includeDescendants);
   public enableContactPointsTracking(int samplingPeriod, boolean includeDescendants = false);
-  public disableContactPointsTracking(boolean includeDescendants = false);
+  public disableContactPointsTracking();
   // ...
 }
 ```
@@ -1182,8 +1190,8 @@ public class Node {
 
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_points(include_descendants):
-wb_supervisor_node_enable_contact_point_tracking(sampling_period, include_descendants):
-wb_supervisor_node_disable_contact_point_tracking(include_descendants):
+wb_supervisor_node_enable_contact_points_tracking(sampling_period, include_descendants):
+wb_supervisor_node_disable_contact_points_tracking():
 ```
 
 %tab-end
@@ -1193,8 +1201,8 @@ wb_supervisor_node_disable_contact_point_tracking(include_descendants):
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
-| `/supervisor/node/enable_contact_point_tracking` | `service` | `webots_ros::enable_contact_point_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/enable_contact_points_tracking` | `service` | `webots_ros::enable_contact_points_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1209,11 +1217,11 @@ The `include_descendants` argument defines whether the descendant nodes should a
 The descendant nodes are the nodes included within the node given as an argument.
 The `size` argument is an output argument and it returns a number of contact points in the list.
 
-The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
+The `wb_supervisor_node_enable_contact_points_tracking` function forces Webots to stream contact points data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
-The `sampling_period` argument determines how often the contact point data should be sent to the controller.
+The `sampling_period` argument determines how often the contact points data should be sent to the controller.
 
-The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
+The `wb_supervisor_node_disable_contact_points_tracking` function disables contact points data tracking.
 
 The "[WEBOTS\_HOME/projects/samples/howto/cylinder\_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
@@ -2443,211 +2451,167 @@ The following table summarizes the behavior of different reset functions:
 <table>
   <thead>
     <tr>
-      <th></th>
-      <th><strong>Reload</strong></th>
-      <th><strong>Reset from user interface</strong></th>
-      <th><strong>Reset from Supervisor</strong></th>
-      <th><strong>Load node&#39;s state from Supervisor</strong></th>
-      <th><strong>Reset physics</strong></th>
-      <th><strong>Reset node&#39;s physics</strong></th>
+      <th style="border-color:#aaa"></th>
+      <th style="border-color:#aaa"><strong>Reload</strong></th>
+      <th style="border-color:#aaa"><strong>Reset from user interface</strong></th>
+      <th style="border-color:#aaa"><strong>Reset from Supervisor</strong></th>
+      <th style="border-color:#aaa"><strong>Load node&#39;s state from Supervisor</strong></th>
+      <th style="border-color:#aaa"><strong>Reset physics</strong></th>
+      <th style="border-color:#aaa"><strong>Reset node&#39;s physics</strong></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><strong>Resets simulation time</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Removes nodes</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Restarts controller</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=2 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=4 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Stops sounds</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Resets random seeds</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Resets physics</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes (scoped)</td>
-      <td>Yes</td>
-      <td>Yes (scoped)</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#ffe;text-align:center;vertical-align:middle">Yes (scoped)</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#ffe;text-align:center;vertical-align:middle">Yes (scoped)</td>
     </tr>
     <tr>
       <td><strong>Resets physics plugin</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle" colspan=3>Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=3>No</td>
     </tr>
     <tr>
       <td><strong>Resets all fields</strong></td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=5>No</td>
     </tr>
     <tr>
       <td><strong>Adds removed nodes</strong></td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=5>No</td>
     </tr>
     <tr>
       <td><strong><a href="brake.md">Brake</a></strong></td>
-      <td>Resets</td>
-      <td>Releases</td>
-      <td>Releases</td>
-      <td>Releases</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Releases</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="charger.md">Charger</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>battery</code> field and the <code>emissiveColor</code> field of the <a
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
       <td>Loads the <code>battery</code> field and resets the emissiveColor field of the <a
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="connector.md">Connector</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the <code>isLocked</code> field</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="display.md">Display</a></strong></td>
-      <td>Resets</td>
-      <td>Clears</td>
-      <td>Clears</td>
-      <td>Clears</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Clears</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="emitter.md">Emitter</a>/<a href="receiver.md">Receiver</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Clears the message queue</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Clears the message queue</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="joint.md">Joint</a>/<a href="motor.md">Motor</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
       <td>Loads the position, resets the velocity, acceleration, available torque, and available force</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="led.md">LED</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=3>If the first child is a Light node, it resets the <code>color</code> field and it switches the LED off.
         If the first child is a <a href="shape.md">Shape</a> node, it resets the <code>emissiveColor</code>
         field of its <a href="material.md">Material</a> node.</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="lidar.md">Lidar</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Resets the position of the rotating head</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Resets the position of the rotating head</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="pen.md">Pen</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Cleans the painted textures</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Cleans the painted textures</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="propeller.md">Propeller</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Resets the slow helix and it&#39;s initial position</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Resets the slow helix and it&#39;s initial position</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="robot.md">Robot</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>battery</code> field, removes all the supervisor labels, resets the nodes visibility,
         and restarts the controller</td>
       <td>Loads the <code>battery</code> field, removes all the supervisor labels, and resets the nodes visibility
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="solid.md">Solid</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>translation</code> and <code>rotation</code> fields, and the physics</td>
       <td>Loads the <code>translation</code> and <code>rotation</code> fields, and resets the physics</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="track.md">Track</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the motor position and the <code>translation</code> field of the textureTransform node of the <a
           href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
       </td>
       <td>Loads the motor position and the <code>translation</code> field of the textureTransform node of the <a
           href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="viewpoint.md">Viewpoint</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
         <code>fieldOfView</code> fields
       </td>
       <td>Loads <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
         <code>fieldOfView</code> fields
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
   </tbody>
 </table>

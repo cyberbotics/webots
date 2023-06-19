@@ -1,3 +1,5 @@
+function epuck_go_forward
+
 TIME_STEP = 64;
 
 MAX_SPEED = 6.28;

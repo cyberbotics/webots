@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,10 +22,9 @@
 #define OBJECT_NUMBER 3
 
 // IPR1 poses
-const double gGrabPositions[3][IPRCollaboration::MOTOR_NUMBER] = {
-  {0.390582, -2.26583, 1.91850, -2.88388, -2.45437, 0.66207, -0.66207},
-  {0.000010, -2.27120, 1.91850, -2.82253, -3.00660, 0.66207, -0.66207},
-  {5.690000, -2.24000, 1.86000, -2.91500, -0.40000, 0.90000, -0.90000}};
+const double gGrabPositions[3][IPRCollaboration::MOTOR_NUMBER] = {{0.390582, -2.26583, 1.91850, -2.88388, -2.45437, 0.66207},
+                                                                  {0.000010, -2.27120, 1.91850, -2.82253, -3.00660, 0.66207},
+                                                                  {5.690000, -2.24000, 1.86000, -2.91500, -0.40000, 0.90000}};
 
 const double gDropPosition[] = {3.016690, -0.86002, 0.77181, -1.96350, -1.22718, 0.66207, -0.66207};
 

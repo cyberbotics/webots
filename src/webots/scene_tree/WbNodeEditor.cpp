@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 
 #include "WbNodeEditor.hpp"
 
-#include "WbAbstractTransform.hpp"
 #include "WbBaseNode.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -30,6 +29,7 @@
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
@@ -129,11 +129,6 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
         const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
         if (g)
           mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
-        else {
-          const WbAbstractTransform *t = dynamic_cast<const WbAbstractTransform *>(baseNode);
-          assert(t);  // only WbAbstractTransform and WbGeometry instances have a resize manipulator
-          mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
-        }
       }
     }
   }

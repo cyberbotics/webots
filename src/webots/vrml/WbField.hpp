@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,7 +66,7 @@ public:
   // optional redirection to a proto parameter
   void setAlias(const QString &alias) { mAlias = alias; }
   const QString &alias() const { return mAlias; }
-  void redirectTo(WbField *parameter);
+  void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
   bool isParameter() const { return mInternalFields.size() != 0; }
@@ -145,6 +145,7 @@ private slots:
   void parameterChanged();
   void parameterNodeInserted(int index);
   void parameterNodeRemoved(int index);
+  void parameterNodeChanged(int index);
   void fieldChanged();
   void fieldChangedByOde();
   void removeInternalField(QObject *field);

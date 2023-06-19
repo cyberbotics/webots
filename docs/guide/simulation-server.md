@@ -12,22 +12,23 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 ```
-# server:              fully qualilified domain name of simulation server
-# ssl:                 for https/wss URL (true by default)
-# port:                local port on which the server is listening
-# portRewrite:         port rewritten in the URL by apache (true by default)
-# docker:              launch webots inside a docker (false by default)
-# allowedRepositories: list of allowed GitHub simulation repositories
-# blockedRepositories: list of blocked GitHub simulation repositories
-# shareIdleTime:       maximum load for running non-allowed repositories (50% by default)
-# notify:              webservices to be notified about the server status (https://webots.cloud by default)
-# projectsDir:         directory in which projects are located
-# webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
-# maxConnections:      maximum number of simultaneous Webots instances
-# logDir:              directory where the log files are written
-# monitorLogEnabled:   store monitor data in a file (true by default)
-# debug:               output debug information to stdout (false by default)
-# timeout:             number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
+# server:                 fully qualilified domain name of simulation server
+# ssl:                    for https/wss URL (true by default)
+# port:                   local port on which the server is listening
+# portRewrite:            port rewritten in the URL by apache (true by default)
+# docker:                 launch webots inside a docker (false by default)
+# allowedRepositories:    list of allowed GitHub simulation repositories
+# blockedRepositories:    list of blocked GitHub simulation repositories
+# persistantDockerImages: list of Docker images that shouldn't be removed from the cache
+# shareIdleTime:          maximum load for running non-allowed repositories (50% by default)
+# notify:                 webservices to be notified about the server status (https://webots.cloud by default)
+# projectsDir:            directory in which projects are located
+# webotsHome:             directory in which Webots is installed (WEBOTS_HOME)
+# maxConnections:         maximum number of simultaneous Webots instances
+# logDir:                 directory where the log files are written
+# monitorLogEnabled:      store monitor data in a file (true by default)
+# debug:                  output debug information to stdout (false by default)
+# timeout:                number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
 ```
 
 HTTP request handlers:
@@ -79,9 +80,9 @@ If you are installing the simulation server on the same machine as the session s
 6. Install Python dependencies: `pip install pynvml requests psutil tornado distro`.
 7. Install git and subversion: `sudo apt-get install git subversion`. They are used by the simulation server to checkout the code of the projects.
 8. Choose one:
-    - Install Docker if you want to run Webots and the controllers safely in a Docker (recommended): `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA Docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+    - [Install Docker Engine](https://docs.docker.com/engine/install/ubuntu/) if you want to run Webots and the controllers safely in Docker (recommended) and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA Docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
     - Or [install Webots](https://github.com/cyberbotics/webots/releases/latest) if you do not want to run the Webots instances in Docker (not recommended as it might compromise the security of your server and would make it more difficult to handle different versions of Webots). In this configuration, only the simulations from the repositories explicitly declared in `allowedRepositories` are allowed to run.
-9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
+9. Install the [Compose plugin](https://docs.docker.com/compose/install/linux/) for docker if you want to run Webots simulation in Docker: `sudo apt-get install docker-compose-plugin`
 10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
 11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
     - `sudo nvidia-xconfig --allow-empty-initial-configuration`
@@ -91,8 +92,8 @@ If you are installing the simulation server on the same machine as the session s
 1. Install the docker images of the Webots versions that you want to support.
 
     ```
-    docker pull cyberbotics/webots.cloud:R2023a-ubuntu20.04
-    docker pull cyberbotics/webots.cloud:R2023a-ubuntu20.04-numpy
+    docker pull cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04
+    docker pull cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04-numpy
     ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
 

@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,8 +35,7 @@ m3 = robot.getDevice('joint_3')
 m4 = robot.getDevice('joint_4')
 m5 = robot.getDevice('joint_5')
 m6 = robot.getDevice('joint_6')
-m7 = robot.getDevice('joint_base_to_jaw_1')
-m8 = robot.getDevice('joint_base_to_jaw_2')
+m7 = robot.getDevice('gripper::left')
 
 # Set the motor velocity
 # First we make sure that every joints are at their initial positions
@@ -47,7 +46,6 @@ m4.setPosition(0)
 m5.setPosition(0)
 m6.setPosition(0)
 m7.setPosition(0)
-m8.setPosition(0)
 
 # Set the motors speed. Here we set it to 1 radian/second
 m1.setVelocity(1)
@@ -57,7 +55,6 @@ m4.setVelocity(1)
 m5.setVelocity(1)
 m6.setVelocity(1)
 m7.setVelocity(1)
-m8.setVelocity(1)
 
 
 # ----Function to realize a demo of the Ned robot moving----
@@ -70,7 +67,6 @@ def demo():
         return
     m1.setPosition(1.6)
     m7.setPosition(0.01)
-    m8.setPosition(0.01)
 
     if robot.step(1500) == -1:
         return
@@ -117,12 +113,10 @@ def demo():
     if robot.step(1000) == -1:
         return
     m7.setPosition(0)
-    m8.setPosition(0)
 
     if robot.step(500) == -1:
         return
     m7.setPosition(0.01)
-    m8.setPosition(0.01)
 
 
 def pick_place():
@@ -135,7 +129,6 @@ def pick_place():
     m1.setPosition(1.6)
     m2.setPosition(0.69)
     m7.setPosition(0.01)
-    m8.setPosition(0.01)
 
     if robot.step(4200) == -1:
         return
@@ -144,7 +137,6 @@ def pick_place():
     if robot.step(1200) == -1:
         return
     m7.setPosition(0)
-    m8.setPosition(0)
 
     if robot.step(1500) == -1:
         return
@@ -161,12 +153,12 @@ def pick_place():
     if robot.step(500) == -1:
         return
     m7.setPosition(0.01)
-    m8.setPosition(0.01)
 
     if robot.step(500) == -1:
         return
     m3.setPosition(0)
     m2.setPosition(0)
+
 
 while True:
 
@@ -176,7 +168,7 @@ while True:
     print("Move joint_2 --> SHIFT+Q or SHIFT+S")
     print("Move joint_3 --> SHIFT+W or SHIFT+X")
     print("Move joint_4 --> SHIFT+Y or SHIFT+U")
-    print("Move joint_5 --> SHIFT+J or SHIFT+K")
+    print("Move joint_5 --> SHIFT+H or SHIFT+J")
     print("Move joint_6 --> SHIFT+B or SHIFT+N")
     print("Open/Close Gripper --> SHIFT+L or SHIFT+M")
     print("Launch Pick and Place --> SHIFT+P")
@@ -241,12 +233,10 @@ while True:
         elif key == Keyboard.SHIFT + ord('L'):
             print("Move --> Open Gripper")
             m7.setPosition(0.01)
-            m8.setPosition(0.01)
 
         elif key == Keyboard.SHIFT + ord('M'):
             print("Move --> Close Gripper")
             m7.setPosition(0)
-            m8.setPosition(0)
 
         elif key == Keyboard.SHIFT + ord('D'):
             print("Demonstrator: Move Joints")

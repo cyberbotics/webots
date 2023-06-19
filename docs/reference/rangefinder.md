@@ -545,6 +545,8 @@ The range image is coded as an array of single precision floating point values c
 The precision of the range-finder values decreases when the objects are located farther from the near clipping plane.
 Pixels are stored in scan lines running from left to right and from top to bottom.
 The memory chunk returned by this function shall not be freed, as it is managed by the range-finder internally.
+The contents of the image are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the image during a step, you should copy it before the step begins and access the copy.
 The size in bytes of the range image can be computed as follows:
 
 ```
@@ -566,8 +568,8 @@ Their content are identical but their handling is of course different.
 > `buffer` is significantly faster than `list`, and can easily be wrapped using external libraries such as NumPy:
 
 > ```python
-> image_bytes = range_finder.getRangeImage(data_type="buffer")
-> image_np = np.frombuffer(image_bytes, dtype=np.float32)
+> image_c_ptr = range_finder.getRangeImage(data_type="buffer")
+> image_np = np.ctypeslib.as_array(image_c_ptr, (range_finder.getWidth() * range_finder.getHeight(),))
 > ```
 
 ---
@@ -665,6 +667,8 @@ PNG and JPEG images are saved using an 8-bit RGB (grayscale) encoding.
 HDR images are saved as 32-bit floating-point single-channel images.
 For PNG and JPEG, depth data is stored in the range `0` to `255`.
 This depth data can thus be extracted for further use by reading the image file.
+
+`wb_range_finder_save_image` should not be called between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`, because the image is subject to change during that period.
 
 The return value of the `wb_range_finder_save_image` function is 0 in case of success.
 It is -1 in case of failure (unable to open the specified file or unrecognized image file extension).

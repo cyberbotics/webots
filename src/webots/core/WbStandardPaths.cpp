@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
@@ -218,25 +219,28 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
   cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
-#elif defined(__APPLE__)
-  const QString TMPDIR = WbSysInfo::environmentVariable("TMPDIR");
-  if (TMPDIR.isEmpty())
-    WbLog::error(QObject::tr("TMPDIR is not set: cannot run Webots."));
-  else if (!QDir(TMPDIR).exists())
-    WbLog::error(QObject::tr("TMPDIR '%1' doesn't exist: cannot run Webots.").arg(TMPDIR));
-  else
-    cWebotsTmpPath = QString("%1/webots-%2/").arg(TMPDIR).arg(id);
+#else
+  QString username = qgetenv("USER");
+  if (username.isEmpty()) {
+    username = qgetenv("USERNAME");
+    if (username.isEmpty()) {
+      WbLog::error(QObject::tr("USER or USERNAME environment variable not set, falling back to 'default' username."));
+      username = "default";
+    }
+  }
+#if defined(__APPLE__)
+  cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
 #else  // __linux__
   const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
-    cWebotsTmpPath = QString("%1/webots-%2/").arg(WEBOTS_TMPDIR).arg(id);
+    cWebotsTmpPath = QString("%1/webots/%2/%3/").arg(WEBOTS_TMPDIR).arg(username).arg(id);
   else {
-    cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
-    WbLog::error(
-      QObject::tr("Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
+    cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
+    WbLog::error(QObject::tr("Webots has not been started regularly. Some features may not work. "
+                             "Please start Webots from its launcher."));
   }
 #endif
-
+#endif
   // cleanup old and unused tmp directories
   QDir directory(cWebotsTmpPath);
   directory.cdUp();

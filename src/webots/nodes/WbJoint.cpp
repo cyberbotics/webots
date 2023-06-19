@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,6 +90,7 @@ void WbJoint::postFinalize() {
       device(i)->postFinalize();
   }
 
+  connect(mDevice, &WbMFNode::itemChanged, this, &WbJoint::addDevice);
   connect(mDevice, &WbMFNode::itemInserted, this, &WbJoint::addDevice);
   if (brake())
     connect(brake(), &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
@@ -332,7 +333,7 @@ void WbJoint::writeExport(WbWriter &writer) const {
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
     writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
     const WbVector3 eulerRotation = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
-    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperTransform(this));
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperPose(this));
 
     writer.increaseIndent();
     writer.indent();

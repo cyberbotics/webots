@@ -26,7 +26,7 @@ except ImportError:
     sys.exit(0)
 
 
-def apply_spline_subdivison_to_path(path, subdivision):
+def apply_spline_subdivision_to_path(path, subdivision):
     """Apply spline subdivision to the list of points."""
     spline = []
     points = list(path)
@@ -158,7 +158,7 @@ for i in range(waypoints.getCount()):
     coordinates.append((point[1], point[0]))
 subdividedCoordinates = coordinates
 if splineSubdivision > 0:
-    subdividedCoordinates = apply_spline_subdivison_to_path(coordinates, splineSubdivision)
+    subdividedCoordinates = apply_spline_subdivision_to_path(coordinates, splineSubdivision)
 roadPath = LineString(subdividedCoordinates)
 emergencyLanePath = roadPath.parallel_offset(1.5 * laneWidth, 'right')
 initialDistance = roadPath.project(initialPoint)

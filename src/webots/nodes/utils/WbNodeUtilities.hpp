@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,8 +21,10 @@
 //              For generic node functions please refer to WbVrmlNodeUtilities namespace.
 //
 
-#include <QtCore/QList>
 #include "WbNode.hpp"
+#include "WbOdeTypes.hpp"
+
+#include <QtCore/QList>
 
 class WbBaseNode;
 class WbBoundingSphere;
@@ -32,6 +34,7 @@ class WbRay;
 class WbRobot;
 class WbShape;
 class WbSolid;
+class WbPose;
 class WbTransform;
 
 class QString;
@@ -47,13 +50,8 @@ namespace WbNodeUtilities {
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
 
-  // find the closest template ancestor in which the modified node is contained in template field
-  // which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegeneration(WbNode *modifiedNode);
-
-  // find the closest template ancestor of given field in which the modified field is contained
-  // in template field which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode);
+  // find the closest WbPose ancestor
+  WbPose *findUpperPose(const WbNode *node);
 
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
@@ -66,15 +64,15 @@ namespace WbNodeUtilities {
   WbNode *findUpperNodeByType(const WbNode *node, int nodeType, int searchDegrees = 0);
 
   // return if this node contains descendant nodes of the specified types
-  bool hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes);
+  bool hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes);
 
   // return all the descendant nodes fulfilling the specified type condition
   // typeCondition is a function that checks the type of the node
   // if recursive is set to FALSE children of the descendant node having the specified type are not inspected
   QList<WbNode *> findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive);
 
-  // find the uppermost WbTransform ancestor (may be the node itself)
-  WbTransform *findUppermostTransform(const WbNode *node);
+  // find the uppermost WbPose ancestor (may be the node itself)
+  WbPose *findUppermostPose(const WbNode *node);
 
   // find the uppermost WbSolid ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);
@@ -94,6 +92,9 @@ namespace WbNodeUtilities {
 
   // is this node located directly or indirectly under a Billboard
   bool isDescendantOfBillboard(const WbNode *node);
+
+  // is this node located directly or indirectly under a Propeller
+  bool isDescendantOfPropeller(const WbNode *node);
 
   // is this node located in the boundingObject field of a Solid
   // use checkNodeUse() to inspect USE nodes and PROTO parameter instances
@@ -147,11 +148,12 @@ namespace WbNodeUtilities {
   bool isDeviceTypeName(const QString &modelName);
   bool isSolidDeviceTypeName(const QString &modelName);
   bool isSolidTypeName(const QString &modelName);
-  bool isSolidButRobotTypeName(const QString &modelName);
   bool isMatterTypeName(const QString &modelName);
   QString slotType(const WbNode *node);
 
   bool isTrackAnimatedGeometry(const WbNode *node);
+
+  dBodyID findBodyMerger(const WbNode *node);
 
   ///////////
   // Other //
@@ -180,7 +182,7 @@ namespace WbNodeUtilities {
   // can srcNode be transformed
   // hasDeviceDescendant expected values: {-1: not computed, 0: doesn't have device descendants, 1: has device descendants)
   enum Answer { SUITABLE, UNSUITABLE, LOOSING_INFO };
-  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendant);
+  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendantFlag);
 
   // check if type of two Slot nodes is compatible
   bool isSlotTypeMatch(const QString &firstType, const QString &secondType, QString &errorMessage);

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -88,9 +89,10 @@ void WbSphere::createWrenObjects() {
 
 void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+
+  const WbTransform *const up = upperTransform();
+  if (up)
+    scale *= up->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -213,6 +215,14 @@ void WbSphere::rescale(const WbVector3 &scale) {
     setRadius(radius() * scale.z());
 }
 
+QStringList WbSphere::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "radius"
+         << "ico"
+         << "subdivision";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////
@@ -270,10 +280,10 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
   if (!collisionExists)
     return false;
 
-  WbTransform *transform = upperTransform();
   WbVector3 pointOnTexture(collisionPoint);
-  if (transform) {
-    pointOnTexture = transform->matrix().pseudoInversed(collisionPoint);
+  const WbPose *const up = upperPose();
+  if (up) {
+    pointOnTexture = up->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();
   }
 
@@ -297,9 +307,9 @@ double WbSphere::computeDistance(const WbRay &ray) const {
 
 bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbVector3 center;
-  const WbTransform *const transform = upperTransform();
-  if (transform)
-    center = transform->matrix().translation();
+  const WbPose *const up = upperPose();
+  if (up)
+    center = up->matrix().translation();
   const double r = scaledRadius();
 
   // distance from sphere
@@ -311,7 +321,7 @@ bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
 
 void WbSphere::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
-  mBoundingSphere->set(WbVector3(), scaledRadius());
+  mBoundingSphere->set(WbVector3(), radius());
 }
 
 ////////////////////////

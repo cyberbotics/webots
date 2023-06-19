@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
@@ -38,7 +38,7 @@ Floor {
 DEF VEHICLE Robot {
   translation 0.46033814 -3.5289477 0.5
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 1.5708
       children [
         DEF STEER_HINGE2 Hinge2Joint {
@@ -84,7 +84,7 @@ DEF VEHICLE Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -2 -1 0
       rotation -1 0 0 -1.5708
       children [
@@ -112,7 +112,7 @@ DEF VEHICLE Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -2 1 0
       rotation -1 0 0 1.5708
       children [
@@ -152,7 +152,7 @@ DEF VEHICLE Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation -1.64 0 0
     children [
       Box {
@@ -167,16 +167,6 @@ DEF VEHICLE Robot {
   selfCollision TRUE
 }
 DEF CAR Car {
-  hidden position_0_0 -0.200162
-  hidden position2_0_0 8.41114
-  hidden position_0_1 -0.19999
-  hidden position2_0_1 8.407
-  hidden position_0_2 7.03964
-  hidden position_0_3 6.66752
-  hidden rotation_1 -0.9934687686711855 -0.09976064486777862 -0.055386094017574695 4.149678629760579
-  hidden rotation_2 0.9934650603306239 0.09967397404914154 -0.05560820802292396 4.153801098520317
-  hidden rotation_3 -1 0 0 5.526730614359173
-  hidden rotation_4 1 0 0 5.898850614359174
   translation -1.4528767 5.1164165 0.34688528
   rotation 0.002862123643396681 -0.010146370136459845 -0.9999444281665376 0.50605632
   controller "move_car"
@@ -204,7 +194,7 @@ DEF CAR Car {
       type "infra-red"
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 1.93 0 1
     children [
       Box {

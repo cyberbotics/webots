@@ -2,9 +2,6 @@
 
 - [Introduction](introduction.md)
 - [PROTO Nodes](proto-nodes.md)
-    - [VehicleWheel](vehiclewheel.md)
-    - [AckermannVehicle](ackermannvehicle.md)
-    - [Car](car.md)
 - [Car and Driver Libraries](car-and-driver-libraries.md)
     - [Driver Library](driver-library.md)
     - [Car Library](car-library.md)

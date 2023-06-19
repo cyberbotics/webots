@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -111,7 +111,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
     if (!leftWheelCylinder || leftWheelCylinder->radius() <= 0.0)
       continue;
     double leftWheelRadius = leftWheelCylinder->radius();
-    double leftWheelDistance = (robot->position() - leftWheelCylinder->upperTransform()->position()).length();
+    double leftWheelDistance = (robot->position() - leftWheelCylinder->upperPose()->position()).length();
     for (int j = i + 1; j < motorizedJoints.size(); ++j) {
       rightJoint = motorizedJoints.at(j);
       // make sure this joint has a cylinder bounding object
@@ -122,7 +122,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
       double rightWheelRadius = rightWheelCylinder->radius();
       if (leftWheelRadius != rightWheelRadius)
         continue;
-      double rightWheelDistance = (robot->position() - rightWheelCylinder->upperTransform()->position()).length();
+      double rightWheelDistance = (robot->position() - rightWheelCylinder->upperPose()->position()).length();
       // make sure the wheels are equally centered
       if (abs(leftWheelDistance - rightWheelDistance) > 1e-5)
         continue;
@@ -134,9 +134,9 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
       if (!leftJoint->axis().cross(anchorAxis).isNull())
         continue;
       WbVector3 globalLeftAnchor =
-        robot->rotationMatrix().transposed() * (robot->position() - leftWheelCylinder->upperTransform()->position());
+        robot->rotationMatrix().transposed() * (robot->position() - leftWheelCylinder->upperPose()->position());
       WbVector3 globalRightAnchor =
-        robot->rotationMatrix().transposed() * (robot->position() - rightWheelCylinder->upperTransform()->position());
+        robot->rotationMatrix().transposed() * (robot->position() - rightWheelCylinder->upperPose()->position());
       if (globalLeftAnchor.y() < globalRightAnchor.y())  // make sure the joint are not inverted
         return new WbKinematicDifferentialWheels(robot, leftWheelRadius, leftWheelDistance + rightWheelDistance, leftJoint,
                                                  rightJoint);

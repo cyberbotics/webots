@@ -6,7 +6,7 @@ Derived from [Motor](motor.md).
 RotationalMotor {
   SFString name      "rotational motor"                                                                                                # any string
   SFFloat  maxTorque 10                                                                                                                # [0, inf)
-  SFString sound     "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/rotational_motor.wav" # any string
+  SFString sound     "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/default/worlds/sounds/rotational_motor.wav" # any string
 }
 ```
 

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,12 +26,13 @@
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
+#include "WbTransform.hpp"
+#include "WbTranslateRotateManipulator.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -70,22 +71,26 @@ void WbSkin::init() {
 
   mBoundingSphere = NULL;
 
+  mPreviousXscaleValue = 1.0;
+  mAbsoluteScaleNeedUpdate = true;
+
   mName = findSFString("name");
   mModelUrl = findSFString("modelUrl");
   mAppearanceField = findMFNode("appearance");
   mBonesField = findMFNode("bones");
   mCastShadows = findSFBool("castShadows");
+  mScale = findSFVector3("scale");
 }
 
-WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractPose(this), WbDevice() {
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice(other) {
+WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice(other) {
   init();
 }
 
-WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice() {
   init();
 }
 
@@ -141,7 +146,33 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  WbAbstractTransform::checkScale();
+  WbSkin::sanitizeScale();
+}
+
+void WbSkin::sanitizeScale() {
+  WbVector3 scale = mScale->value();
+  bool invalid = false;
+
+  if (scale.x() == 0.0) {
+    scale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
+    invalid = true;
+  }
+
+  if (scale.y() == 0.0) {
+    scale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
+    invalid = true;
+  }
+
+  if (scale.z() == 0.0) {
+    scale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
+    invalid = true;
+  }
+
+  if (invalid)
+    mScale->setValue(scale);
 }
 
 void WbSkin::postFinalize() {
@@ -159,7 +190,7 @@ void WbSkin::postFinalize() {
 
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+  connect(mScale, &WbSFVector3::changed, this, &WbSkin::updateScale);
   connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
@@ -182,41 +213,61 @@ void WbSkin::postFinalize() {
 }
 
 void WbSkin::updateTranslation() {
-  WbAbstractTransform::updateTranslation();
+  WbAbstractPose::updateTranslation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::updateRotation() {
-  WbAbstractTransform::updateRotation();
+  WbAbstractPose::updateRotation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
-void WbSkin::updateScale(bool warning) {
-  WbAbstractTransform::updateScale(warning);
+void WbSkin::updateScale() {
+  sanitizeScale();
+
+  applyToScale();
+
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::applyToScale() {
-  WbAbstractTransform::applyToScale();
+  mBaseNode->setMatrixNeedUpdate();
+  mBaseNode->setScaleNeedUpdate();
+
+  if (mBaseNode->areWrenObjectsInitialized())
+    applyScaleToWren();
+
+  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
+    mBaseNode->boundingSphere()->setOwnerSizeChanged();
+
+  if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
+    updateTranslateRotateHandlesSize();
 }
 
-int WbSkin::constraintType() const {
-  static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
-  return CONSTRAINT;
+void WbSkin::applyScaleToWren() {
+  float newScale[3];
+  mScale->value().toFloatArray(newScale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
-void WbSkin::showResizeManipulator(bool enabled) {
-  if (isProtoInstance()) {
-    WbBaseNode::showResizeManipulator(enabled);
+void WbSkin::setScaleNeedUpdate() {
+  if (mAbsoluteScaleNeedUpdate)
     return;
-  }
 
-  WbAbstractTransform::showResizeManipulator(enabled);
+  mAbsoluteScaleNeedUpdate = true;
+}
 
-  emit visibleHandlesChanged(enabled);
+void WbSkin::updateAbsoluteScale() const {
+  mAbsoluteScale = mScale->value();
+  // multiply with upper transform scale if any
+  const WbTransform *const up = mBaseNode->upperTransform();
+  if (up)
+    mAbsoluteScale *= up->absoluteScale();
+
+  mAbsoluteScaleNeedUpdate = false;
 }
 
 QString WbSkin::modelPath() const {
@@ -321,12 +372,14 @@ void WbSkin::updateMaterial() {
   assert(appearance);
   if (appearance) {
     const int materialIndex = mMaterialNames.indexOf(appearance->name());
-    if (materialIndex >= 0 && appearance->areWrenObjectsInitialized())
-      mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
-    else
-      mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
+    if (materialIndex >= 0) {
+      if (appearance->areWrenObjectsInitialized())
+        mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
+      else
+        mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
 
-    wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+      wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+    }
   }
 }
 
@@ -506,8 +559,9 @@ void WbSkin::createWrenSkeleton() {
       if (!file.open(QIODevice::ReadOnly))
         return;
       const QByteArray &data = file.readAll();
-      const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
-      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
+      const QByteArray hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8();
+      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint.constData(), &mSkeleton, &meshes,
+                                             &materialNames, &count);
     } else
       return;
   } else
@@ -723,8 +777,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     if (parentWrenNode) {
       // Attach bone representation
       const WbVector3 &offset = solid->translation();
-      const WbVector3 &scale = solid->scale();
-      const float length = (offset * scale).length();
+      const float length = offset.length();
       const float boneScale[3] = {length, length, length};
 
       // compute orientation (default bone representation pointing in z-axis)
@@ -980,4 +1033,11 @@ void WbSkin::recomputeBoundingSphere() const {
     index += 4;
   }
   delete[] meshBoundingSphereList;
+}
+
+const WbVector3 &WbSkin::absoluteScale() const {
+  if (mAbsoluteScaleNeedUpdate)
+    updateAbsoluteScale();
+
+  return mAbsoluteScale;
 }

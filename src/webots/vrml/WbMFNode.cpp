@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,7 +60,8 @@ void WbMFNode::clear() {
   QVector<WbNode *> tmp = mVector;
   mVector.clear();
   emit changed();
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
+
+  // We don't want to use qDeleteAll(tmp) because we need to delete USE nodes before DEF nodes
   const int n = tmp.size() - 1;
   for (int i = n; i >= 0; --i)
     delete tmp[i];
@@ -132,9 +133,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
   if (mVector == other.mVector)
     return *this;
 
-  // QVector<WbNode*> tmp = mVector;
-  // mVector.clear();
-
   while (mVector.size() > 0)
     removeItem(0);
 
@@ -144,17 +142,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
     assert(copy);  // test clone() function
     addItem(copy);
   }
-
-  // foreach (WbNode *node, other.mVector) {
-  //   WbNode *copy = node->clone();
-  //   assert(copy);  // test clone() function
-  //   mVector.append(copy);
-  // }
-
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
-  // const int n = tmp.size() - 1;
-  // for (int i = n; i >= 0; i--)
-  //   delete tmp[i];
 
   emit changed();
   return *this;

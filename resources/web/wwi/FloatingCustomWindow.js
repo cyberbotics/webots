@@ -3,7 +3,7 @@ import FloatingWindow from './FloatingWindow.js';
 export default class FloatingCustomWindow extends FloatingWindow {
   constructor(parentNode) {
     super(parentNode, 'custom-window');
-    this.floatingWindow.style.zIndex = '2';
+    this.floatingWindow.style.zIndex = '3';
     this.headerText.innerHTML = 'User defined window';
     this.floatingWindowContent.removeChild(this.frame);
     this.frame = document.createElement('div');
@@ -12,9 +12,9 @@ export default class FloatingCustomWindow extends FloatingWindow {
   }
 
   setTooltip(tooltip) {
-    const element = document.getElementById('custom-window-tooltip');
+    const element = document.getElementById('custom-window-button');
     if (element)
-      element.textContent = tooltip;
+      element.title = tooltip;
   }
 
   setTitle(title) {

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -97,8 +97,10 @@ void WbLed::updateChildren() {
 
 void WbLed::findMaterialsAndLights(const WbGroup *group) {
   int size = group->children().size();
-  if (size < 1)
+  if (size < 1) {
+    clearMaterialsAndLights();
     return;
+  }
 
   if (group == this) {
     clearMaterialsAndLights();
@@ -208,21 +210,21 @@ void WbLed::setMaterialsAndLightsColor() {
     }
   }
 
-  const WbRgb color(r, g, b);
-  assert(!WbRgb(r, g, b).clampValuesIfNeeded());
+  assert(r >= 0 && r <= 1 && g >= 0 && g <= 1 && b >= 0 && b <= 1);
+  WbRgb lightColor(r, g, b);
 
   // update every material
   foreach (WbMaterial *material, mMaterials)
-    material->setEmissiveColor(color);
+    material->setEmissiveColor(lightColor);
 
   // same for PbrAppearances
   foreach (WbPbrAppearance *pbrAppearance, mPbrAppearances)
-    pbrAppearance->setEmissiveColor(color);
+    pbrAppearance->setEmissiveColor(lightColor);
 
   // update every lights
   const bool on = mValue != 0;
   foreach (WbLight *light, mLights) {
-    light->setColor(color);
+    light->setColor(lightColor);
     // disable WREN lights if not on
     light->toggleOn(on);
   }

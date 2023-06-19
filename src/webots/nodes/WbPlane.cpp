@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFVector2.hpp"
@@ -133,9 +134,10 @@ void WbPlane::createResizeManipulator() {
 
 void WbPlane::setResizeManipulatorDimensions() {
   WbVector3 scale(size().x(), size().y(), 0.1f * std::min(mSize->value().x(), mSize->value().y()));
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+
+  const WbTransform *const up = upperTransform();
+  if (up)
+    scale *= up->absoluteScale();
 
   if (isAValidBoundingObject()) {
     float offset = 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -215,6 +217,12 @@ bool WbPlane::isSuitableForInsertionInBoundingObject(bool warning) const {
   return !invalidDimensions;
 }
 
+QStringList WbPlane::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "size";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////
@@ -247,18 +255,18 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbTransform *transform = upperTransform();
+  WbPose *pose = upperPose();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal
 
-  if (transform) {
-    const WbMatrix3 &m3 = transform->rotationMatrix();
-    // Applies this transform's rotation to plane normal
+  if (pose) {
+    const WbMatrix3 &m3 = pose->rotationMatrix();
+    // Applies this pose's rotation to plane normal
     n = m3 * n;
 
     // Computes the d parameter in the plane equation
-    d = transform->position().dot(n);
+    d = pose->position().dot(n);
   } else
     d = 0.0;
 }
@@ -276,9 +284,9 @@ bool WbPlane::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoord
 
   // transform intersection point to plane coordinates
   WbVector3 pointOnTexture(collisionPoint);
-  const WbTransform *const transform = upperTransform();
-  if (transform) {
-    pointOnTexture = transform->matrix().pseudoInversed(collisionPoint);
+  const WbPose *const pose = upperPose();
+  if (pose) {
+    pointOnTexture = pose->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();
   }
 
@@ -310,7 +318,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   // 1. Compute the 4 plane vertices in world coordinates.
   const double planeWidth = size().x();
   const double planeHeight = size().y();
-  const WbMatrix4 &upperMatrix = upperTransform()->matrix();
+  const WbMatrix4 &upperMatrix = upperPose()->matrix();
   const WbVector3 p1 = upperMatrix * WbVector3(0.5 * planeWidth, -0.5 * planeHeight, 0.0);
   const WbVector3 p2 = upperMatrix * WbVector3(0.5 * planeWidth, 0.5 * planeHeight, 0.0);
   const WbVector3 p3 = upperMatrix * WbVector3(-0.5 * planeWidth, 0.5 * planeHeight, 0.0);
@@ -337,7 +345,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
 
 void WbPlane::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
-  mBoundingSphere->set(WbVector3(), scaledSize().length() / 2.0);
+  mBoundingSphere->set(WbVector3(), mSize->value().length() / 2.0);
 }
 
 ////////////////////////

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -35,10 +36,11 @@ void WbBaseNode::init() {
   mOdeObjectsCreatedCalled = false;
   mWrenNode = NULL;
   mIsInBoundingObject = false;
-  mUpperTransform = NULL;
+  mUpperPose = NULL;
   mUpperSolid = NULL;
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
+  mUpperPoseFirstTimeSearch = true;
   mUpperTransformFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
@@ -76,6 +78,8 @@ WbBaseNode::~WbBaseNode() {
 }
 
 void WbBaseNode::finalize() {
+  finalizeProtoParametersRedirection();
+
   if (isProtoParameterNode()) {
     // finalize PROTO parameter node instances of the current node
     QVector<WbNode *> nodeInstances = protoParameterNodeInstances();
@@ -177,6 +181,16 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
+WbPose *WbBaseNode::upperPose() const {
+  if (mUpperPoseFirstTimeSearch) {
+    mUpperPose = WbNodeUtilities::findUpperPose(this);
+    if (areWrenObjectsInitialized())
+      mUpperPoseFirstTimeSearch = false;
+  }
+
+  return mUpperPose;
+}
+
 WbTransform *WbBaseNode::upperTransform() const {
   if (mUpperTransformFirstTimeSearch) {
     mUpperTransform = WbNodeUtilities::findUpperTransform(this);
@@ -222,7 +236,7 @@ WbBaseNode *WbBaseNode::getFirstFinalizedProtoInstance() const {
       continue;
     }
     baseNode = static_cast<const WbBaseNode *>(nodeInstances.at(0));
-    for (int i = nodeInstances.size() - 1; i >= 1; --i)
+    for (int i = 0; i < nodeInstances.size(); ++i)
       nodes.append(nodeInstances.at(i));
   }
 
@@ -279,10 +293,10 @@ void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   const WbNode *const upperLinkRoot = findUrdfLinkRoot();
   assert(upperLinkRoot);
 
-  if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
-    const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
-    translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-    eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
+  if (dynamic_cast<const WbPose *>(this) && dynamic_cast<const WbPose *>(upperLinkRoot)) {
+    const WbPose *const upperLinkRootPose = static_cast<const WbPose *>(this);
+    translation = upperLinkRootPose->translationFrom(upperLinkRoot);
+    eulerRotation = urdfRotation(upperLinkRootPose->rotationMatrixFrom(upperLinkRoot));
   }
 
   translation += writer.jointOffset();

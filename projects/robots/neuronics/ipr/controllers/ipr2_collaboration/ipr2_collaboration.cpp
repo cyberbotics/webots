@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,9 @@
 #define OBJECT_NUMBER 3
 
 // IPR2 poses
-const double gWaitPosition[] = {3.004520, -0.03308, 2.39263, -2.27029, 0.00000, 0.66207, -0.66207};
-const double gGrabPosition[] = {3.004520, -0.03307, 3.47000, -2.27029, 0.00000, 0.66207, -0.66207};
-const double gThrowPosition[] = {2.513930, -0.00000, 3.39598, -2.27029, -1.33815, 0.00000, -0.00000};
+const double gWaitPosition[] = {3.004520, -0.03308, 2.39263, -2.27029, 0.00000, 0.66207};
+const double gGrabPosition[] = {3.004520, -0.03307, 3.47000, -2.27029, 0.00000, 0.66207};
+const double gThrowPosition[] = {2.513930, -0.00000, 3.39598, -2.27029, -1.33815, 0.00000};
 
 class IPR2Collaboration : public IPRCollaboration {
 public:
@@ -44,8 +44,7 @@ public:
     }
 
     // open gripper at the right moment
-    setMotorPosition(RIGHT_GRIPPER_MOTOR, 0.72);
-    setMotorPosition(LEFT_GRIPPER_MOTOR, -0.72);
+    setMotorPosition(GRIPPER_MOTOR, 0.72);
 
     // raise arm so that it can throw better
     setMotorPosition(UPPER_ARM_MOTOR, -0.0330743);
@@ -55,9 +54,7 @@ public:
       step(basicTimeStep());
     while (!positionReached(UPPER_ARM_MOTOR, -0.0330743))
       step(basicTimeStep());
-    while (!positionReached(RIGHT_GRIPPER_MOTOR, 0.72))
-      step(basicTimeStep());
-    while (!positionReached(LEFT_GRIPPER_MOTOR, -0.72))
+    while (!positionReached(GRIPPER_MOTOR, 0.72))
       step(basicTimeStep());
   };
 

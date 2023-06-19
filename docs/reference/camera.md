@@ -133,7 +133,9 @@ The pixel information can be obtained from the `wb_camera_get_image` function.
 The red, green and blue channels (RGB) can be extracted from the resulting image by the `wb_camera_image_get_*`-like functions.
 
 Each time a camera is refreshed, an OpenGL rendering is performed, and the color information is copied into the buffer returned by the `wb_camera_get_image` function.
-The format of this buffers is BGRA (32 bits).
+The contents of the buffer are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the buffer during a step, you should copy it before the step begins and access the copy.
+The format of this buffer is BGRA (32 bits).
 We recommend to use the `wb_camera_image_get_*`-like functions to access the buffer because the internal format could change.
 
 > **Note** [MATLAB]: The MATLAB API uses a language-specific representation of color images consisting of a 3D array of RGB triplets.
@@ -912,6 +914,8 @@ byte_size = camera_width * camera_height * 4
 ```
 
 Attempting to read outside the bounds of this chunk will cause an error.
+The contents of the image are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the image during a step, you should copy it before the step begins and access the copy.
 Internal pixel format of the buffer is BGRA (32 bits).
 Note that the Java API uses little-endian format and stores the pixel integer value in ARGB format.
 
@@ -1097,6 +1101,9 @@ It defines the JPEG quality of the saved image.
 The `quality` parameter should be in the range 1 (worst quality) to 100 (best quality).
 Low quality JPEG files will use less disk space.
 For PNG images, the `quality` parameter is ignored.
+
+`wb_camera_save_image` should not be called between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`,
+because the image is subject to change during that period.
 
 The return value of the `wb_camera_save_image` function is 0 in case of success.
 It is -1 in case of failure (unable to open the specified file or unrecognized image file extension).
@@ -1410,7 +1417,7 @@ structs.WbCameraRecognitionObject.members = struct(
 
 The `id` represents the node id corresponding to the object, and it is possible to use this id directly in the [`wb_supervisor_node_get_from_id`](supervisor.md#wb_supervisor_node_get_from_def) supervisor function.
 The `position` and `orientation` are expressed relatively to the camera (the relative position is the one of the center of the object which can differ from its origin) and the units are meter and radian.
-The `size` represents the X and Y sizes in meters relatively to the camera (it is of course impossible to know the depth of the object).
+The `size` represents the Y and Z sizes in meters relatively to the camera (it is of course impossible to know the depth of the object along the [Camera](camera.md) X axis).
 The `position_on_image` and `size_on_image` can be used to determine the bounding box of the object in the camera image, the units are pixels.
 The `number_of_colors` and `colors` returns respectively the number of colors of the objects and pointer to the colors array, each color is represented by 3 doubles (R, G and B), therefore the size of the array is equal to 3 * `number_of_colors`.
 Finally `model` returns the `model` field of the [Solid](solid.md) node.

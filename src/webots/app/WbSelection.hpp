@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@
 
 #include <QtCore/QObject>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbBaseNode;
 class WbSolid;
 
@@ -35,8 +35,8 @@ public:
   WbSelection();
   virtual ~WbSelection();
 
-  // the currently selected transform in the scene tree
-  WbAbstractTransform *selectedAbstractTransform() const { return mSelectedAbstractTransform; }
+  // the currently selected pose in the scene tree
+  WbAbstractPose *selectedAbstractPose() const { return mSelectedAbstractPose; }
 
   // the currently selected solid in the scene tree
   WbSolid *selectedSolid() const;
@@ -59,16 +59,16 @@ public:
 
   bool resizeManipulatorEnabledFromSceneTree() { return mResizeHandlesEnabledFromSceneTree; }
 
-  // the currently selected transform was reselected from the View 3D (we need to make sure the selection switches to the node
+  // the currently selected pose was reselected from the View 3D (we need to make sure the selection switches to the node
   // if a field is selected)
-  void confirmSelectedTransformFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractTransform); }
+  void confirmSelectedAbstractPoseFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractPose); }
 
 public slots:
   // select another node from the scene tree
   void selectNodeFromSceneTree(WbBaseNode *node);
 
   // select another matter from the 3D view
-  void selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled = false);
+  void selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled = false);
 
   // update handle size based on viewpoint camera distance
   void updateHandlesScale();
@@ -76,25 +76,25 @@ public slots:
   // re-activate previously disabled manipulator
   void restoreActiveManipulator();
 
-  // update the bounging object material of the selected matter
+  // update the bounding object material of the selected matter
   void propagateBoundingObjectMaterialUpdate();
 
 signals:
   // the selection has changed from the scene tree
-  void selectionChangedFromSceneTree(WbAbstractTransform *t);
+  void selectionChangedFromSceneTree(WbAbstractPose *t);
 
   // the selection has changed from the 3D view
-  void selectionChangedFromView3D(WbAbstractTransform *t);
+  void selectionChangedFromView3D(WbAbstractPose *t);
 
-  // the same WbAbstractTransform was selected from the 3D view
-  void selectionConfirmedFromView3D(WbAbstractTransform *t);
+  // the same WbAbstractPose was selected from the 3D view
+  void selectionConfirmedFromView3D(WbAbstractPose *t);
 
   // the visible handles of the selected node have changed
   void visibleHandlesChanged();
 
 private:
   static WbSelection *cInstance;
-  WbAbstractTransform *mSelectedAbstractTransform;
+  WbAbstractPose *mSelectedAbstractPose;
   WbBaseNode *mSelectedNode;  // node selected in the scene tree
   bool mResizeHandlesEnabledFromSceneTree;
 

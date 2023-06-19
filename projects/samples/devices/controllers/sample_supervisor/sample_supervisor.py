@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,7 @@ class Controller(Supervisor):
         print('Going to import a Sphere in 2 seconds (simulation time)...')
         self.step(2000)
         root_children_field.importMFNodeFromString(-1,  # import at the end of the root children field
-                                                   'Transform { children [ Shape { appearance PBRAppearance { } '
+                                                   'Pose { children [ Shape { appearance PBRAppearance { } '
                                                    'geometry Sphere { radius 0.1 subdivision 3 } } ] }')
 
         # main simulation loop

@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -110,19 +110,23 @@ class Node:
         return wb.wb_supervisor_node_export_string(self._ref).decode()
 
     def getField(self, name: str) -> Field:
-        return Field(self, name=name)
+        field = Field(self, name=name)
+        return field if field._ref else None
 
     def getFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index)
+        field = Field(self, index=index)
+        return field if field._ref else None
 
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
     def getProtoField(self, name: str) -> Field:
-        return Field(self, name=name, proto=True)
+        field = Field(self, name=name, proto=True)
+        return field if field._ref else None
 
     def getProtoFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index, proto=True)
+        field = Field(self, index=index, proto=True)
+        return field if field._ref else None
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
@@ -152,17 +156,19 @@ class Node:
     def getContactPoints(self, includeDescendants: bool = False) -> typing.List[ContactPoint]:
         size = ctypes.c_int(0)
         p = wb.wb_supervisor_node_get_contact_points(self._ref, 1 if includeDescendants else 0, ctypes.byref(size))
-        points = bytes(p[0:size.value * 28])
+        format_size = 32  # the C compiler adds some padding to the struct, so that its actual size is not 28 as it seems
+        points = bytes(p[0:format_size * size.value])
         contact_points = []
         for i in range(size.value):
-            contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
+            contact_points.append(ContactPoint(struct.unpack_from('3di', points, format_size * i)))
         return contact_points
 
-    def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
-        wb.wb_supervisor_node_enable_contact_point_tracking(samplingPeriod, 1 if includeDescendants else 0)
+    def enableContactPointsTracking(self, samplingPeriod: int, includeDescendants: bool = False):
+        wb.wb_supervisor_node_enable_contact_points_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
-    def disableContactPointTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_point_tracking(1 if includeDescendants else 0)
+    def disableContactPointsTracking(self, includeDescendants: bool = False):
+        # includeDescendants is kept for backwards compatibility, but should not be used in new code
+        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
@@ -289,6 +295,7 @@ Node.ROTATIONAL_MOTOR = constant('NODE_ROTATIONAL_MOTOR')
 Node.SKIN = constant('NODE_SKIN')
 Node.SPEAKER = constant('NODE_SPEAKER')
 Node.TOUCH_SENSOR = constant('NODE_TOUCH_SENSOR')
+Node.VACUUM_GRIPPER = constant('NODE_VACUUM_GRIPPER')
 Node.BALL_JOINT = constant('NODE_BALL_JOINT')
 Node.BALL_JOINT_PARAMETERS = constant('NODE_BALL_JOINT_PARAMETERS')
 Node.CHARGER = constant('NODE_CHARGER')

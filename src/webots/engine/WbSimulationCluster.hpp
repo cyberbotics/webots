@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode.h>
 #include <QtCore/QList>
+#include <QtCore/QMutex>
 
 class WbContactProperties;
 class WbImmersionProperties;
@@ -54,12 +55,15 @@ private:
   WbOdeContext *mContext;
   static QMutex *cJointCreationMutex;
 
+  QMutex mCollisionedRobotsMutex;
   QList<WbKinematicDifferentialWheels *> mCollisionedRobots;
+  void appendCollisionedRobot(WbKinematicDifferentialWheels *robot);
   void handleKinematicsCollisions();
   void swapBuffer();
   static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
-  static const WbContactProperties *fillSurfaceParameters(const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
-                                                          const WbGeometry *wg2, dContact *contact);
+  static const WbContactProperties *findContactProperties(const WbSolid *s1, const WbSolid *s2);
+  static void fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
+                                    const WbGeometry *wg2, dContact *contact);
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,
                                              dImmersionSurfaceParameters *surf);
   static void odeNearCallback(void *data, dGeomID o1, dGeomID o2);
@@ -68,6 +72,7 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+  static void warnMoreContactPointsThanContactJoints(const QString &material1, const QString &material2, int max, int n);
 };
 
 #endif

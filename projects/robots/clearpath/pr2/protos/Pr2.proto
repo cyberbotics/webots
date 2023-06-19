@@ -1,15 +1,16 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/pr2
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/clearpath/pr2/protos/Pr2.proto
+# keywords: robot/wheeled
 # The Clearpath's PR2 robot is a mobile manipulation platform.
 # The robot is mounted on four directional wheels, had two articulated arms with grippers, an articulated body and head.
 # It is mounted by several sensors including cameras.
 # Extracted from: pr2.urdf
 
 PROTO Pr2 [
-   field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+   field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+   field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
    field SFString   name            "PR2"       # Is `Solid.name`.
    field SFString   controller      "pr2_demo"  # Is `Robot.controller`.
    field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -48,7 +49,6 @@ PROTO Pr2 [
         children [
           DEF base_link Solid {
             translation 0.0 0.0 0.051
-            rotation 0.0 1.0 0.0 0.0
             name "base_link"
             physics Physics {
               density -1
@@ -59,7 +59,7 @@ PROTO Pr2 [
             contactMaterial "pr2_material"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0.0 0.33 0.11
                   children [
                     Box {
@@ -67,7 +67,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.0 -0.33 0.11
                   children [
                     Box {
@@ -75,7 +75,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.33 0.0 0.11
                   children [
                     Box {
@@ -83,7 +83,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.33 0.0 0.11
                   children [
                     Box {
@@ -91,7 +91,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.0 0.0 0.21
                   children [
                     Box {
@@ -99,7 +99,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.24 0 0.26
                   children [
                     Box {
@@ -107,7 +107,7 @@ PROTO Pr2 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.29 0 0.44
                   children [
                     Box {
@@ -132,7 +132,6 @@ PROTO Pr2 [
               }
               DEF base_bellow_link Solid {
                 translation -0.29 0.0 0.8
-                rotation 0.0 1.0 0.0 0.0
                 physics Physics {
                   density -1
                   mass 1.0
@@ -158,7 +157,6 @@ PROTO Pr2 [
               }
               DEF base_laser_link Solid {
                 translation 0.275 0.0 0.252
-                rotation 0.0 1.0 0.0 0.0
                 physics Physics {
                   density -1
                   mass 0.01
@@ -166,7 +164,7 @@ PROTO Pr2 [
                   centerOfMass [0.0 0.0 0.0]
                 }
                 children [
-                  Transform {
+                  Pose {
                     rotation 0 0 1 1.57
                     children [
                       Lidar {
@@ -215,7 +213,7 @@ PROTO Pr2 [
                   contactMaterial "pr2_material"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0  0 0.05
                         children [
                           Box {
@@ -223,7 +221,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.15
                         children [
                           Cylinder {
@@ -272,8 +270,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
-                          translation 0.0 0.0 0.0
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -323,7 +320,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -378,7 +375,7 @@ PROTO Pr2 [
                   contactMaterial "pr2_material"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0  0 0.05
                         children [
                           Box {
@@ -386,7 +383,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.15
                         children [
                           Cylinder {
@@ -435,8 +432,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
-                          translation 0.0 0.0 0.0
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -486,8 +482,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
-                          translation 0.0 0.0 0.0
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -542,7 +537,7 @@ PROTO Pr2 [
                   contactMaterial "pr2_material"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0  0 0.05
                         children [
                           Box {
@@ -550,7 +545,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.15
                         children [
                           Cylinder {
@@ -599,7 +594,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -649,7 +644,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -704,7 +699,7 @@ PROTO Pr2 [
                   contactMaterial "pr2_material"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0  0 0.05
                         children [
                           Box {
@@ -712,7 +707,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.15
                         children [
                           Cylinder {
@@ -761,7 +756,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -811,7 +806,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           rotation 1 0 0 1.57
                           children [
                             Cylinder {
@@ -866,7 +861,7 @@ PROTO Pr2 [
                   contactMaterial "pr2_material"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation -0.1 0 0.23
                         children [
                           Box {
@@ -874,7 +869,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation -0.25 0 0.11
                         children [
                           Box {
@@ -882,7 +877,7 @@ PROTO Pr2 [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation -0.21 0 -0.50
                         children [
                           IndexedFaceSet {
@@ -949,10 +944,10 @@ PROTO Pr2 [
                         centerOfMass [0.0 0.0 0.0]
                       }
                       children [
-                        Transform {
+                        Pose {
                           rotation 1 0 0 1.57
                           children [
-                              Transform {
+                              Pose {
                                 rotation 0 0 1 3.14
                                 children [
                                 InertialUnit {
@@ -997,7 +992,7 @@ PROTO Pr2 [
                         contactMaterial "pr2_material"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation 0.072 0 0.005
                               rotation 0.577657 -0.577197 -0.577197 -2.093935
                               children [
@@ -1007,7 +1002,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0 0 -0.037
                               children [
                                 Box {
@@ -1015,7 +1010,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.026 0 0.01
                               rotation 0 1 0 -0.55
                               children [
@@ -1065,7 +1060,7 @@ PROTO Pr2 [
                                 centerOfMass [0.0 0.0 0.0]
                               }
                               contactMaterial "pr2_material"
-                              boundingObject Transform {
+                              boundingObject Pose {
                                 translation -0.057 0 0.115
                                 children [
                                   Box {
@@ -1088,7 +1083,6 @@ PROTO Pr2 [
                                 }
                                 DEF head_plate_frame Solid {
                                   translation 0.0232 0.0 0.0645
-                                  rotation 0.0 1.0 0.0 0.0
                                   physics Physics {
                                     density -1
                                     mass 0.01
@@ -1110,8 +1104,6 @@ PROTO Pr2 [
                                       }
                                     }
                                     DEF sensor_mount_link Solid {
-                                      translation 0.0 0.0 0.0
-                                      rotation 0.0 1.0 0.0 0.0
                                       name "sensor_mount_link"
                                       physics Physics {
                                         density -1
@@ -1131,7 +1123,6 @@ PROTO Pr2 [
                                         }
                                         DEF high_def_frame Solid {
                                           translation 0.046457 -0.11 0.0546
-                                          rotation 0.0 1.0 0.0 0.0
                                           physics Physics {
                                             density -1
                                             mass 0.01
@@ -1140,7 +1131,6 @@ PROTO Pr2 [
                                           }
                                           children [
                                             DEF high_def_optical_frame Solid {
-                                              translation 0.0 0.0 0.0
                                               rotation -0.577350269191 -0.577350269188 -0.577350269191 2.09439510239
                                               physics Physics {
                                                 density -1
@@ -1149,7 +1139,7 @@ PROTO Pr2 [
                                                 centerOfMass [0.0 0.0 0.0]
                                               }
                                               children [
-                                                Transform {
+                                                Pose {
                                                   rotation 0 1 0 1.57
                                                   children [
                                                     Camera {
@@ -1167,8 +1157,6 @@ PROTO Pr2 [
                                           ]
                                         }
                                         DEF double_stereo_link Solid {
-                                          translation 0.0 0.0 0.0
-                                          rotation 0.0 1.0 0.0 0.0
                                           name "double_stereo_link"
                                           physics Physics {
                                             density -1
@@ -1177,9 +1165,8 @@ PROTO Pr2 [
                                             centerOfMass [0.0 0.0 0.0]
                                           }
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation -0.01 0.0 0.025
-                                              rotation 0.0 1.0 0.0 0.0
                                               children [
                                                 Shape {
                                                   appearance PBRAppearance {
@@ -1194,7 +1181,6 @@ PROTO Pr2 [
                                             }
                                             DEF wide_stereo_link Solid {
                                               translation 0.045 0.03 0.0501
-                                              rotation 0.0 1.0 0.0 0.0
                                               physics Physics {
                                                 density -1
                                                 mass 0.1
@@ -1203,8 +1189,6 @@ PROTO Pr2 [
                                               }
                                               children [
                                                 DEF wide_stereo_l_stereo_camera_frame Solid {
-                                                  translation 0.0 0.0 0.0
-                                                  rotation 0.0 1.0 0.0 0.0
                                                   physics Physics {
                                                     density -1
                                                     mass 0.01
@@ -1213,7 +1197,6 @@ PROTO Pr2 [
                                                   }
                                                   children [
                                                     DEF wide_stereo_l_stereo_camera_optical_frame Solid {
-                                                      translation 0.0 0.0 0.0
                                                       rotation -0.577350269191 -0.577350269188 -0.577350269191 2.09439510239
                                                       physics Physics {
                                                         density -1
@@ -1222,7 +1205,7 @@ PROTO Pr2 [
                                                         centerOfMass [0.0 0.0 0.0]
                                                       }
                                                       children [
-                                                        Transform {
+                                                        Pose {
                                                           rotation 0 1 0 1.57
                                                           children [
                                                             Camera {
@@ -1239,7 +1222,6 @@ PROTO Pr2 [
                                                     }
                                                     DEF wide_stereo_r_stereo_camera_frame Solid {
                                                       translation 0.0 -0.09 0.0
-                                                      rotation 0.0 1.0 0.0 0.0
                                                       name "wide_stereo_r_stereo_camera_frame"
                                                       physics Physics {
                                                         density -1
@@ -1249,7 +1231,6 @@ PROTO Pr2 [
                                                       }
                                                       children [
                                                         DEF wide_stereo_r_stereo_camera_optical_frame Solid {
-                                                          translation 0.0 0.0 0.0
                                                           rotation -0.577350269191 -0.577350269188 -0.577350269191 2.09439510239
                                                           physics Physics {
                                                             density -1
@@ -1258,7 +1239,7 @@ PROTO Pr2 [
                                                             centerOfMass [0.0 0.0 0.0]
                                                           }
                                                           children [
-                                                            Transform {
+                                                            Pose {
                                                               rotation 0 0 1 -1.57
                                                               children [
                                                                 Camera {
@@ -1321,7 +1302,7 @@ PROTO Pr2 [
                           centerOfMass [0.0 0.0 0.0]
                         }
                         contactMaterial "pr2_material"
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation -0.003 0 0.004
                           rotation 1 0 0 -1.570796
                           children [
@@ -1346,7 +1327,6 @@ PROTO Pr2 [
                           }
                           DEF laser_tilt_link Solid {
                             translation 0.0 0.0 0.03
-                            rotation 0.0 1.0 0.0 0.0
                             physics Physics {
                               density -1
                               mass 0.01
@@ -1354,7 +1334,7 @@ PROTO Pr2 [
                               centerOfMass [0.0 0.0 0.0]
                             }
                             children [
-                              Transform {
+                              Pose {
                                 rotation 1 0 0 1.57
                                 children [
                                   Lidar {
@@ -1407,7 +1387,7 @@ PROTO Pr2 [
                         contactMaterial "pr2_material"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation -0.04 0 -0.175
                               children [
                                 Cylinder {
@@ -1416,7 +1396,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0 0 -0.175
                               children [
                                 Box {
@@ -1424,7 +1404,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.1 -0.101 0
                               rotation 1 0 0 -1.570796
                               children [
@@ -1434,7 +1414,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.1 0.101 0
                               rotation 1 0 0 -1.570796
                               children [
@@ -1488,7 +1468,7 @@ PROTO Pr2 [
                                 centerOfMass [0.0 0.0 0.0]
                               }
                               contactMaterial "pr2_material"
-                              boundingObject Transform {
+                              boundingObject Pose {
                                 rotation 1 0 0 -1.570796
                                 children [
                                   Cylinder {
@@ -1550,8 +1530,6 @@ PROTO Pr2 [
                                         }
                                       }
                                       DEF r_upper_arm_link Solid {
-                                        translation 0.0 0.0 0.0
-                                        rotation 0.0 1.0 0.0 0.0
                                         physics Physics {
                                           density -1
                                           mass 6.01769
@@ -1561,7 +1539,7 @@ PROTO Pr2 [
                                         contactMaterial "pr2_material"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0.19 0 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -1571,7 +1549,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.4 0.04 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -1581,7 +1559,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.4 -0.04 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -1591,7 +1569,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.28 0 -0.035
                                               children [
                                                 Box {
@@ -1642,7 +1620,7 @@ PROTO Pr2 [
                                               contactMaterial "pr2_material"
                                               boundingObject Group {
                                                 children [
-                                                  Transform {
+                                                  Pose {
                                                     rotation 1 0 0 -1.570796
                                                     children [
                                                       Cylinder {
@@ -1651,7 +1629,7 @@ PROTO Pr2 [
                                                       }
                                                     ]
                                                   }
-                                                  Transform {
+                                                  Pose {
                                                     translation 0.078 0 0
                                                     rotation 0.577657 0.577197 -0.577197 -2.093935
                                                     children [
@@ -1700,7 +1678,7 @@ PROTO Pr2 [
                                                       centerOfMass [0.0 0.0 0.0]
                                                     }
                                                     contactMaterial "pr2_material"
-                                                    boundingObject Transform {
+                                                    boundingObject Pose {
                                                       translation 0.08 0 0
                                                       rotation 0.577657 0.577197 -0.577197 -2.093935
                                                       children [
@@ -1721,8 +1699,6 @@ PROTO Pr2 [
                                                         }
                                                       }
                                                       DEF r_forearm_link Solid {
-                                                        translation 0.0 0.0 0.0
-                                                        rotation 0.0 1.0 0.0 0.0
                                                         physics Physics {
                                                           density -1
                                                           mass 2.57968
@@ -1730,7 +1706,7 @@ PROTO Pr2 [
                                                           centerOfMass [0.0 0.0 0.0]
                                                         }
                                                         contactMaterial "pr2_material"
-                                                        boundingObject Transform {
+                                                        boundingObject Pose {
                                                           translation 0.22 0 -0.01
                                                           children [
                                                             Box {
@@ -1780,7 +1756,7 @@ PROTO Pr2 [
                                                                 centerOfMass [0.0 0.0 0.0]
                                                               }
                                                               contactMaterial "pr2_material"
-                                                              boundingObject Transform {
+                                                              boundingObject Pose {
                                                                 rotation 1 0 0 -1.570796
                                                                 children [
                                                                   Cylinder {
@@ -1837,8 +1813,6 @@ PROTO Pr2 [
                                                                         }
                                                                       }
                                                                       DEF r_gripper_palm_link Solid {
-                                                                        translation 0.0 0.0 0.0
-                                                                        rotation 0.0 1.0 0.0 0.0
                                                                         physics Physics {
                                                                           density -1
                                                                           mass 0.58007
@@ -1846,7 +1820,7 @@ PROTO Pr2 [
                                                                           centerOfMass [0.0 0.0 0.0]
                                                                         }
                                                                         contactMaterial "pr2_material"
-                                                                        boundingObject Transform {
+                                                                        boundingObject Pose {
                                                                           translation 0.08 0 0
                                                                           children [
                                                                             Cylinder {
@@ -1882,8 +1856,6 @@ PROTO Pr2 [
                                                                             ]
                                                                           }
                                                                           DEF r_gripper_motor_accelerometer_link Solid {
-                                                                            translation 0.0 0.0 0.0
-                                                                            rotation 0.0 1.0 0.0 0.0
                                                                             name "r_gripper_motor_accelerometer_link"
                                                                             physics Physics {
                                                                               density -1
@@ -1899,7 +1871,6 @@ PROTO Pr2 [
                                                                           }
                                                                           DEF r_gripper_tool_frame Solid {
                                                                             translation 0.18 0.0 0.0
-                                                                            rotation 0.0 1.0 0.0 0.0
                                                                             name "r_gripper_tool_frame"
                                                                             physics Physics {
                                                                               density -1
@@ -1942,7 +1913,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "r_gripper_l_finger_joint"
+                                                                                name "r_finger_gripper_motor::l_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -1984,7 +1955,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "r_gripper_l_finger_tip_joint"
+                                                                                      name "r_finger_gripper_motor::l_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2005,7 +1976,7 @@ PROTO Pr2 [
                                                                                       centerOfMass [0.0 0.0 0.0]
                                                                                     }
                                                                                     contactMaterial "pr2_material"
-                                                                                    boundingObject Transform {
+                                                                                    boundingObject Pose {
                                                                                       translation 0.013 -0.01075 0
                                                                                       children [
                                                                                         Box {
@@ -2038,7 +2009,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "r_gripper_r_finger_joint"
+                                                                                name "r_finger_gripper_motor::r_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2058,8 +2029,7 @@ PROTO Pr2 [
                                                                                 centerOfMass [0.0 0.0 0.0]
                                                                               }
                                                                               contactMaterial "pr2_material"
-                                                                              boundingObject Transform {
-                                                                                translation 0.0 0.0 0.0
+                                                                              boundingObject Pose {
                                                                                 rotation 1.0 0.0 0.0 3.14159265359
                                                                                 children [
                                                                                   Shape {
@@ -2070,8 +2040,7 @@ PROTO Pr2 [
                                                                                 ]
                                                                               }
                                                                               children [
-                                                                                Transform {
-                                                                                  translation 0.0 0.0 0.0
+                                                                                Pose {
                                                                                   rotation 1.0 0.0 0.0 3.14159265359
                                                                                   children [
                                                                                     Shape {
@@ -2094,7 +2063,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "r_gripper_r_finger_tip_joint"
+                                                                                      name "r_finger_gripper_motor::r_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2115,7 +2084,7 @@ PROTO Pr2 [
                                                                                       centerOfMass [0.0 0.0 0.0]
                                                                                     }
                                                                                     contactMaterial "pr2_material"
-                                                                                    boundingObject Transform {
+                                                                                    boundingObject Pose {
                                                                                       translation 0.013 0.01075 0
                                                                                       children [
                                                                                         Box {
@@ -2124,8 +2093,7 @@ PROTO Pr2 [
                                                                                       ]
                                                                                     }
                                                                                     children [
-                                                                                      Transform {
-                                                                                        translation 0.0 0.0 0.0
+                                                                                      Pose {
                                                                                         rotation 1.0 0.0 0.0 3.14159265359
                                                                                         children [
                                                                                           Shape {
@@ -2190,7 +2158,6 @@ PROTO Pr2 [
                                                         }
                                                         children [
                                                           DEF r_forearm_cam_optical_frame Solid {
-                                                            translation 0.0 0.0 0.0
                                                             rotation -0.577350269191 -0.577350269188 -0.577350269191 2.09439510239
                                                             physics Physics {
                                                               density -1
@@ -2260,7 +2227,7 @@ PROTO Pr2 [
                         contactMaterial "pr2_material"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation -0.04 0 -0.175
                               children [
                                 Cylinder {
@@ -2269,7 +2236,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0 0 -0.175
                               children [
                                 Box {
@@ -2277,7 +2244,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.1 -0.101 0
                               rotation 1 0 0 -1.570796
                               children [
@@ -2287,7 +2254,7 @@ PROTO Pr2 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.1 0.101 0
                               rotation 1 0 0 -1.570796
                               children [
@@ -2341,7 +2308,7 @@ PROTO Pr2 [
                                 centerOfMass [0.0 0.0 0.0]
                               }
                               contactMaterial "pr2_material"
-                              boundingObject Transform {
+                              boundingObject Pose {
                                 rotation 1 0 0 -1.570796
                                 children [
                                   Cylinder {
@@ -2403,8 +2370,6 @@ PROTO Pr2 [
                                         }
                                       }
                                       DEF l_upper_arm_link Solid {
-                                        translation 0.0 0.0 0.0
-                                        rotation 0.0 1.0 0.0 0.0
                                         physics Physics {
                                           density -1
                                           mass 6.01769
@@ -2414,7 +2379,7 @@ PROTO Pr2 [
                                         contactMaterial "pr2_material"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0.19 0 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -2424,7 +2389,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.4 0.04 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -2434,7 +2399,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.4 -0.04 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -2444,7 +2409,7 @@ PROTO Pr2 [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.28 0 -0.035
                                               children [
                                                 Box {
@@ -2495,7 +2460,7 @@ PROTO Pr2 [
                                               contactMaterial "pr2_material"
                                               boundingObject Group {
                                                 children [
-                                                  Transform {
+                                                  Pose {
                                                     rotation 1 0 0 -1.570796
                                                     children [
                                                       Cylinder {
@@ -2504,7 +2469,7 @@ PROTO Pr2 [
                                                       }
                                                     ]
                                                   }
-                                                  Transform {
+                                                  Pose {
                                                     translation 0.078 0 0
                                                     rotation 0.577657 0.577197 -0.577197 -2.093935
                                                     children [
@@ -2553,7 +2518,7 @@ PROTO Pr2 [
                                                       centerOfMass [0.0 0.0 0.0]
                                                     }
                                                     contactMaterial "pr2_material"
-                                                    boundingObject Transform {
+                                                    boundingObject Pose {
                                                       translation 0.08 0 0
                                                       rotation 0.577657 0.577197 -0.577197 -2.093935
                                                       children [
@@ -2574,8 +2539,6 @@ PROTO Pr2 [
                                                         }
                                                       }
                                                       DEF l_forearm_link Solid {
-                                                        translation 0.0 0.0 0.0
-                                                        rotation 0.0 1.0 0.0 0.0
                                                         physics Physics {
                                                           density -1
                                                           mass 2.57968
@@ -2583,7 +2546,7 @@ PROTO Pr2 [
                                                           centerOfMass [0.0 0.0 0.0]
                                                         }
                                                         contactMaterial "pr2_material"
-                                                        boundingObject Transform {
+                                                        boundingObject Pose {
                                                           translation 0.22 0 -0.01
                                                           children [
                                                             Box {
@@ -2634,7 +2597,7 @@ PROTO Pr2 [
                                                                 centerOfMass [0.0 0.0 0.0]
                                                               }
                                                               contactMaterial "pr2_material"
-                                                              boundingObject Transform {
+                                                              boundingObject Pose {
                                                                 rotation 1 0 0 -1.570796
                                                                 children [
                                                                   Cylinder {
@@ -2691,8 +2654,6 @@ PROTO Pr2 [
                                                                         }
                                                                       }
                                                                       DEF l_gripper_palm_link Solid {
-                                                                        translation 0.0 0.0 0.0
-                                                                        rotation 0.0 1.0 0.0 0.0
                                                                         physics Physics {
                                                                           density -1
                                                                           mass 0.58007
@@ -2700,7 +2661,7 @@ PROTO Pr2 [
                                                                           centerOfMass [0.0 0.0 0.0]
                                                                         }
                                                                         contactMaterial "pr2_material"
-                                                                        boundingObject Transform {
+                                                                        boundingObject Pose {
                                                                           translation 0.08 0 0
                                                                           children [
                                                                             Cylinder {
@@ -2733,8 +2694,6 @@ PROTO Pr2 [
                                                                             ]
                                                                           }
                                                                           DEF l_gripper_motor_accelerometer_link Solid {
-                                                                            translation 0.0 0.0 0.0
-                                                                            rotation 0.0 1.0 0.0 0.0
                                                                             name "l_gripper_motor_accelerometer_link"
                                                                             physics Physics {
                                                                               density -1
@@ -2751,7 +2710,6 @@ PROTO Pr2 [
                                                                           }
                                                                           DEF l_gripper_tool_frame Solid {
                                                                             translation 0.18 0.0 0.0
-                                                                            rotation 0.0 1.0 0.0 0.0
                                                                             name "l_gripper_tool_frame"
                                                                             physics Physics {
                                                                               density -1
@@ -2824,7 +2782,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "l_gripper_l_finger_joint"
+                                                                                name "l_finger_gripper_motor::l_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2866,7 +2824,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "l_gripper_l_finger_tip_joint"
+                                                                                      name "l_finger_gripper_motor::l_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2887,7 +2845,7 @@ PROTO Pr2 [
                                                                                       centerOfMass [0.0 0.0 0.0]
                                                                                     }
                                                                                     contactMaterial "pr2_material"
-                                                                                    boundingObject Transform {
+                                                                                    boundingObject Pose {
                                                                                       translation 0.013 -0.01075 0
                                                                                       children [
                                                                                         Box {
@@ -2920,7 +2878,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "l_gripper_r_finger_joint"
+                                                                                name "l_finger_gripper_motor::r_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2940,8 +2898,7 @@ PROTO Pr2 [
                                                                                 centerOfMass [0.0 0.0 0.0]
                                                                               }
                                                                               contactMaterial "pr2_material"
-                                                                              boundingObject Transform {
-                                                                                translation 0.0 0.0 0.0
+                                                                              boundingObject Pose {
                                                                                 rotation 1.0 0.0 0.0 3.14159265359
                                                                                 children [
                                                                                   Shape {
@@ -2952,8 +2909,7 @@ PROTO Pr2 [
                                                                                 ]
                                                                               }
                                                                               children [
-                                                                                Transform {
-                                                                                  translation 0.0 0.0 0.0
+                                                                                Pose {
                                                                                   rotation 1.0 0.0 0.0 3.14159265359
                                                                                   children [
                                                                                     Shape {
@@ -2976,7 +2932,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "l_gripper_r_finger_tip_joint"
+                                                                                      name "l_finger_gripper_motor::r_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2997,7 +2953,7 @@ PROTO Pr2 [
                                                                                       centerOfMass [0.0 0.0 0.0]
                                                                                     }
                                                                                     contactMaterial "pr2_material"
-                                                                                    boundingObject Transform {
+                                                                                    boundingObject Pose {
                                                                                       translation 0.013 0.01075 0
                                                                                       children [
                                                                                         Box {
@@ -3006,8 +2962,7 @@ PROTO Pr2 [
                                                                                       ]
                                                                                     }
                                                                                     children [
-                                                                                      Transform {
-                                                                                        translation 0.0 0.0 0.0
+                                                                                      Pose {
                                                                                         rotation 1.0 0.0 0.0 3.14159265359
                                                                                         children [
                                                                                           Shape {
@@ -3072,7 +3027,6 @@ PROTO Pr2 [
                                                         }
                                                         children [
                                                           DEF l_forearm_cam_optical_frame Solid {
-                                                            translation 0.0 0.0 0.0
                                                             rotation -0.577350269191 -0.577350269188 -0.577350269191 2.09439510239
                                                             physics Physics {
                                                               density -1
@@ -3081,7 +3035,7 @@ PROTO Pr2 [
                                                               centerOfMass [0.0 0.0 0.0]
                                                             }
                                                             children [
-                                                              Transform {
+                                                              Pose {
                                                                 rotation 0 0 1 3.14159265359
                                                                 children [
                                                                   Camera {

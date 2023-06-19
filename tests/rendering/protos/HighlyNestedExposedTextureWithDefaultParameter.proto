@@ -1,11 +1,11 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "./depth_2/NestedExposedTextureWithParameter.proto"
 
 PROTO HighlyNestedExposedTextureWithDefaultParameter [
 ]
 {
-  Transform {
+  Pose {
     children[
       NestedExposedTextureWithParameter {
         name "HighlyNestedExposedTextureWithDefaultParameter"

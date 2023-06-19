@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -419,9 +419,9 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_supervisor_node_add_force "
                                      "wb_supervisor_node_add_force_with_offset "
                                      "wb_supervisor_node_add_torque "
-                                     "wb_supervisor_node_disable_contact_point_tracking "
+                                     "wb_supervisor_node_disable_contact_points_tracking "
                                      "wb_supervisor_node_disable_pose_tracking "
-                                     "wb_supervisor_node_enable_contact_point_tracking "
+                                     "wb_supervisor_node_enable_contact_points_tracking "
                                      "wb_supervisor_node_enable_pose_tracking "
                                      "wb_supervisor_node_export_string "
                                      "wb_supervisor_node_get_base_type_name "
@@ -481,6 +481,13 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_touch_sensor_get_value "
                                      "wb_touch_sensor_get_lookup_table_size "
                                      "wb_touch_sensor_get_lookup_table "
+                                     "wb_vacuum_gripper_turn_on "
+                                     "wb_vacuum_gripper_turn_off "
+                                     "wb_vacuum_gripper_disable_presence "
+                                     "wb_vacuum_gripper_enable_presence "
+                                     "wb_vacuum_gripper_get_presence "
+                                     "wb_vacuum_gripper_get_presence_sampling_period "
+                                     "wb_vacuum_gripper_is_on "
                                      "wbu_car_cleanup "
                                      "wbu_car_enable_indicator_auto_disabling "
                                      "wbu_car_init "
@@ -667,6 +674,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_POINT_LIGHT "
                                      "WB_NODE_POINT_SET "
                                      "WB_NODE_POSITION_SENSOR "
+                                     "WB_NODE_POSE "
                                      "WB_NODE_PROPELLER "
                                      "WB_NODE_RADAR "
                                      "WB_NODE_RANGE_FINDER "
@@ -689,6 +697,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
                                      "WB_NODE_TRANSFORM "
+                                     "WB_NODE_VACUUM_GRIPPER "
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
@@ -701,7 +710,7 @@ static const char *API_CLASSES =
   "CoordinateSystem Driver Display DistanceSensor Emitter EngineType Field GPS Gyro Keyboard "
   "InertialUnit ImageRef IndicatorState Joystick LED Lidar LidarPoint LightSensor LinearMotor Mode Motion Motor "
   "MouseState Node Pen PositionSensor Radar RadarTarget RangeFinder Receiver Robot RotationalMotor "
-  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent WiperMode WheelIndex";
+  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent VacuumGripper WiperMode WheelIndex";
 
 static const char *WBT_OBJECTS =
   "Appearance Background BallJoint BallJointParameters Billboard Box "
@@ -709,7 +718,7 @@ static const char *WBT_OBJECTS =
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
-  "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
+  "Physics Plane PointLight Pose Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
   "Transform Viewpoint WorldInfo Zoom";
 
@@ -732,15 +741,15 @@ WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFile
 WbLanguage::~WbLanguage() {
 }
 
-void WbLanguage::addKeywords(QString words) {
+void WbLanguage::addKeywords(const QString &words) {
   mKeywords += words.split(" ");
 }
 
-void WbLanguage::addApiWords(QString words) {
+void WbLanguage::addApiWords(const QString &words) {
   mApiWords += words.split(" ");
 }
 
-void WbLanguage::addPreprocessorWords(QString words) {
+void WbLanguage::addPreprocessorWords(const QString &words) {
   mPreprocessorWords += words.split(" ");
 }
 

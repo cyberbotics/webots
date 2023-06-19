@@ -1,66 +1,148 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
-import {arrayXPointerFloat, arrayXPointerInt, getAnId} from './utils/utils.js';
+import WbWorld from './WbWorld.js';
+import { getAnId } from './utils/id_provider.js';
+import { arrayXPointerFloat, arrayXPointerInt } from './utils/utils.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {webots} from '../webots.js';
+import { WbNodeType } from './wb_node_type.js';
 
-import {loadImageTextureInWren} from '../image_loader.js';
+import MeshLoader from '../MeshLoader.js';
+import ImageLoader from '../ImageLoader.js';
 
 export default class WbCadShape extends WbBaseNode {
+  #boundingSphere;
+  #ccw;
+  #castShadows;
+  #isCollada;
+  #isPickable;
+  #pbrAppearances;
   #promises;
-  constructor(id, urls, ccw, castShadows, isPickable, prefix) {
+  #url;
+  #wrenMaterials;
+  #wrenMeshes;
+  #wrenRenderables;
+  #wrenTransforms;
+  constructor(id, url, ccw, castShadows, isPickable, prefix) {
     super(id);
+    if (url.toLowerCase().endsWith('.obj') || url.toLowerCase().endsWith('.dae'))
+      this.#url = url;
 
-    this.materials = [];
-    for (let i = 0; i < urls.length; ++i) {
-      if (urls[i].endsWith('.obj') || urls[i].endsWith('.dae'))
-        this.url = urls[i];
-      else if (urls[i].endsWith('.mtl'))
-        this.materials.push(urls[i]);
-      else
-        console.error('Unknown file provided to CadShape node: ' + urls[i]);
-    }
-
-    if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
+    if (typeof this.#url === 'undefined') { // no '.dae' or '.obj' was provided
       console.error('Invalid URL. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
       return;
     }
 
-    this.isCollada = this.url.endsWith('.dae');
+    this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
     this.prefix = prefix;
 
-    this.ccw = ccw;
-    this.castShadows = castShadows;
-    this.isPickable = isPickable;
+    this.#ccw = ccw;
+    this.#castShadows = castShadows;
+    this.#isPickable = isPickable;
 
-    this.wrenRenderables = [];
-    this.wrenMeshes = [];
-    this.wrenMaterials = [];
-    this.wrenTransforms = [];
-    this.pbrAppearances = [];
+    this.#wrenRenderables = [];
+    this.#wrenMeshes = [];
+    this.#wrenMaterials = [];
+    this.#wrenTransforms = [];
+    this.#pbrAppearances = [];
 
     this.#promises = [];
   }
 
+  get nodeType() {
+    return WbNodeType.WB_NODE_CAD_SHAPE;
+  }
+
+  get ccw() {
+    return this.#ccw;
+  }
+
+  set ccw(newCcw) {
+    this.#ccw = newCcw;
+
+    this.#updateCcw();
+  }
+
+  get castShadows() {
+    return this.#castShadows;
+  }
+
+  set castShadows(newCastShadows) {
+    this.#castShadows = newCastShadows;
+
+    this.#updateCastShadows();
+  }
+
+  get isPickable() {
+    return this.#isPickable;
+  }
+
+  set isPickable(newIsPickable) {
+    this.#isPickable = newIsPickable;
+
+    this.#updateIsPickable();
+  }
+
+  get url() {
+    return this.#url;
+  }
+
+  set url(newUrl) {
+    if (newUrl.toLowerCase().endsWith('.obj') || newUrl.toLowerCase().endsWith('.dae'))
+      this.#url = newUrl;
+    else
+      console.error('Unknown file provided to CadShape node: ' + newUrl);
+
+    if (typeof this.#url === 'undefined') { // no '.dae' or '.obj' was provided
+      console.error('Invalid URL. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      return;
+    }
+
+    this.#updateUrl();
+  }
+
+  absoluteScale() {
+    const ut = this.upperTransform;
+    return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
+  }
+
+  boundingSphere() {
+    return this.#boundingSphere;
+  }
+
   clone(customID) {
-    let urls = [this.url];
-    urls = urls.concat(this.materials);
-    const cadShape = new WbCadShape(customID, urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
+    const cadShape = new WbCadShape(customID, this.#url, this.#ccw, this.#castShadows, this.#isPickable, this.prefix);
+    cadShape.materialPath = this.materialPath;
     this.useList.push(customID);
     return cadShape;
   }
 
   delete() {
+    super.delete();
+
     if (this.wrenObjectsCreatedCalled)
       this.deleteWrenObjects();
 
-    super.delete();
+    if (typeof this.parent === 'undefined') {
+      const index = WbWorld.instance.root.children.indexOf(this);
+      WbWorld.instance.root.children.splice(index, 1);
+    } else {
+      const parent = WbWorld.instance.nodes.get(this.parent);
+      if (typeof parent !== 'undefined') {
+        if (typeof parent.endPoint !== 'undefined')
+          parent.endPoint = undefined;
+        else {
+          const index = parent.children.indexOf(this);
+          parent.children.splice(index, 1);
+        }
+      }
+    }
   }
 
   createWrenObjects() {
@@ -68,11 +150,11 @@ export default class WbCadShape extends WbBaseNode {
 
     super.createWrenObjects();
 
-    if (typeof this.url === 'undefined' || this.scene === 'undefined')
+    if (typeof this.#url === 'undefined' || this.scene === 'undefined')
       return;
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
-    if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
+    if (this.#isCollada) { // rotate around X by 90° to swap Y and Z axis
       // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
       if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
@@ -169,7 +251,7 @@ export default class WbCadShape extends WbBaseNode {
         const staticMesh = _wr_static_mesh_new(vertices, indexData.length, coordDataPointer, normalDataPointer,
           texCoordDataPointer, texCoordDataPointer, indexDataPointer, false);
 
-        this.wrenMeshes.push(staticMesh);
+        this.#wrenMeshes.push(staticMesh);
 
         // retrieve material properties
         const material = this.scene.materials[mesh.materialindex];
@@ -182,20 +264,20 @@ export default class WbCadShape extends WbBaseNode {
         let wrenMaterial = _wr_pbr_material_new();
         pbrAppearance.modifyWrenMaterial(wrenMaterial);
 
-        this.pbrAppearances.push(pbrAppearance);
-        this.wrenMaterials.push(wrenMaterial);
+        this.#pbrAppearances.push(pbrAppearance);
+        this.#wrenMaterials.push(wrenMaterial);
       }
     }
 
-    for (let i = 0; i < this.wrenMeshes.length; ++i) {
+    for (let i = 0; i < this.#wrenMeshes.length; ++i) {
       let renderable = _wr_renderable_new();
-      _wr_renderable_set_material(renderable, this.wrenMaterials[i], null);
-      _wr_renderable_set_mesh(renderable, this.wrenMeshes[i]);
+      _wr_renderable_set_material(renderable, this.#wrenMaterials[i], null);
+      _wr_renderable_set_mesh(renderable, this.#wrenMeshes[i]);
       _wr_renderable_set_receive_shadows(renderable, true);
       _wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext.VM_REGULAR);
-      _wr_renderable_set_cast_shadows(renderable, this.castShadows);
-      _wr_renderable_invert_front_face(renderable, !this.ccw);
-      WbWrenPicker.setPickable(renderable, this.id, this.isPickable);
+      _wr_renderable_set_cast_shadows(renderable, this.#castShadows);
+      _wr_renderable_invert_front_face(renderable, !this.#ccw);
+      WbWrenPicker.setPickable(renderable, this.id, this.#isPickable);
 
       let transform = _wr_transform_new();
       _wr_transform_attach_child(this.wrenNode, transform);
@@ -203,40 +285,60 @@ export default class WbCadShape extends WbBaseNode {
       _wr_transform_attach_child(transform, renderable);
       _wr_node_set_visible(transform, true);
 
-      this.wrenRenderables.push(renderable);
-      this.wrenTransforms.push(transform);
+      this.#wrenRenderables.push(renderable);
+      this.#wrenTransforms.push(transform);
     }
 
     Promise.all(this.#promises).then(() => {
       this.actualizeAppearance();
     });
+
+    this.#boundingSphere = new WbBoundingSphere(this);
+    this.#recomputeBoundingSphere();
   }
 
   actualizeAppearance() {
-    for (let i = 0; i < this.pbrAppearances.length; i++) {
-      this.pbrAppearances[i].modifyWrenMaterial(this.wrenMaterials[i]);
-      _wr_renderable_set_material(this.wrenRenderables[i], this.wrenMaterials[i], null);
+    for (let i = 0; i < this.#pbrAppearances.length; i++) {
+      this.#pbrAppearances[i].modifyWrenMaterial(this.#wrenMaterials[i]);
+      _wr_renderable_set_material(this.#wrenRenderables[i], this.#wrenMaterials[i], null);
     }
   }
 
   deleteWrenObjects() {
-    this.wrenRenderables?.forEach(renderable => {
+    this.#wrenRenderables?.forEach(renderable => {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']));
       _wr_node_delete(renderable);
     });
-    this.wrenMeshes?.forEach(mesh => { _wr_static_mesh_delete(mesh); });
-    this.wrenMaterials?.forEach(material => { _wr_material_delete(material); });
-    this.pbrAppearances?.forEach(appearance => { appearance.delete(); });
-    for (let i = (this.wrenTransforms || []).length - 1; i >= 0; --i) {
-      this.wrenNode = _wr_node_get_parent(this.wrenTransforms[i]);
-      _wr_node_delete(this.wrenTransforms[i]);
+    this.#wrenMeshes?.forEach(mesh => { _wr_static_mesh_delete(mesh); });
+    this.#wrenMaterials?.forEach(material => { _wr_material_delete(material); });
+    this.#pbrAppearances?.forEach(appearance => { appearance.delete(); });
+    for (let i = (this.#wrenTransforms || []).length - 1; i >= 0; --i) {
+      this.wrenNode = _wr_node_get_parent(this.#wrenTransforms[i]);
+      _wr_node_delete(this.#wrenTransforms[i]);
     }
 
-    this.wrenRenderables = [];
-    this.wrenMeshes = [];
-    this.wrenMaterials = [];
-    this.wrenTransforms = [];
-    this.pbrAppearances = [];
+    this.#wrenRenderables = [];
+    this.#wrenMeshes = [];
+    this.#wrenMaterials = [];
+    this.#wrenTransforms = [];
+    this.#pbrAppearances = [];
+  }
+
+  #recomputeBoundingSphere() {
+    this.#boundingSphere.empty();
+
+    for (let i = 0; i < this.#wrenMeshes.length; i++) {
+      let sphere = [0, 0, 0, 0];
+      const spherePointer = arrayXPointerFloat(sphere);
+      _wr_static_mesh_get_bounding_sphere(this.#wrenMeshes[i], spherePointer);
+      sphere[0] = Module.getValue(spherePointer, 'float');
+      sphere[1] = Module.getValue(spherePointer + 4, 'float');
+      sphere[2] = Module.getValue(spherePointer + 8, 'float');
+      sphere[3] = Module.getValue(spherePointer + 12, 'float');
+
+      const center = new WbVector3(sphere[0], sphere[1], sphere[2]);
+      this.#boundingSphere.set(center, sphere[3]);
+    }
   }
 
   #createPbrAppearance(material, materialIndex) {
@@ -299,11 +401,11 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith('http')) {
-      if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
-        assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+    if (WbCadShape.stream || this.#url.startsWith('http')) {
+      if (this.#isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
+        assetPrefix = this.#url.substr(0, this.#url.lastIndexOf('/') + 1);
       else // for wavefront files, the prefix is extracted from the URL of the MTL file
-        assetPrefix = this.materials[0].substr(0, this.materials[0].lastIndexOf('/') + 1);
+        assetPrefix = this.materialPath;
     }
 
     // initialize maps
@@ -353,9 +455,37 @@ export default class WbCadShape extends WbBaseNode {
       url = assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, url, false, true);
+    const promise = ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url);
     promise.then(() => imageTexture.updateUrl());
     this.#promises.push(promise);
     return imageTexture;
+  }
+
+  #updateCcw() {
+    this.#wrenRenderables.forEach(renderable => _wr_renderable_invert_front_face(renderable, !this.#ccw));
+  }
+
+  #updateCastShadows() {
+    this.#wrenRenderables.forEach(renderable => _wr_renderable_set_cast_shadows(renderable, this.#castShadows));
+  }
+
+  #updateIsPickable() {
+    this.#wrenRenderables.forEach(renderable => WbWrenPicker.setPickable(renderable, this.id, this.#isPickable));
+  }
+
+  #updateUrl() {
+    if (this.#url)
+      this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
+
+    MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
+      this.scene = meshContent[0];
+      this.materialPath = meshContent[1];
+      if (this.wrenObjectsCreatedCalled) {
+        if (typeof this.scene === 'undefined')
+          this.deleteWrenObjects();
+        else
+          this.createWrenObjects();
+      }
+    });
   }
 }

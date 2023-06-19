@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -119,7 +119,7 @@ Robot {
   translation 0 -0.15 0
   rotation 0 0 1 1
   children [
-    Transform {
+    Pose {
       translation 0 0 0.0415
       rotation 0 0 1 -1.570796
       children [
@@ -154,7 +154,7 @@ Robot {
         translation 0 0.045 0.025
         rotation 0.13448695438559669 -0.13448695438559669 -0.9817466670176033 1.589217
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -204,13 +204,13 @@ Robot {
         physics USE PHYSICS_WHEEL
       }
     }
-    Transform {
+    Pose {
       translation 0.0385 -0.02 0.063
       rotation -0.7268278184260777 -0.4856548786751704 -0.4856548786751704 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
-            Transform {
+            Pose {
               translation 1e-05 0 0
               rotation 0 0 1 0.8
               children [
@@ -226,7 +226,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               rotation 0 0 1 -0.8
               children [
                 Shape {
@@ -245,7 +245,7 @@ Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.0385 0.02 0.063
       rotation -0.7268313515069925 0.4856522348690052 0.4856522348690052 -1.884578
       children [
@@ -266,11 +266,11 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.041 -0.015 0.038
-            0.041 -0.015 0.023
+            0.0435 -0.015 0.038
+            0.0435 -0.015 0.023
             0.0455 0 0.023
-            0.041 0.015 0.023
-            0.041 0.015 0.038
+            0.0435 0.015 0.023
+            0.0435 0.015 0.038
             0.0455 0 0.038
           ]
         }
@@ -321,7 +321,7 @@ Robot {
     }
   ]
   name "MyBot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY

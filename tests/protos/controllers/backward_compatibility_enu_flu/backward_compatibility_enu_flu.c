@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);  // give the controller args
 
   WbNodeRef old_proto_node = wb_supervisor_node_get_from_def("OLD_PROTO");
-  WbNodeRef cylinder_node = wb_supervisor_node_get_from_proto_def(old_proto_node, "CYLINDER_TRANSFORM");
+  WbNodeRef cylinder_node = wb_supervisor_node_get_from_proto_def(old_proto_node, "CYLINDER_POSE");
 
   wb_robot_step(TIME_STEP);
   const double *camera_pose = wb_supervisor_node_get_pose(old_proto_node, NULL);

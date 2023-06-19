@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -507,10 +507,14 @@ def main(args=None):
     generator.gen(PROC, "wb_supervisor_node_add_force(noderef, force, relative)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_add_force_with_offset(noderef, force, offset, relative)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_add_torque(noderef, torque, relative)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_disable_contact_points_tracking(noderef)", "supervisor")
+    # DEPRECATED
     generator.gen(FUNC, "wb_supervisor_node_disable_contact_point_tracking(noderef, include_descendants)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_disable_pose_tracking(node, from_node)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)",
+    generator.gen(FUNC, "wb_supervisor_node_enable_contact_points_tracking(noderef, sampling_period, include_descendants)",
                         "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)",
+                        "supervisor")  # DEPRECATED
     generator.gen(FUNC, "wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
@@ -581,6 +585,15 @@ def main(args=None):
     generator.gen(FUNC, "wb_touch_sensor_get_type(tag)", "touchsensor")
     generator.gen(FUNC, "wb_touch_sensor_get_value(tag)", "touchsensor")
     # generator.gen(FUNC, "wb_touch_sensor_get_values(tag)", "touchsensor")
+
+    # vacuum_gripper.h
+    generator.gen(PROC, "wb_vacuum_gripper_disable_presence(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_enable_presence(tag, sampling_period)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_get_presence(tag)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_get_presence_sampling_period(tag)", "vacuum_gripper")
+    generator.gen(FUNC, "wb_vacuum_gripper_is_on(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_turn_on(tag)", "vacuum_gripper")
+    generator.gen(PROC, "wb_vacuum_gripper_turn_off(tag)", "vacuum_gripper")
 
     # utils/motion.h
     generator.gen(PROC, "wbu_motion_delete(motionref)", "motion")
@@ -694,7 +707,7 @@ def main(args=None):
         WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID,
         WB_NODE_FOG, WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET,
         WB_NODE_INDEXED_LINE_SET, WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
-        WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_SHAPE,
+        WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_POSE, WB_NODE_SHAPE,
         WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
         WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
         WB_NODE_ROBOT,
@@ -704,7 +717,7 @@ def main(args=None):
         WB_NODE_LIGHT_SENSOR, WB_NODE_LINEAR_MOTOR, WB_NODE_PEN,
         WB_NODE_POSITION_SENSOR, WB_NODE_PROPELLER, WB_NODE_RADAR,
         WB_NODE_RANGE_FINDER, WB_NODE_RECEIVER, WB_NODE_ROTATIONAL_MOTOR,
-        WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR,
+        WB_NODE_SKIN, WB_NODE_SPEAKER, WB_NODE_TOUCH_SENSOR, WB_NODE_VACUUM_GRIPPER,
         WB_NODE_BALL_JOINT, WB_NODE_BALL_JOINT_PARAMETERS, WB_NODE_CHARGER,
         WB_NODE_CONTACT_PROPERTIES, WB_NODE_DAMPING, WB_NODE_FLUID,
         WB_NODE_FOCUS, WB_NODE_HINGE_JOINT, WB_NODE_HINGE_JOINT_PARAMETERS,
