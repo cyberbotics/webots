@@ -68,7 +68,6 @@ then
   echo "Update file headers.."
   $CURRENT_DIR/new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
   $CURRENT_DIR/new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision $WEBOTS_HOME/docs/reference/proto-example.md
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/scripts/converter/convert_nue_to_enu_rub_to_flu.py
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/javascript-procedural-proto.md
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/guide/generate_objects_doc.py
   # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/reference/rotationalmotor.md
