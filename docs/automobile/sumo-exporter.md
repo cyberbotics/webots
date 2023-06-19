@@ -11,6 +11,7 @@ Please refer to [these instructions](openstreetmap-importer.md#dependencies) to 
 ### Linux
 
 On Linux, you also need to install `libgdal` and `libfox` to run the SUMO `netconvert` and `duarouter` binaries.
+
 On Ubuntu 22.04, please run this command:
 ```sh
 sudo apt install libgdal30 libfox-1.6-0
