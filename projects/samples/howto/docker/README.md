@@ -39,7 +39,7 @@ You will have to [install Docker Engine](https://docs.docker.com/engine/install/
 You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 Finally, you will have to install the [Compose plugin](https://docs.docker.com/compose/install/linux/) for docker: `sudo apt-get install docker-compose-plugin`
 
-The docker base image used in this script is `cyberbotics/webots:R2023a` which you may want to change to target a different base image.
+The docker base image used in this script is `cyberbotics/webots:R2023b` which you may want to change to target a different base image.
 For example you may want to create your own docker base image from the current development branch.
 This can be achieved from the https://github.com/cyberbotics/webots-docker repository by adapting the `Dockerfile` to use a local `webots` folder which can be created from a tarball distribution snapshot of the current development branch.
 
