@@ -28,7 +28,7 @@ However, it is also possible to directly provide the built binaries in the corre
 
 A typical `Dockerfile` would look something like this:
 ```Dockerfile
-FROM cyberbotics/webots.cloud:R2023a-ubuntu20.04
+FROM cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
