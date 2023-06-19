@@ -97,8 +97,10 @@ void WbLed::updateChildren() {
 
 void WbLed::findMaterialsAndLights(const WbGroup *group) {
   int size = group->children().size();
-  if (size < 1)
+  if (size < 1) {
+    clearMaterialsAndLights();
     return;
+  }
 
   if (group == this) {
     clearMaterialsAndLights();

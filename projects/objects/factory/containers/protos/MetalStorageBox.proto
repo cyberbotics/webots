@@ -62,100 +62,100 @@ PROTO MetalStorageBox [
     boundingObject Group {
       children [
         Pose {
-          translation 0 0 0.004
+          translation 0 0 0.002
           children [
             Box {
-              size 0.907 1.921 0.008
+              size 0.4535 0.9605 0.004
             }
           ]
         }
         Pose {
-          translation 0.513 0 0.545
+          translation 0.2565 0 0.2725
           rotation 0 1 0 0.135
           children [
             Box {
-              size 0.03 1.9 1.08
+              size 0.015 0.95 0.54
             }
           ]
         }
         Pose {
-          translation -0.513 0 0.545
+          translation -0.2565 0 0.2725
           rotation 0 1 0 -0.135
           children [
             Box {
-              size 0.03 1.9 1.08
+              size 0.015 0.95 0.54
             }
           ]
         }
         Pose {
-          translation 0 -0.949 0.139
+          translation 0 -0.4745 0.0695
           rotation 0 1 0 0.015
           children [
             Box {
-              size 0.915 0.03 0.265
+              size 0.4575 0.015 0.1325
             }
           ]
         }
         Pose {
-          translation 0 -0.9529 0.405014
+          translation 0 -0.47645 0.202507
           rotation 0 1 0 0.015
           children [
             Box {
-              size 0.98 0.03 0.269
+              size 0.49 0.015 0.1345
             }
           ]
         }
         Pose {
-          translation 0 -0.95695 0.674987
+          translation 0 -0.478475 0.3374935
           rotation 0 1 0 0.015
           children [
             Box {
-              size 1.05 0.03 0.269
+              size 0.525 0.015 0.1345
             }
           ]
         }
         Pose {
-          translation 0 -0.96085 0.942994
+          translation 0 -0.480425 0.471497
           rotation 0 1 0 0.015
           children [
             Box {
-              size 1.13 0.03 0.269
+              size 0.565 0.015 0.1345
             }
           ]
         }
         Pose {
-          translation 0 0.949 0.139
+          translation 0 0.4745 0.0695
           rotation 0 1 0 -0.015
           children [
             Box {
-              size 0.915 0.03 0.265
+              size 0.4575 0.015 0.1325
             }
           ]
         }
         Pose {
-          translation 0 0.9529 0.405014
+          translation 0 0.47645 0.202507
           rotation 0 1 0 -0.015
           children [
             Box {
-              size 0.98 0.03 0.269
+              size 0.49 0.015 0.1345
             }
           ]
         }
         Pose {
-          translation 0 0.95695 0.674987
+          translation 0 0.478475 0.3374935
           rotation 0 1 0 -0.015
           children [
             Box {
-              size 1.05 0.03 0.269
+              size 0.525 0.015 0.1345
             }
           ]
         }
         Pose {
-          translation 0 0.96085 0.942994
+          translation 0 0.480425 0.471497
           rotation 0 1 0 -0.015
           children [
             Box {
-              size 1.13 0.03 0.269
+              size 0.565 0.015 0.1345
             }
           ]
         }
