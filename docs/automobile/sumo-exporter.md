@@ -17,7 +17,6 @@ sudo apt install libgdal30 libfox-1.6-0
 ```
 On Ubuntu 20.04, `libdgal30` is not available and you have to install the previous version `libgdal26` instead.
 
-
 ## Expectations on the Webots Simulation
 
 If the Webots simulation has been created from the OpenStreetMap importer, then the export should be straight forward.
