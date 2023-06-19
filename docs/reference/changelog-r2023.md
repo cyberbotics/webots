@@ -99,6 +99,7 @@ Released on ??
     - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
     - Fixed a bug in ODE that caused minStop and maxStop limits to be violated in HingeJoints ([#6118](https://github.com/cyberbotics/webots/pull/6118)).
     - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
+    - Fixed crash when deleting a [Group](group.md) or a [Pose](pose.md) in a [Led](led.md) or [Charger](charger.md) ([#6226](https://github.com/cyberbotics/webots/pull/6226)).
   - Dependency Updates
     - Change the Windows version of SUMO to 1.13 to match the one used on Linux and macOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).

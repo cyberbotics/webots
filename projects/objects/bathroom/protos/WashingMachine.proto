@@ -169,7 +169,7 @@ PROTO WashingMachine [
       }
     ]
     boundingObject Box {
-      size 1 1.1 1.5
+      size 0.73 0.77 1.05
     }
   }
 }

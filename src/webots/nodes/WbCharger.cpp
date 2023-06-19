@@ -122,8 +122,10 @@ bool WbCharger::isAnyMaterialOrLightFound() const {
 
 void WbCharger::findMaterialsAndLights(const WbGroup *const g) {
   int size = g->children().size();
-  if (size < 1)
+  if (size < 1) {
+    clearMaterialsAndLights();
     return;
+  }
 
   if (g == this) {
     clearMaterialsAndLights();

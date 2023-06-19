@@ -72,7 +72,7 @@ PROTO RobocupSoccerBall [
     model "soccer ball"
     contactMaterial "robocup soccer ball"
     boundingObject Sphere {
-      radius %<= radius / scale >%
+      radius %<= radius >%
       subdivision 3
     }
     physics Physics {
