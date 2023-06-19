@@ -141,7 +141,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2023a, the download size of the snap is 731MB compared to 183MB of the Debian package.
+For Webots R2023b, the download size of the snap is 731MB compared to 183MB of the Debian package.
 
 ##### Extern Controllers
 
@@ -313,9 +313,9 @@ If you are getting errors like these:
 
 This is likely caused by Rosetta loading Webots under the x86 architecture instead of the native ARM. Unless you really want to use x86 binaries with your Webots simulation, make sure to turn off Rosetta. Sometimes macOS may try to open the app using Rosetta by default, which may cause issues when it comes to run robot controllers with dependencies on ARM libraries.
 
-To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info. 
+To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info.
 
-Make sure that the "Open using Rosetta" setting is unchecked, like in the picture below: 
+Make sure that the "Open using Rosetta" setting is unchecked, like in the picture below:
 
 %figure "Rosetta setting"
 

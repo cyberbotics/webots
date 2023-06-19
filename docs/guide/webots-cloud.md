@@ -66,7 +66,7 @@ More information on what the Dockerfile should contain can be found in the [Dock
 
 For example:
 ```Dockerfile
-FROM cyberbotics/webots.cloud:R2023a-ubuntu20.04
+FROM cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
