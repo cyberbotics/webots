@@ -22,9 +22,9 @@ You can then add your proto by clicking the `Add a new proto` button at the bott
 
 To add a proto from the library to a world, copy the github url of the proto and convert it to `raw.githubusercontent.com`. To to that, change `github.com` into `raw.githubusercontent.com` and remove the `/blob`. Then paste it at the top of the world file like this:
 ```
-#VRML_SIM R2023b utf8
+#VRML_SIM {{ webots.version.major }} utf8
 
-IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/RoughOak.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/appearances/protos/RoughOak.proto"
 
 WorldInfo {
 ```
@@ -114,8 +114,8 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 - [Nao room](https://webots.cloud/AcTNYs0)
 
 **Proto**
-- [NAO](https://webots.cloud/run?version=R2023b&url=https://github.com/cyberbotics/webots/blob/develop/projects/robots/softbank/nao/protos/Nao.proto)
-- [WoodenPalletStack](https://webots.cloud/run?version=R2023b&url=https://github.com/cyberbotics/webots/blob/develop/projects/objects/factory/pallet/protos/WoodenPalletStack.proto)
+- [NAO](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/Nao.proto)
+- [WoodenPalletStack](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/pallet/protos/WoodenPalletStack.proto)
 
 **Simulation**:
 
