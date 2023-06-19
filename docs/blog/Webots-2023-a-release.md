@@ -28,7 +28,7 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 Devices embedded on the ROSbot have also been added to the Webots library, namely the Mpu-9250 IMU, the RPLidarA2 lidar and the Astra RGB-D camera.
 
 %figure "New devices"
-![Added Devices](images/devices_r2023a.thumbnail.png)
+![Added Devices](images/devices_r2023a.thumbnail.jpg)
 %end
 
 ---
@@ -38,7 +38,7 @@ Devices embedded on the ROSbot have also been added to the Webots library, namel
 Additional models have been added to the Webots library, namely static animals (cow, horse, deer, sheep, dog, fox, cat and rabbit) and a barn.
 
 %figure "New objects"
-![Added Assets](images/assets_r2023a.thumbnail.png)
+![Added Assets](images/assets_r2023a.thumbnail.jpg)
 %end
 
 ---
