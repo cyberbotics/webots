@@ -304,17 +304,6 @@ void WbBuildEditor::make(const QString &target) {
 
   // find out compilation directory
   QString compilePath = compileDir().absolutePath();
-  // On Windows, make won't work if the Makefile file is located in a path with UTF-8 characters (e.g., Chinese)
-#ifdef _WIN32
-  if (!isJavaProgram && QString(compilePath.toUtf8()) != QString::fromLocal8Bit(compilePath.toLocal8Bit())) {
-    WbMessageBox::warning(tr("\'%1\'\n\nThe path to this Webots project contains non 8-bit characters. "
-                             "Webots won't be able to compile any C/C++ controller in this path. "
-                             "Please move this Webots project into a folder with only 8-bit characters.")
-                            .arg(compilePath),
-                          this);
-    return;
-  }
-#endif
 
   // is in installation directory
   if (!WbProjectRelocationDialog::validateLocation(this, compilePath))
