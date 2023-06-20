@@ -23,7 +23,7 @@ PROTO Rosbot [
   field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
-  field  MFNode      cameraSlot      [ Astra { name "camera" } ] # Extends the robot with an Astra RGBD camera.
+  field  MFNode      cameraSlot      [ Astra { name "camera_link" } ] # Extends the robot with an Astra RGBD camera.
   field  MFNode      lidarSlot       [ RpLidarA2 { name "laser" } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
@@ -369,7 +369,7 @@ PROTO Rosbot [
             ]
           }
         ]
-        name "cover"
+        name "cover_link"
       }
       DEF FL_WHEEL_AXIS Pose {
         translation 0.053 0.092 0.041
@@ -481,7 +481,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "front left wheel"
+          name "fl_wheel_link"
           boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
             translation 0.000000 -0.011500 0.000000
             rotation 1.000000 0.000000 0.000000 -1.570800
@@ -527,7 +527,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "front right wheel"
+          name "fr_wheel_link"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
             translation 0.000000 0.011500 0.000000
             rotation 1.000000 0.000000 0.000000 -1.570800
@@ -567,7 +567,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "rear left wheel"
+          name "rl_wheel_link"
           boundingObject USE LEFT_WHEEL_CYLINDER
           physics USE WHEEL_PHYSICS
         }
@@ -601,7 +601,7 @@ PROTO Rosbot [
               ]
             }
           ]
-          name "rear right wheel"
+          name "rr_wheel_link"
           boundingObject USE RIGHT_WHEEL_CYLINDER
           physics USE WHEEL_PHYSICS
         }
@@ -609,7 +609,7 @@ PROTO Rosbot [
       Mpu-9250 {
         translation 0.000000 0.000000 0.043000
         rotation 0.000000 0.000000 1.000000 0.000000
-        name "imu"
+        name "imu_link"
         includeInertialUnit TRUE
       }
       DEF DISTANCE_SENSORS Pose {
