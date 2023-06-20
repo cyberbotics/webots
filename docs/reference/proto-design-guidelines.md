@@ -247,7 +247,7 @@ It is better to use more descriptive names, like `left arm pivot`.
 Here is a simple example of a good PROTO declaration (the implementation is not shown):
 
 ```
-#VRML_SIM R2024a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # A color pencil
