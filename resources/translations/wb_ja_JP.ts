@@ -5594,10 +5594,6 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
 <context>
     <name>WbProtoManager</name>
     <message>
-        <source>Please adapt your project to R2023a following these instructions: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&apos;%1&apos; must be converted because EXTERNPROTO declarations are missing.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5651,6 +5647,10 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
     </message>
     <message>
         <source>Cannot check if &apos;%1&apos; exists because category &apos;%2&apos; is unknown.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please adapt your project to R2023a following these instructions: https://cyberbotics.com/doc/guide/from-2022a-to-2022b</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6207,7 +6207,7 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a</source>
+        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://cyberbotics.com/doc/guide/from-2021b-to-2022a</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
