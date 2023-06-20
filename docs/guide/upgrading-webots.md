@@ -6,7 +6,7 @@ This chapter explains how to upgrade worlds and protos from an older version of 
 
 *Note*: some versions of Webots do not have a page in this section. It means that the compatibility was not broken by this version. I you want to know what new features this version introduces, please refers to the [blog](../blog/index.md) or the [changelog](../reference/changelog.md).
 
-## Upgrade guides
+## Upgrade Guides
 
 - [From R2021b to 2022a](from-2021b-to-2022a.md)
 - [From R2022a to 2022b](from-2022a-to-2022b.md)
