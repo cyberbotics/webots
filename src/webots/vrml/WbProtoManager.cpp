@@ -144,9 +144,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
     if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
-      const QString backwardsCompatibilityMessage =
-        tr("Please adapt your project to R2023a following these instructions: "
-           "https://cyberbotics.com/doc/guide/from-2022a-to-2022b");
+      const QString backwardsCompatibilityMessage = tr("Please adapt your project to R2023a following these instructions: "
+                                                       "https://cyberbotics.com/doc/guide/from-2022a-to-2022b");
       const QString outdatedProtoMessage =
         tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
       displayMissingDeclarations(backwardsCompatibilityMessage);
@@ -269,9 +268,8 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   QStringList queue;
   queue << parser.protoNodeList();
 
-  displayMissingDeclarations(
-    tr("Please adapt your project to R2023a following these instructions: "
-       "https://cyberbotics.com/doc/guide/from-2022a-to-2022b"));
+  displayMissingDeclarations(tr("Please adapt your project to R2023a following these instructions: "
+                                "https://cyberbotics.com/doc/guide/from-2022a-to-2022b"));
 
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
