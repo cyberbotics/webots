@@ -45,7 +45,7 @@ To compensate, we introduced a new node: [Pose](../reference/pose.md) which is t
 
 A mecanism has been implemented in Webots to automatically convert the Transform in Pose when you open your world except for the case where the scale is not the default one.
 
-If you want to convert your protos, you can use [this script](https://github.com/cyberbotics/webots/blob/develop/scripts/converter/convert_transform_to_pose.py).
+If you want to convert your PROTO models, you can use [this script](https://github.com/cyberbotics/webots/blob/develop/scripts/converter/convert_transform_to_pose.py).
 
 ---
 
