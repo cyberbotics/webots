@@ -323,7 +323,7 @@ void WbBoundingSphere::parentUpdateNotification() const {
 
 void WbBoundingSphere::setOwnerMoved() {
   assert(mPoseOwner);
-  if (mParentBoundingSphere) {
+  if (mParentBoundingSphere && !mParentCoordinatesDirty) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
       parentUpdateNotification();
@@ -332,10 +332,12 @@ void WbBoundingSphere::setOwnerMoved() {
 
 void WbBoundingSphere::setOwnerSizeChanged() {
   assert(mGeomOwner || mSkinOwner || mPoseOwner);
-  mBoundSpaceDirty = true;
-  mParentCoordinatesDirty = true;
-  if (gUpdatesEnabled)
-    parentUpdateNotification();
+  if (!mBoundSpaceDirty) {
+    mBoundSpaceDirty = true;
+    mParentCoordinatesDirty = true;
+    if (gUpdatesEnabled)
+      parentUpdateNotification();
+  }
 }
 
 WbBoundingSphere::IntersectingShape WbBoundingSphere::computeIntersection(const WbRay &ray, double timeStep) {
