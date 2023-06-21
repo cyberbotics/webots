@@ -987,7 +987,7 @@ void WbCamera::setup() {
   updateAmbientOcclusionRadius();
   updateBloomThreshold();
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
-  
+
   // make sure bounding sphere is updated when object's size and position changes
   if (recognition()) {
     mIsSubscribedToRayTracing = true;
