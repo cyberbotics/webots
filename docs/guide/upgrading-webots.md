@@ -4,7 +4,7 @@ This chapter explains how to upgrade worlds and PROTO nodes from an older versio
 
 *Note*: if you have a world/PROTO which is not from the previous version but from an earlier one, you need to follow each upgrade instructions in order. For example if you have a world from R2021b, you first need to upgrade it to R2022a, then R2022b, and so on.
 
-*Note*: some versions of Webots do not have a page in this section. It means that the compatibility was not broken by this version. I you want to know what new features this version introduces, please refers to the [blog](../blog/index.md) or the [changelog](../reference/changelog.md).
+*Note*: some versions of Webots do not have a page in this section. It means that the compatibility was not broken by this version. If you want to discover the new features introduced in this version, please refer to the [blog](../blog/index.md) or the [changelog](../reference/changelog.md).
 
 ## Upgrade Guides
 
