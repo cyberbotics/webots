@@ -15,7 +15,7 @@ If the Webots simulation has been created from the OpenStreetMap importer, then 
 If it's not the case, you should pay attention on the use of the [Road](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/road/protos/Road.proto) and the [Crossroad](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/road/protos/Crossroad.proto) PROTO nodes.
 Indeed, their IDs should be unique, and the `Road.startJunction`, the `Road.endJunction` and the `Crossroad.connectedRoadIDs` fields should be filled correctly.
 
-## How to Use the Exporter
+## How to use the Exporter
 
 You can use the `exporter.py` Python script to generate the `sumo.nod.xml`, `sumo.edg.xml` and `sumo.sumocfg` SUMO files.
 These files can be used by SUMO `netconvert` to generate the `sumo.net.xml` file from the `myMap.wbt` webots simulation world.

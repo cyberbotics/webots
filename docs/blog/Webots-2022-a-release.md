@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## Conversion to FLU/ENU
 
-### What Is FLU/ENU?
+### What is FLU/ENU?
 
 **FLU and ENU are conventions for axis systems.**
 

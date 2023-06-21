@@ -22,14 +22,18 @@ prepositions = [
     # 'following' is missing but is problematic.
 ]
 articles = [
-    'a', 'an', 'the', 'some',
+    'a', 'an', 'the', 'some', 'my', 'our', 'your', 'their', 'this', 'that'
     's'  # For possessive form.
 ]
 conjunctions = [
     'and', 'but', 'for', 'nor', 'or', 'so', 'yet'
 ]
 verbs = [
-    'is', 'are', 'has', 'have', 'had'
+    'is', 'are', 'has', 'have', 'had', 'do', 'does', 'can', 'could', 'would', 'need', 'needs', 'needed', 'use', 'uses', 'used',
+    'get', 'gets', 'got', 'know', 'knows', 'knew'
+]
+adjectives = [
+    'own'
 ]
 
 
@@ -107,7 +111,7 @@ class TestTitles(unittest.TestCase):
                 elif w == len(words) - 1:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
-                elif word.lower() in articles + conjunctions + prepositions + verbs:
+                elif word.lower() in articles + conjunctions + prepositions + verbs + adjectives:
                     self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
                                     (t['md'], word, t['title']))
                 else:
