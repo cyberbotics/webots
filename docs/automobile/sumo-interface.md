@@ -35,14 +35,10 @@ brew tap dlr-ts/sumo
 brew install sumo
 ```
 
-Finally, setup the SUMO_HOME envirnoment variable to point to the directory of your SUMO installation:
+Finally, setup the `SUMO_HOME` environment variable to point to the directory of your SUMO installation by adding the following line at the end of the `~/.bashrc` file:
 ```sh
-touch ~/.bashrc; open ~/.bashrc
+export SUMO_HOME=/your/path/to/sumo
 ```
-and insert the following new line at the end of the file
- ```sh
- export SUMO_HOME=/your/path/to/sumo
- ```
 
 #### Windows
 

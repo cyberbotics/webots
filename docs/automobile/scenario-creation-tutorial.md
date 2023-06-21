@@ -3,6 +3,8 @@
 This small tutorial explains step-by-step how to create a scenario inspired from a real world map and then add traffic using SUMO.
 This tutorial was written for `linux` and `macOS`, but the same can be achieved on `Windows` converting the following commands to `DOS`.
 
+Please refer to [these instructions](sumo-interface.md#dependencies) to install SUMO.
+
 ### Creation of the Webots Project Directory
 
 ```sh
