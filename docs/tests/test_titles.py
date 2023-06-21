@@ -28,6 +28,9 @@ articles = [
 conjunctions = [
     'and', 'but', 'for', 'nor', 'or', 'so', 'yet'
 ]
+verbs = [
+    'is', 'are', 'has', 'have', 'had'
+]
 
 
 def title_level(title):
@@ -104,7 +107,7 @@ class TestTitles(unittest.TestCase):
                 elif w == len(words) - 1:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
-                elif word.lower() in articles or word.lower() in conjunctions or word.lower() in prepositions:
+                elif word.lower() in articles + conjunctions + prepositions + verbs:
                     self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
                                     (t['md'], word, t['title']))
                 else:
