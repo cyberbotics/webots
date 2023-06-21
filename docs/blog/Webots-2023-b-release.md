@@ -74,7 +74,7 @@ Not only is it now easier to navigate through the PROTOs, but you can also chang
 
 You can also add your own PROTO model to the library such that everybody can use it.
 
-Read more about the new documentation system for protos [here](https://cyberbotics.com/doc/guide/webots-cloud?#share-and-use-your-proto).
+Read more about the new documentation system for PROTOs [here](https://cyberbotics.com/doc/guide/webots-cloud?#share-and-use-your-proto).
 
 ---
 
