@@ -62,7 +62,7 @@ You can see this new node at work in its demo world under `File > Open Sample Wo
 A new launcher is now available to run extern controllers.
 The launcher takes care of setting all environment variables based on the options specified, the platform and the type of controller being executed.
 
-All options and instructions on how to use this new launcher are available in the [User Guid](../guide/running-extern-robot-controllers.md).
+All options and instructions on how to use this new launcher are available in the [User Guide](../guide/running-extern-robot-controllers.md).
 
 ---
 
