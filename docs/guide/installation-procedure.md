@@ -123,11 +123,16 @@ Execute the following command to install *ffmpeg* with *x264* support:
 ```bash
 conda install x264 ffmpeg -c conda-forge
 ```
-For SUMO, you will need to install libxerces-c-devel, libproj-devel, libgdal-devel, and fox16-devel.
-Execute the following commands to enable SUMO on Debian / Ubuntu based distributions:
+For SUMO, you will need to install `libxerces-c`, `libfox`, `libgdal`, `libproj`, and `libgl2ps`.
+Execute the following commands to enable SUMO Ubuntu 22.04:
 ```bash
-sudo apt-get install libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev
+sudo apt-get install libxerces-c3.2 libfox-1.6-0 libgdal30 libproj22 libgl2ps1.4
 ```
+And this command for Ubuntu 20.04:
+```bash
+sudo apt-get install libxerces-c3.2 libfox-1.6-0 libgdal26 libproj15 libgl2ps1.4
+```
+
 
 #### Installing the Snap Package
 
