@@ -113,12 +113,12 @@ class TestTitles(unittest.TestCase):
                 if w == 0:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
+                elif not word.isupper() and word.lower() in articles + conjunctions + prepositions + verbs + adjectives:
+                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
+                                    (t['md'], word, t['title']))
                 elif w == len(words) - 1:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
-                elif word.lower() in articles + conjunctions + prepositions + verbs + adjectives:
-                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
-                                    (t['md'], word, t['title']))
                 else:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in uppercase.' %
                                     (t['md'], word, t['title']))
