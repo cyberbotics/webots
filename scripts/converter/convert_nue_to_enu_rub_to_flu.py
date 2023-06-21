@@ -19,6 +19,7 @@
         For the worlds, since the rotation depends on the proto itself,
         it could be needed to rotate some part manually.
         Also, we advice you to check the differences in a file comparator.
+        It is primarly used to fix the compatibility between R2021a and R2022b
 
 **Dependencies**
   `pip3 install numpy transforms3d`

@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Makes local PROTO references extern"""
+"""Makes local PROTO references extern to fix the compatibility between R2022a and R2022b"""
 
 
 import os
