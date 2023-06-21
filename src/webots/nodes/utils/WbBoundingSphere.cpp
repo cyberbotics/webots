@@ -132,7 +132,7 @@ void WbBoundingSphere::set(const WbVector3 &center, const double radius) {
     return;
   mCenter = center;
   mRadius = radius;
-  if (!gRayTracingEnabled) {
+  if (!gRayTracingEnabled && !mBoundSpaceDirty) {
     mBoundSpaceDirty = true;
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
@@ -156,10 +156,12 @@ void WbBoundingSphere::addSubBoundingSphere(WbBoundingSphere *subBoundingSphere)
     return;
   mSubBoundingSpheres.append(subBoundingSphere);
   subBoundingSphere->setParentBoundingSphere(this);
-  mBoundSpaceDirty = true;
-  mParentCoordinatesDirty = true;
-  if (gUpdatesEnabled)
-    parentUpdateNotification();
+  if (!mBoundSpaceDirty) {
+    mBoundSpaceDirty = true;
+    mParentCoordinatesDirty = true;
+    if (gUpdatesEnabled)
+      parentUpdateNotification();
+  }
 }
 
 void WbBoundingSphere::removeSubBoundingSphere(WbBoundingSphere *boundingSphere) {
@@ -168,7 +170,7 @@ void WbBoundingSphere::removeSubBoundingSphere(WbBoundingSphere *boundingSphere)
   mSubBoundingSpheres.removeOne(boundingSphere);
   if (mSubBoundingSpheres.isEmpty())
     empty();
-  else {
+  else if (!mBoundSpaceDirty) {
     mBoundSpaceDirty = true;
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
