@@ -8,6 +8,6 @@ Some versions of Webots do not have a page in this section. It means that the co
 
 ## Upgrade Guides
 
-- [From R2021b to 2022a](from-2021b-to-2022a.md)
-- [From R2022a to 2022b](from-2022a-to-2022b.md)
 - [From R2023a to 2023b](from-2022a-to-2022b.md)
+- [From R2022a to 2022b](from-2022a-to-2022b.md)
+- [From R2021b to 2022a](from-2021b-to-2022a.md)
