@@ -299,6 +299,12 @@ void WbAbstractPose::updateTranslateRotateHandlesSize() {
   if (!mTranslateRotateManipulator)
     return;
 
+  const WbTransform *transform = dynamic_cast<WbTransform *>(mBaseNode);
+  if (!transform)
+    transform = mBaseNode->upperTransform();
+  if (transform)
+    mTranslateRotateManipulator->updateHandleScale(transform->absoluteScale().ptr());
+
   if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
     mTranslateRotateManipulator->computeHandleScaleFromViewportSize();
 }

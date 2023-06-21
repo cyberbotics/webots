@@ -113,6 +113,7 @@ protected:
   WbVector2 mWidgetSizeFactor;
   double mStepSize;
   WbVector2 mDirectionOnScreen;
+  double mAbsoluteScale;
 };
 
 class WbDragRotateAroundWorldVerticalAxisEvent : public WbDragPoseEvent {
