@@ -1,11 +1,13 @@
 # SUMO Exporter
 
-In order to be able to simulate traffic in your simulation, it is required to have a SUMO network file (`sumo.net.xml`).
+In order to be able to simulate traffic in your simulation, it is required to have the SUMO package installed on the system and a SUMO network file (`sumo.net.xml`).
 The SUMO exporter can create SUMO network files from a Webots simulation.
 
 ## Dependencies
 
-The SUMO exporter is using the `shapely` Python module.
+Please refer to [these instructions](sumo-interface.md#dependencies) to install SUMO.
+
+The SUMO exporter is also using the `shapely` Python module.
 Please refer to [these instructions](openstreetmap-importer.md#dependencies) to install it.
 
 ## Expectations on the Webots Simulation

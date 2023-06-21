@@ -8,6 +8,44 @@ This interface is written in Python in a [Supervisor](../reference/supervisor.md
 
 ![youtube video](https://www.youtube.com/watch?v=Mnwmo5ivGL0)
 
+### Dependencies
+
+In order to use the SUMO Interface, you have to install the SUMO package on your system.
+Please refer to the official [SUMO User Documentation](https://sumo.dlr.de/docs/Installing/index.html) for the complete installation instructions.
+
+### Debian or Ubuntu
+
+```sh
+sudo apt install sumo sumo-tools sumo-doc
+```
+
+### macOS
+
+Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:
+```sh
+brew install --cask xquartz
+```
+
+It may be necessary to logout and login or even reboot to activate the XQuartz.
+Then, install the lastest stable version of SUMO:
+```sh
+brew tap dlr-ts/sumo
+brew install sumo
+```
+
+Finally, setup the SUMO_HOME envirnoment variable to point to the directory of your SUMO installation:
+```sh
+touch ~/.bashrc; open ~/.bashrc
+```
+and insert the following new line at the end of the file
+ ```sh
+ export SUMO_HOME=/your/path/to/sumo
+ ```
+
+### Windows
+
+Download and run the latest installer from the [SUMO documentation](https://sumo.dlr.de/docs/Installing/index.html#windows).
+
 ### How to Include the Interface
 
 In order to use this interface, a `SumoInterface` PROTO node should to be added to the world.
@@ -16,14 +54,11 @@ This folder should contain the usual files defining a network in SUMO (.edg.xml,
 The configuration files called `sumo.netccfg` and `sumo.sumocfg` will be loaded by default.
 If those configuration files do not exist, the interface will look for a configuration file with any other name (it is not recommended to have several configuration files for SUMO or NETCONVERT in the same folder as you don't know which one is going to be used).
 
-> **Note**: Currently version 0.30 of SUMO is distributed with Webots, but if the `SUMO_HOME` environment variable is defined, Webots will use the version of SUMO specified in this variable.
+> **Note**: SUMO should be installed on the system and the `SUMO_HOME` environment variable should be defined and point to the SUMO installation path.
 
 The interface will automatically start SUMO and run it in synchronization with Webots time.
 Each time a new vehicle enters the SUMO simulation, it will be created in Webots too and its position and orientation will be continually updated.
 The vehicle DEF name is set to `SUMO_VEHICLEX`, with `X` being the vehicle number (starting from 0).
-
-> **Note** [macOS]: On macOS, SUMO relies on X11.
-You need therefore to install [XQuartz](https://www.xquartz.org) (version 2.7.8 or later) for the interface to work.
 
 ### Use Vehicles Already Present in the World
 

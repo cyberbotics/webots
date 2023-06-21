@@ -27,7 +27,7 @@ Released on ??
     - Added a model of suction cup ([#6165](https://github.com/cyberbotics/webots/pull/6165)).
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
-    - Remove SUMO dependency from Webots package ([#6165](https://github.com/cyberbotics/webots/pull/6165)).
+    - Remove SUMO dependency from Webots package ([#6245](https://github.com/cyberbotics/webots/pull/6245)).
 
 ## Webots R2023a Revision 1
 Released on ??

@@ -65,7 +65,14 @@ try:
     import traci
     import sumolib
 except ImportError:
-    sys.exit("Can't find SUMO.")
+    sys.stderr.write("SUMO not found.\n"
+                     "Please install it with: ")
+    if sys.platform.startswith('linux'):
+        sys.stderr.write("`apt install sumo sumo-tools`.\n")
+    else:
+        # TODO
+        pass
+    sys.exit("Or check that the SUMO_HOME environment variable points to the directory of your SUMO installation.")
 
 
 def get_options():
