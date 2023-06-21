@@ -66,7 +66,7 @@ All options and instructions on how to use this new launcher are available in th
 
 ---
 
-## Overhaul of the Protos Documentation
+## Overhaul of the PROTOs Documentation
 
 All the documentation concerning robots, sensors, actuators and objects have been moved to [webots.cloud](https://webots.cloud/proto).
 
