@@ -1,6 +1,6 @@
 # Installing Webots
 
-This chapter explains how to upgrade worlds and PROTO nodes from an older version of Webots.
+This chapter explains how to upgrade your simulations from an older version of Webots.
 
 If you have a world/PROTO which is not from the previous version but from an earlier one, you need to follow each upgrade instructions in order. For example if you have a world from R2021b, you first need to upgrade it to R2022a, then R2022b, and so on.
 
