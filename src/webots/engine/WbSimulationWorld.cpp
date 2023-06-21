@@ -142,7 +142,7 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
   if (WbTokenizer::worldFileVersion() < WbVersion(2021, 1, 1))
     WbLog::info(tr("You are using a world from an old version of Webots. The backwards compability algorithm will try to "
                    "convert it. Refer to the wiki for more information: "
-                   "https://cyberbotics.com/doc/guide/from-2021b-to-2022a"));
+                   "https://cyberbotics.com/doc/guide/upgrading-webots"));
 
   WbNodeUtilities::fixBackwardCompatibility(WbWorld::instance()->root());
 }
