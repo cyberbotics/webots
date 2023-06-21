@@ -44,11 +44,11 @@ WbUpdatedDialog::WbUpdatedDialog(QWidget *parent) : QDialog(parent) {
 
   label = new QLabel(groupBox);
   label->setGeometry(QRect(15, 20, 315, 70));
-  label->setText(
-    tr("<p style=\"line-height:1.2\">"
-       "Some features introduced in this version may break backward compatibility with your worlds and PROTO models. <br /> <br /> "
-       "Please refer to the <a style='color: #5DADE2;' "
-       "href='https://cyberbotics.com/doc/guide/upgrading-webots'>upgrade guide</a>.</p>"));
+  label->setText(tr("<p style=\"line-height:1.2\">"
+                    "Some features introduced in this version may break backward compatibility with your worlds and PROTO "
+                    "models. <br /> <br /> "
+                    "Please refer to the <a style='color: #5DADE2;' "
+                    "href='https://cyberbotics.com/doc/guide/upgrading-webots'>upgrade guide</a>.</p>"));
   label->setOpenExternalLinks(true);
   label->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
   label->setStyleSheet("border: none");
