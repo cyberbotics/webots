@@ -1,4 +1,4 @@
-## Tutorial 7: your First PROTO (20 Minutes)
+## Tutorial 7: Your First PROTO (20 Minutes)
 
 The aim of this tutorial is to create a PROTO file corresponding to the four wheels robot from the previous tutorial.
 
