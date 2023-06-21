@@ -19,6 +19,8 @@ Please refer to the official [SUMO User Documentation](https://sumo.dlr.de/docs/
 sudo apt install sumo sumo-tools sumo-doc
 ```
 
+`SUMO_HOME` environment variable will be automatically set during the installation, but it may be necessary to logout and login, or even reboot, after the installation to correctly run the SUMO Interface.
+
 ### macOS
 
 Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:
