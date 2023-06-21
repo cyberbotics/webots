@@ -41,6 +41,7 @@ Released on June 20th, 2023.
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Bug Fixes
     - Fixed random crashes while creating [Skin](skin.md) and [Mesh](mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
+    - Windows: fixed compilation of controller programs located in paths with non-ASCII characters ([#6235](https://github.com/cyberbotics/webots/pull/6235)).
     - Fixed the size of the Kondo [KHR-3HV](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kondo/khr-3hv/protos/Khr3hv.proto) robot which was twice too large ([#6228](https://github.com/cyberbotics/webots/pull/6228)).
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
