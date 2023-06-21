@@ -13,7 +13,7 @@ This interface is written in Python in a [Supervisor](../reference/supervisor.md
 In order to use the SUMO Interface, you have to install the SUMO package on your system.
 Please refer to the official [SUMO User Documentation](https://sumo.dlr.de/docs/Installing/index.html) for the complete installation instructions.
 
-### Debian or Ubuntu
+#### Debian or Ubuntu
 
 ```sh
 sudo apt install sumo sumo-tools sumo-doc
@@ -21,7 +21,7 @@ sudo apt install sumo sumo-tools sumo-doc
 
 `SUMO_HOME` environment variable will be automatically set during the installation, but it may be necessary to logout and login, or even reboot, after the installation to correctly run the SUMO Interface.
 
-### macOS
+#### macOS
 
 Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:
 ```sh
@@ -44,7 +44,7 @@ and insert the following new line at the end of the file
  export SUMO_HOME=/your/path/to/sumo
  ```
 
-### Windows
+#### Windows
 
 Download and run the latest installer from the [SUMO documentation](https://sumo.dlr.de/docs/Installing/index.html#windows).
 
@@ -195,9 +195,3 @@ The first function is called at initialization of the interface, the arguments a
 The second one is called at each SUMO step and the argument is the time step.
 
 Such a plugin can be used for example to change traffic light state in SUMO.
-
-### Using the SUMO Executables Distributed with Webots
-
-SUMO is distributed with Webots, it is located in `WEBOTS_HOME/projects/default/resources/sumo`, you can find all the executables in the `bin` folder.
-To be able to use these executables you need first to add `WEBOTS_HOME/projects/default/resources/sumo/bin` to your PATH.
-You will then for example be able to use `netedit` to edit your network files.
