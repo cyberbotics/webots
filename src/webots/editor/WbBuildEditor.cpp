@@ -305,6 +305,20 @@ void WbBuildEditor::make(const QString &target) {
   // find out compilation directory
   QString compilePath = compileDir().absolutePath();
 
+  // On Windows, gcc won't work if the source file contains UTF-8 characters (e.g., Chinese)
+#ifdef _WIN32
+  const QString controllerName = QFileInfo(compilePath).baseName();
+  qDebug() << "controllerName =" << controllerName;
+  if (!isJavaProgram && QString(controllerName.toUtf8()) != QString::fromLocal8Bit(controllerName.toLocal8Bit())) {
+    WbMessageBox::warning(tr("\'%1\'\n\nThe robot controller name contains non 8-bit characters. "
+                             "Webots won't be able to compile any C/C++ controller with such a name. "
+                             "Please rename this robot controller with only 8-bit characters.")
+                            .arg(compilePath),
+                          this);
+    return;
+  }
+#endif
+
   // is in installation directory
   if (!WbProjectRelocationDialog::validateLocation(this, compilePath))
     return;
@@ -414,8 +428,8 @@ void WbBuildEditor::make(const QString &target) {
 
 QStringList WbBuildEditor::getJavaCommandLine(const QString &target) const {
   QDir controllerDir = compileDir();
-  QString controllerPath = controllerDir.absolutePath();
-  QString controllerName = QFileInfo(controllerPath).baseName();
+  const QString controllerPath = controllerDir.absolutePath();
+  const QString controllerName = QFileInfo(controllerPath).baseName();
   QStringList commandLine;
 
   if (target == "clean")
