@@ -72,7 +72,7 @@ All the documentation concerning robots, sensors, actuators and objects have bee
 
 Not only is it now easier to navigate through the PROTOs, but you can also change and test the parameters of PROTOs directly online.
 
-You can also add your own proto to the library such that everybody can use it.
+You can also add your own PROTO model to the library such that everybody can use it.
 
 Read more about the new documentation system for protos [here](https://cyberbotics.com/doc/guide/webots-cloud?#share-and-use-your-proto).
 
