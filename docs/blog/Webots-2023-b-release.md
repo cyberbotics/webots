@@ -97,7 +97,7 @@ You can see all the changes in the [main changelog](https://github.com/cyberboti
 ## Extra Goodies
 
 - A [new script](https://github.com/cyberbotics/webots/tree/master/scripts/proto_formatter), integrable in VS Code, to correct the indentation of your PROTO files.
-- Robot's gripper now used coupled motors.
+- Robots' grippers now use coupled motors.
 
 **Go and [download Webots R2023b](https://cyberbotics.com/#download) today, so you do not miss out on all these great new features!**
 
