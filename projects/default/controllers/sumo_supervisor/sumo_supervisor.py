@@ -24,22 +24,28 @@ import subprocess
 import sys
 import tempfile
 
+
+def sumoImportError():
+    sys.stderr.write("SUMO not found.\n")
+    if sys.platform.startswith('linux'):
+        sys.stderr.write("Please install it with `sudo apt install sumo sumo-tools` and reboot.\n")
+    else:
+        sys.stderr.write("Please install it following the instructions at https://sumo.dlr.de/docs/Installing/.\n")
+        pass
+    sys.exit("Or check that the SUMO_HOME environment variable points to the directory of your SUMO installation.")
+
+
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
     WEBOTS_HOME = os.path.normpath(os.environ.get('WEBOTS_HOME'))
     if 'SUMO_HOME' in os.environ:
         sumoPath = os.environ['SUMO_HOME']
         print('Using SUMO from %s' % sumoPath)
-        print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
     else:
-        sumoPath = WEBOTS_HOME
-        if sys.platform.startswith('darwin'):
-            sumoPath = os.path.join(sumoPath, 'Contents')
-        sumoPath = os.path.join(sumoPath, 'projects', 'default', 'resources', 'sumo')
-        os.putenv("SUMO_HOME", sumoPath)
+        sumoImportError()
+
     if sys.platform.startswith('darwin'):
         libraryVariablePath = 'DYLD_LIBRARY_PATH'
-
         # Fix the following error (shown on "El Capitan"):
         #    ./projects/default/resources/sumo/sumo-gui
         #    Fontconfig error: Cannot load default config file
@@ -65,13 +71,7 @@ try:
     import traci
     import sumolib
 except ImportError:
-    sys.stderr.write("SUMO not found.\n")
-    if sys.platform.startswith('linux'):
-        sys.stderr.write("Please install it with `sudo apt install sumo sumo-tools` and reboot.\n")
-    else:
-        sys.stderr.write("Please install it following the instructions at https://sumo.dlr.de/docs/Installing/.\n")
-        pass
-    sys.exit("Or check that the SUMO_HOME environment variable points to the directory of your SUMO installation.")
+    sumoImportError()
 
 
 def get_options():
