@@ -51,7 +51,7 @@ If you want to convert your protos, you can use [this script](https://github.com
 
 ## New Device Node
 
-A new node have been added to Webots: the [vacuum gripper](../reference/vacuumgripper.md)
+A new node has been added to Webots: the [vacuum gripper](../reference/vacuumgripper.md)
 
 You can see this new node at work in its demo world under `File > Open Sample World > vacuum_gripper.wbt`.
 
@@ -59,7 +59,10 @@ You can see this new node at work in its demo world under `File > Open Sample Wo
 
 ## Launcher for Extern Controller
 
-TODO.
+A new launcher is now available to run extern controllers.
+The launcher takes care of setting all environment variables based on the options specified, the platform and the type of controller being executed.
+
+All options and instructions on how to use this new launcher are available in the [User Guid](../guide/running-extern-robot-controllers.md).
 
 ---
 
@@ -77,7 +80,17 @@ Read more about the new documentation system for protos [here](https://cyberboti
 
 ## ROS2
 
-TODO.
+With this release we continue to develop and improve the support for ROS 2 in Webots.
+New features include:
+
+- Added support for ROS 2 Iron Irwini.
+- Added interface for new devices: VacuumGripper, Pen, Compass, Emitter and Receiver.
+- Added a new node to start nodes only when Webots is ready.
+- Added a new node to start robot plugins in a cleaner way.
+- Added a new TIAGo launch file for full configuration.
+
+And many bug fixes.
+You can see all the changes in the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) of the package.
 
 ---
 
