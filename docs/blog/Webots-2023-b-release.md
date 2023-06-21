@@ -80,7 +80,7 @@ Read more about the new documentation system for PROTOs [here](https://cyberboti
 
 ## ROS2
 
-With this release we continue to develop and improve the support for ROS 2 in Webots.
+With this release we continued to develop and improve the support for ROS 2 in Webots.
 New features include:
 
 - Added support for ROS 2 Iron Irwini.
