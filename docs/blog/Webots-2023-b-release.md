@@ -70,7 +70,7 @@ All options and instructions on how to use this new launcher are available in th
 
 All the documentation concerning robots, sensors, actuators and objects have been moved to [webots.cloud](https://webots.cloud/proto).
 
-Not only is it now easier to navigate through the PROTOs, but you can also change and test the parameters of PROTOs directly online.
+It is now easier to navigate through the PROTOs, moreover you can also change and test the parameters of PROTOs directly online.
 
 You can also add your own PROTO model to the library such that everybody can use it.
 
