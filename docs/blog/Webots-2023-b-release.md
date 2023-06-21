@@ -84,7 +84,7 @@ With this release we continued to develop and improve the support for ROS 2 in W
 New features include:
 
 - Added support for ROS 2 Iron Irwini.
-- Added interface for new devices: VacuumGripper, Pen, Compass, Emitter and Receiver.
+- Added an interface for new devices: VacuumGripper, Pen, Compass, Emitter and Receiver.
 - Added a new node to start nodes only when Webots is ready.
 - Added a new node to start robot plugins in a cleaner way.
 - Added a new TIAGo launch file for full configuration.
