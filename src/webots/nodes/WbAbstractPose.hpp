@@ -75,7 +75,13 @@ public:
   bool isTopPose() const;
 
   // 3x3 absolute rotation matrix
-  virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
+  virtual WbMatrix3 rotationMatrix() const {
+    const WbMatrix4 &m = matrix();
+    const WbVector3 &s = m.scale();
+    WbMatrix3 rm = m.extracted3x3Matrix();
+    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+    return rm;
+  }
 
   // position in 'world' coordinates
   WbVector3 position() const { return matrix().translation(); }
