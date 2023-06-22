@@ -55,7 +55,7 @@ void WbTransform::applyToScale() {
   if (mBaseNode->areWrenObjectsInitialized())
     applyScaleToWren();
 
-  if (mBaseNode->boundingSphere() && WbSimulationState::instance()->isRayTracingEnabled())
+  if (WbSimulationState::instance()->isRayTracingEnabled() && mBaseNode->boundingSphere())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())

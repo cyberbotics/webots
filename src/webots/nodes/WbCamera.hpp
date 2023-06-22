@@ -120,6 +120,7 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  bool mIsSubscribedToRayTracing;
   // smart camera segmentation
   void initializeSegmentationMemoryMappedFile();
   void createSegmentationCamera();
