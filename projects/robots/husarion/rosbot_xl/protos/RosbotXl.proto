@@ -86,7 +86,7 @@ PROTO RosbotXl [
               url "meshes/mecanum_b.dae"
             }
           ]
-          name "front left wheel"
+          name "fl_wheel_link"
           boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
@@ -136,7 +136,7 @@ PROTO RosbotXl [
               ]
             }
           ]
-          name "front right wheel"
+          name "fr_wheel_link"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
@@ -173,7 +173,7 @@ PROTO RosbotXl [
               ]
             }
           ]
-          name "rear left wheel"
+          name "rl_wheel_link"
           boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
@@ -211,7 +211,7 @@ PROTO RosbotXl [
               ]
             }
           ]
-          name "rear right wheel"
+          name "rr_wheel_link"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
@@ -228,7 +228,7 @@ PROTO RosbotXl [
       Mpu-9250 {
         translation -0.1369 -0.0419 0.037
         rotation 1 0 0 3.14159
-        name "imu"
+        name "imu_link"
         includeInertialUnit TRUE
       }
     ]
