@@ -72,8 +72,6 @@ public:
   WbVector3 yAxis() const { return matrix().yAxis(); }
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
-  bool isTopPose() const;
-
   // 3x3 absolute rotation matrix
   virtual WbMatrix3 rotationMatrix() const {
     const WbMatrix4 &m = matrix();
@@ -145,8 +143,6 @@ private:
   void updateRotationFieldVisibility() const;
 
   virtual void updateMatrix() const;
-  mutable bool mHasSearchedTopPose;
-  mutable bool mIsTopPose;
 };
 
 void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,
