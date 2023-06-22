@@ -35,6 +35,7 @@
 #include <webots/range_finder.h>
 #include <webots/touch_sensor.h>
 #include <webots/utils/string.h>
+#include <webots/vacuum_gripper.h>
 
 #include <assert.h>
 #include <stdio.h>
@@ -46,7 +47,7 @@ static int time_step = 0;
 static bool is_hidden = false;
 static double refresh_rate = 0.032;  // s
 static double last_update_time = 0;  // s
-static bool isDeviceTypeControlEnabled[WB_NODE_TOUCH_SENSOR - WB_NODE_ACCELEROMETER];
+static bool isDeviceTypeControlEnabled[WB_NODE_VACUUM_GRIPPER - WB_NODE_ACCELEROMETER + 1];
 
 static WbNodeType stringToDeviceType(const char *typeString) {
   if (strcmp(typeString, "Accelerometer") == 0)
@@ -97,6 +98,8 @@ static WbNodeType stringToDeviceType(const char *typeString) {
     return WB_NODE_SPEAKER;
   if (strcmp(typeString, "TouchSensor") == 0)
     return WB_NODE_TOUCH_SENSOR;
+  if (strcmp(typeString, "VacuumGripper") == 0)
+    return WB_NODE_VACUUM_GRIPPER;
   return WB_NODE_NO_NODE;
 }
 
@@ -146,6 +149,9 @@ static void enable_device(WbDeviceTag tag, bool enable) {
     case WB_NODE_TOUCH_SENSOR:
       wb_touch_sensor_enable(tag, enableRate);
       break;
+    case WB_NODE_VACUUM_GRIPPER:
+      wb_vacuum_gripper_enable_presence(tag, enableRate);
+      break;
     default:
       assert(0);
   }
@@ -188,7 +194,13 @@ void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
       wb_lidar_enable_point_cloud(tag);
     else if (strcmp(token, "pointCloudDisable") == 0)
       wb_lidar_disable_point_cloud(tag);
-    else
+    else if (strcmp(token, "vacuumGripperTurnOn") == 0) {
+      if (isDeviceTypeControlEnabled[WB_NODE_VACUUM_GRIPPER - WB_NODE_ACCELEROMETER])
+        wb_vacuum_gripper_turn_on(tag);
+    } else if (strcmp(token, "vacuumGripperTurnOff") == 0) {
+      if (isDeviceTypeControlEnabled[WB_NODE_VACUUM_GRIPPER - WB_NODE_ACCELEROMETER])
+        wb_vacuum_gripper_turn_off(tag);
+    } else
       assert(0);  // protocol issue
 
     token = wbu_string_strsep(&tokens, ":");
@@ -225,7 +237,7 @@ bool wbu_generic_robot_window_parse_device_control_command(char *first_token, ch
 void wbu_generic_robot_window_init() {
   time_step = (int)wb_robot_get_basic_time_step();
 
-  const int device_size = WB_NODE_TOUCH_SENSOR - WB_NODE_ACCELEROMETER;
+  const int device_size = WB_NODE_VACUUM_GRIPPER - WB_NODE_ACCELEROMETER + 1;
   for (int i = 0; i < device_size; ++i)
     isDeviceTypeControlEnabled[i] = false;
 }

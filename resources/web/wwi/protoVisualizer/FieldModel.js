@@ -5000,6 +5000,109 @@ export const FieldModel = {
       }
     }
   },
+  'VacuumGripper': {
+    'description': 'VacuumGripper nodes are used to simulate vacuum suction systems.\\nThe physical connection with a Solid can be created and destroyed at run time by the robot controller program.\\n',
+    'icon': 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/VacuumGripper.png',
+    'fields': {
+      'translation': {
+        'type': VRML.SFVec3f,
+        'defaultValue': {
+          'x': 0.0,
+          'y': 0.0,
+          'z': 0.0
+        }
+      },
+      'rotation': {
+        'type': VRML.SFRotation,
+        'defaultValue': {
+          'x': 0.0,
+          'y': 0.0,
+          'z': 1.0,
+          'a': 0.0
+        }
+      },
+      'children': {
+        'type': VRML.MFNode,
+        'defaultValue': []
+      },
+      'name': {
+        'type': VRML.SFString,
+        'defaultValue': 'vacuum gripper'
+      },
+      'model': {
+        'type': VRML.SFString,
+        'defaultValue': ''
+      },
+      'description': {
+        'type': VRML.SFString,
+        'defaultValue': ''
+      },
+      'contactMaterial': {
+        'type': VRML.SFString,
+        'defaultValue': 'default'
+      },
+      'immersionProperties': {
+        'type': VRML.MFNode,
+        'defaultValue': []
+      },
+      'boundingObject': {
+        'type': VRML.SFNode,
+        'defaultValue': null
+      },
+      'physics': {
+        'type': VRML.SFNode,
+        'defaultValue': null
+      },
+      'locked': {
+        'type': VRML.SFBool,
+        'defaultValue': false
+      },
+      'translationStep': {
+        'type': VRML.SFFloat,
+        'defaultValue': 0.01
+      },
+      'rotationStep': {
+        'type': VRML.SFFloat,
+        'defaultValue': 0.261799387
+      },
+      'radarCrossSection': {
+        'type': VRML.SFFloat,
+        'defaultValue': 0.0
+      },
+      'recognitionColors': {
+        'type': VRML.MFColor,
+        'defaultValue': []
+      },
+      'isOn': {
+        'type': VRML.SFBool,
+        'defaultValue': false
+      },
+      'tensileStrength': {
+        'type': VRML.SFFloat,
+        'defaultValue': -1.0
+      },
+      'shearStrength': {
+        'type': VRML.SFFloat,
+        'defaultValue': -1.0
+      },
+      'linearVelocity': {
+        'type': VRML.SFVec3f,
+        'defaultValue': {
+          'x': 0.0,
+          'y': 0.0,
+          'z': 0.0
+        }
+      },
+      'angularVelocity': {
+        'type': VRML.SFVec3f,
+        'defaultValue': {
+          'x': 0.0,
+          'y': 0.0,
+          'z': 0.0
+        }
+      }
+    }
+  },
   'Viewpoint': {
     'description': 'The Viewpoint node defines the viewing parameters for the main 3D view of Webots.\\n',
     'icon': 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/Viewpoint.png',

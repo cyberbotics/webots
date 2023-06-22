@@ -9,13 +9,13 @@ The version of Webots for the Docker image is automatically computed from the he
 For example if the world file starts with the following line:
 
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 ```
 **Note**: Webots versions lower that R2022b are not supported.
 
 The simulation server will create a `Dockerfile` starting with:
 ```
-FROM docker image cyberbotics/webots.cloud:R2023a-ubuntu20.04
+FROM docker image cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04
 ```
 
 Running Webots inside a Docker container is a very little overhead, but guarantees that the simulation server remains secure, regardless of the running simulations.
@@ -46,21 +46,21 @@ This can be achieve with svn on the master branch:
 
 `svn checkout https://github.com/cyberbotics/webots/branches/master/projects/languages/python`
 
-Or on the R2023a tag:
+Or on the {{ webots.version.major }} tag:
 
-`svn checkout https://github.com/cyberbotics/webots/tags/R2023a/projects/languages/python`
+`svn checkout https://github.com/cyberbotics/webots/tags/{{ webots.version.major }}/projects/languages/python`
 
 To check if a branch or a tag exists:
 
 `svn ls https://github.com/cyberbotics/webots/branches/master`
 
-`svn ls https://github.com/cyberbotics/webots/tags/R2023a`
+`svn ls https://github.com/cyberbotics/webots/tags/{{ webots.version.major }}`
 
 `git ls-remote --quiet --heads https://github.com/cyberbotics/webots.git master`
 
-`git ls-remote --quiet --tags https://github.com/cyberbotics/webots.git R2023a`
+`git ls-remote --quiet --tags https://github.com/cyberbotics/webots.git {{ webots.version.major }}`
 
-`git ls-remote --quiet https://github.com/cyberbotics/webots.git R2023a` will tell whether `R2023a` is a branch or a tag.
+`git ls-remote --quiet https://github.com/cyberbotics/webots.git {{ webots.version.major }}` will tell whether `{{ webots.version.major }}` is a branch or a tag.
 
 ### Tips and Troubleshooting
 

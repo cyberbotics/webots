@@ -12,9 +12,9 @@ ContactProperties {
   MFFloat  forceDependentSlip 0                                                                                                     # [0, inf)
   SFFloat  softERP            0.2                                                                                                   # [0, 1]
   SFFloat  softCFM            0.001                                                                                                 # (0, inf)
-  SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/bump.wav" # any string
-  SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/roll.wav" # any string
-  SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/slide.wav"# any string
+  SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/default/worlds/sounds/bump.wav" # any string
+  SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/default/worlds/sounds/roll.wav" # any string
+  SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/default/worlds/sounds/slide.wav"# any string
   SFInt32  maxContactJoints   10                                                                                                    # (0, inf)
 }
 ```
@@ -121,4 +121,4 @@ Contact joints will only be created for, at most, the deepest `maxContactJoints`
 Changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
 
 
-> **Note**: The [youBot](../guide/youbot.md) robot is a good example of asymmetric coulombFriction and forceDependentSlip.
+> **Note**: The [youBot](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kuka/youbot/protos/Youbot.proto) robot is a good example of asymmetric coulombFriction and forceDependentSlip.

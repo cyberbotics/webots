@@ -502,7 +502,7 @@ namespace {
         if (nodeName == "TrackWheel")
           return parentModelName == "Track";
 
-        if (nodeName == "Connector" || nodeName.endsWith("Joint")) {
+        if (nodeName == "Connector" || nodeName.endsWith("Joint") || nodeName == "VacuumGripper") {
           if (WbNodeUtilities::isSolidTypeName(parentModelName) || WbNodeUtilities::findUpperSolid(node) != NULL)
             return true;
 
@@ -1213,6 +1213,22 @@ const WbShape *WbNodeUtilities::findIntersectingShape(const WbRay &ray, double m
   return shape;
 }
 
+dBodyID WbNodeUtilities::findBodyMerger(const WbNode *node) {
+  if (!node)
+    return NULL;
+
+  const WbNode *n = node;
+  while (n) {
+    const WbSolid *s = dynamic_cast<const WbSolid *>(n);
+    if (s && s->bodyMerger())
+      return s->bodyMerger();
+    if (dynamic_cast<const WbBasicJoint *>(n))
+      break;
+    n = n->parentNode();
+  }
+  return NULL;
+}
+
 bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
   if (node == NULL)
     return false;
@@ -1305,7 +1321,8 @@ bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
                                                    << "Receiver"
                                                    << "Speaker"
                                                    << "TouchSensor"
-                                                   << "Track");
+                                                   << "Track"
+                                                   << "VacuumGripper");
   if (solidDeviceTypeName.contains(modelName))
     return true;
 

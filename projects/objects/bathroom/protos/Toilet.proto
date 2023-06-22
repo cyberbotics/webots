@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/bathroom/protos/Toilet.proto
@@ -126,26 +126,26 @@ PROTO Toilet [
     boundingObject Group {
       children [
         Pose {
-          translation 0.24 0 1.75
+          translation 0.048 0 0.35
           children [
             Box {
-              size 2.55 2.4 1.1
+              size 0.51 0.48 0.22
             }
           ]
         }
         Pose {
-          translation -0.2 0 0.6
+          translation -0.04 0 0.12
           children [
             Box {
-              size 2.5 1.8 1.2
+              size 0.5 0.36 0.24
             }
           ]
         }
         Pose {
-          translation -1.6 -0.05 3.14
+          translation -0.32 -0.01 0.628
           children [
             Box {
-              size 1.1 2.9 3.9
+              size 0.22 0.58 0.78
             }
           ]
         }
