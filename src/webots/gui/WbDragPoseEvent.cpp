@@ -93,10 +93,7 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   normalizedMouseRay.normalize();
   if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
     mIsMouseRayValid = true;
-
-    // in case mSelectedPose is not child of root (ex: Root --> Transform(s) --> mSelectedPose = uppermostSolid)
-    if (!mSelectedPose->isTopPose())
-      mCoordinateTransform = WbRotation(mSelectedPose->rotationMatrix()).toQuaternion().conjugated();
+    assert(mSelectedPose->baseNode()->upperPose() == NULL);  // is top Pose node
   } else {
     mIsMouseRayValid = false;
     WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
@@ -116,10 +113,6 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
-
-    // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
-    if (!mSelectedPose->isTopPose())
-      displacementFromInitialPosition = mCoordinateTransform * displacementFromInitialPosition;
 
     mSelectedPose->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
     mSelectedPose->emitTranslationOrRotationChangedByUser();
