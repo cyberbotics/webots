@@ -1569,9 +1569,13 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
       mDragVerticalAxisRotate)
     return;
 
+
+  // Fix an issue on macOS where the context menu was not closed by a click.
+  #ifdef __APPLE__
   QMenu *contextMenu = mParentWidget->findChild<QMenu*>("ContextMenu");
   if (contextMenu)
     delete contextMenu;
+  #endif
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);
