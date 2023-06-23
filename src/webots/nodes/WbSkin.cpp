@@ -240,7 +240,7 @@ void WbSkin::applyToScale() {
   if (mBaseNode->areWrenObjectsInitialized())
     applyScaleToWren();
 
-  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
+  if (WbSimulationState::instance()->isRayTracingEnabled() && mBaseNode->boundingSphere())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
