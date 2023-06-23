@@ -1,2 +1,1 @@
-projects/default/resources/sumo
 projects/robots/gctronic/e-puck/transfer/xc16

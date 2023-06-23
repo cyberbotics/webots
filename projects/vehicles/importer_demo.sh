@@ -46,17 +46,7 @@ if [ -z "$WEBOTS_HOME" ]; then
   exit 1
 fi
 if [ -z "$SUMO_HOME" ]; then
-  if [ "${kernel:0:6}" == "Darwin" ]; then
-    export SUMO_HOME=$WEBOTS_HOME/Contents/projects/default/resources/sumo
-  else
-    export SUMO_HOME=$WEBOTS_HOME/projects/default/resources/sumo
-  fi
-  if [ "${kernel:0:5}" == "Linux" ]; then
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WEBOTS_HOME/lib
-  fi
-fi
-if [ "${kernel:0:5}" == "Linux" ]; then
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SUMO_HOME/bin
+  echo "SUMO_HOME needs to be set."
 fi
 
 mkdir -p $script_dir/worlds/$1_net
