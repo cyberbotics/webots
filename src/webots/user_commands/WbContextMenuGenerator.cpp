@@ -32,6 +32,7 @@ namespace WbContextMenuGenerator {
   static QMenu *gRobotCameraMenu = NULL;
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
+  static QMenu *gContextMenu = NULL;
 
   void enableNodeActions(bool enabled) {
     gAreNodeActionsEnabled = enabled;
@@ -53,6 +54,10 @@ namespace WbContextMenuGenerator {
   }
   void setRobotDisplayMenu(QMenu *menu) {
     gRobotDisplayMenu = menu;
+  }
+
+  QMenu *getContextMenu() {
+    return gContextMenu;
   }
 
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
@@ -78,61 +83,61 @@ namespace WbContextMenuGenerator {
   }
 
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode) {
-    QMenu contextMenu;
-    contextMenu.setObjectName("ContextMenu");
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::CUT));
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::COPY));
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::PASTE));
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::RESET_VALUE));
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_FIELD));
-    contextMenu.addSeparator();
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::ADD_NEW));
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::DEL));
-    contextMenu.addSeparator();
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
-    QMenu *viewMenu = contextMenu.addMenu(QObject::tr("Ali&gn View to Object"));
+    gContextMenu = new QMenu();
+    gContextMenu->setObjectName("ContextMenu");
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::CUT));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::COPY));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::PASTE));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::RESET_VALUE));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::EDIT_FIELD));
+    gContextMenu->addSeparator();
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::ADD_NEW));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::DEL));
+    gContextMenu->addSeparator();
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
+    QMenu *viewMenu = gContextMenu->addMenu(QObject::tr("Ali&gn View to Object"));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_FRONT_VIEW));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BACK_VIEW));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_LEFT_VIEW));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_RIGHT_VIEW));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_TOP_VIEW));
     viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BOTTOM_VIEW));
-    contextMenu.addSeparator();
+    gContextMenu->addSeparator();
 
     // selection-dependent actions
     if (selectedNode) {
       // actions for robots
       if (gAreRobotActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
-        QMenu *subMenu = contextMenu.addMenu(QObject::tr("Overlays"));
+        gContextMenu->addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
+        gContextMenu->addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
+        QMenu *subMenu = gContextMenu->addMenu(QObject::tr("Overlays"));
         subMenu->addMenu(gRobotCameraMenu);
         subMenu->addMenu(gRobotRangeFinderMenu);
         subMenu->addMenu(gRobotDisplayMenu);
-        contextMenu.addSeparator();
+        gContextMenu->addSeparator();
       }
 
       // actions for nodes in general
       if (gAreNodeActionsEnabled) {
-        QMenu *subMenu = contextMenu.addMenu(QObject::tr("Follow Object"));
+        QMenu *subMenu = gContextMenu->addMenu(QObject::tr("Follow Object"));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::FOLLOW_NONE));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::FOLLOW_TRACKING));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::FOLLOW_MOUNTED));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::FOLLOW_PAN_AND_TILT));
 
-        subMenu = contextMenu.addMenu(QObject::tr("Optional Rendering"));
+        subMenu = gContextMenu->addMenu(QObject::tr("Optional Rendering"));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::CENTER_OF_MASS));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::CENTER_OF_BUOYANCY));
         subMenu->addAction(WbActionManager::instance()->action(WbAction::SUPPORT_POLYGON));
 
-        contextMenu.addSeparator();
+        gContextMenu->addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
         if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
+          gContextMenu->addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
-          subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));
+          subMenu = gContextMenu->addMenu(QObject::tr("Transform To..."));
           const QStringList suitableTransformToModels = fillTransformToItems(selectedNode);
 
           if (!suitableTransformToModels.isEmpty()) {
@@ -149,27 +154,27 @@ namespace WbContextMenuGenerator {
       // actions for PROTO nodes
       if (gAreProtoActionsEnabled) {
         QAction *editProtoAction(WbActionManager::instance()->action(WbAction::EDIT_PROTO_SOURCE));
-        contextMenu.addAction(editProtoAction);
+        gContextMenu->addAction(editProtoAction);
         if (gAreExternProtoActionsEnabled) {
           editProtoAction->setStatusTip(QObject::tr("Copy and edit the PROTO file in Text Editor."));
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+          gContextMenu->addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
         } else
           editProtoAction->setStatusTip(QObject::tr("Edit the PROTO file in Text Editor."));
         editProtoAction->setToolTip(editProtoAction->statusTip());
 
         if (selectedNode->isTemplate())
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));
+          gContextMenu->addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));
 
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::CONVERT_TO_BASE_NODES));
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::CONVERT_ROOT_TO_BASE_NODES));
+        gContextMenu->addAction(WbActionManager::instance()->action(WbAction::CONVERT_TO_BASE_NODES));
+        gContextMenu->addAction(WbActionManager::instance()->action(WbAction::CONVERT_ROOT_TO_BASE_NODES));
       }
-      contextMenu.addSeparator();
+      gContextMenu->addSeparator();
     }
-    contextMenu.addAction(WbActionManager::instance()->action(WbAction::OPEN_HELP));
+    gContextMenu->addAction(WbActionManager::instance()->action(WbAction::OPEN_HELP));
 
     QObject *focusObject = WbActionManager::instance()->focusObject();
-    WbActionManager::instance()->setFocusObject(&contextMenu);
-    contextMenu.exec(position);
+    WbActionManager::instance()->setFocusObject(gContextMenu);
+    gContextMenu->exec(position);
     WbActionManager::instance()->setFocusObject(focusObject);
   }
 }  // namespace WbContextMenuGenerator

@@ -33,6 +33,7 @@ namespace WbContextMenuGenerator {
   void setRobotCameraMenu(QMenu *menu);
   void setRobotRangeFinderMenu(QMenu *menu);
   void setRobotDisplayMenu(QMenu *menu);
+  QMenu *getContextMenu();
 };  // namespace WbContextMenuGenerator
 
 #endif

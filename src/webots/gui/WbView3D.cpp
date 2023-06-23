@@ -21,6 +21,7 @@
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
 #include "WbContactPointsRepresentation.hpp"
+#include "WbContextMenuGenerator.hpp"
 #include "WbCylinder.hpp"
 #include "WbDragOverlayEvent.hpp"
 #include "WbDragResizeEvent.hpp"
@@ -78,6 +79,7 @@
 #include <QtGui/QMouseEvent>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QMenu>
 
 #include <wren/camera.h>
 #include <wren/config.h>
@@ -85,6 +87,8 @@
 #include <wren/scene.h>
 #include <wren/transform.h>
 #include <wren/viewport.h>
+
+#include <iostream>
 
 int WbView3D::cView3DNumber = 0;
 
@@ -1566,6 +1570,10 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   if (mDragTranslate || mDragRotate || (mDragTorque && !mDragTorque->isLocked()) || (mDragForce && !mDragForce->isLocked()) ||
       mDragVerticalAxisRotate)
     return;
+
+  QMenu* contextMenu = WbContextMenuGenerator::getContextMenu();
+  if (mParentWidget->findChild<QMenu*>("ContextMenu"))
+    std::cout << "found" << '\n';
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);
