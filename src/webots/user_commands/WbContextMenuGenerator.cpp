@@ -56,10 +56,6 @@ namespace WbContextMenuGenerator {
     gRobotDisplayMenu = menu;
   }
 
-  QMenu *getContextMenu() {
-    return gContextMenu;
-  }
-
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
     // populate transform combo box
     QStringList suitableModels;
@@ -83,7 +79,7 @@ namespace WbContextMenuGenerator {
   }
 
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode, QWidget *parentWidget) {
-    gContextMenu = new QMenu(NULL);
+    gContextMenu = new QMenu(parentWidget);
     gContextMenu->setObjectName("ContextMenu");
     gContextMenu->addAction(WbActionManager::instance()->action(WbAction::CUT));
     gContextMenu->addAction(WbActionManager::instance()->action(WbAction::COPY));

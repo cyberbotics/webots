@@ -88,8 +88,6 @@
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
-#include <iostream>
-
 int WbView3D::cView3DNumber = 0;
 
 WbView3D::WbView3D() :
@@ -1571,9 +1569,9 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
       mDragVerticalAxisRotate)
     return;
 
-  QMenu* contextMenu = WbContextMenuGenerator::getContextMenu();
-  if (mParentWidget->findChild<QMenu*>("ContextMenu"))
-    std::cout << "found" << '\n';
+  QMenu *contextMenu = mParentWidget->findChild<QMenu*>("ContextMenu");
+  if (contextMenu)
+    delete contextMenu;
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);
