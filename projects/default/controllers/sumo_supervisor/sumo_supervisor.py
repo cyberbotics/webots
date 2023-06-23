@@ -46,15 +46,6 @@ try:
 
     if sys.platform.startswith('darwin'):
         libraryVariablePath = 'DYLD_LIBRARY_PATH'
-        # Fix the following error (shown on "El Capitan"):
-        #    ./projects/default/resources/sumo/sumo-gui
-        #    Fontconfig error: Cannot load default config file
-        #    Quitting (on unknown error).
-        if os.path.exists('/opt/local/etc/fonts/fonts.conf'):
-            os.putenv('FONTCONFIG_PATH', '/opt/local/etc/fonts/')
-        elif os.path.exists('/opt/X11/lib/X11/fontconfig/fonts.conf'):
-            os.putenv('FONTCONFIG_PATH', '/opt/X11/lib/X11/fontconfig/')
-
     elif sys.platform.startswith('linux'):
         libraryVariablePath = 'LD_LIBRARY_PATH'
     else:
