@@ -1515,7 +1515,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
-        emit contextMenuRequested(event->globalPosition().toPoint());
+        emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
     }
     return;
   }
@@ -1558,7 +1558,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
-      emit contextMenuRequested(event->globalPosition().toPoint());
+      emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
   }
 }
 

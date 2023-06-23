@@ -1145,7 +1145,7 @@ void WbSimulationView::showEvent(QShowEvent *event) {
   updateToggleView3DAction(mSplitterStatus & VIEW_3D_VISIBLE);
 }
 
-void WbSimulationView::showMenu(const QPoint &position) {
+void WbSimulationView::showMenu(const QPoint &position, QWidget* parentWidget) {
   const WbBaseNode *selectedNode = WbSelection::instance() ? WbSelection::instance()->selectedNode() : NULL;
-  WbContextMenuGenerator::generateContextMenu(position, selectedNode);
+  WbContextMenuGenerator::generateContextMenu(position, selectedNode, parentWidget);
 }

@@ -126,7 +126,7 @@ void WbTreeView::showMenu(const QPoint &position) {
     return;
   const WbTreeItem *item = static_cast<WbTreeItem *>(indexes.at(0).internalPointer());
   assert(item);
-  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node());
+  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node(), NULL);
 }
 
 void WbTreeView::scrollToModelIndex(const QModelIndex &index) {

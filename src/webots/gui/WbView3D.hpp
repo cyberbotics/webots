@@ -121,7 +121,7 @@ signals:
   void mouseDoubleClicked(QMouseEvent *event);
   void screenshotReady();
   void applicationActionsUpdateRequested();
-  void contextMenuRequested(const QPoint &pos);
+  void contextMenuRequested(const QPoint &pos, QWidget* parentWidget);
 
 private:
   QWidget *mParentWidget;
