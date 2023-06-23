@@ -17,6 +17,7 @@
 #include "WbBaseNode.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbPerspective.hpp"
+#include "WbSimulationState.hpp"
 #include "WbSphere.hpp"
 #include "WbSysInfo.hpp"
 #include "WbWorld.hpp"
@@ -102,10 +103,13 @@ WbVisualBoundingSphere::WbVisualBoundingSphere() :
   mWrenSegmentationMaterial(NULL),
   mWrenMesh(NULL),
   mWrenRenderable(NULL) {
+  // make sure the bounding spheres are updates when node's position and size changes
+  WbSimulationState::instance()->subscribeToRayTracing();
 }
 
 WbVisualBoundingSphere::~WbVisualBoundingSphere() {
   deleteWrenObjects();
+  WbSimulationState::instance()->unsubscribeToRayTracing();
 }
 
 void WbVisualBoundingSphere::show(const WbBaseNode *node) {

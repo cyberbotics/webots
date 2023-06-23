@@ -43,9 +43,11 @@ export default class WbBoundingSphere {
 
     this.#subBoundingSpheres.add(subBoundingSphere);
     subBoundingSphere.parentBoundingSphere = this;
-    this.boundSpaceDirty = true;
-    this.parentCoordinatesDirty = true;
-    this.parentUpdateNotification();
+    if (!this.boundSpaceDirty) {
+      this.boundSpaceDirty = true;
+      this.parentCoordinatesDirty = true;
+      this.parentUpdateNotification();
+    }
   }
 
   centerInParentCoordinates() {
