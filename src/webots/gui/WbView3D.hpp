@@ -29,11 +29,10 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QPoint>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbCamera;
 class WbDragKinematicsEvent;
 class WbDragForceEvent;
-class WbDragScaleHandleEvent;
 class WbDragTorqueEvent;
 class WbDragOverlayEvent;
 class WbDragResizeHandleEvent;
@@ -177,7 +176,6 @@ private:
   WbDragKinematicsEvent *mDragKinematics;
   WbDragOverlayEvent *mDragOverlay;
   WbDragResizeHandleEvent *mDragResize;
-  WbDragScaleHandleEvent *mDragScale;
   WbDragTranslateAlongAxisEvent *mDragTranslate;
   WbDragRotateAroundWorldVerticalAxisEvent *mDragVerticalAxisRotate;
   WbDragRotateAroundAxisEvent *mDragRotate;
@@ -204,7 +202,6 @@ private:
 private slots:
   void abortPhysicsDrag();
   void abortResizeDrag();
-  void abortScaleDrag();
   void abortOverlayDrag();
   void followNone(bool checked);
   void followTracking(bool checked);
@@ -258,7 +255,7 @@ private slots:
   void updateViewport();
   void updateShadowState();
   void unleashPhysicsDrags();
-  void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
+  void onSelectionChanged(WbAbstractPose *selectedPose);
   void handleWorldModificationFromSupervisor();
 };
 

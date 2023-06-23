@@ -75,6 +75,7 @@ public:
   virtual void updateEndPointZeroTranslationAndRotation() = 0;
 
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
+  QString endPointName() const override;
 
 public slots:
   void updateEndPoint();

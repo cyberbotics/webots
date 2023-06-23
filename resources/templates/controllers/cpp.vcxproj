@@ -153,6 +153,7 @@
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Speaker.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\Supervisor.cpp" />
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\TouchSensor.cpp" />
+    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\VacuumGripper.cpp" />
     <ClCompile Include="template.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

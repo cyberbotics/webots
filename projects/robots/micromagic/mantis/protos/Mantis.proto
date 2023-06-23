@@ -1,13 +1,14 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/mantis
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/micromagic/mantis/protos/Mantis.proto
+# keywords: robot/legged
 # The Mantis robot is an hydraulic powered hexapod walking machine developed in 2009 by Matt Denton.
 # A human can drive this robot.
 
 PROTO Mantis [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.68    # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Mantis"    # Is `Solid.name`.
   field SFString   controller      "mantis"    # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -32,7 +33,7 @@ PROTO Mantis [
       Group {
         children IS extensionSlot
       }
-      DEF CAB Transform {
+      DEF CAB Pose {
         translation -0.02 0.0 -0.1
         rotation 0 0 1 3.14
         children [
@@ -58,7 +59,7 @@ PROTO Mantis [
       DEF BODY_BOT Solid {
         translation 0 0 0.065
         children [
-          Transform {
+          Pose {
             translation 0 0.0 -0.125
             children [
               Shape {
@@ -104,7 +105,7 @@ PROTO Mantis [
           translation -1.2 -0.5 0
           rotation 0.312457 -0.6717 -0.671706 2.535912
           children [
-            DEF COXA_T Transform {
+            DEF COXA_T Pose {
               translation 0.110802 0.12843 0.849049
               rotation 0 -1 0 1.73448
               children [
@@ -126,7 +127,7 @@ PROTO Mantis [
                 }
               ]
             }
-            DEF COXA_AXIS_S Transform {
+            DEF COXA_AXIS_S Pose {
               rotation 1 0 0 -1.5708
               children [
                 Shape {
@@ -144,7 +145,7 @@ PROTO Mantis [
                 }
               ]
             }
-            DEF RAC_Shape Transform {
+            DEF RAC_Shape Pose {
               translation 0.15 0 0
               children [
                 Shape {
@@ -174,7 +175,7 @@ PROTO Mantis [
                 translation 0.3 0 0
                 rotation 0 0 1 0.785787
                 children [
-                  DEF FEMUR_T Transform {
+                  DEF FEMUR_T Pose {
                     translation -0.001031 0.014263 -0.123609
                     rotation 0 0 -1 0.715
                     children [
@@ -241,7 +242,7 @@ PROTO Mantis [
                       translation 1.5 0 0
                       rotation 0 0 -1 2.29995
                       children [
-                        DEF TIBIA_T Transform {
+                        DEF TIBIA_T Pose {
                           translation 0 -6e-6 -0.008
                           rotation 0.694876 0.508704 0.508299 1.92629
                           children [
@@ -368,7 +369,7 @@ PROTO Mantis [
                           ]
                         }
                       ]
-                      boundingObject DEF RAT_Shape Transform {
+                      boundingObject DEF RAT_Shape Pose {
                         translation 0.75 0 0
                         rotation 0 0 1 0
                         children [
@@ -402,7 +403,7 @@ PROTO Mantis [
                     ]
                   }
                 ]
-                boundingObject DEF RAF_Shape Transform {
+                boundingObject DEF RAF_Shape Pose {
                   translation 0.75 0 0
                   children [
                     DEF FEMUR_S Shape {

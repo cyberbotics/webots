@@ -19,10 +19,8 @@
 // Description: classes allowing to store data related with the solid mouse dragging
 //
 
-#include "WbAbstractDragEvent.hpp"
-#include "WbDragTransformEvent.hpp"
-
 #include "WbAffinePlane.hpp"
+#include "WbDragPoseEvent.hpp"
 #include "WbRay.hpp"
 #include "WbVector3.hpp"
 

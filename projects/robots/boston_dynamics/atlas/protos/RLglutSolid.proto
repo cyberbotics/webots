@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -22,7 +22,7 @@ Solid {
   name "RLglut"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.049968 -0.022488 -0.0501165
         rotation 1 0 0 1.5708
         children [
@@ -32,7 +32,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         rotation -0.0004 1 0.0004 1.5708
         children [
           Cylinder {

@@ -13,3 +13,4 @@
 - [Webots R2022a](Webots-2022-a-release.md)
 - [Webots R2022b](Webots-2022-b-release.md)
 - [Webots R2023a](Webots-2023-a-release.md)
+- [Webots R2023b](Webots-2023-b-release.md)

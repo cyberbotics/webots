@@ -840,7 +840,7 @@ If the same seed is used every time or if it is not specified (i.e using the def
 ### Example
 
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 # tags: nonDeterministic
 # template language: javascript
 
@@ -912,7 +912,7 @@ PROTO DominoSpawner [
   Group {
     children [
       %< for (let i = 0; i < dominoSet.length; ++i) { >%
-        Transform {
+        Pose {
           translation %<= dominoSet[i].coordinates.x >% %<= dominoSet[i].coordinates.y >% %<= dominoSet[i].coordinates.z >%
           rotation 0 1 0 %<= Math.PI - angle >%
           children [

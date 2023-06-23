@@ -14,17 +14,17 @@
 
 #include "WbSelection.hpp"
 
-#include "WbAbstractTransform.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 WbSelection *WbSelection::cInstance = NULL;
 
 WbSelection::WbSelection() :
   QObject(),
-  mSelectedAbstractTransform(NULL),
+  mSelectedAbstractPose(NULL),
   mSelectedNode(NULL),
   mResizeHandlesEnabledFromSceneTree(false) {
   assert(cInstance == NULL);
@@ -36,29 +36,31 @@ WbSelection::~WbSelection() {
 }
 
 WbSolid *WbSelection::selectedSolid() const {
-  return dynamic_cast<WbSolid *>(mSelectedAbstractTransform);
+  return dynamic_cast<WbSolid *>(mSelectedAbstractPose);
 }
 
 void WbSelection::selectNodeFromSceneTree(WbBaseNode *node) {
   if (mSelectedNode == node)
     return;
   selectNode(node);
-  emit selectionChangedFromSceneTree(mSelectedAbstractTransform);
+  emit selectionChangedFromSceneTree(mSelectedAbstractPose);
+  if (mSelectedAbstractPose)
+    updateHandlesScale();
 }
 
-void WbSelection::selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled) {
-  WbBaseNode *node = t == NULL ? NULL : t->baseNode();
+void WbSelection::selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled) {
+  WbBaseNode *node = p == NULL ? NULL : p->baseNode();
   if (mSelectedNode == node)
     return;
   selectNode(node, handlesDisabled);
-  emit selectionChangedFromView3D(mSelectedAbstractTransform);
-  if (mSelectedAbstractTransform)
+  emit selectionChangedFromView3D(mSelectedAbstractPose);
+  if (mSelectedAbstractPose)
     updateHandlesScale();
 }
 
 void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
-  const bool transformChanged =
-    ((n == NULL) != (mSelectedAbstractTransform == NULL)) || (n == NULL || n != mSelectedAbstractTransform->baseNode());
+  const bool poseChanged =
+    ((n == NULL) != (mSelectedAbstractPose == NULL)) || (n == NULL || n != mSelectedAbstractPose->baseNode());
   if (mSelectedNode) {
     // unselect previously selected node
     updateMatterSelection(false);
@@ -68,16 +70,16 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
       setUniformConstraintForResizeHandles(false);
       mSelectedNode->detachResizeManipulator();
 
-      if (mSelectedAbstractTransform && transformChanged) {
-        mSelectedAbstractTransform->detachTranslateRotateManipulator();
-        disconnect(mSelectedAbstractTransform->baseNode(), &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear);
+      if (mSelectedAbstractPose && poseChanged) {
+        mSelectedAbstractPose->detachTranslateRotateManipulator();
+        disconnect(mSelectedAbstractPose->baseNode(), &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear);
       }
     }
   }
 
   mSelectedNode = n;
-  if (transformChanged)
-    mSelectedAbstractTransform = mSelectedNode ? dynamic_cast<WbAbstractTransform *>(mSelectedNode) : NULL;
+  if (poseChanged)
+    mSelectedAbstractPose = mSelectedNode ? dynamic_cast<WbAbstractPose *>(mSelectedNode) : NULL;
   mResizeHandlesEnabledFromSceneTree = false;
 
   if (mSelectedNode) {
@@ -85,11 +87,11 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
     connect(mSelectedNode, &WbBaseNode::destroyed, this, &WbSelection::clear, Qt::UniqueConnection);
     updateMatterSelection(true);
 
-    if (mSelectedAbstractTransform && transformChanged) {
+    if (mSelectedAbstractPose && poseChanged) {
       connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
       if (!handlesDisabled && !mSelectedNode->isUseNode() &&
-          !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
-        mSelectedAbstractTransform->attachTranslateRotateManipulator();
+          !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
+        mSelectedAbstractPose->attachTranslateRotateManipulator();
     }
   }
 }
@@ -114,29 +116,29 @@ void WbSelection::updateMatterSelection(bool selected) {
 }
 
 void WbSelection::propagateBoundingObjectMaterialUpdate() {
-  if (!mSelectedAbstractTransform)
+  if (!mSelectedAbstractPose)
     return;
-  WbMatter *const matter = dynamic_cast<WbMatter *>(mSelectedAbstractTransform);
+  WbMatter *const matter = dynamic_cast<WbMatter *>(mSelectedAbstractPose);
   if (matter != NULL)
     matter->propagateBoundingObjectMaterialUpdate();
 }
 
 bool WbSelection::isObjectMotionAllowed() const {
-  if (!mSelectedAbstractTransform)
+  if (!mSelectedAbstractPose)
     return false;
 
-  WbBaseNode *topNode = mSelectedAbstractTransform->baseNode();
-  WbAbstractTransform *topTransform = NULL;
+  WbBaseNode *topNode = mSelectedAbstractPose->baseNode();
+  WbAbstractPose *topPose = NULL;
   if (!topNode->isTopLevel()) {
     WbSolid *solid = WbNodeUtilities::findUppermostSolid(topNode);
     if (solid)
-      topTransform = dynamic_cast<WbAbstractTransform *>(topNode);
+      topPose = dynamic_cast<WbAbstractPose *>(topNode);
     else
       return false;
   } else
-    topTransform = dynamic_cast<WbAbstractTransform *>(topNode);
+    topPose = dynamic_cast<WbAbstractPose *>(topNode);
 
-  return topTransform && !WbNodeUtilities::isNodeOrAncestorLocked(topNode) && topTransform->isTranslationFieldVisible();
+  return topPose && !WbNodeUtilities::isNodeOrAncestorLocked(topNode) && topPose->isTranslationFieldVisible();
 }
 
 void WbSelection::clear() {
@@ -147,10 +149,11 @@ void WbSelection::clear() {
 }
 
 void WbSelection::updateHandlesScale() {
-  if (mResizeHandlesEnabledFromSceneTree && mSelectedNode)
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedNode);
+  if (t && mResizeHandlesEnabledFromSceneTree && mSelectedNode)
     mSelectedNode->updateResizeHandlesSize();
-  if (mSelectedAbstractTransform)
-    mSelectedAbstractTransform->updateTranslateRotateHandlesSize();
+  if (mSelectedAbstractPose)
+    mSelectedAbstractPose->updateTranslateRotateHandlesSize();
 }
 
 void WbSelection::showResizeManipulatorFromSceneTree(bool enabled) {
@@ -160,37 +163,44 @@ void WbSelection::showResizeManipulatorFromSceneTree(bool enabled) {
 }
 
 void WbSelection::disableActiveManipulator() {
-  if (!mSelectedAbstractTransform)
+  if (!mSelectedAbstractPose)
     return;
 
-  mSelectedAbstractTransform->detachResizeManipulator();
-  mSelectedAbstractTransform->detachTranslateRotateManipulator();
+  mSelectedAbstractPose->detachTranslateRotateManipulator();
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedAbstractPose);
+  if (t)
+    t->detachResizeManipulator();
 }
 
 void WbSelection::restoreActiveManipulator() {
-  if (!mSelectedAbstractTransform || mSelectedNode->isUseNode() ||
-      WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractTransform->baseNode()))
+  if (!mSelectedAbstractPose || mSelectedNode->isUseNode() ||
+      WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
     return;
 
-  if (mResizeHandlesEnabledFromSceneTree)
-    mSelectedAbstractTransform->attachResizeManipulator();
-  else
-    mSelectedAbstractTransform->attachTranslateRotateManipulator();
+  if (mResizeHandlesEnabledFromSceneTree) {
+    WbTransform *t = dynamic_cast<WbTransform *>(mSelectedAbstractPose);
+    if (t)
+      t->attachResizeManipulator();
+  } else
+    mSelectedAbstractPose->attachTranslateRotateManipulator();
 }
 
 bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
-  // only Transform or Solid nodes can be selected from the 3D view
-  WbAbstractTransform *t = selectedAbstractTransform();
-  if (!t || mResizeHandlesEnabledFromSceneTree || !mSelectedNode || mSelectedNode->isUseNode() || !t->hasResizeManipulator() ||
-      WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
+  // only AbstractPose descendants can be selected from the 3d view
+  WbTransform *transform = dynamic_cast<WbTransform *>(mSelectedAbstractPose);
+  if (!mSelectedAbstractPose || mResizeHandlesEnabledFromSceneTree || !mSelectedNode || mSelectedNode->isUseNode() ||
+      (transform && !transform->hasResizeManipulator()) ||
+      WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
     return false;
 
   if (enabled) {
-    t->detachTranslateRotateManipulator();
-    t->attachResizeManipulator();
+    mSelectedAbstractPose->detachTranslateRotateManipulator();
+    if (transform)
+      transform->attachResizeManipulator();
   } else {
-    t->detachResizeManipulator();
-    t->attachTranslateRotateManipulator();
+    if (transform)
+      transform->detachResizeManipulator();
+    mSelectedAbstractPose->attachTranslateRotateManipulator();
   }
   emit visibleHandlesChanged();
   return true;

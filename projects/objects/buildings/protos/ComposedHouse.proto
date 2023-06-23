@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/ComposedHouse.proto
+# keywords: building/house
 # A house composed of several parts with optional boundingObject.
 # template language: javascript
 
@@ -215,7 +217,7 @@ PROTO ComposedHouse [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 1.93 10.03 2.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -224,7 +226,7 @@ PROTO ComposedHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.83 1.98 2.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -233,7 +235,7 @@ PROTO ComposedHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.79 -2.6 2.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -242,7 +244,7 @@ PROTO ComposedHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -3.94 1.39 2.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

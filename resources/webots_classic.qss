@@ -22,6 +22,15 @@ WbSplashScreen {
   qproperty-loadingColor: #666;
 }
 
+WbNewVersionDialog {
+  qproperty-newVersionIconPath: "icons/dark";
+}
+
+QCheckBox#telemetryCheckBox:indicator:checked {
+  border: 1px solid black;
+  image: url(newVersionIconPath:checkboxCheckmark.png);
+}
+
 WbMainWindow {
   qproperty-enabledIconPath: "icons/dark";
   qproperty-disabledIconPath: "icons/light";
@@ -126,7 +135,7 @@ QCheckBox:indicator {
   border: 1px solid black;
 }
 
-QCheckBox:indicator:checked {
+WbMainWindow QCheckBox:indicator:checked, WbVideoRecorderDialog QCheckBox:indicator:checked {
   border: 1px solid black;
   image: url(enabledIcons:checkboxCheckmark.png);
 }

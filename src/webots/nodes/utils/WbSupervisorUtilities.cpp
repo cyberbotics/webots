@@ -76,8 +76,8 @@ struct WbTrackedFieldInfo {
 };
 
 struct WbTrackedPoseInfo {
-  WbTransform *fromNode;
-  WbTransform *toNode;
+  WbPose *fromNode;
+  WbPose *toNode;
   int samplingPeriod;
   double lastUpdate;
 };
@@ -274,8 +274,8 @@ WbSupervisorUtilities::WbSupervisorUtilities(WbRobot *robot) : mRobot(robot) {
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbSupervisorUtilities::updateProtoRegeneratedFlag);
 
-  // Do not apply the change simulation mode during dealing with a controller message
-  // otherwise, conflicts can occur in case of multiple controllers
+  //  Do not apply the change simulation mode during dealing with a controller message
+  //  otherwise, conflicts can occur in case of multiple controllers
   connect(this, &WbSupervisorUtilities::changeSimulationModeRequested, this, &WbSupervisorUtilities::changeSimulationMode,
           Qt::QueuedConnection);
 }
@@ -860,10 +860,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_position()");
-      WbTransform *const transform = dynamic_cast<WbTransform *>(node);
-      mNodeGetPosition = transform;
-      if (!transform)
-        mRobot->warn(tr("wb_supervisor_node_get_position() can exclusively be used with Transform (or derived)."));
+      WbPose *const pose = dynamic_cast<WbPose *>(node);
+      mNodeGetPosition = pose;
+      if (!pose)
+        mRobot->warn(tr("wb_supervisor_node_get_position() can exclusively be used with Pose (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_ORIENTATION: {
@@ -872,10 +872,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> id;
 
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_orientation()");
-      WbTransform *const transform = dynamic_cast<WbTransform *>(node);
-      mNodeGetOrientation = transform;
-      if (!transform)
-        mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Transform (or derived)."));
+      WbPose *const pose = dynamic_cast<WbPose *>(node);
+      mNodeGetOrientation = pose;
+      if (!pose)
+        mRobot->warn(tr("wb_supervisor_node_get_orientation() can exclusively be used with Pose (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_POSE: {
@@ -887,16 +887,16 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       if (idFrom) {
         WbNode *const fromNode = getProtoParameterNodeInstance(idFrom, "wb_supervisor_node_get_pose()");
-        WbTransform *const transformFrom = dynamic_cast<WbTransform *>(fromNode);
-        mNodeGetPose.first = transformFrom;
+        WbPose *const poseFrom = dynamic_cast<WbPose *>(fromNode);
+        mNodeGetPose.first = poseFrom;
       } else
         mNodeGetPose.first = NULL;
       WbNode *const toNode = getProtoParameterNodeInstance(idTo, "wb_supervisor_node_get_pose()");
-      WbTransform *const transformTo = dynamic_cast<WbTransform *>(toNode);
-      mNodeGetPose.second = transformTo;
+      WbPose *const poseTo = dynamic_cast<WbPose *>(toNode);
+      mNodeGetPose.second = poseTo;
 
-      if (!transformTo)
-        mRobot->warn(tr("wb_supervisor_node_get_pose() can exclusively be used with Transform (or derived)."));
+      if (!poseTo)
+        mRobot->warn(tr("wb_supervisor_node_get_pose() can exclusively be used with Pose (or derived)."));
       return;
     }
     case C_SUPERVISOR_NODE_GET_CENTER_OF_MASS: {
@@ -1328,8 +1328,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           tr("'wb_supervisor_node_%1_pose_tracking' called for an invalid node.").arg(enable ? "enable" : "disable"));
         return;
       }
-      WbTransform *const toTransformNode = dynamic_cast<WbTransform *>(toNode);
-      if (!toTransformNode) {
+      WbPose *const toPoseNode = dynamic_cast<WbPose *>(toNode);
+      if (!toPoseNode) {
         mRobot->warn(tr("Node '%1' (%2) is not suitable for pose tracking, aborting request.")
                        .arg(toNode->usefulName())
                        .arg(toNode->modelName()));
@@ -1339,31 +1339,30 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const fromNode = WbNode::findNode(fromNodeId);
       int index = -1;
       for (int i = 0; i < mTrackedPoses.size(); i++) {
-        if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toTransformNode) {
+        if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toPoseNode) {
           index = i;
           break;
         }
       }
 
       if (enable) {
-        WbTransform *const fromTransformNode = fromNode ? dynamic_cast<WbTransform *>(fromNode) : NULL;
-        if (fromNodeId && !fromTransformNode)
-          mRobot->warn(
-            tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' (%2) is "
-               "given. The absolute pose in global coordinates will be returned.")
-              .arg(fromNode->usefulName())
-              .arg(fromNode->modelName()));
+        WbPose *const fromPoseNode = fromNode ? dynamic_cast<WbPose *>(fromNode) : NULL;
+        if (fromNodeId && !fromPoseNode)
+          mRobot->warn(tr("Pose tracking can be exclusively used with Pose (or derived) 'from_node' argument, but '%1' (%2) is "
+                          "given. The absolute pose in global coordinates will be returned.")
+                         .arg(fromNode->usefulName())
+                         .arg(fromNode->modelName()));
 
         if (index < 0) {
           WbTrackedPoseInfo trackedPose;
-          trackedPose.fromNode = fromTransformNode;
-          trackedPose.toNode = toTransformNode;
+          trackedPose.fromNode = fromPoseNode;
+          trackedPose.toNode = toPoseNode;
           trackedPose.samplingPeriod = samplingPeriod;
           trackedPose.lastUpdate = -INFINITY;
           mTrackedPoses.append(trackedPose);
-          if (fromTransformNode)
-            connect(fromTransformNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
-          connect(toTransformNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
+          if (fromPoseNode)
+            connect(fromPoseNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
+          connect(toPoseNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
         } else {
           mTrackedPoses[index].samplingPeriod = samplingPeriod;
           mTrackedPoses[index].lastUpdate = -INFINITY;
@@ -1838,7 +1837,7 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(WbDataStream &stream,
   }
 }
 
-void WbSupervisorUtilities::pushRelativePoseToStream(WbDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
+void WbSupervisorUtilities::pushRelativePoseToStream(WbDataStream &stream, WbPose *fromNode, WbPose *toNode) {
   WbMatrix4 m;
 
   WbMatrix4 mTo(toNode->matrix());

@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -19,12 +19,12 @@ PointLight {
   ambientIntensity 1
   intensity 0
 }
-DEF BOARD Solid {
+DEF BOARD Transform {
   translation -0.06 0.05 -0.11
   rotation 0.903644221406416 0.41615510196425476 0.10120302479626216 10.9956
   scale 0.65 0.65 0.65
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -47,7 +47,6 @@ DEF BOARD Solid {
       ]
     }
   ]
-  locked TRUE
 }
 DEF WRITER Robot {
   children [
@@ -65,7 +64,7 @@ DEF WRITER Robot {
         translation -0.019 0.075 -0.02
         rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
-          Transform {
+          Pose {
             translation 0 0 0.03
             children [
               Shape {
@@ -75,11 +74,11 @@ DEF WRITER Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Transform {
+              DEF BODY Pose {
                 rotation 1 0 0 -1.57079632679
                 children [
                   Shape {

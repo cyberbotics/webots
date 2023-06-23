@@ -1,0 +1,436 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotiq/protos/Robotiq2f140Gripper.proto
+# keywords: actuator/gripper
+# template language: javascript
+# A 2-finger adaptive robot gripper from ROBOTIQ with 140 mm opening.
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
+PROTO Robotiq2f140Gripper [
+  field  SFVec3f     translation  0 0 0
+  field  SFRotation  rotation     0 0 1 0
+  field  SFString    name         "ROBOTIQ 2F-140 Gripper"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance DEF BLACK_METAL PBRAppearance {
+          baseColor 0 0 0
+          roughness 0.4
+          metalness 0
+        }
+        geometry Mesh {
+          url "meshes/robotiq_base_link.stl"
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 -0.030601 0.054905
+          minStop -0.01
+          maxStop 0.701
+          dampingConstant 0.03
+        }
+        device [
+          RotationalMotor {
+            name %<= '"' + fields.name.value + '::left finger joint"' >%
+            maxVelocity 2
+            maxPosition 0.7
+            maxTorque 0.12
+          }
+          PositionSensor {
+            name %<= '"' + fields.name.value + ' left finger joint sensor"' >%
+          }
+        ]
+        endPoint Solid {
+          translation 0 -0.030601 0.054905
+          rotation 1 0 0 2.295796
+          children [
+            DEF OUTER_KNUCKLE Shape {
+              appearance BrushedAluminium {
+                textureTransform TextureTransform {
+                  scale 3 5
+                }
+              }
+              geometry Mesh {
+                url "meshes/robotiq_2f140_outer_knuckle.stl"
+              }
+            }
+            Solid {
+              translation 0 0.01822 0.026002
+              children [
+                DEF OUTER_FINGER Shape {
+                  appearance USE BLACK_METAL
+                  geometry Mesh {
+                    url "meshes/robotiq_2f140_outer_finger.stl"
+                  }
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    anchor 0 0.081755 -0.02822
+                  }
+                  endPoint Solid {
+                    translation 0 0.081755 -0.02822
+                    rotation -1 0 0 0.725
+                    children [
+                      DEF INNER_FINGER Shape {
+                        appearance USE BLACK_METAL
+                        geometry Mesh {
+                          url "meshes/robotiq_2f140_inner_finger.stl"
+                        }
+                      }
+                      Solid {
+                        translation 0 0.045755 -0.02722
+                        rotation 1 0 0 -0.01
+                        children [
+                          DEF INNER_FINGER_PAD Shape {
+                            appearance USE BLACK_METAL
+                            geometry Box {
+                              size 0.027 0.065 0.0075
+                            }
+                          }
+                        ]
+                        name "left inner finger pad"
+                        contactMaterial "ROBOTIQ gripper pad"
+                        boundingObject DEF INNER_FINGER_PAD_BO Box {
+                          size 0.03 0.07 0.0075
+                        }
+                        physics Physics {
+                        }
+                      }
+                    ]
+                    name %<= '"' + fields.name.value + ' left inner finger"' >%
+                    boundingObject DEF INNER_FINGER_BO Group {
+                      children [
+                        Pose {
+                          translation 0 0.021 -0.018
+                          children [
+                            Box {
+                              size 0.015 0.047 0.012
+                            }
+                          ]
+                        }
+                        Pose {
+                          translation 0 0.003 -0.008
+                          rotation 1 0 0 -1.2
+                          children [
+                            Box {
+                              size 0.015 0.029 0.012
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 0.0104
+                      centerOfMass [
+                        0.0003 0.016008 -0.013695
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "left outer finger"
+              boundingObject DEF OUTER_FINGER_BO Group {
+                children [
+                  Pose {
+                    translation 0 0.0511 -0.02
+                    rotation 1 0 0 -0.2618
+                    children [
+                      Box {
+                        size 0.025 0.074 0.012
+                      }
+                    ]
+                  }
+                  Pose {
+                    translation 0 0.006 -0.004
+                    rotation -1 0 0 -2.56
+                    children [
+                      Box {
+                        size 0.025 0.026 0.012
+                      }
+                    ]
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 0.022614
+                centerOfMass [ 0.000301 0.037391 -0.020803 ]
+              }
+            }
+          ]
+          name "left outer knuckle"
+          boundingObject DEF OUTER_KNUCKLE_BO Group {
+            children [
+              Pose {
+                translation 0 0.002 0.004
+                rotation 1 0 0 0.9
+                children [
+                  Box {
+                    size 0.009 0.063 0.012
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0.0209 0.019
+                rotation 1 0 0 0.95
+                children [
+                  Box {
+                    size 0.009 0.02 0.02
+                  }
+                ]
+              }
+              Pose {
+                rotation 0 1 0 1.5708
+                children [
+                  Cylinder {
+                    height 0.017
+                    radius 0.004
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0.0218 0.0136
+                rotation 0 1 0 1.5708
+                children [
+                  Cylinder {
+                    height 0.024
+                    radius 0.003
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.008532
+            centerOfMass [ -0.0002 0.019944 0.029225 ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          anchor 0 -0.0127 0.06142
+        }
+        endPoint Solid {
+          translation 0 -0.0127 0.06142
+          rotation 1 0 0 2.295796
+          children [
+            DEF INNER_KNUCKLE Shape {
+              appearance USE BLACK_METAL
+              geometry Mesh {
+                url "meshes/robotiq_2f140_inner_knuckle.stl"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0 0.1 -0.002
+              }
+              endPoint SolidReference {
+                solidName %<= '"' + fields.name.value + ' left inner finger"' >%
+              }
+            }
+          ]
+          name "left inner knuckle"
+          boundingObject DEF INNER_KNUCKLE_BO Group {
+            children [
+              Pose {
+                rotation 0 1 0 1.5708
+                children [
+                  Cylinder {
+                    height 0.0394
+                    radius 0.0059
+                  }
+                ]
+              }
+              Pose {
+                translation -0.0158 0.018 -0.0003
+                rotation 1 0 0 -0.02
+                children [
+                  Box {
+                    size 0.007 0.038 0.0121
+                  }
+                ]
+              }
+              Pose {
+                translation 0.0158 0.018 -0.0003
+                rotation 1 0 0 -0.02
+                children [
+                  Box {
+                    size 0.007 0.038 0.0121
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0.0677 -0.0013
+                rotation 1 0 0 -0.02
+                children [
+                  Box {
+                    size 0.0246 0.076 0.0121
+                  }
+                ]
+              }
+              Pose {
+                translation 0.0035 0.101 -0.0023
+                rotation 0 1 0 1.5708
+                children [
+                  Cylinder {
+                    height 0.032
+                    radius 0.0058
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.027118
+            centerOfMass [ 0.000123 0.050785 0.00104 ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 1 0 0
+          anchor 0 0.030601 0.054905
+          minStop -0.01
+          maxStop 0.701
+          dampingConstant 0.03
+        }
+        device [
+          RotationalMotor {
+            name %<= '"' + fields.name.value + '::right finger joint"' >%
+            maxVelocity 2
+            maxPosition 0.7
+            maxTorque 0.12
+          }
+          PositionSensor {
+            name %<= '"' + fields.name.value + ' right finger joint sensor"' >%
+          }
+        ]
+        endPoint Solid {
+          translation 0 0.030601 0.054905
+          rotation 0 0.911903298450496 0.41040513431864556 3.141593
+          children [
+            USE OUTER_KNUCKLE
+            Solid {
+              translation 0 0.01822 0.026002
+              children [
+                USE OUTER_FINGER
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    anchor 0 0.081755 -0.0282
+                  }
+                  endPoint Solid {
+                    translation 0 0.081755 -0.02822
+                    rotation -1 0 0 0.725
+                    children [
+                      USE INNER_FINGER
+                      Solid {
+                        translation 0 0.045755 -0.02722
+                        rotation 1 0 0 -0.01
+                        children [
+                          USE INNER_FINGER_PAD
+                        ]
+                        name "right inner finger pad"
+                        contactMaterial "ROBOTIQ gripper pad"
+                        boundingObject USE INNER_FINGER_PAD_BO
+                        physics Physics {
+                        }
+                      }
+                    ]
+                    name %<= '"' + fields.name.value + ' right inner finger"' >%
+                    boundingObject USE INNER_FINGER_BO
+                    physics Physics {
+                      density -1
+                      mass 0.0104
+                      centerOfMass [ 0.0003 0.016008 -0.013695 ]
+                    }
+                  }
+                }
+              ]
+              name "right outer finger"
+              boundingObject USE OUTER_FINGER_BO
+              physics Physics {
+                density -1
+                mass 0.022614
+                centerOfMass [ 0.000301 0.037391 -0.020803 ]
+              }
+            }
+          ]
+          name "right outer knuckle"
+          boundingObject USE OUTER_KNUCKLE_BO
+          physics Physics {
+            density -1
+            mass 0.008532
+            centerOfMass [ -0.0002 0.019944 0.029225 ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -1 0 0
+          anchor 0 0.0127 0.06142
+        }
+        endPoint Solid {
+          translation 0 0.0127 0.06142
+          rotation 0 -0.911903298450496 -0.41040513431864556 3.141593
+          children [
+            USE INNER_KNUCKLE
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0 0.1 -0.002
+              }
+              endPoint SolidReference {
+                solidName %<= '"' + fields.name.value + ' right inner finger"' >%
+              }
+            }
+          ]
+          name "right inner knuckle"
+          boundingObject USE INNER_KNUCKLE_BO
+          physics Physics {
+            density -1
+            mass 0.027118
+            centerOfMass [ 0.000123 0.050785 0.00104 ]
+          }
+        }
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        Pose {
+          translation 0 0 0.018
+          children [
+            Cylinder {
+              height 0.036
+              radius 0.0375
+            }
+         ]
+        }
+        Pose {
+          translation 0 0 0.055
+          rotation 0 1 0 1.5708
+          children [
+            Cylinder {
+              height 0.023
+              radius 0.04
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.62652
+      centerOfMass [ 0 -5e-06 0.03145 ]
+    }
+  }
+}

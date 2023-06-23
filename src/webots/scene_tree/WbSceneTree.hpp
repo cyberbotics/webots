@@ -24,7 +24,7 @@
 #include <QtCore/QModelIndex>
 #include <QtWidgets/QWidget>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbBaseNode;
 class WbClipboard;
 class WbField;
@@ -68,7 +68,7 @@ public:
   void setHandleWidth(const int &handleWidth) { mHandleWidth = handleWidth; }
 
 public slots:
-  void selectTransform(WbAbstractTransform *t);
+  void selectPose(WbAbstractPose *p);
   void updateValue();
   void updateApplicationActions();
   void updateSelection();

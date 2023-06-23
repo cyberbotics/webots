@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/HouseWithGarage.proto
+# keywords: building/house
 # A house with a garage and optional boundingObject.
 # template language: javascript
 
@@ -212,7 +214,7 @@ PROTO HouseWithGarage [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 3.75
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -221,7 +223,7 @@ PROTO HouseWithGarage [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -4.72 1.92 3.0
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -230,7 +232,7 @@ PROTO HouseWithGarage [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 4.83 5.28 2.0001
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [

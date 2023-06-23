@@ -90,6 +90,7 @@
 - [Track](track.md)
 - [TrackWheel](trackwheel.md)
 - [Transform](transform.md)
+- [VacuumGripper](vacuumgripper.md)
 - [Viewpoint](viewpoint.md)
 - [WorldInfo](worldinfo.md)
 - [Zoom](zoom.md)
