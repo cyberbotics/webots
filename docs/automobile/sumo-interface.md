@@ -40,9 +40,18 @@ Finally, setup the `SUMO_HOME` environment variable to point to the directory of
 export SUMO_HOME=/your/path/to/sumo
 ```
 
+The default installation directory is `/opt/homebrew/opt/sumo/share/sumo`.
+
 #### Windows
 
 Download and run the latest installer from the [SUMO documentation](https://sumo.dlr.de/docs/Installing/index.html#windows).
+
+If not automatically done, setup the `SUMO_HOME` environment variable to point to the directory of your SUMO installation by adding the following line at the end of the `~/.bashrc` file:
+```sh
+export SUMO_HOME=/your/path/to/sumo
+```
+
+The default installation directory is `/C/Program Files (x86)/Eclipse/Sumo`.
 
 ### How to Include the Interface
 
