@@ -77,7 +77,7 @@ The colors defined in this field are returned for this object if recognized by a
 If the [Solid](#solid) node is merged into a solid assembly (see [implicit solid merging](physics.md#implicit-solid-merging-and-joints)), then these fields will be effective only for the [Solid](#solid) at the top of the assembly.
 Hidden velocity fields allow you to save and restore the dynamics of your simulation or to define initial velocities for every physical objects in the scene.
 
-### How to Use the "boundingObject" Field?
+### How to use the "boundingObject" Field?
 
 The `boundingObject` field is used to define the bounds of a [Solid](#solid) as geometrical primitives.
 Each `boundingObject` can hold one or several geometrical primitives, such as [Box](box.md), [Capsule](capsule.md), [Cylinder](cylinder.md), etc.

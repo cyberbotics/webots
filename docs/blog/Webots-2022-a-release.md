@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## Conversion to FLU/ENU
 
-### What Is FLU/ENU?
+### What is FLU/ENU?
 
 **FLU and ENU are conventions for axis systems.**
 
@@ -42,7 +42,7 @@ We worked hard to convert all PROTOs and worlds distributed with Webots for you,
 A mechanism of backward compatibility has been implemented directly in Webots.
 Unfortunately, it was not possible to make it work in every cases.
 It will try to convert worlds and PROTOs at runtime, but PROTO changes cannot be saved.
-We also wrote a [guide](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a) to help you convert your own PROTOs and worlds to use them in Webots R2022a.
+We also wrote a [guide](https://cyberbotics.com/doc/guide/from-2021b-to-2022a) to help you convert your own PROTOs and worlds to use them in Webots R2022a.
 
 We are aware that it is a major change and it can be annoying to convert your worlds and PROTOs to the new format.
 However, it is a worthwhile effort, especially if you work with ROS.

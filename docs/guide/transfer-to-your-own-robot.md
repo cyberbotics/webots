@@ -1,4 +1,4 @@
-## Transfer to Your Own Robot
+## Transfer to your own Robot
 
 In mobile robot simulation, it is often useful to transfer the results onto real mobile robots.
 Webots was designed with this transfer capability in mind.
@@ -37,7 +37,7 @@ It requests that the simulator performs a simulation step of ms milliseconds; th
 
 The `wb_robot_cleanup` function should be called at the end of a program in order to leave the controller in a clean fashion.
 
-#### Running Your Real Robot
+#### Running your Real Robot
 
 Once linked with your own remote control plugin, you can control your real robot by running the simulation in Webots.
 It might be useful to also add a robot window (see [this section](controller-plugin.md#robot-window)) to graphically display specific sensor values, motor commands or a stop button.

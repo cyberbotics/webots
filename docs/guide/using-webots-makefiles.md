@@ -1,6 +1,6 @@
 ## Using Webots Makefiles
 
-### What Are Makefiles
+### What are Makefiles
 
 The compilation of Webots C/C++ and Java controllers can be configured in the provided Makefiles.
 A controller's Makefile is a configuration file used by the `make` utility and that optionally specifies a list of source files and how they will be compiled and linked to create the executable program.

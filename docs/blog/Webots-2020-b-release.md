@@ -111,7 +111,7 @@ However, it requires higher bandwidth and server CPU/GPU power.
 
 ---
 
-### Share Your Project with the Community
+### Share your Project with the Community
 
 We created a new [GitHub repository](https://github.com/cyberbotics/community-projects) for the community to share PROTO nodes, controllers, worlds, etc.
 Your [contributions](https://github.com/cyberbotics/community-projects/blob/master/CONTRIBUTING.md) are welcome!
