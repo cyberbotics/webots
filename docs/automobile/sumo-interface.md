@@ -21,6 +21,7 @@ sudo apt install sumo sumo-tools sumo-doc
 
 `SUMO_HOME` environment variable will be automatically set during the installation, but it may be necessary to logout and login, or even reboot, after the installation to correctly run the SUMO Interface.
 
+
 Note that if you installed Webots using the snap package, Webots will be unable to launch the SUMO because of the snap sand-boxing.
 To work around this problem, the `SumoInterface.exterController` field should be set to TRUE and the controller should be launched as [extern controller](../guide/running-extern-robot-controllers.md) from outside Webots by running these commands:
 ```sh
