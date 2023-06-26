@@ -28,10 +28,15 @@ import tempfile
 def sumoImportError():
     sys.stderr.write("SUMO not found.\n")
     if sys.platform.startswith('linux'):
-        sys.stderr.write("Please install it with `sudo apt install sumo sumo-tools` and reboot.\n")
+        if os.getenv('SNAP_NAME'):
+            sys.stderr.write("Please set the 'SumoInterface.externController' field to TRUE and "
+                             "launch the controller as extern controller.\n"
+                             "Install SUMO ")
+        else:
+            sys.stderr.write("Please install it ")
+        sys.stderr.write("with `sudo apt install sumo sumo-tools` and reboot.\n")
     else:
         sys.stderr.write("Please install it following the instructions at https://sumo.dlr.de/docs/Installing/.\n")
-        pass
     sys.exit("Or check that the SUMO_HOME environment variable points to the directory of your SUMO installation.")
 
 
