@@ -63,7 +63,7 @@ If this field is empty, Webots will compute the inertia matrix automatically acc
 
 - The `damping` field allows to specify a [Damping](damping.md) node that defines the velocity damping parameters to be applied to the [Solid](solid.md).
 
-### How to Use Physics Nodes?
+### How to use Physics Nodes?
 
 If it contains a [Physics](#physics) node, a [Solid](solid.md) object will be simulated in *physics* mode.
 The *physics* simulation mode takes into account the simulation of the forces that act on the bodies and the properties of these bodies, e.g., mass and moment of inertia.

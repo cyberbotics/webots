@@ -1,4 +1,4 @@
-## Translating Webots to Your Own Language
+## Translating Webots to your own Language
 
 Webots is already translated into French, German, Spanish, Chinese and Japanese (and partially into Italian).
 However, since Webots is always evolving, including new text or changing existing wording, these translations may not always be complete or accurate.
