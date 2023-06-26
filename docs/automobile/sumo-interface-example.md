@@ -13,3 +13,5 @@ When a priority vehicle arrives from the `vertical` road, it will be detected fr
 
 One of the vehicles moved by SUMO has a [Lidar](../reference/lidar.md) sensor on the front and displays the measured point cloud.
 This vehicle showcases the possibility of collecting sensor data for vehicles controlled by SUMO.
+
+> **Note**: SUMO should be installed on the system and the `SUMO_HOME` environment variable should be defined and point to the SUMO installation path.
