@@ -57,7 +57,6 @@ public:
   mutable bool mAbsoluteScaleNeedUpdate;
 
   // 3x3 absolute rotation matrix
-  WbMatrix3 rotationMatrix() const override;
   const WbMatrix4 &vrmlMatrix() const override;
 
 protected:
