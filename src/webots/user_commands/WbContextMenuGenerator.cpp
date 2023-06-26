@@ -78,7 +78,7 @@ namespace WbContextMenuGenerator {
   }
 
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode, QWidget *parentWidget) {
-    QMenu* contextMenu = new QMenu(parentWidget);
+    QMenu *contextMenu = new QMenu(parentWidget);
     contextMenu->setObjectName("ContextMenu");
     contextMenu->addAction(WbActionManager::instance()->action(WbAction::CUT));
     contextMenu->addAction(WbActionManager::instance()->action(WbAction::COPY));

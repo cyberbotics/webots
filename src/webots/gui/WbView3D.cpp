@@ -1571,9 +1571,9 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
 
 
   // Fix an issue on macOS where the context menu was not closed by a click.
-  #ifdef __APPLE__
+#ifdef __APPLE__
   delete mParentWidget->findChild<QMenu*>("ContextMenu");
-  #endif
+#endif
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);
