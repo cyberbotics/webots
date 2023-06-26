@@ -21,6 +21,13 @@ sudo apt install sumo sumo-tools sumo-doc
 
 `SUMO_HOME` environment variable will be automatically set during the installation, but it may be necessary to logout and login, or even reboot, after the installation to correctly run the SUMO Interface.
 
+Note that if you installed Webots using the snap package, Webots will be unable to launch the SUMO because of the snap sand-boxing.
+To work around this problem, the `SumoInterface.exterController` field should be set to TRUE and the controller should be launched as [extern controller](../guide/running-extern-robot-controllers.md) from outside Webots by running these commands:
+```sh
+export WEBOTS_HOME=/snap/webots/current/usr/share/webots
+$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py
+```
+
 #### macOS
 
 Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:
