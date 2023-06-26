@@ -29,7 +29,7 @@ def sumoImportError():
     sys.stderr.write("SUMO not found.\n")
     if sys.platform.startswith('linux'):
         if os.getenv('SNAP_NAME'):
-            sys.stderr.write("Please set the 'SumoInterface.externController' field and "
+            sys.stderr.write("Please set the 'SumoInterface.externController' field to TRUE and "
                              "launch the controller as extern controller.\n"
                              "Install SUMO ")
         else:
