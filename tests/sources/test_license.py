@@ -102,7 +102,6 @@ class TestLicense(unittest.TestCase):
         skippedDirectoryPaths = [
             'src/webots/external',
             'projects/default/controllers/ros/include',
-            'projects/default/resources/sumo',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
