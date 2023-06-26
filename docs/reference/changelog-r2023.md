@@ -39,6 +39,7 @@ Released on June 27th, 2023.
     - Added a model of suction cup ([#6165](https://github.com/cyberbotics/webots/pull/6165)).
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+    - Remove SUMO dependency from Webots package ([#6245](https://github.com/cyberbotics/webots/pull/6245)).
   - Bug Fixes
     - Fixed random crashes while creating [Skin](skin.md) and [Mesh](mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Windows: fixed compilation of controller programs located in paths with non-ASCII characters ([#6235](https://github.com/cyberbotics/webots/pull/6235)).
@@ -100,7 +101,6 @@ Released on June 27th, 2023.
     - Fixed crash when deleting a [Group](group.md) or a [Pose](pose.md) in a [Led](led.md) or [Charger](charger.md) ([#6226](https://github.com/cyberbotics/webots/pull/6226)).
     - Fixed duplicate [Lidar](lidar.md) rotatingHead when exporting to URDF ([#6233](https://github.com/cyberbotics/webots/pull/6233)).
   - Dependency Updates
-    - Change the Windows version of SUMO to 1.13 to match the one used on Linux and macOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).

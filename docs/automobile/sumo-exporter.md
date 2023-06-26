@@ -1,11 +1,13 @@
 # SUMO Exporter
 
-In order to be able to simulate traffic in your simulation, it is required to have a SUMO network file (`sumo.net.xml`).
+In order to be able to simulate traffic in your simulation, it is required to have the SUMO package installed on the system and a SUMO network file (`sumo.net.xml`).
 The SUMO exporter can create SUMO network files from a Webots simulation.
 
 ## Dependencies
 
-The SUMO exporter is using the `shapely` Python module.
+Please refer to [these instructions](sumo-interface.md#dependencies) to install SUMO.
+
+The SUMO exporter is also using the `shapely` Python module.
 Please refer to [these instructions](openstreetmap-importer.md#dependencies) to install it.
 
 ## Expectations on the Webots Simulation
@@ -28,7 +30,7 @@ These files can be used by SUMO `netconvert` to generate the `sumo.net.xml` file
 cd $WEBOTS_HOME/resources/sumo_exporter
 mkdir myMap_net
 python exporter.py --input=myMap.wbt --output=myMap_net
-$WEBOTS_HOME/projects/default/resources/sumo/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
+$SUMO_HOME/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
 ```
 
 %tab-end
@@ -39,7 +41,7 @@ $WEBOTS_HOME/projects/default/resources/sumo/bin/netconvert --node-files=myMap_n
 cd $WEBOTS_HOME/Contents/Resources/sumo_exporter
 mkdir myMap_net
 python exporter.py --input=myMap.wbt --output=myMap_net
-$WEBOTS_HOME/Contents/projects/default/resources/sumo/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
+$SUMO_HOME/bin/netconvert --node-files=myMap_net/sumo.nod.xml --edge-files=myMap_net/sumo.edg.xml --output-file=myMap_net/sumo.net.xml
 ```
 
 %tab-end

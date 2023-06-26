@@ -106,7 +106,7 @@ protected slots:
   void keyPressEvent(QKeyEvent *event) override;
   void hideEvent(QHideEvent *event) override;
   void showEvent(QShowEvent *event) override;
-  void showMenu(const QPoint &position);
+  void showMenu(const QPoint &position, QWidget *parentWidget);
 
 private slots:
   void makeMovie();
