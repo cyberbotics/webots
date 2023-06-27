@@ -30,6 +30,11 @@ export WEBOTS_HOME=/snap/webots/current/usr/share/webots
 $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py
 ```
 
+If you want to set some sumo options you have to specify them at the end of the launcher line, for exemple:
+```
+$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py --use-netconvert --no-gui
+```
+
 #### macOS
 
 Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:

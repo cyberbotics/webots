@@ -31,6 +31,8 @@ def sumoImportError():
         if os.getenv('SNAP_NAME'):
             sys.stderr.write("Please set the 'SumoInterface.externController' field to TRUE and "
                              "launch the controller as extern controller.\n"
+                             "When launching the controller as extern, you must specify the sumo options like --no-netconvert "
+                             "or --no-gui manually.\n"
                              "Install SUMO ")
         else:
             sys.stderr.write("Please install it ")
