@@ -14,7 +14,7 @@ Upgrading to the latest versions of the Intel graphics driver may help resolve s
 Graphics drivers from Intel may be obtained from the [Intel download center website](http://downloadcenter.intel.com).
 Linux graphics drivers from Intel may be obtained from the [Intel Linux Graphics website](http://intellinuxgraphics.org).
 
-### NAOqi Support Is Discontinued: NAQqi-based Controllers May Not Work Properly
+### NAOqi Support is Discontinued: NAQqi-based Controllers may not Work Properly
 
 The makers of the NAO humanoid robot, SoftBank Robotics, no longer maintain the NAOqi interface library that is used to connect Webots to NAOqi and Choregraphe.
 As a consequence Cyberbotics cannot ensure that the NAOqi-based Webots controller will work with the various versions of NAOqi and Choregraphe released by SoftBank Robotics.

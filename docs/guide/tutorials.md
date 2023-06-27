@@ -30,7 +30,7 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 
 ## Sections
 
-- [Tutorial 1: Your first Simulation in Webots (30 minutes)](tutorial-1-your-first-simulation-in-webots.md)
+- [Tutorial 1: Your First Simulation in Webots (30 minutes)](tutorial-1-your-first-simulation-in-webots.md)
 - [Tutorial 2: Modification of the Environment (30 minutes)](tutorial-2-modification-of-the-environment.md)
 - [Tutorial 3: Appearance (20 minutes)](tutorial-3-appearance.md)
 - [Tutorial 4: More about Controllers (30 minutes)](tutorial-4-more-about-controllers.md)

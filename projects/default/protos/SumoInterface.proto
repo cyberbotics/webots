@@ -25,6 +25,7 @@ PROTO SumoInterface [
   field SFNode    display               NULL
   field SFBool    verbose               FALSE
   field SFBool    synchronization       TRUE
+  field SFBool    externController      FALSE
   field MFNode    children              []
   hiddenField SFBool  enableWheelsRoattion  FALSE  # deprecated in Webots 2018a.
   hiddenField SFInt32 maxVehicules          100    # deprecated in Webots 2018a.
@@ -86,7 +87,11 @@ PROTO SumoInterface [
   Robot {
     name IS name
     model "SUMO interface"
+    %< if (fields.externController.value) { >%
+    controller "<extern>"
+    %< } else { >%
     controller "sumo_supervisor"
+    %< } >%
     controllerArgs [
       %< for (let i = 0; i < controllerArguments.length; ++i) { >%
       %<= '"' + controllerArguments[i] + '"\n' >%

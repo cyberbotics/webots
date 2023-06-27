@@ -39,8 +39,6 @@ void WbAbstractPose::init(WbBaseNode *node) {
   mMatrix = NULL;
   mMatrixNeedUpdate = true;
   mVrmlMatrixNeedUpdate = true;
-  mIsTopPose = false;
-  mHasSearchedTopPose = false;
   mTranslateRotateManipulator = NULL;
 
   mTranslateRotateManipulatorInitialized = false;
@@ -221,15 +219,6 @@ const WbMatrix4 &WbAbstractPose::vrmlMatrix() const {
   }
 
   return mVrmlMatrix;
-}
-
-bool WbAbstractPose::isTopPose() const {
-  if (!mHasSearchedTopPose) {
-    mIsTopPose = mBaseNode->upperPose() == NULL;
-    mHasSearchedTopPose = true;
-  }
-
-  return mIsTopPose;
 }
 
 // Position and orientation setters

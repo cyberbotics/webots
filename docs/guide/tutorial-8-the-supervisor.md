@@ -1,4 +1,4 @@
-## Tutorial 8: the Supervisor (30 Minutes)
+## Tutorial 8: The Supervisor (30 Minutes)
 
 A [Supervisor](../reference/supervisor.md) oversees a world and can set or get information about it.
 This tutorial will teach you:
