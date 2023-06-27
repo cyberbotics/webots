@@ -143,7 +143,7 @@ static int stream_pipe_create(int stream) {
   _pipe(fds, 1024, O_TEXT);
 #else
   if (pipe(fds) == -1) {
-    fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT\n");
+    fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT.\n");
     exit(EXIT_FAILURE);
   }
   fcntl(fds[0], F_SETFL, O_NONBLOCK);
@@ -768,7 +768,7 @@ void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
       robot.toggle_remote_first_step = true;
       return;
     } else
-      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed.\n", __FUNCTION__);
   }
   robot.mode = WB_MODE_SIMULATION;
 }
@@ -1136,7 +1136,7 @@ static char *compute_socket_filename(char *error_buffer) {
   if (username == NULL || username[0] == '\0') {
     username = wbu_system_getenv("USERNAME");
     if (username == NULL || username[0] == '\0') {
-      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.\n");
       username = "default";
     }
   }
