@@ -30,7 +30,7 @@ export WEBOTS_HOME=/snap/webots/current/usr/share/webots
 $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py
 ```
 
-If you want to set some sumo options you have to specify them at the end of the launcher line, for exemple:
+If you want to set some SUMO options you have to specify them at the end of the launcher line, for example:
 ```
 $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py --use-netconvert --no-gui
 ```
