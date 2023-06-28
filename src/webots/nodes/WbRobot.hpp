@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,7 +65,10 @@ public:
   bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
-  void setControllerStarted(bool started) { mControllerStarted = started; }
+  void setControllerStarted(bool started) {
+    mControllerStarted = started;
+    mControllerTerminated = false;
+  }
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
@@ -140,6 +143,8 @@ public:
 
   WbKinematicDifferentialWheels *kinematicDifferentialWheels() { return mKinematicDifferentialWheels; }
 
+  QString encodedName() const;  // name used for controller connections
+
 public slots:
   void receiveFromJavascript(const QByteArray &message);
   void updateControllerDir();
@@ -197,6 +202,7 @@ private:
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mControllerTerminated;
   bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
@@ -272,6 +278,7 @@ private:
   void writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
+  void updateControllerStatusInDevices();
   void pinToStaticEnvironment(bool pin);
   double energyConsumption() const;
   void clearDevices();
@@ -286,6 +293,7 @@ private slots:
   void updateData();
   void updateSupervisor();
   void updateModel();
+  void updateBattery(bool itemInserted);
   void removeRenderingDevice();
   void handleMouseChange();
   void handleJoystickChange();

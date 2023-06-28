@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/SnackStand.proto
 # A snack stand.
 # template language: javascript
 
@@ -128,7 +129,7 @@ PROTO SnackStand [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.42 0 1.5
           children [
             Box {
@@ -136,7 +137,7 @@ PROTO SnackStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.74 0 1.12
           children [
             Box {
@@ -144,7 +145,7 @@ PROTO SnackStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.9815 0 2.4453
           rotation -0.519988 0.519988 0.677661 -1.950441
           children [
@@ -153,7 +154,7 @@ PROTO SnackStand [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.5893 1.4649 0.5588
           rotation 0.219407 0.896278 0.385417 -1.721092
           children [

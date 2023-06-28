@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -48,7 +48,6 @@ static int simulation_state = SIMULATION_STATE_STOP;
 static int current_sound = -1;
 static int suspended_sound = -1;
 
-static WbDeviceTag gear = 0;
 static WbDeviceTag gear_sensor = 0;
 static WbDeviceTag gate = 0;
 static WbDeviceTag gate_sensor = 0;
@@ -142,9 +141,8 @@ int main() {
   char input_buffer[1024];
   char received_initialization = 0;
   wb_robot_init();
-  gear = wb_robot_get_device("gear");
   gear_sensor = wb_robot_get_device("gear_sensor");
-  gate = wb_robot_get_device("gate");
+  gate = wb_robot_get_device("portal_motor::gate");
   gate_sensor = wb_robot_get_device("gate_sensor");
   rail = wb_robot_get_device("rail");
   closed_sensor = wb_robot_get_device("closed");
@@ -244,17 +242,11 @@ int main() {
     } else if (simulation_state == SIMULATION_STATE_STOP) {
       // reset every actuator to initial value
       double gate_position = wb_position_sensor_get_value(gate_sensor);
-      double gear_position = wb_position_sensor_get_value(gear_sensor);
       if (gate_position > 0.0301 || gate_position < 0.0299)
         play_sound(0);
       else
         play_sound(-1);
-      if (gate_position > 0.0301)
-        wb_motor_set_position(gear, -INFINITY);
-      else if (gate_position < 0.0299)
-        wb_motor_set_position(gear, INFINITY);
-      else if (!isnan(gear_position))
-        wb_motor_set_position(gear, floor(gear_position / (M_PI / 7)) * (M_PI / 7));  // the gear has 14 teeth
+
       wb_motor_set_position(rail, 0);
       wb_motor_set_position(gate, 0.03);
       wb_led_set(lamp, 0);
@@ -265,12 +257,10 @@ int main() {
       wb_led_set(lamp, 1);
     else
       wb_led_set(lamp, pinsB & dirsB & 1);
-    double gear_position = wb_position_sensor_get_value(gear_sensor);
     double gate_position = wb_position_sensor_get_value(gate_sensor);
     if ((pinsB & dirsB & (64 + 128)) == 64 || k == 'C') {
       wb_motor_set_position(gate, 0);  // portal closed position
-      wb_motor_set_position(gear, -INFINITY);
-      if (gate_position <= 0.01) {  // derail position
+      if (gate_position <= 0.01) {     // derail position
         play_sound(1);
         wb_motor_set_position(rail, -0.005);
       } else {
@@ -279,8 +269,7 @@ int main() {
       }
     } else if ((pinsB & dirsB & (64 + 128)) == 128 || k == 'O') {
       wb_motor_set_position(gate, 0.3);  // portal open position
-      wb_motor_set_position(gear, INFINITY);
-      if (gate_position >= 0.29) {  // derail position
+      if (gate_position >= 0.29) {       // derail position
         play_sound(1);
         wb_motor_set_position(rail, -0.005);
       } else {
@@ -289,8 +278,6 @@ int main() {
       }
     } else if ((pinsB & dirsB & (64 + 128)) == (64 + 128) || (pinsB & dirsB & (64 + 128)) == 0) {  // STOP the motors
       play_sound(-1);
-      if (!isnan(gear_position))
-        wb_motor_set_position(gear, gear_position);
       if (!isnan(gate_position))
         wb_motor_set_position(gate, gate_position);
     }

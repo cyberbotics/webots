@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -118,13 +118,18 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbFieldEditor::refreshExternProtoEditor);
 
   mTitleLabel = new QLabel(this);
+  mTitleLabel->setObjectName("titleLabel");
   mTitleLabel->setAlignment(Qt::AlignCenter);
-
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
-  mainLayout->addWidget(mTitleLabel);
-  mainLayout->addLayout(mStackedLayout);
+  QWidget *wrapper = new QWidget();
+  mainLayout->addWidget(wrapper);
+  wrapper->setObjectName("wrapper");
+  QVBoxLayout *intermediary = new QVBoxLayout();
+  wrapper->setLayout(intermediary);
+  intermediary->addWidget(mTitleLabel);
+  intermediary->addLayout(mStackedLayout);
   mainLayout->setContentsMargins(0, 0, 0, 0);
-
+  intermediary->setContentsMargins(0, 0, 0, 0);
   gMinimumSizeOffset = sizeHint() - mStackedLayout->sizeHint();
 
   setCurrentWidget(0);

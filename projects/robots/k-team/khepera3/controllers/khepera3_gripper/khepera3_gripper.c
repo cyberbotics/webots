@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@
 #define GRIPPER_MOTOR_MAX_SPEED 2.0
 
 static WbDeviceTag sensors[MAX_SENSOR_NUMBER];
-static WbDeviceTag gripper_motors[3];
+static WbDeviceTag gripper_motors[2];
 static WbDeviceTag left_motor, right_motor;
 static const double matrix[9][2] = {{-2.67, -2.67},  {-10.86, 21.37}, {-16.03, 26.71}, {-37.4, 37.4}, {37.4, -32.06},
                                     {26.71, -21.37}, {21.37, -10.86}, {-2.67, -2.67},  {-5.34, -5.34}};
@@ -68,8 +68,7 @@ static void initialize() {
   }
 
   gripper_motors[0] = wb_robot_get_device("horizontal_motor");
-  gripper_motors[1] = wb_robot_get_device("left_finger_motor");
-  gripper_motors[2] = wb_robot_get_device("right_finger_motor");
+  gripper_motors[1] = wb_robot_get_device("finger_motor::left");
 
   left_motor = wb_robot_get_device("left wheel motor");
   right_motor = wb_robot_get_device("right wheel motor");
@@ -134,9 +133,7 @@ void moveArms(double position) {
 
 void moveFingers(double position) {
   wb_motor_set_velocity(gripper_motors[1], GRIPPER_MOTOR_MAX_SPEED);
-  wb_motor_set_velocity(gripper_motors[2], GRIPPER_MOTOR_MAX_SPEED);
   wb_motor_set_position(gripper_motors[1], position);
-  wb_motor_set_position(gripper_motors[2], -position);
 }
 
 void moveForwards(double speed) {

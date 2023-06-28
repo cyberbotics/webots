@@ -3,17 +3,17 @@
 Released on July, 16th, 2021.
 
   - New Robots
-    - Added a model of the [Summit-XL Steel](../guide/summit-xl-steel.md) robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
-    - Added a model of the [MiR100](../guide/mir100.md) robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
-    - Added a model of the [Fabtino](../guide/fabtino.md) robot from [REC](http://servicerobotics.eu/en/homepage/) ([#2999](https://github.com/cyberbotics/webots/pull/2999)).
-    - Added a model of the [JetBot](../guide/jetbot.md) robot from [NVIDIA](https://jetbot.org) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
-    - Added a model for the [Niryo Ned](../guide/ned.md) robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
+    - Added a model of the Summit-XL Steel robot from [Robotnik](https://robotnik.eu/products/mobile-robots/summit-xl-steel-en/) ([#3121](https://github.com/cyberbotics/webots/pull/3121)).
+    - Added a model of the MiR100 robot from [Mobile Industrial Robots](https://www.mobile-industrial-robots.com/en/solutions/robots/mir100/) ([#3010](https://github.com/cyberbotics/webots/pull/3010)).
+    - Added a model of the Fabtino robot from [REC](http://servicerobotics.eu/en/homepage/) ([#2999](https://github.com/cyberbotics/webots/pull/2999)).
+    - Added a model of the JetBot robot from [NVIDIA](https://jetbot.org) ([#2951](https://github.com/cyberbotics/webots/pull/2951)).
+    - Added a model for the Niryo Ned robot ([#2925](https://github.com/cyberbotics/webots/pull/2925)).
   - New Devices and Objects:
     - Added a new altimeter device contributed by [sishamilton](https://github.com/sishamilton) ([#3241](https://github.com/cyberbotics/webots/pull/3241)).
-    - Added a model of the [SickS300](../guide/lidar-sensors.md) lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
-    - Added [HingeJointWithBacklash](../guide/hinge-joint-with-backlash.md) PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
-    - Added [Hinge2JointWithBacklash](../guide/hinge-2-joint-with-backlash.md) PROTO that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
-    -  Added a generic [Gear](../guide/object-gear.md) PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
+    - Added a model of the SickS300 lidar ([#3122](https://github.com/cyberbotics/webots/pull/3122)).
+    - Added `HingeJointWithBacklash` PROTO that extends [HingeJoint](hingejoint.md) to model the effect of backlash and a corresponding sample world ([#2786](https://github.com/cyberbotics/webots/pull/2786)).
+    - Added `Hinge2JointWithBacklash` PROTO that extends [Hinge2Joint](hinge2joint.md) to model the effect of backlash and a corresponding sample world ([#2850](https://github.com/cyberbotics/webots/pull/2850)).
+    -  Added a generic `Gear` PROTO and a demo showing it being used in a collision-based transmission ([#2805](https://github.com/cyberbotics/webots/pull/2805)).
     - Added a nice looking FIFA soccer ball PROTO ([#2782](https://github.com/cyberbotics/webots/pull/2782)).
   - New Samples:
     - Added a draft Robocup Virtual Humanoid League 2021 environment ([#2783](https://github.com/cyberbotics/webots/pull/2783)).
@@ -48,10 +48,10 @@ Released on July, 16th, 2021.
     - Ensure that any node "name" is displayed in the scene tree to help navigation ([#3198](https://github.com/cyberbotics/webots/pull/3198)).
     - Added a script to convert PROTO files to use [Mesh](mesh.md) nodes instead of [IndexedFaceSet](indexedfaceset.md) nodes to speed-up loading times, improve PROTO readability and maintenance ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Converted several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
-    - Added flag to [RobotisOp2](../guide/robotis-op2.md) that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
-    - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
-    - Made the [TIAGo](../guide/tiago-base.md) robot more sturdy by increasing the `suspensionSpringConstant` value ([#2876](https://github.com/cyberbotics/webots/pull/2876)).
-    - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
+    - Added flag to `RobotisOp2` that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
+    - Added a version of the `RobotisOp2` modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
+    - Made the `TIAGo` robot more sturdy by increasing the `suspensionSpringConstant` value ([#2876](https://github.com/cyberbotics/webots/pull/2876)).
+    - Added a `stadium_dry` background with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).
     - **`<webots/utils/default_robot_window.h>` C include file moved to `<webots/plugins/robot_window/default.h>` ([#2655](https://github.com/cyberbotics/webots/pull/2655)).**
@@ -77,7 +77,7 @@ Released on July, 16th, 2021.
   - Bug fixes:
     - Fixed resource leak in simulation server script ([#3412](https://github.com/cyberbotics/webots/pull/3412), thanks to [Luiz Felipe Vecchietti](https://github.com/lfelipesv)).
     - Sanitized controller name in MATLAB launcher ([#3404](https://github.com/cyberbotics/webots/pull/3404), thanks to [Bartek Łukawski](https://github.com/PeterBowman) and [Juan Victores](https://github.com/jgvictores)).
-    - Fixed bug in [Lidar](lidar.md) / [RangeFinder](../guide/range-finder-sensors.md) measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
+    - Fixed bug in [Lidar](lidar.md) / `RangeFinder` measurement when hitting an edge ([#3230](https://github.com/cyberbotics/webots/pull/3230)).
     - Fixed the restart of Webots on Windows after changing the theme or the language from the preferences ([#3367](https://github.com/cyberbotics/webots/pull/3367)).
     - Fixed instabilities in the box-cylinder collision detection ([#3105](https://github.com/cyberbotics/webots/pull/3105)).
     - Fixed wrong computation of the asymmetric friction force direction for [Cylinder](cylinder.md) and [Box](box.md) ([#3150](https://github.com/cyberbotics/webots/pull/3150)).
@@ -138,17 +138,17 @@ Released on July, 16th, 2021.
     - Fixed update of [PointSet](pointset.md) subnodes ([#2766](https://github.com/cyberbotics/webots/pull/2766)).
     - Fixed [X3D export](../guide/web-interface.md) of USE nodes linking to DEF nodes declared in PROTO exposed fields ([#2687](https://github.com/cyberbotics/webots/pull/2687)).
     - Fixed the [robot window example](../guide/samples-howto.md#custom_robot_window-wbt) ([#2639](https://github.com/cyberbotics/webots/pull/2639)).
-    - Fixed mecanum wheels [ContactProperties](contactproperties.md) in [YouBot](../guide/youbot.md) worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
-    - Fixed value of the `verticalFieldOfView` for the [Hokuyo UTM-30LX](../guide/lidar-sensors.md#hokuyo-utm-30lx) ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
-    - Fixed [RandomBuilding](../guide/object-buildings.md#randombuilding) PROTO where different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
-    - Fixed [PedestrianCrossing](../guide/object-traffic.md#pedestriancrossing) PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
+    - Fixed mecanum wheels [ContactProperties](contactproperties.md) in youBot worlds ([#3025](https://github.com/cyberbotics/webots/pull/3025)).
+    - Fixed value of the `verticalFieldOfView` for the Hokuyo UTM-30LX ([#2972](https://github.com/cyberbotics/webots/pull/2972)).
+    - Fixed `RandomBuilding` PROTO where different instances generated the same building ([#2897](https://github.com/cyberbotics/webots/pull/2897)).
+    - Fixed `PedestrianCrossing` PROTO model not correctly displaying the yellow stripes ([#2857](https://github.com/cyberbotics/webots/pull/2857)).
     - **Changed ROS message type published by the [Camera Recognition Objects](camera.md#wb_camera_recognition_get_objects) node that now sends a single message including all the recognized objects ([#3234](https://github.com/cyberbotics/webots/pull/3234))**.
     - **Changed ROS data type of [`/supervisor/node/get_type_name`](supervisor.md#wb_supervisor_node_get_type_name) service that now uses `webots_ros::node_get_name` instead of `webots_ros::node_get_type_name` ([#3202](https://github.com/cyberbotics/webots/pull/3202))**.
     - Fixed incorrect resetting of [PointLight](pointlight.md) nodes ([#3345](https://github.com/cyberbotics/webots/pull/3345)).
     - Fixed incorrect cleaning of [Light](light.md) node ([3374](https://github.com/cyberbotics/webots/pull/3374)).
     - Fixed crash provoked by canceling and switching world in the Guided Tour ([#3376](https://github.com/cyberbotics/webots/pull/3376)).
     - Fixed the path to the python command on macOS ([#3402](https://github.com/cyberbotics/webots/pull/3402)).
-    - Fixed [HighwaySign](../guide/object-traffic.md#highwaysign) PROTO not displaying the texture ([#3407](https://github.com/cyberbotics/webots/pull/3407)).
+    - Fixed `HighwaySign` PROTO not displaying the texture ([#3407](https://github.com/cyberbotics/webots/pull/3407)).
     - Fixed the transparency of [Material](material.md) and [PBRAppearance](pbrappearance.md) such that the object are no longer visible to cameras when completely transparent ([#3436](https://github.com/cyberbotics/webots/pull/3436)).
   - Cleanup
     - Deleted deprecated DifferentialWheels node ([#2749](https://github.com/cyberbotics/webots/pull/2749)).
@@ -179,12 +179,12 @@ Released on December 15th, 2020.
     - Added a `data_type` parameter to a Python method [`getPointCloud`](lidar.md#wb_lidar_get_point_cloud) that retrieves a `bytearray` representation of points a few times faster than the previous version.
   - Enhancements
     - Added support for Python 3.9 ([#2318](https://github.com/cyberbotics/webots/pull/2079)).
-    - Improved [Solid](solid.md).`recognitionColors` value for the [BiscuitBox](../guide/object-kitchen.md#biscuitbox) PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
+    - Improved [Solid](solid.md).`recognitionColors` value for the `BiscuitBox` PROTO model ([#2401](https://github.com/cyberbotics/webots/pull/2401)).
     - Improved documentation of [Camera](camera.md) image format and how to show the image retrieved through the [Camera](camera.md) API in a [Display](display.md) device ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
     - The [Lidar](lidar.md) and [RangeFinder](rangefinder.md) devices now return infinity when the depth is out of range ([#2509](https://github.com/cyberbotics/webots/pull/2509)).
   - Bug fixes
     - **Fixed reversed pixel bytes order for [Display](display.md) images loaded with [`wb_display_image_new`](display.md#wb_display_image_new)** ([#2452](https://github.com/cyberbotics/webots/pull/2452)).
-    - **Fixed cube, compact and flat texture mappings of [TexturedParallelepiped](../guide/object-geometries.md#texturedparallelepiped) proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
+    - **Fixed cube, compact and flat texture mappings of `TexturedParallelepiped` proto** ([#2364](https://github.com/cyberbotics/webots/pull/2364)).
     - macOS: Fixed ability to inverse the distance sensor condition in BotStudio with the e-puck robot ([#2391](https://github.com/cyberbotics/webots/pull/2391)).
     - Fixed crash in the Python [Display.imageNew](display.md#wb_display_image_new) function when passing the image data in string/bytes format ([#2443](https://github.com/cyberbotics/webots/pull/2443)).
     - Fixed crash in the [Supervisor](supervisor.md) API occurring when [setting](supervisor.md#wb_supervisor_field_set_mf_bool) an item of a multiple field just before [inserting](supervisor.md#wb_supervisor_field_insert_mf_bool) or [removing](supervisor.md#wb_supervisor_field_remove_mf) an item in the same field during the same controller step ([#2366](https://github.com/cyberbotics/webots/pull/2366)).

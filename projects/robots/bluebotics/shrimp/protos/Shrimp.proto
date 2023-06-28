@@ -1,13 +1,14 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/shrimp
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/bluebotics/shrimp/protos/Shrimp.proto
+# keywords: robot/wheeled
 # The "Shrimp" robot is a mobile platform for rough terrain from Bluebotics.
 # It has 6 wheels and a passive structure that adapts to the terrain profile and climbs obstacles.
 
 PROTO Shrimp [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Shrimp"    # Is `Solid.name`.
   field SFString   controller      "shrimp"    # Is `Robot.controller`.
   field SFString   window          "<generic>" # Is `Robot.window`.
@@ -34,7 +35,7 @@ PROTO Shrimp [
       }
       Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 0.159
             children [
               DEF BASE Shape {
@@ -62,13 +63,13 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.0 0.226
             children [
               USE BASE
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.131 0.193
             children [
               DEF LATERAL_SUPPORT Shape {
@@ -79,25 +80,25 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.131 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
-          Transform {
+          Pose {
             translation 0.062 0.013 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
-          Transform {
+          Pose {
             translation 0.062 -0.013 0.193
             children [
               USE LATERAL_SUPPORT
             ]
           }
-          Transform {
+          Pose {
             translation -0.161 -0.0 0.193
             children [
               Shape {
@@ -108,7 +109,7 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.034 -0.0 0.1455
             children [
               Shape {
@@ -119,7 +120,7 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.1745 0.011 0.173
             children [
               DEF FRONT_WHEEL_LATERAL_SUPPORT Shape {
@@ -130,13 +131,13 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.1745 -0.011 0.173
             children [
               USE FRONT_WHEEL_LATERAL_SUPPORT
             ]
           }
-          Transform {
+          Pose {
             translation -0.186 -0.0 0.1755
             rotation 0 1 0 0.478
             children [
@@ -150,7 +151,7 @@ PROTO Shrimp [
           }
           DEF ROTATIONAL_MOTOR Group {
             children [
-              Transform {
+              Pose {
                 translation -0.234 0 0.138
                 children [
                   Shape {
@@ -161,7 +162,7 @@ PROTO Shrimp [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.23 0.011 0.153
                 children [
                   DEF MOTOR_SUPPORT Shape {
@@ -172,13 +173,13 @@ PROTO Shrimp [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.23 -0.011 0.153
                 children [
                   USE MOTOR_SUPPORT
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.236 -0.0 0.178
                 children [
                   DEF MOTOR Shape {
@@ -195,7 +196,7 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0 -0.14 0.2195
             rotation 1 0 0 1.57
             children [
@@ -209,35 +210,35 @@ PROTO Shrimp [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0 -0.14 0.1695
             rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.14 0.2195
             rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.14 0.1695
             rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
-          Transform {
+          Pose {
             translation 0.053 -0.0 0.2195
             rotation 1 0 0 1.57
             children [
               USE BOGIE_AXE
             ]
           }
-          Transform {
+          Pose {
             translation 0.072 -0.0 0.1695
             rotation 1 0 0 1.57
             children [
@@ -263,7 +264,7 @@ PROTO Shrimp [
           children [
             DEF ROTATIONAL_SUPPORT Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0.013 -0.009
                   children [
                     Shape {
@@ -274,7 +275,7 @@ PROTO Shrimp [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0.0285 -0.0425
                   children [
                     Shape {
@@ -285,7 +286,7 @@ PROTO Shrimp [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0.02 -0.08
                   rotation 1 0 0 1.57
                   children [
@@ -320,7 +321,7 @@ PROTO Shrimp [
                 children [
                   DEF WHEEL Group {
                     children [
-                      Transform {
+                      Pose {
                         rotation 1 0 0 1.57
                         children [
                           Shape {
@@ -333,7 +334,7 @@ PROTO Shrimp [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 -0.02 0
                         rotation 1 0 0 1.57
                         children [
@@ -356,7 +357,7 @@ PROTO Shrimp [
                     ]
                   }
                 ]
-                boundingObject DEF BOUNDING_WHEEL Transform {
+                boundingObject DEF BOUNDING_WHEEL Pose {
                   translation 0 -0.004 0
                   rotation 1 0 0 1.57
                   children [
@@ -379,7 +380,7 @@ PROTO Shrimp [
           name "back wheel"
           boundingObject DEF BOUNDING_ROTATIONAL_SUPPORT Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0.013 -0.0425
                 children [
                   Shape {
@@ -389,7 +390,7 @@ PROTO Shrimp [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.02 -0.08
                 rotation 1 0 0 1.57
                 children [
@@ -428,7 +429,7 @@ PROTO Shrimp [
         endPoint DEF UPPER_RIGHT_BOGIE Solid {
           translation 0 -0.1465 0.2195
           children [
-            Transform {
+            Pose {
               children [
                 DEF BOGIE_HORIZONTAL Shape {
                   appearance USE BLUE
@@ -446,7 +447,7 @@ PROTO Shrimp [
               endPoint DEF BACK_RIGHT_BOGIE Solid {
                 translation -0.089 0 -0.2195
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0 0.147
                     children [
                       DEF BOGIE_VERTICAL Shape {
@@ -457,7 +458,7 @@ PROTO Shrimp [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0165 0.058
                     rotation 1 0 0 1.57
                     children [
@@ -491,13 +492,13 @@ PROTO Shrimp [
                 name "back right bogie"
                 boundingObject DEF BOUNDING_BOGIE_VERTICAL_AXE Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 -0.0 0.147
                       children [
                         USE BOUNDING_BOGIE_VERTICAL
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.0165 0.058
                       rotation 1 0 0 1.57
                       children [
@@ -527,13 +528,13 @@ PROTO Shrimp [
               endPoint DEF FRONT_RIGHT_BOGIE Solid {
                 translation 0.089 0.0 -0.2195
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0 0.147
                     children [
                       USE BOGIE_VERTICAL
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0165 0.058
                     rotation 1 0 0 1.57
                     children [
@@ -595,7 +596,7 @@ PROTO Shrimp [
         endPoint DEF LOWER_RIGHT_BOGIE Solid {
           translation 0 -0.1465 0.1695
           children [
-            Transform {
+            Pose {
               children [
                 USE BOGIE_HORIZONTAL
               ]
@@ -634,7 +635,7 @@ PROTO Shrimp [
         endPoint DEF UPPER_LEFT_BOGIE Solid {
           translation 0 0.1465 0.2195
           children [
-            Transform {
+            Pose {
               children [
                 DEF BOGIE_HORIZONTAL Shape {
                   appearance USE BLUE
@@ -651,7 +652,7 @@ PROTO Shrimp [
                 translation -0.089 0 -0.2195
                 rotation 0 0 1 3.1415
                 children [
-                  Transform {
+                  Pose {
                     translation 0 -0.0 0.147
                     children [
                       DEF BOGIE_VERTICAL Shape {
@@ -660,7 +661,7 @@ PROTO Shrimp [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0165 0.058
                     rotation 1 0 0 1.57
                     children [
@@ -705,13 +706,13 @@ PROTO Shrimp [
                 translation 0.089 0.0 -0.2195
                 rotation 0 0 1 3.1415
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0 0.147
                     children [
                       USE BOGIE_VERTICAL
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 -0.0165 0.058
                     rotation 1 0 0 1.57
                     children [
@@ -763,7 +764,7 @@ PROTO Shrimp [
         endPoint DEF LOWER_LEFT_BOGIE Solid {
           translation 0 0.1465 0.1695
           children [
-            Transform {
+            Pose {
               children [
                 USE BOGIE_HORIZONTAL
               ]
@@ -803,7 +804,7 @@ PROTO Shrimp [
           translation 0.102 -0.0 0.2445
           rotation 0 -1 0 0.4712
           children [
-            Transform {
+            Pose {
               translation -0.0025 0 0
               children [
                 Shape {
@@ -823,7 +824,7 @@ PROTO Shrimp [
                 translation 0.1022 0.0 -0.1716
                 rotation 0 1 0 0.4712
                 children [
-                  Transform {
+                  Pose {
                     translation -0.0813 0 0.0613
                     rotation 0 1 0 1.04845
                     children [
@@ -833,7 +834,7 @@ PROTO Shrimp [
                           size 0.175 0.02 0.015
                         }
                       }
-                      DEF LOGO Transform {
+                      DEF LOGO Pose {
                         translation -0.035 0 0.0085
                         children [
                           Shape {
@@ -872,7 +873,7 @@ PROTO Shrimp [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.251 0.0 -0.138
                     rotation 0 0 1 3.1415
                     children [
@@ -925,7 +926,7 @@ PROTO Shrimp [
                 name "front fork"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.0813 0 0.0613
                       rotation 0 1 0 1.04845
                       children [
@@ -936,7 +937,7 @@ PROTO Shrimp [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.015 0 0.027
                       children [
                         Shape {
@@ -970,7 +971,7 @@ PROTO Shrimp [
                 translation 0.0192 0 -0.0196
                 rotation 0 1 0 -0.20808
                 children [
-                  DEF RIGHT_SPRING Transform {
+                  DEF RIGHT_SPRING Pose {
                     translation 0 0.015 0
                     children [
                       DEF SPRING Shape {
@@ -983,7 +984,7 @@ PROTO Shrimp [
                       }
                     ]
                   }
-                  DEF LEFT_SPRING Transform {
+                  DEF LEFT_SPRING Pose {
                     translation 0 -0.015 0
                     children [
                       USE SPRING
@@ -993,13 +994,13 @@ PROTO Shrimp [
                 name "upper springs"
                 boundingObject DEF BOUNDING_SPRINGS Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 -0.015 0
                       children [
                         USE SPRING
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0.015 0
                       children [
                         USE SPRING
@@ -1015,7 +1016,7 @@ PROTO Shrimp [
             }
           ]
           name "upper fork"
-          boundingObject Transform {
+          boundingObject Pose {
             children [
               Shape {
                 geometry Box {
@@ -1046,7 +1047,7 @@ PROTO Shrimp [
           translation 0.1288 -0.0 0.1888
           rotation 0 1 0 -0.3506
           children [
-            Transform {
+            Pose {
               translation -0.0025 0 0
               children [
                 Shape {
@@ -1113,7 +1114,7 @@ PROTO Shrimp [
     ]
     boundingObject DEF BOUNDING_BODY Group {
       children [
-        Transform {
+        Pose {
           translation 0.005 -0.0 0.193
           children [
             Shape {
@@ -1123,7 +1124,7 @@ PROTO Shrimp [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.109 -0.0523 0.193
           rotation 0 0 1 0.578
           children [
@@ -1134,14 +1135,14 @@ PROTO Shrimp [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.109 0.0523 0.193
           rotation 0 0 1 -0.578
           children [
             USE BOUNDING_BASE
           ]
         }
-        Transform {
+        Pose {
           translation 0.034 0 0.1455
           children [
             Shape {
@@ -1151,7 +1152,7 @@ PROTO Shrimp [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.1 0 0.193
           children [
             Shape {
@@ -1161,7 +1162,7 @@ PROTO Shrimp [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.186 0 0.1755
           rotation 0 1 0 0.478
           children [
@@ -1172,7 +1173,7 @@ PROTO Shrimp [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.236 0 0.165
           children [
             Shape {

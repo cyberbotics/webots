@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -158,7 +158,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   if (sfnode && sfnode->value() != NULL)
     // clear selection and set mSelectedItem to NULL
-    WbSelection::instance()->selectTransformFromView3D(NULL);
+    WbSelection::instance()->selectPoseFromView3D(NULL);
 
   // read node
   WbNode::setGlobalParentNode(parentNode);
@@ -226,7 +226,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
   newNode->setParentNode(parentNode);
-  WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
+  WbNode *upperTemplate = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
   // insert in parent field
@@ -242,8 +242,14 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   } else {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
-    if (sfnode)
-      sfnode->setValue(newNode);
+    if (sfnode) {
+      if (isInsideATemplateRegenerator) {
+        sfnode->blockSignals(true);  // otherwise, the node regeneration is called too early
+        sfnode->setValue(newNode);
+        upperTemplate->regenerateNode();
+      } else
+        sfnode->setValue(newNode);
+    }
   }
   mNodesAreAboutToBeInserted = false;
 
@@ -252,6 +258,9 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   // and the scene tree was updated
   if (isInsideATemplateRegenerator)
     return REGENERATION_REQUIRED;
+
+  if (parentNode && parentNode->isProtoInstance())
+    parentNode->redirectInternalFields(field);
 
   // update flag for PROTO nodes and their instances if any
   baseNode->updateNestedProtoFlag();
@@ -263,7 +272,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
-    WbTemplateManager::instance()->subscribe(newNode);
+    WbTemplateManager::instance()->subscribe(newNode, WbTemplateManager::isNodeChangeTriggeringRegeneration(baseNode));
 
   updateDictionary(baseNode->isUseNode(), baseNode);
 
@@ -271,6 +280,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 }
 
 void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
+  const QList<WbNode *> instances = node->protoParameterNodeInstances();
+  if (!instances.isEmpty()) {
+    foreach (WbNode *n, instances)
+      resolveSolidNameClashIfNeeded(n);
+    return;
+  }
   QList<WbSolid *> solidNodes;
   WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
   if (solidNode)
@@ -296,9 +311,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
-
-  bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
+  const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
   WbField *parentField = node->parentField();
   assert(parentField);
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());
@@ -329,15 +342,16 @@ void WbNodeOperations::requestUpdateDictionary() {
   updateDictionary(false, NULL);
 }
 
-void WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
+bool WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
   mSkipUpdates = true;
   WbNode::setDictionaryUpdateFlag(true);
   WbDictionary *dictionary = WbDictionary::instance();
-  dictionary->update(load);  // update all DEF-USE dependencies
+  const bool regenerationRequired = dictionary->update(load);  // update all DEF-USE dependencies
   if (protoRoot && !protoRoot->isUseNode())
     dictionary->updateProtosPrivateDef(protoRoot);
   WbNode::setDictionaryUpdateFlag(false);
   mSkipUpdates = false;
+  return regenerationRequired;
 }
 
 void WbNodeOperations::requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef) {
@@ -369,8 +383,8 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
 }
 
-void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
-  if (field->isDefault())
+void WbNodeOperations::updateExternProtoDeclarations(WbField *modifiedField) {
+  if (modifiedField->isDefault())
     return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
 
   WbNode *modifiedNode = static_cast<WbNode *>(sender());

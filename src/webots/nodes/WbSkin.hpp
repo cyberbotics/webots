@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
 #ifndef WB_SKIN_HPP
 #define WB_SKIN_HPP
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
@@ -30,7 +30,7 @@ struct WrRenderable;
 struct WrSkeleton;
 struct WrStaticMesh;
 
-class WbSkin : public WbBaseNode, public WbAbstractTransform, public WbDevice {
+class WbSkin : public WbBaseNode, public WbAbstractPose, public WbDevice {
   Q_OBJECT
 
 public:
@@ -55,24 +55,8 @@ public:
   void reset(const QString &id) override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
-  void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
-  void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }
-  int constraintType() const override;
-
-  // resize/scale manipulator
-  bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  virtual void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
-  }
-
-  // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
+  void setScaleNeedUpdate() override;
+  void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
 
   void emitTranslationOrRotationChangedByUser() override {}
 
@@ -119,6 +103,14 @@ private:
   WbRotation *mBoneOrientationRequest;
   bool mBonesWarningPrinted;
 
+  WbSFVector3 *mScale;
+  double mPreviousXscaleValue;
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
+
+  // WREN manipulators
+  void sanitizeScale();
+
   // Ray tracing
   mutable WbBoundingSphere *mBoundingSphere;
 
@@ -133,21 +125,24 @@ private:
 
   QString modelPath() const;
   void updateModel();
-  void applyToScale() override;
+  void applyToScale();
+  void applyScaleToWren();
 
   void setSegmentationColor(const WbRgb &color);
+
+  void updateAbsoluteScale() const;
+  const WbVector3 &absoluteScale() const;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  virtual void updateScale(bool warning = false);
+  virtual void updateScale();
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  void showResizeManipulator(bool enabled) override;
   void updateOptionalRendering(int option);
   void downloadUpdate();
 };

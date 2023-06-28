@@ -22,11 +22,18 @@ prepositions = [
     # 'following' is missing but is problematic.
 ]
 articles = [
-    'a', 'an', 'the', 'some',
+    'a', 'an', 'the', 'some', 'my', 'our', 'your', 'their', 'this', 'that'
     's'  # For possessive form.
 ]
 conjunctions = [
-    'and', 'but', 'for', 'nor', 'or', 'so', 'yet'
+    'and', 'but', 'for', 'nor', 'not', 'or', 'so', 'yet'
+]
+verbs = [
+    'is', 'are', 'has', 'have', 'had', 'do', 'does', 'can', 'could', 'would', 'need', 'needs', 'needed', 'use', 'uses', 'used',
+    'get', 'gets', 'got', 'know', 'knows', 'knew', 'may', 'might'
+]
+adjectives = [
+    'own'
 ]
 
 
@@ -91,9 +98,14 @@ class TestTitles(unittest.TestCase):
             title = re.sub(r'".+?(?=")"', '', title)  # Remove double-quoted statements.
             title = re.sub(r'`.+?(?=`)`', '', title)  # Remove code-quoted statements.
             title = re.sub(r'\]\(.+?(?=\))\)', '', title)  # Remove ]() links.
-            words = re.split(r'[ :\(\),/\?\']', title)
+            words = re.split(r'[ \(\),/\?\']', title)
             for w in range(len(words)):
                 word = words[w]
+                if w > 0 and words[w - 1] != '' and words[w - 1][-1] == ':':
+                    # if the previous word ends with ':', we are fine with a capital letter
+                    self.assertTrue(not word[0].islower(), msg='%s: No uppercase after colon in title "%s".' %
+                                    (t['md'], t['title']))
+                    continue
                 if (not word or word.startswith('wb') or word.endswith('.wbt') or word.endswith('.wbt]') or
                         word in exceptions or numberPattern.match(word) or len(word) == 1 or
                         len(re.findall(r'[^\w\s,]', word)) > 0):  # word contains some emoji
@@ -101,12 +113,12 @@ class TestTitles(unittest.TestCase):
                 if w == 0:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: First word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
+                elif not word.isupper() and word.lower() in articles + conjunctions + prepositions + verbs + adjectives:
+                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
+                                    (t['md'], word, t['title']))
                 elif w == len(words) - 1:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: Last word of title "%s" is not in uppercase.' %
                                     (t['md'], t['title']))
-                elif word.lower() in articles or word.lower() in conjunctions or word.lower() in prepositions:
-                    self.assertTrue(lowercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in lowercase.' %
-                                    (t['md'], word, t['title']))
                 else:
                     self.assertTrue(uppercasePattern.match(word), msg='%s: word "%s" of title "%s" is not in uppercase.' %
                                     (t['md'], word, t['title']))

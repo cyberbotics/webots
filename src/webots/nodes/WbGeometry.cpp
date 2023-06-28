@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbVector4.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -85,7 +86,7 @@ WbGeometry::WbGeometry(const WbNode &other) : WbBaseNode(other) {
 WbGeometry::~WbGeometry() {
   delete mResizeManipulator;
   if (mOdeGeom)
-    destroyOdeObjects();  // for WbGeometries lying in a boundinObject
+    destroyOdeObjects();  // for WbGeometries lying in a boundingObject
   delete mOdeMass;
   delete mBoundingSphere;
 
@@ -158,7 +159,7 @@ dGeomID WbGeometry::createOdeGeom(dSpaceID space) {
 }
 
 void WbGeometry::checkFluidBoundingObjectOrientation() {
-  const WbMatrix3 &m = upperTransform()->rotationMatrix();
+  const WbMatrix3 &m = upperPose()->rotationMatrix();
   const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
   const double alpha = zAxis.angle(-g);
@@ -470,7 +471,10 @@ void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
   if (!areOdeObjectsCreated())
     createOdeObjects();
 
+  if (mOdeGeom)
+    dGeomDestroy(mOdeGeom);
   mOdeGeom = geom;
+
   WbSolid *s = dynamic_cast<WbSolid *>(matterAncestor);
   if (s)
     dGeomSetData(geom, new WbOdeGeomData(s, this));
@@ -480,20 +484,20 @@ void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
 
 // Utility functions
 
-WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbTransform lying in the same boundingObject if it does
+WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbPose lying in the same boundingObject if it does
                                                  // exist, otherwise the WbGeometry itself
-  WbTransform *const ut = upperTransform();
-  return ut->isInBoundingObject() ? static_cast<WbBaseNode *>(ut) : static_cast<WbBaseNode *>(this);
+  WbPose *const up = upperPose();
+  return up->isInBoundingObject() ? static_cast<WbBaseNode *>(up) : static_cast<WbBaseNode *>(this);
 }
 
 const WbVector3 WbGeometry::absoluteScale() const {
-  const WbTransform *const ut = upperTransform();
-  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbTransform *const up = upperTransform();
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 WbVector3 WbGeometry::absolutePosition() const {
-  const WbTransform *const ut = upperTransform();
-  return ut ? ut->position() : WbVector3();
+  const WbPose *const up = upperPose();
+  return up ? up->position() : WbVector3();
 }
 
 void WbGeometry::computeCastShadows(bool enabled) {
@@ -557,8 +561,8 @@ bool WbGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
   if (!isInBoundingObject())
     return false;
 
-  const WbTransform *const ut = upperTransform();
-  if (ut && ut->isInBoundingObject() && ut->geometry() != this)
+  const WbPose *const up = upperPose();
+  if (up && up->isInBoundingObject() && up->geometry() != this)
     return false;
 
   if (checkOde && mOdeGeom == NULL)
@@ -585,15 +589,15 @@ bool WbGeometry::exportNodeHeader(WbWriter &writer) const {
 ////////////////////////////////
 
 WbMatrix4 WbGeometry::matrix() const {
-  const WbTransform *ut = upperTransform();
-  if (!ut)
+  const WbPose *up = upperPose();
+  if (!up)
     return WbMatrix4();
-  if (!ut->isInBoundingObject())
-    return ut->matrix();
+  if (!up->isInBoundingObject())
+    return up->matrix();
   else {
-    const WbMatrix4 &matrix4 = ut->vrmlMatrix();
-    ut = ut->upperTransform();
-    return ut->matrix() * matrix4;
+    const WbMatrix4 &matrix4 = up->vrmlMatrix();
+    up = up->upperPose();
+    return up->matrix() * matrix4;
   }
 }
 

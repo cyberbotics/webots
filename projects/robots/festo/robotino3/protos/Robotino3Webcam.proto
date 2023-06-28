@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3Webcam.proto
+# keywords: robot/extension, sensor/camera
 # This is a PROTO file for Webots of a webcam for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # The model is based on the Logitech® HD Pro Webcam C920.
@@ -32,7 +34,7 @@ PROTO Robotino3Webcam [
         height IS height
         near 0.02
       }
-      DEF WEBCAM Transform {
+      DEF WEBCAM Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -69,7 +71,7 @@ PROTO Robotino3Webcam [
           }
         ]
       }
-      DEF MOUNTING_SCREW Transform {
+      DEF MOUNTING_SCREW Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -92,7 +94,7 @@ PROTO Robotino3Webcam [
           }
         ]
       }
-      DEF HOLDER Transform {
+      DEF HOLDER Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -113,7 +115,7 @@ PROTO Robotino3Webcam [
           }
         ]
       }
-      DEF FIXATION Transform {
+      DEF FIXATION Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -137,7 +139,7 @@ PROTO Robotino3Webcam [
     ]
     boundingObject Group {
       children [
-        DEF BO_SCREW_1 Transform {
+        DEF BO_SCREW_1 Pose {
           translation 0 -0.041 0.2195
           rotation 1 0 0 -1.5708
           children [
@@ -147,7 +149,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_SCREW_2 Transform {
+        DEF BO_SCREW_2 Pose {
           translation 0 -0.033 0.2195
           rotation 1 0 0 -1.5708
           children [
@@ -157,7 +159,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_SCREW_3 Transform {
+        DEF BO_SCREW_3 Pose {
           translation 0 -0.0232 0.2195
           rotation 1 0 0 -1.5708
           children [
@@ -167,7 +169,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_FIXATION_1 Transform {
+        DEF BO_FIXATION_1 Pose {
           translation 0 -0.0287 0.2223
           children [
             Box {
@@ -175,7 +177,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_FIXATION_2 Transform {
+        DEF BO_FIXATION_2 Pose {
           translation 0 -0.034 0.2322
           children [
             Box {
@@ -183,7 +185,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_FIXATION_3 Transform {
+        DEF BO_FIXATION_3 Pose {
           translation 0 -0.0392 0.2478
           children [
             Box {
@@ -191,7 +193,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_WEBCAM Transform {
+        DEF BO_WEBCAM Pose {
           translation 0 -0.108 0.303
           children [
             Box {
@@ -199,7 +201,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_HOLDER_1 Transform {
+        DEF BO_HOLDER_1 Pose {
           translation 0 -0.1057 0.282
           children [
             Box {
@@ -207,7 +209,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_HOLDER_2 Transform {
+        DEF BO_HOLDER_2 Pose {
           translation 0 -0.078 0.2895
           children [
             Box {
@@ -215,7 +217,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_HOLDER_3 Transform {
+        DEF BO_HOLDER_3 Pose {
           translation 0 -0.0454 0.2616
           children [
             Box {
@@ -223,7 +225,7 @@ PROTO Robotino3Webcam [
             }
           ]
         }
-        DEF BO_HOLDER_4 Transform {
+        DEF BO_HOLDER_4 Pose {
           translation 0 -0.0345 0.2567
           rotation 1 0 0 -1.5708
           children [

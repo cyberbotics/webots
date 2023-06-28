@@ -10,7 +10,7 @@ More detailed explanations can be found in the source code.
 
 - [Demos](samples-demos.md)
 - [Devices](samples-devices.md)
-- [How To](samples-howto.md)
+- [How to](samples-howto.md)
 - [Geometries](samples-geometries.md)
 - [Environments](samples-environments.md)
 - [Rendering](samples-rendering.md)

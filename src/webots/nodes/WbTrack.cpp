@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -69,14 +69,7 @@ WbTrack::WbTrack(WbTokenizer *tokenizer) : WbSolid("Track", tokenizer) {
   init();
 }
 
-WbTrack::WbTrack(const WbTrack &other) :
-  WbSolid(other),
-  mWheelsList(),
-  mPathList(),
-  mAnimatedObjectList(),
-  mBeltElements(),
-  mBeltPositions(),
-  mWrenNodes() {
+WbTrack::WbTrack(const WbTrack &other) : WbSolid(other) {
   init();
 }
 
@@ -135,6 +128,7 @@ void WbTrack::postFinalize() {
     device->postFinalize();
   }
   connect(mDeviceField, &WbMFNode::changed, this, &WbTrack::updateDevices);
+  connect(mDeviceField, &WbMFNode::itemChanged, this, &WbTrack::addDevice);
   connect(mDeviceField, &WbMFNode::itemInserted, this, &WbTrack::addDevice);
 
   if (childCount() > 0) {
@@ -256,7 +250,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
 
     WbGroup *g = dynamic_cast<WbGroup *>(node);
     if (g) {
-      // group or transform nodes
+      // group, pose or transform nodes
       if (connectSignals) {
         connect(g, &WbGroup::finalizedChildAdded, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
         connect(g->childrenField(), &WbMFNode::itemRemoved, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
@@ -264,10 +258,10 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
       for (int j = 0; j < g->childCount(); ++j)
         geometryNodes.append(g->child(j));
 
-      WbTransform *t = dynamic_cast<WbTransform *>(g);
+      WbPose *t = dynamic_cast<WbPose *>(g);
       if (t) {
         t->enablePoseChangedSignal();
-        connect(t, &WbTransform::poseChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
+        connect(t, &WbPose::poseChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
       }
 
       continue;
@@ -325,7 +319,6 @@ void WbTrack::updateTextureTransform() {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
       mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
-      mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbVrmlNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
         mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."
@@ -516,8 +509,6 @@ void WbTrack::updateAnimatedGeometries() {
   double stepSize = 0;
   mBeltPositions.reserve(numGeometries);
   BeltPosition beltPosition = mFirstGeometryPosition;
-  const double s = absoluteScale().x();
-  const WbMatrix4 invMatrix = matrix().inversedTransform(s, s, s);
 
   for (int i = 0; i < numGeometries; ++i) {
     beltPosition = computeNextGeometryPosition(beltPosition, stepSize);
@@ -539,16 +530,13 @@ void WbTrack::updateAnimatedGeometries() {
     for (int j = 0; j < mAnimatedObjectList.size(); ++j) {
       WbGeometry *geom = mAnimatedObjectList[j]->geometry;
 
-      WbMatrix4 geomMatrix = geom->matrix() * invMatrix;
+      WbMatrix4 geomMatrix = geom->matrix() * matrix().pseudoInversed();
 
       geomMatrix.translation().toFloatArray(p);
-      float scale[3];
-      geomMatrix.scale().toFloatArray(scale);
       WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(r);
 
       WrTransform *meshTransform = wr_transform_new();
       wr_transform_set_position(meshTransform, p);
-      wr_transform_set_scale(meshTransform, scale);
       wr_transform_set_orientation(meshTransform, r);
 
       WrRenderable *renderable = wr_renderable_new();
@@ -889,7 +877,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
     QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
   if (writer.isX3d())
-    writer << "<Transform role='animatedGeometry'>";
+    writer << "<Pose role='animatedGeometry'>";
   else {
     writer.indent();
     writer << "Transform {\n";
@@ -907,7 +895,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
   node->write(writer);
 
   if (writer.isX3d())
-    writer << "</Transform>";
+    writer << "</Pose>";
   else {
     writer.indent();
     writer << "]\n";

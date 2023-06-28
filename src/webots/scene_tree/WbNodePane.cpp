@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,9 @@
 #include "WbField.hpp"
 #include "WbNodeEditor.hpp"
 #include "WbPhysicsViewer.hpp"
+#include "WbPose.hpp"
 #include "WbPositionViewer.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"
 #include "WbVelocityViewer.hpp"
 
 #include <QtWidgets/QHBoxLayout>
@@ -36,7 +36,8 @@ WbNodePane::WbNodePane(QWidget *parent) :
   mNodeEditor(new WbNodeEditor()),
   mPhysicsViewer(new WbPhysicsViewer()),
   mPositionViewer(new WbPositionViewer()),
-  mVelocityViewer(new WbVelocityViewer()) {
+  mVelocityViewer(new WbVelocityViewer()),
+  mPreviousTabName(cTabNames[NODE_TAB]) {
   // tabs added only when this editor has focus
   // otherwise they affects the minimum size of other editors
   mLayout->addWidget(mTabs, 1, 1);
@@ -89,11 +90,11 @@ void WbNodePane::stopEditing() {
   mPositionViewer->clean();
   mVelocityViewer->clean();
   mNodeEditor->cleanValue();
+  // save last selected tab to restore it when a different node is selected
+  mPreviousTabName = mTabs->tabText(mTabs->currentIndex());
   // remove tabs
   disconnect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
-  int tabsCount = mTabs->count();
-  for (int i = 0; i < tabsCount; ++i)
-    mTabs->removeTab(0);
+  mTabs->clear();
   connect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
 }
 
@@ -114,7 +115,7 @@ void WbNodePane::edit(bool copyOriginalValue) {
     mNodeEditor->edit(false);
     enableTab(NODE_TAB, mNodeEditor, true);
 
-    WbTransform *t = dynamic_cast<WbTransform *>(node);
+    WbPose *t = dynamic_cast<WbPose *>(node);
     WbSolid *s = dynamic_cast<WbSolid *>(node);
     mPhysicsViewer->show(s);
     mPositionViewer->show(t);
@@ -159,13 +160,15 @@ void WbNodePane::enableTab(int index, QWidget *widget, bool enabled) {
     }
   }
 
-  int insertIndex = index;
-  if (insertIndex > mTabs->count())
-    insertIndex = mTabs->count();
-
   if (enabled) {
-    if (!tabExists)
-      mTabs->insertTab(insertIndex, widget, cTabNames[index]);
+    if (!tabExists) {
+      if (i > mTabs->count())
+        i = mTabs->count();
+      mTabs->insertTab(i, widget, cTabNames[index]);
+    }
+    if (cTabNames[index] == mPreviousTabName)
+      // restore previously selected tab
+      mTabs->setCurrentIndex(i);
   } else if (tabExists)
     mTabs->removeTab(i);
 }

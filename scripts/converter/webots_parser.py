@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,7 @@ class WebotsParser:
     def load(self, filename):
         with open(filename, 'r') as self.file:
             self.content['header'] = []
+            self.content['externprotos'] = []
             self.line_count = 0
 
             self.content['header'] = []
@@ -40,6 +41,9 @@ class WebotsParser:
                 if line.startswith('#') or not line.strip():
                     self.line_count += 1
                     self.content['header'].append(line.strip())
+                elif line.startswith('EXTERNPROTO') or line.startswith('IMPORTABLE EXTERNPROTO'):
+                    self.line_count += 1
+                    self.content['externprotos'].append(line.strip())
                 else:
                     self.file.seek(revert_position)
                     self.line_count = revert_line_count
@@ -60,6 +64,8 @@ class WebotsParser:
         with open(filename, 'w', newline='\n') as self.file:
             for header_line in self.content['header']:
                 self.file.write(header_line + '\n')
+            for externproto_line in self.content['externprotos']:
+                self.file.write(externproto_line + '\n')
             for node in self.content['root']:
                 if node['type'] == 'node':
                     self._write_node(node)
@@ -188,6 +194,10 @@ class WebotsParser:
             return node
         else:
             node['name'] = words[0]
+
+        lastWord = words[len(words) - 1]
+        if lastWord == '}' or lastWord == '{}':
+            return node
         for line in self.file:
             line = self._prepare_line(line)
             self.line_count += 1
@@ -240,7 +250,7 @@ class WebotsParser:
         return node
 
     def _prepare_line(self, line):
-        if '%<' in line or '>%' in line:
+        if '%<' in line or '>%' in line or '%{' in line or '}%' in line:
             raise Exception(
                 f'JavaScript fragment found at line {self.line_count}. This script cannot handle JavaScript fragments.')
         return line.split('#')[0].strip()

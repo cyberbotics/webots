@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,10 +56,10 @@ static WbDeviceTag left_arm_motors[5];
 static WbDeviceTag left_arm_sensors[5];
 static WbDeviceTag right_arm_motors[5];
 static WbDeviceTag right_arm_sensors[5];
-static WbDeviceTag right_finger_motors[4];
-static WbDeviceTag right_finger_sensors[4];
-static WbDeviceTag left_finger_motors[4];
-static WbDeviceTag left_finger_sensors[4];
+static WbDeviceTag right_finger_motor;
+static WbDeviceTag right_finger_sensor;
+static WbDeviceTag left_finger_motor;
+static WbDeviceTag left_finger_sensor;
 static WbDeviceTag head_tilt_motor;
 static WbDeviceTag torso_motor;
 static WbDeviceTag torso_sensor;
@@ -121,19 +121,11 @@ static void initialize_devices() {
   for (i = SHOULDER_ROLL; i <= WRIST_ROLL; ++i)
     right_arm_sensors[i] = wb_motor_get_position_sensor(right_arm_motors[i]);
 
-  left_finger_motors[LEFT_FINGER] = wb_robot_get_device("l_gripper_l_finger_joint");
-  left_finger_motors[RIGHT_FINGER] = wb_robot_get_device("l_gripper_r_finger_joint");
-  left_finger_motors[LEFT_TIP] = wb_robot_get_device("l_gripper_l_finger_tip_joint");
-  left_finger_motors[RIGHT_TIP] = wb_robot_get_device("l_gripper_r_finger_tip_joint");
-  for (i = LEFT_FINGER; i <= RIGHT_TIP; ++i)
-    left_finger_sensors[i] = wb_motor_get_position_sensor(left_finger_motors[i]);
+  left_finger_motor = wb_robot_get_device("l_finger_gripper_motor::l_finger");
+  left_finger_sensor = wb_motor_get_position_sensor(left_finger_motor);
 
-  right_finger_motors[LEFT_FINGER] = wb_robot_get_device("r_gripper_l_finger_joint");
-  right_finger_motors[RIGHT_FINGER] = wb_robot_get_device("r_gripper_r_finger_joint");
-  right_finger_motors[LEFT_TIP] = wb_robot_get_device("r_gripper_l_finger_tip_joint");
-  right_finger_motors[RIGHT_TIP] = wb_robot_get_device("r_gripper_r_finger_tip_joint");
-  for (i = LEFT_FINGER; i <= RIGHT_TIP; ++i)
-    right_finger_sensors[i] = wb_motor_get_position_sensor(right_finger_motors[i]);
+  right_finger_motor = wb_robot_get_device("r_finger_gripper_motor::l_finger");
+  right_finger_sensor = wb_motor_get_position_sensor(right_finger_motor);
 
   head_tilt_motor = wb_robot_get_device("head_tilt_joint");
   torso_motor = wb_robot_get_device("torso_lift_joint");
@@ -174,8 +166,8 @@ static void enable_devices() {
   }
 
   for (i = 0; i < 4; ++i) {
-    wb_position_sensor_enable(left_finger_sensors[i], TIME_STEP);
-    wb_position_sensor_enable(right_finger_sensors[i], TIME_STEP);
+    wb_position_sensor_enable(left_finger_sensor, TIME_STEP);
+    wb_position_sensor_enable(right_finger_sensor, TIME_STEP);
   }
 
   for (i = 0; i < 5; ++i) {
@@ -333,17 +325,9 @@ static void robot_go_forward(double distance) {
 // If wait_on_feedback is true, the gripper is stopped either when the target is reached,
 // or either when something has been gripped
 static void set_gripper(bool left, bool open, double torqueWhenGripping, bool wait_on_feedback) {
-  WbDeviceTag motors[4];
-  motors[LEFT_FINGER] = left ? left_finger_motors[LEFT_FINGER] : right_finger_motors[LEFT_FINGER];
-  motors[RIGHT_FINGER] = left ? left_finger_motors[RIGHT_FINGER] : right_finger_motors[RIGHT_FINGER];
-  motors[LEFT_TIP] = left ? left_finger_motors[LEFT_TIP] : right_finger_motors[LEFT_TIP];
-  motors[RIGHT_TIP] = left ? left_finger_motors[RIGHT_TIP] : right_finger_motors[RIGHT_TIP];
+  WbDeviceTag motor = left ? left_finger_motor : right_finger_motor;
 
-  WbDeviceTag sensors[4];
-  sensors[LEFT_FINGER] = left ? left_finger_sensors[LEFT_FINGER] : right_finger_sensors[LEFT_FINGER];
-  sensors[RIGHT_FINGER] = left ? left_finger_sensors[RIGHT_FINGER] : right_finger_sensors[RIGHT_FINGER];
-  sensors[LEFT_TIP] = left ? left_finger_sensors[LEFT_TIP] : right_finger_sensors[LEFT_TIP];
-  sensors[RIGHT_TIP] = left ? left_finger_sensors[RIGHT_TIP] : right_finger_sensors[RIGHT_TIP];
+  WbDeviceTag finger_sensor = left ? left_finger_sensor : right_finger_sensor;
 
   WbDeviceTag contacts[2];
   contacts[LEFT_FINGER] = left ? left_finger_contact_sensors[LEFT_FINGER] : right_finger_contact_sensors[LEFT_FINGER];
@@ -352,39 +336,39 @@ static void set_gripper(bool left, bool open, double torqueWhenGripping, bool wa
   static bool firstCall = true;
   static double maxTorque = 0.0;
   if (firstCall) {
-    maxTorque = wb_motor_get_available_torque(motors[LEFT_FINGER]);
+    maxTorque = wb_motor_get_available_torque(motor);
     firstCall = false;
   }
 
   int i;
   for (i = 0; i < 4; ++i)
-    wb_motor_set_available_torque(motors[i], maxTorque);
+    wb_motor_set_available_torque(motor, maxTorque);
 
   if (open) {
     static const double targetOpenValue = 0.5;
     for (i = 0; i < 4; ++i)
-      wb_motor_set_position(motors[i], targetOpenValue);
+      wb_motor_set_position(motor, targetOpenValue);
 
     if (wait_on_feedback) {
-      while (!ALMOST_EQUAL(wb_position_sensor_get_value(sensors[LEFT_FINGER]), targetOpenValue))
+      while (!ALMOST_EQUAL(wb_position_sensor_get_value(finger_sensor), targetOpenValue))
         step();
     }
   } else {
     static const double targetCloseValue = 0.0;
     for (i = 0; i < 4; ++i)
-      wb_motor_set_position(motors[i], targetCloseValue);
+      wb_motor_set_position(motor, targetCloseValue);
 
     if (wait_on_feedback) {
       // wait until the 2 touch sensors are fired or the target value is reached
       while (
         (wb_touch_sensor_get_value(contacts[LEFT_FINGER]) == 0.0 || wb_touch_sensor_get_value(contacts[RIGHT_FINGER]) == 0.0) &&
-        !ALMOST_EQUAL(wb_position_sensor_get_value(sensors[LEFT_FINGER]), targetCloseValue)) {
+        !ALMOST_EQUAL(wb_position_sensor_get_value(finger_sensor), targetCloseValue)) {
         step();
       }
-      double current_position = wb_position_sensor_get_value(sensors[LEFT_FINGER]);
+      double current_position = wb_position_sensor_get_value(finger_sensor);
       for (i = 0; i < 4; ++i) {
-        wb_motor_set_available_torque(motors[i], torqueWhenGripping);
-        wb_motor_set_position(motors[i], fmax(0.0, 0.95 * current_position));
+        wb_motor_set_available_torque(motor, torqueWhenGripping);
+        wb_motor_set_position(motor, fmax(0.0, 0.95 * current_position));
       }
     }
   }

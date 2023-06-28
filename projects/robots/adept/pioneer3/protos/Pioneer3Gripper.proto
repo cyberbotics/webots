@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/adept/pioneer3/protos/Pioneer3Gripper.proto
+# keywords: robot/extension, actuator/gripper
 # Physics-based model of the Pioneer gripper (Adept Mobile Robotics)
 
 PROTO Pioneer3Gripper [
@@ -29,7 +31,7 @@ DEF GRIPPER_BASE Solid {
               axis -1 0 0
             }
             device LinearMotor {
-              name "left finger motor"
+              name "finger motor::left"
               maxPosition 0.1
             }
             endPoint DEF LEFT_FINGER Solid {
@@ -37,7 +39,7 @@ DEF GRIPPER_BASE Solid {
               children [
                 Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0.0015 -0.003
                       children [
                         Shape {
@@ -55,7 +57,7 @@ DEF GRIPPER_BASE Solid {
                         }
                       ]
                     }
-                    DEF LEFT_FINGER_TRANSFORM Transform {
+                    DEF LEFT_FINGER_TRANSFORM Pose {
                       translation 0.0015 -0.006 -0.069
                       children [
                         Shape {
@@ -84,7 +86,7 @@ DEF GRIPPER_BASE Solid {
               axis 1 0 0
             }
             device LinearMotor {
-              name "right finger motor"
+              name "finger motor::right"
               maxPosition 0.1
             }
             endPoint DEF RIGHT_FINGER Solid {
@@ -92,7 +94,7 @@ DEF GRIPPER_BASE Solid {
               children [
                 Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0.0015 -0.003
                       children [
                         Shape {
@@ -103,7 +105,7 @@ DEF GRIPPER_BASE Solid {
                         }
                       ]
                     }
-                    DEF RIGHT_FINGER_TRANSFORM Transform {
+                    DEF RIGHT_FINGER_TRANSFORM Pose {
                       translation -0.0015 -0.006 -0.069
                       children [
                         Shape {
@@ -122,12 +124,12 @@ DEF GRIPPER_BASE Solid {
               boundingObject USE RIGHT_FINGER_TRANSFORM
             }
           }
-          Transform {
+          Pose {
             translation 0 -0.126 0.135
             children [
               Group {
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0.1478 -0.154
                     children [
                       DEF UPPER_BOX Shape {
@@ -138,13 +140,13 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.1072 -0.154
                     children [
                       USE UPPER_BOX
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.155 0.1275 -0.154
                     children [
                       DEF LEFT_BOX Shape {
@@ -155,13 +157,13 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0.155 0.1275 -0.154
                     children [
                       USE LEFT_BOX
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.126 -0.158
                     children [
                       DEF CENTER_BOX Shape {
@@ -172,7 +174,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.132 -0.154
                     rotation -0.577349 -0.577351 0.577351 2.094397
                     children [
@@ -185,7 +187,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0 0.118 -0.154
                     rotation -0.577349 -0.577351 0.577351 2.094397
                     children [
@@ -198,7 +200,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.041 0.155 -0.148
                     children [
                       Shape {
@@ -209,7 +211,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.036 0.145 -0.116
                     children [
                       Shape {
@@ -220,7 +222,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0.041 0.155 -0.148
                     children [
                       Shape {
@@ -231,7 +233,7 @@ DEF GRIPPER_BASE Solid {
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0.036 0.145 -0.116
                     children [
                       Shape {
@@ -247,7 +249,7 @@ DEF GRIPPER_BASE Solid {
             ]
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0.0015 -0.019
           children [
             Shape {
@@ -262,13 +264,13 @@ DEF GRIPPER_BASE Solid {
         }
       }
     }
-    Transform {
+    Pose {
       translation -0.135 0 -0.126
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
         DEF BASE_SHAPE_GROUP Group {
           children [
-            Transform {
+            Pose {
               translation 0 0.176 -0.154
               children [
                 DEF UPPER_BOX Shape {
@@ -279,13 +281,13 @@ DEF GRIPPER_BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.075 -0.154
               children [
                 USE UPPER_BOX
               ]
             }
-            Transform {
+            Pose {
               translation -0.06 0.126 -0.158
               children [
                 DEF LEFT_BOX Shape {
@@ -296,13 +298,13 @@ DEF GRIPPER_BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.06 0.126 -0.158
               children [
                 USE LEFT_BOX
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.126 -0.158
               children [
                 DEF CENTER_BOX Shape {
@@ -313,7 +315,7 @@ DEF GRIPPER_BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.037 0.126 -0.158
               rotation 1 0 0 -1.570796
               children [
@@ -326,7 +328,7 @@ DEF GRIPPER_BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.037 0.126 -0.158
               rotation 1 0 0 -1.570796
               children [
@@ -340,7 +342,7 @@ DEF GRIPPER_BASE Solid {
   ]
   name IS name
   model "Pioneer3 gripper"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.019 0 0
     children [
       Box {

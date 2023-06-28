@@ -28,7 +28,7 @@ However, it is also possible to directly provide the built binaries in the corre
 
 A typical `Dockerfile` would look something like this:
 ```Dockerfile
-FROM cyberbotics/webots.cloud:R2023a-ubuntu20.04
+FROM cyberbotics/webots.cloud:{{ webots.version.major }}-ubuntu22.04
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
@@ -48,7 +48,7 @@ Please note that, for now, no compilation is possible in the IDE, thus **only th
 #### Going Further
 
 If you need to set your own containers or use customized Theia IDE, the server's owner can add or modify docker-compose.yml files.
-These files are used to specify the images to build and run, the accessible volumes, ports and more (see [docker-compose documentation](https://docs.docker.com/compose/)).
+These files are used to specify the images to build and run, the accessible volumes, ports and more (see [docker compose documentation](https://docs.docker.com/compose/)).
 The simulation server provides by default [docker-compose-default.yml](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/docker/docker-compose-default.yml) and for theia [docker-compose-theia.yml](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/docker/docker-compose-theia.yml).
 Furthermore, the simulation server provides a `docker-compose.yml` file with the following environment variables:
 

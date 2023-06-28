@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The contact points positions do not match the reference positions.");
 
   // contact points (root only) checks, new API
-  wb_supervisor_node_enable_contact_point_tracking(node, TIME_STEP, false);
+  wb_supervisor_node_enable_contact_points_tracking(node, TIME_STEP, false);
   WbContactPoint *contact_points_array = wb_supervisor_node_get_contact_points(node, false, &number_of_contact_points);
   ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS, "Wrong number of contact points.");
   for (i = 0; i < REFERENCE_NUMBER_OF_CONTACT_POINTS; i++) {
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   }
   epsilon = 0.0;
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The contact points positions do not match the reference positions.");
-  wb_supervisor_node_disable_contact_point_tracking(node, false);
+  wb_supervisor_node_disable_contact_points_tracking(node);
 
   // contact points (descendants included) checks
   number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, true);
@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
                           "Last contact point should belong to the 'SECONDARY_SOLID' node.");
 
   // contact points (descendants included) checks, new API
-  wb_supervisor_node_enable_contact_point_tracking(node, TIME_STEP, true);
+  wb_supervisor_node_enable_contact_points_tracking(node, TIME_STEP, true);
   contact_points_array = wb_supervisor_node_get_contact_points(node, true, &number_of_contact_points);
   ts_assert_boolean_equal(number_of_contact_points == REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER,
                           "Wrong number of contact points when including descendants.");
@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
       contact_points_array[REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1].node_id) ==
       wb_supervisor_node_get_from_def("SECONDARY_SOLID"),
     "Last contact point should belong to the 'SECONDARY_SOLID' node.");
-  wb_supervisor_node_disable_contact_point_tracking(node, true);
+  wb_supervisor_node_disable_contact_points_tracking(node);
 
   // The `wb_supervisor_node_get_contact_points` should also work with Slot nodes
   wb_supervisor_node_get_contact_points(wb_supervisor_node_get_from_def("SLOT_SOLID"), false, &number_of_contact_points);
@@ -104,6 +104,15 @@ int main(int argc, char **argv) {
 
   ts_assert_boolean_equal(
     stable, "The support polygon stability test returns an unstable state whereas the reference state is stable.");
+
+  // test that removing a tracked node doesn't cause a crash
+  wb_robot_step(TIME_STEP);
+  wb_supervisor_node_enable_contact_points_tracking(node, TIME_STEP, false);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_remove(node);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_get_contact_points(node, false, &number_of_contact_points);
+  wb_supervisor_node_disable_pose_tracking(node, false);
 
   ts_send_success();
   return EXIT_SUCCESS;

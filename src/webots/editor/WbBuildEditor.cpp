@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,8 +41,6 @@ WbBuildEditor *WbBuildEditor::instance() {
 
 WbBuildEditor::WbBuildEditor(QWidget *parent, const QString &toolBarAlign) :
   WbTextEditor(parent, toolBarAlign),
-  mTargetModificationTimeBeforeMake(),
-  mTargetFile(),
   mIsCleaning(false) {
   gInstance = this;
   mProcess = NULL;
@@ -122,6 +120,7 @@ void WbBuildEditor::updateBuildButtons() {
 // find the directory just above the compilationDirectories list
 const QDir WbBuildEditor::compileDir() const {
   static QStringList compilationDirectories;
+  // cppcheck-suppress knownConditionTrueFalse
   if (compilationDirectories.size() == 0) {
     compilationDirectories << "controllers";
     compilationDirectories << "libraries";
@@ -305,12 +304,14 @@ void WbBuildEditor::make(const QString &target) {
 
   // find out compilation directory
   QString compilePath = compileDir().absolutePath();
-  // On Windows, make won't work if the Makefile file is located in a path with UTF-8 characters (e.g., Chinese)
+
+  // On Windows, gcc won't work if the source file contains UTF-8 characters (e.g., Chinese)
 #ifdef _WIN32
-  if (!isJavaProgram && QString(compilePath.toUtf8()) != QString::fromLocal8Bit(compilePath.toLocal8Bit())) {
-    WbMessageBox::warning(tr("\'%1\'\n\nThe path to this Webots project contains non 8-bit characters. "
-                             "Webots won't be able to compile any C/C++ controller in this path. "
-                             "Please move this Webots project into a folder with only 8-bit characters.")
+  const QString controllerName = QFileInfo(compilePath).baseName();
+  if (!isJavaProgram && QString(controllerName.toUtf8()) != QString::fromLocal8Bit(controllerName.toLocal8Bit())) {
+    WbMessageBox::warning(tr("\'%1\'\n\nThe robot controller name contains non 8-bit characters. "
+                             "Webots won't be able to compile any C/C++ controller with such a name. "
+                             "Please rename this robot controller with only 8-bit characters.")
                             .arg(compilePath),
                           this);
     return;
@@ -386,8 +387,8 @@ void WbBuildEditor::make(const QString &target) {
   mProcess = new QProcess(this);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbBuildEditor::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbBuildEditor::readStderr);
-  void (QProcess::*processFinished)(int, QProcess::ExitStatus) = &QProcess::finished;
-  connect(mProcess, processFinished, this, &WbBuildEditor::processFinished);
+  void (QProcess::*processFinishedSignal)(int, QProcess::ExitStatus) = &QProcess::finished;
+  connect(mProcess, processFinishedSignal, this, &WbBuildEditor::processFinished);
 
   // we should clear environment variables which are used by the Makefile system as they may conflict with it
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -426,8 +427,8 @@ void WbBuildEditor::make(const QString &target) {
 
 QStringList WbBuildEditor::getJavaCommandLine(const QString &target) const {
   QDir controllerDir = compileDir();
-  QString controllerPath = controllerDir.absolutePath();
-  QString controllerName = QFileInfo(controllerPath).baseName();
+  const QString controllerPath = controllerDir.absolutePath();
+  const QString controllerName = QFileInfo(controllerPath).baseName();
   QStringList commandLine;
 
   if (target == "clean")

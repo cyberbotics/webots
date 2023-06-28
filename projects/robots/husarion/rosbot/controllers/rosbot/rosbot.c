@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,10 +59,10 @@ int main(int argc, char *argv[]) {
   wb_robot_init();
 
   /* get a handler to the motors and set target position to infinity (speed control). */
-  front_left_motor = wb_robot_get_device("front left wheel motor");
-  front_right_motor = wb_robot_get_device("front right wheel motor");
-  rear_left_motor = wb_robot_get_device("rear left wheel motor");
-  rear_right_motor = wb_robot_get_device("rear right wheel motor");
+  front_left_motor = wb_robot_get_device("fl_wheel_joint");
+  front_right_motor = wb_robot_get_device("fr_wheel_joint");
+  rear_left_motor = wb_robot_get_device("rl_wheel_joint");
+  rear_right_motor = wb_robot_get_device("rr_wheel_joint");
   wb_motor_set_position(front_left_motor, INFINITY);
   wb_motor_set_position(front_right_motor, INFINITY);
   wb_motor_set_position(rear_left_motor, INFINITY);
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   wb_range_finder_enable(camera_depth, TIME_STEP);
 
   /* get a handler to the RpLidarA2 and enable it. */
-  lidar = wb_robot_get_device("lidar");
+  lidar = wb_robot_get_device("laser");
   wb_lidar_enable(lidar, TIME_STEP);
   wb_lidar_enable_point_cloud(lidar);
 
@@ -102,10 +102,10 @@ int main(int argc, char *argv[]) {
   wb_compass_enable(compass, TIME_STEP);
 
   /* get a handler to the distance sensors and enable them. */
-  distance_sensors[0] = wb_robot_get_device("rear left distance sensor");
-  distance_sensors[1] = wb_robot_get_device("front left distance sensor");
-  distance_sensors[2] = wb_robot_get_device("front right distance sensor");
-  distance_sensors[3] = wb_robot_get_device("rear right distance sensor");
+  distance_sensors[0] = wb_robot_get_device("fl_range");
+  distance_sensors[1] = wb_robot_get_device("rl_range");
+  distance_sensors[2] = wb_robot_get_device("fr_range");
+  distance_sensors[3] = wb_robot_get_device("rr_range");
   wb_distance_sensor_enable(distance_sensors[0], TIME_STEP);
   wb_distance_sensor_enable(distance_sensors[1], TIME_STEP);
   wb_distance_sensor_enable(distance_sensors[2], TIME_STEP);

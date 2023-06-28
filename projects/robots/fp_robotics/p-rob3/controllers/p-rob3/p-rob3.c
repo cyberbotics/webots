@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,12 +19,12 @@
 
 #include <stdlib.h>
 
-#define MOTOR_NUMBER 8
+#define MOTOR_NUMBER 7
 
 static WbDeviceTag motors[MOTOR_NUMBER];
 
-static const char *motor_names[MOTOR_NUMBER] = {"motor 1", "motor 2", "motor 3", "motor 4",
-                                                "motor 5", "motor 6", "motor 7", "motor 7 left"};
+static const char *motor_names[MOTOR_NUMBER] = {"motor 1", "motor 2", "motor 3",       "motor 4",
+                                                "motor 5", "motor 6", "gripper::right"};
 
 static int get_time_step() {
   static int time_step = -1;
@@ -49,12 +49,10 @@ static void passive_wait(double sec) {
 
 void open_gripper() {
   wb_motor_set_position(motors[6], 0.5);
-  wb_motor_set_position(motors[7], 0.5);
 }
 
 void close_gripper() {
   wb_motor_set_torque(motors[6], -0.2);
-  wb_motor_set_torque(motors[7], -0.2);
 }
 
 int main(int argc, char **argv) {

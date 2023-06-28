@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,10 +54,12 @@
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
+#include "WbTransform.hpp"
 #include "WbVersion.hpp"
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
@@ -86,22 +88,25 @@ namespace {
   QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
     // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
     QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    QList<WbNode *> newChildren;
     WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
-    for (WbNode *child : children)
-      if (dynamic_cast<WbTrackWheel *>(child)) {
-        children += getNodeChildrenForBackwardCompatibility(child);
-        children.removeOne(child);
-      }
-    if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
+    for (WbNode *child : children) {
+      if (dynamic_cast<WbTrackWheel *>(child))
+        newChildren += getNodeChildrenForBackwardCompatibility(child);
+      else
+        newChildren += child;
+    }
+
+    if (!dynamic_cast<WbPose *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
         !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-      children += boundingObject->subNodes(false, false);
+      newChildren += boundingObject->subNodes(false, false);
     else if (boundingObject)
-      children.append(boundingObject);
+      newChildren.append(boundingObject);
 
     // Insert the USE nodes in the beginning.
-    sortNodeListForBackwardCompatibility(children);
+    sortNodeListForBackwardCompatibility(newChildren);
 
-    return children;
+    return newChildren;
   }
 
   void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
@@ -133,6 +138,10 @@ namespace {
                        .arg(node->nodeModelName());
       return false;
     }
+
+    // No robot can be inserted in helix of propellers.
+    if (WbNodeUtilities::isRobotTypeName(nodeName) && WbNodeUtilities::isDescendantOfPropeller(node))
+      return false;
 
     if (dynamic_cast<const WbSlot *>(node) && (fieldName == "endPoint")) {  // add something in the endPoint field of a slot
       if (dynamic_cast<const WbSlot *>(node->parentNode())) {  // pair of slots, we can add everything that is allowed in the
@@ -180,11 +189,14 @@ namespace {
     }
 
     const bool childrenField = fieldName == "children";
+    const bool isTransformOrTransformDescendant = node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node);
+
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
       // A robot cannot be a bounding object
-      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName) && !WbNodeUtilities::isDescendantOfBillboard(node))
+      if (!boundingObjectCase && !isTransformOrTransformDescendant && WbNodeUtilities::isRobotTypeName(nodeName) &&
+          !WbNodeUtilities::isDescendantOfBillboard(node))
         return true;
 
       // top level nodes
@@ -226,6 +238,8 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
+        if (nodeName == "Pose")
+          return true;
         if (nodeName == "Transform")
           return true;
         if (nodeName == "Billboard")
@@ -245,7 +259,7 @@ namespace {
       if (nodeName == "Slot") {
         if (WbNodeUtilities::isDescendantOfBillboard(node))
           return false;
-        return true;
+        return !isTransformOrTransformDescendant && !boundingObjectCase;
       }
     }
 
@@ -325,16 +339,15 @@ namespace {
     }
 
     if (fieldName == "endPoint") {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName) || nodeName == "SolidReference")
+      if (WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "SolidReference")
         return true;
       else if (nodeName == "Slot")
         return true;
-
     } else if (fieldName == "rotatingHead") {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName))
+      if (WbNodeUtilities::isSolidTypeName(nodeName))
         return true;
     } else if (fieldName.endsWith("Helix")) {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName))
+      if (WbNodeUtilities::isSolidTypeName(nodeName))
         return true;
 
     } else if (fieldName == "device") {
@@ -434,7 +447,8 @@ namespace {
       return nodeName == "Muscle";
 
     } else if (fieldName == "animatedGeometry" && parentModelName == "Track") {
-      return nodeName == "Shape" || nodeName == "Transform" || nodeName == "Group" || nodeName == "Slot";
+      return nodeName == "CadShape" || nodeName == "Shape" || nodeName == "Transform" || nodeName == "Pose" ||
+             nodeName == "Group" || nodeName == "Slot";
 
     } else if (fieldName == "bones" && parentModelName == "Skin") {
       return nodeName == "SolidReference";
@@ -442,6 +456,8 @@ namespace {
     } else if (!boundingObjectCase) {
       if (fieldName == "children") {
         if (nodeName == "Group")
+          return true;
+        if (nodeName == "Pose")
           return true;
         if (nodeName == "Transform")
           return true;
@@ -451,18 +467,26 @@ namespace {
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))
-          // only Group, Transform and Shape allowed
+          // only Group, Pose, Transform, Shape and CadShape allowed
           return false;
+
+        // if the node itself is a Transform or it has a Transform ancestor exists, prohibit the insertion of Solids,
+        // Robots, Devices, Propellers, Lights, and Joints
+        if (isTransformOrTransformDescendant) {
+          if (nodeName == "PointLight" || nodeName == "SpotLight" || nodeName == "DirectionalLight" ||
+              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller" || nodeName.endsWith("Joint"))
+            return false;
+        }
 
         if (nodeName == "Solid")
           return true;
 
         if (WbVrmlNodeUtilities::isFieldDescendant(node, "animatedGeometry"))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Pose, Transform, Shape, CadShape and Slot allowed
           return false;
 
         if ((parentModelName == "TrackWheel") || WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK_WHEEL))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Pose, Transform, Shape, CadShape and Slot allowed
           return false;
 
         if (nodeName == "PointLight")
@@ -478,7 +502,7 @@ namespace {
         if (nodeName == "TrackWheel")
           return parentModelName == "Track";
 
-        if (nodeName == "Connector" || nodeName.endsWith("Joint")) {
+        if (nodeName == "Connector" || nodeName.endsWith("Joint") || nodeName == "VacuumGripper") {
           if (WbNodeUtilities::isSolidTypeName(parentModelName) || WbNodeUtilities::findUpperSolid(node) != NULL)
             return true;
 
@@ -519,7 +543,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
@@ -527,7 +551,7 @@ namespace {
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;
-        if ((nodeName == "Transform") && (parentModelName != "Transform"))
+        if ((nodeName == "Pose") && (parentModelName != "Pose"))
           return true;
         // if the node is also used outside a boundingObject geometries cannot be inserted directly in the children field
         if (!(nodeUse & WbNode::STRUCTURE_USE) && WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
@@ -556,7 +580,9 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
+  bool isSolidNode(WbBaseNode *node) {
+    return dynamic_cast<WbSolid *>(node);
+  }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
@@ -587,7 +613,7 @@ WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType, i
   return NULL;
 }
 
-bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes) {
+bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes) {
   QList<WbNode *> subNodes = node->subNodes(true);
   if (subNodes.isEmpty())
     return false;
@@ -629,16 +655,16 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
   return dynamic_cast<WbSolid *>(upperMatter);
 }
 
-WbTransform *WbNodeUtilities::findUppermostTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   const WbNode *n = node;
-  WbTransform *uppermostTransform = NULL;
+  WbPose *uppermostPose = NULL;
   while (n) {
-    const WbTransform *transform = dynamic_cast<const WbTransform *>(n);
-    if (transform)
-      uppermostTransform = const_cast<WbTransform *>(transform);
+    const WbPose *pose = dynamic_cast<const WbPose *>(n);
+    if (pose)
+      uppermostPose = const_cast<WbPose *>(pose);
     n = n->parentNode();
   };
-  return uppermostTransform;
+  return uppermostPose;
 }
 
 WbSolid *WbNodeUtilities::findUppermostSolid(const WbNode *node) {
@@ -698,30 +724,18 @@ WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
   return NULL;
 }
 
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
-  if (parentNode == NULL || modifiedField == NULL)
+WbPose *WbNodeUtilities::findUpperPose(const WbNode *node) {
+  if (node == NULL)
     return NULL;
 
-  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
-    return parentNode;
-
-  return findUpperTemplateNeedingRegeneration(parentNode);
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
-  if (modifiedNode == NULL)
-    return NULL;
-
-  WbField *field = modifiedNode->parentField();
-  WbNode *node = modifiedNode->parentNode();
-  while (node && field && !node->isWorldRoot()) {
-    if (node->isTemplate() && field->isTemplateRegenerator())
-      return node;
-
-    field = node->parentField();
-    node = node->parentNode();
+  WbNode *n = node->parentNode();
+  while (n) {
+    WbPose *const pose = dynamic_cast<WbPose *>(n);
+    if (pose)
+      return pose;
+    else
+      n = n->parentNode();
   }
-
   return NULL;
 }
 
@@ -776,18 +790,9 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
   if (node == NULL)
     return false;
 
-  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
-
-  if (!initialNode)
-    return false;
-
-  if (initialNode->nodeType() == WB_NODE_BILLBOARD)
-    return true;
-
-  WbNode *n = node->parentNode();
-  WbField *field = node->parentField(true);
-  while (n && !n->isWorldRoot() && field) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(field->parentNode());
+  WbNode *n = const_cast<WbNode *>(node);
+  while (n && !n->isWorldRoot()) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
     if (!baseNode)
       return false;
@@ -795,7 +800,26 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
     if (baseNode->nodeType() == WB_NODE_BILLBOARD)
       return true;
 
-    field = n->parentField(true);
+    n = n->parentNode();
+  }
+
+  return false;
+}
+
+bool WbNodeUtilities::isDescendantOfPropeller(const WbNode *node) {
+  if (node == NULL)
+    return false;
+
+  WbNode *n = const_cast<WbNode *>(node);
+  while (n && !n->isWorldRoot()) {
+    const WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+
+    if (!baseNode)
+      return false;
+
+    if (baseNode->nodeType() == WB_NODE_PROPELLER)
+      return true;
+
     n = n->parentNode();
   }
 
@@ -954,7 +978,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       // Rotate the device.
       if (candidate != node) {
-        WbTransform *const device = static_cast<WbTransform *>(candidate);
+        WbPose *const device = static_cast<WbPose *>(candidate);
         device->setRotation(WbRotation(device->rotation().toMatrix3() * rotationFix));
         device->save("__init__");
       }
@@ -964,12 +988,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         if (!getNodeChildrenAndBoundingForBackwardCompatibility(candidate).contains(child))
           continue;
 
-        WbTransform *childTransform = dynamic_cast<WbTransform *>(child);
-        if (childTransform) {
-          // Squash transforms if possible.
-          childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
-          childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
-          childTransform->save("__init__");
+        WbPose *childPose = dynamic_cast<WbPose *>(child);
+        if (childPose) {
+          // Squash poses if possible.
+          childPose->setRotation(WbRotation(rotationFix.transposed() * childPose->rotation().toMatrix3()));
+          childPose->setTranslation(rotationFix.transposed() * childPose->translation());
+          childPose->save("__init__");
         } else {
           if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
@@ -980,12 +1004,12 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
               candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
               continue;
             }
-            WbTransform *const transform = new WbTransform();
-            transform->setRotation(WbRotation(rotationFix.transposed()));
-            transform->save("__init__");
+            WbPose *const pose = new WbPose();
+            pose->setRotation(WbRotation(rotationFix.transposed()));
+            pose->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, boundingObjectField, -1, false, false);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+            WbNodeOperations::instance()->initNewNode(pose, candidate, boundingObjectField, -1, false, false);
+            WbNodeOperations::instance()->initNewNode(newNode, pose, pose->findField("children"), 0, false, false);
           } else {
             // Child is under the `children` field.
             child->info(message.arg("A2_2"));
@@ -995,13 +1019,13 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
               candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
               continue;
             }
-            WbTransform *const transform = new WbTransform();
-            transform->setRotation(WbRotation(rotationFix.transposed()));
-            transform->save("__init__");
+            WbPose *const pose = new WbPose();
+            pose->setRotation(WbRotation(rotationFix.transposed()));
+            pose->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, childrenField, 0, false, false);
+            WbNodeOperations::instance()->initNewNode(pose, candidate, childrenField, 0, false, false);
             WbNodeOperations::instance()->deleteNode(child);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+            WbNodeOperations::instance()->initNewNode(newNode, pose, pose->findField("children"), 0, false, false);
           }
         }
       }
@@ -1014,14 +1038,14 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
-      WbTransform *const parentTransform = dynamic_cast<WbTransform *>(parent);
-      if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
-        // Squash transforms if possible.
+      WbPose *const parentPose = dynamic_cast<WbPose *>(parent);
+      if (parentPose && parentPose->subNodes(false, false).size() == 1) {
+        // Squash poses if possible.
         candidate->info(message.arg("B1"));
-        if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
+        if (dynamic_cast<WbTrackWheel *>(parentPose->parentNode()))
           continue;
-        parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
-        parentTransform->save("__init__");
+        parentPose->setRotation(WbRotation(parentPose->rotation().toMatrix3() * rotationFix));
+        parentPose->save("__init__");
       } else
         candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
     }
@@ -1032,15 +1056,15 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
     if (subProto->proto() &&
         (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
          subProto->proto()->name() == "Bc21bCameraProto") &&
-        dynamic_cast<WbTransform *>(subProto)) {
+        dynamic_cast<WbPose *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.
       // The `Bc21bCameraProto.proto` is added for CI tests (the CI tests are not in the same directory as Webots).
 
       subProto->info(message.arg("C"));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
-      WbTransform *const subProtoTransform = static_cast<WbTransform *>(subProto);
-      subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
-      subProtoTransform->save("__init__");
+      WbPose *const subProtoPose = static_cast<WbPose *>(subProto);
+      subProtoPose->setRotation(WbRotation(subProtoPose->rotation().toMatrix3() * rotationFix));
+      subProtoPose->save("__init__");
     } else if (!node->isWorldRoot())
       fixBackwardCompatibility(subProto);
   }
@@ -1143,7 +1167,8 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
 bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   const WbField *f = field;
   while (f != NULL) {
-    if (f->isTemplateRegenerator())
+    if (f->isTemplateRegenerator() ||
+        (f->parentNode() && WbTemplateManager::isNodeChangeTriggeringRegeneration(f->parentNode())))
       return true;
     f = f->parameter();
   }
@@ -1186,6 +1211,22 @@ const WbShape *WbNodeUtilities::findIntersectingShape(const WbRay &ray, double m
     }
   }
   return shape;
+}
+
+dBodyID WbNodeUtilities::findBodyMerger(const WbNode *node) {
+  if (!node)
+    return NULL;
+
+  const WbNode *n = node;
+  while (n) {
+    const WbSolid *s = dynamic_cast<const WbSolid *>(n);
+    if (s && s->bodyMerger())
+      return s->bodyMerger();
+    if (dynamic_cast<const WbBasicJoint *>(n))
+      break;
+    n = n->parentNode();
+  }
+  return NULL;
 }
 
 bool WbNodeUtilities::isTrackAnimatedGeometry(const WbNode *node) {
@@ -1280,7 +1321,8 @@ bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
                                                    << "Receiver"
                                                    << "Speaker"
                                                    << "TouchSensor"
-                                                   << "Track");
+                                                   << "Track"
+                                                   << "VacuumGripper");
   if (solidDeviceTypeName.contains(modelName))
     return true;
 
@@ -1293,19 +1335,12 @@ bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
   return false;
 }
 
-bool WbNodeUtilities::isSolidButRobotTypeName(const QString &modelName) {
+bool WbNodeUtilities::isSolidTypeName(const QString &modelName) {
   if (modelName == "Solid")
     return true;
   if (modelName == "Charger")
     return true;
   if (WbNodeUtilities::isSolidDeviceTypeName(modelName))
-    return true;
-
-  return false;
-}
-
-bool WbNodeUtilities::isSolidTypeName(const QString &modelName) {
-  if (isSolidButRobotTypeName(modelName))
     return true;
   if (isRobotTypeName(modelName))
     return true;
@@ -1501,30 +1536,41 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
 
   WbNode::NodeUse nodeUse = WbNodeUtilities::checkNodeUse(srcNode);
   if (nodeUse & WbNode::BOUNDING_OBJECT_USE) {
-    if (srcModelName == "Group" && destModelName == "Transform")
+    if (srcModelName == "Group" && destModelName == "Pose")
       return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
+    if (srcModelName == "Pose" && destModelName == "Group")
       return LOOSING_INFO;
 
     return UNSUITABLE;
   }
 
-  if (srcModelName == "Group" || srcModelName == "Transform") {
-    if (destModelName == "Solid" || (srcModelName == "Group" && destModelName == "Transform"))
-      return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
-      return LOOSING_INFO;
+  if (srcModelName == "Group" || srcModelName == "Pose" || srcModelName == "Transform") {
+    Answer ok;
+    if (srcModelName == "Transform") {
+      const WbTransform *transform = dynamic_cast<const WbTransform *>(srcNode);
+      ok = transform && transform->scale() != WbVector3(1, 1, 1) ? LOOSING_INFO : SUITABLE;
+    } else
+      ok = SUITABLE;
+
+    if (destModelName == "Transform" || destModelName == "Pose" || destModelName == "Solid")
+      return ok;
+
+    if (destModelName == "Group") {
+      const WbPose *p = dynamic_cast<const WbPose *>(srcNode);
+      const bool pose = p && (p->translation() != WbVector3(0, 0, 0) || p->rotation().angle() != 0);
+      return pose ? LOOSING_INFO : ok;
+    }
 
     if (srcNode->isTopLevel())
-      return (destModelName == "Charger" || isRobotTypeName(destModelName)) ? SUITABLE : UNSUITABLE;
+      return (destModelName == "Charger" || isRobotTypeName(destModelName)) ? ok : UNSUITABLE;
 
     if (isSolidDeviceTypeName(destModelName))
-      return hasARobotAncestor(srcNode) ? SUITABLE : UNSUITABLE;
+      return hasARobotAncestor(srcNode) ? ok : UNSUITABLE;
 
     return UNSUITABLE;
   }
 
-  if (destModelName == "Group" || destModelName == "Transform") {
+  if (destModelName == "Group" || destModelName == "Pose" || destModelName == "Transform") {
     if (isSolidTypeName(srcModelName)) {
       bool hasDevices;
       if (hasDeviceDescendantFlag && *hasDeviceDescendantFlag >= 0)  // read cached value

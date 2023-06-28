@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -124,7 +124,7 @@ Robot {
   translation 0 -0.15 0
   rotation 0 0 1 1
   children [
-    Transform {
+    Pose {
       translation 0 0 0.0415
       children [
         Shape {
@@ -157,7 +157,7 @@ Robot {
         translation 0 0.045 0.025
         rotation 0 -1 0 4.98467
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation -1 0 0 1.57
             children [
               Shape {
@@ -210,7 +210,7 @@ Robot {
       translation 0.042 0.02 0.063
       rotation 0 0 -1 -0.499205
       children [
-        DEF SENSOR Transform {
+        DEF SENSOR Pose {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
@@ -281,11 +281,11 @@ Robot {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            0.041 -0.015 0.038
-            0.041 -0.015 0.023
+            0.0435 -0.015 0.038
+            0.0435 -0.015 0.023
             0.0455 0 0.023
-            0.041 0.015 0.023
-            0.041 0.015 0.038
+            0.0435 0.015 0.023
+            0.0435 0.015 0.038
             0.0455 0 0.038
           ]
         }
@@ -310,7 +310,7 @@ Robot {
     }
   ]
   name "MyBot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY

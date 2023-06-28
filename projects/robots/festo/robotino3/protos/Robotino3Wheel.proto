@@ -1,6 +1,6 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/robotino3
 # tags: hidden
 # A wheel for Robotino3.proto
@@ -13,10 +13,10 @@ PROTO Robotino3Wheel [
   field SFFloat number 0
 ]
 {
-Transform {
+Pose {
   rotation 0 0 1 %<= (fields.number.value * 2 / 3 + 0.5) * Math.PI >%
   children [
-    Transform {
+    Pose {
       translation 0 0.1826 0.05915
       children [
         DEF %<= 'WHEEL_' + fields.number.value >% HingeJoint {
@@ -71,7 +71,7 @@ Transform {
             ]
             name %<= '"wheel' + fields.number.value + '_link"' >%
             contactMaterial "WheelMat"
-            boundingObject Transform {
+            boundingObject Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Cylinder {

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,18 +15,20 @@
 #include "WbView3D.hpp"
 
 #include "WbAbstractDragEvent.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbActionManager.hpp"
 #include "WbBox.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
 #include "WbContactPointsRepresentation.hpp"
+#include "WbContextMenuGenerator.hpp"
 #include "WbCylinder.hpp"
 #include "WbDragOverlayEvent.hpp"
+#include "WbDragPoseEvent.hpp"
 #include "WbDragResizeEvent.hpp"
 #include "WbDragScaleEvent.hpp"
 #include "WbDragSolidEvent.hpp"
-#include "WbDragTransformEvent.hpp"
 #include "WbDragViewpointEvent.hpp"
 #include "WbElevationGrid.hpp"
 #include "WbGroup.hpp"
@@ -40,6 +42,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPerspective.hpp"
 #include "WbPlane.hpp"
+#include "WbPose.hpp"
 #include "WbPreferences.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRenderingDeviceWindowFactory.hpp"
@@ -78,6 +81,7 @@
 #include <QtGui/QMouseEvent>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QMenu>
 
 #include <wren/camera.h>
 #include <wren/config.h>
@@ -91,7 +95,6 @@ int WbView3D::cView3DNumber = 0;
 WbView3D::WbView3D() :
   WbWrenWindow(),
   mParentWidget(NULL),
-  mLastRefreshTimer(),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
   mDisabledRenderingOverlay(NULL),
@@ -109,7 +112,6 @@ WbView3D::WbView3D() :
   mDragKinematics(NULL),
   mDragOverlay(NULL),
   mDragResize(NULL),
-  mDragScale(NULL),
   mDragTranslate(NULL),
   mDragVerticalAxisRotate(NULL),
   mDragRotate(NULL),
@@ -243,13 +245,13 @@ void WbView3D::setWireframe() {
   setRenderingMode(WR_VIEWPORT_POLYGON_MODE_LINE, true);
 }
 
-void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform) {
+void WbView3D::onSelectionChanged(WbAbstractPose *selectedPose) {
   assert(mWorld);
 
   if (mWorld->isCleaning())
     return;
 
-  WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedAbstractTransform);
+  WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedPose);
   WbViewpoint *const viewpoint = mWorld->viewpoint();
 
   if (selectedSolid) {
@@ -329,7 +331,9 @@ void WbView3D::refresh() {
 
   const WbSimulationState *const sim = WbSimulationState::instance();
   mPhysicsRefresh = true;
-  if (sim->isPaused())
+  if (mScreenshotRequested)
+    renderNow();
+  else if (sim->isPaused())
     renderLater();
   else if (WbVideoRecorder::instance()->isRecording()) {
     const double time = WbSimulationState::instance()->time();
@@ -1103,7 +1107,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   mAspectRatio = ((double)width()) / height();
   viewpoint->updateAspectRatio(mAspectRatio);
   updateWrenViewportDimensions();
-  onSelectionChanged(WbSelection::instance()->selectedAbstractTransform());
+  onSelectionChanged(WbSelection::instance()->selectedAbstractPose());
 
   WbWrenOpenGlContext::doneWren();
 
@@ -1504,36 +1508,36 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   // exception in case of context menu shortcut where the selected Matter node is always used
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
-    selection->selectTransformFromView3D(
+    selection->selectPoseFromView3D(
       NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));  // sending NULL allows to unselect
     if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
-        emit contextMenuRequested(event->globalPosition().toPoint());
+        emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
     }
     return;
   }
 
-  const WbAbstractTransform *const selectedTransform = selection->selectedAbstractTransform();
+  const WbAbstractPose *const selectedAbstractPose = selection->selectedAbstractPose();
   WbMatter *visiblePickedMatter = WbNodeUtilities::findUpperVisibleMatter(mPickedMatter);
   WbMatter *selectedMatter = NULL;
   if (isContextMenuShortcut(event))
     selectedMatter = visiblePickedMatter;
   else {
     const WbMatter *const previousTopMatter =
-      selectedTransform != NULL ? WbNodeUtilities::findUppermostMatter(selectedTransform->baseNode()) : NULL;
+      selectedAbstractPose != NULL ? WbNodeUtilities::findUppermostMatter(selectedAbstractPose->baseNode()) : NULL;
     WbMatter *topMatter = WbNodeUtilities::findUppermostMatter(visiblePickedMatter);
     if (topMatter == NULL)
       topMatter = visiblePickedMatter;
     const int alt = event->modifiers() & Qt::AltModifier;
-    if (visiblePickedMatter == selectedTransform) {
+    if (visiblePickedMatter == selectedAbstractPose) {
       if (alt)
         // do not change selection when starting force or torque drag
         return;
       if (topMatter == visiblePickedMatter) {
         // do not change selection if the picked node is already selected and it doesn't have any Matter ancestor
-        selection->confirmSelectedTransformFromView3D();
+        selection->confirmSelectedAbstractPoseFromView3D();
         return;
       }
       selectedMatter = topMatter;
@@ -1543,8 +1547,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter,
-                                       mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
+  selection->selectPoseFromView3D(selectedMatter, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
@@ -1553,7 +1556,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
-      emit contextMenuRequested(event->globalPosition().toPoint());
+      emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
   }
 }
 
@@ -1565,6 +1568,11 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   if (mDragTranslate || mDragRotate || (mDragTorque && !mDragTorque->isLocked()) || (mDragForce && !mDragForce->isLocked()) ||
       mDragVerticalAxisRotate)
     return;
+
+#ifdef __APPLE__
+  // Fix an issue on macOS where the context menu was not closed by a click.
+  delete mParentWidget->findChild<QMenu *>("ContextMenu");
+#endif
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);
@@ -1766,12 +1774,6 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     return;
   }
 
-  if (mDragScale) {
-    mDragScale->apply(position);
-    renderLater();
-    return;
-  }
-
   if (mDragTranslate) {
     mDragTranslate->apply(position);
     renderLater();
@@ -1826,7 +1828,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
 
   // Translate, rotate, resize events come right after overlays
   const int translateHandle = mPicker->pickedTranslateHandle(), rotateHandle = mPicker->pickedRotateHandle(),
-            resizeHandle = mPicker->pickedResizeHandle(), scaleHandle = mPicker->pickedScaleHandle();
+            resizeHandle = mPicker->pickedResizeHandle();
 
   // Creates a new drag event according to keys (SHIFT, ALT) and buttons (LEFT, MIDDLE, RIGHT)
   const int shift = event->modifiers() & Qt::ShiftModifier;
@@ -1896,22 +1898,6 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     }
     connect(mDragResize, &WbDragResizeHandleEvent::aborted, this, &WbView3D::abortResizeDrag);
     return;
-  } else if (scaleHandle && resizeActive) {
-    cleanupPhysicsDrags();
-    WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
-    WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
-    assert(pickedTransform);
-    if (dynamic_cast<WbSolid *>(pickedNode))
-      selective = 0;
-    const int handleNumber = scaleHandle - 1;
-
-    if (selective)
-      mDragScale = new WbDragScaleHandleEvent(position, viewpoint, handleNumber, pickedTransform);
-    else
-      mDragScale = new WbUniformScaleEvent(position, viewpoint, handleNumber, pickedTransform);
-
-    connect(mDragScale, &WbDragScaleHandleEvent::aborted, this, &WbView3D::abortScaleDrag);
-    return;
   }
 
   if (translateHandle) {
@@ -1922,9 +1908,9 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragTranslate = new WbDragTranslateAlongAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
-      assert(pickedTransform);
-      mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
+      WbAbstractPose *pickedPose = dynamic_cast<WbAbstractPose *>(pickedNode);
+      assert(pickedPose);
+      mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
     return;
   } else if (rotateHandle) {
@@ -1935,9 +1921,9 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragRotate = new WbDragRotateAroundAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
-      assert(pickedTransform);
-      mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
+      WbAbstractPose *pickedPose = dynamic_cast<WbAbstractPose *>(pickedNode);
+      assert(pickedPose);
+      mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
     return;
   }
@@ -1955,28 +1941,28 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (!selection->isObjectMotionAllowed())
       return;
 
-    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedAbstractTransform());
-    WbTransform *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
+    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedAbstractPose());
+    WbPose *const uppermostPose = WbNodeUtilities::findUppermostPose(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
     if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton)) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeTranslated())
           mDragKinematics = new WbDragVerticalSolidEvent(position, viewpoint, uppermostSolid);
-      } else if (uppermostTransform->canBeTranslated())
-        mDragKinematics = new WbDragVerticalEvent(position, viewpoint, uppermostTransform);
+      } else if (uppermostPose->canBeTranslated())
+        mDragKinematics = new WbDragVerticalEvent(position, viewpoint, uppermostPose);
     } else if (buttons == Qt::LeftButton) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeTranslated())
           mDragKinematics = new WbDragHorizontalSolidEvent(position, viewpoint, uppermostSolid);
-      } else if (uppermostTransform->canBeTranslated())
-        mDragKinematics = new WbDragHorizontalEvent(position, viewpoint, uppermostTransform);
+      } else if (uppermostPose->canBeTranslated())
+        mDragKinematics = new WbDragHorizontalEvent(position, viewpoint, uppermostPose);
     } else if (buttons == Qt::RightButton) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeRotated())
           mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
-      } else if (uppermostTransform->canBeRotated())
-        mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostTransform);
+      } else if (uppermostPose->canBeRotated())
+        mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostPose);
     }
   } else if (alt) {
     // Case 2: ALT and CLICK -> add a force / torque to the selected solid
@@ -2120,7 +2106,7 @@ void WbView3D::mouseReleaseEvent(QMouseEvent *event) {
 
   setCursor(mLastMouseCursor);
 
-  const bool wasNotInAnEvent = !mDragOverlay && !mDragKinematics && !mDragResize && !mDragScale && !mDragTranslate &&
+  const bool wasNotInAnEvent = !mDragOverlay && !mDragKinematics && !mDragResize && !mDragTranslate &&
                                !mDragVerticalAxisRotate && !mDragRotate && !mDragForce && !mDragTorque && !mTouchSensor;
 
   delete mDragOverlay;
@@ -2133,14 +2119,6 @@ void WbView3D::mouseReleaseEvent(QMouseEvent *event) {
     mDragResize->addActionInUndoStack();
     delete mDragResize;
     mDragResize = NULL;
-    if (mResizeHandlesDisabled)
-      WbSelection::instance()->showResizeManipulatorFromView3D(false);
-  }
-
-  if (mDragScale) {
-    mDragScale->addActionInUndoStack();
-    delete mDragScale;
-    mDragScale = NULL;
     if (mResizeHandlesDisabled)
       WbSelection::instance()->showResizeManipulatorFromView3D(false);
   }
@@ -2261,7 +2239,7 @@ void WbView3D::enableResizeManipulator(bool enabled) {
   if (enabled && WbSelection::instance()->showResizeManipulatorFromView3D(true))
     mResizeHandlesDisabled = false;
   else {
-    if (mDragResize || mDragScale)
+    if (mDragResize)
       mResizeHandlesDisabled = true;
     else
       WbSelection::instance()->showResizeManipulatorFromView3D(false);
@@ -2303,7 +2281,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
       return;
     }
     // SHIFT and WHEEL MOUSE -> lift the selected solid in the 3D View
-    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedAbstractTransform());
+    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedAbstractPose());
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     if (!uppermostSolid || uppermostSolid->isLocked() || !uppermostSolid->canBeTranslated())
       return;
@@ -2377,9 +2355,6 @@ void WbView3D::cleanupDrags() {
   delete mDragResize;
   mDragResize = NULL;
 
-  delete mDragScale;
-  mDragScale = NULL;
-
   delete mDragTranslate;
   mDragTranslate = NULL;
 
@@ -2394,24 +2369,15 @@ void WbView3D::cleanupDrags() {
 
 void WbView3D::abortPhysicsDrag() {
   cleanupPhysicsDrags();
-  WbSelection::instance()->selectTransformFromView3D(NULL);
+  WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("Solid out of world numeric bounds, mouse drag aborted"));
 }
 
 void WbView3D::abortResizeDrag() {
   delete mDragResize;
   mDragResize = NULL;
-  WbSelection::instance()->selectTransformFromView3D(NULL);
+  WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("The dimensions of the resized object exceeds world numeric bounds, mouse drag aborted"));
-  if (mResizeHandlesDisabled)
-    WbSelection::instance()->showResizeManipulatorFromView3D(false);
-}
-
-void WbView3D::abortScaleDrag() {
-  delete mDragScale;
-  mDragScale = NULL;
-  WbSelection::instance()->selectTransformFromView3D(NULL);
-  WbLog::warning(tr("The dimensions of the rescaled object exceeds world numeric bounds, mouse drag aborted"));
   if (mResizeHandlesDisabled)
     WbSelection::instance()->showResizeManipulatorFromView3D(false);
 }
@@ -2536,8 +2502,16 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // refresh only if simulation is paused (or stepped)
+  // even if the simulation is running in no-rendering mode the pending updates need to be executed in order to process
+  // supervisor deletions, or Webots might run out of memory
+  if (!WbSimulationState::instance()->isRendering()) {
+    WbWrenOpenGlContext::makeWrenCurrent();
+    wr_scene_apply_pending_updates(wr_scene_get_instance());
+    WbWrenOpenGlContext::doneWren();
+  }
+
   const WbSimulationState *const sim = WbSimulationState::instance();
+  // refresh only if simulation is paused or stepped
   if (sim->isPaused())
     refresh();
 }

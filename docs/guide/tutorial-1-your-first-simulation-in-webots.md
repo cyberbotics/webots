@@ -51,9 +51,9 @@ It should currently list the following nodes:
 
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
 - [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
-- [TexturedBackground](object-backgrounds.md#texturedbackground): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
-- [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
-- [RectangleArena](object-floors.md#rectanglearena): define the only object you see so far in this scene.
+- [TexturedBackground](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackground.proto): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
+- [TexturedBackgroundLight](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto): defines the light associated with the above background.
+- [RectangleArena](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/floors/protos/RectangleArena.proto): define the only object you see so far in this scene.
 
 Each node has some customizable properties called **Fields**.
 Let's modify these fields to change the rectangle arena:
@@ -300,6 +300,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >% get the motor devices
@@ -465,6 +467,8 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab "MATLAB"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >MAX_SPEED = 6.28;

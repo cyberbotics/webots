@@ -17,17 +17,17 @@ The expected result is depicted in [this figure](#expected-result-at-the-end-of-
 
 It is possible to build [Solid](../reference/solid.md) nodes more complex than what we have seen before by aggregating [Shape](../reference/shape.md) nodes.
 In fact, both the physical and the graphical properties of a [Solid](../reference/solid.md) can be made of several [Shape](../reference/shape.md) nodes.
-Moreover each [Shape](../reference/shape.md) node can be placed in a [Transform](../reference/transform.md) node in order to change its relative position and orientation.
+Moreover each [Shape](../reference/shape.md) node can be placed in a [Pose](../reference/pose.md) node in order to change its relative position and orientation.
 [Group](../reference/group.md) nodes can also be used to group several sub-nodes.
 
 We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylinder.md)) and of two weights ([Sphere](../reference/sphere.md)) located at each end of the handle.
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.
 
 > **Hands on #2**: Create the dumbbell by following the [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries).
-Create the handle first without placing it in a [Transform](../reference/transform.md) node (so the handle axis will have the same direction as the z-axis of the solid).
+Create the handle first without placing it in a [Pose](../reference/pose.md) node (so the handle axis will have the same direction as the z-axis of the solid).
 The handle should have a length of 0.1 m and a radius of 0.01 m.
 The weights should have a radius of 0.03 m and a subdivision of 2.
-The weights can be moved at the handle extremities thanks to the `translation` field of their [Transform](../reference/transform.md) nodes.
+The weights can be moved at the handle extremities thanks to the `translation` field of their [Pose](../reference/pose.md) nodes.
 
 %figure "Representation of the subnodes of a compound solid made of several transformed geometries."
 %chart
@@ -37,11 +37,11 @@ graph TD
   Solid -->|children| Group[[DEF G0 Group](../reference/group.md)]
     Group -->|children| Shape1[[Shape](../reference/shape.md)]
       Shape1 -->|geometry| Cylinder[[Cylinder](../reference/cylinder.md)]
-    Group -->|children| Transform1[[Transform](../reference/transform.md)]
-      Transform1 -->|children| Shape2[[Shape](../reference/shape.md)]
+    Group -->|children| Pose1[[Pose](../reference/pose.md)]
+      Pose1 -->|children| Shape2[[Shape](../reference/shape.md)]
         Shape2 -->|geometry| Sphere1[[Sphere](../reference/sphere.md)]
-    Group -->|children| Transform2[[Transform](../reference/transform.md)]
-      Transform2 -->|children| Shape3[[Shape](../reference/shape.md)]
+    Group -->|children| Pose2[[Pose](../reference/pose.md)]
+      Pose2 -->|children| Shape3[[Shape](../reference/shape.md)]
         Shape3 -->|geometry| Sphere2[[Sphere](../reference/sphere.md)]
     USEG0 -.- Group
 
@@ -75,7 +75,7 @@ Note that when the solid is selected, the center of mass is represented in the 3
 
 ### The Rotation Field
 
-The `rotation` field of the [Transform](../reference/transform.md) node determines the rotation of this node (and of its children) using the [Euler axis and angle](https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation) representation.
+The `rotation` field of the [Pose](../reference/pose.md) node determines the rotation of this node (and of its children) using the [Euler axis and angle](https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation) representation.
 A **Euler axis and angle** rotation is defined by four components.
 The first three components are a unit vector that defines the rotation axis.
 The fourth component defines the rotation angle about the axis (in [rad]).
@@ -144,7 +144,7 @@ To compare your world with the solution, go to your files and find the folder na
 ### Conclusion
 
 You are now able to build a wide range of solids including those being composed of several rigid bodies.
-You know that a Geometry node can be moved and rotated if it is included in a [Transform](../reference/transform.md) node.
+You know that a Geometry node can be moved and rotated if it is included in a [Pose](../reference/pose.md) node.
 You are aware about all the physics parameters allowing you to design robust simulations.
 The next step will be to create your own robot.
 

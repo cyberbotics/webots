@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,11 +29,10 @@
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QPoint>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbCamera;
 class WbDragKinematicsEvent;
 class WbDragForceEvent;
-class WbDragScaleHandleEvent;
 class WbDragTorqueEvent;
 class WbDragOverlayEvent;
 class WbDragResizeHandleEvent;
@@ -121,7 +120,7 @@ signals:
   void mouseDoubleClicked(QMouseEvent *event);
   void screenshotReady();
   void applicationActionsUpdateRequested();
-  void contextMenuRequested(const QPoint &pos);
+  void contextMenuRequested(const QPoint &pos, QWidget *parentWidget);
 
 private:
   QWidget *mParentWidget;
@@ -177,7 +176,6 @@ private:
   WbDragKinematicsEvent *mDragKinematics;
   WbDragOverlayEvent *mDragOverlay;
   WbDragResizeHandleEvent *mDragResize;
-  WbDragScaleHandleEvent *mDragScale;
   WbDragTranslateAlongAxisEvent *mDragTranslate;
   WbDragRotateAroundWorldVerticalAxisEvent *mDragVerticalAxisRotate;
   WbDragRotateAroundAxisEvent *mDragRotate;
@@ -204,7 +202,6 @@ private:
 private slots:
   void abortPhysicsDrag();
   void abortResizeDrag();
-  void abortScaleDrag();
   void abortOverlayDrag();
   void followNone(bool checked);
   void followTracking(bool checked);
@@ -258,7 +255,7 @@ private slots:
   void updateViewport();
   void updateShadowState();
   void unleashPhysicsDrags();
-  void onSelectionChanged(WbAbstractTransform *selectedAbstractTransform);
+  void onSelectionChanged(WbAbstractPose *selectedPose);
   void handleWorldModificationFromSupervisor();
 };
 

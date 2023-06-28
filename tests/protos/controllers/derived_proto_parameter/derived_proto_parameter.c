@@ -18,10 +18,10 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   value = wb_distance_sensor_get_value(ds1);
-  ts_assert_double_is_bigger(value, 500, "Unexpected shaped: default base PROTO Box shape shouldn't be created.");
+  ts_assert_double_is_bigger(value, 500, "Unexpected shape: default base PROTO Box shape shouldn't be created.");
 
   value = wb_distance_sensor_get_value(ds2);
-  ts_assert_double_is_bigger(1000, value, "Unexpected shaped: derived PROTO Cylinder shape should be created.");
+  ts_assert_double_is_bigger(1000, value, "Unexpected shape: derived PROTO Cylinder shape should be created.");
 
   ts_send_success();
   return EXIT_SUCCESS;

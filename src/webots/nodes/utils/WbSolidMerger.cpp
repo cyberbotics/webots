@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,6 @@ WbSolidMerger::WbSolidMerger(WbSolid *solid) :
   mSolid(solid),
   mSpace(NULL),
   mCenterOfMass(0.0, 0.0, 0.0),
-  mScaledCenterOfMass(0.0, 0.0, 0.0),
   mBodyArtificiallyDisabled(false) {
   assert(mSolid);
   mBody = dBodyCreate(WbOdeContext::instance()->world());
@@ -129,7 +128,6 @@ void WbSolidMerger::updateCenterOfMass() {
   // Handles the trivial case separately so as to avoid rounding errors
   if (mMergedSolids.size() == 1) {
     mCenterOfMass = mSolid->centerOfMass();
-    mScaledCenterOfMass = mSolid->scaledCenterOfMass();
     mAbsoluteCenterOfMass = mSolid->matrix() * mCenterOfMass;
     return;
   }
@@ -152,11 +150,7 @@ void WbSolidMerger::updateCenterOfMass() {
     mAbsoluteCenterOfMass /= mass;
 
   // Computes relative coordinates
-  const double s = 1.0 / mSolid->absoluteScale().x();
-  mScaledCenterOfMass = mSolid->matrix().pseudoInversed(mAbsoluteCenterOfMass);
-  mScaledCenterOfMass *= s;
-  mCenterOfMass = mScaledCenterOfMass;
-  mCenterOfMass *= s;
+  mCenterOfMass = mSolid->matrix().pseudoInversed(mAbsoluteCenterOfMass);
 }
 
 // Sets the offset position with respect to solid collector's body for all placeable ODE dGeoms
@@ -171,9 +165,7 @@ void WbSolidMerger::setGeomOffsetPositions() {
 
 // Computes the inverse matrix of the solid collector
 WbMatrix4 WbSolidMerger::inverseMatrix() const {
-  double s = 1.0 / mSolid->absoluteScale().x();
-  s *= s;
-  return mSolid->matrix().pseudoInversed() * s;
+  return mSolid->matrix().pseudoInversed();
 }
 
 // Transforms and registers the mass of a collected solid: solid's inertia matrix is assumed to be computed in relative
@@ -189,10 +181,9 @@ void WbSolidMerger::transformMass(WbSolid *const solid, const WbMatrix4 &m4) con
   // Computes solid's coordinates with respect to solid collector's frame
   const WbMatrix4 &m = solid->matrix();
   const WbMatrix4 &d = m4 * m;
-  const double s = mSolid->absoluteScale().x();
-  const WbVector3 &t = s * d.translation();  // translation
-  dMatrix3 r;                                // rotation
-  d.extract3x4Matrix(r, s / solid->absoluteScale().x());
+  const WbVector3 &t = d.translation();  // translation
+  dMatrix3 r;                            // rotation
+  d.extract3x4Matrix(r);
   // qDebug() << "translate" << t.x() << t.y() << t.z();
   // qDebug() << "rotate" << r[0] << r[1] << r[2] << r[3] << r[4] << r[5] << r[6] << r[7] << r[8] << r[9] << r[10] << r[11];
   // Rotates and translates inertia & CoM
@@ -289,7 +280,7 @@ void WbSolidMerger::addMassToBody() {
 
   assert(dmass.mass > 0.0);
 
-  dMassTranslate(&dmass, -mScaledCenterOfMass.x(), -mScaledCenterOfMass.y(), -mScaledCenterOfMass.z());
+  dMassTranslate(&dmass, -mCenterOfMass.x(), -mCenterOfMass.y(), -mCenterOfMass.z());
   // assert(fabs(dmass.c[0]) + fabs(dmass.c[1]) + fabs(dmass.c[2]) < 1e-6); // false when deleting multiple geometries at the
   // same time
   dSetZero(dmass.c, 3);
@@ -351,9 +342,8 @@ void WbSolidMerger::setGeomAndBodyPositions(bool zeroVelocities, bool resetJoint
   dBodySetPosition(mBody, mAbsoluteCenterOfMass.x(), mAbsoluteCenterOfMass.y(), mAbsoluteCenterOfMass.z());
   // Rotates ODE body
   WbMatrix4 m44 = mSolid->matrix();
-  const double s1 = 1.0 / mSolid->absoluteScale().x();
   dMatrix3 m;
-  m44.extract3x4Matrix(m, s1);
+  m44.extract3x4Matrix(m);
   dBodySetRotation(mBody, m);
   // Sets the offset position (with respect to the ODE dBody) of every ODE dGeom in the boundingObject
   setGeomOffsetPositions();

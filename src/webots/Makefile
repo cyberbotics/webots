@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -275,10 +275,9 @@ QT_SOURCES = WbAboutBox.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloadManager.cpp \
   WbDownloader.cpp \
+  WbDragPoseEvent.cpp \
   WbDragResizeEvent.cpp \
-  WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \
-  WbDragTransformEvent.cpp \
   WbElevationGrid.cpp \
   WbEmitter.cpp \
   WbExtendedStringEditor.cpp \
@@ -305,7 +304,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
   WbImageTexture.cpp \
-  WbImportWizard.cpp \
   WbImmersionProperties.cpp \
   WbIntEditor.cpp \
   WbIntSpinBox.cpp \
@@ -372,6 +370,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPointSet.cpp \
   WbPositionSensor.cpp \
   WbPositionViewer.cpp \
+  WbPose.cpp \
   WbPreferences.cpp \
   WbPreferencesDialog.cpp \
   WbPropeller.cpp \
@@ -461,6 +460,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
   WbMultimediaStreamingServer.cpp \
+  WbVacuumGripper.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \
   WbVisualBoundingSphere.cpp \
@@ -482,7 +482,7 @@ QT_SOURCES = WbAboutBox.cpp \
 # objects that don't inherit from QObject (alphabetical order)
 OTHER_SOURCES = \
   main.cpp \
-  WbAbstractTransform.cpp \
+  WbAbstractPose.cpp \
   WbAddItemCommand.cpp \
   WbAffinePlane.cpp \
   WbApplicationInfo.cpp \
@@ -502,6 +502,7 @@ OTHER_SOURCES = \
   WbDisplayFont.cpp \
   WbDragOverlayEvent.cpp \
   WbDragViewpointEvent.cpp \
+  WbDragScaleEvent.cpp \
   WbEditCommand.cpp \
   WbFieldModel.cpp \
   WbFileUtil.cpp \

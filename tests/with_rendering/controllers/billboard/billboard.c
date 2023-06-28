@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <webots/supervisor.h>
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
   while (time(NULL) - start_time < 5) {
     if (file_exists("image0.png") && file_exists("image1.png") && file_exists("image2.png"))
       break;
-    sleep(0.1);
+    usleep(100000);
     wb_robot_step(time_step);
   }
 

@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
         For the worlds, since the rotation depends on the proto itself,
         it could be needed to rotate some part manually.
         Also, we advice you to check the differences in a file comparator.
+        It is primarly used to fix the compatibility between R2021a and R2022b
 
 **Dependencies**
   `pip3 install numpy transforms3d`
@@ -79,7 +80,7 @@ geometry IndexedFaceSet {
 
 **Conversion process**
     Here is a list of the conversion process that the script performs automatically:
-        - replace `R2021b` by `R2023a`
+        - replace `R2021b` by `R2022a`
         - remove the `coordinateSystem ENU` line
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
         - convert the vector of the keyword 'translation', 'axis', 'anchor',
@@ -258,10 +259,10 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
             else:
                 miss_rotation = False
 
-            if 'R2023a' in line:
-                warning_verbose += 'The version of the file was already R2023a. '
+            if 'R2022a' in line:
+                warning_verbose += 'The version of the file was already R2022a. '
             elif '#VRML_SIM' in line:
-                line = '#VRML_SIM R2023a utf8 \r\n'
+                line = '#VRML_SIM R2022a utf8 \r\n'
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['position'] and len(vector) == 3:

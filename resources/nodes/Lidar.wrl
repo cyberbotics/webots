@@ -5,7 +5,6 @@ Lidar {
   #fields that inherit from the Solid node:
   vrmlField SFVec3f    translation         0 0 0
   vrmlField SFRotation rotation            0 0 1 0
-  vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []          # shape and solids fixed to that solid
   field     SFString   name                "lidar"     # used by wb_robot_get_device()
   field     SFString   model               ""          # generic name of the solid (eg: "chair")

@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
-# documentation url: https://www.cyberbotics.com/doc/guide/robotino3
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3.proto
+# keywords: robot/wheeled
 # This is a PROTO file for Webots for the robot Robotino 3 from Festo.
 # changed by Thomas Feldmeier 2020, www.servicerobotik-ulm.de
 # template language: javascript
@@ -63,27 +64,27 @@ PROTO Robotino3 [
         number 2
       }
       # rotate whole body to x=front, y=left, z=up
-      Transform {
+      Pose {
       rotation 0 0 1 1.57079632679
       children [
-      DEF EXT_webcam Transform {
+      DEF EXT_webcam Pose {
         children IS cameraSlot
       }
-      DEF EXT_platform Transform {
+      DEF EXT_platform Pose {
         translation 0 0 0.28
         children IS bodySlot
       }
-      DEF EXT_bottom_pos Transform {
+      DEF EXT_bottom_pos Pose {
         translation 0 -0.12 0.062
         rotation 1 0 0 -1.5708
         children IS bottomSlot
       }
-      DEF EXT_middle_pos Transform {
+      DEF EXT_middle_pos Pose {
         translation 0.0299983 -0.062 0.084
         rotation 0 0 -1 -1.5708
         children IS middleSlot
       }
-      DEF EXT_top_pos Transform {
+      DEF EXT_top_pos Pose {
         translation -0.03 -0.0328 0.2128
         rotation 0 0 1 -1.5708
         children IS topSlot
@@ -141,7 +142,7 @@ PROTO Robotino3 [
         rotation -0.334640 0.666339 0.666339 -2.495740
         name "ir9"
       }
-      DEF base_bottom_support Transform {
+      DEF base_bottom_support Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -155,7 +156,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_metal_half_ring Transform {
+      DEF base_metal_half_ring Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -169,7 +170,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_IR_metal_ring Transform {
+      DEF base_IR_metal_ring Pose {
         translation 0 0 0.019
         rotation 0 0 1 -0.351375
         children [
@@ -185,7 +186,7 @@ PROTO Robotino3 [
         ]
         rotationStep 0.001
       }
-      DEF base_IR_metal_ring_cover Transform {
+      DEF base_IR_metal_ring_cover Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -199,7 +200,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_wheel_cover_1 Transform {
+      DEF base_wheel_cover_1 Pose {
         translation 0 0 0.035
         children [
           DEF WHEEL_COVER Shape {
@@ -213,17 +214,17 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_wheel_cover_2 Transform {
+      DEF base_wheel_cover_2 Pose {
         translation 0 0 0.035
         rotation 0 0 1 2.0944
         children USE WHEEL_COVER
       }
-      DEF base_wheel_cover_3 Transform {
+      DEF base_wheel_cover_3 Pose {
         translation 0 0 0.035
         rotation 0 0 1 -2.0944
         children USE WHEEL_COVER
       }
-      DEF base_black_rubber Transform {
+      DEF base_black_rubber Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -236,7 +237,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_extension_plate Transform {
+      DEF base_extension_plate Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -252,7 +253,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_metal_inner_separator Transform {
+      DEF base_metal_inner_separator Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -276,7 +277,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_metal_top_separator Transform {
+      DEF base_metal_top_separator Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -300,7 +301,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_metal_side_separator_1 Transform {
+      DEF base_metal_side_separator_1 Pose {
         translation 0 0 0.035
         rotation 0 0 1 4.18879
         children [
@@ -317,7 +318,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF base_metal_side_separator_2 Transform {
+      DEF base_metal_side_separator_2 Pose {
         translation 0 0 0.035
         children [
           USE SIDE_SEP
@@ -338,7 +339,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_white_cover Transform {
+      DEF head_white_cover Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -352,7 +353,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_festo_logo Transform {
+      DEF head_festo_logo Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -365,7 +366,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_left_metal_cover Transform {
+      DEF head_left_metal_cover Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -379,7 +380,7 @@ PROTO Robotino3 [
               url "meshes/head_left_metal_cover.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0.0984 0.0081 0.2146
             rotation 0 0 1 -1.398736
             children [
@@ -395,7 +396,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_right_metal_cover Transform {
+      DEF head_right_metal_cover Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -411,7 +412,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_connector_A Transform {
+      DEF head_connector_A Pose {
         translation 0.17674 0.021483 0.2147
         rotation 0 0 1 -1.398732
         children [
@@ -431,7 +432,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_connector_B Transform {
+      DEF head_connector_B Pose {
         translation 0.0984 0.0081 0.2146
         rotation 0 0 1 -1.398736
         children [
@@ -451,7 +452,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_ethernet_port Transform {
+      DEF head_ethernet_port Pose {
         translation 0.14137 0.01534 0.2099
         rotation 0 0 1 -1.398732
         children [
@@ -480,7 +481,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_USB_port Transform {
+      DEF head_USB_port Pose {
         translation -0.172 0.02067 0.2196
         rotation 0.765250 0.643733 0 3.141592
         children [
@@ -509,7 +510,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_VGA_port Transform {
+      DEF head_VGA_port Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -532,7 +533,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_USB_and_RJ45_port Transform {
+      DEF head_USB_and_RJ45_port Pose {
         translation -0.1952 0.02476 0.2179
         rotation 0 0 1 1.398760
         children [
@@ -561,7 +562,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_extension_plate Transform {
+      DEF head_extension_plate Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -575,7 +576,7 @@ PROTO Robotino3 [
               url "meshes/head_extension_plate.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0 -0.0275 0.207
             rotation 0 0 1 -1.570796
             children [
@@ -591,7 +592,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_bottom_support Transform {
+      DEF head_bottom_support Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -605,7 +606,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_handle Transform {
+      DEF head_handle Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -618,10 +619,10 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_right_slot_1 Transform {
+      DEF head_right_slot_1 Pose {
         translation 0 0 0.015
         children [
-          Transform {
+          Pose {
             translation -0.10108 0.00962 0.233
             rotation 0.00343 0.04629 0.99892 -0.17657
             children [
@@ -640,7 +641,7 @@ PROTO Robotino3 [
             translationStep 0.001
             rotationStep 0.001
           }
-          Transform {
+          Pose {
             translation -0.10242 0.00965 0.2199
             rotation 0.765250 0.643733 -0.000000 3.141592
             children [
@@ -659,10 +660,10 @@ PROTO Robotino3 [
         ]
         translationStep 0.0001
       }
-      DEF head_right_slot_2 Transform {
+      DEF head_right_slot_2 Pose {
         translation 0 0 0.035
         children [
-          Transform {
+          Pose {
             translation -0.10108 0.00962 0.194
             rotation 0.00343 0.04629 0.99892 -0.17657
             children [
@@ -673,7 +674,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_button Transform {
+      DEF head_button Pose {
         translation 0 0 0.035
         children [
           Shape {
@@ -686,7 +687,7 @@ PROTO Robotino3 [
           }
         ]
       }
-      DEF head_button_light Transform {
+      DEF head_button_light Pose {
         translation 0 0 0.0349
         children [
           Shape {
@@ -749,7 +750,7 @@ PROTO Robotino3 [
       }
       ]} # end transform & rotate whole body
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.153
       children [
         Cylinder {

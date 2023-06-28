@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,7 @@ public:
   // getters
   double maxRange() const { return mMaxRange->value(); }
   int maxObjects() const { return mMaxObjects->value(); }
-  bool occlusion() const { return mOcclusion->value(); }
+  int occlusion() const { return mOcclusion->value(); }
   const WbRgb frameColor() const { return mFrameColor->value(); }
   int frameThickness() const { return mFrameThickness->value(); }
   bool segmentation() const { return mSegmentation->value(); }
@@ -56,7 +56,7 @@ private:
 
   WbSFDouble *mMaxRange;
   WbSFInt *mMaxObjects;
-  WbSFBool *mOcclusion;
+  WbSFInt *mOcclusion;
   WbSFColor *mFrameColor;
   WbSFInt *mFrameThickness;
   WbSFBool *mSegmentation;
@@ -64,6 +64,7 @@ private:
 private slots:
   void updateMaxRange();
   void updateMaxObjects();
+  void updateOcclusion();
   void updateFrameThickness();
 };
 

@@ -30,7 +30,7 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 **Note**: A [Supervisor](supervisor-programming.md) can start or stop an animation recording as well.
 
-### How to Embed a Web Animation in Your Website
+### How to Embed a Web Animation in your Website
 
 Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website).
 
@@ -54,12 +54,13 @@ For more complex interaction with the web component, the following functions are
   * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
-* `loadAnimation(scene, animation, play, mobileDevice, thumbnail)`: load and play the animation.
+* `loadAnimation(scene, animation, play, mobileDevice, thumbnail, raw)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `thumbnail`: the URL of the scene thumbnail.
+  * `raw`: boolean variable specifying if the animation and scene are raw files or URLs.
 * `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
@@ -93,8 +94,8 @@ The animation file contains only modifications over the following fields:
 - `Material.diffuseColor`
 - `Material.emissiveColor`
 - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)
-- `Transform.rotation`
-- `Transform.translation`
+- `Pose.rotation`
+- `Pose.translation`
 - `Light.color`
 - `Light.on`
 
@@ -116,6 +117,6 @@ The actual refresh rate can be computed with the following formula:
 
 > **Note**: It is not recommended to change the `WorldInfo.FPS` or `WorldInfo.basicTimeStep` fields while recording an animation.
 
-### Remarks on the Used Technologies and Their Limitations
+### Remarks on the used Technologies and their Limitations
 
 Please refer to [this section](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).

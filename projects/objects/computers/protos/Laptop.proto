@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/computers/protos/Laptop.proto
+# keywords: household/electronics
 # A simple laptop.
 
 PROTO Laptop [
@@ -21,7 +23,8 @@ PROTO Laptop [
     children [
       HingeJoint {
         jointParameters HingeJointParameters {
-          anchor 0.0546 0.0 0.0142
+          anchor -0.0546 0.0 0.0142
+          axis 0 -1 0
           minStop -2.105
           maxStop 0.01
           staticFriction 0.8
@@ -102,7 +105,7 @@ PROTO Laptop [
               height 400
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation -0.02 -0.023 0.022
             rotation 1 0 0 0.532
             children [
@@ -160,7 +163,7 @@ PROTO Laptop [
     ]
     name IS name
     model "laptop"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57731 -0.57741 -0.57734 2.09446
       translation 0.058 0 0.01
       children [

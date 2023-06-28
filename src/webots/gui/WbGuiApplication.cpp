@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -417,7 +417,7 @@ bool WbGuiApplication::setup() {
 #ifdef __linux__
   // popup a warning message if the preferences file is not writable
   prefs->checkIsWritable();
-  if (WbSysInfo::isRootUser())
+  if (WbSysInfo::isRootUser() && WbSysInfo::environmentVariable("CI").isEmpty())
     WbLog::warning("It is not recommended to run Webots as root.");
 
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
@@ -532,6 +532,7 @@ enum WINDOWCOMPOSITIONATTRIB {
 };
 
 struct WINDOWCOMPOSITIONATTRIBDATA {
+  // cppcheck-suppress unusedStructMember
   WINDOWCOMPOSITIONATTRIB Attrib;
   PVOID pvData;
   SIZE_T cbData;

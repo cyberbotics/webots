@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/EmergencyButton.proto
+# keywords: industrial/safety
 # An emergency button with an optional position sensor.
 # template language: javascript
 
@@ -43,6 +45,7 @@ PROTO EmergencyButton [
       }
       SliderJoint {
         jointParameters JointParameters {
+          axis 1 0 0
           minStop -0.013
           springConstant 1000
         }
@@ -83,7 +86,7 @@ PROTO EmergencyButton [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0.028 0 0
                 rotation 0 1 0 1.5707963220000003
                 children [
@@ -93,7 +96,7 @@ PROTO EmergencyButton [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.034 0 0
                 rotation 0 1 0 1.5707963220000003
                 children [
@@ -114,7 +117,7 @@ PROTO EmergencyButton [
     ]
     name IS name
     model "emergency button"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.0112 0 0
       rotation 0 1 0 1.5707963220000003
       children [

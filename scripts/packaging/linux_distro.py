@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -193,7 +193,6 @@ class LinuxWebotsPackage(WebotsPackage):
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
                 "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
-                "libxerces-c-dev, libfox-1.6-dev, libgdal-dev, libproj-dev, libgl2ps-dev, "  # SUMO dependencies
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
                 "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\n"
                 "Conflicts: webots-for-nao\n"
@@ -240,9 +239,7 @@ class LinuxWebotsPackage(WebotsPackage):
         print('\ncreating the snap package')
         # copy system libraries and include files
         # libraries specific to snap package
-        usr_lib_x68_64_linux_gnu = ["libblas.so.3",    # netconvert (sumo)
-                                    "liblapack.so.3",  # netconvert (sumo)
-                                    "libraw1394.so.11",
+        usr_lib_x68_64_linux_gnu = ["libraw1394.so.11",
                                     "libPocoFoundation.so.62",
                                     "libcanberra-gtk-module",
                                     "libcanberra-gtk3-module"]

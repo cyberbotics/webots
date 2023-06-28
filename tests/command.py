@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,6 +15,7 @@
 """Launch a system command."""
 
 import os
+import queue
 import subprocess
 import sys
 import threading
@@ -23,10 +24,10 @@ import threading
 class Command(object):
     """Launch a system command."""
 
-    def __init__(self, cmd, ansiEscape=False):
+    def __init__(self, argList, ansiEscape=False):
         """Constructor."""
         self.ansiEscape = ansiEscape
-        self.cmd = cmd.split()
+        self.cmd = argList
         self.resetAttributes()
         self.mainProcessMutex = threading.Lock()
 
@@ -102,16 +103,10 @@ class Command(object):
                         print(line[:-1])
                         if sys.platform == 'win32':
                             sys.stdout.flush()
-
-        def outputListenerTarget():
-            size = 0
-            while self.isRunningFlag:
-                if size != len(self.output):
-                    if self.expectedString in self.output:
+                    if self.expectedString and self.expectedString in line:
                         self.expectedStringFound = True
                         self.terminate(force=True)
                         return
-                    size = len(self.output)
 
         self.resetAttributes()
 
@@ -127,11 +122,6 @@ class Command(object):
             self.outputWriterThread = threading.Thread(
                 target=outputWriterTarget)
             self.outputWriterThread.start()
-
-            if expectedString:
-                self.outputListenerThread = threading.Thread(
-                    target=outputListenerTarget)
-                self.outputListenerThread.start()
 
             self.mainThread = threading.Thread(target=mainTarget)
             self.mainThread.start()
@@ -150,17 +140,47 @@ class Command(object):
                 self.terminate(force=False)
             exit()
 
-    def runTest(self, timeout=None, silent=True, forceTermination=True,
-                shell=False):
+    def runTest(self, timeout=None, silent=True, forceTermination=True, shell=False):
         """Run the command and redirect the STDERR and STDOUT to files."""
+
+        def enqueue_stream(stream, queue, type):
+            for line in iter(stream.readline, b''):
+                queue.put(str(type) + line.decode('utf-8'))
+            stream.close()
+
+        def enqueue_process(process, queue):
+            process.wait()
+            queue.put('x')
 
         def mainTarget():
             outFile = open(self.outFileName, "w")
             errFile = open(self.errFileName, "w")
-            self.returncode = subprocess.call(self.cmd, shell=shell, bufsize=1,
-                                              universal_newlines=True, stdout=outFile, stderr=errFile)
+
+            p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            q = queue.Queue()
+            to = threading.Thread(target=enqueue_stream, args=(p.stdout, q, 1))
+            te = threading.Thread(target=enqueue_stream, args=(p.stderr, q, 2))
+            tp = threading.Thread(target=enqueue_process, args=(p, q))
+            te.start()
+            to.start()
+            tp.start()
+
+            while True:
+                line = q.get()
+                if line[0] == 'x':
+                    break
+                if line[0] == '2':  # stderr
+                    errFile.write(line[1:])
+                    errFile.flush()
+                else:  # stdout
+                    outFile.write(line[1:])
+                    outFile.flush()
+            tp.join()
+            to.join()
+            te.join()
             outFile.close()
             errFile.close()
+            self.returncode = p.returncode
 
         self.outFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stdout.txt')
         self.errFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stderr.txt')

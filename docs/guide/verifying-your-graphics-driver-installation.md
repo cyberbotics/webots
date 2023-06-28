@@ -1,4 +1,4 @@
-## Verifying Your Graphics Driver Installation
+## Verifying your Graphics Driver Installation
 
 ### Supported Graphics Cards
 
@@ -16,7 +16,7 @@ Linux graphics drivers from Intel may be obtained from the [Intel Linux Graphics
 If some graphical bugs subsist, changing the "RTT preferred mode" from the Webots OpenGL Preferences from "Framebuffer Object" to "Pixelbuffer Object" or "Direct Copy" may fix the problems.
 However, this may also impact the 3D performance.
 
-### Upgrading Your Graphics Driver
+### Upgrading your Graphics Driver
 
 On Linux and Windows, you should make sure that the latest graphics driver is installed.
 On the Mac, the latest graphics drivers are automatically installed by the *Software Update*, so Mac users are not concerned by this section.

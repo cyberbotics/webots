@@ -1,0 +1,92 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  position 0 0 0
+  follow "robot:camera"
+  followType "Mounted Shot"
+  followSmoothness 0
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  ambientIntensity 1
+  intensity 10
+}
+DEF TEST Robot {
+  children [
+    Camera {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_export_image"
+  supervisor TRUE
+}
+Pose {
+  translation 0 -0.5 0
+  rotation 1 0 0 -1.5707953071795862
+  children [
+    Shape {
+      appearance DEF GREEN Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 0 1 0
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+Pose {
+  translation 0.5 0 0
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    Shape {
+      appearance DEF BLUE Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 0 0 1
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+Pose {
+  translation -0.5 0 0
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance DEF RED Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 1 0 0
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+TestSuiteSupervisor {
+}

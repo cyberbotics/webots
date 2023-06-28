@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -116,7 +116,6 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   vlayout->setSpacing(0);
   vlayout->setContentsMargins(0, 0, 0, 0);
   vlayout->addWidget(mTitleBar, 0);
-  mToolBar->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   if (toolBarAlign == "center") {
     QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->addWidget(mToolBar);
@@ -270,6 +269,7 @@ QToolBar *WbSimulationView::createToolBar() {
     mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
 
   mSoundVolumeSlider->setFocusPolicy(Qt::ClickFocus);
+  mSoundVolumeSlider->setFixedWidth(102);
   mToolBar->addWidget(mSoundVolumeSlider);
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
 
@@ -642,9 +642,8 @@ void WbSimulationView::writeScreenshot() {
   const QImage &image = mView3D->grabWindowBufferNow();
   disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
 
-  QString filename;
   while (!mScreenshotFileNameList.isEmpty() && !mScreenshotQualityList.isEmpty()) {
-    filename = mScreenshotFileNameList.takeFirst();
+    const QString filename = mScreenshotFileNameList.takeFirst();
     if (!image.save(filename, 0, mScreenshotQualityList.takeFirst()))
       WbLog::error(QString("Error while writing file: %1").arg(filename));
     else if (mIsScreenshotRequestedFromGui && mIsDecorationVisible)
@@ -686,6 +685,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
   showRenderingIfNecessary();
   mView3D->requestScreenshot();
+  mView3D->refresh();
 
   if (mIsScreenshotRequestedFromGui) {
     WbSimulationState::instance()->resumeSimulation();
@@ -834,8 +834,8 @@ void WbSimulationView::prepareWorldLoading() {
   // solid selection
   disconnect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   disconnect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  disconnect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  disconnect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   disconnect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
 }
 
@@ -864,8 +864,8 @@ void WbSimulationView::setWorld(WbSimulationWorld *w) {
   // solid selection
   connect(mSelection, &WbSelection::visibleHandlesChanged, mView3D, &WbView3D::renderLater);
   connect(mSelection, &WbSelection::selectionChangedFromSceneTree, mView3D, &WbView3D::renderLater);
-  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
-  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectTransform);
+  connect(mSelection, &WbSelection::selectionChangedFromView3D, mSceneTree, &WbSceneTree::selectPose);
+  connect(mSelection, &WbSelection::selectionConfirmedFromView3D, mSceneTree, &WbSceneTree::selectPose);
   connect(mSceneTree, &WbSceneTree::nodeSelected, mSelection, &WbSelection::selectNodeFromSceneTree);
 
   WbActionManager *const actionManager = WbActionManager::instance();
@@ -951,36 +951,36 @@ void WbSimulationView::updatePlayButtons() {
 
   WbActionManager *manager = WbActionManager::instance();
 
-  QAction *pause = manager->action(WbAction::PAUSE);
-  QAction *realtime = manager->action(WbAction::REAL_TIME);
-  QAction *fast = manager->action(WbAction::FAST);
+  QAction *pauseMode = manager->action(WbAction::PAUSE);
+  QAction *realtimeMode = manager->action(WbAction::REAL_TIME);
+  QAction *fastMode = manager->action(WbAction::FAST);
 
-  mToolBar->removeAction(pause);
-  mToolBar->removeAction(realtime);
-  mToolBar->removeAction(fast);
+  mToolBar->removeAction(pauseMode);
+  mToolBar->removeAction(realtimeMode);
+  mToolBar->removeAction(fastMode);
 
   QList<QAction *> actions;
 
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::REALTIME:
-      actions << pause << fast;
+      actions << pauseMode << fastMode;
       break;
 
     case WbSimulationState::FAST:
-      actions << realtime << pause;
+      actions << realtimeMode << pauseMode;
       break;
 
     default:  // PAUSE
-      actions << realtime << fast;
+      actions << realtimeMode << fastMode;
       break;
   }
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
   // setObjectName (used by the stylesheet)
-  QWidget *pauseWidget = mToolBar->widgetForAction(pause);
-  QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
-  QWidget *fastWidget = mToolBar->widgetForAction(fast);
+  QWidget *pauseWidget = mToolBar->widgetForAction(pauseMode);
+  QWidget *realTimeWidget = mToolBar->widgetForAction(realtimeMode);
+  QWidget *fastWidget = mToolBar->widgetForAction(fastMode);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)
@@ -1145,7 +1145,7 @@ void WbSimulationView::showEvent(QShowEvent *event) {
   updateToggleView3DAction(mSplitterStatus & VIEW_3D_VISIBLE);
 }
 
-void WbSimulationView::showMenu(const QPoint &position) {
+void WbSimulationView::showMenu(const QPoint &position, QWidget *parentWidget) {
   const WbBaseNode *selectedNode = WbSelection::instance() ? WbSelection::instance()->selectedNode() : NULL;
-  WbContextMenuGenerator::generateContextMenu(position, selectedNode);
+  WbContextMenuGenerator::generateContextMenu(position, selectedNode, parentWidget);
 }

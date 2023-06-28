@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,4 +23,5 @@ void WbAffinePlane::from3Points(const WbVector3 &P, const WbVector3 &Q, const Wb
   mC = u[0] * v[1] - u[1] * v[0];
   // Compute the scalar product of u cross v with OP
   mD = mA * P.x() + mB * P.y() + mC * P.z();
+  normalize();
 }

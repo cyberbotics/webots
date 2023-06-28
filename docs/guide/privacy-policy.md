@@ -42,7 +42,7 @@ To exercise your rights under these provisions, please contact us (see “Commun
 
 Cyberbotics fully understands the importance of privacy and takes all the necessary steps to ensure that all the collected personal data is processed, stored and deleted in a safe and secure way.
 
-### Changes to This Privacy Policy
+### Changes to this Privacy Policy
 
 Cyberbotics reserves the right to make changes to this privacy policy at any time by given notice to its Users on this page.
 It is strongly recommended to check this page often, referring to the date of the last modification listed at the bottom.

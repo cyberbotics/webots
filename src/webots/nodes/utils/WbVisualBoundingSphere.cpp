@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 #include "WbBaseNode.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbPerspective.hpp"
+#include "WbSimulationState.hpp"
 #include "WbSphere.hpp"
 #include "WbSysInfo.hpp"
 #include "WbWorld.hpp"
@@ -102,10 +103,13 @@ WbVisualBoundingSphere::WbVisualBoundingSphere() :
   mWrenSegmentationMaterial(NULL),
   mWrenMesh(NULL),
   mWrenRenderable(NULL) {
+  // make sure the bounding spheres are updates when node's position and size changes
+  WbSimulationState::instance()->subscribeToRayTracing();
 }
 
 WbVisualBoundingSphere::~WbVisualBoundingSphere() {
   deleteWrenObjects();
+  WbSimulationState::instance()->unsubscribeToRayTracing();
 }
 
 void WbVisualBoundingSphere::show(const WbBaseNode *node) {

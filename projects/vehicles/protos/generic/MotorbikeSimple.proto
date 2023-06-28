@@ -1,8 +1,9 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
-# Simple non-controllable model of a generic motorbike without physics properties
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/MotorbikeSimple.proto
+# keywords: vehicle/two wheels
+# Simple non-controllable model of a generic motorbike without physics properties.
 # template language: javascript
 
 EXTERNPROTO "MotorbikeDriver.proto"
@@ -14,14 +15,14 @@ EXTERNPROTO "MotorbikeLeftIndicator.proto"
 EXTERNPROTO "MotorbikeWheel.proto"
 
 PROTO MotorbikeSimple [
-  field       SFVec3f    translation                0 0 0.25
-  field       SFRotation rotation                   0 0 1 0
-  field       SFColor    primaryColor               0.153 0.004 0.004
-  field       SFColor    secondaryColor             0.647 0.647 0.647
-  field       MFColor    recognitionColors          [0.153 0.004 0.004, 0.647 0.647 0.647]
-  field       SFNode     driver                     MotorbikeDriver { }
-  field       SFString   name                       "vehicle"
-  field       SFBool     wheelBoundingObject        FALSE
+  field       SFVec3f    translation                0 0 0.25                                # Is `Pose.translation`.
+  field       SFRotation rotation                   0 0 1 0                                 # Is `Pose.rotation`.
+  field       SFColor    primaryColor               0.153 0.004 0.004                       # Defines the primary color of the motorbike.
+  field       SFColor    secondaryColor             0.647 0.647 0.647                       # Defines the secondary color of the motorbike.
+  field       MFColor    recognitionColors          [0.153 0.004 0.004, 0.647 0.647 0.647]  # Is `Solid.recognitionColors`.
+  field       SFNode     driver                     MotorbikeDriver { }                     # Defines a `Slot` node for the motorbike driver.
+  field       SFString   name                       "vehicle"                               # Is `Solid.name`.
+  field       SFBool     wheelBoundingObject        FALSE                                   # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f    frontWheelAngularVelocity  0 0 0
   hiddenField SFVec3f    rearWheelAngularVelocity   0 0 0
 ]
@@ -31,8 +32,7 @@ PROTO MotorbikeSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform{
-        rotation 0.57735 0.57735 0.57735 2.094395
+      Group {
         children[
           DEF DRIVER Slot {
             type "motorbike driver"
@@ -55,7 +55,6 @@ PROTO MotorbikeSimple [
       DEF FRONT_WHEEL Solid {
         angularVelocity IS frontWheelAngularVelocity
         translation 1.78 0 0
-        rotation 0 0 1 1.57
         children [
           Slot {
             type "vehicle wheel"
@@ -68,7 +67,6 @@ PROTO MotorbikeSimple [
       }
       DEF REAR_WHEEL Solid {
         angularVelocity IS rearWheelAngularVelocity
-        rotation 0 0 1 1.57
         children [
           Slot {
             type "vehicle wheel"
@@ -83,7 +81,7 @@ PROTO MotorbikeSimple [
     name IS name
     model "MotorbikeSimple"
     radarCrossSection 10
-    boundingObject Transform { # changing the bounding box to fit the driver if present
+    boundingObject Pose { # changing the bounding box to fit the driver if present
       %< if (fields.driver.value) { >%
         translation 0.79 0 0.55
         rotation 0.57735 0.57735 0.57735 2.094395

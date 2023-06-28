@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,6 +38,7 @@ void WbContactProperties::init() {
   mBumpSound = findSFString("bumpSound");
   mRollSound = findSFString("rollSound");
   mSlideSound = findSFString("slideSound");
+  mMaxContactJoints = findSFInt("maxContactJoints");
 
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
@@ -97,6 +98,7 @@ void WbContactProperties::preFinalize() {
   updateBumpSound();
   updateRollSound();
   updateSlideSound();
+  updateMaxContactJoints();
 }
 
 void WbContactProperties::postFinalize() {
@@ -116,6 +118,7 @@ void WbContactProperties::postFinalize() {
   connect(mRollSound, &WbSFString::changed, this, &WbContactProperties::updateRollSound);
   connect(mSlideSound, &WbSFString::changed, this, &WbContactProperties::updateSlideSound);
   connect(this, &WbContactProperties::needToEnableBodies, this, &WbContactProperties::enableBodies);
+  connect(mMaxContactJoints, &WbSFInt::changed, this, &WbContactProperties::updateMaxContactJoints);
 }
 
 void WbContactProperties::updateCoulombFriction() {
@@ -211,6 +214,10 @@ void WbContactProperties::updateSoftErp() {
     emit valuesChanged();
 
   emit needToEnableBodies();
+}
+
+void WbContactProperties::updateMaxContactJoints() {
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactJoints, 10);
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {

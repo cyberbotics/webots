@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 # follow the instructions from https://github.com/cyberbotics/webots/wiki/Qt-compilation#linux to download and compile Qt before executing this script.
 
-QT_VERSION=6.2.3
+QT_VERSION=6.4.3
 ICU_VERSION=56
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"

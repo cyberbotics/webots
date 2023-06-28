@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,13 +55,7 @@ void WbWrenPicker::setPickable(WrRenderable *renderable, int uniqueId, bool pick
   wr_phong_material_set_linear_diffuse(material, encodedId + 3);
 }
 
-WbWrenPicker::WbWrenPicker() :
-  mCoordinates(),
-  mSelectedId(-1),
-  mPickedTranslation(0),
-  mPickedRotation(0),
-  mPickedScale(0),
-  mPickedResize(0) {
+WbWrenPicker::WbWrenPicker() : mSelectedId(-1), mPickedTranslation(0), mPickedRotation(0), mPickedScale(0), mPickedResize(0) {
   mViewport = wr_viewport_new();
 
   const float color[4] = {0.0f, 0.0f, 0.0f, 0.0f};

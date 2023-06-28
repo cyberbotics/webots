@@ -3,7 +3,7 @@ import FloatingWindow from './FloatingWindow.js';
 export default class Terminal extends FloatingWindow {
   constructor(parentNode) {
     super(parentNode, 'terminal');
-    this.floatingWindow.style.zIndex = '2';
+    this.floatingWindow.style.zIndex = '3';
     this.headerText.innerHTML = 'Terminal';
     this.floatingWindowContent.removeChild(this.frame);
     this.options = document.createElement('div');

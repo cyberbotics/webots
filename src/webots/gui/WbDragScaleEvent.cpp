@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 
 #include "WbDragScaleEvent.hpp"
 
-#include "WbAbstractTransform.hpp"
 #include "WbBox.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
@@ -245,108 +244,4 @@ void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
   // update global resize values
   mTotalScaleRatio *= mResizeRatio;
   mManipulator->updateHandleDimensions(mTotalScaleRatio, mViewDistanceUnscaling);
-}
-
-// Moves a scale handle by dragging the mouse and changes the scale field accordingly //
-////////////////////////////////////////////////////////////////////////////////////////
-
-WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                               WbAbstractTransform *selectedTransform) :
-  WbDragView3DEvent(viewpoint),
-  mTransform(selectedTransform),
-  mHandleNumber(handleNumber),
-  mManipulator(selectedTransform->scaleManipulator()),
-  mScaleRatio(1.0f),
-  mTotalScale(1.0f) {
-  mCoordinate = handleNumber;
-  mManipulator->highlightAxis(mManipulator->coordinate(mHandleNumber));
-  mManipulator->setActive(true);
-  mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mTransform->position());
-
-  // Compute mouse position offset
-  WbVector3 localMousePosition;
-  computeHandlesPositions(initialMousePosition, mAttachedHandlePosition, mOppositeHandlePosition, localMousePosition);
-  mViewpoint->toPixels(mAttachedHandlePosition, mAttachedHandleProjection);
-  mMousePositionOffset = WbVector2(initialMousePosition.x(), initialMousePosition.y()) - mAttachedHandleProjection;
-  mLocalMouseOffset = localMousePosition[mCoordinate] -
-                      (mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate]);
-
-  mInitialScale = WbVariant(mTransform->scale());
-  mViewpoint->lock();
-}
-
-WbDragScaleHandleEvent::~WbDragScaleHandleEvent() {
-  mTransform->updateTranslateRotateHandlesSize();
-  mTransform->setResizeManipulatorDimensions();
-  mManipulator->setActive(false);
-  mManipulator->showNormal();
-  mManipulator->updateHandleDimensions(1.0f, 1.0f);
-
-  mViewpoint->unlock();
-}
-
-void WbDragScaleHandleEvent::addActionInUndoStack() {
-  WbUndoStack::instance()->push(
-    new WbEditCommand(mTransform->scaleFieldValue(), mInitialScale, mTransform->scaleFieldValue()->variantValue()));
-}
-
-void WbDragScaleHandleEvent::computeHandlesPositions(const QPoint &currentMousePosition, WbVector3 &attachedHandlePos,
-                                                     WbVector3 &oppositeHandlePos, WbVector3 &localMousePos) {
-  const WbMatrix4 &matrix = mTransform->matrix();
-
-  WbMatrix3 unscaledMatrix = matrix.extracted3x3Matrix();
-  WbVector3 scale = mTransform->scale();
-  unscaledMatrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
-
-  attachedHandlePos = matrix.translation() + unscaledMatrix * (mTotalScale * mViewDistanceUnscaling *
-                                                               mManipulator->relativeHandlePosition(mHandleNumber));
-  oppositeHandlePos = 2.0 * matrix.translation() - attachedHandlePos;
-
-  const float zEye = mViewpoint->zEye(attachedHandlePos);
-  localMousePos = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), zEye);
-  localMousePos = matrix.pseudoInversed(localMousePos);
-  localMousePos /= scale;
-}
-
-void WbDragScaleHandleEvent::computeRatio(const QPoint &currentMousePosition) {
-  WbVector3 localMousePosition;
-  computeHandlesPositions(currentMousePosition, mAttachedHandlePosition, mOppositeHandlePosition, localMousePosition);
-
-  WbVector2 currentPosition(currentMousePosition.x(), currentMousePosition.y());
-  mViewpoint->toPixels(mAttachedHandlePosition, mAttachedHandleProjection, mOppositeHandlePosition, mOppositeHandleProjection);
-  currentPosition -= mAttachedHandleProjection + mMousePositionOffset;
-  WbVector2 difference(mAttachedHandleProjection - mOppositeHandleProjection);
-  const double length = difference.length();
-  mScaleRatio = 1.0;
-
-  if (length > 0.0) {
-    difference.normalize();
-    mScaleRatio = 1.0 + currentPosition.dot(difference) / length;
-  }
-
-  if (mScaleRatio <= 0.01)
-    mScaleRatio = 1.0;
-}
-
-void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
-  computeRatio(currentMousePosition);
-  const WbVector3 &previousScale = mTransform->scale();
-  mTotalScale *= mScaleRatio;
-  mTransform->setScale(mCoordinate, mScaleRatio * previousScale[mCoordinate]);
-  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
-}
-
-// uniform scale
-
-WbUniformScaleEvent::WbUniformScaleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                         WbAbstractTransform *selectedTransform) :
-  WbDragScaleHandleEvent(initialMousePosition, viewpoint, handleNumber, selectedTransform) {
-}
-
-void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
-  computeRatio(currentMousePosition);
-  const WbVector3 &s = mScaleRatio * mTransform->scale();
-  mTotalScale *= mScaleRatio;
-  mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
-  mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }
