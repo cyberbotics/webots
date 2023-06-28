@@ -41,6 +41,8 @@ Released on June 27th, 2023.
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Remove SUMO dependency from Webots package ([#6245](https://github.com/cyberbotics/webots/pull/6245)).
   - Bug Fixes
+    - Linux: fixed high DPI scaling for MATE desktop ([#6261](https://github.com/cyberbotics/webots/pull/6261)).
+    - Windows: fixed conflict with Qt5 installation by removing the `QT_QPA_PLATFORM_PLUGIN_PATH` environment variable from the Webots launcher ([#6258](https://github.com/cyberbotics/webots/pull/6258)).
     - Fixed random crashes while creating [Skin](skin.md) and [Mesh](mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Windows: fixed compilation of controller programs located in paths with non-ASCII characters ([#6235](https://github.com/cyberbotics/webots/pull/6235)).
     - Fixed the size of the Kondo [KHR-3HV](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kondo/khr-3hv/protos/Khr3hv.proto) robot which was twice too large ([#6228](https://github.com/cyberbotics/webots/pull/6228)).
