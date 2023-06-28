@@ -1,7 +1,7 @@
 # Webots R2023 Change Log
 
 ## Webots R2023b
-Released on June 27th, 2023.
+Released on June 28th, 2023.
   - New Features
     - Added a new [Pose](pose.md) node which inherits from [Group](group.md) and derives to [Transform](transform.md) and [Solid](solid.md) ([#5978](https://github.com/cyberbotics/webots/pull/5978)).
     - Added a new [VacuumGripper](vacuumgripper.md) node ([#6127](https://github.com/cyberbotics/webots/pull/6127)).

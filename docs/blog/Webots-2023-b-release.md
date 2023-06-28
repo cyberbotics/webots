@@ -1,6 +1,6 @@
 # Version R2023b Released
 
-<p id="publish-data">By Benjamin Délèze - 27th June 2023</p>
+<p id="publish-data">By Benjamin Délèze - 28th June 2023</p>
 
 ---
 
