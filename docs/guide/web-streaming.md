@@ -125,8 +125,6 @@ The attributes of `webots-view` are only evaluated once: when the page is loaded
 
 Warning: note that if the `data-scene` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-scene` will take precedence and try to load a scene.
 
-An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
-
 ### Scene Refresh Rate
 
 The scene refresh rate is defined by the `WorldInfo.FPS` field.
