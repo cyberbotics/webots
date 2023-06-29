@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,6 @@
 #include "WbFileUtil.hpp"
 #include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
-#include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
@@ -1208,6 +1207,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mRobotWindowClosed = false;
       foreach (WbRobot *robot, robots) {
         if (perspective->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
+          // show robot window if it is in the perspective file
           showHtmlRobotWindow(robot, false);
       }
     }
@@ -1474,8 +1474,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
     return;
   }
 
-  const QDir dir(fileName);
-  if (dir.dirName() != "worlds") {
+  if (QFileInfo(fileName).dir().dirName() != "worlds") {
     const QString warning = tr("The selected directory for saving the world file is not named \"worlds\".\n"
                                "Thus it is not located in a valid Webots project.\n"
                                "As a consequence, some project-related functionalities may not work.");
@@ -1750,7 +1749,7 @@ void WbMainWindow::uploadStatus() {
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
-bool WbMainWindow::uploadFileExists(QString fileName) {
+bool WbMainWindow::uploadFileExists(const QString &fileName) {
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + fileName).exists() && maxIterations) {
     QThread::msleep(100);
@@ -1867,9 +1866,9 @@ void WbMainWindow::showOpenGlInfo() {
   QString info;
   info += tr("Host name: ") + QHostInfo::localHostName() + "\n";
   info += tr("System: ") + WbSysInfo::sysInfo() + "\n";
-  info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
-  info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
-  info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
+  info += tr("OpenGL vendor: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VENDOR)) + "\n";
+  info += tr("OpenGL renderer: ") + reinterpret_cast<const char *>(gl.glGetString(GL_RENDERER)) + "\n";
+  info += tr("OpenGL version: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VERSION)) + "\n";
   info += tr("Available GPU memory: ");
   int gpu_memory = wr_gl_state_get_gpu_memory();
   if (gpu_memory > 0)
@@ -2296,7 +2295,8 @@ void WbMainWindow::updateOverlayMenu() {
         action->setCheckable(true);
         action->setChecked(device->isOverlayEnabled());
         action->setEnabled(!device->isWindowActive());
-        action->setProperty("renderingDevice", QVariant::fromValue((void *)device));
+        action->setProperty("renderingDevice",
+                            QVariant::fromValue(static_cast<void *>(const_cast<WbRenderingDevice *>(device))));
         connect(action, &QAction::toggled, mSimulationView->view3D(), &WbView3D::setShowRenderingDevice);
         connect(device, &WbRenderingDevice::overlayVisibilityChanged, action, &QAction::setChecked);
         connect(device, &WbRenderingDevice::overlayStatusChanged, action, &QAction::setEnabled);
@@ -2465,11 +2465,11 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   cancelButton->setDefault(false);
   cancelButton->setChecked(false);
 
-  mWorldLoadingProgressDialog = new QProgressDialog();
+  mWorldLoadingProgressDialog = new QProgressDialog(this);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
-  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
+  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
   mWorldLoadingProgressDialog->setLabelText(tr("Opening world file"));

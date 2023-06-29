@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,10 +55,9 @@ CONTROLLERS=\
   niryo/ned/controllers.Makefile \
   nvidia/jetbot/controllers.Makefile \
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
-  pal_robotics/tiago_iron/controllers/tiago_iron.Makefile \
-  pal_robotics/tiago_steel/controllers/tiago_steel.Makefile \
-  pal_robotics/tiago_titanium/controllers/tiago_titanium.Makefile \
-  pal_robotics/tiago++/controllers/tiago++.Makefile \
+  pal_robotics/tiago_lite/controllers/tiago_lite.Makefile \
+  pal_robotics/tiago/controllers/tiago.Makefile \
+  pal_robotics/tiagopp/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
   rec/fabtino/controllers.Makefile \
@@ -73,11 +72,9 @@ CONTROLLERS=\
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 
-ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
-	robotis/darwin-op/plugins/robot_windows.Makefile
+ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile
 
-REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
-	robotis/darwin-op/plugins/remote_controls.Makefile
+REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 

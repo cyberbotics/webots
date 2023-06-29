@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,7 +66,7 @@ void WbMuscle::init() {
   mStatus = 0.0;
   mMaterialStatus = mStatus;
   mDirectionInverted = false;
-  mParentTransform = NULL;
+  mParentPose = NULL;
   mMatrix = WbMatrix4();
 
   // WREN
@@ -120,7 +120,7 @@ WbMuscle::~WbMuscle() {
 void WbMuscle::postFinalize() {
   WbBaseNode::postFinalize();
 
-  mParentTransform = WbNodeUtilities::findUpperTransform(this);
+  mParentPose = WbNodeUtilities::findUpperPose(this);
   const WbJoint *joint = dynamic_cast<WbJoint *>(parentNode()->parentNode());
   updateEndPoint(joint->solidEndPoint());
   WbWrenVertexArrayFrameListener::instance()->subscribeMuscle(this);
@@ -206,7 +206,7 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
       disconnect(mEndPoint, &WbSolid::translationOrRotationChangedByUser, this, &WbMuscle::updateEndPointPosition);
     }
     mEndPoint = solid;
-    if (solid) {
+    if (mEndPoint) {
       // listen to solid endPoint position change
       connect(mEndPoint->translationFieldValue(), &WbSFVector3::changedByOde, this, &WbMuscle::stretch, Qt::UniqueConnection);
       // listen to joint force percentage

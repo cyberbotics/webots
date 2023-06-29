@@ -42,47 +42,22 @@ jobs:
          fetch-depth: 15
     - name: Install Webots Compilation Dependencies
       run: |
-        # swig wget cmake python@3.8 python@3.9 and python@3.10 are already installed
-        if HOMEBREW_NO_INSTALL_CLEANUP=1 brew install python@3.7; then
-          echo "Installation of Python3.7 successful"
-        else
-          echo "Installation of Python3.7 failed"
-        fi
+        # swig wget and cmake are already installed
         npm install -g appdmg
-        # install regular Python 3.7
-        wget -qq https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg
-        sudo installer -pkg python-3.7.9-macosx10.9.pkg -target /
-        # install regular Python 3.8
-        wget -qq https://www.python.org/ftp/python/3.8.10/python-3.8.10-macos11.pkg
-        sudo installer -pkg python-3.8.10-macos11.pkg -target /
-        # install regular Python 3.9
-        wget -qq https://www.python.org/ftp/python/3.9.13/python-3.9.13-macos11.pkg
-        sudo installer -pkg python-3.9.13-macos11.pkg -target /
-        # install regular Python 3.10
-        wget -qq https://www.python.org/ftp/python/3.10.5/python-3.10.5-macos11.pkg
-        sudo installer -pkg python-3.10.5-macos11.pkg -target /
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
     - name: Webots Package Creation
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin/:$PATH
         make distrib -j4
-    - name: Prepare Webots Controller Deployment
-      if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller') }}
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
-    - name: Deploy Webots Controller
-      if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller') }}
-      run: scripts/packaging/sync_controller_lib.sh
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
@@ -98,7 +73,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -107,10 +82,10 @@ jobs:
         hdiutil mount artifact/webots-*.dmg
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: 3.11
     - name: Test
       run:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true

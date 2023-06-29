@@ -1,7 +1,9 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# a flag
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/samples/contests/tower_of_hanoi/protos/YoubotFlag.proto
+# keywords: robot/accessory
+# A flag
 
 EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/MetalAppearance.proto"
 
@@ -19,7 +21,7 @@ Solid {
   children [
     DEF FLAG_SHAPE Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.015
           children [
             Shape {
@@ -33,7 +35,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.27
           children [
             Shape {

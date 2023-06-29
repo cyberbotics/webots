@@ -1,0 +1,129 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  basicTimeStep 2
+  FPS 30
+  physicsDisableLinearThreshold 0
+  physicsDisableAngularThreshold 0
+  contactProperties [
+    ContactProperties {
+      material1 "cone"
+      material2 "floor"
+      bounce 0.1
+      softCFM 1e-05
+    }
+    ContactProperties {
+      material1 "cone"
+      material2 "polycarbonate"
+      bounce 0
+      softERP 0.0138
+      softCFM 1e-05
+    }
+    ContactProperties {
+      material1 "cone"
+      material2 "hdpe"
+      coulombFriction [
+        0.2
+      ]
+      bounce 0
+      softERP 0.0138
+      softCFM 1e-05
+    }
+    ContactProperties {
+      material1 "ramp"
+      material2 "floor"
+      coulombFriction [
+        0
+      ]
+      softCFM 1e-05
+    }
+  ]
+}
+Viewpoint {
+  orientation 0 0 -1 3.141592653589793
+  position -3.2500698460880066 -4.241062972570277 0.8902939992988006
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Solid {
+  children [
+    Pose {
+      translation -5.92 -4.45461 0.883074
+      rotation -1 0 0 0.6109999999999997
+      children [
+        Shape {
+          appearance PBRAppearance {
+            transparency 0.25
+          }
+          geometry Box {
+            size 0.597 0.819 0.1
+          }
+        }
+      ]
+    }
+  ]
+  name "Box"
+  contactMaterial "hdpe"
+  boundingObject Pose {
+    translation -5.92 -4.45461 0.883074
+    rotation -1 0 0 0.6109999999999997
+    children [
+      Box {
+        size 0.597 0.819 0.1
+      }
+    ]
+  }
+}
+DEF CONE Solid {
+  translation -5.95194 -4.39265 1.06023
+  rotation 1 0 0 -2.4870996938995744
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.988235 0.913725 0.309804
+        transparency 0.25
+      }
+      geometry Mesh {
+        url [
+          "meshes/cone.stl"
+        ]
+      }
+    }
+  ]
+  name "Cone"
+  contactMaterial "cone"
+  boundingObject Mesh {
+    url [
+      "meshes/cone.stl"
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.653
+    centerOfMass [
+      0 0 0.096
+    ]
+    inertiaMatrix [
+      0.00736 0.00736 0.003744
+      0 0 0
+    ]
+  }
+}
+  DEF SUPERVISOR Robot {
+    children [
+      TestSuiteEmitter {
+      }
+    ]
+    controller "contact_points"
+    name "supervisor"
+    supervisor TRUE
+  }
+  TestSuiteSupervisor {
+}

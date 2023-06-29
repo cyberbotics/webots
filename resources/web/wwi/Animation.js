@@ -22,8 +22,11 @@ export default class Animation {
 
   init(onReady) {
     this.#onReady = onReady;
-    this.#jsonPromise.then(json => this.#setup(json))
-      .catch(error => console.error(error));
+    if (this.#jsonPromise instanceof Promise) {
+      this.#jsonPromise.then(json => this.#setup(json))
+        .catch(error => console.error(error));
+    } else
+      this.#setup(this.#jsonPromise);
   }
 
   pause() {
@@ -70,20 +73,20 @@ export default class Animation {
     if (this.data.frames.length > 1000) {
       this.numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
       for (let i = 0; i < this.numberOfKeyFrames; i++) {
-        const allPoses = new Map();
+        const allUpdates = new Map();
         const allLabels = new Map();
         for (let j = (i + 1) * this.keyFrameStepSize; j > i * this.keyFrameStepSize; j--) {
-          const poses = this.data.frames[j].poses;
-          if (poses) {
-            for (let k = 0; k < poses.length; k++) {
-              const currentIdFields = allPoses.has(poses[k].id) ? allPoses.get(poses[k].id) : new Map();
-              for (let field in poses[k]) {
+          const updates = this.data.frames[j].updates;
+          if (updates) {
+            for (let k = 0; k < updates.length; k++) {
+              const currentIdFields = allUpdates.has(updates[k].id) ? allUpdates.get(updates[k].id) : new Map();
+              for (let field in updates[k]) {
                 if (field === 'id' || currentIdFields.has(field))
                   continue;
                 else
-                  currentIdFields.set(field, {'id': poses[k].id, [field]: poses[k][field]});
+                  currentIdFields.set(field, {'id': updates[k].id, [field]: updates[k][field]});
               }
-              allPoses.set(poses[k].id, currentIdFields);
+              allUpdates.set(updates[k].id, currentIdFields);
             }
           }
 
@@ -100,25 +103,32 @@ export default class Animation {
         }
 
         if (i === 0) {
-          const poses = this.data.frames[0].poses; // No need to check the labels because they are defined in the second frames.
-          if (poses) {
-            for (let j = 0; j < poses.length; j++) {
-              const currentIdFields = allPoses.has(poses[j].id) ? allPoses.get(poses[j].id) : new Map();
+          const updates = this.data.frames[0].updates;
+          if (updates) {
+            for (let j = 0; j < updates.length; j++) {
+              const currentIdFields = allUpdates.has(updates[j].id) ? allUpdates.get(updates[j].id) : new Map();
 
-              for (let field in poses[j]) {
+              for (let field in updates[j]) {
                 if (field === 'id' || currentIdFields.has(field))
                   continue;
                 else
-                  currentIdFields.set(field, {'id': poses[j].id, [field]: poses[j][field]});
+                  currentIdFields.set(field, {'id': updates[j].id, [field]: updates[j][field]});
               }
-              allPoses.set(poses[j].id, currentIdFields);
+              allUpdates.set(updates[j].id, currentIdFields);
+            }
+          }
+          // add an empty, transparent label for labels that are initialized later.
+          if (allLabels.size !== this.#labelsIds.length) {
+            for (const labelId of this.#labelsIds) {
+              if (!allLabels.has(labelId))
+                allLabels.set(labelId, {'id': labelId, 'rgba': '0,0,0,0', 'size': 0, 'x': 0, 'y': 0, 'text': ''});
             }
           }
         } else { // Check the previous keyFrame to get missing updates
-          const poses = this.#keyFrames.get(i - 1).poses;
-          for (let element of poses) {
+          const updates = this.#keyFrames.get(i - 1).updates;
+          for (let element of updates) {
             const id = element[0];
-            const currentIdFields = allPoses.has(id) ? allPoses.get(id) : new Map();
+            const currentIdFields = allUpdates.has(id) ? allUpdates.get(id) : new Map();
 
             for (let field of element[1]) {
               if (currentIdFields.has(field[0])) // we want to update each field only once
@@ -126,7 +136,7 @@ export default class Animation {
               else
                 currentIdFields.set(field[0], field[1]);
             }
-            allPoses.set(id, currentIdFields);
+            allUpdates.set(id, currentIdFields);
           }
 
           const labels = this.#keyFrames.get(i - 1).labels;
@@ -137,10 +147,10 @@ export default class Animation {
           }
         }
 
-        this.#keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
+        this.#keyFrames.set(i, {updates: new Map(allUpdates), labels: new Map(allLabels)});
       }
       this.numberOfFields = new Map();
-      for (let [key, value] of this.#keyFrames.get(this.numberOfKeyFrames - 1).poses)
+      for (let [key, value] of this.#keyFrames.get(this.numberOfKeyFrames - 1).updates)
         this.numberOfFields.set(key, value.size);
     }
 
@@ -181,14 +191,14 @@ export default class Animation {
 
       // lookback mechanism: search in history
       if (this.step !== this.#previousStep + 1) {
-        let previousPoseStep;
+        let previousUpdateStep;
         const closestKeyFrame = Math.floor(this.step / this.keyFrameStepSize) - 1;
 
         let previousStepIsAKeyFrame = false;
         if (this.step > this.#previousStep && this.#previousStep > (closestKeyFrame + 1) * this.keyFrameStepSize)
-          previousPoseStep = this.#previousStep;
+          previousUpdateStep = this.#previousStep;
         else {
-          previousPoseStep = (closestKeyFrame + 1) * this.keyFrameStepSize;
+          previousUpdateStep = (closestKeyFrame + 1) * this.keyFrameStepSize;
           if (this.#keyFrames.size > 0)
             previousStepIsAKeyFrame = true;
         }
@@ -197,19 +207,19 @@ export default class Animation {
         const appliedFieldsByIds = new Map();
         const appliedLabelsIds = new Set();
 
-        // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame.
+        // We do not want to include the previousUpdateStep in the loop as its updates are in the keyFrame.
         // However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
-        if (previousStepIsAKeyFrame && previousPoseStep !== 0)
-          previousPoseStep++;
+        if (previousStepIsAKeyFrame && previousUpdateStep !== 0)
+          previousUpdateStep++;
 
         // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied.
         // Go in decreasing order to minize the number of steps.
-        for (let i = this.step; i >= previousPoseStep; i--) {
-          if (this.data.frames[i].poses) {
-            for (let j = 0; j < this.data.frames[i].poses.length; j++) { // At each frame, apply all poses
-              const id = this.data.frames[i].poses[j].id;
+        for (let i = this.step; i >= previousUpdateStep; i--) {
+          if (this.data.frames[i].updates) {
+            for (let j = 0; j < this.data.frames[i].updates.length; j++) { // At each frame, apply all updates
+              const id = this.data.frames[i].updates[j].id;
               if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
-                for (let field in this.data.frames[i].poses[j]) {
+                for (let field in this.data.frames[i].updates[j]) {
                   if (!appliedFieldsByIds.has(id)) {
                     appliedFieldsByIds.set(id, new Set());
                     appliedFieldsByIds.get(id).add('id');
@@ -218,7 +228,7 @@ export default class Animation {
                   if (appliedFieldsByIds.get(id).has(field)) // we want to update each field only once
                     continue;
                   else {
-                    this.#scene.applyPose({'id': id, [field]: this.data.frames[i].poses[j][field]});
+                    this.#scene.applyUpdate({'id': id, [field]: this.data.frames[i].updates[j][field]});
                     appliedFieldsByIds.get(id).add(field);
 
                     if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
@@ -241,8 +251,8 @@ export default class Animation {
         }
 
         if (previousStepIsAKeyFrame && closestKeyFrame >= 0) { // Get the missing updates from the closest keyFrame
-          const poses = this.#keyFrames.get(closestKeyFrame).poses;
-          for (let element of poses) {
+          const updates = this.#keyFrames.get(closestKeyFrame).updates;
+          for (let element of updates) {
             const id = element[0];
             if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
               for (let field of element[1]) {
@@ -253,7 +263,7 @@ export default class Animation {
                 if (appliedFieldsByIds.get(id).has(field[0])) // we want to update each field only once
                   continue;
                 else {
-                  this.#scene.applyPose(field[1]);
+                  this.#scene.applyUpdate(field[1]);
                   appliedFieldsByIds.get(id).add(field[0]);
                   if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
                     completeIds.add(id);
@@ -271,10 +281,10 @@ export default class Animation {
           }
         }
       } else {
-        if (this.data.frames[this.step].hasOwnProperty('poses')) {
-          const poses = this.data.frames[this.step].poses;
-          for (let p = 0; p < poses.length; p++)
-            this.#scene.applyPose(poses[p], undefined);
+        if (this.data.frames[this.step].hasOwnProperty('updates')) {
+          const updates = this.data.frames[this.step].updates;
+          for (let p = 0; p < updates.length; p++)
+            this.#scene.applyUpdate(updates[p], undefined);
           WbWorld.instance.tracks.forEach(track => {
             if (track.linearSpeed !== 0) {
               track.animateMesh();

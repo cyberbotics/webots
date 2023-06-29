@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -30,7 +30,6 @@ CircleArena {
 }
 Thymio2 {
   translation 0 0 1
-  controller "thymio2_demo"
   window "thymio2"
 }
 Thymio2Ball {

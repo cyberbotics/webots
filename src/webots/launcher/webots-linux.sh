@@ -79,6 +79,9 @@ if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
     export QT_SCALE_FACTOR=2
     export QT_FONT_DPI=80
   fi
+# Fix for MATE desktop
+elif [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
+  export QT_ENABLE_HIGHDPI_SCALING=0
 else
   export QT_ENABLE_HIGHDPI_SCALING=1
 fi

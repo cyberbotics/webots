@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,8 +44,8 @@ public:
   void clear() override;
   void insertDefaultItem(int index) override;
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
-  void removeItem(int index) override;
-  bool removeNode(WbNode *node);
+  void removeItem(int index) override;  // remove and delete the node instance
+  bool removeNode(WbNode *node);        // remove without deleting the node instance
   void writeItem(WbWriter &writer, int index) const override;
   WbVariant variantValue(int index) const override {
     assert(index >= 0 && index < size());
@@ -56,7 +56,7 @@ public:
     assert(index >= 0 && index < size());
     return mVector[index];
   }
-  void setItem(int index, WbNode *node);
+  void setItem(int index, WbNode *node);  // replace node at index and delete the previous node instance
   void addItem(WbNode *node);
   void insertItem(int index, WbNode *node);
   WbMFNode &operator=(const WbMFNode &other);

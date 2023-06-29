@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,16 +16,15 @@
 #define WB_TRANSFORM_HPP
 
 //
-// Description: a node that defines a 3D coordinate system transformation
-//
-// Inherited by: WbSolid
+// Description: extends the Pose node by implementing a scaling factor
 //
 
-#include "WbAbstractTransform.hpp"
-#include "WbGroup.hpp"
-#include "WbShape.hpp"
+#include "WbMatrix3.hpp"
+#include "WbPose.hpp"
 
-class WbTransform : public WbGroup, public WbAbstractTransform {
+class WbBaseNode;
+
+class WbTransform : public WbPose {
   Q_OBJECT
 
 public:
@@ -33,123 +32,56 @@ public:
   explicit WbTransform(WbTokenizer *tokenizer = NULL);
   WbTransform(const WbTransform &other);
   explicit WbTransform(const WbNode &other);
-  virtual ~WbTransform();
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
   void preFinalize() override;
   void postFinalize() override;
-  void createWrenObjects() override;
-  void updateCollisionMaterial(bool isColliding = false, bool onSelection = false) override;
-  void setSleepMaterial() override;
+
   void setScaleNeedUpdate() override;
-  void setMatrixNeedUpdate() override;
-  void connectGeometryField(bool dynamic);
-  void reset(const QString &id) override;
-  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
-    return QList<const WbBaseNode *>() << this;
-  }
+  void createWrenObjects() override;
 
-  // accessors to stored fields
-  const WbVector3 translationFromFile(const QString &id) const { return mSavedTranslations[id]; }
-  const WbRotation rotationFromFile(const QString &id) const { return mSavedRotations[id]; }
-  void setTranslationFromFile(const WbVector3 &translation) { mSavedTranslations[stateId()] = translation; }
-  void setRotationFromFile(const WbRotation &rotation) { mSavedRotations[stateId()] = rotation; }
-
-  void save(const QString &id) override;
-
-  // Scaling
-  int constraintType() const override;
-
-  // update of ODE data stored in geometry() for WbTransform lying into a boundingObject
-  void applyToOdeData(bool correctMass = true);
-
-  // for a Transform lying into a boundingObject
-  void listenToChildrenField();
-  inline WbGeometry *geometry() const;
-  bool isAValidBoundingObject(bool checkOde = false, bool warning = false) const override;
-  bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-
-  // resize/scale manipulator
-  bool hasResizeManipulator() const override { return WbAbstractTransform::hasResizeManipulator(); }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
-  }
-
-  // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
-
-  void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
-  void emitTranslationOrRotationChangedByUser() override;
-  WbVector3 translationFrom(const WbNode *fromNode) const;
-  WbMatrix3 rotationMatrixFrom(const WbNode *fromNode) const;
-
-  // export
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
   QStringList fieldsToSynchronizeWithX3D() const override;
 
-public slots:
-  virtual void updateRotation();
-  virtual void updateTranslation();
-  virtual void updateTranslationAndRotation();
-  void showResizeManipulator(bool enabled) override;
+  const WbVector3 &scale() const { return mScale->value(); }
+  WbSFVector3 *scaleFieldValue() const { return mScale; }
 
-signals:
-  void geometryInTransformInserted();
-  void poseChanged();
-  void translationOrRotationChangedByUser();
+  void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
+  void setScale(const WbVector3 &s) { mScale->setValue(s); }
+  void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
+
+  // scaling
+  const WbVector3 &absoluteScale() const;
+
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
+
+  // 3x3 absolute rotation matrix
+  const WbMatrix4 &vrmlMatrix() const override;
 
 protected:
-  // this constructor is reserved for derived classes only
-  WbTransform(const QString &modelName, WbTokenizer *tokenizer);
-  void applyToScale() override;
+  void applyToScale();
+  void applyScaleToWren();
 
-  void createScaleManipulator() override;
+  // A specific scale check is done in the WbSolid class
+  WbSFVector3 *mScale;
+  double mPreviousXscaleValue;
+  void sanitizeScale();
+
+  void setScaleNeedUpdateFlag() const;
 
 protected slots:
-  virtual void updateScale(bool warning = true);
-  void updateConstrainedHandleMaterials();
+  void updateScale(bool warning = false);
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable
   WbNode *clone() const override { return new WbTransform(*this); }
   void init();
 
-  // Positions and orientations storage
-  QMap<QString, WbVector3> mSavedTranslations;
-  QMap<QString, WbRotation> mSavedRotations;
-
-  mutable bool mPoseChangedSignalEnabled;
-
-  void applyToOdeGeomRotation();
-  void applyToOdeGeomPosition(bool correctMass = true);
-  void applyToOdeMass(WbGeometry *g, dGeomID geom);
   void applyToOdeScale();
-  void destroyPreviousOdeGeoms();
-  WbShape *shape() const;
 
-private slots:
-  void createOdeGeom(int index = -1);
-  void createOdeGeomIfNeeded();
-  void notifyJerk();
+  void updateAbsoluteScale() const;
+  void updateMatrix() const override;
 };
-
-inline WbGeometry *WbTransform::geometry() const {
-  if (childCount() == 0)
-    return NULL;
-
-  WbBaseNode *const c = child(0);
-
-  if (c->nodeType() == WB_NODE_SHAPE)
-    return static_cast<WbShape *>(c)->geometry();
-
-  return dynamic_cast<WbGeometry *>(c);
-}
 
 #endif

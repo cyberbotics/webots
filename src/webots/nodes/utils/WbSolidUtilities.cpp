@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,8 +20,8 @@
 #include "WbElevationGrid.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMesh.hpp"
+#include "WbPose.hpp"
 #include "WbSphere.hpp"
-#include "WbTransform.hpp"
 
 #include <ode/ode.h>
 
@@ -68,10 +68,10 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   dMass m;
   dMassSetZero(&m);
 
-  // The WbTransform case must come before the WbGroup case
-  const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
-  if (transform) {
-    WbGeometry *g = transform->geometry();
+  // The WbPose case must come before the WbGroup case
+  const WbPose *const pose = dynamic_cast<WbPose *>(node);
+  if (pose) {
+    WbGeometry *g = pose->geometry();
 
     // Computes the total mass
     if (g && g->odeGeom())
@@ -81,14 +81,13 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
       return;
 
     // Rotates the inertia matrix
-    const WbRotation &r = transform->rotation();
+    const WbRotation &r = pose->rotation();
     dMatrix3 m3;
     dRFromAxisAndAngle(m3, r.x(), r.y(), r.z(), r.angle());
     dMassRotate(&m, m3);
 
     // Translates the inertia matrix
-    WbVector3 t = transform->translation();
-    t *= transform->upperTransform()->absoluteScale().x();
+    WbVector3 t = pose->translation();
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 
@@ -96,7 +95,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     return;
   }
 
-  // The case of a WbGroup which is NOT a WbTransform
+  // The case of a WbGroup which is NOT a WbPose
   const WbGroup *const group = dynamic_cast<WbGroup *>(node);
   if (group) {
     WbMFNode::Iterator it(group->children());
@@ -224,13 +223,13 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
   if (node == NULL)
     return false;
 
-  const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
+  const WbPose *const pose = dynamic_cast<WbPose *>(node);
   // cppcheck-suppress knownConditionTrueFalse
-  if (transform) {
-    WbNode *child = transform->child(0);
+  if (pose) {
+    WbNode *child = pose->child(0);
     if (child == NULL) {
       node->parsingWarn(
-        QObject::tr("Invalid 'boundingObject' (a Transform has no 'geometry'): the inertia matrix cannot be calculated."));
+        QObject::tr("Invalid 'boundingObject' (a Pose has no 'geometry'): the inertia matrix cannot be calculated."));
       return false;
     }
 
@@ -241,9 +240,8 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);
     if (shape == NULL || shape->geometry() == NULL) {
-      node->parsingWarn(
-        QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
-                    "inertia matrix cannot be calculated."));
+      node->parsingWarn(QObject::tr("Invalid 'boundingObject' (a Pose, or a Shape within a Pose, has no 'geometry'): the "
+                                    "inertia matrix cannot be calculated."));
       return false;
     }
   }

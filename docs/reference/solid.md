@@ -1,6 +1,6 @@
 ## Solid
 
-Derived from [Transform](transform.md).
+Derived from [Pose](pose.md).
 
 ```
 Solid {
@@ -20,7 +20,7 @@ Solid {
 }
 ```
 
-Direct derived nodes: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md).
+Direct derived nodes: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md), [VacuumGripper](vacuumgripper.md).
 
 ### Description
 
@@ -28,13 +28,10 @@ A [Solid](#solid) node represents an object with physical properties such as dim
 The [Solid](#solid) class is the base class for collision-detected objects.
 Robots and device classes are subclasses of the [Solid](#solid) class.
 In the 3D window, [Solid](#solid) nodes can be manipulated (dragged, lifted, rotated, etc) using the mouse.
+[Solid](#solid) nodes may be `children` of [Group](group.md), [Pose](pose.md), [Solid](#solid) nodes and other nodes derived from [Solid](solid.md).
+They cannot be `children` of a [Transform](transform.md) node, because they don't support scaling.
 
 ### Field Summary
-
-Note that in the [Solid](#solid) node, the `scale` field inherited from the [Transform](transform.md) must always remain uniform, i.e., of the form `x x x` where `x` is any positive real number.
-This ensures that all primitive geometries will remain suitable for ODE collision detection.
-Whenever a scale coordinate is changed, the two other ones are automatically changed to this new value.
-If a scale coordinate is assigned a non-positive value, it is automatically changed to 1.
 
 - `name`: name of the solid.
 In derived device classes this corresponds to the device name argument used by the `wb_robot_get_device` function.
@@ -80,7 +77,7 @@ The colors defined in this field are returned for this object if recognized by a
 If the [Solid](#solid) node is merged into a solid assembly (see [implicit solid merging](physics.md#implicit-solid-merging-and-joints)), then these fields will be effective only for the [Solid](#solid) at the top of the assembly.
 Hidden velocity fields allow you to save and restore the dynamics of your simulation or to define initial velocities for every physical objects in the scene.
 
-### How to Use the "boundingObject" Field?
+### How to use the "boundingObject" Field?
 
 The `boundingObject` field is used to define the bounds of a [Solid](#solid) as geometrical primitives.
 Each `boundingObject` can hold one or several geometrical primitives, such as [Box](box.md), [Capsule](capsule.md), [Cylinder](cylinder.md), etc.
@@ -101,7 +98,7 @@ Various combinations of primitives can be used in a `boundingObject`: it can con
 6. A [Plane](plane.md) node.
 7. A [Sphere](sphere.md) node.
 8. A [Shape](shape.md) node with one of the above nodes in its `geometry` field.
-9. A [Transform](transform.md) node with one of the above nodes in its `children` field.
+9. A [Pose](pose.md) node with one of the above nodes in its `children` field.
 10. A [Group](group.md) node with several `children`, each being one of the above.
 
 The `boundingObject`, together with the [Physics](physics.md) node, are used to compute the inertia matrix of the [Solid](#solid).
@@ -133,7 +130,7 @@ Robot {
     }
     Group {
       children [
-        Transform {
+        Pose {
           children [
             DEF D Solid { }
           ]

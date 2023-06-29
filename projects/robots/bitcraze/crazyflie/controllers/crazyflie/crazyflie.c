@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,6 +42,8 @@
 // Add external controller
 #include "pid_controller.h"
 
+#define FLYING_ALTITUDE 1.0
+
 int main(int argc, char **argv) {
   wb_robot_init();
 
@@ -62,7 +64,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(m4_motor, 1.0);
 
   // Initialize sensors
-  WbDeviceTag imu = wb_robot_get_device("inertial unit");
+  WbDeviceTag imu = wb_robot_get_device("inertial_unit");
   wb_inertial_unit_enable(imu, timestep);
   WbDeviceTag gps = wb_robot_get_device("gps");
   wb_gps_enable(gps, timestep);
@@ -102,14 +104,15 @@ int main(int argc, char **argv) {
   gains_pid.kp_vel_xy = 2;
   gains_pid.kd_vel_xy = 0.5;
   gains_pid.kp_z = 10;
-  gains_pid.ki_z = 50;
+  gains_pid.ki_z = 5;
   gains_pid.kd_z = 5;
   init_pid_attitude_fixed_height_controller();
+
+  double height_desired = FLYING_ALTITUDE;
 
   // Initialize struct for motor power
   motor_power_t motor_power;
 
-  printf(" Take off! \n");
   printf("\n");
 
   printf("====== Controls =======\n");
@@ -118,6 +121,7 @@ int main(int argc, char **argv) {
   printf(" All controllable movement is in body coordinates\n");
   printf("- Use the up, back, right and left button to move in the horizontal plane\n");
   printf("- Use Q and E to rotate around yaw\n ");
+  printf("- Use W and S to go up and down\n");
 
   while (wb_robot_step(timestep) != -1) {
     const double dt = wb_robot_get_time() - past_time;
@@ -150,32 +154,41 @@ int main(int argc, char **argv) {
     double forward_desired = 0;
     double sideways_desired = 0;
     double yaw_desired = 0;
+    double height_diff_desired = 0;
 
     // Control altitude
     int key = wb_keyboard_get_key();
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          forward_desired = +0.2;
+          forward_desired = +0.5;
           break;
         case WB_KEYBOARD_DOWN:
-          forward_desired = -0.2;
+          forward_desired = -0.5;
           break;
         case WB_KEYBOARD_RIGHT:
-          sideways_desired = -0.2;
+          sideways_desired = -0.5;
           break;
         case WB_KEYBOARD_LEFT:
-          sideways_desired = +0.2;
+          sideways_desired = +0.5;
           break;
         case 'Q':
-          yaw_desired = 0.5;
+          yaw_desired = 1.0;
           break;
         case 'E':
-          yaw_desired = -0.5;
+          yaw_desired = -1.0;
+          break;
+        case 'W':
+          height_diff_desired = 0.1;
+          break;
+        case 'S':
+          height_diff_desired = -0.1;
           break;
       }
       key = wb_keyboard_get_key();
     }
+
+    height_desired += height_diff_desired * dt;
 
     // Example how to get sensor data
     // range_front_value = wb_distance_sensor_get_value(range_front));
@@ -186,6 +199,7 @@ int main(int argc, char **argv) {
     // PID velocity controller with fixed height
     desired_state.vy = sideways_desired;
     desired_state.vx = forward_desired;
+    desired_state.altitude = height_desired;
     pid_velocity_fixed_height_controller(actual_state, &desired_state, gains_pid, dt, &motor_power);
 
     // Setting motorspeed

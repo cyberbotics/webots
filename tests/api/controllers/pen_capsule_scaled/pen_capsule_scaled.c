@@ -126,10 +126,10 @@ int main(int argc, char **argv) {
     "The number of pixels painted after the second step should be greater than before (%d) and lower than 80 not %d", oldValue,
     numColorPixels);
 
-  color = getPixelColor(15, 31);
+  color = getPixelColor(13, 31);
   ts_assert_color_in_delta(
     color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (15, 31) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after second paint call", 206, 171,
+    "Pixel (13, 31) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after second paint call", 206, 171,
     58, color.r, color.g, color.b);
 
   wb_robot_step(TIME_STEP);
@@ -162,10 +162,10 @@ int main(int argc, char **argv) {
     "The number of pixels painted after the third step should be greater than before (%d) and lower than 150 not %d", oldValue,
     numColorPixels);
 
-  color = getPixelColor(31, 16);
+  color = getPixelColor(32, 16);
   ts_assert_color_in_delta(
     color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (31, 16) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after third paint call", 206, 171,
+    "Pixel (32, 16) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after third paint call", 206, 171,
     58, color.r, color.g, color.b);
 
   ts_send_success();

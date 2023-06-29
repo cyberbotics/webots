@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,7 +58,8 @@ namespace wren {
       mParent->setBoundingVolumeDirty();
   }
 
-  Node::Node() : mIsVisible(true), mIsAabbDirty(true), mIsBoundingSphereDirty(true), mParent(NULL) {}
+  Node::Node() : mIsVisible(true), mIsAabbDirty(true), mIsBoundingSphereDirty(true), mParent(NULL) {
+  }
 
   Node::Node(Node *source) :
     mIsVisible(source->mIsVisible),
@@ -66,7 +67,8 @@ namespace wren {
     mIsBoundingSphereDirty(source->mIsBoundingSphereDirty),
     mAabb(source->mAabb),
     mBoundingSphere(source->mBoundingSphere),
-    mParent(source->mParent) {}
+    mParent(source->mParent) {
+  }
 
   void Node::recomputeAabb() const {
     mAabb = primitive::Aabb(glm::vec3(0.0f), glm::vec3(0.0f));

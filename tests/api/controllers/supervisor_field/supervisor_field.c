@@ -408,6 +408,16 @@ int main(int argc, char **argv) {
   vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
   ts_assert_doubles_equal(3, vector3_modified, vector3_expected, "Delayed 'wb_supervisor_field_set_sf_vec3f' failed");
 
+  // test that removing a tracked node doesn't cause a crash
+  wb_robot_step(TIME_STEP);
+  field = wb_supervisor_node_get_field(box, "translation");
+  wb_supervisor_field_enable_sf_tracking(field, TIME_STEP);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_remove(box);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_field_get_sf_vec3f(field);
+  wb_supervisor_field_disable_sf_tracking(field);
+
   // test internal SFFloat was read-only (wb_supervisor_field_set_sf_float failed)
   // field reference is invalid after regeneration
   int internal_field_type = wb_supervisor_field_get_type(internal_field);
@@ -453,18 +463,19 @@ int main(int argc, char **argv) {
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a field using an out of range index");
 
   const int proto_fields_count = wb_supervisor_node_get_proto_number_of_fields(mfTest);
-  ts_assert_int_equal(proto_fields_count, 18, "Number of PROTO internal fields of MF_FIELDS node is wrong");
+  ts_assert_int_equal(proto_fields_count, 17, "Number of PROTO internal fields of MF_FIELDS node is wrong");
   field0 = wb_supervisor_node_get_proto_field_by_index(mfTest, 0);
   ts_assert_string_equal(wb_supervisor_field_get_name(field0), "translation",
                          "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"",
                          field0);
   field2 = wb_supervisor_node_get_proto_field_by_index(mfTest, 2);
-  ts_assert_string_equal(wb_supervisor_field_get_name(field2), "scale",
-                         "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"scale\"", field2);
+  ts_assert_string_equal(wb_supervisor_field_get_name(field2), "children",
+                         "Name of third PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"children\"",
+                         field2);
   field8 = wb_supervisor_node_get_proto_field_by_index(mfTest, fields_count - 1);
-  ts_assert_string_equal(
-    wb_supervisor_field_get_name(field8), "immersionProperties",
-    "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"immersionProperties\"", field8);
+  ts_assert_string_equal(wb_supervisor_field_get_name(field8), "boundingObject",
+                         "Name of ninth PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"boundingObject\"",
+                         field8);
   fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, -5);
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a PROTO internal field using a negative index");
   fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, proto_fields_count);

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,7 @@
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -162,6 +163,7 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
+  recomputeBoundingSphere();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -267,11 +269,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
       if (!cleanLine.startsWith("mtllib"))
         continue;
 
-      cleanLine = cleanLine.replace("mtllib ", "").trimmed();
-      cleanLine = cleanLine.replace("\"", "");
-      materials << cleanLine.split(".mtl ", Qt::SkipEmptyParts);
-      for (int i = 0; i < materials.size() - 1; i++)  // the last item still have '.mtl'
-        materials[i] += ".mtl";
+      materials << cleanLine.replace("mtllib ", "").replace("\"", "").trimmed();
     }
   } else
     warn(tr("File '%1' cannot be read.").arg(url));
@@ -506,9 +504,6 @@ void WbCadShape::createWrenObjects() {
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
-
-  if (mBoundingSphere)
-    recomputeBoundingSphere();
 }
 
 void WbCadShape::updateAppearance() {
@@ -556,22 +551,19 @@ void WbCadShape::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  const WbVector3 &scale = absoluteScale();
   for (WrStaticMesh *mesh : mWrenMeshes) {
     float sphere[4];
     wr_static_mesh_get_bounding_sphere(mesh, sphere);
 
     const WbVector3 center(sphere[0], sphere[1], sphere[2]);
-    double radius = sphere[3];
-    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    const WbBoundingSphere meshBoundingSphere(NULL, center, sphere[3]);
     mBoundingSphere->enclose(&meshBoundingSphere);
   }
 }
 
 const WbVector3 WbCadShape::absoluteScale() const {
-  const WbTransform *const ut = upperTransform();
-  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbTransform *const up = upperTransform();
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
@@ -629,4 +621,13 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 
 QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
+}
+
+QStringList WbCadShape::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "ccw"
+         << "castShadows"
+         << "isPickable"
+         << "url";
+  return fields;
 }

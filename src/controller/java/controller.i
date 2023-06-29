@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,6 +56,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/VacuumGripper.hpp>
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -816,6 +817,12 @@ namespace webots {
 %include <webots/TouchSensor.hpp>
 
 //----------------------------------------------------------------------------------------------
+//  VacuumGripper
+//----------------------------------------------------------------------------------------------
+
+%include <webots/VacuumGripper.hpp>
+
+//----------------------------------------------------------------------------------------------
 //  Robot
 //----------------------------------------------------------------------------------------------
 
@@ -846,6 +853,7 @@ namespace webots {
 %ignore webots::Robot::getSkin(const std::string &name);
 %ignore webots::Robot::getSpeaker(const std::string &name);
 %ignore webots::Robot::getTouchSensor(const std::string &name);
+%ignore webots::Robot::getVacuumGripper(const std::string &name);
 %ignore webots::Robot::windowCustomFunction(void *arg);
 %ignore webots::Robot::wwiSend(const char *data, int size);
 %ignore webots::Robot::wwiReceive(int *size);
@@ -1142,6 +1150,17 @@ namespace webots {
     return (TouchSensor)getOrCreateDevice(tag);
   }
 
+  protected VacuumGripper createVacuumGripper(String name) {
+    return new VacuumGripper(name);
+  }
+
+  public VacuumGripper getVacuumGripper(String name) {
+    int tag = getDeviceTagFromName(name);
+    if (!Device.hasType(tag, Node.VACUUM_GRIPPER))
+      return null;
+    return (VacuumGripper)getOrCreateDevice(tag);
+  }
+
   public Device getDeviceByIndex(int index) {
     return getOrCreateDevice(getDeviceTagFromIndex(index));
   }
@@ -1195,6 +1214,7 @@ namespace webots {
         case Node.SKIN:             devices[otherTag] = createSkin(name); break;
         case Node.SPEAKER:          devices[otherTag] = createSpeaker(name); break;
         case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(name); break;
+        case Node.VACUUM_GRIPPER:   devices[otherTag] = createVacuumGripper(name); break;
         default:                    devices[otherTag] = null; break;
       }
     }

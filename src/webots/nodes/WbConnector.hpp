@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -102,7 +102,7 @@ private:
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);
   void detachFromPeer();
-  void createFixedJoint(WbConnector *other);
+  void createFixedJoint(WbConnector *other, const dBodyID b1, const dBodyID b2);
   void destroyFixedJoint();
   void lock();
   void unlock();
@@ -115,12 +115,12 @@ private:
   bool isZAlignedWith(const WbConnector *other) const;
   void detachIfForceExceedStrength();
   double findClosestRotationalAlignment(double alpha) const;
-  void snapXAxes(WbConnector *other, dQuaternion q);
-  void snapOrigins(WbConnector *other);
-  void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2);
-  void rotateBodies(WbConnector *other, const dQuaternion q);
+  void snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1, const dBodyID b2);
+  void snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2);
+  void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2, const dBodyID b1, const dBodyID b2);
+  void rotateBodies(WbConnector *other, const dQuaternion q, const dBodyID b1, const dBodyID b2);
   void getOriginInWorldCoordinates(double out[3]) const;
-  void snapNow(WbConnector *other);
+  void snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2);
   double getEffectiveTensileStrength() const;
   double getEffectiveShearStrength() const;
   void init();

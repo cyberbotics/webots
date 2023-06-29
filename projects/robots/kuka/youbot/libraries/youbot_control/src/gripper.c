@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,28 +32,23 @@
 #define MAX_POS 0.025
 #define OFFSET_WHEN_LOCKED 0.021
 
-static WbDeviceTag fingers[2];
+static WbDeviceTag fingers;
 
 void gripper_init() {
-  fingers[LEFT] = wb_robot_get_device("finger1");
-  fingers[RIGHT] = wb_robot_get_device("finger2");
+  fingers = wb_robot_get_device("finger::left");
 
-  wb_motor_set_velocity(fingers[LEFT], 0.03);
-  wb_motor_set_velocity(fingers[RIGHT], 0.03);
+  wb_motor_set_velocity(fingers, 0.03);
 }
 
 void gripper_grip() {
-  wb_motor_set_position(fingers[LEFT], MIN_POS);
-  wb_motor_set_position(fingers[RIGHT], MIN_POS);
+  wb_motor_set_position(fingers, MIN_POS);
 }
 
 void gripper_release() {
-  wb_motor_set_position(fingers[LEFT], MAX_POS);
-  wb_motor_set_position(fingers[RIGHT], MAX_POS);
+  wb_motor_set_position(fingers, MAX_POS);
 }
 
 void gripper_set_gap(double gap) {
   double v = bound(0.5 * (gap - OFFSET_WHEN_LOCKED), MIN_POS, MAX_POS);
-  wb_motor_set_position(fingers[LEFT], v);
-  wb_motor_set_position(fingers[RIGHT], v);
+  wb_motor_set_position(fingers, v);
 }

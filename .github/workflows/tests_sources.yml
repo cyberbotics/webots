@@ -23,7 +23,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v3.3.0
+        uses: fkirc/skip-duplicate-actions@v5.3.0
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
@@ -34,40 +34,41 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, macos-11, windows-2019]
+        os: [ubuntu-22.04, macos-11, windows-2019]
         python: [3.9]
         include:
-          - os: ubuntu-20.04
-            DEPENDENCIES_INSTALLATION: "sudo apt -y install clang-format-10 cppcheck"
+          - os: ubuntu-22.04
+            DEPENDENCIES_INSTALLATION: "wget https://github.com/danmar/cppcheck/archive/refs/tags/2.10.tar.gz; tar -xf 2.10.tar.gz -C ~/; mkdir -p ~/cppcheck-2.10/build; cd ~/cppcheck-2.10/build; cmake ..; cmake --build .; export PATH=~/cppcheck-2.10/build/bin:$PATH"
           - os: macos-11
-            DEPENDENCIES_INSTALLATION: "brew install clang-format@11 cppcheck; ln /usr/local/bin/clang-format-11 /usr/local/bin/clang-format"
+            DEPENDENCIES_INSTALLATION: "brew tap-new --no-git $USER/local-cppcheck; brew extract --version=2.10 cppcheck $USER/local-cppcheck; brew install cppcheck@2.10; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco uninstall -y llvm; choco install -y llvm --version=13.0.1; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck --version=2.10 || true; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
     - name: OS check
-      if: (matrix.os == 'ubuntu-20.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: (matrix.os == 'ubuntu-22.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        echo "::set-output name=job_needed::true"
+        echo "job_needed=true" >> "$GITHUB_OUTPUT"
       id: os_check
     - name: Set git to use LF
       if: matrix.os == 'windows-2019'
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
       if: steps.os_check.outputs.job_needed == 'true'
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
     - name: Tests
       if: steps.os_check.outputs.job_needed == 'true'
       run: |
+        export WEBOTS_HOME=$PWD
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
+        cd $WEBOTS_HOME
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
-        export WEBOTS_HOME=$PWD
         python -m unittest discover -s tests/sources

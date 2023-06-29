@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -119,8 +119,6 @@ void WbDragRotateAroundAxisSolidEvent::apply(const QPoint &currentMousePosition)
 WbDragPhysicsEvent::WbDragPhysicsEvent(const QSize &widgetSize, WbViewpoint *viewpoint, WbSolid *selectedSolid) :
   WbDragView3DEvent(viewpoint),
   mSelectedSolid(selectedSolid),
-  mVector(),
-  mMouseRay(),
   mIsLocked(false),
   mWidgetSize(widgetSize),
   mViewDistanceScaling(1.0f) {
@@ -217,9 +215,6 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
   mRepresentation = new WbForceRepresentation();
   mOrigin = viewpoint->rotationCenter();
   mRelativeOrigin = selectedSolid->matrix().pseudoInversed(mOrigin);
-  double s = selectedSolid->absoluteScale().x();
-  s *= s;
-  mRelativeOrigin /= s;
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
   mScalingFactor = WbWorld::instance()->worldInfo()->dragForceScale() * selectedSolid->mass();

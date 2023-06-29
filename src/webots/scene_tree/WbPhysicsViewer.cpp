@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -193,8 +193,7 @@ void WbPhysicsViewer::updateCenterOfMass() {
   const WbMatrix4 &m = mSolid->matrix();
   mCenterOfMass[LOCAL][ABSOLUTE_POSITION] = m * mSolid->centerOfMass();
   mCenterOfMass[GLOBAL][ABSOLUTE_POSITION] = mSolid->globalCenterOfMass();
-  const double s = 1.0 / mSolid->absoluteScale().x();
-  mCenterOfMass[GLOBAL][RELATIVE_POSITION] = m.pseudoInversed(mCenterOfMass[GLOBAL][ABSOLUTE_POSITION]) * (s * s);
+  mCenterOfMass[GLOBAL][RELATIVE_POSITION] = m.pseudoInversed(mCenterOfMass[GLOBAL][ABSOLUTE_POSITION]);
   if (mSolid->globalMass() != 0.0) {
     const WbVector3 &com = mCenterOfMass[mIncludingExcludingDescendants->currentIndex()][mRelativeAbsolute->currentIndex()];
     for (int i = 0; i < 3; ++i)

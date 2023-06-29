@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,6 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
-TARGET_LIB_DIR=$(WEBOTS_LIB_PATH)
 ifeq ($(OSTYPE),darwin)
 INSTALL_NAME = @rpath/Contents/lib/webots/libode.dylib
 endif
@@ -33,6 +32,8 @@ endif
 
 ifeq ($(MAKECMDGOALS),profile)
   STATIC_LIBRARY = true
+else
+  TARGET_LIB_DIR=$(WEBOTS_LIB_PATH)
 endif
 
 FILES_TO_REMOVE = $(MAIN_TARGET_COPY) libode.a ode.a

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -242,8 +242,8 @@ void WbBasicJoint::updateEndPoint() {
     if (s != NULL && isPostFinalizedCalled())
       WbBoundingSphere::addSubBoundingSphereToParentNode(this);
   } else {
-    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::endPointChanged);
-    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::updateBoundingSphere);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::endPointChanged, Qt::UniqueConnection);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::updateBoundingSphere, Qt::UniqueConnection);
   }
 }
 
@@ -426,11 +426,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   assert(s);
 
   if (solidReference()) {
-    const WbTransform *const ut = upperTransform();
-    WbMatrix4 m = ut->matrix().pseudoInversed() * s->matrix();
-    double scale = 1.0 / ut->absoluteScale().x();
-    scale *= scale;
-    m *= scale;
+    WbMatrix4 m = upperPose()->matrix().pseudoInversed() * s->matrix();
     ir = WbRotation(m.extracted3x3Matrix());
     it = m.translation();
   } else {
@@ -509,4 +505,14 @@ QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedW
   if (mEndPoint->value())
     list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
   return list;
+}
+
+QString WbBasicJoint::endPointName() const {
+  if (!mEndPoint->value())
+    return QString();
+
+  QString name = mEndPoint->value()->computeName();
+  if (name.isEmpty())
+    name = mEndPoint->value()->endPointName();
+  return name;
 }

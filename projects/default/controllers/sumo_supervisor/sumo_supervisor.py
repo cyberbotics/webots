@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,31 +24,35 @@ import subprocess
 import sys
 import tempfile
 
+
+def sumoImportError():
+    sys.stderr.write("SUMO not found.\n")
+    if sys.platform.startswith('linux'):
+        if os.getenv('SNAP_NAME'):
+            sys.stderr.write("Please set the 'SumoInterface.externController' field to TRUE and "
+                             "launch the controller as extern controller.\n"
+                             "When launching the controller as extern, you must specify the SUMO options like --no-netconvert "
+                             "or --no-gui manually.\n"
+                             "Install SUMO ")
+        else:
+            sys.stderr.write("Please install it ")
+        sys.stderr.write("with `sudo apt install sumo sumo-tools` and reboot.\n")
+    else:
+        sys.stderr.write("Please install it following the instructions at https://sumo.dlr.de/docs/Installing/.\n")
+    sys.exit("Or check that the SUMO_HOME environment variable points to the directory of your SUMO installation.")
+
+
 # we need to import python modules from the $SUMO_HOME/tools directory
 try:
     WEBOTS_HOME = os.path.normpath(os.environ.get('WEBOTS_HOME'))
     if 'SUMO_HOME' in os.environ:
         sumoPath = os.environ['SUMO_HOME']
         print('Using SUMO from %s' % sumoPath)
-        print('This might cause version conflicts, unset the "SUMO_HOME" environment variable to use the one from Webots')
     else:
-        sumoPath = WEBOTS_HOME
-        if sys.platform.startswith('darwin'):
-            sumoPath = os.path.join(sumoPath, 'Contents')
-        sumoPath = os.path.join(sumoPath, 'projects', 'default', 'resources', 'sumo')
-        os.putenv("SUMO_HOME", sumoPath)
+        sumoImportError()
+
     if sys.platform.startswith('darwin'):
         libraryVariablePath = 'DYLD_LIBRARY_PATH'
-
-        # Fix the following error (shown on "El Capitan"):
-        #    ./projects/default/resources/sumo/sumo-gui
-        #    Fontconfig error: Cannot load default config file
-        #    Quitting (on unknown error).
-        if os.path.exists('/opt/local/etc/fonts/fonts.conf'):
-            os.putenv('FONTCONFIG_PATH', '/opt/local/etc/fonts/')
-        elif os.path.exists('/opt/X11/lib/X11/fontconfig/fonts.conf'):
-            os.putenv('FONTCONFIG_PATH', '/opt/X11/lib/X11/fontconfig/')
-
     elif sys.platform.startswith('linux'):
         libraryVariablePath = 'LD_LIBRARY_PATH'
     else:
@@ -65,7 +69,7 @@ try:
     import traci
     import sumolib
 except ImportError:
-    sys.exit("Can't find SUMO.")
+    sumoImportError()
 
 
 def get_options():

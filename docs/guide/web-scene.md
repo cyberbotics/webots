@@ -35,7 +35,7 @@ When the export is completed, Webots will ask to playback the resulting file in 
 **Note**: The playback option may not work correctly depending on your default Web browser.
 In this case, please refer to the [section below](#remarks-on-the-used-technologies-and-their-limitations).
 
-### How to Embed a Web Scene in Your Website
+### How to Embed a Web Scene in your Website
 
 The exported `HTML` page is designed to be simple, and is the reference for an integration in an external Website. The exported `CSS` file can be replaced during the process.
 Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
@@ -62,7 +62,7 @@ For more complex interaction with the web component, the following functions are
 
 ### Limitations
 
-- All the graphical nodes ([Box](../reference/box.md), [Sphere](../reference/sphere.md), [Appearance](../reference/appearance.md), [Material](../reference/material.md), [ImageTexture](../reference/imagetexture.md), [Light](../reference/light.md), [Transform](../reference/transform.md), etc.) are supported.
+- All the graphical nodes ([Box](../reference/box.md), [Sphere](../reference/sphere.md), [Appearance](../reference/appearance.md), [Material](../reference/material.md), [ImageTexture](../reference/imagetexture.md), [Light](../reference/light.md), [Group](../reference/group.md), [Pose](../reference/pose.md), [Transform](../reference/transform.md), etc.) are supported.
 
 - The rendering of the Webots player is performed using `WRENJS`, a version of `WREN` (Webots Rendering ENgine) compiled in WebAssembly.
 It may occur that the rendering in the Webots application and in the exported Web page are not strictly equivalent.
@@ -93,7 +93,7 @@ It may occur that the rendering in the Webots application and in the exported We
     }
     ```
 
-### Remarks on the Used Technologies and Their Limitations
+### Remarks on the used Technologies and their Limitations
 
 The Webots player is using internally the `WRENJS` library (based on `WebGL 2`).
 

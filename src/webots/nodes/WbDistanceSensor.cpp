@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -428,7 +428,7 @@ void WbDistanceSensor::createOdeObjects() {
 }
 
 void WbDistanceSensor::createOdeRays() {
-  const double lutMaxRange = absoluteScale().x() * mLut->maxMetricsRange();
+  const double lutMaxRange = mLut->maxMetricsRange();
   for (int i = 0; i < mNRays; i++) {
     dGeomID rayGeom = dCreateRay(WbOdeContext::instance()->space(), lutMaxRange);
     dGeomSetDynamicFlag(rayGeom);
@@ -498,8 +498,7 @@ void WbDistanceSensor::computeValue() {
     return;
   }
 
-  const double s = absoluteScale().x();
-  const double lutMaxRange = s * mLut->maxMetricsRange();
+  const double lutMaxRange = mLut->maxMetricsRange();
 
   if (mRayType == GENERIC) {
     // average all ray collision distances using ray weights
@@ -557,7 +556,7 @@ void WbDistanceSensor::computeValue() {
     // consider only one ray (there should be only one)
     mDistance = (mRays[0].collidedGeometry()) ? mRays[0].distance() : lutMaxRange;
 
-  mValue = mLut->lookup(mDistance / s);
+  mValue = mLut->lookup(mDistance);
   if (mResolution->value() != -1.0)
     mValue = WbMathsUtilities::discretize(mValue, mResolution->value());
 
@@ -726,7 +725,6 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
   wr_dynamic_mesh_clear(mMesh);
 
   if (mRays) {
-    const float scale = absoluteScale().x();
     const float minValue = mLut->minMetricsRange();
     const float maxValue = mLut->maxMetricsRange();
 
@@ -744,7 +742,7 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
       const float *color = mSensor->isEnabled() ? redColor : greyColor;
 
       // start with a red/grey line segment
-      (direction * minValue / scale).toFloatArray(vertex);
+      (direction * minValue).toFloatArray(vertex);
       wr_dynamic_mesh_add_vertex(mMesh, vertex);
       wr_dynamic_mesh_add_index(mMesh, vertexIndex++);
       wr_dynamic_mesh_add_color(mMesh, color);
@@ -782,7 +780,7 @@ void WbDistanceSensor::applyOptionalRenderingToWren() {
       }
 
       // finish line segment
-      (direction * maxValue / scale).toFloatArray(vertex);
+      (direction * maxValue).toFloatArray(vertex);
       wr_dynamic_mesh_add_vertex(mMesh, vertex);
       wr_dynamic_mesh_add_index(mMesh, vertexIndex++);
       wr_dynamic_mesh_add_color(mMesh, color);
@@ -798,7 +796,7 @@ void WbDistanceSensor::updateLineScale() {
 }
 
 void WbDistanceSensor::applyLaserBeamToWren() {
-  if (mRayType == LASER && mAperture->value() > 0.0 && mRays[0].distance() < absoluteScale().x() * mLut->maxValue()) {
+  if (mRayType == LASER && mAperture->value() > 0.0 && mRays[0].distance() < mLut->maxValue()) {
     const dReal *contactPosition = mRays[0].contactPosition();
     const dReal *contactNormal = mRays[0].contactNormal();
 
@@ -849,9 +847,4 @@ void WbDistanceSensor::applyLaserBeamToWren() {
     }
   }
   wr_node_set_visible(WR_NODE(mLaserBeamTransform), false);
-}
-
-void WbDistanceSensor::propagateScale() {
-  WbSolid::propagateScale();
-  updateRaySetup();
 }

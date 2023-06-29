@@ -123,11 +123,6 @@ Execute the following command to install *ffmpeg* with *x264* support:
 ```bash
 conda install x264 ffmpeg -c conda-forge
 ```
-For SUMO, you will need to install libxerces-c-devel, libproj-devel, libgdal-devel, and fox16-devel.
-Execute the following commands to enable SUMO on Debian / Ubuntu based distributions:
-```bash
-sudo apt-get install libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev
-```
 
 #### Installing the Snap Package
 
@@ -141,7 +136,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2023a, the download size of the snap is 731MB compared to 183MB of the Debian package.
+For Webots R2023b, the download size of the snap is 651MB compared to 146MB of the Debian package.
 
 ##### Extern Controllers
 
@@ -150,7 +145,7 @@ However, when developing robot controllers, it is often useful to use various co
 If such components are needed, users can install them on their system or local environment to create, possibly compile and link their robot controllers.
 However, because of the snap sand-boxing, Webots will be unable to launch these controller itself.
 To work around this problem, such controllers should be launched as extern controllers from outside of Webots.
-Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib/controller` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
+Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and run the `$WEBOTS_HOME/webots-controller` launcher.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
 #### Installing the Docker Image
@@ -313,9 +308,9 @@ If you are getting errors like these:
 
 This is likely caused by Rosetta loading Webots under the x86 architecture instead of the native ARM. Unless you really want to use x86 binaries with your Webots simulation, make sure to turn off Rosetta. Sometimes macOS may try to open the app using Rosetta by default, which may cause issues when it comes to run robot controllers with dependencies on ARM libraries.
 
-To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info. 
+To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info.
 
-Make sure that the "Open using Rosetta" setting is unchecked, like in the picture below: 
+Make sure that the "Open using Rosetta" setting is unchecked, like in the picture below:
 
 %figure "Rosetta setting"
 

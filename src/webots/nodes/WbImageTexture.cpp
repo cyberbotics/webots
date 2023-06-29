@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -552,7 +552,6 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
   }
@@ -566,4 +565,13 @@ void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
   // 'webots://' since this case would be converted to a remote one that targets the current branch
   if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
     WbUrl::exportTexture(this, mUrl, 0, writer);
+}
+
+QStringList WbImageTexture::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "url"
+         << "repeatS"
+         << "repeatT"
+         << "filtering";
+  return fields;
 }

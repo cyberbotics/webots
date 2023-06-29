@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -144,9 +144,8 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
     if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
-      const QString backwardsCompatibilityMessage =
-        tr("Please adapt your project to R2023a following these instructions: "
-           "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
+      const QString backwardsCompatibilityMessage = tr("Please adapt your project to R2023b following these instructions: "
+                                                       "https://cyberbotics.com/doc/guide/upgrading-webots");
       const QString outdatedProtoMessage =
         tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
       displayMissingDeclarations(backwardsCompatibilityMessage);
@@ -269,9 +268,8 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   QStringList queue;
   queue << parser.protoNodeList();
 
-  displayMissingDeclarations(
-    tr("Please adapt your project to R2023a following these instructions: "
-       "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b"));
+  displayMissingDeclarations(tr("Please adapt your project to R2023b following these instructions: "
+                                "https://cyberbotics.com/doc/guide/upgrading-webots"));
 
   // list all PROTO nodes which are known
   QMap<QString, QString> localProto;
@@ -364,9 +362,9 @@ void WbProtoManager::retrieveLocalProtoDependencies() {
     dependencies << it.next();
   // extra projects
   foreach (const WbProject *project, *WbProject::extraProjects()) {
-    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext())
-      dependencies << it.next();
+    QDirIterator i(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (i.hasNext())
+      dependencies << i.next();
   }
 
   // create an empty root and populate its children with the dependencies to be downloaded

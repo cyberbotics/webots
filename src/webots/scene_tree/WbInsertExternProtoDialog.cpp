@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,13 +32,13 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
+WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : QDialog(parent), mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
   mSearchBar->setClearButtonEnabled(true);
 
-  mTree = new QTreeWidget();
+  mTree = new QTreeWidget(this);
   mTree->setHeaderHidden(true);
   connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
@@ -65,9 +65,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this,
           &WbInsertExternProtoDialog::updateProtoTree);
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
-}
-
-WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {
@@ -109,7 +106,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
-      const QString &protoName = it.next().key();
+      const QString protoName = it.next().key();
       const QString &protoUrl = it.value()->url();
 
       // list only items that aren't in the panel already

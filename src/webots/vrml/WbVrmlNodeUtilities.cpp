@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@
 #include "WbMFNode.hpp"
 #include "WbNode.hpp"
 #include "WbSFNode.hpp"
+#include "WbTokenizer.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QQueue>
@@ -303,6 +304,33 @@ bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, 
   return false;
 }
 
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
+  if (parentNode == NULL || modifiedField == NULL)
+    return NULL;
+
+  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
+    return parentNode;
+
+  return findUpperTemplateNeedingRegeneration(parentNode);
+}
+
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
+  if (modifiedNode == NULL)
+    return NULL;
+
+  WbField *field = modifiedNode->parentField();
+  WbNode *node = modifiedNode->parentNode();
+  while (node && field && !node->isWorldRoot()) {
+    if (node->isTemplate() && field->isTemplateRegenerator())
+      return node;
+
+    field = node->parentField();
+    node = node->parentNode();
+  }
+
+  return NULL;
+}
+
 bool WbVrmlNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
   const WbNode *p = node;
   while (p) {
@@ -386,6 +414,52 @@ bool WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(const WbNode *defNode, cons
   return useOverlap;
 }
 
+bool WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(const WbNode *node, const WbNode *root) {
+  const WbNode *rootNode = root ? root : node;
+  const int count = node->useCount();
+  const QList<WbNode *> &useNodes = node->useNodes();
+  for (int i = 0; i < count; ++i) {
+    if (!rootNode->isAnAncestorOf(useNodes.at(i)))
+      return true;
+  }
+
+  foreach (WbField *field, node->fieldsOrParameters()) {
+    WbValue *value = field->value();
+    const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
+    if (sfnode && sfnode->value()) {
+      const WbNode *childNode = sfnode->value();
+      const int nodeCount = childNode->useCount();
+      const QList<WbNode *> &nodeUseNodes = childNode->useNodes();
+      for (int i = 0; i < nodeCount; ++i) {
+        if (!rootNode->isAnAncestorOf(nodeUseNodes.at(i)))
+          return true;
+      }
+      const bool subtreeHasDef = hasAreferredDefNodeDescendant(childNode, rootNode);
+      if (subtreeHasDef)
+        return subtreeHasDef;
+    } else {
+      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(value);
+      if (mfnode) {
+        const int size = mfnode->size();
+        for (int i = 0; i < size; ++i) {
+          const WbNode *childNode = mfnode->item(i);
+          const int nodeCount = childNode->useCount();
+          const QList<WbNode *> &nodeUseNodes = childNode->useNodes();
+          for (int j = 0; j < nodeCount; ++j) {
+            if (!rootNode->isAnAncestorOf(nodeUseNodes.at(j)))
+              return true;
+          }
+          const bool subtreeHasDef = hasAreferredDefNodeDescendant(childNode, rootNode);
+          if (subtreeHasDef)
+            return subtreeHasDef;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
 QList<WbNode *> WbVrmlNodeUtilities::findUseNodeAncestors(WbNode *node) {
   QList<WbNode *> list;
 
@@ -407,4 +481,42 @@ QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
   WbWriter writer(&nodeString, ".wbt");
   node->write(writer);
   return nodeString;
+}
+
+// Return true if we can convert the Transform to a Pose.
+bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer) {
+  if (!tokenizer)
+    return true;
+
+  const int initalIndex = tokenizer->pos();
+  bool inChildren = false;
+  int bracketCount = 0;
+  while (tokenizer->hasMoreTokens()) {
+    const QString token = tokenizer->nextWord();
+    if (inChildren) {
+      if (token == "[")
+        bracketCount++;
+      else if (token == "]") {
+        bracketCount--;
+        if (bracketCount == 0)
+          inChildren = false;
+      }
+    } else if (token == "children") {
+      inChildren = true;
+    } else if (token == "scale") {
+      for (int i = 0; i < 3; i++) {
+        if (tokenizer->nextWord().toFloat() != 1.0f) {
+          tokenizer->seek(initalIndex);
+          return false;
+        }
+      }
+      // We have identified that the scale is the default one.
+      break;
+      // End of the Transform
+    } else if (token == "}")
+      break;
+  }
+  tokenizer->seek(initalIndex);
+
+  return true;
 }

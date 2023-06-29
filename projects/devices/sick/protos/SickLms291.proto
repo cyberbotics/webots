@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#sick-lms-291
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/sick/protos/SickLms291.proto
+# keywords: sensor/lidar
 # Model of Sick LMS291 (Lidar device).
 # 'resolution' should be typically 180, 360 or 720 in order to have a precision of respectively 1°, 0.5° and 0.25°
 # template language: javascript

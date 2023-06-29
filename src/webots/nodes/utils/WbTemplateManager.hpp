@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 class WbNode;
 class WbField;
@@ -33,13 +34,16 @@ public:
   static WbTemplateManager *instance();
 
   void clear();
-  void subscribe(WbNode *node, bool subscribedDescendant = false);
+  void subscribe(WbNode *node, bool subscribedDescendant);
 
   // when unblocked, all the templates which have required
   // a regeneration inbetween are regenerated
   void blockRegeneration(bool block);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
+  static bool isNodeChangeTriggeringRegeneration(const WbNode *node) {
+    return WbTemplateManager::instance()->mNodesSubscribedForRegeneration.contains(node);
+  }
 
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
@@ -66,9 +70,11 @@ private:
   void regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter);
 
   QList<WbNode *> mTemplates;
+  QSet<const WbNode *> mNodesSubscribedForRegeneration;
 
   bool mBlockRegeneration;
   bool mTemplatesNeedRegeneration;
+  WbNode *mRegeneratingUpperTemplateNode;
 };
 
 #endif

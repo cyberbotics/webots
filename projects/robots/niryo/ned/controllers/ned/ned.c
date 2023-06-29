@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,15 +59,14 @@ int main(int argc, char **argv) {
   wb_keyboard_enable(time_step);
 
   WbDeviceTag motors[7];
-  WbDeviceTag gripper[3];
+  WbDeviceTag gripper;
   motors[1] = wb_robot_get_device("joint_1");
   motors[2] = wb_robot_get_device("joint_2");
   motors[3] = wb_robot_get_device("joint_3");
   motors[4] = wb_robot_get_device("joint_4");
   motors[5] = wb_robot_get_device("joint_5");
   motors[6] = wb_robot_get_device("joint_6");
-  gripper[1] = wb_robot_get_device("joint_base_to_jaw_1");
-  gripper[2] = wb_robot_get_device("joint_base_to_jaw_2");
+  gripper = wb_robot_get_device("gripper::left");
 
   // set the motor velocity
   // first we make sure that every joint is at its initial position
@@ -77,8 +76,7 @@ int main(int argc, char **argv) {
   wb_motor_set_position(motors[4], 0.0);
   wb_motor_set_position(motors[5], 0.0);
   wb_motor_set_position(motors[6], 0.0);
-  wb_motor_set_position(gripper[1], 0.0);
-  wb_motor_set_position(gripper[2], 0.0);
+  wb_motor_set_position(gripper, 0.0);
 
   // set the motors speed. Here we set it to 1 radian/second
   wb_motor_set_velocity(motors[1], 1.0);
@@ -87,8 +85,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(motors[4], 1.0);
   wb_motor_set_velocity(motors[5], 1.0);
   wb_motor_set_velocity(motors[6], 1.0);
-  wb_motor_set_velocity(gripper[1], 1.0);
-  wb_motor_set_velocity(gripper[2], 1.0);
+  wb_motor_set_velocity(gripper, 1.0);
 
   // control with keyboard
   while (wb_robot_step(time_step) != -1) {
@@ -156,14 +153,12 @@ int main(int argc, char **argv) {
 
       case 'L':
         printf("Open Gripper");
-        wb_motor_set_position(gripper[1], 0.01);
-        wb_motor_set_position(gripper[2], 0.01);
+        wb_motor_set_position(gripper, 0.01);
         break;
 
       case 'M':
         printf("Close Gripper");
-        wb_motor_set_position(gripper[1], 0.0);
-        wb_motor_set_position(gripper[2], 0.0);
+        wb_motor_set_position(gripper, 0.0);
         break;
 
       // demo
@@ -173,8 +168,7 @@ int main(int argc, char **argv) {
         wb_motor_set_velocity(motors[3], 1.0);
 
         wb_motor_set_position(motors[1], 1.5);
-        wb_motor_set_position(gripper[1], 0.01);
-        wb_motor_set_position(gripper[2], 0.01);
+        wb_motor_set_position(gripper, 0.01);
         passive_wait(1.5);
         wb_motor_set_position(motors[1], 0.0);
         passive_wait(1.5);
@@ -198,11 +192,9 @@ int main(int argc, char **argv) {
         passive_wait(1.0);
         wb_motor_set_position(motors[6], 0);
         passive_wait(1.0);
-        wb_motor_set_position(gripper[1], 0);
-        wb_motor_set_position(gripper[2], 0);
+        wb_motor_set_position(gripper, 0);
         passive_wait(0.5);
-        wb_motor_set_position(gripper[1], 0.01);
-        wb_motor_set_position(gripper[2], 0.01);
+        wb_motor_set_position(gripper, 0.01);
         break;
 
       // pick and place
@@ -213,13 +205,11 @@ int main(int argc, char **argv) {
 
         wb_motor_set_position(motors[1], 1.5);
         wb_motor_set_position(motors[2], 0.70);
-        wb_motor_set_position(gripper[1], 0.01);
-        wb_motor_set_position(gripper[2], 0.01);
+        wb_motor_set_position(gripper, 0.01);
         passive_wait(4.2);
         wb_motor_set_position(motors[3], 0.5);
         passive_wait(1.2);
-        wb_motor_set_position(gripper[1], 0.0);
-        wb_motor_set_position(gripper[2], 0.0);
+        wb_motor_set_position(gripper, 0.0);
         passive_wait(1.5);
         wb_motor_set_position(motors[3], 0.3);
         passive_wait(1.2);
@@ -227,8 +217,7 @@ int main(int argc, char **argv) {
         passive_wait(5.0);
         wb_motor_set_position(motors[3], 0.5);
         passive_wait(0.5);
-        wb_motor_set_position(gripper[1], 0.01);
-        wb_motor_set_position(gripper[2], 0.01);
+        wb_motor_set_position(gripper, 0.01);
         passive_wait(0.5);
         wb_motor_set_position(motors[2], 0.0);
         wb_motor_set_position(motors[3], 0.0);

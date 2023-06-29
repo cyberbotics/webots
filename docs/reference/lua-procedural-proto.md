@@ -170,7 +170,7 @@ PROTO SimpleStairs [
         %{ for j = 0, (fields.nSteps.value - 1) do }%
           %{ x = j * fields.stepSize.value.x }%
           %{ y = j * fields.stepSize.value.y + fields.stepSize.value.y / 2 }%
-            Transform {
+            Pose {
               translation %{=x}% %{=y}% 0
               children [
                 Shape {

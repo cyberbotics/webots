@@ -1,0 +1,142 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
+WorldInfo {
+  coordinateSystem "ENU"
+  lineScale 0.3
+}
+Viewpoint {
+  orientation 0.6774778315654744 -0.6774805571570472 -0.2864330330313172 3.699518679816419
+  position 0.050001270940466705 0.6345309495766982 0.9003305510543425
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.5
+  location 0 0.345 0
+}
+Floor {
+  rotation 1 0 0 -1.5708
+}
+Solid {
+  children [
+    DEF BLUE_ROBOT Robot {
+      translation 0.05 0.025 0.3
+      children [
+        DEF BASE_SHAPE Pose {
+          rotation 1 0 0 -1.57079632679
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.113725 0.113725 0.854902
+                  specularColor 0.984314 0.909804 0.909804
+                }
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.05
+                subdivision 6
+              }
+            }
+          ]
+        }
+        BallJoint {
+          jointParameters BallJointParameters {
+            anchor 0 0.06 0
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          jointParameters3 JointParameters {
+            axis 0 0 1
+          }
+          device [
+            RotationalMotor {
+              name "rotational motor1"
+            }
+            PositionSensor {
+              name "position sensor1"
+            }
+          ]
+          device2 [
+            RotationalMotor {
+              name "rotational motor2"
+              minPosition -1.5707963267948966
+              maxPosition 1.5707963267948966
+            }
+            PositionSensor {
+              name "position sensor2"
+            }
+          ]
+          device3 [
+            RotationalMotor {
+              name "rotational motor3"
+            }
+            PositionSensor {
+              name "position sensor3"
+            }
+          ]
+          endPoint Solid {
+            translation 0 0.06 0
+            rotation 0 1 0 0
+            children [
+              InertialUnit {
+              }
+              DEF THICK_CYLINDER_SHAPE Pose {
+                rotation 1 0 0 0
+                children [
+                  Shape {
+                    appearance DEF GRAY_APPEARANCE Appearance {
+                      material Material {
+                        specularColor 1 1 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.02
+                      subdivision 6
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Group {
+              children [
+                USE THICK_CYLINDER_SHAPE
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 1
+              centerOfMass [
+                0 0 0
+              ]
+              inertiaMatrix [
+                1 1 1
+                0 0 0
+              ]
+            }
+          }
+        }
+        TestSuiteEmitter {
+        }
+      ]
+      boundingObject USE BASE_SHAPE
+      physics Physics {
+        density -1
+        mass 20
+      }
+      controller "motor3_velocity"
+    }
+  ]
+}
+TestSuiteSupervisor {
+}

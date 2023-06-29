@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto
+# keywords: robot/extension, actuator/gripper
 # A P-Grip gripper rom F&P Robotics
 
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
@@ -9,8 +10,8 @@ EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
 EXTERNPROTO "P-GripDistanceSensor.proto"
 
 PROTO P-Grip [
-  field SFVec3f    translation     0 0 0.07775         # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.07775         # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0             # Is `Pose.rotation`.
   field SFString   name            "link_base_tcp180"  # Is `Solid.name`.
   field SFString   model           "180 deg"           # Is `Solid.model`.
   field SFColor    mainColor       0.98 0.98 0.98      # Defines the main color of the robot.
@@ -64,7 +65,7 @@ PROTO P-Grip [
         }
         device [
           RotationalMotor {
-            name "motor 7"
+            name "gripper::right"
             acceleration 17.4533
             controlPID 3 0 0
             maxVelocity 1.0472
@@ -72,14 +73,14 @@ PROTO P-Grip [
             maxTorque 5.44164
           }
           PositionSensor {
-            name "motor 7 sensor"
+            name "gripper::right sensor"
           }
         ]
         endPoint Solid {
           translation 0 0 0.058
           rotation 1 0 0 0.343
           children [
-            DEF FINGER_SHAPE Transform {
+            DEF FINGER_SHAPE Pose {
               translation -0.0007002 0.0360533 -0.0141252
               rotation 0.5871667893278232 0.5572018000790946 0.5871637893288996 2.12488
               children [
@@ -143,7 +144,7 @@ PROTO P-Grip [
           contactMaterial "p-grip finger"
           boundingObject DEF FINGER_BO Group {
             children [
-              DEF FINGER_BOX_0 Transform {
+              DEF FINGER_BOX_0 Pose {
                 translation 0 0.0437334 0.0442707
                 rotation 1 0 0 -0.2879853071795866
                 children [
@@ -152,7 +153,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_1 Transform {
+              DEF FINGER_BOX_1 Pose {
                 translation 0 0.0561311 0.0865105
                 rotation 1 0 0 -0.3926996938995747
                 children [
@@ -161,7 +162,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_2 Transform {
+              DEF FINGER_BOX_2 Pose {
                 translation 0 0.0566597 0.105248
                 rotation 1 0 0 0.261798
                 children [
@@ -170,7 +171,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_3 Transform {
+              DEF FINGER_BOX_3 Pose {
                 translation 0 0.048226 0.127972
                 rotation -1 0 0 0.314166
                 children [
@@ -179,7 +180,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_4 Transform {
+              DEF FINGER_BOX_4 Pose {
                 translation 0 0.058726 0.127073
                 rotation 1 0 0 0.62831
                 children [
@@ -188,7 +189,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_5 Transform {
+              DEF FINGER_BOX_5 Pose {
                 translation 0 0.052619 0.121813
                 rotation 1 0 0 1.23045
                 children [
@@ -197,7 +198,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_6 Transform {
+              DEF FINGER_BOX_6 Pose {
                 translation 0 0.0673743 0.108562
                 rotation -1 0 0 -0.23558530717958615
                 children [
@@ -220,7 +221,7 @@ PROTO P-Grip [
         }
         device [
           RotationalMotor {
-            name "motor 7 left"
+            name "gripper::left"
             acceleration 17.4533
             controlPID 3 0 0
             maxVelocity 1.0472
@@ -228,7 +229,7 @@ PROTO P-Grip [
             maxTorque 5.44164
           }
           PositionSensor {
-            name "motor 7 left sensor"
+            name "gripper::left sensor"
           }
         ]
         endPoint Solid {
@@ -279,7 +280,7 @@ PROTO P-Grip [
     model IS model
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.026
           children [
             Sphere {
@@ -288,7 +289,7 @@ PROTO P-Grip [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 1.34683e-07 -0.014
           children [
             Cylinder {

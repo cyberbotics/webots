@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -86,9 +87,9 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mBottomRadius->value(), mHeight->value());
 
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbTransform *const up = upperTransform();
+  if (up)
+    scale *= up->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -258,6 +259,16 @@ double WbCone::scaledBottomRadius() const {
   return fabs(mBottomRadius->value() * std::max(scale.x(), scale.z()));
 }
 
+QStringList WbCone::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "bottomRadius"
+         << "height"
+         << "subdivision"
+         << "bottom"
+         << "side";
+  return fields;
+}
+
 /////////////////
 // Ray Tracing //
 /////////////////
@@ -317,13 +328,14 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
 
-  const WbTransform *const transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
+  const WbPose *const up = upperPose();
+  if (up) {
+    direction = ray.direction() * up->matrix();
     direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
+    origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
+
   const double radius = scaledBottomRadius();
   const double radius2 = radius * radius;
   const double h = scaledHeight();
@@ -376,15 +388,17 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 void WbCone::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   const bool side = mSide->value();
-  const double r = scaledBottomRadius();
-  const double h = scaledHeight();
+  const double r = mBottomRadius->value();
+  const double h = mHeight->value();
   const double halfHeight = h / 2.0;
 
-  if (!side || h <= r)  // consider it as disk
-    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), r);
+  if (!side && !mBottom->value())  // it is empty
+    mBoundingSphere->empty();
+  else if (!side || h <= r)  // consider it as disk
+    mBoundingSphere->set(WbVector3(0, 0, -halfHeight), r);
   else {
     const double newRadius = halfHeight + r * r / (2 * h);
-    mBoundingSphere->set(WbVector3(0, halfHeight - newRadius, 0), newRadius);
+    mBoundingSphere->set(WbVector3(0, 0, halfHeight - newRadius), newRadius);
   }
 }
 

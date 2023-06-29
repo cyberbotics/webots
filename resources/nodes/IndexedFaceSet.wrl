@@ -4,7 +4,6 @@ IndexedFaceSet {
   vrmlField SFNode  coord           NULL
   vrmlField SFNode  normal          NULL
   vrmlField SFNode  texCoord        NULL
-  vrmlField SFBool  solid           TRUE      # ignored (assumed TRUE)
   vrmlField SFBool  ccw             TRUE
   vrmlField SFBool  convex          TRUE
   vrmlField SFBool  normalPerVertex TRUE

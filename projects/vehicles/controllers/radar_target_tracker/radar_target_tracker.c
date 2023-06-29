@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   WbFieldRef children_field = wb_supervisor_node_get_field(wb_supervisor_node_get_self(), "children");
 
   // target string defines the target node
-  const char *target_string = "Transform {\n"
+  const char *target_string = "Pose {\n"
                               "  translation 0 0 -10.0\n"
                               "  children [\n"
                               "    Shape {\n"

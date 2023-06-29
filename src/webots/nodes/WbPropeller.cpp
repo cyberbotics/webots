@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -221,8 +221,8 @@ void WbPropeller::prePhysicsStep(double ms) {
     }
 
     // Computes thrust and torque
-    const WbTransform *const ut = upperTransform();
-    const WbVector3 &cot = ut->matrix() * mCenterOfThrust->value();
+    const WbPose *const up = upperPose();
+    const WbVector3 &cot = up->matrix() * mCenterOfThrust->value();
     double vp[4];
     dBodyGetPointVel(b, cot.x(), cot.y(), cot.z(), vp);
     const double V = dCalcVectorDot3(vp, mNormalizedAxis.ptr());
@@ -237,7 +237,7 @@ void WbPropeller::prePhysicsStep(double ms) {
     mCurrentThrust = fcs.x() * velocity * absoluteVelocity - fcs.y() * absoluteVelocity * V;
 
     // Applies thrust and torque
-    const WbMatrix3 &m3 = ut->rotationMatrix();
+    const WbMatrix3 &m3 = up->rotationMatrix();
     const WbVector3 &axisVector = m3 * mNormalizedAxis;
     const WbVector3 &thrustVector = mCurrentThrust * axisVector;
     const WbVector3 &torqueVector = -mCurrentTorque * axisVector;
@@ -368,7 +368,7 @@ void WbPropeller::write(WbWriter &writer) const {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group type='propeller'>";
+      writer << "<Propeller>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();
@@ -386,7 +386,7 @@ void WbPropeller::write(WbWriter &writer) const {
     }
     writer.writeMFEnd(!fastHelix && !slowHelix);
     if (writer.isX3d())
-      writer << "</Group>";
+      writer << "</Propeller>";
     else {
       writer << "\n";
       writer.decreaseIndent();

@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/robots/mir/mir100/protos/Mir100.proto"
@@ -424,7 +424,7 @@ RectangleArena {
     }
   }
 }
-Transform {
+Pose {
   translation 1.77 6.5 1.05
   children [
     Shape {

@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckTrailer.proto
+# keywords: vehicle/truck
 # A non-controllable truck trailer model with physics properties.
 # The length and number of wheels is configurable.
 # template language: javascript
@@ -10,11 +12,11 @@ EXTERNPROTO "TruckTrailerMesh.proto"
 EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckTrailer [
-  field SFString   name             "truck trailer"
-  field SFFloat    length           11.15             # Defines the total length of the trailer.
-  field SFFloat    kingPinDistance  2.4               # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
-  field SFFloat    mass             5000              # Defines the mass of the trailer (wheels not included).
-  field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]
+  field SFString   name             "truck trailer"        # Identifies the trailer.
+  field SFFloat    length           11.15                  # Defines the total length of the trailer.
+  field SFFloat    kingPinDistance  2.4                    # Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
+  field SFFloat    mass             5000                   # Defines the mass of the trailer (wheels not included).
+  field MFFloat    wheelAxles       [ 7.93, 9.03, 10.13 ]  # Defines the number and position of the trailer wheels.
   field SFNode     appearance       PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
 ]
 {
@@ -31,9 +33,8 @@ PROTO TruckTrailer [
     endPoint Solid {
       translation 0 0 %<= -2.48 + fields.kingPinDistance.value + 0.5 * (fields.length.defaultValue - length) >%
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 2.48 - 0.5 * (fields.length.defaultValue - length) >%
-          scale 1 1 %<= length / fields.length.defaultValue >%
           children [
             DEF REAR_LIGHTS LED {
               translation 0 0 -2.48
@@ -44,16 +45,21 @@ PROTO TruckTrailer [
               name "rear_lights"
               color 0.7 0.12 0.12
             }
-            TruckTrailerMesh {
-              appearance IS appearance
-              translation 0 0 -2.48
+            Transform {
+              scale 1 1 %<= length / fields.length.defaultValue >%
+              children [
+                TruckTrailerMesh {
+                  appearance IS appearance
+                  translation 0 0 -2.48
+                }
+              ]
             }
           ]
         }
         %< for (let i = 0; i < wheelAxlesNumber; ++i) { >%
         # right wheel
-        Transform {
-          translation -1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
+        Pose {
+          translation %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >% -1 0
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -76,8 +82,9 @@ PROTO TruckTrailer [
           ]
         }
         # left wheel
-        Transform {
-          translation 1 0 %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >%
+        Pose {
+          translation %<= 2.48 - fields.wheelAxles.value[i] - 0.5 * (fields.length.defaultValue - length) >% 1 0
+          rotation 0 0 1 3.14159
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
@@ -102,27 +109,27 @@ PROTO TruckTrailer [
       model "truck trailer"
       boundingObject Group {
         children [
-          Transform {
-            translation 0 2.21 -3.1
+          Pose {
+            translation -3.1 0 2.21
             children [
               Box {
-                size 2.5 3.05 %<= length >%
+                size %<= length >% 2.5 3.05
               }
             ]
           }
-          Transform {
-            translation 0 0.27 %<= -6.0+ 0.3 * (fields.length.defaultValue - length) >%
+          Pose {
+            translation %<= -6.0+ 0.3 * (fields.length.defaultValue - length) >% 0 0.27
             children [
               Box {
-                size 1 0.87 %<= 4.5 * length / fields.length.defaultValue >%
+                size %<= 4.5 * length / fields.length.defaultValue >% 1 0.87
               }
             ]
           }
-          Transform {
-            translation 0 0.52 %<= -8.38 + 0.48 * (fields.length.defaultValue - length) >%
+          Pose {
+            translation %<= -8.38 + 0.48 * (fields.length.defaultValue - length) >% 0 0.52
             children [
               Box {
-                size 2.5 0.43 %<= 0.4 * length / fields.length.defaultValue >%
+                size %<= 0.4 * length / fields.length.defaultValue >% 2.5 0.43
               }
             ]
           }
@@ -132,7 +139,7 @@ PROTO TruckTrailer [
         density -1
         mass IS mass
         centerOfMass [
-          0 0.1 %<= -0.5 * length >%
+          %<= -0.5 * length >% 0 0.1
         ]
       }
     }

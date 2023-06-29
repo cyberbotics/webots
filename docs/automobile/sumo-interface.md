@@ -8,6 +8,58 @@ This interface is written in Python in a [Supervisor](../reference/supervisor.md
 
 ![youtube video](https://www.youtube.com/watch?v=Mnwmo5ivGL0)
 
+### Dependencies
+
+In order to use the SUMO Interface, you have to install the SUMO package on your system.
+Please refer to the official [SUMO User Documentation](https://sumo.dlr.de/docs/Installing/index.html) for the complete installation instructions.
+
+#### Debian or Ubuntu
+
+```sh
+sudo apt install sumo sumo-tools sumo-doc
+```
+
+`SUMO_HOME` environment variable will be automatically set during the installation, but it may be necessary to logout and login, or even reboot, after the installation to correctly run the SUMO Interface.
+
+<br />
+
+Note that if you installed Webots using the snap package, Webots will be unable to launch the SUMO because of the snap sand-boxing.
+To work around this problem, the `SumoInterface.exterController` field should be set to TRUE and the controller should be launched as [extern controller](../guide/running-extern-robot-controllers.md) from outside Webots by running these commands:
+```sh
+export WEBOTS_HOME=/snap/webots/current/usr/share/webots
+$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py
+```
+
+If you want to set some SUMO options you have to specify them at the end of the launcher line, for example:
+```
+$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/default/controllers/sumo_supervisor/sumo_supervisor.py --use-netconvert --no-gui
+```
+
+#### macOS
+
+Using [Homebrew](https://brew.sh), first install [XQuartz](https://www.xquartz.org) for the SUMO interface, that relies on X11, to work:
+```sh
+brew install --cask xquartz
+```
+
+It may be necessary to logout and login or even reboot to activate the XQuartz.
+Then, install the lastest stable version of SUMO:
+```sh
+brew tap dlr-ts/sumo
+brew install sumo
+```
+
+Finally, setup the `SUMO_HOME` environment variable to point to the directory of your SUMO installation by adding the following line at the end of the `~/.bashrc` file:
+```sh
+export SUMO_HOME=/your/path/to/sumo
+```
+
+The default installation directory is `/opt/homebrew/opt/sumo/share/sumo`.
+
+#### Windows
+
+Download and run the latest installer from the [SUMO documentation](https://sumo.dlr.de/docs/Installing/index.html#windows).
+
 ### How to Include the Interface
 
 In order to use this interface, a `SumoInterface` PROTO node should to be added to the world.
@@ -16,14 +68,11 @@ This folder should contain the usual files defining a network in SUMO (.edg.xml,
 The configuration files called `sumo.netccfg` and `sumo.sumocfg` will be loaded by default.
 If those configuration files do not exist, the interface will look for a configuration file with any other name (it is not recommended to have several configuration files for SUMO or NETCONVERT in the same folder as you don't know which one is going to be used).
 
-> **Note**: Currently version 0.30 of SUMO is distributed with Webots, but if the `SUMO_HOME` environment variable is defined, Webots will use the version of SUMO specified in this variable.
+> **Note**: SUMO should be installed on the system and the `SUMO_HOME` environment variable should be defined and point to the SUMO installation path.
 
 The interface will automatically start SUMO and run it in synchronization with Webots time.
 Each time a new vehicle enters the SUMO simulation, it will be created in Webots too and its position and orientation will be continually updated.
 The vehicle DEF name is set to `SUMO_VEHICLEX`, with `X` being the vehicle number (starting from 0).
-
-> **Note** [macOS]: On macOS, SUMO relies on X11.
-You need therefore to install [XQuartz](https://www.xquartz.org) (version 2.7.8 or later) for the interface to work.
 
 ### Use Vehicles Already Present in the World
 
@@ -158,9 +207,3 @@ The first function is called at initialization of the interface, the arguments a
 The second one is called at each SUMO step and the argument is the time step.
 
 Such a plugin can be used for example to change traffic light state in SUMO.
-
-### Using the SUMO Executables Distributed with Webots
-
-SUMO is distributed with Webots, it is located in `WEBOTS_HOME/projects/default/resources/sumo`, you can find all the executables in the `bin` folder.
-To be able to use these executables you need first to add `WEBOTS_HOME/projects/default/resources/sumo/bin` to your PATH.
-You will then for example be able to use `netedit` to edit your network files.

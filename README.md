@@ -14,7 +14,11 @@
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
-Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems. See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
+Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems.
+
+- See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
+- View online Webots simulations at [webots.cloud](https://webots.cloud).
+- Participate in the [IROS 2023 Simulated Humanoid Robot Wrestling Competition](https://webots.cloud/run?version=R2023a&url=https%3A%2F%2Fgithub.com%2Fcyberbotics%2Fwrestling%2Fblob%2Fmain%2Fworlds%2Fwrestling.wbt&type=competition) and win 1 Ethereum.
 
 ### Download
 
@@ -38,8 +42,8 @@ If you prefer to [compile Webots from source](https://github.com/cyberbotics/web
 [![macOS build (master)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule&label=macOS)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml?query=event%3Aschedule)<br>
 [![develop branch](https://img.shields.io/badge/branch-develop-blue)](https://github.com/cyberbotics/webots/tree/develop)
 [![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml?query=event%3Aschedule)
-[![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
-[![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
+[![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
+[![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
 
 ### About us
 

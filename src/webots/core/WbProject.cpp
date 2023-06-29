@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,17 +78,17 @@ QList<WbProject *> *WbProject::extraProjects() {
     QSet<QString> projectPaths;
 
     if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty()) {
-      foreach (const QString &path, WbPreferences::instance()
-                                      ->value("General/extraProjectPath")
-                                      .toString()
-                                      .split(QDir::listSeparator(), Qt::SkipEmptyParts))
-        projectPaths << path;
+      foreach (const QString &pathString, WbPreferences::instance()
+                                            ->value("General/extraProjectPath")
+                                            .toString()
+                                            .split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << pathString;
     }
 
     if (!qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").isEmpty()) {
-      foreach (const QString &path,
+      foreach (const QString &pathString,
                qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").split(QDir::listSeparator(), Qt::SkipEmptyParts))
-        projectPaths << path;
+        projectPaths << pathString;
     }
 
     foreach (const QString &projectPath, projectPaths)

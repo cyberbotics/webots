@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,9 +58,9 @@ private:
   void updateRobotController(WbRobot *robot);
 
 #ifndef NDEBUG  // debug methods
-  bool controllerInOnlyOneList(WbController *controller);
-  bool controllerInNoList(WbController *controller);
-  bool showControllersLists(const QString &message);
+  bool controllerInOnlyOneList(WbController *controller) const;
+  bool controllerInNoList(WbController *controller) const;
+  bool showControllersLists(const QString &message) const;
 #endif
 
   QList<WbController *> mControllers;         // currently running controllers (both intern and extern)

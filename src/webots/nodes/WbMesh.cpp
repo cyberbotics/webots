@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,15 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbMatter.hpp"
 #include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
@@ -44,6 +47,7 @@ void WbMesh::init() {
   mIsCollada = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  mBoundingObjectNeedUpdate = false;
   setCcw(mCcw->value());
 }
 
@@ -78,12 +82,9 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
+  mBoundingObjectNeedUpdate = true;
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
-  const WbNode *ancestor = WbVrmlNodeUtilities::findTopNode(this);
-  WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
-  if (group)
-    group->recomputeBoundingSphere();
 }
 
 void WbMesh::preFinalize() {
@@ -133,9 +134,9 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS |
                                                         aiComponent_ANIMATIONS | aiComponent_TEXTURES | aiComponent_COLORS);
   const aiScene *scene;
-  unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
-                       aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
-                       aiProcess_FlipUVs;
+  const unsigned int flags = aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+                             aiProcess_JoinIdenticalVertices | aiProcess_OptimizeGraph | aiProcess_RemoveComponent |
+                             aiProcess_FlipUVs;
 
   if (WbUrl::isWeb(filePath)) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
@@ -150,8 +151,8 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
       return;
     }
     const QByteArray data = file.readAll();
-    const char *hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8().constData();
-    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint);
+    const QByteArray hint = filePath.mid(filePath.lastIndexOf('.') + 1).toUtf8();
+    scene = importer.ReadFileFromMemory(data.constData(), data.size(), flags, hint.constData());
   } else
     scene = importer.ReadFile(filePath.toUtf8().constData(), flags);
 
@@ -336,7 +337,9 @@ void WbMesh::updateUrl() {
           mDownloader = NULL;
         }
 
-        downloadAssets();  // URL was changed from the scene tree or supervisor
+        if (!mDownloader || mDownloader->url().toString() != mUrl->item(0))
+          downloadAssets();  // URL was changed from the scene tree or supervisor
+
         return;
       }
     }
@@ -348,8 +351,18 @@ void WbMesh::updateUrl() {
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
 
-  if (isAValidBoundingObject())
+  if (isAValidBoundingObject()) {
+    if (mBoundingObjectNeedUpdate) {
+      WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+      if (boundingObjectAncestor && boundingObjectAncestor->odeGeom() == NULL)
+        boundingObjectAncestor->updateBoundingObject();
+      mBoundingObjectNeedUpdate = false;
+    }
     applyToOdeData();
+  }
+
+  if (mBoundingSphere && !isInBoundingObject())
+    mBoundingSphere->setOwnerSizeChanged();
 
   if (isPostFinalizedCalled())
     emit changed();
@@ -422,4 +435,13 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
     writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
   }
+}
+
+QStringList WbMesh::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "url"
+         << "ccw"
+         << "name"
+         << "materialIndex";
+  return fields;
 }
