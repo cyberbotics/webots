@@ -1781,7 +1781,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix
+        <source>Insert the identity matrix 
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4889,7 +4889,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6956,15 +6956,15 @@ Do you want to save it before closing?</source>
         <translation type="unfinished">閉じる</translation>
     </message>
     <message>
-        <source>Welcome to Webots R2024a</source>
+        <source>Welcome to Webots R2023b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Thank you for using Webots R2024a.&lt;/b&gt;</source>
+        <source>&lt;b&gt;Thank you for using Webots R2023b.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2024a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2023b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
