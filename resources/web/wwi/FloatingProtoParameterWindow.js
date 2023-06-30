@@ -38,6 +38,7 @@ import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
 import WbPropeller from './nodes/WbPropeller.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
+import {WbNodeType} from './nodes/wb_node_type.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -1650,6 +1651,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
             this.#view.x3dScene.render();
           });
         }
+        this.joints.appendChild(div);
+      } else if (joint.nodeType === WbNodeType.WB_NODE_TRACK) {
+        numberOfJoint++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-joint';
+        div.appendChild(this.#createJointInfo('Track: ', joint.name, joint.device));
+        let lastValue = 0;
+        this.#createSlider(undefined, joint.device, div, value => {
+          joint.linearSpeed = parseFloat(lastValue) < parseFloat(value) ? 0.05 : -0.05;
+          lastValue = value;
+          joint.linearSpeed = 0.05;
+          joint.animateMesh();
+          this.#view.x3dScene.render();
+        });
         this.joints.appendChild(div);
       }
     }

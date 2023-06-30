@@ -13,8 +13,8 @@ import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTrack extends WbSolid {
   #device;
-  constructor(id, translation, rotation, geometriesCount) {
-    super(id, translation, rotation);
+  constructor(id, translation, rotation, name, geometriesCount) {
+    super(id, translation, rotation, name);
     this.geometriesCount = geometriesCount;
     this.pathList = [];
     this.wheelsList = [];

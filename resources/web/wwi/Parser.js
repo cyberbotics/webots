@@ -643,7 +643,9 @@ export default class Parser {
     let newNode;
     if (node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
-      newNode = new WbTrack(id, translation, rotation, geometriesCount);
+      if (name === '')
+        name = 'track';
+      newNode = new WbTrack(id, translation, rotation, name, geometriesCount);
     } else if (node.tagName === 'TrackWheel') {
       const trackWheelRotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '1 0 0 1.5708'));
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
