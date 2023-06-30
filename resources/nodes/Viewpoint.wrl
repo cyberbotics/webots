@@ -1,10 +1,10 @@
 # The Viewpoint node defines the viewing parameters for the main 3D view of Webots.
 
 Viewpoint {
-  vrmlField SFFloat                                                                 fieldOfView            0.785398  # (rad)
-  vrmlField SFRotation                                                              orientation            0 0 1 0
-  vrmlField SFVec3f                                                                 position               -10 0 0
-  vrmlField SFString                                                                description            ""
+  w3dField SFFloat                                                                 fieldOfView            0.785398  # (rad)
+  w3dField SFRotation                                                              orientation            0 0 1 0
+  w3dField SFVec3f                                                                 position               -10 0 0
+  w3dField SFString                                                                description            ""
   field     SFFloat                                                                 near                   0.05      # (m) near clipping plane
   field     SFFloat                                                                 far                    0.0       # (m) far clipping plane
   field     SFFloat                                                                 exposure               1.0       # (J/m^2) photometric exposure of scene

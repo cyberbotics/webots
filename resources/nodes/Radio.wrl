@@ -2,9 +2,9 @@
 
 Radio {
   #fields that inherit from the Solid node:
-  vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 0 1 0
-  vrmlField MFNode     children            []          # shape and solids fixed to that solid
+  w3dField SFVec3f    translation         0 0 0
+  w3dField SFRotation rotation            0 0 1 0
+  w3dField MFNode     children            []          # shape and solids fixed to that solid
   field     SFString   name                "radio"     # used by wb_robot_get_device()
   field     SFString   model               ""          # generic name (eg: "chair")
   field     SFString   description         ""          # a short (1 line) of description

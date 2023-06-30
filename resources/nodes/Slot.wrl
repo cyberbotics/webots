@@ -3,5 +3,5 @@
 
 Slot {
   field     SFString type      ""
-  vrmlField SFNode   endPoint  NULL
+  w3dField SFNode   endPoint  NULL
 }

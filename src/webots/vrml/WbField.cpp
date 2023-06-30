@@ -96,8 +96,8 @@ const QString &WbField::name() const {
   return mModel->name();
 }
 
-bool WbField::isVrml() const {
-  return mModel->isVrml();
+bool WbField::isW3d() const {
+  return mModel->isW3d();
 }
 
 bool WbField::isDeprecated() const {

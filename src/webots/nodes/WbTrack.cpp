@@ -912,7 +912,7 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   }
 
   foreach (WbField *field, fields()) {
-    if (!field->isDeprecated() && (field->isVrml() && field->singleType() == WB_SF_NODE)) {
+    if (!field->isDeprecated() && (field->isW3d() && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport()) {
         if (field->name() == "children")

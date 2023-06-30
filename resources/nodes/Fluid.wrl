@@ -2,9 +2,9 @@
 
 Fluid {
   #fields that inherit from the Pose node:
-  vrmlField SFVec3f    translation     0 0 0
-  vrmlField SFRotation rotation        0 0 1 0
-  vrmlField MFNode     children        []        # shapes representing the fluid volume
+  w3dField SFVec3f    translation     0 0 0
+  w3dField SFRotation rotation        0 0 1 0
+  w3dField MFNode     children        []        # shapes representing the fluid volume
   #fields specific to the Fluid node:
   field     SFString   name           "fluid"    # used in ImmersionProperties
   field     SFString   model           ""        # generic name of the fluid (eg: "sea")

@@ -1087,14 +1087,14 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
     return;
 
   foreach (WbField *f, fields()) {
-    if (!f->isDeprecated() && ((f->isVrml() || writer.isProto()) && f->singleType() != WB_SF_NODE))
+    if (!f->isDeprecated() && ((f->isW3d() || writer.isProto()) && f->singleType() != WB_SF_NODE))
       f->write(writer);
   }
 }
 
 void WbNode::exportNodeSubNodes(WbWriter &writer) const {
   foreach (WbField *f, fields()) {
-    if (!f->isDeprecated() && ((f->isVrml() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
+    if (!f->isDeprecated() && ((f->isW3d() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(f->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
         if (writer.isX3d() || writer.isUrdf())
