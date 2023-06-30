@@ -22,6 +22,7 @@
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
 #include "WbContactPointsRepresentation.hpp"
+#include "WbContextMenuGenerator.hpp"
 #include "WbCylinder.hpp"
 #include "WbDragOverlayEvent.hpp"
 #include "WbDragPoseEvent.hpp"
@@ -80,6 +81,7 @@
 #include <QtGui/QMouseEvent>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QMenu>
 
 #include <wren/camera.h>
 #include <wren/config.h>
@@ -1512,7 +1514,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
         mRemoteContextMenuMatter = mPickedMatter;
       else
-        emit contextMenuRequested(event->globalPosition().toPoint());
+        emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
     }
     return;
   }
@@ -1554,7 +1556,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
       mRemoteContextMenuMatter = selectedMatter;
     else
-      emit contextMenuRequested(event->globalPosition().toPoint());
+      emit contextMenuRequested(event->globalPosition().toPoint(), mParentWidget);
   }
 }
 
@@ -1566,6 +1568,11 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
   if (mDragTranslate || mDragRotate || (mDragTorque && !mDragTorque->isLocked()) || (mDragForce && !mDragForce->isLocked()) ||
       mDragVerticalAxisRotate)
     return;
+
+#ifdef __APPLE__
+  // Fix an issue on macOS where the context menu was not closed by a click.
+  delete mParentWidget->findChild<QMenu *>("ContextMenu");
+#endif
 
   mMouseEventInitialized = true;
   updateMousesPosition(true, false);

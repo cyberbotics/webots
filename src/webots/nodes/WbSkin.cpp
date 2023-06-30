@@ -240,7 +240,7 @@ void WbSkin::applyToScale() {
   if (mBaseNode->areWrenObjectsInitialized())
     applyScaleToWren();
 
-  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
+  if (WbSimulationState::instance()->isRayTracingEnabled() && mBaseNode->boundingSphere())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
@@ -559,8 +559,9 @@ void WbSkin::createWrenSkeleton() {
       if (!file.open(QIODevice::ReadOnly))
         return;
       const QByteArray &data = file.readAll();
-      const char *hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8().constData();
-      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint, &mSkeleton, &meshes, &materialNames, &count);
+      const QByteArray hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8();
+      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint.constData(), &mSkeleton, &meshes,
+                                             &materialNames, &count);
     } else
       return;
   } else

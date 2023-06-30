@@ -70,7 +70,7 @@ This port should not be used by another application.
 In order to be visible from the outside network, the port should be open (e.g. on simple networks, this can be done by modifying the NAT settings of the router).
 The firewall of the local computer may complain about this operation, in this case, please modify its settings.
 
-### How to Embed a Web Scene in Your Website
+### How to Embed a Web Scene in your Website
 
 Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
@@ -124,8 +124,6 @@ Moreover, the following attributes are available:
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 
 Warning: note that if the `data-scene` attribute (see [web animation](web-animation.md)) and the `data-server` are both set, the `data-scene` will take precedence and try to load a scene.
-
-An example of a file using this API is available [here](https://cyberbotics1.epfl.ch/open-roberta/setup_viewer.js) and is used to run [this sample](https://cyberbotics1.epfl.ch/open-roberta/).
 
 ### Scene Refresh Rate
 

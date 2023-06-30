@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/balls/protos/RobocupSoccerBall.proto
@@ -72,7 +72,7 @@ PROTO RobocupSoccerBall [
     model "soccer ball"
     contactMaterial "robocup soccer ball"
     boundingObject Sphere {
-      radius %<= radius / scale >%
+      radius %<= radius >%
       subdivision 3
     }
     physics Physics {

@@ -30,7 +30,7 @@ In this case, please refer to the [section below](#remarks-on-the-used-technolog
 
 **Note**: A [Supervisor](supervisor-programming.md) can start or stop an animation recording as well.
 
-### How to Embed a Web Animation in Your Website
+### How to Embed a Web Animation in your Website
 
 Please refer to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website).
 
@@ -117,6 +117,6 @@ The actual refresh rate can be computed with the following formula:
 
 > **Note**: It is not recommended to change the `WorldInfo.FPS` or `WorldInfo.basicTimeStep` fields while recording an animation.
 
-### Remarks on the Used Technologies and Their Limitations
+### Remarks on the used Technologies and their Limitations
 
 Please refer to [this section](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).

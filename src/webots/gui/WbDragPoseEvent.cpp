@@ -93,10 +93,7 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   normalizedMouseRay.normalize();
   if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
     mIsMouseRayValid = true;
-
-    // in case mSelectedPose is not child of root (ex: Root --> Transform(s) --> mSelectedPose = uppermostSolid)
-    if (!mSelectedPose->isTopPose())
-      mCoordinateTransform = WbRotation(mSelectedPose->rotationMatrix()).toQuaternion().conjugated();
+    assert(mSelectedPose->baseNode()->upperPose() == NULL);  // is top Pose node
   } else {
     mIsMouseRayValid = false;
     WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
@@ -116,10 +113,6 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
-
-    // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
-    if (!mSelectedPose->isTopPose())
-      displacementFromInitialPosition = mCoordinateTransform * displacementFromInitialPosition;
 
     mSelectedPose->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
     mSelectedPose->emitTranslationOrRotationChangedByUser();
@@ -163,7 +156,8 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mHandleNumber(handleNumber),
   mManipulator(selectedPose->translateRotateManipulator()),
   mWidgetSizeFactor(1.0 / widgetSize.width(), 1.0 / widgetSize.height()),
-  mStepSize(selectedPose->translationStep()) {
+  mStepSize(selectedPose->translationStep()),
+  mAbsoluteScale(1.0) {
   mCoordinate = mManipulator->coordinate(mHandleNumber);
 
   mManipulator->highlightAxis(mHandleNumber);
@@ -182,12 +176,11 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->applyChangesToWren();
 
   WbMatrix4 matrix(mSelectedPose->matrix());
-
-  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
-  if (t) {
-    const WbVector3 &scale = t->scale();
-    matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
-  }
+  const WbVector3 &scale = matrix.scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  const WbTransform *pt = mSelectedPose->baseNode()->upperTransform();
+  if (pt)
+    mAbsoluteScale = pt->absoluteScale()[mCoordinate];
 
   // local offset
   const WbVector3 attachedHandlePosition(matrix *
@@ -198,7 +191,7 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mHandleOffset = WbVector3(0.0, 0.0, 0.0);
   mHandleOffset[mCoordinate] = mouse3dPosition[mCoordinate];
   if (mStepSize > 0)
-    mHandleOffset[mCoordinate] -= mStepSize * 0.5;
+    mHandleOffset[mCoordinate] -= mStepSize * 0.5 * mAbsoluteScale;
   mMouseOffset =
     (mViewDistanceUnscaling * mManipulator->relativeHandlePosition(mHandleNumber)[mCoordinate]) - mouse3dPosition[mCoordinate];
 
@@ -228,11 +221,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedPose->position());
 
   WbMatrix4 matrix(mSelectedPose->matrix());
-  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
-  if (t) {
-    const WbVector3 &scale = t->scale();
-    matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
-  }
+  const WbVector3 &scale = matrix.scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
@@ -240,7 +230,7 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), zEye);
   detachedHandlePosition = matrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  const double difference = detachedHandlePosition[mCoordinate] - mHandleOffset[mCoordinate];
+  const double difference = (detachedHandlePosition[mCoordinate] - mHandleOffset[mCoordinate]) / mAbsoluteScale;
   WbVector3 translationOffset;
   if (mStepSize <= 0)
     translationOffset[mCoordinate] = difference;
@@ -271,8 +261,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   if (mTranslationOffset > -1e-10 && mTranslationOffset < +1e-10)
     mTextOverlay->updateText("0.00 m");
   else {
-    int left = mTranslationOffset;
-    int right = abs(100 * (mTranslationOffset - left));
+    const int left = mTranslationOffset;
+    const int right = abs(100 * (mTranslationOffset - left));
     mTextOverlay->updateText((mTranslationOffset < 0 ? "-" : "") + QString::number(abs(left)) +
                              QString(".%1").arg(right, 2, 10, QChar('0')) + " m");
   }

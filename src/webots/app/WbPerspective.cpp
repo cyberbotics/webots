@@ -287,7 +287,8 @@ bool WbPerspective::save() const {
 
 #ifdef _WIN32
   // set hidden attribute to WBPROJ file
-  LPCSTR nativePath = QDir::toNativeSeparators(fileName()).toUtf8().constData();
+  const QByteArray nativePathByteArray = QDir::toNativeSeparators(fileName()).toUtf8();
+  const LPCSTR nativePath = nativePathByteArray.constData();
   SetFileAttributes(nativePath, GetFileAttributes(nativePath) | FILE_ATTRIBUTE_HIDDEN);
 #endif
 

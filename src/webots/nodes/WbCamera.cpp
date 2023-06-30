@@ -35,6 +35,7 @@
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSensor.hpp"
+#include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
@@ -124,6 +125,7 @@ void WbCamera::init() {
   mRecognitionRefreshRate = 0;
   mRecognizedObjects.clear();
   mRecognizedObjectsTexture = NULL;
+  mIsSubscribedToRayTracing = false;
   mSegmentationChanged = false;
   mSegmentationCamera = NULL;
   mSegmentationEnabled = false;
@@ -153,6 +155,9 @@ WbCamera::~WbCamera() {
 
   delete mSegmentationCamera;
   delete mSegmentationMemoryMappedFile;
+
+  if (mIsSubscribedToRayTracing)
+    WbSimulationState::instance()->unsubscribeToRayTracing();
 }
 
 void WbCamera::downloadAssets() {
@@ -982,6 +987,12 @@ void WbCamera::setup() {
   updateAmbientOcclusionRadius();
   updateBloomThreshold();
   connect(mNoiseMaskUrl, &WbSFString::changed, this, &WbCamera::updateNoiseMaskUrl);
+
+  // make sure bounding sphere is updated when object's size and position changes
+  if (recognition()) {
+    mIsSubscribedToRayTracing = true;
+    WbSimulationState::instance()->subscribeToRayTracing();
+  }
 }
 
 bool WbCamera::isEnabled() const {
@@ -1034,6 +1045,16 @@ void WbCamera::updateRecognition() {
     mOverlay->deleteForegroundTexture(true);
     emit textureIdUpdated(mOverlay->foregroundTextureGLId(), FOREGROUND_TEXTURE);
     mRecognizedObjectsTexture = NULL;
+  }
+
+  // make sure bounding sphere is updated when object's size and position changes
+  const bool recognitionEnabled = recognitionNode != NULL;
+  if (recognitionEnabled != mIsSubscribedToRayTracing) {
+    mIsSubscribedToRayTracing = recognitionEnabled;
+    if (recognitionNode)
+      WbSimulationState::instance()->subscribeToRayTracing();
+    else
+      WbSimulationState::instance()->unsubscribeToRayTracing();
   }
 
   // clear mRecognizedObjects if Recognition node changed but not if `Recognition.segmentation` changed

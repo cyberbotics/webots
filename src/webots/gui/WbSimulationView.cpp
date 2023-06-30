@@ -116,7 +116,6 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
   vlayout->setSpacing(0);
   vlayout->setContentsMargins(0, 0, 0, 0);
   vlayout->addWidget(mTitleBar, 0);
-  mToolBar->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   if (toolBarAlign == "center") {
     QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->addWidget(mToolBar);
@@ -270,6 +269,7 @@ QToolBar *WbSimulationView::createToolBar() {
     mSoundVolumeSlider->setSliderPosition(WbPreferences::instance()->value("Sound/volume", 80).toInt());
 
   mSoundVolumeSlider->setFocusPolicy(Qt::ClickFocus);
+  mSoundVolumeSlider->setFixedWidth(102);
   mToolBar->addWidget(mSoundVolumeSlider);
   connect(mSoundVolumeSlider, &QSlider::valueChanged, this, &WbSimulationView::updateSoundVolume);
 
@@ -1145,7 +1145,7 @@ void WbSimulationView::showEvent(QShowEvent *event) {
   updateToggleView3DAction(mSplitterStatus & VIEW_3D_VISIBLE);
 }
 
-void WbSimulationView::showMenu(const QPoint &position) {
+void WbSimulationView::showMenu(const QPoint &position, QWidget *parentWidget) {
   const WbBaseNode *selectedNode = WbSelection::instance() ? WbSelection::instance()->selectedNode() : NULL;
-  WbContextMenuGenerator::generateContextMenu(position, selectedNode);
+  WbContextMenuGenerator::generateContextMenu(position, selectedNode, parentWidget);
 }

@@ -39,8 +39,6 @@ void WbAbstractPose::init(WbBaseNode *node) {
   mMatrix = NULL;
   mMatrixNeedUpdate = true;
   mVrmlMatrixNeedUpdate = true;
-  mIsTopPose = false;
-  mHasSearchedTopPose = false;
   mTranslateRotateManipulator = NULL;
 
   mTranslateRotateManipulatorInitialized = false;
@@ -223,15 +221,6 @@ const WbMatrix4 &WbAbstractPose::vrmlMatrix() const {
   return mVrmlMatrix;
 }
 
-bool WbAbstractPose::isTopPose() const {
-  if (!mHasSearchedTopPose) {
-    mIsTopPose = mBaseNode->upperPose() == NULL;
-    mHasSearchedTopPose = true;
-  }
-
-  return mIsTopPose;
-}
-
 // Position and orientation setters
 
 void WbAbstractPose::setTranslationAndRotation(double tx, double ty, double tz, double rx, double ry, double rz, double angle) {
@@ -298,6 +287,12 @@ void WbAbstractPose::updateTranslateRotateHandlesSize() {
   createTranslateRotateManipulatorIfNeeded();
   if (!mTranslateRotateManipulator)
     return;
+
+  const WbTransform *transform = dynamic_cast<WbTransform *>(mBaseNode);
+  if (!transform)
+    transform = mBaseNode->upperTransform();
+  if (transform)
+    mTranslateRotateManipulator->updateHandleScale(transform->absoluteScale().ptr());
 
   if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
     mTranslateRotateManipulator->computeHandleScaleFromViewportSize();

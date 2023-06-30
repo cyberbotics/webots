@@ -15,6 +15,7 @@
 """Launch a system command."""
 
 import os
+import queue
 import subprocess
 import sys
 import threading
@@ -139,17 +140,47 @@ class Command(object):
                 self.terminate(force=False)
             exit()
 
-    def runTest(self, timeout=None, silent=True, forceTermination=True,
-                shell=False):
+    def runTest(self, timeout=None, silent=True, forceTermination=True, shell=False):
         """Run the command and redirect the STDERR and STDOUT to files."""
+
+        def enqueue_stream(stream, queue, type):
+            for line in iter(stream.readline, b''):
+                queue.put(str(type) + line.decode('utf-8'))
+            stream.close()
+
+        def enqueue_process(process, queue):
+            process.wait()
+            queue.put('x')
 
         def mainTarget():
             outFile = open(self.outFileName, "w")
             errFile = open(self.errFileName, "w")
-            self.returncode = subprocess.call(self.cmd, shell=shell, bufsize=1,
-                                              universal_newlines=True, stdout=outFile, stderr=errFile)
+
+            p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            q = queue.Queue()
+            to = threading.Thread(target=enqueue_stream, args=(p.stdout, q, 1))
+            te = threading.Thread(target=enqueue_stream, args=(p.stderr, q, 2))
+            tp = threading.Thread(target=enqueue_process, args=(p, q))
+            te.start()
+            to.start()
+            tp.start()
+
+            while True:
+                line = q.get()
+                if line[0] == 'x':
+                    break
+                if line[0] == '2':  # stderr
+                    errFile.write(line[1:])
+                    errFile.flush()
+                else:  # stdout
+                    outFile.write(line[1:])
+                    outFile.flush()
+            tp.join()
+            to.join()
+            te.join()
             outFile.close()
             errFile.close()
+            self.returncode = p.returncode
 
         self.outFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stdout.txt')
         self.errFileName = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'webots_stderr.txt')

@@ -29,7 +29,7 @@ Lights are costly in term of performance and reduce the simulation speed (especi
 Minimizing the number of lights increases the rendering speed.
 A [PointLight](../reference/pointlight.md) is more efficient than a [SpotLight](../reference/spotlight.md), but less than a [DirectionalLight](../reference/directionallight.md).
 
-In this simulation, the [Light](../reference/light.md) node is not visible in the scene tree because it is contained in the [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight) PROTO node.
+In this simulation, the [Light](../reference/light.md) node is not visible in the scene tree because it is contained in the [TexturedBackgroundLight](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto) PROTO node.
 It consists of a [DirectionalLight](../reference/directionallight.md) whose intensity and direction is computed automatically according to the background of the scene.
 
 ### Modify the Appearance of the Walls

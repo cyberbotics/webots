@@ -63,7 +63,7 @@ If this field is empty, Webots will compute the inertia matrix automatically acc
 
 - The `damping` field allows to specify a [Damping](damping.md) node that defines the velocity damping parameters to be applied to the [Solid](solid.md).
 
-### How to Use Physics Nodes?
+### How to use Physics Nodes?
 
 If it contains a [Physics](#physics) node, a [Solid](solid.md) object will be simulated in *physics* mode.
 The *physics* simulation mode takes into account the simulation of the forces that act on the bodies and the properties of these bodies, e.g., mass and moment of inertia.
@@ -236,7 +236,7 @@ But a [Physics](#physics) node can optionally be used if one wishes to simulate 
 So it is usually recommended to leave the `physics` field of a device empty, unless it represents a significant mass or volume in the simulated robot.
 This is true for these devices: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [LED](led.md), [LightSensor](lightsensor.md), [Pen](pen.md), and [Receiver](receiver.md).
 
-> **Note**: The [InertialUnit](inertialunit.md) and [Connector](connector.md) nodes work differently.
+> **Note**: The [InertialUnit](inertialunit.md), [Connector](connector.md), and the [VacuumGripper](vacuumgripper.md) nodes work differently.
 Indeed, they require the presence of a [Physics](#physics) node in their parent node to be functional.
 It is also possible to specify a [Physics](#physics) node of the device but this adds an extra body to the simulation.
 

@@ -49,7 +49,7 @@ Note that a *parent* is always an *ancestor*, but an *ancestor* is not necessari
 It may be either a *kinematic* or a *dynamic solid*.
 
 **PROTO node**: A *PROTO node* is a node that is defined in a [PROTO](proto.md) file.
-*PROTO nodes* extend the list of available nodes (in addition to the base nodes) to facilitate the use of pre-defined [robots](../guide/robots.md), [actuators](../guide/actuators.md), [sensors](../guide/sensors.md), objects, etc. Webots provides several *PROTO nodes*, but users can create their own.
+*PROTO nodes* extend the list of available nodes (in addition to the base nodes) to facilitate the use of pre-defined robots, actuators, sensors, objects, etc. Webots provides several *PROTO nodes*, but users can create their own.
 
 **Robot**: A *robot* is a [Robot](robot.md) *node* defining a robotic system.
 It usually contains *sensors* and *actuators* in its *descendants*.
