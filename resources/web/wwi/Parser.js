@@ -119,7 +119,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-    console.log(xml)
+
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -767,7 +767,7 @@ export default class Parser {
       newNode.parent = parentNode.id;
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
-      if (isBoundingObject && parentNode instanceof WbSolid)
+      else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
