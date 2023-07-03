@@ -1,5 +1,10 @@
 # Webots R2023 Change Log
 
+## Webots R2023b Revision 1
+Released on XXX XXth, 2023.
+  - New Devices and Objects
+    - Added a model of a silo and a field ditch ([#6289](https://github.com/cyberbotics/webots/pull/6289)).
+
 ## Webots R2023b
 Released on June 28th, 2023.
   - New Features
