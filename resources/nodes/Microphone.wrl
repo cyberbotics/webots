@@ -20,6 +20,6 @@ Microphone {
   field    SFFloat    sensitivity         -50          # [dB]
 
   # hidden fields
-  hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
-  hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+  hiddenField SFVec3f linearVelocity      0 0 0        # (m/s) Solid's initial linear velocity
+  hiddenField SFVec3f angularVelocity     0 0 0        # (rad/s) Solid's initial angular velocity
 }

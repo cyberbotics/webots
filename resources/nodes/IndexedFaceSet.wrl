@@ -7,8 +7,8 @@ IndexedFaceSet {
   w3dField SFBool  ccw             TRUE
   field    SFBool  convex          TRUE
   w3dField SFBool  normalPerVertex TRUE
-  w3dField MFInt32 coordIndex      []        # [-1,)
-  w3dField MFInt32 normalIndex     []        # [-1,)
-  w3dField MFInt32 texCoordIndex   []        # [-1,)
+  w3dField MFInt32 coordIndex      []    # [-1,)
+  w3dField MFInt32 normalIndex     []    # [-1,)
+  w3dField MFInt32 texCoordIndex   []    # [-1,)
   w3dField SFFloat creaseAngle     0
 }

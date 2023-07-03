@@ -3,5 +3,5 @@
 Sphere {
   w3dField SFFloat radius      1
   w3dField SFInt32 subdivision 1
-  w3dField SFBool  ico         TRUE # defines if the sphere is an icosphere (TRUE) or a UV sphere (FALSE)
+  w3dField SFBool  ico         TRUE  # defines if the sphere is an icosphere (TRUE) or a UV sphere (FALSE)
 }
