@@ -10,13 +10,13 @@
 EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
 
 PROTO Ditch [
-  field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 0 1 0
-  field SFString   name           "ditch"
-  field SFVec3f    size           20 5 2     # Defines the size of the ditch.
-  field SFFloat    waterHeight    0.3        # Defines the height of the water in the ditch.
+  field SFVec3f    translation    0 0 0                                                            # Is `Pose.translation`.
+  field SFRotation rotation       0 0 1 0                                                          # Is `Solid.rotation`.
+  field SFString   name           "ditch"                                                          # Is `Solid.name`.
+  field SFVec3f    size           20 5 2                                                           # Defines the size of the ditch.
+  field SFFloat    waterHeight    0.3                                                              # Defines the height of the water in the ditch.
   field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 5 5 } }  # Defines the appearance of the terrain.
-  field SFInt32    randomSeed     1                                                                  # Defines whether the bounds of the terrain should be flat.
+  field SFInt32    randomSeed     1                                                                # Defines whether the bounds of the terrain should be flat.
 ]
 {
   %<
