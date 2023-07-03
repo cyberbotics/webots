@@ -6,7 +6,7 @@
 # A steel grain silo.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedSteel.proto"
 
 PROTO Silo [
   field SFVec3f    translation          0 0 0
