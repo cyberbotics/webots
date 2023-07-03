@@ -17,6 +17,10 @@ EXTERNPROTO "webots://projects/objects/animals/protos/Cat.proto"
 EXTERNPROTO "webots://projects/objects/animals/protos/Horse.proto"
 EXTERNPROTO "webots://projects/objects/animals/protos/Cow.proto"
 EXTERNPROTO "webots://projects/objects/animals/protos/Sheep.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/Silo.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Ditch.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/appearances/protos/FormedConcrete.proto"
 
 WorldInfo {
   info [
@@ -43,6 +47,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF FLOOR Solid {
+  translation 0 -259.88 0
   children [
     DEF PLANE_SHAPE Shape {
       appearance PBRAppearance {
@@ -58,12 +63,161 @@ DEF FLOOR Solid {
         }
       }
       geometry Plane {
-        size 1000 1000
+        size 1000 600
       }
       castShadows FALSE
     }
   ]
+  name "floor"
+  boundingObject Pose {
+    translation 0 0 -0.025
+    children [
+      Box {
+        size 1000 600 0.05
+      }
+    ]
+  }
+}
+DEF FLOOR Solid {
+  translation 0 245 0
+  children [
+    DEF PLANE_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 200 200
+        }
+      }
+      geometry Plane {
+        size 1000 400
+      }
+      castShadows FALSE
+    }
+  ]
+  name "floor(1)"
+  boundingObject Pose {
+    translation 0 0 -0.025
+    children [
+      Box {
+        size 1000 400 0.05
+      }
+    ]
+  }
+}
+DEF FLOOR Solid {
+  translation -350 42.59 -1
+  children [
+    DEF FLOOR_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 100 2
+        }
+      }
+      geometry Box {
+        size 300 5 2
+      }
+      castShadows FALSE
+    }
+  ]
+  name "floor(3)"
   boundingObject USE PLANE_SHAPE
+}
+DEF FLOOR Solid {
+  translation 350 42.59 -1
+  children [
+    DEF FLOOR_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "webots://projects/default/worlds/textures/dry_grass.jpg"
+          ]
+        }
+        roughness 1
+        metalness 0
+        textureTransform TextureTransform {
+          scale 100 2
+        }
+      }
+      geometry Box {
+        size 300 5 2
+      }
+      castShadows FALSE
+    }
+  ]
+  name "floor(4)"
+  boundingObject USE PLANE_SHAPE
+}
+Ditch {
+  translation 0 42.59 0
+  size 400 5 1
+  waterHeight 0.5
+  appearance SandyGround {
+    textureTransform TextureTransform {
+      scale 84 5
+    }
+  }
+}
+Solid {
+  translation 36.45 42.83 0
+  rotation 0 0 1 1.5708
+  children [
+    DEF RAMP Group {
+      children [
+        Pose {
+          translation 0 0 0.05
+          children [
+            Shape {
+              appearance DEF BRIDGE_APPEARANCE FormedConcrete {
+              }
+              geometry Box {
+                size 6 7 0.1
+              }
+            }
+          ]
+        }
+        Pose {
+          translation 3.06 0 0
+          rotation 0 1 0 0.5236
+          children [
+            Shape {
+              appearance USE BRIDGE_APPEARANCE
+              geometry Box {
+                size 0.2 7 0.1
+              }
+            }
+          ]
+        }
+        Pose {
+          translation -3.06 0 0
+          rotation 0 1 0 -0.5236
+          children [
+            Shape {
+              appearance USE BRIDGE_APPEARANCE
+              geometry Box {
+                size 0.2 7 0.1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "bridge"
+  model "bridge"
+  boundingObject USE RAMP
 }
 Sheep {
   translation 6.24 -4.94 0
@@ -203,6 +357,9 @@ PicketFence {
 Barn {
   translation 0 -6.47 0
   rotation 0 0 1 4.692820414042842e-06
+}
+Silo {
+  translation -2.75 6.28 0
 }
 DEF BOOMER_T3050 Tractor {
   translation 2.79493 -17.8 0.609281
