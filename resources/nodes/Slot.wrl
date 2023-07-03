@@ -2,6 +2,6 @@
 # It is possible to set the gender of the Slot by ending the type string with a '+' or '-'
 
 Slot {
-  w3dField SFString type      ""
+  field    SFString type      ""
   w3dField SFNode   endPoint  NULL
 }

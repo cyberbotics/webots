@@ -13,7 +13,7 @@ Solid {
   field     SFString   description         ""        # a short (1 line) of description of the solid
   field     SFString   contactMaterial     "default" # see ContactProperties node
   field     MFNode     immersionProperties []        # see ImmersionProperties node
-  field     SFNode     boundingObject      NULL      # for collision detection
+  w3dField  SFNode     boundingObject      NULL      # for collision detection
   field     SFNode     physics             NULL      # optional Physics node
   field     SFBool     locked              FALSE     # to avoid moving objects with the mouse
   field     SFFloat    radarCrossSection   0.0       # radar cross section of this solid

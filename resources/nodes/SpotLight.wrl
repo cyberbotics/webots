@@ -12,5 +12,5 @@ SpotLight {
   w3dField SFVec3f location          0 0 0    # (-,)
   w3dField SFBool  on                TRUE
   w3dField SFFloat radius            100      # [0,)
-  field     SFBool  castShadows       FALSE
+  w3dField SFBool  castShadows       FALSE
 }
