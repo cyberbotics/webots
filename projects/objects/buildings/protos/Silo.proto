@@ -15,7 +15,7 @@ PROTO Silo [
   field SFFloat    radius               3
   field SFString   name                 "silo"
   field SFBool     enableBoundingObject TRUE    
-  field SFBool     locked               TRUE
+  field SFBool     locked               FALSE
 ]
 {
   %<
