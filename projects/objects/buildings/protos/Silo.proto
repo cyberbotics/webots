@@ -19,11 +19,8 @@ PROTO Silo [
 ]
 {
   %<
-    let coneHeight = 2;
     let height = fields.height.value;
     let radius = fields.radius.value;
-    let cylinderHeight = height - coneHeight;
-    
     if (radius <= 0) {
       radius = fields.radius.defaultValue;
       console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
@@ -33,11 +30,13 @@ PROTO Silo [
       console.error('\'height\' must be greater than 2. Value reset to ' + height + '.');
     }
     
-    let ladderWidth = 0.7;
-    let ladderHeight = cylinderHeight * 2 / 3;
-    let ladderStepSize = 0.5;
-    let ladderSteps = Math.trunc(ladderHeight / ladderStepSize);
-    let barHeight = ladderHeight + ladderStepSize;
+    const coneHeight = 2;
+    const cylinderHeight = height - coneHeight;
+    const ladderWidth = 0.7;
+    const ladderHeight = cylinderHeight * 2 / 3;
+    const ladderStepSize = 0.5;
+    const ladderSteps = Math.trunc(ladderHeight / ladderStepSize);
+    const barHeight = ladderHeight + ladderStepSize;
   >%
   Solid {
     translation IS translation
