@@ -7,7 +7,7 @@
 # Randomly generated ditch with optional water.
 # template language: javascript
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/SandyGround.proto"
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
 
 PROTO Ditch [
   field SFVec3f    translation    0 0 0
