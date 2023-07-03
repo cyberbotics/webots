@@ -1,8 +1,10 @@
 #VRML_SIM R2023b utf8
-# template language: javascript
-# license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Silo.proto
+# keywords: building/farm
 # A steel grain silo.
+# template language: javascript
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedSteel.proto"
 
