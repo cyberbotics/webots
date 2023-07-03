@@ -7,5 +7,5 @@ ElevationGrid {
   w3dField SFFloat xSpacing       1
   w3dField SFInt32 yDimension     0
   w3dField SFFloat ySpacing       1
-  field     SFFloat thickness      1
+  w3dField SFFloat thickness      1
 }

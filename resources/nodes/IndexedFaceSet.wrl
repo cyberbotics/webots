@@ -5,7 +5,7 @@ IndexedFaceSet {
   w3dField SFNode  normal          NULL
   w3dField SFNode  texCoord        NULL
   w3dField SFBool  ccw             TRUE
-  w3dField SFBool  convex          TRUE
+  field    SFBool  convex          TRUE
   w3dField SFBool  normalPerVertex TRUE
   w3dField MFInt32 coordIndex      []        # [-1,)
   w3dField MFInt32 normalIndex     []        # [-1,)

@@ -10,12 +10,12 @@ Background {
   w3dField MFString rightUrl  []
   w3dField MFString topUrl    []
 
-  field MFString backIrradianceUrl   []
-  field MFString bottomIrradianceUrl []
-  field MFString frontIrradianceUrl  []
-  field MFString leftIrradianceUrl   []
-  field MFString rightIrradianceUrl  []
-  field MFString topIrradianceUrl    []
+  w3dField MFString backIrradianceUrl   []
+  w3dField MFString bottomIrradianceUrl []
+  w3dField MFString frontIrradianceUrl  []
+  w3dField MFString leftIrradianceUrl   []
+  w3dField MFString rightIrradianceUrl  []
+  w3dField MFString topIrradianceUrl    []
 
-  field     SFFloat  luminosity  1
+  w3dField     SFFloat  luminosity  1
 }

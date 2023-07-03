@@ -6,5 +6,5 @@ Cone {
   w3dField SFFloat height       2
   w3dField SFBool  side         TRUE
   w3dField SFBool  bottom       TRUE
-  field     SFInt32 subdivision  12
+  w3dField SFInt32 subdivision  12
 }

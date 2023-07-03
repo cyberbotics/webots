@@ -4,6 +4,6 @@
 Shape {
   w3dField SFNode appearance  NULL
   w3dField SFNode geometry    NULL
-  field     SFBool castShadows TRUE
-  field     SFBool isPickable  TRUE
+  w3dField SFBool castShadows TRUE
+  w3dField SFBool isPickable  TRUE
 }
