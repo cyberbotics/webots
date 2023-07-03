@@ -1,0 +1,168 @@
+#VRML_SIM R2023b utf8
+# template language: javascript
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# A steel grain silo.
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedSteel.proto"
+
+PROTO Silo [
+  field SFVec3f    translation          0 0 0
+  field SFRotation rotation             0 0 1 0
+  field SFFloat    height               17
+  field SFFloat    radius               3
+  field SFString   name                 "silo"
+  field SFBool     enableBoundingObject TRUE    
+  field SFBool     locked               TRUE
+]
+{
+  %<
+    let coneHeight = 2;
+    let height = fields.height.value;
+    let radius = fields.radius.value;
+    let cylinderHeight = height - coneHeight;
+    
+    if (radius <= 0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
+    if (height <= 2) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be greater than 2. Value reset to ' + height + '.');
+    }
+    
+    let ladderWidth = 0.7;
+    let ladderHeight = cylinderHeight * 2 / 3;
+    let ladderStepSize = 0.5;
+    let ladderSteps = Math.trunc(ladderHeight / ladderStepSize);
+    let barHeight = ladderHeight + ladderStepSize;
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BODY Pose {
+        translation 0 0 %<= cylinderHeight * 0.5 >%
+        children [
+          Shape {
+            appearance PBRAppearance { 
+              baseColor 0.752941 0.74902 0.737255
+              roughness 0.3
+            }
+            geometry Cylinder {
+              height %<= cylinderHeight >%
+              radius %<= radius >%
+            }
+          }
+        ]
+      }
+      DEF ROOF Pose {
+        translation 0 0 %<= cylinderHeight + coneHeight * 0.5 >%
+        children [
+          Shape {
+            appearance BrushedSteel {
+              textureTransform TextureTransform {
+                scale 200 200
+              }
+            }
+            geometry Cone {
+              bottomRadius %<= radius >%
+              height %<= coneHeight >%
+              subdivision 40
+            }
+          }
+        ]
+      }
+      DEF LADDER Pose {
+        translation %<= radius + 0.04 >% 0 0
+        children [
+          DEF LEFT_POLE Pose {
+            translation 0 %<= -ladderWidth * 0.5 - 0.025 >% %<= cylinderHeight + 0.1 + ladderStepSize - barHeight * 0.5 >%
+            children [
+              DEF SIDE_POLE Shape {
+                appearance DEF LADDER_APPEARANCE PBRAppearance {
+                  baseColor 0.603922 0.6 0.588235
+                  roughness 0.8
+                }
+                geometry Box {
+                  size 0.05 0.05 %<= barHeight >%
+                }
+              }
+            ]
+          }
+          DEF RIGHT_POLE Pose {
+            translation 0 %<= ladderWidth * 0.5 + 0.025 >% %<= cylinderHeight + 0.1 + ladderStepSize - barHeight * 0.5 >%
+            children [
+              USE SIDE_POLE
+            ]
+          }
+          DEF LEFT_TOP_POLE Pose {
+            translation %<= -radius * 0.5 - 0.025 >% %<= -ladderWidth * 0.5 - 0.025 >% %<= cylinderHeight + 0.3 >%
+            children [
+              DEF TOP_POLE Shape {
+                appearance DEF LADDER_APPEARANCE PBRAppearance {
+                  baseColor 0.603922 0.6 0.588235
+                  roughness 0.8
+                }
+                geometry Box {
+                  size %<= radius >%  0.05 0.1 
+                }
+              }
+            ]
+          }
+          DEF RIGHT_TOP_POLE Pose {
+            translation %<= -radius * 0.5 - 0.025 >% %<= ladderWidth * 0.5 + 0.025 >% %<= cylinderHeight + 0.3 >%
+            children [
+              USE TOP_POLE
+            ]
+          }
+          Pose {
+            translation 0 0 %<= cylinderHeight + 0.1 >%
+            children [
+              DEF FOOL Shape {
+                appearance USE LADDER_APPEARANCE
+                geometry Box {
+                  size 0.05 %<= ladderWidth >% 0.05
+                }
+              }
+            ]
+          }
+      %<
+        let h = cylinderHeight + 0.1;
+        for (let n = 1; n < ladderSteps; n++) {
+          h -= ladderStepSize;
+      >%
+          Pose {
+            translation 0 0 %<= h >%
+            children [
+              USE FOOL
+            ]
+          }
+      %<
+        }
+      >%
+        ]
+      } 
+    ]
+    name IS name
+  %<
+    if (fields.enableBoundingObject.value) {
+  >%
+    boundingObject Pose {
+      translation 0 0 %<= height * 0.5>%
+      children [
+        Cylinder {
+          height %<= height >%
+          radius %<= radius >%
+        }
+      ]
+    }
+  %<
+    }
+  >%
+    locked IS locked
+    recognitionColors [
+      0.89 0.89 0.89
+    ]
+  }
+}
