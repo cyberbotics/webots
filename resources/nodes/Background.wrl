@@ -3,12 +3,12 @@
 Background {
   w3dField MFColor  skyColor [ 0 0 0 ]
 
-  w3dField MFString backUrl   []
-  w3dField MFString bottomUrl []
-  w3dField MFString frontUrl  []
-  w3dField MFString leftUrl   []
-  w3dField MFString rightUrl  []
-  w3dField MFString topUrl    []
+  w3dField MFString backUrl             []
+  w3dField MFString bottomUrl           []
+  w3dField MFString frontUrl            []
+  w3dField MFString leftUrl             []
+  w3dField MFString rightUrl            []
+  w3dField MFString topUrl              []
 
   w3dField MFString backIrradianceUrl   []
   w3dField MFString bottomIrradianceUrl []
@@ -17,5 +17,5 @@ Background {
   w3dField MFString rightIrradianceUrl  []
   w3dField MFString topIrradianceUrl    []
 
-  w3dField     SFFloat  luminosity  1
+  w3dField SFFloat  luminosity          1
 }

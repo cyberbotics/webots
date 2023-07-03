@@ -5,8 +5,8 @@
 # for modern simulations with PBR (Physically Based Rendering).
 
 Appearance {
-  w3dField  SFNode   material         NULL
-  w3dField  SFNode   texture          NULL
-  w3dField  SFNode   textureTransform NULL
-  field     SFString name             "appearance"
+  w3dField SFNode   material         NULL
+  w3dField SFNode   texture          NULL
+  w3dField SFNode   textureTransform NULL
+  field    SFString name             "appearance"
 }
