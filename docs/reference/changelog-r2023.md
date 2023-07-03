@@ -1,5 +1,10 @@
 # Webots R2023 Change Log
 
+## Webots R2023b Revision 1
+Released on XXX XXth, 2023.
+  - Bug fixes
+    - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
+
 ## Webots R2023b
 Released on June 28th, 2023.
   - New Features
