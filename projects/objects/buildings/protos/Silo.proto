@@ -9,13 +9,13 @@
 EXTERNPROTO "webots://projects/appearances/protos/BrushedSteel.proto"
 
 PROTO Silo [
-  field SFVec3f    translation          0 0 0
-  field SFRotation rotation             0 0 1 0
-  field SFFloat    height               17
-  field SFFloat    radius               3
-  field SFString   name                 "silo"
-  field SFBool     enableBoundingObject TRUE    
-  field SFBool     locked               FALSE
+  field SFVec3f    translation          0 0 0    # Is `Pose.translation`.
+  field SFRotation rotation             0 0 1 0  # Is `Pose.rotation`.
+  field SFFloat    height               17       # Defines the height of the silo.
+  field SFFloat    radius               3        # Defined the radius of the silo.
+  field SFString   name                 "silo"   # Is `Solid.name`.
+  field SFBool     enableBoundingObject TRUE     # Defines whether the silo should have a bounding object.
+  field SFBool     locked               FALSE    # Is `Solid.locked`.
 ]
 {
   %<
