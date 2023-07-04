@@ -573,6 +573,8 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   if (mUrl->size() == 0)
     return;
 
+  WbBaseNode::exportNodeFields(writer);
+
   // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
@@ -613,10 +615,6 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     mPbrAppearances[i]->exportShallowNode(writer);
 
   urlFieldCopy.write(writer);
-
-  findField("ccw", true)->write(writer);
-  findField("castShadows", true)->write(writer);
-  findField("isPickable", true)->write(writer);
 }
 
 QString WbCadShape::cadPath() const {
