@@ -643,15 +643,6 @@ void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
   }
 }
 
-void WbPbrAppearance::exportNodeFields(WbWriter &writer) const {
-  WbAbstractAppearance::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    foreach (WbField *field, fields())
-      if (field->singleType() != WB_SF_NODE)
-        field->write(writer);
-  }
-}
-
 QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "baseColor"

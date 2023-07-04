@@ -76,7 +76,6 @@ public:
 protected:
   bool exportNodeHeader(WbWriter &writer) const override;
   void exportNodeSubNodes(WbWriter &writer) const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable

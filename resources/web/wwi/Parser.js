@@ -996,7 +996,7 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     if (!isBoundingObject)
       isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
