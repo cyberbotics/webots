@@ -134,6 +134,7 @@ export default class Parser {
         }
       }
       const scene = xml.getElementsByTagName('Scene')[0];
+      console.log(xml)
       if (typeof scene === 'undefined') {
         const node = xml.getElementsByTagName('nodes')[0];
         if (typeof node === 'undefined')
@@ -471,12 +472,12 @@ export default class Parser {
     const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
-    const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
+    const position = convertStringToVec3(getNodeAttribute(node, 'position', '-10 0 0'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
-    const far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
-    const near = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
-    const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
+    const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
+    const near = parseFloat(getNodeAttribute(node, 'near', '0.1'));
+    const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness', 0.5));
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
