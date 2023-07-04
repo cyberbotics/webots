@@ -4,20 +4,20 @@
 
 PBRAppearance {
   w3dField SFColor  baseColor            1 1 1
-  w3dField SFNode   baseColorMap         NULL
+  field    SFNode   baseColorMap         NULL
   w3dField SFFloat  transparency         0
   w3dField SFFloat  roughness            0
-  w3dField SFNode   roughnessMap         NULL
+  field    SFNode   roughnessMap         NULL
   w3dField SFFloat  metalness            1
-  w3dField SFNode   metalnessMap         NULL
+  field    SFNode   metalnessMap         NULL
   w3dField SFFloat  IBLStrength          1
-  w3dField SFNode   normalMap            NULL
+  field    SFNode   normalMap            NULL
   w3dField SFFloat  normalMapFactor      1
-  w3dField SFNode   occlusionMap         NULL
+  field    SFNode   occlusionMap         NULL
   w3dField SFFloat  occlusionMapStrength 1
   w3dField SFColor  emissiveColor        0 0 0
-  w3dField SFNode   emissiveColorMap     NULL
+  field    SFNode   emissiveColorMap     NULL
   w3dField SFFloat  emissiveIntensity    1
-  w3dField SFNode   textureTransform     NULL
+  field    SFNode   textureTransform     NULL
   field    SFString name                 "PBRAppearance"
 }
