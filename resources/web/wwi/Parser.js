@@ -134,8 +134,8 @@ export default class Parser {
         }
       }
       const scene = xml.getElementsByTagName('Scene')[0];
-      console.log(xml)
       if (typeof scene === 'undefined') {
+        console.log(scene)
         const node = xml.getElementsByTagName('nodes')[0];
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');

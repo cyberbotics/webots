@@ -518,19 +518,6 @@ void WbCapsule::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(), halfHeight + r);
 }
 
-void WbCapsule::write(WbWriter &writer) const {
-  if (writer.isWebots())
-    WbGeometry::write(writer);
-  else
-    writeExport(writer);
-}
-
-void WbCapsule::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
-}
-
 ////////////////////////
 // Friction Direction //
 ////////////////////////

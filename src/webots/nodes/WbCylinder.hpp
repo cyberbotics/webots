@@ -38,7 +38,6 @@ public:
   void createResizeManipulator() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  bool shallExport() const override;
   void rescale(const WbVector3 &scale) override;
 
   // field accessors
@@ -69,7 +68,6 @@ public:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbCylinder &operator=(const WbCylinder &);  // non copyable
