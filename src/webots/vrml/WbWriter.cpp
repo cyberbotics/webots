@@ -120,6 +120,7 @@ void WbWriter::writeLiteralString(const QString &string) {
     text.replace("&", "&amp;");
     text.replace("<", "&lt;");
     text.replace(">", "&gt;");
+    text.replace("'", "&#39;");
   }
   text.replace("\\", "\\\\");   // replace '\' by '\\'
   text.replace("\"", "\\\"");   // replace '"' by '\"'
