@@ -111,15 +111,6 @@ bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
   return WbVrmlNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbSphere::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-
-  if (writer.isX3d()) {
-    writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
-    writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
-  }
-}
-
 bool WbSphere::sanitizeFields() {
   bool invalidValue;
   if (mIco->value()) {

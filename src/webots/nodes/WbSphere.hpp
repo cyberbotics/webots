@@ -62,7 +62,6 @@ public:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbSphere &operator=(const WbSphere &);  // non copyable

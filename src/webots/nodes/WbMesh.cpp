@@ -425,16 +425,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   urlFieldCopy.write(writer);
 
-  findField("ccw", true)->write(writer);
-  findField("materialIndex", -1)->write(writer);
-  if (!mName->value().isEmpty()) {
-    QString dirtyName = mName->value();
-    dirtyName.replace("\'", "&apos;", Qt::CaseInsensitive);
-    dirtyName.replace("\"", "&quot;", Qt::CaseInsensitive);
-    dirtyName.replace(">", "&gt;", Qt::CaseInsensitive);
-    dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
-    writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
-  }
+  WbGeometry::exportNodeFields(writer);
 }
 
 QStringList WbMesh::fieldsToSynchronizeWithX3D() const {
