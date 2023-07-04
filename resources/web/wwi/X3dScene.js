@@ -218,7 +218,7 @@ export default class X3dScene {
       if (typeof use === 'undefined') {
         // remove a USE node from the list if it has been deleted
         const index = object.useList.indexOf(length);
-        this.useList.splice(index, 1);
+        object.useList.splice(index, 1);
       } else
         this.#applyUpdateToObject(update, use);
 
