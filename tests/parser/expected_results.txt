@@ -29,7 +29,7 @@ parser/worlds/proto_not_allowed_mf_field_value.wbt "Invalid 'Pose' removed from 
 parser/worlds/proto_parameter_missing_ending_curly_bracket.wbt "Expected field name or '}', found ']'."
 parser/worlds/proto_typo_in_alias.wbt "PROTO parameter 'rotation' has no matching IS field."
 parser/worlds/proto_typo_in_is_keyword.wbt "Expected floating point value, found 'ISNOT'."
-parser/worlds/proto_unknown_field_header.wbt "Expected 'field', 'unconnectedField', 'vrmlField' or 'hiddenField' keywords, found 'notfield'."
+parser/worlds/proto_unknown_field_header.wbt "Expected 'field', 'unconnectedField', 'w3dField' or 'hiddenField' keywords, found 'notfield'."
 parser/worlds/proto_unknown_field_type.wbt "Expected field type name, found 'SFIssue'."
 parser/worlds/proto_unknown_parameter.wbt "Skipped unknown 'wrongNode' parameter in Floor PROTO."
 parser/worlds/recursive_proto.wbt "Recursive definition of PROTO node 'RecursiveProto' is not supported."
