@@ -70,8 +70,6 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
-#include <iostream>
-
 static int gFactoryFieldEditorHeightHint = 0;
 
 struct TreeItemState {
@@ -798,10 +796,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     }
 
     // import new node
-    std::cout << nodeString.toStdString() << '\n';
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
-      std::cout << "SUCCESS" << '\n';
       WbNode *node = NULL;
       if (parentField->type() == WB_SF_NODE) {
         node = static_cast<WbSFNode *>(parentField->value())->value();
