@@ -2349,8 +2349,6 @@ void WbMainWindow::addRobotInOverlaysMenu(WbRobot *robot) {
 }
 
 void WbMainWindow::updateOverlayMenu() {
-  QList<QAction *> actions;
-
   clearOverlaysMenu();
 
   if (!WbWorld::instance())
