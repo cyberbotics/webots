@@ -2250,7 +2250,7 @@ void WbMainWindow::updateRobotNameInOverlaysMenu() {
       if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
         robotName.replace("_", "__");
 #endif
-      menu->setTitle(tr("%1 Overlays").arg(robotName));
+      menu->setTitle(tr("'%1' Overlays").arg(robotName));
     }
   }
 }
@@ -2279,7 +2279,7 @@ void WbMainWindow::addRobotInOverlaysMenu(WbRobot *robot) {
   if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
     robotName.replace("_", "__");
 #endif
-  QMenu *robotMenu = mOverlayMenu->addMenu(tr("%1 Overlays").arg(robotName));
+  QMenu *robotMenu = mOverlayMenu->addMenu(tr("'%1' Overlays").arg(robotName));
   robotMenu->setProperty("robot", QVariant::fromValue(static_cast<void *>(const_cast<WbRobot *>(robot))));
   connect(robot, &WbMatter::matterNameChanged, this, &WbMainWindow::updateRobotNameInOverlaysMenu);
 
@@ -2293,7 +2293,7 @@ void WbMainWindow::addRobotInOverlaysMenu(WbRobot *robot) {
       deviceName.replace("_", "__");
 #endif
     action = new QAction(this);
-    action->setText(tr("Show '%1' overlay").arg(deviceName));
+    action->setText(tr("Show '%1' Overlay").arg(deviceName));
     if (device->nodeType() == WB_NODE_CAMERA) {
       action->setStatusTip(tr("Show overlay of camera device '%1' for robot '%2'.").arg(deviceName).arg(robotName));
       cameraActions << action;
