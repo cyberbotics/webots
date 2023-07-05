@@ -88,7 +88,7 @@ import MeshLoader from './MeshLoader.js';
 import WbPropeller from './nodes/WbPropeller.js';
 
 /*
-  This module takes an x3d world, parse it and populate the scene.
+  This module takes an w3d world, parse it and populate the scene.
 */
 export default class Parser {
   #downloadingImage;
@@ -192,7 +192,7 @@ export default class Parser {
 
       WbWorld.instance.readyForUpdates = true;
 
-      webots.currentView.x3dScene.resize();
+      webots.currentView.w3dScene.resize();
       renderer.render();
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
       if (typeof callback === 'function')

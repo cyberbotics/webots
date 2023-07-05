@@ -8,7 +8,7 @@ import Selector from './Selector.js';
 import Server from './Server.js';
 import Stream from './Stream.js';
 import SystemInfo from './system_info.js';
-import X3dScene from './X3dScene.js';
+import W3dScene from './W3dScene.js';
 import WbCadShape from './nodes/WbCadShape.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
@@ -24,7 +24,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
  *   const view = new webots.View(document.getElementById('myDiv'));
  *   view.open('ws://localhost:80/simple/worlds/simple.wbt');
  *   // or view.open('ws://localhost:80');
- *   // or view.open('file.x3d');
+ *   // or view.open('file.w3d');
  *   view.onready = () => {
  *       // the initialization is done
  *   }
@@ -38,7 +38,7 @@ let webots = window.webots || {};
 webots.View = class View {
   #isWebSocketProtocol;
   #server;
-  #x3dDiv;
+  #w3dDiv;
   constructor(view3D, mobile) {
     webots.currentView = this;
     this.onerror = (text) => {
@@ -58,8 +58,8 @@ webots.View = class View {
       window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
-      if (typeof this.x3dScene !== 'undefined')
-        this.x3dScene.resize();
+      if (typeof this.w3dScene !== 'undefined')
+        this.w3dScene.resize();
       else if (typeof this.multimediaClient !== 'undefined')
         this.multimediaClient.requestNewSize();
 
@@ -67,9 +67,9 @@ webots.View = class View {
       for (let i = labels.length - 1; i >= 0; i--) {
         const element = labels.item(i);
         // 2.25 is an empirical value to match with Webots appearance
-        element.style.fontSize = this.#getHeight(this.#x3dDiv) * element.size / 2.25 + 'px';
-        element.style.left = this.#getWidth(this.#x3dDiv) * element.x + 'px';
-        element.style.top = this.#getHeight(this.#x3dDiv) * element.y + 'px';
+        element.style.fontSize = this.#getHeight(this.#w3dDiv) * element.size / 2.25 + 'px';
+        element.style.left = this.#getWidth(this.#w3dDiv) * element.x + 'px';
+        element.style.top = this.#getHeight(this.#w3dDiv) * element.y + 'px';
       }
     };
 
@@ -124,13 +124,13 @@ webots.View = class View {
       };
       xmlhttp.send();
     });
-    this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
+    this.animation = new Animation(jsonPromise, this.w3dScene, this, gui, loop);
   }
 
   open(url, mode, thumbnail, raw) {
     this.url = url;
     if (typeof mode === 'undefined')
-      mode = 'x3d';
+      mode = 'w3d';
     this.mode = mode;
     const initWorld = async() => {
       if (typeof this.progress === 'undefined')
@@ -154,16 +154,16 @@ webots.View = class View {
           this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
-      } else { // assuming it's an URL to a .x3d file
+      } else { // assuming it's an URL to a .w3d file
         if (raw)
-          await this.x3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
+          await this.w3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
         else
-          await this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+          await this.w3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
       }
     };
 
     const finalizeWorld = () => {
-      if (typeof this.x3dScene !== 'undefined') {
+      if (typeof this.w3dScene !== 'undefined') {
         if (!this.#isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
             this.animation.init(loadFinalize);
@@ -196,24 +196,24 @@ webots.View = class View {
     if (mode === 'mjpeg') {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D);
-    } else if (typeof this.x3dScene === 'undefined') {
-      this.#x3dDiv = document.getElementById('view3d');
-      if (this.#x3dDiv === null || typeof this.#x3dDiv === 'undefined') {
-        this.#x3dDiv = document.createElement('div');
-        this.#x3dDiv.id = 'view3d';
-        this.view3D.appendChild(this.#x3dDiv);
+    } else if (typeof this.w3dScene === 'undefined') {
+      this.#w3dDiv = document.getElementById('view3d');
+      if (this.#w3dDiv === null || typeof this.#w3dDiv === 'undefined') {
+        this.#w3dDiv = document.createElement('div');
+        this.#w3dDiv.id = 'view3d';
+        this.view3D.appendChild(this.#w3dDiv);
       }
 
-      this.#x3dDiv.className = 'webots-3d-view';
-      this.x3dScene = new X3dScene(this.#x3dDiv);
-      this.x3dScene.init(texturePathPrefix);
+      this.#w3dDiv.className = 'webots-3d-view';
+      this.w3dScene = new W3dScene(this.#w3dDiv);
+      this.w3dScene.init(texturePathPrefix);
       let param = document.createElement('param');
       param.name = 'show-progress';
       param.value = false;
-      this.x3dScene.domElement.appendChild(param);
+      this.w3dScene.domElement.appendChild(param);
     } else {
-      if (typeof this.#x3dDiv !== 'undefined') {
-        this.view3D.appendChild(this.#x3dDiv);
+      if (typeof this.#w3dDiv !== 'undefined') {
+        this.view3D.appendChild(this.#w3dDiv);
         this.prefix = texturePathPrefix;
       }
       if (typeof this.progress !== 'undefined') {
@@ -223,9 +223,9 @@ webots.View = class View {
       }
     }
 
-    if (typeof this.x3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
+    if (typeof this.w3dScene !== 'undefined' && typeof this.mouseEvents === 'undefined') {
       let canvas = document.getElementById('canvas');
-      this.mouseEvents = new MouseEvents(this.x3dScene, canvas, this.mobileDevice);
+      this.mouseEvents = new MouseEvents(this.w3dScene, canvas, this.mobileDevice);
     }
 
     initWorld();
@@ -272,7 +272,7 @@ webots.View = class View {
       labelElement = document.createElement('div');
       labelElement.id = 'label' + properties.id;
       labelElement.className = 'webots-label';
-      this.#x3dDiv.appendChild(labelElement);
+      this.#w3dDiv.appendChild(labelElement);
     }
 
     if (properties.font) {
@@ -284,9 +284,9 @@ webots.View = class View {
 
     labelElement.style.color = 'rgba(' + properties.color + ')';
     // 2.25 is an empirical value to match with Webots appearance
-    labelElement.style.fontSize = this.#getHeight(this.#x3dDiv) * properties.size / 2.25 + 'px';
-    labelElement.style.left = this.#getWidth(this.#x3dDiv) * properties.x + 'px';
-    labelElement.style.top = this.#getHeight(this.#x3dDiv) * properties.y + 'px';
+    labelElement.style.fontSize = this.#getHeight(this.#w3dDiv) * properties.size / 2.25 + 'px';
+    labelElement.style.left = this.#getWidth(this.#w3dDiv) * properties.x + 'px';
+    labelElement.style.top = this.#getHeight(this.#w3dDiv) * properties.y + 'px';
     labelElement.x = properties.x;
     labelElement.y = properties.y;
     labelElement.size = properties.size;
@@ -327,7 +327,7 @@ webots.View = class View {
   }
 
   destroyWorld() {
-    this.x3dScene?.destroyWorld();
+    this.w3dScene?.destroyWorld();
     this.removeLabels();
     this.robots = [];
 

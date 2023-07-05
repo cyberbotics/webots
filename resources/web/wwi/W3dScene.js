@@ -46,7 +46,7 @@ import WbConnector from './nodes/WbConnector.js';
 import WbPropeller from './nodes/WbPropeller.js';
 import { findUpperShape } from './nodes/utils/node_utilities.js';
 
-export default class X3dScene {
+export default class W3dScene {
   #nextRenderingTime;
   #renderingTimeout;
   constructor(domElement) {
@@ -161,7 +161,7 @@ export default class X3dScene {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async () => {
+    xmlhttp.onreadystatechange = async() => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const parser = new Parser(prefix);
@@ -175,14 +175,14 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  async loadObject(x3dObject, parentId, callback) {
+  async loadObject(w3dObject, parentId, callback) {
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
-    await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
+    await parser.parse(w3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
     if (typeof node === 'undefined')

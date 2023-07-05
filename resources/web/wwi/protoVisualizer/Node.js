@@ -26,7 +26,7 @@ export default class Node {
     this.isTemplate = false; // updated when the model is determined, false for base-nodes
 
     this.ids = []; // multiple instances of the same node might be present in a node structure, this list tracks their id
-    this.refId = 0; // when writing the x3d, this counter ensures unique ids (among the this.ids list) are fed to webotsjs
+    this.refId = 0; // when writing the w3d, this counter ensures unique ids (among the this.ids list) are fed to webotsjs
     this.isRoot = isRoot; // determines if the current node is the root node
 
     // create parameters based on the PROTO model
@@ -246,14 +246,14 @@ export default class Node {
     }
   }
 
-  toX3d(parameter) {
+  toW3d(parameter) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
-      return this.baseType.toX3d(parameter);
+      return this.baseType.toW3d(parameter);
 
     const nodeElement = this.xml.createElement(this.name);
 
@@ -275,7 +275,7 @@ export default class Node {
       if (field.isDefault())
         continue;
 
-      field.value.toX3d(fieldName, nodeElement);
+      field.value.toW3d(fieldName, nodeElement);
     }
 
     this.xml.appendChild(nodeElement);

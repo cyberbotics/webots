@@ -23,11 +23,11 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       this.proto = await Node.createNode(url, undefined, true);
-      this.loadX3d();
+      this.loadW3d();
     });
   }
 
-  async loadX3d() {
+  async loadW3d() {
     const xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
@@ -38,12 +38,12 @@ export default class ProtoManager {
       const wrapper = this.#createGeometryWrapper();
       scene.appendChild(wrapper);
     } else
-      scene.appendChild(this.proto.toX3d());
+      scene.appendChild(this.proto.toW3d());
 
-    const x3d = new XMLSerializer().serializeToString(xml);
+    const w3d = new XMLSerializer().serializeToString(xml);
 
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
-    this.#view.open(x3d, 'x3d', '', true);
+    this.#view.open(w3d, 'w3d', '', true);
   }
 
   exportProto(name, fieldsToExport) {
@@ -190,7 +190,7 @@ export default class ProtoManager {
     sphere.setAttribute('ico', 'FALSE');
 
     shape.appendChild(sphere);
-    shape.appendChild(this.proto.toX3d());
+    shape.appendChild(this.proto.toW3d());
     pose.appendChild(shape);
     return pose;
   }
@@ -215,7 +215,7 @@ export default class ProtoManager {
     appearance.appendChild(imageTexture);
 
     shape.appendChild(appearance);
-    shape.appendChild(this.proto.toX3d());
+    shape.appendChild(this.proto.toW3d());
     pose.appendChild(shape);
     return pose;
   }
