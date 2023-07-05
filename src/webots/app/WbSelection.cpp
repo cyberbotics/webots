@@ -79,7 +79,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
 
   mSelectedNode = n;
   if (poseChanged)
-    mSelectedAbstractPose = mSelectedNode ? dynamic_cast<WbAbstractPose *>(mSelectedNode) : NULL;
+    mSelectedAbstractPose = dynamic_cast<WbAbstractPose *>(mSelectedNode);
   mResizeHandlesEnabledFromSceneTree = false;
 
   if (mSelectedNode) {
