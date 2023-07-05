@@ -492,9 +492,9 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 
 bool WbShape::exportNodeHeader(WbWriter &writer) const {
   if (writer.isX3d() && isUseNode() && defNode()) {
-      writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-      writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
-      return true;
+    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
+    return true;
   } else
     return WbBaseNode::exportNodeHeader(writer);
 }
