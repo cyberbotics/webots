@@ -19,7 +19,7 @@ We recommend using a recent version of Linux.
 Webots is provided for Linux 64 (x86-64) systems only.
 Webots doesn't run on Ubuntu versions earlier than 20.04.
 - Windows: Webots runs on Windows 11 and Windows 10 (64-bit versions only).
-- Mac: Webots runs on macOS 11 "Big Sur" and 12 "Monterey".
+- Mac: Webots runs on macOS 11 "Big Sur", macOS 12 "Monterey" and macOS 13 "Ventura".
 
 Webots may work but is not officially supported on earlier versions of the above mentioned operating systems.
 
