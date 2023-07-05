@@ -959,13 +959,3 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
     writer << "]\n";
   }
 }
-
-void WbTrack::exportNodeFields(WbWriter &writer) const {
-  WbMatter::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!name().isEmpty())
-      writer << " name='" << sanitizedName() << "'";
-    writer << " type='track'";
-    writer << " geometriesCount='" << mGeometriesCountField->value() << "'";
-  }
-}

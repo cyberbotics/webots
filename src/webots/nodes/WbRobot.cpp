@@ -1512,19 +1512,6 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
   return false;
 }
 
-void WbRobot::exportNodeFields(WbWriter &writer) const {
-  WbMatter::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!name().isEmpty())
-      writer << " name='" << sanitizedName() << "'";
-    if (findField("controller") && !controllerName().isEmpty()) {
-      writer << " controller=";
-      writer.writeLiteralString(controllerName());
-    }
-    writer << " type='robot'";
-  }
-}
-
 void WbRobot::fixMissingResources() const {
   if (controllerName()[0] != '<' && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
     mController->setValue("<generic>");
