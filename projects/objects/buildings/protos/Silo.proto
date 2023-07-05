@@ -1,0 +1,182 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Silo.proto
+# keywords: building/farm
+# A steel grain silo.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/CorrugatedMetal.proto"
+
+PROTO Silo [
+  field SFVec3f    translation          0 0 0    # Is `Pose.translation`.
+  field SFRotation rotation             0 0 1 0  # Is `Pose.rotation`.
+  field SFFloat    radius               3        # Defines the radius of the silo.
+  field SFFloat    height               17       # Defines the height of the silo.
+  field SFFloat    roofHeight           2        # Defines the height of the silo's roof.
+  field SFString   name                 "silo"   # Is `Solid.name`.
+  field SFBool     enableBoundingObject TRUE     # Defines whether the silo should have a bounding object.
+  field SFBool     locked               FALSE    # Is `Solid.locked`.
+]
+{
+  %<
+    let roofHeight = fields.roofHeight.value;
+    let height = fields.height.value;
+    let radius = fields.radius.value;
+    
+    if (radius <= 0) {
+      radius = fields.radius.defaultValue;
+      console.error('\'radius\' must be strictly positive. Value reset to ' + radius + '.');
+    }
+    
+    if (height <= 2) {
+      height = fields.height.defaultValue;
+      console.error('\'height\' must be greater than 2. Value reset to ' + height + '.');
+    }
+    
+    if (roofHeight <= 0 || roofHeight >= height) {
+      roofHeight = fields.roofHeight.defaultValue;
+      console.error('\'roofHeight\' must be strictly positive and lower than `height`. Value reset to ' + roofHeight + '.');
+    }
+    
+    const cylinderHeight = height - roofHeight;
+    const ladderWidth = 0.7;
+    const ladderHeight = cylinderHeight * 2 / 3;
+    const ladderStepSize = 0.5;
+    const ladderSteps = Math.trunc(ladderHeight / ladderStepSize);
+    const barHeight = ladderHeight + ladderStepSize;
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BODY Pose {
+        translation 0 0 %<= cylinderHeight * 0.5 >%
+        children [
+          Shape {
+            appearance CorrugatedMetal {
+              colorOverride 1 0.9696 0.82
+              textureTransform TextureTransform {
+                rotation 1.5708
+                scale %<= cylinderHeight>% %<= 3 * radius >%
+              }
+            }
+            geometry Cylinder {
+              height %<= cylinderHeight >%
+              radius %<= radius >%
+            }
+          }
+        ]
+      }
+      DEF ROOF Pose {
+        translation 0 0 %<= cylinderHeight + roofHeight * 0.5 >%
+        children [
+          Shape {
+            appearance CorrugatedMetal {
+              colorOverride 1 0.9696 0.82
+              textureTransform TextureTransform {
+                rotation 1.5708
+                scale %<= radius >% %<= 3 * roofHeight>%
+              }
+            }
+            geometry Cone {
+              bottomRadius %<= radius >%
+              height %<= roofHeight >%
+              subdivision 40
+            }
+          }
+        ]
+      }
+      DEF LADDER Pose {
+        translation %<= radius + 0.04 >% 0 0
+        children [
+          DEF LEFT_POLE Pose {
+            translation 0 %<= -ladderWidth * 0.5 - 0.025 >% %<= cylinderHeight + 0.1 + ladderStepSize - barHeight * 0.5 >%
+            children [
+              DEF SIDE_POLE Shape {
+                appearance DEF LADDER_APPEARANCE PBRAppearance {
+                  baseColor 0.603922 0.6 0.588235
+                  roughness 0.8
+                }
+                geometry Box {
+                  size 0.05 0.05 %<= barHeight >%
+                }
+              }
+            ]
+          }
+          DEF RIGHT_POLE Pose {
+            translation 0 %<= ladderWidth * 0.5 + 0.025 >% %<= cylinderHeight + 0.1 + ladderStepSize - barHeight * 0.5 >%
+            children [
+              USE SIDE_POLE
+            ]
+          }
+          DEF LEFT_TOP_POLE Pose {
+            translation %<= -radius * 0.5 - 0.025 >% %<= -ladderWidth * 0.5 - 0.025 >% %<= cylinderHeight + 0.3 >%
+            children [
+              DEF TOP_POLE Shape {
+                appearance DEF LADDER_APPEARANCE PBRAppearance {
+                  baseColor 0.603922 0.6 0.588235
+                  roughness 0.8
+                }
+                geometry Box {
+                  size %<= radius >%  0.05 0.1 
+                }
+              }
+            ]
+          }
+          DEF RIGHT_TOP_POLE Pose {
+            translation %<= -radius * 0.5 - 0.025 >% %<= ladderWidth * 0.5 + 0.025 >% %<= cylinderHeight + 0.3 >%
+            children [
+              USE TOP_POLE
+            ]
+          }
+          Pose {
+            translation 0 0 %<= cylinderHeight + 0.1 >%
+            children [
+              DEF FOOL Shape {
+                appearance USE LADDER_APPEARANCE
+                geometry Box {
+                  size 0.05 %<= ladderWidth >% 0.05
+                }
+              }
+            ]
+          }
+      %<
+        let h = cylinderHeight + 0.1;
+        for (let n = 1; n < ladderSteps; n++) {
+          h -= ladderStepSize;
+      >%
+          Pose {
+            translation 0 0 %<= h >%
+            children [
+              USE FOOL
+            ]
+          }
+      %<
+        }
+      >%
+        ]
+      } 
+    ]
+    name IS name
+  %<
+    if (fields.enableBoundingObject.value) {
+  >%
+    boundingObject Pose {
+      translation 0 0 %<= height * 0.5>%
+      children [
+        Cylinder {
+          height %<= height >%
+          radius %<= radius >%
+        }
+      ]
+    }
+  %<
+    }
+  >%
+    locked IS locked
+    recognitionColors [
+      0.89 0.89 0.89
+    ]
+  }
+}

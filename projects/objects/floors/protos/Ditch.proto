@@ -1,0 +1,170 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/floors/protos/Ditch.proto
+# tags: nonDeterministic
+# keywords: primitive/ground
+# Randomly generated ditch with optional water.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
+
+PROTO Ditch [
+  field SFVec3f    translation    0 0 0                                                            # Is `Pose.translation`.
+  field SFRotation rotation       0 0 1 0                                                          # Is `Solid.rotation`.
+  field SFString   name           "ditch"                                                          # Is `Solid.name`.
+  field SFVec3f    size           20 5 2                                                           # Defines the size of the ditch.
+  field SFFloat    waterHeight    0.3                                                              # Defines the height of the water in the ditch.
+  field SFNode     appearance     SandyGround { textureTransform TextureTransform { scale 5 5 } }  # Defines the appearance of the terrain.
+  field SFInt32    randomSeed     1                                                                # Defines whether the bounds of the terrain should be flat.
+]
+{
+  %<
+    // reference: https://stackoverflow.com/a/42543313/2210777
+    import * as wbrandom from 'wbrandom.js';
+
+    if (fields.randomSeed.value <= 0)
+      wbrandom.seed(Date.now());
+    else
+      wbrandom.seed(fields.randomSeed.value);
+
+    function gaussian2d(x, y, amp, cx, cy, sx, sy) {
+      return amp * Math.exp( - ( ( Math.pow(x - cx, 2) / (2.0 * Math.pow(sx, 2)) ) + (Math.pow(y - cy, 2) / (2.0 * Math.pow(sy, 2)) ) ));
+    }
+
+    // create 256 shuffled numbers repeated twice.
+    let perm = [];
+    for (let i = 1; i <= 256; ++i)
+        perm.splice(wbrandom.integer(i) -1, 0, i);
+
+    for (let i = 0; i < 256; ++i)
+      perm.push(perm[i]);
+
+    // generate 256 directions
+    let dirs = [];
+    for (let a = 0; a < 256; ++a)
+      dirs.push([Math.cos(a * 2.0 * Math.PI / 256), Math.sin(a * 2.0 * Math.PI / 256)]);
+
+    function noise (x, y, per, dirs, perm) {
+      function surflet (grid_x, grid_y, dirs, perm) {
+        const dist_x = Math.abs(x - grid_x);
+        const dist_y = Math.abs(y - grid_y);
+        const poly_x = 1 - 6 * Math.pow(dist_x, 5) + 15 * Math.pow(dist_x, 4) - 10 * Math.pow(dist_x, 3);
+        const poly_y = 1 - 6 * Math.pow(dist_y, 5) + 15 * Math.pow(dist_y, 4) - 10 * Math.pow(dist_y, 3);
+        const hashed = perm[(perm[(Math.floor(grid_x) % per)] + Math.floor(grid_y) % per)];
+        const grad = (x - grid_x)  * dirs[hashed-1][0] + (y - grid_y) * dirs[hashed-1][1];
+
+        return poly_x * poly_y * grad;
+      }
+
+      let int_x = Math.floor(x);
+      let int_y = Math.floor(y);
+
+      return surflet(int_x + 0, int_y + 0, dirs, perm) + surflet(int_x + 1, int_y + 0, dirs, perm) + surflet(int_x + 0, int_y + 1, dirs, perm) + surflet(int_x + 1, int_y + 1, dirs, perm);
+    }
+
+    function fBm (x, y, per, octs, dirs, perm) {  // Fractional Brownian motion
+      let val = 0;
+      for (let o = 0; o <= octs - 1; ++o)
+        val = val + (Math.pow(0.5, o) * noise(x * Math.pow(2, o), y * Math.pow(2, o), per * Math.pow(2, o), dirs, perm));
+
+      return val;
+    }
+    
+    const perlinSize = 128;
+    const nOctave = 3;
+    
+    let size = fields.size.value;
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+      size = fields.size.defaultValue;
+      console.error('\'size\' must be strictly positive. Value reset to ' + size + '.');
+    }
+    
+    let yDimension = 10;
+    const hValues = [0, 0, -size.z * 0.5, -size.z, -size.z, -size.z, -size.z, -size.z * 0.5, 0, 0];
+    
+    let xDimension = Math.floor(size.x / 0.5);
+    if (xDimension < 8)
+      xDimension = 2;
+      
+    const ySpacing = size.y / (yDimension - 1);
+      
+    let waterHeight = fields.waterHeight.value;
+    if (waterHeight >= size.z) {
+      waterHeight = fields.waterHeight.defaultValue;
+      console.error('\'waterHeight\' should be lower than `size.z`. Value reset to ' + waterHeight + '.');
+    }
+    
+    let heights = []
+    let minHeight = 0;
+    for (let i = 0; i < 9; ++i) {
+      const x = i / xDimension;
+      for (let j = 0; j < xDimension; ++j) {
+        let height = hValues[i];
+        if (i > 0 && i < 7 && nOctave > 0) {
+          const y = j / yDimension;
+          height += 0.2 * fBm(x, y, perlinSize, nOctave, dirs, perm);
+        }
+        if (height < minHeight)
+          minHeight = height;
+        heights.push(height);
+      }
+    }
+  >%
+  %< if (waterHeight >= 0) { >%
+    Fluid {
+  %< } else { >%
+        Solid {
+  %< } >%
+      translation IS translation
+      rotation IS rotation
+      children [
+  %< if (waterHeight >= 0) { >%
+        DEF WATER_BOX Pose {
+          translation 0 0 %<= minHeight + waterHeight * 0.5>%
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.30985 0.464424 0.636667
+                transparency 0.3
+                roughness 0.05
+                metalness 0.9
+              }
+              geometry Box {
+                size %<= size.x >% %<= size.y - 2 * ySpacing >% %<= waterHeight >%
+              }
+            }
+          ]
+        }
+        Solid {
+          children [
+  %< } >%
+            DEF DITCH_ELEVATION_GRID Pose {
+              translation %<= - size.x * 0.5 >% %<= -size.y * 0.5 >% 0
+              children [
+                Shape {
+                  appearance IS appearance
+                  geometry ElevationGrid {
+                    xDimension %<= xDimension >%
+                    xSpacing %<= size.x / (xDimension - 1) >%
+                    yDimension %<= yDimension >%
+                    ySpacing %<= ySpacing >%
+                    height [
+                      %<= heights.join(', ') >%
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+          name IS name
+          model "ditch"
+          boundingObject USE DITCH_ELEVATION_GRID
+        }
+  %< if (waterHeight >= 0) { >%
+      ]
+      viscosity 0.01
+      boundingObject USE WATER_BOX
+    }
+  %< } >%
+}
