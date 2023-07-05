@@ -20,7 +20,7 @@ PROTO SurveyorSrv1 [
   field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
   field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
   field MFNode     extensionSlot   []             # Extends the robot with new nodes in the extension slot.
-  field SFBool     tracked         TRUE           # Define if the robot moves with tracks or wheels
+  field SFBool     tracked         TRUE           # Define if the robot moves with tracks or wheels.
 ]
 {
   Robot {

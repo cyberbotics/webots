@@ -17,10 +17,6 @@
 /*
  * Description:   An example of a controller using the Track node to move
  *                tracked robot.
- *
- *                The Coulomb friction value set in the WorldInfo contactProperties
- *                has a big influence on the behavior of the robot and especially
- *                on the turning motion.
  */
 
 #include <stdio.h>
