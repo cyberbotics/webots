@@ -519,8 +519,6 @@ bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
     return WbBaseNode::exportNodeHeader(writer);
 
   writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (isInvisibleNode())
-    writer << " render=\'false\'";
   if (defNode())
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'";
   writer << " role=\'" << mRole << "\' ></" + x3dName() + ">";
@@ -528,6 +526,8 @@ bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
 }
 
 void WbImageTexture::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
@@ -546,10 +546,6 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   }
 
   urlFieldCopy.write(writer);
-
-  findField("repeatS", true)->write(writer);
-  findField("repeatT", true)->write(writer);
-  findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
     if (!mRole.isEmpty())
