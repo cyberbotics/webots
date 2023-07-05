@@ -172,6 +172,8 @@ $(TARGET): $(OBJECTS)
 	@chmod a-x $(TARGET)
 endif
 
+$(OBJDIR)/robot.o: $(WEBOTS_HOME_PATH)/resources/version.txt
+
 $(OBJDIR)/%.o:%.c
 	@echo "# compiling "$<
 	@$(CC) -c $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $@
