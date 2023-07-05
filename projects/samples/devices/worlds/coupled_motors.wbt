@@ -1,6 +1,5 @@
 #VRML_SIM R2024a utf8
 
-EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
 EXTERNPROTO "webots://projects/objects/gear/protos/Gear.proto"
@@ -13,11 +12,8 @@ WorldInfo {
   basicTimeStep 8
 }
 Viewpoint {
-  orientation -0.2515281983443239 0.09335786782070515 0.9633368434528133 2.4548257126872683
-  position 0.3996301408328522 0.3803732989687896 0.13978381699964382
-}
-TexturedBackground {
-  texture "empty_office"
+  orientation 0.0847570343566134 -0.9519392721626793 -0.29432612395344776 5.695638642860571
+  position -0.5103543005595644 0.0769497145249493 0.5941190816457796
 }
 TexturedBackgroundLight {
 }
@@ -446,4 +442,9 @@ DEF OBJECT Solid {
     density -1
     mass 1
   }
+}
+Background {
+  skyColor [
+    0.752941 0.109804 0.156863
+  ]
 }

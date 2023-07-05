@@ -292,7 +292,7 @@ void WbCapsule::updateLineScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
-QStringList WbCapsule::fieldsToSynchronizeWithX3D() const {
+QStringList WbCapsule::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "radius"
          << "height"

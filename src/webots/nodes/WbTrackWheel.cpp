@@ -97,7 +97,7 @@ void WbTrackWheel::write(WbWriter &writer) const {
   WbPose::write(writer);
 }
 
-QStringList WbTrackWheel::fieldsToSynchronizeWithX3D() const {
+QStringList WbTrackWheel::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "position"
          << "radius"

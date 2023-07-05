@@ -117,7 +117,7 @@ void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
 void WbField::write(WbWriter &writer) const {
   if (isDefault())
     return;
-  if (writer.isX3d())
+  if (writer.isW3d())
     writer << " ";
   const bool notAString = type() != WB_SF_STRING;
   writer.writeFieldStart(name(), notAString);

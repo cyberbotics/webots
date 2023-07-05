@@ -77,7 +77,7 @@ public:
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
+  void exportBoundingObjectToW3D(WbWriter &writer) const override;
 
 signals:
   void wrenMaterialChanged();

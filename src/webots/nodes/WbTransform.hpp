@@ -41,7 +41,7 @@ public:
   void setScaleNeedUpdate() override;
   void createWrenObjects() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3D() const override;
 
   const WbVector3 &scale() const { return mScale->value(); }
   WbSFVector3 *scaleFieldValue() const { return mScale; }

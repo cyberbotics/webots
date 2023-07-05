@@ -34,7 +34,7 @@ WbCoordinate::WbCoordinate(const WbNode &other) : WbBaseNode(other) {
 WbCoordinate::~WbCoordinate() {
 }
 
-QStringList WbCoordinate::fieldsToSynchronizeWithX3D() const {
+QStringList WbCoordinate::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "point";
   return fields;

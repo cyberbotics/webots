@@ -567,7 +567,7 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isX3d() || writer.isProto()))
+  if (!(writer.isW3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
@@ -581,7 +581,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {
@@ -591,13 +591,13 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   }
 
   // export materials
-  if (writer.isX3d()) {  // only needs to be included in the x3d, when converting to base node it shouldn't be included
+  if (writer.isW3d()) {  // only needs to be included in the w3d, when converting to base node it shouldn't be included
     const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
     for (QString material : objMaterialList(parentUrl)) {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
       WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
       if (WbUrl::isLocalUrl(materialUrl))
-        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl, writer.isX3d()));
+        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl, writer.isW3d()));
       else if (WbUrl::isWeb(materialUrl))
         urlFieldValue->addItem(materialUrl);
       else {
@@ -621,7 +621,7 @@ QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-QStringList WbCadShape::fieldsToSynchronizeWithX3D() const {
+QStringList WbCadShape::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "ccw"
          << "castShadows"

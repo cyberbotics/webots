@@ -170,7 +170,7 @@ void WbMaterial::modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured) {
                                        shininess, mTransparency->value());
 }
 
-QStringList WbMaterial::fieldsToSynchronizeWithX3D() const {
+QStringList WbMaterial::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "ambientIntensity"
          << "shininess"

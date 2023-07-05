@@ -121,7 +121,7 @@ void WbTextureTransform::translate(const WbVector2 &offset) {
   mTranslation->setValueFromWebots(value - intpart);
 }
 
-QStringList WbTextureTransform::fieldsToSynchronizeWithX3D() const {
+QStringList WbTextureTransform::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "center"
          << "rotation"

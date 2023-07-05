@@ -117,7 +117,7 @@ public:
   const QString &useName() const { return mUseName; }
   void setUseName(const QString &useName, bool signal = true);
   QString fullName() const;  // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
-  virtual const QString &x3dName() const { return nodeModelName(); }
+  virtual const QString &w3dName() const { return nodeModelName(); }
   virtual const QString urdfName() const;
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
@@ -265,8 +265,8 @@ public:
   void setInsertionCompleted() { mInsertionCompleted = true; }
 
   // export
-  virtual void exportBoundingObjectToX3D(WbWriter &writer) const {}
-  virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
+  virtual void exportBoundingObjectToW3D(WbWriter &writer) const {}
+  virtual QStringList fieldsToSynchronizeWithW3D() const { return QStringList(); }
   virtual void fixMissingResources() const {}
 
   virtual void reset(const QString &id);

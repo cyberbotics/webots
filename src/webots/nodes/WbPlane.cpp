@@ -200,7 +200,7 @@ bool WbPlane::isSuitableForInsertionInBoundingObject(bool warning) const {
   return !invalidDimensions;
 }
 
-QStringList WbPlane::fieldsToSynchronizeWithX3D() const {
+QStringList WbPlane::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "size";
   return fields;

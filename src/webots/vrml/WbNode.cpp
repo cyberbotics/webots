@@ -931,7 +931,7 @@ void WbNode::write(WbWriter &writer) const {
     }
     return;
   }
-  if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
+  if (writer.isW3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
                                               WbVrmlNodeUtilities::findContainingProto(this) ==
                                                 WbVrmlNodeUtilities::findContainingProto(writer.rootNode())))) {
     writeExport(writer);
@@ -1054,7 +1054,7 @@ const QString WbNode::urdfName() const {
 }
 
 bool WbNode::exportNodeHeader(WbWriter &writer) const {
-  if (writer.isX3d())  // actual export is done in WbBaseNode
+  if (writer.isW3d())  // actual export is done in WbBaseNode
     return false;
   else if (writer.isUrdf()) {
     if (gUrdfCurrentNode == this) {
@@ -1097,7 +1097,7 @@ void WbNode::exportNodeSubNodes(WbWriter &writer) const {
     if (!f->isDeprecated() && ((f->isW3d() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(f->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
-        if (writer.isX3d() || writer.isUrdf())
+        if (writer.isW3d() || writer.isUrdf())
           f->value()->write(writer);
         else
           f->write(writer);
@@ -1107,8 +1107,8 @@ void WbNode::exportNodeSubNodes(WbWriter &writer) const {
 }
 
 void WbNode::exportNodeFooter(WbWriter &writer) const {
-  if (writer.isX3d())
-    writer << "</" << x3dName() << ">";
+  if (writer.isW3d())
+    writer << "</" << w3dName() << ">";
   else if (writer.isUrdf()) {
     if (gUrdfCurrentNode == this) {
       writer.indent();
@@ -1127,7 +1127,7 @@ void WbNode::exportNodeContents(WbWriter &writer) const {
     fixMissingResources();
 
   exportNodeFields(writer);
-  if (writer.isX3d())
+  if (writer.isW3d())
     writer << ">";
   exportNodeSubNodes(writer);
 }
@@ -1205,7 +1205,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer)
 void WbNode::writeExport(WbWriter &writer) const {
   if (!mIsProtoParameterNode)
     isProtoParameterNode();
-  assert(!(writer.isX3d() && mIsProtoParameterNode[0]));
+  assert(!(writer.isW3d() && mIsProtoParameterNode[0]));
   if (exportNodeHeader(writer))
     return;
   if (writer.isUrdf()) {

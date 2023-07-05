@@ -46,7 +46,7 @@ public:
   void modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured);
 
   // export
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3D() const override;
 
 signals:
   void changed();

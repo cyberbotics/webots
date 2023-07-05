@@ -481,11 +481,11 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbGroup::exportBoundingObjectToW3D(WbWriter &writer) const {
+  assert(writer.isW3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
     writer << "<Group role='boundingObject'"
            << " id=\'n" << QString::number(uniqueId()) << "\'>";

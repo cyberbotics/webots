@@ -280,7 +280,7 @@ void WbIndexedFaceSet::updateCreaseAngle() {
   emit changed();
 }
 
-QStringList WbIndexedFaceSet::fieldsToSynchronizeWithX3D() const {
+QStringList WbIndexedFaceSet::fieldsToSynchronizeWithW3D() const {
   QStringList fields;
   fields << "ccw"
          << "normalPerVertex"
@@ -315,14 +315,14 @@ void WbIndexedFaceSet::translate(const WbVector3 &v) {
 }
 
 bool WbIndexedFaceSet::exportNodeHeader(WbWriter &writer) const {
-  if (!writer.isX3d())
+  if (!writer.isW3d())
     return WbGeometry::exportNodeHeader(writer);
 
   // reduce the number of exported TriangleMeshGeometrys by automatically
   // using a def-use based on the mesh hash
-  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
-    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + w3dName() + ">";
     return true;
   }
 
