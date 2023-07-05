@@ -31,6 +31,7 @@ public:
 
   static void setOpeningToken(const QString &token);
   static void setClosingToken(const QString &token);
+  static QString escapeString(const QString &string);
 
   explicit WbTemplateEngine(const QString &templateContent);
   virtual ~WbTemplateEngine() {}
