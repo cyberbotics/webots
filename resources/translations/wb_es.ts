@@ -576,10 +576,6 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; or &apos;hiddenField&apos; keywords</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please modify the first line of &apos;%1&apos; to &quot;#%2 %3 utf8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -810,6 +806,10 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Pose, or a Shape within a Pose, has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;w3dField&apos; or &apos;hiddenField&apos; keywords</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1781,7 +1781,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix
+        <source>Insert the identity matrix 
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2106,12 +2106,6 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;%1&apos;
-
-The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to compile any C/C++ controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Do you want to reset or reload the world?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2133,6 +2127,12 @@ You don&apos;t have write access to this folder. Webots won&apos;t be able to cl
         <source>&apos;%1&apos;
 
 You don&apos;t have write access to the &apos;Program Files&apos; folder. Webots won&apos;t be able to clean or compile any controller in this path. Please move this Webots project into a folder where you have write access.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos;
+
+The robot controller name contains non 8-bit characters. Webots won&apos;t be able to compile any C/C++ controller with such a name. Please rename this robot controller with only 8-bit characters.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4331,7 +4331,7 @@ As a consequence, some project-related functionalities may not work.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Streaming server received unsupported X3D message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=x3d&quot;&apos; command line option.</source>
+        <source>Streaming server received unsupported W3D message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=w3d&quot;&apos; command line option.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4889,7 +4889,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5650,7 +5650,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please adapt your project to R2023a following these instructions: https://cyberbotics.com/doc/guide/from-2022a-to-2022b</source>
+        <source>Please adapt your project to R2023b following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6207,7 +6207,7 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://cyberbotics.com/doc/guide/from-2021b-to-2022a</source>
+        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6360,10 +6360,6 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>    x3d (default) or mjpeg.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>    Print on stdout the URL of extern controllers that should be started.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6381,6 +6377,10 @@ Do you want to open it now?</source>
     </message>
     <message>
         <source>    Clear the cache of Webots on startup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    w3d (default) or mjpeg.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6972,7 +6972,7 @@ Do you want to save it before closing?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;p style=&quot;line-height:1.2&quot;&gt;Some features introduced in this version may break backward compatibility with your worlds and protos. &lt;br /&gt; &lt;br /&gt; Please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/upgrading-webots&apos;&gt;upgrade guide&lt;/a&gt;.&lt;/p&gt;</source>
+        <source>&lt;p style=&quot;line-height:1.2&quot;&gt;Some features introduced in this version may break backward compatibility with your worlds and PROTO models. &lt;br /&gt; &lt;br /&gt; Please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/upgrading-webots&apos;&gt;upgrade guide&lt;/a&gt;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7239,6 +7239,33 @@ Do you want to play it back?
     </message>
 </context>
 <context>
+    <name>WbW3dStreamingServer</name>
+    <message>
+        <source>Error when initializing the animation recorder: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server: Client set mode to W3D.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server received unsupported MJPEG message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=mjpeg&quot;&apos; command line option.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server: Cannot send world date to client [%1] because: %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error when reloading world: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot send the entire world</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WbWebotsUpdateDialog</name>
     <message>
         <source>Check for updates</source>
@@ -7295,19 +7322,15 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot export the x3d file to &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot export html: &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot copy &apos;x3d_playback.html&apos; to &apos;%1&apos;</source>
+        <source>Cannot export the w3d file to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot copy the &apos;x3d_playback.css&apos; file to &apos;%1&apos;</source>
+        <source>Cannot copy &apos;w3d_playback.html&apos; to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7373,33 +7396,6 @@ Please do also check that your graphics hardware meets the requirements specifie
         <source>Webots requires OpenGL %1 while only OpenGL %2 can be initialized.
 Please check your GPU abilities and install the latest graphics drivers.
 Please do also check that your graphics hardware meets the requirements specified in the User Guide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbX3dStreamingServer</name>
-    <message>
-        <source>Error when initializing the animation recorder: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server: Client set mode to X3D.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server received unsupported MJPEG message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=mjpeg&quot;&apos; command line option.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server: Cannot send world date to client [%1] because: %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error when reloading world: %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot send the entire world</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
