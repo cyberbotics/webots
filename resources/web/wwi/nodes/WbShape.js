@@ -12,9 +12,9 @@ export default class WbShape extends WbBaseNode {
   #castShadows;
   #isInBoundingObject;
   #isPickable;
-  constructor(id, castShadow, isPickable, geometry, appearance) {
+  constructor(id, castShadows, isPickable, geometry, appearance) {
     super(id);
-    this.castShadow = castShadow;
+    this.#castShadows = castShadows;
     this.#isPickable = isPickable;
 
     this.#boundingObjectFirstTimeSearch = true;
@@ -57,7 +57,9 @@ export default class WbShape extends WbBaseNode {
   }
 
   set castShadows(newCastShadows) {
+    this.#castShadows = newCastShadows;
 
+    this.updateCastShadows();
   }
 
   get isPickable() {
@@ -65,7 +67,9 @@ export default class WbShape extends WbBaseNode {
   }
 
   set isPickable(newIsPickable) {
+    this.#isPickable = newIsPickable;
 
+    this.updateIsPickable();
   }
 
   applyMaterialToGeometry() {
@@ -89,7 +93,7 @@ export default class WbShape extends WbBaseNode {
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
 
       if (!this.geometry.isInBoundingObject())
-        this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+        this.geometry.setWrenMaterial(this.wrenMaterial, this.#castShadows);
     }
   }
 
@@ -112,7 +116,7 @@ export default class WbShape extends WbBaseNode {
     }
 
     this.useList.push(customID);
-    return new WbShape(customID, this.castShadow, this.#isPickable, geometry, appearance);
+    return new WbShape(customID, this.#castShadows, this.#isPickable, geometry, appearance);
   }
 
   createWrenObjects() {
@@ -184,7 +188,7 @@ export default class WbShape extends WbBaseNode {
     if (this.isInBoundingObject())
       return;
 
-    this.geometry?.computeCastShadows(this.castShadow);
+    this.geometry?.computeCastShadows(this.#castShadows);
   }
 
   updateIsPickable() {
