@@ -1,7 +1,5 @@
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPbrAppearance from './WbPbrAppearance.js';
-import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
@@ -9,13 +7,15 @@ import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 import {WbNodeType} from './wb_node_type.js';
 
 export default class WbShape extends WbBaseNode {
-  #boundingObjectFirstTimeSearch;
-  #isInBoundingObject;
   #appearance;
+  #boundingObjectFirstTimeSearch;
+  #castShadows;
+  #isInBoundingObject;
+  #isPickable;
   constructor(id, castShadow, isPickable, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
-    this.isPickable = isPickable;
+    this.#isPickable = isPickable;
 
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
@@ -52,20 +52,39 @@ export default class WbShape extends WbBaseNode {
       this.notifyLed();
   }
 
+  get castShadows() {
+    return this.#castShadows;
+  }
+
+  set castShadows(newCastShadows) {
+
+  }
+
+  get isPickable() {
+    return this.#isPickable;
+  }
+
+  set isPickable(newIsPickable) {
+
+  }
+
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this.#createWrenMaterial(Enum.WR_MATERIAL_PHONG);
 
     if (this.geometry) {
-      if (this.appearance instanceof WbAppearance) {
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-        else
-          this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
-        this.#createWrenMaterial();
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+      if (typeof this.appearance !== 'undefined') {
+        if (this.appearance.nodeType === WbNodeType.WB_NODE_APPEARANCE) {
+          if (this.appearance.wrenObjectsCreatedCalled)
+            this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+          else
+            this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
+        } else if ((this.appearance.nodeType === WbNodeType.WB_NODE_PBR_APPEARANCE) &&
+          !(this.geometry.nodeType === WbNodeType.WB_NODE_POINT_SET)) {
+          this.#createWrenMaterial();
+          if (this.appearance.wrenObjectsCreatedCalled)
+            this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+        }
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
 
@@ -93,7 +112,7 @@ export default class WbShape extends WbBaseNode {
     }
 
     this.useList.push(customID);
-    return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance);
+    return new WbShape(customID, this.castShadow, this.#isPickable, geometry, appearance);
   }
 
   createWrenObjects() {
@@ -172,7 +191,7 @@ export default class WbShape extends WbBaseNode {
     if (this.isInBoundingObject())
       return;
 
-    this.geometry?.setPickable(this.isPickable);
+    this.geometry?.setPickable(this.#isPickable);
   }
 
   updateGeometryMaterial() {

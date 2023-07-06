@@ -523,3 +523,10 @@ void WbShape::exportBoundingObjectToX3D(WbWriter &writer) const {
     writer << "</" + x3dName() + ">";
   }
 }
+
+QStringList WbShape::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "isPickable"
+         << "castShadows";
+  return fields;
+}
