@@ -80,8 +80,7 @@ void WbTrackWheel::rotate(double traveledDistance) {
   if (mInner->value())
     angle = -angle;
 
-  WbMatrix3 currentRotation(rotation());
-  WbRotation newRotation(WbMatrix3(0, -1, 0, angle) * currentRotation);
+  WbRotation newRotation(WbMatrix3(0, -1, 0, angle) * rotation().toMatrix3());
   newRotation.normalize();
   setRotation(newRotation);
   updateRotation();

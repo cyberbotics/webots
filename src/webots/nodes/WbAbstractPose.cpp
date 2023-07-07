@@ -239,7 +239,7 @@ void WbAbstractPose::setTranslation(double tx, double ty, double tz) {
 
 void WbAbstractPose::rotate(const WbVector3 &v) {
   WbMatrix3 rotation(v.normalized(), v.length());
-  WbRotation newRotation = WbRotation(rotation * WbMatrix3(mRotation->value()));
+  WbRotation newRotation = WbRotation(rotation * mRotation->value().toMatrix3());
   newRotation.normalize();
   setRotation(newRotation);
 }
