@@ -309,6 +309,11 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     cssTemplateValues << std::pair<QString, QString>("%title%", titleString);
     cssTemplateValues << std::pair<QString, QString>("%type%", typeString);
 
+    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/w3d_playback.css", cssFileName,
+                                               cssTemplateValues);
+    if (!success)
+      throw tr("Cannot copy the 'w3d_playback.css' file to '%1'").arg(cssFileName);
+
     // export html file
     QString infoString;
     const WbMFString &info = WbWorld::instance()->worldInfo()->info();
