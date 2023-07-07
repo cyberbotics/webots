@@ -333,6 +333,9 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     templateValues << std::pair<QString, QString>(
       "%jpgName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
+    templateValues << std::pair<QString, QString>(
+      "%cssName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
     if (animation)
       templateValues << std::pair<QString, QString>(
         "%jsonName%",
