@@ -293,8 +293,6 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
 
   bool success = true;
-  QFileInfo fo(fileName);
-  QString targetPath = fo.absolutePath() + "/";
 
   try {
     // export w3d file
