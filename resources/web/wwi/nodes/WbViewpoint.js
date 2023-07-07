@@ -440,8 +440,10 @@ export default class WbViewpoint extends WbBaseNode {
 
   #updateFollowedId() {
     for (const node of WbWorld.instance.nodes.values()) {
-      if (node instanceof WbSolid && node.name === this.#follow)
+      if (node instanceof WbSolid && node.name === this.#follow) {
         this.#followedId = node.id;
+        break;
+      }
     }
   }
 }
