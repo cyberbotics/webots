@@ -17,6 +17,7 @@
 #include "WbGuiRefreshOracle.hpp"
 #include "WbPose.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLabel>
@@ -37,9 +38,11 @@ WbPositionViewer::WbPositionViewer(QWidget *parent) :
           &WbPositionViewer::updateRelativeTo);
 
   // Labels
+  mScaleTitleLabel = new QLabel(this);
   QGridLayout *labelLayout = new QGridLayout();
   labelLayout->addWidget(new QLabel(tr("Position:")), 0, 0);
   labelLayout->addWidget(new QLabel(tr("Rotation:")), 1, 0);
+  labelLayout->addWidget(mScaleTitleLabel, 2, 0);
 
   mPositionLabels.resize(3);
   for (int i = 0; i < mPositionLabels.size(); ++i) {
@@ -52,6 +55,12 @@ WbPositionViewer::WbPositionViewer(QWidget *parent) :
     mRotationLabels[i] = new QLabel(this);
     mRotationLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
     labelLayout->addWidget(mRotationLabels[i], 1, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
+  }
+  mScaleLabels.resize(3);
+  for (int i = 0; i < mScaleLabels.size(); ++i) {
+    mScaleLabels[i] = new QLabel(this);
+    mScaleLabels[i]->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    labelLayout->addWidget(mScaleLabels[i], 2, i + 1, Qt::AlignVCenter | Qt::AlignLeft);
   }
   vBoxLayout->addLayout(labelLayout);
 }
@@ -101,31 +110,44 @@ void WbPositionViewer::requestUpdate() {
 
 void WbPositionViewer::update() {
   if (mIsSelected && mPose) {
-    WbVector3 position(0, 0, 0);
-    WbRotation rotation(0, 0, 0, 0);
-    if (mRelativeToComboBox->currentIndex() == 0) {
-      position = mPose->position();
-      rotation = WbRotation(mPose->rotationMatrix());
-      rotation.normalize();
-    } else {
+    WbVector3 position;
+    WbVector3 scale(1.0, 1.0, 1.0);
+    WbMatrix3 rotationMatrix;
+    WbMatrix4 relativeMatrix;
+
+    if (mRelativeToComboBox->currentIndex() == 0)
+      relativeMatrix = mPose->matrix();
+    else {
       const WbPose *pose = mPose;
-      for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i)
+      for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i) {
+        assert(pose);
+        relativeMatrix = pose->vrmlMatrix() * relativeMatrix;
         pose = pose->upperPose();
-      position = mPose->position() - pose->position();
-      position = position * WbMatrix3(pose->rotation().toQuaternion());
-      WbRotation currentRotation = WbRotation(mPose->rotationMatrix());
-      WbRotation referenceRotation = WbRotation(mPose->rotationMatrix());
-      currentRotation.normalize();
-      referenceRotation.normalize();
-      if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 0 1 0
-        rotation = WbRotation(0, 0, 1, 0);
-      else
-        rotation = WbRotation(currentRotation.toQuaternion() * referenceRotation.toQuaternion().conjugated());
+      }
     }
+
+    position = relativeMatrix.translation();
+    scale = relativeMatrix.scale();
+    WbMatrix3 rm = relativeMatrix.extracted3x3Matrix();
+    rm.scale(1.0 / scale.x(), 1.0 / scale.y(), 1.0 / scale.z());
+    WbRotation rotation(rm);
+    rotation.normalize();
+    if (rotation.almostEquals(WbRotation(), 0.000001))
+      rotation = WbRotation();
+
     for (int i = 0; i < mPositionLabels.size(); ++i)
       mPositionLabels[i]->setText(WbPrecision::doubleToString(position[i], WbPrecision::GUI_MEDIUM));
     for (int i = 0; i < mRotationLabels.size(); ++i)
       mRotationLabels[i]->setText(WbPrecision::doubleToString(rotation[i], WbPrecision::GUI_MEDIUM));
+    if (!scale.almostEquals(WbVector3(1, 1, 1))) {
+      mScaleTitleLabel->setText(tr("Scale:"));
+      for (int i = 0; i < mScaleLabels.size(); ++i)
+        mScaleLabels[i]->setText(WbPrecision::doubleToString(scale[i], WbPrecision::GUI_MEDIUM));
+    } else {
+      mScaleTitleLabel->clear();
+      for (int i = 0; i < mScaleLabels.size(); ++i)
+        mScaleLabels[i]->clear();
+    }
     return;
   }
 
@@ -133,6 +155,8 @@ void WbPositionViewer::update() {
     mPositionLabels[i]->clear();
   for (int i = 0; i < mRotationLabels.size(); ++i)
     mRotationLabels[i]->clear();
+  for (int i = 0; i < mScaleLabels.size(); ++i)
+    mScaleLabels[i]->clear();
 }
 
 void WbPositionViewer::updateRelativeTo(int index) {

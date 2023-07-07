@@ -31,7 +31,7 @@
 class WbRotation {
 public:
   // construct as identity rotation
-  WbRotation() : mX(0.0), mY(1.0), mZ(0.0), mAngle(0.0) {}
+  WbRotation() : mX(0.0), mY(0.0), mZ(1.0), mAngle(0.0) {}
 
   // construct from other types of rotations
   WbRotation(const WbRotation &r) : mX(r.x()), mY(r.y()), mZ(r.z()), mAngle(r.angle()) {}
