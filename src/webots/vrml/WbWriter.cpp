@@ -139,6 +139,7 @@ void WbWriter::writeHeader(const QString &title) {
       return;
     case W3D:
       *this << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+      *this << "<X3D>\n";
       *this << "<head>\n";
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
       *this << "<meta name=\"version\" content=\"" + WbApplicationInfo::version().toString(false) + "\" />\n";
@@ -157,6 +158,7 @@ void WbWriter::writeHeader(const QString &title) {
 void WbWriter::writeFooter(const QStringList *info) {
   if (isW3d()) {
     *this << "</Scene>\n";
+    *this << "</X3D>\n";
   } else if (isUrdf())
     *this << "</robot>\n";
 }

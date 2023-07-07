@@ -31,9 +31,9 @@
 #include "WbSysInfo.hpp"
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
+#include "WbW3dStreamingServer.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
-#include "WbW3dStreamingServer.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
