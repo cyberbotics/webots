@@ -78,6 +78,7 @@ public:
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
   void exportBoundingObjectToX3D(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithX3D() const override;
 
 signals:
   void wrenMaterialChanged();
