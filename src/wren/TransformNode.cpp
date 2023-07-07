@@ -59,31 +59,30 @@ namespace wren {
       return;
 
     if (mParent) {
-      mPositionAbsolute = mParent->position() + mParent->orientation() * (mParent->scale() * mPositionRelative);
-      mOrientationAbsolute = mParent->orientation() * mOrientationRelative;
-      mScaleAbsolute = mParent->scale() * mScaleRelative;
+      mMatrix = mParent->matrix() * relativeMatrix();
+      // extract position from transform matrix
+      mPositionAbsolute = glm::vec3(mMatrix[3]);
+      // compute scale and orientation
+      mScaleAbsolute = glm::vec3(length(mMatrix[0]), length(mMatrix[1]), length(mMatrix[2]));
+      mOrientationAbsolute = glm::quat_cast(glm::mat4(mMatrix[0][0] / mScaleAbsolute.x, mMatrix[0][1] / mScaleAbsolute.y,
+                                                      mMatrix[0][2] / mScaleAbsolute.z, 0.0f, mMatrix[1][0] / mScaleAbsolute.x,
+                                                      mMatrix[1][1] / mScaleAbsolute.y, mMatrix[1][2] / mScaleAbsolute.z, 0.0f,
+                                                      mMatrix[2][0] / mScaleAbsolute.x, mMatrix[2][1] / mScaleAbsolute.y,
+                                                      mMatrix[2][2] / mScaleAbsolute.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
     } else {
       mPositionAbsolute = mPositionRelative;
       mOrientationAbsolute = mOrientationRelative;
       mScaleAbsolute = mScaleRelative;
+      mMatrix = relativeMatrix();
     }
-
-    mMatrix = glm::mat4(mScaleAbsolute.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleAbsolute.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleAbsolute.z,
-                        0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-
-    mMatrix = glm::mat4_cast(mOrientationAbsolute) * mMatrix;
-
-    mMatrix[3][0] = mPositionAbsolute.x;
-    mMatrix[3][1] = mPositionAbsolute.y;
-    mMatrix[3][2] = mPositionAbsolute.z;
 
     mIsMatrixDirty = false;
   }
 
   const glm::mat4 TransformNode::relativeMatrix() const {
-    glm::mat4 m;
-    m = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.z, 0.0f,
-                  0.0f, 0.0f, 0.0f, 1.0f);
+    // matrix = translationMatrix * rotationMatrix * scaleMatrix
+    glm::mat4 m = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f,
+                            mScaleRelative.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
     m = glm::mat4_cast(mOrientationRelative) * m;
 
