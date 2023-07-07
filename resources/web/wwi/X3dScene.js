@@ -457,8 +457,8 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent.nodeType === WbNodeType.WB_NODE_PROPELLER && parent.currentHelix !== object.id &&
-        WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent.nodeType === WbNodeType.WB_NODE_PROPELLER &&
+        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
   }
