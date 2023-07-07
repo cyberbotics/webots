@@ -1,7 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
-import WbSlot from './WbSlot.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbJoint extends WbBaseNode {
   #endPoint;
@@ -91,7 +91,7 @@ export default class WbJoint extends WbBaseNode {
     if (typeof this.endPoint === 'undefined')
       return;
 
-    if (this.endPoint instanceof WbSlot) {
+    if (this.endPoint.nodeType === WbNodeType.WB_NODE_SLOT) {
       const childrenSlot = this.endPoint.slotEndPoint();
       return childrenSlot?.solidEndPoint();
     } else if (this.endPoint instanceof WbSolid)

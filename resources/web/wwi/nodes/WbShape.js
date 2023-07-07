@@ -1,7 +1,5 @@
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPbrAppearance from './WbPbrAppearance.js';
-import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
@@ -9,13 +7,15 @@ import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 import {WbNodeType} from './wb_node_type.js';
 
 export default class WbShape extends WbBaseNode {
-  #boundingObjectFirstTimeSearch;
-  #isInBoundingObject;
   #appearance;
-  constructor(id, castShadow, isPickable, geometry, appearance) {
+  #boundingObjectFirstTimeSearch;
+  #castShadows;
+  #isInBoundingObject;
+  #isPickable;
+  constructor(id, castShadows, isPickable, geometry, appearance) {
     super(id);
-    this.castShadow = castShadow;
-    this.isPickable = isPickable;
+    this.#castShadows = castShadows;
+    this.#isPickable = isPickable;
 
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
@@ -52,25 +52,48 @@ export default class WbShape extends WbBaseNode {
       this.notifyLed();
   }
 
+  get castShadows() {
+    return this.#castShadows;
+  }
+
+  set castShadows(newCastShadows) {
+    this.#castShadows = newCastShadows;
+
+    this.updateCastShadows();
+  }
+
+  get isPickable() {
+    return this.#isPickable;
+  }
+
+  set isPickable(newIsPickable) {
+    this.#isPickable = newIsPickable;
+
+    this.updateIsPickable();
+  }
+
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this.#createWrenMaterial(Enum.WR_MATERIAL_PHONG);
 
     if (this.geometry) {
-      if (this.appearance instanceof WbAppearance) {
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
-        else
-          this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
-      } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
-        this.#createWrenMaterial();
-        if (this.appearance.wrenObjectsCreatedCalled)
-          this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+      if (typeof this.appearance !== 'undefined') {
+        if (this.appearance.nodeType === WbNodeType.WB_NODE_APPEARANCE) {
+          if (this.appearance.wrenObjectsCreatedCalled)
+            this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+          else
+            this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
+        } else if ((this.appearance.nodeType === WbNodeType.WB_NODE_PBR_APPEARANCE) &&
+          !(this.geometry.nodeType === WbNodeType.WB_NODE_POINT_SET)) {
+          this.#createWrenMaterial();
+          if (this.appearance.wrenObjectsCreatedCalled)
+            this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
+        }
       } else
         this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
 
       if (!this.geometry.isInBoundingObject())
-        this.geometry.setWrenMaterial(this.wrenMaterial, this.castShadow);
+        this.geometry.setWrenMaterial(this.wrenMaterial, this.#castShadows);
     }
   }
 
@@ -93,7 +116,7 @@ export default class WbShape extends WbBaseNode {
     }
 
     this.useList.push(customID);
-    return new WbShape(customID, this.castShadow, this.isPickable, geometry, appearance);
+    return new WbShape(customID, this.#castShadows, this.#isPickable, geometry, appearance);
   }
 
   createWrenObjects() {
@@ -165,14 +188,14 @@ export default class WbShape extends WbBaseNode {
     if (this.isInBoundingObject())
       return;
 
-    this.geometry?.computeCastShadows(this.castShadow);
+    this.geometry?.computeCastShadows(this.#castShadows);
   }
 
   updateIsPickable() {
     if (this.isInBoundingObject())
       return;
 
-    this.geometry?.setPickable(this.isPickable);
+    this.geometry?.setPickable(this.#isPickable);
   }
 
   updateGeometryMaterial() {

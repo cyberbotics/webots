@@ -71,7 +71,7 @@ export default class WbSlot extends WbBaseNode {
   }
 
   slotEndPoint() {
-    if (typeof this.endPoint !== 'undefined' && this.endPoint instanceof WbSlot)
+    if (typeof this.endPoint !== 'undefined' && this.endPoint.nodeType === WbNodeType.WB_NODE_SLOT)
       return this.endPoint;
   }
 

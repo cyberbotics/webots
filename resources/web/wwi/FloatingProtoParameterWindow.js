@@ -1,44 +1,14 @@
 import FloatingWindow from './FloatingWindow.js';
-import {VRML} from './protoVisualizer/vrml_type.js';
-import WbAccelerometer from './nodes/WbAccelerometer.js';
-import WbAltimeter from './nodes/WbAltimeter.js';
-import WbBallJoint from './nodes/WbBallJoint.js';
-import WbCamera from './nodes/WbCamera.js';
-import WbCharger from './nodes/WbCharger.js';
-import WbCompass from './nodes/WbCompass.js';
-import WbConnector from './nodes/WbConnector.js';
+import { VRML } from './protoVisualizer/vrml_type.js';
 import WbDevice from './nodes/WbDevice.js';
-import WbDisplay from './nodes/WbDisplay.js';
-import WbDistanceSensor from './nodes/WbDistanceSensor.js';
-import WbEmitter from './nodes/WbEmitter.js';
-import WbGps from './nodes/WbGps.js';
-import WbGyro from './nodes/WbGyro.js';
-import WbHingeJoint from './nodes/WbHingeJoint.js';
-import WbHinge2Joint from './nodes/WbHinge2Joint.js';
-import WbInertialUnit from './nodes/WbInertialUnit.js';
 import WbJoint from './nodes/WbJoint.js';
-import WbLed from './nodes/WbLed.js';
-import WbLidar from './nodes/WbLidar.js';
-import WbLinearMotor from './nodes/WbLinearMotor.js';
-import WbLightSensor from './nodes/WbLightSensor.js';
 import WbMotor from './nodes/WbMotor.js';
-import WbPen from './nodes/WbPen.js';
-import WbRadar from './nodes/WbRadar.js';
-import WbReceiver from './nodes/WbReceiver.js';
-import WbRotationalMotor from './nodes/WbRotationalMotor.js';
-import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
-import WbRangeFinder from './nodes/WbRangeFinder.js';
-import WbTouchSensor from './nodes/WbTouchSensor.js';
-import WbVacuumGripper from './nodes/WbVacuumGripper.js';
-import WbBrake from './nodes/WbBrake.js';
-import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
+import { SFNode, MFNode, vrmlFactory } from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
-import WbPropeller from './nodes/WbPropeller.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
-import {WbNodeType} from './nodes/wb_node_type.js';
+import { WbNodeType } from './nodes/wb_node_type.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -1446,49 +1416,50 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #sortDevice(device, div) {
-    if (device instanceof WbAccelerometer)
+    const nodeType = device.nodeType;
+    if (nodeType === WbNodeType.WB_NODE_ACCELEROMETER)
       this.devicesList.get('Accelerometer').push(div);
-    else if (device instanceof WbAltimeter)
+    else if (nodeType === WbNodeType.WB_NODE_ALTIMETER)
       this.devicesList.get('Altimeter').push(div);
-    else if (device instanceof WbCamera)
+    else if (nodeType === WbNodeType.WB_NODE_CAMERA)
       this.devicesList.get('Camera').push(div);
-    else if (device instanceof WbCharger)
+    else if (nodeType === WbNodeType.WB_NODE_CHARGER)
       this.devicesList.get('Charger').push(div);
-    else if (device instanceof WbCompass)
+    else if (nodeType === WbNodeType.WB_NODE_COMPASS)
       this.devicesList.get('Compass').push(div);
-    else if (device instanceof WbConnector)
+    else if (nodeType === WbNodeType.WB_NODE_CONNECTOR)
       this.devicesList.get('Connector').push(div);
-    else if (device instanceof WbDisplay)
+    else if (nodeType === WbNodeType.WB_NODE_DISPLAY)
       this.devicesList.get('Display').push(div);
-    else if (device instanceof WbDistanceSensor)
+    else if (nodeType === WbNodeType.WB_NODE_DISTANCE_SENSOR)
       this.devicesList.get('DistanceSensor').push(div);
-    else if (device instanceof WbEmitter)
+    else if (nodeType === WbNodeType.WB_NODE_EMITTER)
       this.devicesList.get('Emitter').push(div);
-    else if (device instanceof WbGps)
+    else if (nodeType === WbNodeType.WB_NODE_GPS)
       this.devicesList.get('Gps').push(div);
-    else if (device instanceof WbGyro)
+    else if (nodeType === WbNodeType.WB_NODE_GYRO)
       this.devicesList.get('Gyro').push(div);
-    else if (device instanceof WbInertialUnit)
+    else if (nodeType === WbNodeType.WB_NODE_INERTIAL_UNIT)
       this.devicesList.get('InertialUnit').push(div);
-    else if (device instanceof WbLed)
+    else if (nodeType === WbNodeType.WB_NODE_LED)
       this.devicesList.get('Led').push(div);
-    else if (device instanceof WbLidar)
+    else if (nodeType === WbNodeType.WB_NODE_LIDAR)
       this.devicesList.get('Lidar').push(div);
-    else if (device instanceof WbLightSensor)
+    else if (nodeType === WbNodeType.WB_NODE_LIGHT_SENSOR)
       this.devicesList.get('LightSensor').push(div);
-    else if (device instanceof WbPen)
+    else if (nodeType === WbNodeType.WB_NODE_PEN)
       this.devicesList.get('Pen').push(div);
-    else if (device instanceof WbRadar)
+    else if (nodeType === WbNodeType.WB_NODE_RADAR)
       this.devicesList.get('Radar').push(div);
-    else if (device instanceof WbRangeFinder)
+    else if (nodeType === WbNodeType.WB_NODE_RANGE_FINDER)
       this.devicesList.get('Rangefinder').push(div);
-    else if (device instanceof WbReceiver)
+    else if (nodeType === WbNodeType.WB_NODE_RECEIVER)
       this.devicesList.get('Receiver').push(div);
-    else if (device instanceof WbSpeaker)
+    else if (nodeType === WbNodeType.WB_NODE_SPEAKER)
       this.devicesList.get('Speaker').push(div);
-    else if (device instanceof WbTouchSensor)
+    else if (nodeType === WbNodeType.WB_NODE_TOUCH_SENSOR)
       this.devicesList.get('TouchSensor').push(div);
-    else if (device instanceof WbVacuumGripper)
+    else if (nodeType === WbNodeType.WB_NODE_VACUUM_GRIPPER)
       this.devicesList.get('VacuumGripper').push(div);
   }
 
@@ -1566,11 +1537,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         const endPointName = joint.solidEndPoint() ? joint.solidEndPoint().name : numberOfJoint;
         let jointType;
-        if (joint instanceof WbBallJoint)
+        if (joint.nodeType === WbNodeType.WB_NODE_BALL_JOINT)
           jointType = 'BallJoint 1: ';
-        else if (joint instanceof WbHinge2Joint)
+        else if (joint.nodeType === WbNodeType.WB_NODE_HINGE_2_JOINT)
           jointType = 'Hinge2joint 1: ';
-        else if (joint instanceof WbHingeJoint)
+        else if (joint.nodeType === WbNodeType.WB_NODE_HINGE_JOINT)
           jointType = 'Hingejoint: ';
         else
           jointType = 'Sliderjoint: ';
@@ -1587,7 +1558,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         this.joints.appendChild(div);
 
-        if (joint instanceof WbBallJoint) {
+        if (joint.nodeType === WbNodeType.WB_NODE_BALL_JOINT) {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
@@ -1612,7 +1583,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
             this.#view.w3dScene.render();
           });
           this.joints.appendChild(div);
-        } else if (joint instanceof WbHinge2Joint) {
+        } else if (joint.nodeType === WbNodeType.WB_NODE_HINGE_2_JOINT) {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
@@ -1627,7 +1598,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           });
           this.joints.appendChild(div);
         }
-      } else if (joint instanceof WbPropeller) {
+      } else if (joint.nodeType === WbNodeType.WB_NODE_PROPELLER) {
         numberOfJoint++;
 
         let div = document.createElement('div');
@@ -1711,13 +1682,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         this.#createGridFiller(grid, row);
 
         const deviceType = document.createElement('div');
-        if (devices[i] instanceof WbRotationalMotor)
+        if (devices[i].nodeType === WbNodeType.WB_NODE_ROTATIONAL_MOTOR)
           deviceType.innerHTML = 'RotationalMotor: ';
-        else if (devices[i] instanceof WbLinearMotor)
+        else if (devices[i].nodeType === WbNodeType.WB_NODE_LINEAR_MOTOR)
           deviceType.innerHTML = 'LinearMotor: ';
-        else if (devices[i] instanceof WbBrake)
+        else if (devices[i].nodeType === WbNodeType.WB_NODE_BRAKE)
           deviceType.innerHTML = 'Brake: ';
-        else if (devices[i] instanceof WbPositionSensor)
+        else if (devices[i].nodeType === WbNodeType.WB_NODE_POSITION_SENSOR)
           deviceType.innerHTML = 'PositionSensor:';
 
         deviceType.style.gridRow = row + ' / ' + row;

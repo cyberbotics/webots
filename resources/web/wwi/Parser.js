@@ -80,6 +80,7 @@ import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
 import { getAnId } from './nodes/utils/id_provider.js';
+import { WbNodeType } from './nodes/wb_node_type.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import { webots } from './webots.js';
@@ -322,10 +323,10 @@ export default class Parser {
         // We are forced to check if the result correspond to the class we expect because of the case of a USE
         if (typeof result !== 'undefined' && result instanceof WbGeometry) {
           if (typeof parentNode !== 'undefined') {
-            if (parentNode instanceof WbShape) {
+            if (parentNode.nodeType === WbNodeType.WB_NODE_SHAPE) {
               parentNode.geometry?.delete();
               parentNode.geometry = result;
-            } else if (parentNode instanceof WbSolid || parentNode instanceof WbPose || parentNode instanceof WbGroup) {
+            } else if (parentNode instanceof WbGroup) {
               // Bounding object
               parentNode.boundingObject?.delete();
               if (parentNode instanceof WbSolid)
@@ -335,13 +336,13 @@ export default class Parser {
             }
           }
         } else if (node.tagName === 'PBRAppearance') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+          if (typeof parentNode !== 'undefined' && parentNode.nodeType === WbNodeType.WB_NODE_SHAPE) {
             parentNode.appearance?.delete();
             result = this.#parsePbrAppearance(node, id);
             parentNode.appearance = result;
           }
         } else if (node.tagName === 'Appearance') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+          if (typeof parentNode !== 'undefined' && parentNode.nodeType === WbNodeType.WB_NODE_SHAPE) {
             parentNode.appearance?.delete();
             result = this.#parseAppearance(node, id);
             parentNode.appearance = result;
@@ -349,7 +350,7 @@ export default class Parser {
         } else if (node.tagName === 'Material') {
           result = this.#parseMaterial(node, id);
           if (typeof result !== 'undefined') {
-            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+            if (typeof parentNode !== 'undefined' && parentNode.nodeType === WbNodeType.WB_NODE_APPEARANCE) {
               parentNode.material?.delete();
               parentNode.material = result;
             }
@@ -357,7 +358,7 @@ export default class Parser {
         } else if (node.tagName === 'ImageTexture') {
           result = this.#parseImageTexture(node, id);
           if (typeof result !== 'undefined') {
-            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+            if (typeof parentNode !== 'undefined' && parentNode.nodeType === WbNodeType.WB_NODE_APPEARANCE) {
               parentNode.texture?.delete();
               parentNode.texture = result;
             } else {
@@ -617,10 +618,11 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       useNode.parent = parentNode.id;
       const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
-      if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
+      if (isBoundingObject && (result.nodeType === WbNodeType.WB_NODE_SHAPE || result instanceof WbGroup ||
+        result instanceof WbGeometry))
         parentNode.boundingObject = useNode;
-      else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight ||
-        result instanceof WbCadShape)
+      else if (result.nodeType === WbNodeType.WB_NODE_SHAPE || result instanceof WbGroup || result instanceof WbLight ||
+        result.nodeType === WbNodeType.WB_NODE_CAD_SHAPE)
         parentNode.children.push(useNode);
     }
 
@@ -771,7 +773,7 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
-      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      else if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
@@ -802,7 +804,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (parentNode instanceof WbSlot)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT)
         parentNode.endPoint = newNode;
       else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
@@ -830,7 +832,7 @@ export default class Parser {
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
-      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      else if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = group;
       else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = group;
@@ -853,7 +855,7 @@ export default class Parser {
     this.#parseChildren(node, propeller);
 
     propeller.parent = parentNode.id;
-    if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+    if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
       parentNode.endPoint = propeller;
     else
       parentNode.children.push(propeller);
@@ -875,7 +877,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       slot.parent = parentNode.id;
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = slot;
       else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = slot;
@@ -905,7 +907,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       joint.parent = parentNode.id;
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = joint;
       else
         parentNode.children.push(joint);
@@ -1035,7 +1037,7 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = shape;
-      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      else if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = shape;
       else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = shape;
@@ -1074,7 +1076,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = cadShape;
       else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = cadShape;
@@ -1129,7 +1131,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
       dirLight.parent = parentNode.id;
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = dirLight;
       else
         parentNode.children.push(dirLight);
@@ -1160,7 +1162,7 @@ export default class Parser {
       castShadows, parentNode);
 
     if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = pointLight;
       else
         parentNode.children.push(pointLight);
