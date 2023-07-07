@@ -70,5 +70,4 @@ WoodenBox {
   size 0.1 0.1 0.1
 }
 SurveyorSrv1 {
-  controller "surveyor_tracked"
 }

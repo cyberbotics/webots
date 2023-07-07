@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=surveyor.Makefile surveyor_tracked.Makefile
+TARGETS=surveyor.Makefile
 
 .PHONY: release debug profile clean
 
