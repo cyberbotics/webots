@@ -265,7 +265,7 @@ export default class Parser {
         break;
       case 'Fog':
         if (!WbWorld.instance.hasFog)
-          result = this.#parseFog(node);
+          result = this.#parseFog(node, parentNode);
         else
           console.error('This world already has a fog.');
         break;
@@ -1105,6 +1105,9 @@ export default class Parser {
     WbWorld.instance.nodes.set(billboard.id, billboard);
     this.#parseChildren(node, billboard);
 
+    if (typeof parentNode !== 'undefined')
+      parentNode.children.push(billboard);
+
     return billboard;
   }
 
@@ -1196,7 +1199,7 @@ export default class Parser {
     return spotLight;
   }
 
-  #parseFog(node) {
+  #parseFog(node, parentNode) {
     this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
@@ -1209,6 +1212,9 @@ export default class Parser {
 
     if (typeof fog !== 'undefined')
       WbWorld.instance.hasFog = true;
+
+    if (typeof parentNode !== 'undefined')
+      parentNode.children.push(fog);
 
     return fog;
   }
