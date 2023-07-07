@@ -120,7 +120,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-
+    console.log(xml)
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -478,11 +478,11 @@ export default class Parser {
     const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
     const near = parseFloat(getNodeAttribute(node, 'near', '0.1'));
     const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness', 0.5));
-    const followedId = getNodeAttribute(node, 'followedId');
+    const follow = getNodeAttribute(node, 'follow');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
     const viewpoint = new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far,
-      followSmoothness, followedId, ambientOcclusionRadius);
+      followSmoothness, follow, ambientOcclusionRadius);
 
     if (typeof parentNode !== 'undefined') {
       if (parentNode instanceof WbGroup)
