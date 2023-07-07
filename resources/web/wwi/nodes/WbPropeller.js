@@ -1,4 +1,5 @@
 import WbGroup from './WbGroup.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbPropeller extends WbGroup {
   #device;
@@ -14,6 +15,10 @@ export default class WbPropeller extends WbGroup {
 
   set device(device) {
     this.#device = device;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_PROPELLER;
   }
 
   postFinalize() {
