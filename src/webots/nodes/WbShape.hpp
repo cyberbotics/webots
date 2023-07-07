@@ -40,26 +40,20 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
-  void updateCollisionMaterial(bool triggerChange = false,
-                               bool onSelection = false) override;
+  void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;
-  bool isAValidBoundingObject(bool checkOde = true,
-                              bool warning = true) const override;
-  bool
-  isSuitableForInsertionInBoundingObject(bool warning = false) const override;
+  bool isAValidBoundingObject(bool checkOde = true, bool warning = true) const override;
+  bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
   void reset(const QString &id) override;
-  QList<const WbBaseNode *>
-  findClosestDescendantNodesWithDedicatedWrenNode() const override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   WbAppearance *appearance() const;
   WbPbrAppearance *pbrAppearance() const;
   WbAbstractAppearance *abstractAppearance() const;
-  WbGeometry *geometry() const {
-    return dynamic_cast<WbGeometry *>(mGeometry->value());
-  }
+  WbGeometry *geometry() const { return dynamic_cast<WbGeometry *>(mGeometry->value()); }
   WbSFNode *geometryField() const { return mGeometry; }
   bool isCastShadowsEnabled() const;
 
@@ -67,8 +61,7 @@ public:
   WrMaterial *wrenMaterial() const { return mWrenMaterial; }
 
   // infrared related functions
-  void pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness = NULL,
-                 double *occlusion = NULL) const;
+  void pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness = NULL, double *occlusion = NULL) const;
 
   // for a shape lying into a boundingObject
   void connectGeometryField() const;
@@ -101,7 +94,7 @@ private:
 
   WrMaterial *mWrenMaterial;
 
-  WbShape &operator=(const WbShape &); // non copyable
+  WbShape &operator=(const WbShape &);  // non copyable
   WbNode *clone() const override { return new WbShape(*this); }
   void init();
   void applyMaterialToGeometry();
