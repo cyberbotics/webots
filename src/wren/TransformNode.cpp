@@ -25,6 +25,7 @@ namespace wren {
     Node::setParent(parent);
 
     mIsMatrixDirty = true;
+    mIsAbsoluteOrientationDirty = true;
   }
 
   void TransformNode::setAbsolutePosition(const glm::vec3 &position) {
@@ -54,6 +55,21 @@ namespace wren {
     setMatrixDirty();
   }
 
+  void TransformNode::updateAbsoluteRotation() const {
+    if (!mIsMatrixDirty && !mIsAbsoluteOrientationDirty)
+      return;
+
+    TransformNode::update();
+    // compute absolute scale and orientation
+    mScaleAbsolute = glm::vec3(length(mMatrix[0]), length(mMatrix[1]), length(mMatrix[2]));
+    mOrientationAbsolute = glm::quat_cast(glm::mat4(mMatrix[0][0] / mScaleAbsolute.x, mMatrix[0][1] / mScaleAbsolute.y,
+                                                    mMatrix[0][2] / mScaleAbsolute.z, 0.0f, mMatrix[1][0] / mScaleAbsolute.x,
+                                                    mMatrix[1][1] / mScaleAbsolute.y, mMatrix[1][2] / mScaleAbsolute.z, 0.0f,
+                                                    mMatrix[2][0] / mScaleAbsolute.x, mMatrix[2][1] / mScaleAbsolute.y,
+                                                    mMatrix[2][2] / mScaleAbsolute.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
+    mIsAbsoluteOrientationDirty = true;
+  }
+
   void TransformNode::update() const {
     if (!mIsMatrixDirty)
       return;
@@ -61,14 +77,8 @@ namespace wren {
     if (mParent) {
       mMatrix = mParent->matrix() * relativeMatrix();
       // extract position from transform matrix
+      // scale and rotation will be extracted on request
       mPositionAbsolute = glm::vec3(mMatrix[3]);
-      // compute scale and orientation
-      mScaleAbsolute = glm::vec3(length(mMatrix[0]), length(mMatrix[1]), length(mMatrix[2]));
-      mOrientationAbsolute = glm::quat_cast(glm::mat4(mMatrix[0][0] / mScaleAbsolute.x, mMatrix[0][1] / mScaleAbsolute.y,
-                                                      mMatrix[0][2] / mScaleAbsolute.z, 0.0f, mMatrix[1][0] / mScaleAbsolute.x,
-                                                      mMatrix[1][1] / mScaleAbsolute.y, mMatrix[1][2] / mScaleAbsolute.z, 0.0f,
-                                                      mMatrix[2][0] / mScaleAbsolute.x, mMatrix[2][1] / mScaleAbsolute.y,
-                                                      mMatrix[2][2] / mScaleAbsolute.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
     } else {
       mPositionAbsolute = mPositionRelative;
       mOrientationAbsolute = mOrientationRelative;
@@ -95,6 +105,7 @@ namespace wren {
 
   TransformNode::TransformNode() :
     mIsMatrixDirty(false),
+    mIsAbsoluteOrientationDirty(false),
     mMatrix(gMat4Identity),
     mPositionAbsolute(gVec3Zeros),
     mOrientationAbsolute(),
@@ -107,6 +118,7 @@ namespace wren {
   TransformNode::TransformNode(TransformNode *source) :
     Node(source),
     mIsMatrixDirty(source->mIsMatrixDirty),
+    mIsAbsoluteOrientationDirty(source->mIsAbsoluteOrientationDirty),
     mPositionRelative(source->mPositionRelative),
     mOrientationRelative(source->mOrientationRelative),
     mScaleRelative(source->mScaleRelative) {
