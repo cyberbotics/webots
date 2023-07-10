@@ -30,7 +30,12 @@ Please find instructions in [this section](verifying-your-graphics-driver-instal
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
 
-First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file.
+
+> **Note**: You can check with `apt-key list` if this signature file was already installed using the deprecated `apt-key add` method.
+If so, you should delete it with `apt-key del <keyid>` before proceeding with the re-installation.
+
+You can install the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file using this command:
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
