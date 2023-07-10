@@ -34,8 +34,8 @@ showdown.extension('wbVariables', function() {
         major: 'R2023b',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2023b',
-        package: 'R2023b'
+        full: 'R2023b revision 1',
+        package: 'R2023b-rev1'
       }
     },
     date: {

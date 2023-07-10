@@ -1,6 +1,5 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
-import WbWorld from '../WbWorld.js';
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);

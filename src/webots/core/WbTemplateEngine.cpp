@@ -137,6 +137,11 @@ const QString &WbTemplateEngine::closingToken() {
   return gClosingToken;
 }
 
+QString WbTemplateEngine::escapeString(const QString &string) {
+  QString escaped(string);
+  return escaped.replace("\\", "\\\\").replace("\n", "\\n").replace("'", "\\'").toUtf8();
+}
+
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
   bool output;
 
@@ -340,11 +345,7 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dylib\"";
 #endif
 
-  tags["templateContent"] = mTemplateContent;
-  tags["templateContent"] = tags["templateContent"].replace("\\", "\\\\");
-  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
-  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
-  tags["templateContent"] = tags["templateContent"].toUtf8();
+  tags["templateContent"] = escapeString(mTemplateContent);
 
   // make sure these key are set
   if (!tags.contains("fields"))
