@@ -34,6 +34,7 @@ First of all, Webots should be authenticated with the [Cyberbotics.asc](https://
 
 > **Note**: You can check with `apt-key list` if this signature file was already installed using the deprecated `apt-key add` method.
 If so, you should delete it with `apt-key del <keyid>` before proceeding with the re-installation.
+Similarly, if the repository was already listed, you should remove it using `apt-add-repository -y --remove 'deb https://cyberbotics.com/debian/ binary-amd64/'`.
 
 You can install the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file using this command:
 
