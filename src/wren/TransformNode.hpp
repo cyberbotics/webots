@@ -72,12 +72,12 @@ namespace wren {
     }
 
     const glm::quat &orientation() const {
-      TransformNode::updateAbsoluteRotation();
+      TransformNode::update();
       return mOrientationAbsolute;
     }
 
     const glm::vec3 &scale() const {
-      TransformNode::updateAbsoluteRotation();
+      TransformNode::update();
       return mScaleAbsolute;
     }
 
@@ -114,7 +114,6 @@ namespace wren {
         return;
       Node::setMatrixDirty();
       mIsMatrixDirty = true;
-      mIsAbsoluteOrientationDirty = true;
     }
 
     void update() const override;
@@ -127,7 +126,6 @@ namespace wren {
   private:
     // May be modified when getting position/scale/orientation/matrix, thus mutable
     mutable bool mIsMatrixDirty;
-    mutable bool mIsAbsoluteOrientationDirty;
     mutable glm::mat4 mMatrix;
     mutable glm::vec3 mPositionAbsolute;
     mutable glm::quat mOrientationAbsolute;
@@ -136,8 +134,6 @@ namespace wren {
     glm::vec3 mPositionRelative;
     glm::quat mOrientationRelative;
     glm::vec3 mScaleRelative;
-
-    void updateAbsoluteRotation() const;
   };
 
 }  // namespace wren
