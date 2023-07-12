@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Makes local PROTO references extern"""
+"""Makes local PROTO references extern to fix the compatibility between R2022a and R2022b"""
 
 
 import os
@@ -137,7 +137,7 @@ for file, path in local_files.items():
 
     # update proto header
     contents = contents[n:]  # remove old header
-    header[0] = '#VRML_SIM R2023b utf8\n'
+    header[0] = '#VRML_SIM R2022b utf8\n'
     contents = header + contents
 
     # write to file

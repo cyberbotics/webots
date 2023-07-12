@@ -22,17 +22,16 @@
 #include <QtCore/QPoint>
 
 class QMenu;
+class QWidget;
 class WbNode;
 
 namespace WbContextMenuGenerator {
-  void generateContextMenu(const QPoint &position, const WbNode *selectedNode);
+  void generateContextMenu(const QPoint &position, const WbNode *selectedNode, QWidget *parentWidget);
   void enableNodeActions(bool enabled);
   void enableProtoActions(bool enabled);
   void enableExternProtoActions(bool enabled);
   void enableRobotActions(bool enabled);
-  void setRobotCameraMenu(QMenu *menu);
-  void setRobotRangeFinderMenu(QMenu *menu);
-  void setRobotDisplayMenu(QMenu *menu);
+  void setOverlaysMenu(QMenu *menu);
 };  // namespace WbContextMenuGenerator
 
 #endif

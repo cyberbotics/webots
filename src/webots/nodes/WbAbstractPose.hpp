@@ -72,10 +72,14 @@ public:
   WbVector3 yAxis() const { return matrix().yAxis(); }
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
-  bool isTopPose() const;
-
   // 3x3 absolute rotation matrix
-  virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
+  virtual WbMatrix3 rotationMatrix() const {
+    const WbMatrix4 &m = matrix();
+    const WbVector3 &s = m.scale();
+    WbMatrix3 rm = m.extracted3x3Matrix();
+    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+    return rm;
+  }
 
   // position in 'world' coordinates
   WbVector3 position() const { return matrix().translation(); }
@@ -139,8 +143,6 @@ private:
   void updateRotationFieldVisibility() const;
 
   virtual void updateMatrix() const;
-  mutable bool mHasSearchedTopPose;
-  mutable bool mIsTopPose;
 };
 
 void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,

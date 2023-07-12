@@ -30,38 +30,32 @@ Please find instructions in [this section](verifying-your-graphics-driver-instal
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
 
-First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file.
+
+> **Note**: You can check with `apt-key list` if this signature file was already installed using the deprecated `apt-key add` method.
+If so, you should delete it with `apt-key del <keyid>` before proceeding with the re-installation.
+Similarly, if the repository was already listed, you should remove it using `apt-add-repository -y --remove 'deb https://cyberbotics.com/debian/ binary-amd64/'`.
+
+You can install the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file using this command:
 
 ```bash
-wget -qO- https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
+sudo mkdir -p /etc/apt/keyrings
+cd /etc/apt/keyrings
+sudo wget -q https://cyberbotics.com/Cyberbotics.asc
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
 Simply execute the following lines:
 
 ```bash
-sudo apt-add-repository 'deb https://cyberbotics.com/debian/ binary-amd64/'
-sudo apt-get update
-```
-
-As an alternative, you can easily add the Cyberbotics repository from the `Software and Updates` application.
-In the `Other Software` tab, click on the `Add...` button and copy the following line:
-
-```text
-deb https://cyberbotics.com/debian/ binary-amd64/
-```
-
-When you close the window, the APT packages list should be automatically updated.
-Otherwise you can manually execute the following command:
-
-```bash
-sudo apt-get update
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list
+sudo apt update
 ```
 
 Then proceed to the installation of Webots using:
 
 ```bash
-sudo apt-get install webots
+sudo apt install webots
 ```
 
 > **Note**: Although only the command line procedure is documented here, it is also possible to use any APT front-end tool, such as the Synaptic Package Manager, to proceed with the APT installation of Webots.
@@ -123,11 +117,6 @@ Execute the following command to install *ffmpeg* with *x264* support:
 ```bash
 conda install x264 ffmpeg -c conda-forge
 ```
-For SUMO, you will need to install libxerces-c-devel, libproj-devel, libgdal-devel, and fox16-devel.
-Execute the following commands to enable SUMO on Debian / Ubuntu based distributions:
-```bash
-sudo apt-get install libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev
-```
 
 #### Installing the Snap Package
 
@@ -141,7 +130,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2023b, the download size of the snap is 778MB compared to 186MB of the Debian package.
+For Webots R2023b, the download size of the snap is 651MB compared to 146MB of the Debian package.
 
 ##### Extern Controllers
 
@@ -150,7 +139,7 @@ However, when developing robot controllers, it is often useful to use various co
 If such components are needed, users can install them on their system or local environment to create, possibly compile and link their robot controllers.
 However, because of the snap sand-boxing, Webots will be unable to launch these controller itself.
 To work around this problem, such controllers should be launched as extern controllers from outside of Webots.
-Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and add `$WEBOTS_HOME/lib/controller` to your `LD_LIBRARY_PATH` environment variable, so that your controllers will find the necessary shared libraries.
+Before launching extern controllers, you should set the `WEBOTS_HOME` environment variable to point to `/snap/webots/current/usr/share/webots` and run the `$WEBOTS_HOME/webots-controller` launcher.
 The chapter entitled [running extern robot controllers](running-extern-robot-controllers.md) details how to run extern controllers, including with the snap version of Webots.
 
 #### Installing the Docker Image

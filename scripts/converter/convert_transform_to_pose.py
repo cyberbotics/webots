@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Convert Transforms with no scale or the default one into Poses"""
+"""Convert Transforms with no scale or the default one into Poses to fix the compatibility between R2023a and R2023b"""
 
 # usage: python convert_transform_to_pose.py /path/to/your/webots/project
 from webots_parser import WebotsParser

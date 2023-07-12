@@ -61,6 +61,7 @@ IMPORTABLE EXTERNPROTO "webots://projects/objects/buildings/protos/TheThreeTower
 IMPORTABLE EXTERNPROTO "webots://projects/objects/buildings/protos/UBuilding.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/buildings/protos/Warehouse.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/buildings/protos/Windmill.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/objects/buildings/protos/Silo.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/cabinet/protos/Cabinet.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/cabinet/protos/CabinetHandle.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/objects/chairs/protos/Chair.proto"

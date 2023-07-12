@@ -44,6 +44,8 @@ void WbSelection::selectNodeFromSceneTree(WbBaseNode *node) {
     return;
   selectNode(node);
   emit selectionChangedFromSceneTree(mSelectedAbstractPose);
+  if (mSelectedAbstractPose)
+    updateHandlesScale();
 }
 
 void WbSelection::selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled) {
@@ -77,7 +79,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
 
   mSelectedNode = n;
   if (poseChanged)
-    mSelectedAbstractPose = mSelectedNode ? dynamic_cast<WbAbstractPose *>(mSelectedNode) : NULL;
+    mSelectedAbstractPose = dynamic_cast<WbAbstractPose *>(mSelectedNode);
   mResizeHandlesEnabledFromSceneTree = false;
 
   if (mSelectedNode) {

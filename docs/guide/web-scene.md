@@ -35,7 +35,7 @@ When the export is completed, Webots will ask to playback the resulting file in 
 **Note**: The playback option may not work correctly depending on your default Web browser.
 In this case, please refer to the [section below](#remarks-on-the-used-technologies-and-their-limitations).
 
-### How to Embed a Web Scene in Your Website
+### How to Embed a Web Scene in your Website
 
 The exported `HTML` page is designed to be simple, and is the reference for an integration in an external Website. The exported `CSS` file can be replaced during the process.
 Alternatively, an `<iframe>` tag pointing to the generated Webots page is a less elegant but simpler solution.
@@ -93,7 +93,7 @@ It may occur that the rendering in the Webots application and in the exported We
     }
     ```
 
-### Remarks on the Used Technologies and Their Limitations
+### Remarks on the used Technologies and their Limitations
 
 The Webots player is using internally the `WRENJS` library (based on `WebGL 2`).
 
