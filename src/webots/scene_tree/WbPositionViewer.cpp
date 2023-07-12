@@ -110,27 +110,47 @@ void WbPositionViewer::requestUpdate() {
 
 void WbPositionViewer::update() {
   if (mIsSelected && mPose) {
-    WbVector3 position;
-    WbVector3 scale(1.0, 1.0, 1.0);
-    WbMatrix3 rotationMatrix;
-    WbMatrix4 relativeMatrix;
-
-    if (mRelativeToComboBox->currentIndex() == 0)
-      relativeMatrix = mPose->matrix();
+    WbVector3 position(mPose->position());
+    WbVector3 scale;
+    const WbTransform *t = dynamic_cast<const WbTransform *>(mPose);
+    if (t)
+      scale = t->absoluteScale();
     else {
-      const WbPose *pose = mPose;
-      for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i) {
-        assert(pose);
-        relativeMatrix = pose->vrmlMatrix() * relativeMatrix;
-        pose = pose->upperPose();
-      }
+      t = mPose->upperTransform();
+      scale = t ? t->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
     }
 
-    position = relativeMatrix.translation();
-    scale = relativeMatrix.scale();
-    WbMatrix3 rm = relativeMatrix.extracted3x3Matrix();
-    rm.scale(1.0 / scale.x(), 1.0 / scale.y(), 1.0 / scale.z());
-    WbRotation rotation(rm);
+    WbRotation rotation;
+    if (mRelativeToComboBox->currentIndex() == 0)
+      rotation.fromMatrix3(mPose->rotationMatrix());
+    else {
+      const WbPose *pose = mPose;
+      WbQuaternion q;
+      for (int i = 0; i < mRelativeToComboBox->currentIndex(); ++i) {
+        assert(pose);
+        q = pose->relativeQuaternion() * q;
+        pose = pose->upperPose();
+      }
+      // compute relative rotation
+      q.normalize();
+      rotation.fromQuaternion(q);
+
+      // compute relative scale
+      WbVector3 otherAbsoluteScale;
+      const WbTransform *t = dynamic_cast<const WbTransform *>(pose);
+      if (t)
+        otherAbsoluteScale = t->absoluteScale();
+      else {
+        t = pose->upperTransform();
+        otherAbsoluteScale = t ? t->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+      }
+      scale /= otherAbsoluteScale;
+
+      // compute relative translation
+      position = pose->rotationMatrix().transposed() * ((position - pose->position()));
+      position /= otherAbsoluteScale;
+    }
+
     rotation.normalize();
     if (rotation.almostEquals(WbRotation(), 0.000001))
       rotation = WbRotation();
