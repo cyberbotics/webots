@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
   print_keyboard_help();
 
   while (wb_robot_step(timeStep) != -1) {
-    int key = wb_keyboard_get_key();
+    const int key = wb_keyboard_get_key();
     if (key != -1) {
       switch (key) {
         case 'W':
