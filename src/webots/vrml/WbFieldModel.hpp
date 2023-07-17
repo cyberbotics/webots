@@ -36,7 +36,7 @@ public:
   // field name
   const QString &name() const { return mName; }
 
-  // W3d export
+  // W3D export
   bool isW3d() const { return mIsW3d; }
   void write(WbWriter &writer) const;
 
