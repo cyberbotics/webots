@@ -37,8 +37,8 @@ static void print_keyboard_help() {
 
 int main(int argc, char **argv) {
   wb_robot_init();
-  int timeStep = wb_robot_get_basic_time_step();
-  float speed = 0.05;
+  const int timeStep = wb_robot_get_basic_time_step();
+  const float speed = 0.05;
   wb_keyboard_enable(timeStep);
 
   WbDeviceTag leftMotor = wb_robot_get_device("left motor");
