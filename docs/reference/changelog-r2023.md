@@ -10,6 +10,7 @@ Released on XXX XXth, 2023.
     - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
     - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
     - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
+    - Replaced the [Mesh](mesh.md) bounding object of the ROSbot XL by [Boxes](box.md) ([#6326](https://github.com/cyberbotics/webots/pull/6326)).
 
 ## Webots R2023b
 Released on June 28th, 2023.
