@@ -30,38 +30,32 @@ Please find instructions in [this section](verifying-your-graphics-driver-instal
 The advantage of this installation is that Webots will be updated automatically with system updates.
 The installation requires the `root` privileges.
 
-First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file which can be installed using this command:
+First of all, Webots should be authenticated with the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file.
+
+> **Note**: You can check with `apt-key list` if this signature file was already installed using the deprecated `apt-key add` method.
+If so, you should delete it with `apt-key del <keyid>` before proceeding with the re-installation.
+Similarly, if the repository was already listed, you should remove it using `apt-add-repository -y --remove 'deb https://cyberbotics.com/debian/ binary-amd64/'`.
+
+You can install the [Cyberbotics.asc](https://cyberbotics.com/Cyberbotics.asc) signature file using this command:
 
 ```bash
-wget -qO- https://cyberbotics.com/Cyberbotics.asc | sudo apt-key add -
+sudo mkdir -p /etc/apt/keyrings
+cd /etc/apt/keyrings
+sudo wget -q https://cyberbotics.com/Cyberbotics.asc
 ```
 
 Then, you can configure your APT package manager by adding the Cyberbotics repository.
 Simply execute the following lines:
 
 ```bash
-sudo apt-add-repository 'deb https://cyberbotics.com/debian/ binary-amd64/'
-sudo apt-get update
-```
-
-As an alternative, you can easily add the Cyberbotics repository from the `Software and Updates` application.
-In the `Other Software` tab, click on the `Add...` button and copy the following line:
-
-```text
-deb https://cyberbotics.com/debian/ binary-amd64/
-```
-
-When you close the window, the APT packages list should be automatically updated.
-Otherwise you can manually execute the following command:
-
-```bash
-sudo apt-get update
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list
+sudo apt update
 ```
 
 Then proceed to the installation of Webots using:
 
 ```bash
-sudo apt-get install webots
+sudo apt install webots
 ```
 
 > **Note**: Although only the command line procedure is documented here, it is also possible to use any APT front-end tool, such as the Synaptic Package Manager, to proceed with the APT installation of Webots.
