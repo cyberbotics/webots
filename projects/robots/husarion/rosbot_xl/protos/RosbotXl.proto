@@ -56,7 +56,7 @@ PROTO RosbotXl [
             USE SIDE_BODY_BOX
           ]
         }
-        DEF CENTER_BODY_COLLISiON Pose {
+        DEF CENTER_BODY_COLLISION Pose {
           translation -0.005 0 0.082
           children [
             Box {
