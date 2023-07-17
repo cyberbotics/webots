@@ -48,6 +48,8 @@
 #include <cassert>
 #include <limits>
 
+#include <iostream>
+
 // The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
 #define MAX_CONTACT_JOINTS 10
@@ -210,6 +212,7 @@ const WbContactProperties *WbSimulationCluster::findContactProperties(const WbSo
     if ((cp->material1() == s1->contactMaterial() && cp->material2() == s2->contactMaterial()) ||
         (cp->material1() == s2->contactMaterial() && cp->material2() == s1->contactMaterial())) {
       contactProperties = cp;
+      std::cout << contactProperties->defName().toStdString() << '\n';
       break;
     }
   }
