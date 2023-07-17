@@ -212,6 +212,7 @@ const WbContactProperties *WbSimulationCluster::findContactProperties(const WbSo
     if ((cp->material1() == s1->contactMaterial() && cp->material2() == s2->contactMaterial()) ||
         (cp->material1() == s2->contactMaterial() && cp->material2() == s1->contactMaterial())) {
       contactProperties = cp;
+      if (!contactProperties->defName().isEmpty())
       std::cout << contactProperties->defName().toStdString() << '\n';
       break;
     }
