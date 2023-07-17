@@ -112,12 +112,12 @@ void WbPositionViewer::update() {
   if (mIsSelected && mPose) {
     WbVector3 position(mPose->position());
     WbVector3 scale;
-    const WbTransform *t = dynamic_cast<const WbTransform *>(mPose);
-    if (t)
-      scale = t->absoluteScale();
+    const WbTransform *transform = dynamic_cast<const WbTransform *>(mPose);
+    if (transform)
+      scale = transform->absoluteScale();
     else {
-      t = mPose->upperTransform();
-      scale = t ? t->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+      transform = mPose->upperTransform();
+      scale = transform ? transform->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
     }
 
     WbRotation rotation;
@@ -137,12 +137,12 @@ void WbPositionViewer::update() {
 
       // compute relative scale
       WbVector3 otherAbsoluteScale;
-      const WbTransform *t = dynamic_cast<const WbTransform *>(pose);
-      if (t)
-        otherAbsoluteScale = t->absoluteScale();
+      transform = dynamic_cast<const WbTransform *>(pose);
+      if (transform)
+        otherAbsoluteScale = transform->absoluteScale();
       else {
-        t = pose->upperTransform();
-        otherAbsoluteScale = t ? t->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+        transform = pose->upperTransform();
+        otherAbsoluteScale = transform ? transform->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
       }
       scale /= otherAbsoluteScale;
 
