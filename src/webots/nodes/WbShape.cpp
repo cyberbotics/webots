@@ -495,6 +495,8 @@ bool WbShape::exportNodeHeader(WbWriter &writer) const {
     writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + w3dName() + ">";
     return true;
+  }
+
   return WbBaseNode::exportNodeHeader(writer);
 }
 
