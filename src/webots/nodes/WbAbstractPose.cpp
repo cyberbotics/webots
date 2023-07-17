@@ -211,13 +211,13 @@ void WbAbstractPose::updateMatrix() const {
   assert(mMatrix);
 
   // combine with upper matrix if any
-  const WbPose *pose = mBaseNode->upperPose();
+  const WbPose *const pose = mBaseNode->upperPose();
   WbVector3 t, s;
   WbRotation r;
   if (pose) {
     // to prevent shear effect in case of non-uniform scaling, it is not possible to multiply the transform matrix directly
     // note that this computation matches the one in WREN
-    const WbTransform *transform = dynamic_cast<const WbTransform *const>(pose);
+    const WbTransform *transform = dynamic_cast<const WbTransform *>(pose);
     if (!transform)
       transform = pose->upperTransform();
     s = transform ? transform->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
