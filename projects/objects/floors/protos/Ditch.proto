@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/floors/protos/Ditch.proto
@@ -70,31 +70,31 @@ PROTO Ditch [
 
       return val;
     }
-    
+
     const perlinSize = 128;
     const nOctave = 3;
-    
+
     let size = fields.size.value;
     if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
       size = fields.size.defaultValue;
       console.error('\'size\' must be strictly positive. Value reset to ' + size + '.');
     }
-    
+
     let yDimension = 10;
     const hValues = [0, 0, -size.z * 0.5, -size.z, -size.z, -size.z, -size.z, -size.z * 0.5, 0, 0];
-    
+
     let xDimension = Math.floor(size.x / 0.5);
     if (xDimension < 8)
       xDimension = 2;
-      
+
     const ySpacing = size.y / (yDimension - 1);
-      
+
     let waterHeight = fields.waterHeight.value;
     if (waterHeight >= size.z) {
       waterHeight = fields.waterHeight.defaultValue;
       console.error('\'waterHeight\' should be lower than `size.z`. Value reset to ' + waterHeight + '.');
     }
-    
+
     let heights = []
     let minHeight = 0;
     for (let i = 0; i < 9; ++i) {
