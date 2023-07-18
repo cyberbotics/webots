@@ -116,8 +116,6 @@ Released on June 28th, 2023.
     - Fixed duplicate [Lidar](lidar.md) rotatingHead when exporting to URDF ([#6233](https://github.com/cyberbotics/webots/pull/6233)).
   - Dependency Updates
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
-  - Cleanup
-    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
