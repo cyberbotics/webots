@@ -9,6 +9,7 @@ Released on XXX XXth, 2023.
   - Bug fixes
     - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
     - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
+    - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
     - Replaced the [Mesh](mesh.md) bounding object of the ROSbot XL by [Boxes](box.md) ([#6326](https://github.com/cyberbotics/webots/pull/6326)).
 
 ## Webots R2023b
@@ -115,8 +116,6 @@ Released on June 28th, 2023.
     - Fixed duplicate [Lidar](lidar.md) rotatingHead when exporting to URDF ([#6233](https://github.com/cyberbotics/webots/pull/6233)).
   - Dependency Updates
     - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and macOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
-  - Cleanup
-    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
