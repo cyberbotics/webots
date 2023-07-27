@@ -29,8 +29,4 @@ Display {
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
-
-  # deprecated
-  deprecatedField SFVec2f windowPosition 0 0   # for setting the image position in the main Webots window
-  deprecatedField SFFloat pixelSize      1.0   # size of the pixels displayed in the main Webots window (0.0 hides the image)
 }
