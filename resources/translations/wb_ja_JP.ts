@@ -576,10 +576,6 @@ Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;vrmlField&apos; or &apos;hiddenField&apos; keywords</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please modify the first line of &apos;%1&apos; to &quot;#%2 %3 utf8&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -810,6 +806,10 @@ To fix the problem, you should:
     </message>
     <message>
         <source>Invalid &apos;boundingObject&apos; (a Pose, or a Shape within a Pose, has no &apos;geometry&apos;): the inertia matrix cannot be calculated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;w3dField&apos; or &apos;hiddenField&apos; keywords</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4331,7 +4331,7 @@ As a consequence, some project-related functionalities may not work.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Streaming server received unsupported X3D message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=x3d&quot;&apos; command line option.</source>
+        <source>Streaming server received unsupported W3D message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=w3d&quot;&apos; command line option.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6364,10 +6364,6 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>    x3d (default) or mjpeg.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>    Print on stdout the URL of extern controllers that should be started.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6385,6 +6381,10 @@ Do you want to open it now?</source>
     </message>
     <message>
         <source>    Clear the cache of Webots on startup.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>    w3d (default) or mjpeg.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7243,6 +7243,33 @@ Do you want to play it back?
     </message>
 </context>
 <context>
+    <name>WbW3dStreamingServer</name>
+    <message>
+        <source>Error when initializing the animation recorder: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server: Client set mode to W3D.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server received unsupported MJPEG message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=mjpeg&quot;&apos; command line option.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Streaming server: Cannot send world date to client [%1] because: %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error when reloading world: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot send the entire world</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WbWebotsUpdateDialog</name>
     <message>
         <source>Check for updates</source>
@@ -7299,19 +7326,15 @@ Do you want to play it back?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot export the x3d file to &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot export html: &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot copy &apos;x3d_playback.html&apos; to &apos;%1&apos;</source>
+        <source>Cannot export the w3d file to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot copy the &apos;x3d_playback.css&apos; file to &apos;%1&apos;</source>
+        <source>Cannot copy &apos;w3d_playback.html&apos; to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7377,33 +7400,6 @@ Please do also check that your graphics hardware meets the requirements specifie
         <source>Webots requires OpenGL %1 while only OpenGL %2 can be initialized.
 Please check your GPU abilities and install the latest graphics drivers.
 Please do also check that your graphics hardware meets the requirements specified in the User Guide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WbX3dStreamingServer</name>
-    <message>
-        <source>Error when initializing the animation recorder: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server: Client set mode to X3D.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server received unsupported MJPEG message: &apos;%1&apos;. You should run Webots with the &apos;--stream=&quot;mode=mjpeg&quot;&apos; command line option.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Streaming server: Cannot send world date to client [%1] because: %2.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error when reloading world: %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot send the entire world</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

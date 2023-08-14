@@ -106,12 +106,6 @@ bool WbCone::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCone::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
-}
-
 bool WbCone::sanitizeFields() {
   if (isInBoundingObject())
     return false;
@@ -259,7 +253,7 @@ double WbCone::scaledBottomRadius() const {
   return fabs(mBottomRadius->value() * std::max(scale.x(), scale.z()));
 }
 
-QStringList WbCone::fieldsToSynchronizeWithX3D() const {
+QStringList WbCone::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "bottomRadius"
          << "height"

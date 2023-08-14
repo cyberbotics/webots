@@ -38,7 +38,7 @@ HTTP request handlers:
 
 WebSocket request handlers:
 * The `/client` request on the simulation server URL will setup a new Webots instance and return the Webots WebSocket URL.
-The payload should be a JSON object named `start` containing a `url` string and optionally a `mode` string which can be either `x3d` (default value) or `mjpeg`.
+The payload should be a JSON object named `start` containing a `url` string and optionally a `mode` string which can be either `w3d` (default value) or `mjpeg`.
 ```json
 {
   "start": {

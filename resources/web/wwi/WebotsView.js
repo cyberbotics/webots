@@ -151,7 +151,7 @@ export default class WebotsView extends HTMLElement {
   resetViewpoint() {
     if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined') {
       WbWorld.instance.viewpoint.resetViewpoint();
-      this._view.x3dScene.render();
+      this._view.w3dScene.render();
     }
   }
 
@@ -165,9 +165,9 @@ export default class WebotsView extends HTMLElement {
       'id': nodeId,
       [field]: value
     };
-    this._view.x3dScene.applyUpdate(update);
+    this._view.w3dScene.applyUpdate(update);
     if (render)
-      this._view.x3dScene.render();
+      this._view.w3dScene.render();
   }
 
   getNode(id) {
@@ -192,7 +192,7 @@ export default class WebotsView extends HTMLElement {
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice, thumbnail, raw) {
     if (typeof scene === 'undefined') {
-      console.error('No x3d file defined');
+      console.error('No w3d file defined');
       return;
     }
 
@@ -261,7 +261,7 @@ export default class WebotsView extends HTMLElement {
 
   /*
    * url : url of the server
-   * mode : x3d or mjpeg
+   * mode : w3d or mjpeg
    * broadcast: boolean
    * isMobileDevice: boolean
    */
@@ -335,7 +335,7 @@ export default class WebotsView extends HTMLElement {
   // Scene functions
   loadScene(scene, isMobileDevice, thumbnail) {
     if (typeof scene === 'undefined') {
-      console.error('No x3d file defined');
+      console.error('No w3d file defined');
       return;
     }
     if (!this.initializationComplete)
@@ -407,7 +407,7 @@ export default class WebotsView extends HTMLElement {
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
-        this._view.x3dScene.render();
+        this._view.w3dScene.render();
       };
 
       this.#hasProto = true;
