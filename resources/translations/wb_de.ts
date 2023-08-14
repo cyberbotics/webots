@@ -1782,7 +1782,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix
+        <source>Insert the identity matrix 
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2107,12 +2107,6 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;%1&apos;
-
-The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to compile any C/C++ controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Do you want to reset or reload the world?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2134,6 +2128,12 @@ You don&apos;t have write access to this folder. Webots won&apos;t be able to cl
         <source>&apos;%1&apos;
 
 You don&apos;t have write access to the &apos;Program Files&apos; folder. Webots won&apos;t be able to clean or compile any controller in this path. Please move this Webots project into a folder where you have write access.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos;
+
+The robot controller name contains non 8-bit characters. Webots won&apos;t be able to compile any C/C++ controller with such a name. Please rename this robot controller with only 8-bit characters.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3744,35 +3744,7 @@ and show the new robot window)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ca&amp;mera Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Display Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Export HTML5 Scene</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show &apos;%1&apos; overlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show overlay of camera device &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show overlay of display device &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;RangeFinder Devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show overlay of range-finder device &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3889,10 +3861,6 @@ and show the new robot window)</source>
     </message>
     <message>
         <source>Change View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show &apos;%2&apos; overlay of robot &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4160,6 +4128,38 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; Overlays</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show &apos;%1&apos; Overlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of camera device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of range-finder device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of display device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RangeFinder Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display Devices</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4892,7 +4892,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5155,6 +5155,10 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Relative to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5653,7 +5657,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please adapt your project to R2023b following these instructions: https://cyberbotics.com/doc/guide/from-2023a-to-2023b</source>
+        <source>Please adapt your project to R2023b following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6210,7 +6214,7 @@ Do you want to open it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://cyberbotics.com/doc/guide/from-2021b-to-2022a</source>
+        <source>You are using a world from an old version of Webots. The backwards compability algorithm will try to convert it. Refer to the wiki for more information: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6975,7 +6979,7 @@ Möchten Sie vor dem Schliessen speichern?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;p style=&quot;line-height:1.2&quot;&gt;Some features introduced in this version may break backward compatibility with your worlds and protos. &lt;br /&gt; &lt;br /&gt; Please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/upgrading-webots&apos;&gt;upgrade guide&lt;/a&gt;.&lt;/p&gt;</source>
+        <source>&lt;p style=&quot;line-height:1.2&quot;&gt;Some features introduced in this version may break backward compatibility with your worlds and PROTO models. &lt;br /&gt; &lt;br /&gt; Please refer to the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/guide/upgrading-webots&apos;&gt;upgrade guide&lt;/a&gt;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
