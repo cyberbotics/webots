@@ -621,7 +621,7 @@ QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
 
-QStringList WbCadShape::fieldsToSynchronizeWithW3D() const {
+QStringList WbCadShape::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "ccw"
          << "castShadows"

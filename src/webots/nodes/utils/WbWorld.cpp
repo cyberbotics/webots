@@ -72,7 +72,7 @@
 #include <cassert>
 
 static WbWorld *gInstance = NULL;
-bool WbWorld::cW3DStreaming = false;
+bool WbWorld::cW3dStreaming = false;
 bool WbWorld::cPrintExternUrls = false;
 
 WbWorld *WbWorld::instance() {

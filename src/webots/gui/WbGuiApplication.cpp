@@ -238,7 +238,7 @@ void WbGuiApplication::parseArguments() {
       mTcpServer = new WbMultimediaStreamingServer();
     else {  // w3d
       mTcpServer = new WbW3dStreamingServer();
-      WbWorld::enableW3DStreaming();
+      WbWorld::enableW3dStreaming();
     }
   }
   mTcpServer->start(port);

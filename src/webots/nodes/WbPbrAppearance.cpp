@@ -643,7 +643,7 @@ void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
   }
 }
 
-QStringList WbPbrAppearance::fieldsToSynchronizeWithW3D() const {
+QStringList WbPbrAppearance::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "baseColor"
          << "emissiveColor"

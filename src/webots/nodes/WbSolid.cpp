@@ -2977,7 +2977,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
 
 void WbSolid::exportNodeFooter(WbWriter &writer) const {
   if (writer.isW3d() && boundingObject())
-    boundingObject()->exportBoundingObjectToW3D(writer);
+    boundingObject()->exportBoundingObjectToW3d(writer);
 
   WbMatter::exportNodeFooter(writer);
 }

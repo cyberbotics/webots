@@ -52,7 +52,7 @@ public:
 
   const WbVector3 absoluteScale() const;
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   void exportNodeFields(WbWriter &writer) const override;

@@ -428,7 +428,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
 }
 
-QStringList WbMesh::fieldsToSynchronizeWithW3D() const {
+QStringList WbMesh::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"
          << "ccw"

@@ -70,7 +70,7 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void validElevationGridInserted();

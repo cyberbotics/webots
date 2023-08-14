@@ -77,8 +77,8 @@ public:
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
-  void exportBoundingObjectToW3D(WbWriter &writer) const override;
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void wrenMaterialChanged();

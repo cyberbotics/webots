@@ -72,7 +72,7 @@ public:
 
   void exportShallowNode(const WbWriter &writer) const;
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void changed();

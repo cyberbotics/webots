@@ -500,7 +500,7 @@ bool WbShape::exportNodeHeader(WbWriter &writer) const {
   return WbBaseNode::exportNodeHeader(writer);
 }
 
-void WbShape::exportBoundingObjectToW3D(WbWriter &writer) const {
+void WbShape::exportBoundingObjectToW3d(WbWriter &writer) const {
   assert(writer.isW3d());
 
   if (isUseNode() && defNode())
@@ -513,7 +513,7 @@ void WbShape::exportBoundingObjectToW3D(WbWriter &writer) const {
   }
 }
 
-QStringList WbShape::fieldsToSynchronizeWithW3D() const {
+QStringList WbShape::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "isPickable"
          << "castShadows";

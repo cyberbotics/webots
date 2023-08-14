@@ -335,7 +335,7 @@ WbShape *WbPose::shape() const {
 // Export //
 ////////////
 
-void WbPose::exportBoundingObjectToW3D(WbWriter &writer) const {
+void WbPose::exportBoundingObjectToW3d(WbWriter &writer) const {
   assert(writer.isW3d());
 
   if (isUseNode() && defNode())
@@ -357,7 +357,7 @@ void WbPose::exportBoundingObjectToW3D(WbWriter &writer) const {
   }
 }
 
-QStringList WbPose::fieldsToSynchronizeWithW3D() const {
+QStringList WbPose::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "translation"
          << "rotation";

@@ -56,7 +56,7 @@ public:
   static const QList<const WbLight *> &lights() { return cLights; }
   static int numberOfOnLights();
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   // all constructors are reserved for derived classes only

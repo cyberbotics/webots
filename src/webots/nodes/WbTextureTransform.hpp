@@ -48,7 +48,7 @@ public:
   void setTranslation(WbVector2 translation) { mTranslation->setValue(translation); }
 
   // export
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void changed();

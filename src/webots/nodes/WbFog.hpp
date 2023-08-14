@@ -42,7 +42,7 @@ public:
 
   int mode() const { return mWrenFogType; }
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void modeChanged();

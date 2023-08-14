@@ -155,7 +155,7 @@ void WbFog::applyChangesToWren() {
                    mVisibilityRange->value());
 }
 
-QStringList WbFog::fieldsToSynchronizeWithW3D() const {
+QStringList WbFog::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "color"
          << "fogType"

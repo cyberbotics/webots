@@ -102,7 +102,7 @@ public:
   void setMatrixNeedUpdate() override;
 
   // export
-  void exportBoundingObjectToW3D(WbWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
 
 signals:
   // called after the list of children has changed

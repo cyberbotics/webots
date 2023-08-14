@@ -235,10 +235,10 @@ double WbPointLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
 }
 
-QStringList WbPointLight::fieldsToSynchronizeWithW3D() const {
+QStringList WbPointLight::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "attenuation"
          << "location"
-         << "radius" << WbLight::fieldsToSynchronizeWithW3D();
+         << "radius" << WbLight::fieldsToSynchronizeWithW3d();
   return fields;
 }

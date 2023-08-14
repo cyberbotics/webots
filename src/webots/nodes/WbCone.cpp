@@ -253,7 +253,7 @@ double WbCone::scaledBottomRadius() const {
   return fabs(mBottomRadius->value() * std::max(scale.x(), scale.z()));
 }
 
-QStringList WbCone::fieldsToSynchronizeWithW3D() const {
+QStringList WbCone::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "bottomRadius"
          << "height"

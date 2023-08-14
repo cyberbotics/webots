@@ -70,8 +70,8 @@ public:
 
   bool isVideoRecording() const { return mIsVideoRecording; }
 
-  static bool isW3DStreaming() { return cW3DStreaming; }
-  static void enableW3DStreaming() { cW3DStreaming = true; }
+  static bool isW3dStreaming() { return cW3dStreaming; }
+  static void enableW3dStreaming() { cW3dStreaming = true; }
   static bool printExternUrls() { return cPrintExternUrls; }
   static void setPrintExternUrls() { cPrintExternUrls = true; }
 
@@ -205,7 +205,7 @@ private:
 
   virtual void storeLastSaveTime(){};
 
-  static bool cW3DStreaming;
+  static bool cW3dStreaming;
   static bool cPrintExternUrls;
 
 private slots:

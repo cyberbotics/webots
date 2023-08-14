@@ -40,7 +40,7 @@ public:
   // specific functions
   const WbVector3 &direction() const;
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private slots:
   void updateDirection();

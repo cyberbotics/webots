@@ -280,7 +280,7 @@ void WbIndexedFaceSet::updateCreaseAngle() {
   emit changed();
 }
 
-QStringList WbIndexedFaceSet::fieldsToSynchronizeWithW3D() const {
+QStringList WbIndexedFaceSet::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "ccw"
          << "normalPerVertex"

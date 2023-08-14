@@ -225,7 +225,7 @@ int WbLight::numberOfLightsCastingShadows() {
   return counter;
 }
 
-QStringList WbLight::fieldsToSynchronizeWithW3D() const {
+QStringList WbLight::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "color"
          << "on"

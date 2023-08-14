@@ -106,9 +106,9 @@ const WbVector3 &WbDirectionalLight::direction() const {
   return mDirection->value();
 }
 
-QStringList WbDirectionalLight::fieldsToSynchronizeWithW3D() const {
+QStringList WbDirectionalLight::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
-  fields << "direction" << WbLight::fieldsToSynchronizeWithW3D();
+  fields << "direction" << WbLight::fieldsToSynchronizeWithW3d();
 
   return fields;
 }

@@ -559,11 +559,11 @@ void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
 
   // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
   // 'webots://' since this case would be converted to a remote one that targets the current branch
-  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isW3DStreaming())
+  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isW3dStreaming())
     WbUrl::exportTexture(this, mUrl, 0, writer);
 }
 
-QStringList WbImageTexture::fieldsToSynchronizeWithW3D() const {
+QStringList WbImageTexture::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"
          << "repeatS"

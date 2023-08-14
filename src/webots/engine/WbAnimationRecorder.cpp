@@ -252,7 +252,7 @@ void WbAnimationRecorder::populateCommands() {
         // skip updates for USE nodes
         // DEF/USE mechanism is handled in webots.min.js
         continue;
-      const QStringList fields = node->fieldsToSynchronizeWithW3D();
+      const QStringList fields = node->fieldsToSynchronizeWithW3d();
       if (fields.size() > 0) {
         WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
         mCommands << command;

@@ -72,8 +72,8 @@ public:
   WbMatrix3 rotationMatrixFrom(const WbNode *fromNode) const;
 
   // export
-  void exportBoundingObjectToW3D(WbWriter &writer) const override;
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 public slots:
   virtual void updateRotation();

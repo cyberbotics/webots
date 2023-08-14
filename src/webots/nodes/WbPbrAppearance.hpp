@@ -70,7 +70,7 @@ public:
   double transparency() const;
   double roughness() const;
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
   void exportShallowNode(const WbWriter &writer) const;
 
 protected:

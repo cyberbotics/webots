@@ -39,7 +39,7 @@ public:
   int vectorSize() const { return mVector->size(); }
   void setVector(int index, const WbVector3 &vector) { mVector->setItem(index, vector); }
 
-  QStringList fieldsToSynchronizeWithW3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private:
   // user accessible fields

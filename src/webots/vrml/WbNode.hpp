@@ -265,8 +265,8 @@ public:
   void setInsertionCompleted() { mInsertionCompleted = true; }
 
   // export
-  virtual void exportBoundingObjectToW3D(WbWriter &writer) const {}
-  virtual QStringList fieldsToSynchronizeWithW3D() const { return QStringList(); }
+  virtual void exportBoundingObjectToW3d(WbWriter &writer) const {}
+  virtual QStringList fieldsToSynchronizeWithW3d() const { return QStringList(); }
   virtual void fixMissingResources() const {}
 
   virtual void reset(const QString &id);

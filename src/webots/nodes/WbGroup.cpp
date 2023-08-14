@@ -481,7 +481,7 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToW3D(WbWriter &writer) const {
+void WbGroup::exportBoundingObjectToW3d(WbWriter &writer) const {
   assert(writer.isW3d());
 
   if (isUseNode() && defNode())

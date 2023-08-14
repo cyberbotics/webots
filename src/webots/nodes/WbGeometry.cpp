@@ -620,7 +620,7 @@ int WbGeometry::constraintType() const {
 // Export //
 ////////////
 
-void WbGeometry::exportBoundingObjectToW3D(WbWriter &writer) const {
+void WbGeometry::exportBoundingObjectToW3d(WbWriter &writer) const {
   assert(writer.isW3d());
   assert(isInBoundingObject());
   if (!mWrenMesh)
