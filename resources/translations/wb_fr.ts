@@ -3746,36 +3746,8 @@ and show the new robot window)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ca&amp;mera Devices</source>
-        <translation>Cameras</translation>
-    </message>
-    <message>
-        <source>&amp;Display Devices</source>
-        <translation>Displays</translation>
-    </message>
-    <message>
         <source>Export HTML5 Scene</source>
         <translation>Exporter Scène HTML5</translation>
-    </message>
-    <message>
-        <source>Show &apos;%1&apos; overlay</source>
-        <translation>Afficher &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Show overlay of camera device &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show overlay of display device &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;RangeFinder Devices</source>
-        <translation>RangeFinders</translation>
-    </message>
-    <message>
-        <source>Show overlay of range-finder device &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stop HTML5 &amp;Animation...</source>
@@ -3891,10 +3863,6 @@ and show the new robot window)</source>
     </message>
     <message>
         <source>Fullscreen mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show &apos;%2&apos; overlay of robot &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4162,6 +4130,38 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;%1&apos; Overlays</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show &apos;%1&apos; Overlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of camera device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of range-finder device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show overlay of display device &apos;%1&apos; for robot &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RangeFinder Devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display Devices</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5157,6 +5157,10 @@ Do you want to continue?</source>
     </message>
     <message>
         <source>Relative to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
