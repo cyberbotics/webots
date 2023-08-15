@@ -21,7 +21,6 @@ PROTO SquareManhole [
     model "manhole"
     children [
       Pose {
-        rotation 0 0 1 1.57
         children [
           Shape {
             appearance PBRAppearance {
