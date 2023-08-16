@@ -104,9 +104,9 @@ void WbTransform::applyToOdeScale() {
   geometry()->applyToOdeData();
 }
 
-QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
+QStringList WbTransform::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
-  fields << "scale" << WbPose::fieldsToSynchronizeWithX3D();
+  fields << "scale" << WbPose::fieldsToSynchronizeWithW3d();
   return fields;
 }
 

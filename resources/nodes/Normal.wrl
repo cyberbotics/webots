@@ -1,5 +1,5 @@
 # The Normal node specifies a set of 3D vectors used by vertex-based geometry nodes to map normal to vertices or faces.
 
 Normal {
-  vrmlField MFVec3f vector []
+  w3dField MFVec3f vector []
 }

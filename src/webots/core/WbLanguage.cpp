@@ -52,7 +52,7 @@ static const char *PYTHON_KEYWORDS = "and as assert break class continue def "
 static const char *MAKEFILE_KEYWORDS = "if ifdef ifndef ifeq ifneq else endif include";
 
 static const char *WBT_KEYWORDS = "USE DEF PROTO IS FALSE TRUE NULL "
-                                  "field deprecatedField hiddenField unconnectedField vrmlField "
+                                  "field deprecatedField hiddenField unconnectedField w3dField "
                                   "SFVec3f SFBool SFInt32 SFFloat SFVec2f SFVec3f SFRotation SFColor SFString SFNode "
                                   "MFBool MFInt32 MFFloat MFVec2f MFVec3f MFRotation MFColor MFString MFNode";
 
