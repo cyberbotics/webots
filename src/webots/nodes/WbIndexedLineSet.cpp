@@ -228,7 +228,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  if (!coord())
+  if (!coord() || mCoordIndex->isEmpty())
     return;
 
   const WbMFVector3 &points = coord()->point();
