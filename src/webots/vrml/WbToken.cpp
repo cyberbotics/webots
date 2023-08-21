@@ -102,7 +102,7 @@ bool WbToken::isKeyword(const QString &word) {
 
     // currently used by Webots:
     *gKeywords << "field"
-               << "vrmlField"
+               << "w3dField"
                << "hiddenField"
                << "deprecatedField";
     *gKeywords << "DEF"

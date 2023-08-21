@@ -29,7 +29,7 @@ class SingleValue {
     this.#value = value;
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
       parentElement.setAttribute(parameterName, this.value);
       return;
@@ -140,7 +140,7 @@ export class SFVec2f extends SingleValue {
     this.value = v;
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
       parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y}`);
       return;
@@ -183,7 +183,7 @@ export class SFVec3f extends SingleValue {
     this.value = v;
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
       parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y} ${this.value.z}`);
       return;
@@ -226,7 +226,7 @@ export class SFColor extends SingleValue {
     this.value = v;
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
       parentElement.setAttribute(parameterName, `${this.value.r} ${this.value.g} ${this.value.b}`);
       return;
@@ -287,7 +287,7 @@ export class SFRotation extends SingleValue {
     this.normalize(v.x, v.y, v.z, v.a);
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
       parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`);
       return;
@@ -385,26 +385,26 @@ export class SFNode extends SingleValue {
     this.value = value;
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (this.value === null)
       return;
 
-    const nodeX3d = this.value.toX3d(parameterName);
+    const nodeW3d = this.value.toW3d(parameterName);
 
     // handle exceptions
     const name = this.value.getBaseNode().name;
     if (this.value.name === 'ImageTexture')
-      nodeX3d.setAttribute('role', parameterName);
-    else if (['Shape', 'Group', 'Pose', 'Solid', 'Robot'].includes(name)) {
-      if (parameterName === 'boundingObject')
-        nodeX3d.setAttribute('role', 'boundingObject');
-    } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(name))
-      nodeX3d.setAttribute('role', parameterName); // identifies which jointParameter slot the node belongs to
+      nodeW3d.setAttribute('role', parameterName);
+    else if (['Shape', 'Group', 'Pose', 'Solid', 'Robot'].includes(name) && parameterName === 'boundingObject')
+      nodeW3d.setAttribute('role', 'boundingObject');
+    else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(name))
+      nodeW3d.setAttribute('role', parameterName); // identifies which jointParameter slot the node belongs to
     else if (['Brake', 'PositionSensor', 'RotationalMotor', 'LinearMotor'].includes(name))
-      nodeX3d.setAttribute('role', parameterName); // identifies which device slot the node belongs to
-
-    if (typeof nodeX3d !== 'undefined')
-      parentElement.appendChild(nodeX3d);
+      nodeW3d.setAttribute('role', parameterName); // identifies which device slot the node belongs to
+    else if (parameterName === 'animatedGeometry' && ['Shape', 'Group', 'Pose', 'CadShape', 'Slot', 'Transform'].includes(name))
+      nodeW3d.setAttribute('role', 'animatedGeometry');
+    if (typeof nodeW3d !== 'undefined')
+      parentElement.appendChild(nodeW3d);
   }
 
   toJS() {
@@ -418,7 +418,7 @@ export class SFNode extends SingleValue {
   }
 
   toJson() {
-    throw new Error('SFNodes should not be encoded as strings, the x3d needs to be sent instead.');
+    throw new Error('SFNodes should not be encoded as strings, the w3d needs to be sent instead.');
   }
 
   toVrml() {
@@ -511,10 +511,10 @@ class MultipleValue {
     return this.#value[index];
   }
 
-  toX3d(parameterName, parentElement) {
-    let x3d = '';
-    this.#value.forEach((item) => { x3d += item.toX3d() + ' '; });
-    parentElement.setAttribute(parameterName, x3d.slice(0, -1));
+  toW3d(parameterName, parentElement) {
+    let w3d = '';
+    this.#value.forEach((item) => { w3d += item.toW3d() + ' '; });
+    parentElement.setAttribute(parameterName, w3d.slice(0, -1));
   }
 
   toJS() {
@@ -878,11 +878,11 @@ export class MFNode extends MultipleValue {
     this.value.splice(index, 1);
   }
 
-  toX3d(parameterName, parentElement) {
+  toW3d(parameterName, parentElement) {
     if (this.value === [])
       return;
 
-    this.value.forEach((item) => item.toX3d(parameterName, parentElement));
+    this.value.forEach((item) => item.toW3d(parameterName, parentElement));
   }
 
   toJS() {
@@ -894,7 +894,7 @@ export class MFNode extends MultipleValue {
   }
 
   toJson() {
-    throw new Error('MFNodes should not be encoded as strings, the x3d needs to be sent instead.');
+    throw new Error('MFNodes should not be encoded as strings, the w3d needs to be sent instead.');
   }
 
   type() {

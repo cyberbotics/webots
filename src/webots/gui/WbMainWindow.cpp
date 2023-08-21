@@ -1615,8 +1615,8 @@ void WbMainWindow::upload() {
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
-  if (uploadFileExists("cloud_export.x3d"))
-    fileNames << "cloud_export.x3d";
+  if (uploadFileExists("cloud_export.w3d"))
+    fileNames << "cloud_export.w3d";
   if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
     fileNames << "cloud_export.jpg";
 
@@ -1624,7 +1624,7 @@ void WbMainWindow::upload() {
   QMap<QString, QString> map;
   foreach (const QString fileName, fileNames) {
     QHttpPart mainPart;
-    if (fileName.contains("x3d")) {
+    if (fileName.contains("w3d")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "scene-file";
     } else if (fileName.contains("json")) {
