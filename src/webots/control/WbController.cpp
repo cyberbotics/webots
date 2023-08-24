@@ -902,7 +902,9 @@ void WbController::startMatlab() {
 
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab"
-             << "-batch"
+             << "-nosplash"
+             << "-nodesktop"
+             << "-r"
              << "launcher";
 }
 

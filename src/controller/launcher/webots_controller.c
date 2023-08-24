@@ -902,7 +902,9 @@ int main(int argc, char **argv) {
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
-    new_argv = add_single_argument(new_argv, &current_size, "-batch");
+    new_argv = add_single_argument(new_argv, &current_size, "-nodisplay");
+    new_argv = add_single_argument(new_argv, &current_size, "-nosplash");
+    new_argv = add_single_argument(new_argv, &current_size, "-r");
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
     if (nb_controller_arguments)
       new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
