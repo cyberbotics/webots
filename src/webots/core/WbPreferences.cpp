@@ -66,6 +66,7 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("General/language", "");
   setDefault("General/numberOfThreads", WbSysInfo::coreCount());
   setDefault("General/checkWebotsUpdateOnStartup", true);
+  setDefault("General/useMatlabBatchMode", true);
   setDefault("General/disableSaveWarning", false);
   setDefault("General/thumbnail", true);
   setDefault("Sound/mute", true);

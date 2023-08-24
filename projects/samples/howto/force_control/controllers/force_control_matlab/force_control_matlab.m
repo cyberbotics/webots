@@ -6,7 +6,7 @@
 function force_control_matlab
 
 % uncomment the next two lines if you want to use
-% MATLAB's desktop to interact with the controller:
+% MATLAB's desktop to interact with the controller. Must disable the batch option in the preferences.
 %desktop;
 %keyboard;
 

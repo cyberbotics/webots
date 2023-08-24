@@ -71,7 +71,8 @@ private:
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mMatlabCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort,
     *mHttpProxyUsername, *mHttpProxyPassword, *mUploadUrl, *mBrowserProgram;
   QCheckBox *mDisableSaveWarningCheckBox, *mThumnailCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox,
-    *mDisableShadowsCheckBox, *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow;
+    *mDisableShadowsCheckBox, *mDisableAntiAliasingCheckBox, *mHttpProxySocks5CheckBox, *mRenderingCheckBox, *mNewBrowserWindow,
+    *mUseMatlabBatchModeCheckBox;
   QSpinBox *mCacheSize;
   QListWidget *mAllowedIps;
   QLabel *mCacheSizeLabel;

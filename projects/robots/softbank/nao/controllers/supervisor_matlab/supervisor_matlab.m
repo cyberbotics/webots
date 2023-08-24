@@ -6,7 +6,7 @@
 function supervisor_matlab
 
 % uncomment the next two lines if you want to use
-% MATLAB's desktop to interact with this controller:
+% MATLAB's desktop to interact with this controller. Must disable the batch option in the preferences.
 %desktop;
 %keyboard;
 

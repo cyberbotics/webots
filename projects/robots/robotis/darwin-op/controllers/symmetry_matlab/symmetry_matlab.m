@@ -2,7 +2,7 @@
 function symmetry_matlab
 
 % uncomment the next two lines if you want to use
-% MATLAB's desktop and interact with the controller
+% MATLAB's desktop and interact with the controller. Must disable the batch option in the preferences.
 %desktop;
 %keyboard;
 

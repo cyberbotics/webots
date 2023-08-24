@@ -901,11 +901,18 @@ void WbController::startMatlab() {
     mCommand = mMatlabCommand;
 
   mArguments = WbLanguageTools::matlabArguments();
-  mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab"
-             << "-nosplash"
-             << "-nodesktop"
-             << "-r"
-             << "launcher";
+  mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab";
+  if (WbPreferences::instance()->value("General/useMatlabBatchMode").toBool()) 
+  {
+    mArguments << "-batch";
+  }
+  else
+  {
+    mArguments << "-nosplash"
+               << "-nodesktop"
+               << "-r";
+  }
+  mArguments << "launcher";
 }
 
 void WbController::startBotstudio() {

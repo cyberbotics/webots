@@ -93,6 +93,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
     mPythonCommand->setText(prefs->value("General/pythonCommand").toString());
   if (mMatlabCommand)
     mMatlabCommand->setText(prefs->value("General/matlabCommand").toString());
+  mUseMatlabBatchModeCheckBox->setChecked(prefs->value("General/useMatlabBatchMode").toBool());
   mExtraProjectPath->setText(prefs->value("General/extraProjectPath").toString());
   mTelemetryCheckBox->setChecked(prefs->value("General/telemetry").toBool());
   mCheckWebotsUpdateCheckBox->setChecked(prefs->value("General/checkWebotsUpdateOnStartup").toBool());
@@ -176,6 +177,7 @@ void WbPreferencesDialog::accept() {
     prefs->setValue("General/pythonCommand", mPythonCommand->text());
   if (mMatlabCommand)
     prefs->setValue("General/matlabCommand", mMatlabCommand->text());
+  prefs->setValue("General/useMatlabBatchMode", mUseMatlabBatchModeCheckBox->isChecked());
   prefs->setValue("General/extraProjectPath", mExtraProjectPath->text());
   prefs->setValue("General/telemetry", mTelemetryCheckBox->isChecked());
   prefs->setValue("General/checkWebotsUpdateOnStartup", mCheckWebotsUpdateCheckBox->isChecked());
@@ -402,6 +404,8 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   // row 8
   layout->addWidget(new QLabel(tr("MATLAB command:"), this), 8, 0);
   layout->addWidget(mMatlabCommand = new WbLineEdit(this), 8, 1);
+  mUseMatlabBatchModeCheckBox = new QCheckBox(tr("Batch mode"), this);
+  layout->addWidget(mUseMatlabBatchModeCheckBox, 8, 2);
 
   // row 9
   layout->addWidget(new QLabel(tr("Extra project path:"), this), 9, 0);
