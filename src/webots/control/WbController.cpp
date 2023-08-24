@@ -903,9 +903,7 @@ void WbController::startMatlab() {
   mArguments = WbLanguageTools::matlabArguments();
   mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab";
   if (WbPreferences::instance()->value("General/useMatlabBatchMode").toBool()) 
-  {
     mArguments << "-batch";
-  }
   else
   {
     mArguments << "-nosplash"
