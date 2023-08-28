@@ -905,11 +905,9 @@ void WbController::startMatlab() {
   if (WbPreferences::instance()->value("General/useMatlabBatchMode").toBool()) 
     mArguments << "-batch";
   else
-  {
     mArguments << "-nosplash"
                << "-nodesktop"
                << "-r";
-  }
   mArguments << "launcher";
 }
 
