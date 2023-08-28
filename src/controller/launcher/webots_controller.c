@@ -44,6 +44,7 @@ static char *controller;
 static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
+static char *matlab_args;
 static char *current_path;
 static int nb_controller_arguments;
 static int next_argument_index;
@@ -233,11 +234,12 @@ static void print_options() {
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
-    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For "
-    "MATLAB controllers, this option allows to specify the path to the\n    executable of a specific MATLAB version.\n    By "
-    "default, the launcher checks in the default MATLAB installation folder.\n    See "
-    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n    for more "
-    "information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
+    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-desktop\n    Launch the "
+    "full desktop version of MATLAB.\n    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for\n    more "
+    "information.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to specify the path to the "
+    "\n    executable of a specific MATLAB version.\n    By default, the launcher checks in the default MATLAB installation "
+    "folder.\n    See https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n"
+    "    for more information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
     "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
@@ -250,6 +252,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   controller = NULL;
   matlab_path = NULL;
+  matlab_args = NULL;
   char *protocol = NULL;
   char *ip_address = NULL;
   char *port = NULL;
@@ -273,6 +276,10 @@ static bool parse_options(int nb_arguments, char **arguments) {
         const size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
+      } else if (strncmp(arguments[i], "--matlab-desktop", 16) == 0) {
+        const size_t matlab_args_size = snprintf(NULL, 0, "-nosplash -r") + 1;
+        matlab_args = malloc(matlab_args_size);
+        sprintf(matlab_args, "-nosplash -r");
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
@@ -723,6 +730,7 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
 static void free_memory() {
   free(WEBOTS_HOME);
   free(matlab_path);
+  free(matlab_args);
   free(current_path);
   free(controller);
 
@@ -885,6 +893,12 @@ int main(int argc, char **argv) {
     if (!matlab_path && !get_matlab_path())
       return -1;
 
+    if (!matlab_args) {
+      const size_t matlab_args_size = snprintf(NULL, 0, "-batch") + 1;
+      matlab_args = malloc(matlab_args_size);
+      sprintf(matlab_args, "-batch");
+    }
+
 #ifdef _WIN32
     const char *launcher_path = "\\lib\\controller\\matlab";
 #elif defined __APPLE__
@@ -902,7 +916,7 @@ int main(int argc, char **argv) {
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
-    new_argv = add_single_argument(new_argv, &current_size, "-batch");
+    new_argv = add_single_argument(new_argv, &current_size, matlab_args);
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
     if (nb_controller_arguments)
       new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
