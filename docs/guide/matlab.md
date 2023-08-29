@@ -36,7 +36,7 @@ while wb_robot_step(TIME_STEP) ~= -1
 end
 ```
 
-### Debugging using the MATLAB Desktop
+### Debugging Using the MATLAB Desktop
 
 For each controller written using MATLAB, Webots will start a new instance of MATLAB to act as an interpreter.
 In order to avoid cluttering the desktop with too many windows, Webots starts each instance of MATLAB in non-interactive mode.
