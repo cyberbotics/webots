@@ -170,7 +170,11 @@ It is recommended that you do not override this `WEBOTS_TMPDIR` environment vari
 ### Running a MATLAB Extern Robot Controller
 
 Matlab controllers can also be started using the launcher.
-By default, the launcher will look for the latest installed version of MATLAB in the following locations, depending on the OS:
+By default, the new instance of MATLAB will be running in non-interactive ("batch") mode. 
+However, by providing the `--matlab-desktop` option, this can be overridden, which will cause the full desktop user interface to run. 
+See [this page](matlab.md) for more details on how to debug webots controllers using the MATLAB desktop.
+
+Regardless of mode, the launcher will look for the latest installed version of MATLAB in the following locations, depending on the OS:
 
 - **Windows**: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
 - **Linux**: /usr/local/MATLAB/R20XXx/bin/matlab
