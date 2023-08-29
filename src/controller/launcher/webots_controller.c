@@ -351,11 +351,15 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Show resulting target options to user
   const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
-  printf("\nThe started controller targets a %s instance (%s protocol) of Webots with port number %s. ", location, protocol, port);
-  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'.\n\n", ip_address) :
-                                     printf("\n\n");
+  printf("\nThe started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol,
+         port);
+  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'.\n", ip_address) :
+                                     printf("\n");
   robot_name ? printf("Targeting robot '%s'.\n", robot_name) :
                printf("Targeting the only robot waiting for an extern controller.\n");
+
+  if (matlab_args)
+    printf("Running MATLAB in interactive mode...\n");
 
   free(protocol);
   free(ip_address);
