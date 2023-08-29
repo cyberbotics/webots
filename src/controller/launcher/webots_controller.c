@@ -234,8 +234,8 @@ static void print_options() {
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
-    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-desktop\n    Launch the "
-    "full desktop version of MATLAB.\n    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for\n    more "
+    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --interactive\n    Launch MATLAB "
+    "in interactive debugging mode.\n    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for\n    more "
     "information.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to specify the path to the "
     "\n    executable of a specific MATLAB version.\n    By default, the launcher checks in the default MATLAB installation "
     "folder.\n    See https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n"
@@ -276,7 +276,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
         const size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
-      } else if (strncmp(arguments[i], "--matlab-desktop", 16) == 0) {
+      } else if (strncmp(arguments[i], "--interactive", 13) == 0) {
         const size_t matlab_args_size = snprintf(NULL, 0, "-nosplash -wait -r") + 1;
         matlab_args = malloc(matlab_args_size);
         sprintf(matlab_args, "-nosplash -wait -r");
