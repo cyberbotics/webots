@@ -277,9 +277,9 @@ static bool parse_options(int nb_arguments, char **arguments) {
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
       } else if (strncmp(arguments[i], "--matlab-desktop", 16) == 0) {
-        const size_t matlab_args_size = snprintf(NULL, 0, "-nosplash -r") + 1;
+        const size_t matlab_args_size = snprintf(NULL, 0, "-nosplash -wait -r") + 1;
         matlab_args = malloc(matlab_args_size);
-        sprintf(matlab_args, "-nosplash -r");
+        sprintf(matlab_args, "-nosplash -wait -r");
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
