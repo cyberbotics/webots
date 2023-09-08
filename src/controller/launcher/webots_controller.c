@@ -186,7 +186,7 @@ static bool get_matlab_path() {
   DIR *directory = opendir(matlab_directory);
 #ifndef __APPLE__
   if (directory == NULL) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of MATLAB available.\n");
     return false;
   }
 #endif
@@ -204,7 +204,7 @@ static bool get_matlab_path() {
   }
   closedir(directory);
   if (!latest_version) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of MATLAB available.\n");
     return false;
   }
 
@@ -277,9 +277,15 @@ static bool parse_options(int nb_arguments, char **arguments) {
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
       } else if (strncmp(arguments[i], "--interactive", 13) == 0) {
-        const size_t matlab_args_size = snprintf(NULL, 0, "-nosplash -wait -r") + 1;
+#ifdef _WIN32
+        const size_t matlab_args_size = snprintf(NULL, 0, "-wait -r") + 1;
         matlab_args = malloc(matlab_args_size);
-        sprintf(matlab_args, "-nosplash -wait -r");
+        sprintf(matlab_args, "-wait -r");
+#else
+        const size_t matlab_args_size = snprintf(NULL, 0, "-r") + 1;
+        matlab_args = malloc(matlab_args_size);
+        sprintf(matlab_args, "-r");
+#endif
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
@@ -357,9 +363,6 @@ static bool parse_options(int nb_arguments, char **arguments) {
                                      printf("\n");
   robot_name ? printf("Targeting robot '%s'.\n", robot_name) :
                printf("Targeting the only robot waiting for an extern controller.\n");
-
-  if (matlab_args)
-    printf("Running MATLAB in interactive mode...\n");
 
   free(protocol);
   free(ip_address);
@@ -901,6 +904,8 @@ int main(int argc, char **argv) {
       const size_t matlab_args_size = snprintf(NULL, 0, "-batch") + 1;
       matlab_args = malloc(matlab_args_size);
       sprintf(matlab_args, "-batch");
+    } else {
+      printf("Running MATLAB in interactive mode...\n");
     }
 
 #ifdef _WIN32
