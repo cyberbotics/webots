@@ -278,12 +278,10 @@ static bool parse_options(int nb_arguments, char **arguments) {
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
       } else if (strncmp(arguments[i], "--interactive", 13) == 0) {
 #ifdef _WIN32
-        const size_t matlab_args_size = snprintf(NULL, 0, "-wait -r") + 1;
-        matlab_args = malloc(matlab_args_size);
+        matlab_args = malloc(strlen("-wait -r") + 1);
         sprintf(matlab_args, "-wait -r");
 #else
-        const size_t matlab_args_size = snprintf(NULL, 0, "-r") + 1;
-        matlab_args = malloc(matlab_args_size);
+        matlab_args = malloc(strlen("-r") + 1);
         sprintf(matlab_args, "-r");
 #endif
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
@@ -901,8 +899,7 @@ int main(int argc, char **argv) {
       return -1;
 
     if (!matlab_args) {
-      const size_t matlab_args_size = snprintf(NULL, 0, "-batch") + 1;
-      matlab_args = malloc(matlab_args_size);
+      matlab_args = malloc(strlen("-batch") + 1);
       sprintf(matlab_args, "-batch");
     } else {
       printf("Running MATLAB in interactive mode...\n");
