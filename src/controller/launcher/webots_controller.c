@@ -208,9 +208,9 @@ static bool get_matlab_path() {
   }
 
 #ifdef __APPLE__
-  const size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
+  const size_t matlab_path_size = snprintf(NULL, 0, "%s%s.app", matlab_directory, latest_version) + 1;
   matlab_path = malloc(matlab_path_size);
-  sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
+  sprintf(matlab_path, "%s%s.app", matlab_directory, latest_version);
 #else
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
