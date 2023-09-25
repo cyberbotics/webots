@@ -188,11 +188,11 @@ static bool get_matlab_path() {
 
   DIR *directory = opendir(matlab_directory);
   if (directory == NULL) {
-#ifndef __APPLE__
-    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
-#endif
 #ifdef __APPLE__
-    fprintf(stderr, "Could not open Applications folder to search for matlab installation. Please specify it manually using the option '--matlab-path'.\n");
+    fprintf(stderr, "Could not open Applications folder to search for matlab installation. Please specify it manually using "
+                    "the option '--matlab-path'.\n");
+#else
+    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
 #endif
     return false;
   }
@@ -202,13 +202,10 @@ static bool get_matlab_path() {
   while ((directory_entry = readdir(directory)) != NULL) {
     const size_t directory_name_size = strlen(directory_entry->d_name) + 1;
     if (strncmp(matlab_version_wc, directory_entry->d_name, strlen(matlab_version_wc)) == 0) {
-      if (!latest_version)
-      {
+      if (!latest_version) {
         latest_version = malloc(directory_name_size);
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
-      }
-      else if (strcmp(latest_version, directory_entry->d_name) < 0)
-      {
+      } else if (strcmp(latest_version, directory_entry->d_name) < 0) {
         memset(latest_version, '\0', directory_name_size);
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
       }
@@ -223,7 +220,7 @@ static bool get_matlab_path() {
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
-  printf("Using matlab path %s\n",matlab_path);
+  printf("MATLAB instance found at: %s\n", matlab_path);
 
   free(latest_version);
   return true;
