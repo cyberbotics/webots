@@ -189,7 +189,7 @@ static bool get_matlab_path() {
   DIR *directory = opendir(matlab_directory);
   if (directory == NULL) {
 #ifdef __APPLE__
-    fprintf(stderr, "Could not open Applications folder to search for matlab installation. Please specify it manually using "
+    fprintf(stderr, "Could not open Applications folder to search for MATLAB installation. Please specify it manually using "
                     "the option '--matlab-path'.\n");
 #else
     fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
@@ -206,7 +206,7 @@ static bool get_matlab_path() {
         latest_version = malloc(directory_name_size);
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
       } else if (strcmp(latest_version, directory_entry->d_name) < 0) {
-        memset(latest_version, '\0', directory_name_size);
+        latest_version = realloc(latest_version, directory_name_size);
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
       }
     }
