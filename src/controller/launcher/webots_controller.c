@@ -44,6 +44,7 @@ static char *controller;
 static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
+static char *matlab_args;
 static char *current_path;
 static int nb_controller_arguments;
 static int next_argument_index;
@@ -185,7 +186,7 @@ static bool get_matlab_path() {
   DIR *directory = opendir(matlab_directory);
 #ifndef __APPLE__
   if (directory == NULL) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of MATLAB available.\n");
     return false;
   }
 #endif
@@ -203,7 +204,7 @@ static bool get_matlab_path() {
   }
   closedir(directory);
   if (!latest_version) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of MATLAB available.\n");
     return false;
   }
 
@@ -233,11 +234,12 @@ static void print_options() {
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
-    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For "
-    "MATLAB controllers, this option allows to specify the path to the\n    executable of a specific MATLAB version.\n    By "
-    "default, the launcher checks in the default MATLAB installation folder.\n    See "
-    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n    for more "
-    "information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
+    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --interactive\n    Launch MATLAB "
+    "in interactive debugging mode.\n    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for\n    more "
+    "information.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to specify the path to the "
+    "\n    executable of a specific MATLAB version.\n    By default, the launcher checks in the default MATLAB installation "
+    "folder.\n    See https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n"
+    "    for more information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
     "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
@@ -250,6 +252,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   controller = NULL;
   matlab_path = NULL;
+  matlab_args = NULL;
   char *protocol = NULL;
   char *ip_address = NULL;
   char *port = NULL;
@@ -273,6 +276,14 @@ static bool parse_options(int nb_arguments, char **arguments) {
         const size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
+      } else if (strncmp(arguments[i], "--interactive", 13) == 0) {
+#ifdef _WIN32
+        matlab_args = malloc(strlen("-wait -r") + 1);
+        sprintf(matlab_args, "-wait -r");
+#else
+        matlab_args = malloc(strlen("-r") + 1);
+        sprintf(matlab_args, "-r");
+#endif
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
@@ -344,11 +355,12 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Show resulting target options to user
   const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
-  printf("The started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol, port);
-  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'. ", ip_address) :
-                                     printf(" ");
-  robot_name ? printf("Targeting robot '%s'.\n\n", robot_name) :
-               printf("Targeting the only robot waiting for an extern controller.\n\n");
+  printf("\nThe started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol,
+         port);
+  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'.\n", ip_address) :
+                                     printf("\n");
+  robot_name ? printf("Targeting robot '%s'.\n", robot_name) :
+               printf("Targeting the only robot waiting for an extern controller.\n");
 
   free(protocol);
   free(ip_address);
@@ -723,6 +735,7 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
 static void free_memory() {
   free(WEBOTS_HOME);
   free(matlab_path);
+  free(matlab_args);
   free(current_path);
   free(controller);
 
@@ -885,6 +898,13 @@ int main(int argc, char **argv) {
     if (!matlab_path && !get_matlab_path())
       return -1;
 
+    if (!matlab_args) {
+      matlab_args = malloc(strlen("-batch") + 1);
+      sprintf(matlab_args, "-batch");
+    } else {
+      printf("Running MATLAB in interactive mode...\n");
+    }
+
 #ifdef _WIN32
     const char *launcher_path = "\\lib\\controller\\matlab";
 #elif defined __APPLE__
@@ -902,7 +922,7 @@ int main(int argc, char **argv) {
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
-    new_argv = add_single_argument(new_argv, &current_size, "-batch");
+    new_argv = add_single_argument(new_argv, &current_size, matlab_args);
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
     if (nb_controller_arguments)
       new_argv = add_controller_arguments(new_argv, argv, &current_size, true);

@@ -5,6 +5,7 @@ Released on XXX XXth, 2023.
   - New Devices and Objects
     - Added a model of a silo and a field ditch ([#6289](https://github.com/cyberbotics/webots/pull/6289)).
   - Enhancements
+    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Bug fixes
     - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
