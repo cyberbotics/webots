@@ -1,11 +1,6 @@
 % Description: MATLAB controller example for Webots
 function symmetry_matlab
 
-% uncomment the next two lines if you want to use
-% MATLAB's desktop and interact with the controller
-%desktop;
-%keyboard;
-
 TIME_STEP = wb_robot_get_basic_time_step();
 
 right_shoulder_motor  = wb_robot_get_device('ShoulderR');
