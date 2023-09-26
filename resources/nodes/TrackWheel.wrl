@@ -2,10 +2,10 @@
 
 TrackWheel {
 #fields specific to the TrackWheel node:
-  field       SFVec2f    position     0 0
-  hiddenField SFRotation rotation     1 0 0 1.5708
-  field       SFFloat    radius       0.1
-  field       SFBool     inner        TRUE
+  w3dField    SFVec2f    position 0 0
+  hiddenField SFRotation rotation 1 0 0 1.5708
+  w3dField    SFFloat    radius   0.1
+  w3dField    SFBool     inner    TRUE
 #fields that inherit from the Group node:
-  vrmlField   MFNode     children     []
+  w3dField    MFNode     children []
 }

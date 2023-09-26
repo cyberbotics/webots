@@ -56,7 +56,7 @@ public:
   static const QList<const WbLight *> &lights() { return cLights; }
   static int numberOfOnLights();
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   // all constructors are reserved for derived classes only
@@ -65,8 +65,6 @@ protected:
   WbLight(const QString &modelName, WbTokenizer *tokenizer);
 
   void setAmbientIntensity(double value);
-
-  void exportNodeFields(WbWriter &writer) const override;
 
   // user accessible fields
   WbSFColor *mColor;

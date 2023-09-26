@@ -156,9 +156,9 @@ void WbParser::parseFieldAcceptedValues(WbFieldType type, const QString &worldPa
 
 void WbParser::parseFieldDeclaration(const QString &worldPath) {
   WbToken *const token = nextToken();
-  if (token->word() != "field" && token->word() != "vrmlField" && token->word() != "hiddenField" &&
+  if (token->word() != "field" && token->word() != "w3dField" && token->word() != "hiddenField" &&
       token->word() != "deprecatedField" && token->word() != "unconnectedField")
-    reportUnexpected(QObject::tr("'field', 'unconnectedField', 'vrmlField' or 'hiddenField' keywords"));
+    reportUnexpected(QObject::tr("'field', 'unconnectedField', 'w3dField' or 'hiddenField' keywords"));
 
   // check field type
   const WbFieldType type = WbValue::vrmlNameToType(nextWord());

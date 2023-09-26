@@ -491,40 +491,29 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 ////////////
 
 bool WbShape::exportNodeHeader(WbWriter &writer) const {
-  if (writer.isX3d()) {
-    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-    if (isInvisibleNode())
-      writer << " render=\'false\'";
+  if (writer.isW3d() && isUseNode() && defNode()) {
+    writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + w3dName() + ">";
+    return true;
+  }
 
-    if (isUseNode() && defNode()) {
-      writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
-      return true;
-    }
-
-    if (!mIsPickable->value())
-      writer << " isPickable='false'";
-    if (mCastShadows->value())
-      writer << " castShadows='true'";
-
-    return false;
-  } else
-    return WbBaseNode::exportNodeHeader(writer);
+  return WbBaseNode::exportNodeHeader(writer);
 }
 
-void WbShape::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbShape::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
-    writer << "<" << x3dName() << " role='boundingObject'"
+    writer << "<" << w3dName() << " role='boundingObject'"
            << " id=\'n" << QString::number(uniqueId()) << "\'>";
     geometry()->write(writer);
-    writer << "</" + x3dName() + ">";
+    writer << "</" + w3dName() + ">";
   }
 }
 
-QStringList WbShape::fieldsToSynchronizeWithX3D() const {
+QStringList WbShape::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "isPickable"
          << "castShadows";
