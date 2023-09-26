@@ -206,7 +206,9 @@ static bool get_matlab_path() {
         latest_version = malloc(directory_name_size);
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
       } else if (strcmp(latest_version, directory_entry->d_name) < 0) {
-        latest_version = realloc(latest_version, directory_name_size);
+        char *tmp = realloc(latest_version, directory_name_size);
+        if (tmp)
+          latest_version = tmp;
         strncpy(latest_version, directory_entry->d_name, directory_name_size);
       }
     }
