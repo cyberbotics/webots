@@ -37,7 +37,7 @@ WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, const int
   mMaxRange(maxRange),
   mOdeGeomData(NULL),
   mHorizontalFieldOfView(horizontalFieldOfView),
-  mIsOmniDirectional(mHorizontalFieldOfView > M_PI / 2.0),
+  mIsOmniDirectional(mHorizontalFieldOfView > M_PI_2),
   mOcclusion(occlusion) {
   if (mOcclusion == ONE_RAY) {
     const WbVector3 devicePosition = mDevice->position();
@@ -420,7 +420,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     }
 
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
-    if (!mIsOmniDirectional && mHorizontalFieldOfView <= M_PI_2) {
+    if (!mIsOmniDirectional) {
       // do not recompute the object size and position if partly outside in case of fovX > PI
       // (a more complete computation will be needed and currently it seems to work quite well as-is)
       objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
