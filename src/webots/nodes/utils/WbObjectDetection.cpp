@@ -37,7 +37,7 @@ WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, const int
   mMaxRange(maxRange),
   mOdeGeomData(NULL),
   mHorizontalFieldOfView(horizontalFieldOfView),
-  mIsOmniDirectional(mHorizontalFieldOfView > M_PI),
+  mIsOmniDirectional(mHorizontalFieldOfView > M_PI / 2.0),
   mOcclusion(occlusion) {
   if (mOcclusion == ONE_RAY) {
     const WbVector3 devicePosition = mDevice->position();
