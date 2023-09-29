@@ -14,7 +14,8 @@ Released on XXX XXth, 2023.
     - Replaced the [Mesh](mesh.md) bounding object of the ROSbot XL by [Boxes](box.md) ([#6326](https://github.com/cyberbotics/webots/pull/6326)).
     - Fixed a crash when [IndexedLineSet](indexedlineset.md) has `coord` but no `coordIndex` ([#6359](https://github.com/cyberbotics/webots/pull/6359)).
     - Fixed values returned by the [Receiver.getEmitterDirection](https://cyberbotics.com/doc/reference/receiver?tab-language=python#wb_receiver_get_emitter_direction) Python method ([#6394](https://github.com/cyberbotics/webots/pull/6394)).
-
+    - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
+    
 ## Webots R2023b
 Released on June 28th, 2023.
   - New Features
