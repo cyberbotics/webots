@@ -169,54 +169,60 @@ static bool get_webots_home() {
 // Gets and stores the path to the latest installed version of Matlab on the system.
 static bool get_matlab_path() {
   struct dirent *directory_entry;  // Pointer for directory entry
+
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
   const char *matlab_version_wc = "MATLAB_R20";
-#else
-  const char *matlab_version_wc = "R20";
-#ifdef _WIN32
-  const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
-  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
-#else  // __linux__
-  const char *matlab_directory = "/usr/local/MATLAB/";
   const char *matlab_exec_suffix = "/bin/matlab";
-#endif
+#elif _WIN32
+  const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
+  const char *matlab_version_wc = "R20";
+  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
+#elif __linux__
+  const char *matlab_directory = "/usr/local/MATLAB/";
+  const char *matlab_version_wc = "R20";
+  const char *matlab_exec_suffix = "/bin/matlab";
+#else
+#error "OS not supported!"
 #endif
 
   DIR *directory = opendir(matlab_directory);
-#ifndef __APPLE__
   if (directory == NULL) {
-    fprintf(stderr, "No installation of MATLAB available.\n");
+#ifdef __APPLE__
+    fprintf(stderr, "Could not open Applications folder to search for MATLAB installation. Please specify it manually using "
+                    "the option '--matlab-path'.\n");
+#else
+    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
+#endif
     return false;
   }
-#endif
+
   // Get latest available Matlab version
   char *latest_version = NULL;
   while ((directory_entry = readdir(directory)) != NULL) {
     const size_t directory_name_size = strlen(directory_entry->d_name) + 1;
     if (strncmp(matlab_version_wc, directory_entry->d_name, strlen(matlab_version_wc)) == 0) {
-      if (!latest_version)
+      if (!latest_version) {
         latest_version = malloc(directory_name_size);
-      else if (strcmp(latest_version, directory_entry->d_name) < 0)
-        memset(latest_version, '\0', directory_name_size);
-      strncpy(latest_version, directory_entry->d_name, directory_name_size);
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      } else if (strcmp(latest_version, directory_entry->d_name) < 0) {
+        char *tmp = realloc(latest_version, directory_name_size);
+        if (tmp)
+          latest_version = tmp;
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      }
     }
   }
   closedir(directory);
   if (!latest_version) {
-    fprintf(stderr, "No installation of MATLAB available.\n");
+    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
     return false;
   }
 
-#ifdef __APPLE__
-  const size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
-  matlab_path = malloc(matlab_path_size);
-  sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
-#else
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
-#endif
+  printf("Using the latest available MATLAB instance: %s\n", matlab_path);
 
   free(latest_version);
   return true;
