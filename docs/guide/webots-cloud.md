@@ -10,7 +10,7 @@ Webots features a "share" button that allows you to upload a 3D [Web Scene](web-
 This is useful to show models of robots, sensors, actuators, objects, environments or simulation play-back to colleagues or to the wide public.
 Once your scene or animation is uploaded, you get a link (web URL) pointing to your upload, which you can share.
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
-Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
+Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `W3D`, `JSON`, thumbnail and texture files.
 
 ### Share and use your Proto
 

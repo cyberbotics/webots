@@ -70,7 +70,7 @@ Options:
 
   --stream[=<mode>]
     Start the Webots streaming server. The <mode> argument should be either
-    x3d (default) or mjpeg.
+    w3d (default) or mjpeg.
 
   --extern-urls
     Print on stdout the URL of extern controllers that should be started.
@@ -110,7 +110,7 @@ Note that the *stderr* stream may also contain Webots error or warning messages.
 
 The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234. When starting multiple Webots instances, the ports are configured with consecutive values of 1234.
 
-The `--stream` option enables the Webots streaming server in either `x3d` (default) or `mjpeg` mode.
+The `--stream` option enables the Webots streaming server in either `w3d` (default) or `mjpeg` mode.
 You can get more information about web streaming in [this section](web-streaming.md).
 
 For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode: `webots --port=1235 --stream=mjpeg`
