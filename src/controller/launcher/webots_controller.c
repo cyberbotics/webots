@@ -44,6 +44,7 @@ static char *controller;
 static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
+static char *matlab_args;
 static char *current_path;
 static int nb_controller_arguments;
 static int next_argument_index;
@@ -168,54 +169,60 @@ static bool get_webots_home() {
 // Gets and stores the path to the latest installed version of Matlab on the system.
 static bool get_matlab_path() {
   struct dirent *directory_entry;  // Pointer for directory entry
+
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
   const char *matlab_version_wc = "MATLAB_R20";
-#else
-  const char *matlab_version_wc = "R20";
-#ifdef _WIN32
-  const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
-  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
-#else  // __linux__
-  const char *matlab_directory = "/usr/local/MATLAB/";
   const char *matlab_exec_suffix = "/bin/matlab";
-#endif
+#elif _WIN32
+  const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
+  const char *matlab_version_wc = "R20";
+  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
+#elif __linux__
+  const char *matlab_directory = "/usr/local/MATLAB/";
+  const char *matlab_version_wc = "R20";
+  const char *matlab_exec_suffix = "/bin/matlab";
+#else
+#error "OS not supported!"
 #endif
 
   DIR *directory = opendir(matlab_directory);
-#ifndef __APPLE__
   if (directory == NULL) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+#ifdef __APPLE__
+    fprintf(stderr, "Could not open Applications folder to search for MATLAB installation. Please specify it manually using "
+                    "the option '--matlab-path'.\n");
+#else
+    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
+#endif
     return false;
   }
-#endif
+
   // Get latest available Matlab version
   char *latest_version = NULL;
   while ((directory_entry = readdir(directory)) != NULL) {
     const size_t directory_name_size = strlen(directory_entry->d_name) + 1;
     if (strncmp(matlab_version_wc, directory_entry->d_name, strlen(matlab_version_wc)) == 0) {
-      if (!latest_version)
+      if (!latest_version) {
         latest_version = malloc(directory_name_size);
-      else if (strcmp(latest_version, directory_entry->d_name) < 0)
-        memset(latest_version, '\0', directory_name_size);
-      strncpy(latest_version, directory_entry->d_name, directory_name_size);
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      } else if (strcmp(latest_version, directory_entry->d_name) < 0) {
+        char *tmp = realloc(latest_version, directory_name_size);
+        if (tmp)
+          latest_version = tmp;
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      }
     }
   }
   closedir(directory);
   if (!latest_version) {
-    fprintf(stderr, "No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of MATLAB found. Please specify it manually using the option '--matlab-path'.\n");
     return false;
   }
 
-#ifdef __APPLE__
-  const size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
-  matlab_path = malloc(matlab_path_size);
-  sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
-#else
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
-#endif
+  printf("Using the latest available MATLAB instance: %s\n", matlab_path);
 
   free(latest_version);
   return true;
@@ -233,11 +240,12 @@ static void print_options() {
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
-    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For "
-    "MATLAB controllers, this option allows to specify the path to the\n    executable of a specific MATLAB version.\n    By "
-    "default, the launcher checks in the default MATLAB installation folder.\n    See "
-    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n    for more "
-    "information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
+    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --interactive\n    Launch MATLAB "
+    "in interactive debugging mode.\n    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for\n    more "
+    "information.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to specify the path to the "
+    "\n    executable of a specific MATLAB version.\n    By default, the launcher checks in the default MATLAB installation "
+    "folder.\n    See https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n"
+    "    for more information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
     "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
@@ -250,6 +258,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   controller = NULL;
   matlab_path = NULL;
+  matlab_args = NULL;
   char *protocol = NULL;
   char *ip_address = NULL;
   char *port = NULL;
@@ -273,6 +282,14 @@ static bool parse_options(int nb_arguments, char **arguments) {
         const size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
+      } else if (strncmp(arguments[i], "--interactive", 13) == 0) {
+#ifdef _WIN32
+        matlab_args = malloc(strlen("-wait -r") + 1);
+        sprintf(matlab_args, "-wait -r");
+#else
+        matlab_args = malloc(strlen("-r") + 1);
+        sprintf(matlab_args, "-r");
+#endif
       } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
@@ -344,11 +361,12 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Show resulting target options to user
   const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
-  printf("The started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol, port);
-  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'. ", ip_address) :
-                                     printf(" ");
-  robot_name ? printf("Targeting robot '%s'.\n\n", robot_name) :
-               printf("Targeting the only robot waiting for an extern controller.\n\n");
+  printf("\nThe started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol,
+         port);
+  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'.\n", ip_address) :
+                                     printf("\n");
+  robot_name ? printf("Targeting robot '%s'.\n", robot_name) :
+               printf("Targeting the only robot waiting for an extern controller.\n");
 
   free(protocol);
   free(ip_address);
@@ -723,6 +741,7 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
 static void free_memory() {
   free(WEBOTS_HOME);
   free(matlab_path);
+  free(matlab_args);
   free(current_path);
   free(controller);
 
@@ -885,6 +904,13 @@ int main(int argc, char **argv) {
     if (!matlab_path && !get_matlab_path())
       return -1;
 
+    if (!matlab_args) {
+      matlab_args = malloc(strlen("-batch") + 1);
+      sprintf(matlab_args, "-batch");
+    } else {
+      printf("Running MATLAB in interactive mode...\n");
+    }
+
 #ifdef _WIN32
     const char *launcher_path = "\\lib\\controller\\matlab";
 #elif defined __APPLE__
@@ -902,7 +928,7 @@ int main(int argc, char **argv) {
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
-    new_argv = add_single_argument(new_argv, &current_size, "-batch");
+    new_argv = add_single_argument(new_argv, &current_size, matlab_args);
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
     if (nb_controller_arguments)
       new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
