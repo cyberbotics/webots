@@ -30,6 +30,6 @@ script_full_path=$(dirname "$0")
 $script_full_path/linux_test_dependencies.sh --norecurse
 $script_full_path/linux_compilation_dependencies.sh
 
-if [[ -z "$CI" ]]; then
+if [[ -z "$SNAPCRAFT_PART_BUILD" ]]; then
   $script_full_path/linux_web_viewer_dependencies.sh
 fi
