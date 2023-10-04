@@ -9,7 +9,7 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 32
-#define VISIBLE_SOLID_NUMBER 6
+#define VISIBLE_SOLID_NUMBER 7
 
 // This test is mainly testing the functionalities for a planar camera.
 // Some basic tests for spherical and cylindrical cameras are also performed checking mainly
@@ -17,7 +17,7 @@
 
 // objects visible in planar camera
 static const char *visible_solid_models[VISIBLE_SOLID_NUMBER] = {
-  "visible sphere", "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO"};
+  "visible sphere", "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO", "perpendicular box"};
 
 static const char *occcluded_solid_model = "occluded box";
 
@@ -45,12 +45,14 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
-                      object_number);
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 4,
+    "The spherical camera should initially see %d objects and not %d (with occlusion).", VISIBLE_SOLID_NUMBER + 4,
+    object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
-                      7, object_number);
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 2,
+    "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+    VISIBLE_SOLID_NUMBER + 2, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
