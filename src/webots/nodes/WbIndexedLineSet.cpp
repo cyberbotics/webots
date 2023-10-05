@@ -266,7 +266,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   }
 }
 
-QStringList WbIndexedLineSet::fieldsToSynchronizeWithX3D() const {
+QStringList WbIndexedLineSet::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "coordIndex";
   return fields;

@@ -82,12 +82,12 @@ export default class Field {
       // insert the new node on the webotsjs side
       for (const id of link.node.getBaseNodeIds()) {
         v.assignId();
-        const x3d = new XMLSerializer().serializeToString(v.toX3d(this));
-        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+        const w3d = new XMLSerializer().serializeToString(v.toW3d(this));
+        view.w3dScene.loadObject('<nodes>' + w3d + '</nodes>', id.replace('n', ''));
       }
     }
 
-    view.x3dScene.render();
+    view.w3dScene.render();
   }
 
   removeNode(view, index) {
@@ -113,9 +113,9 @@ export default class Field {
 
     // delete existing nodes on the webotsjs side
     for (const id of idsToDelete)
-      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      view.w3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
-    view.x3dScene.render();
+    view.w3dScene.render();
   }
 
   setValueFromJavaScript(view, v) {
@@ -143,7 +143,7 @@ export default class Field {
 
       // delete existing nodes
       for (const id of idsToDelete)
-        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+        view.w3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
       // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
       this.value.setValueFromJavaScript(v);
@@ -153,8 +153,8 @@ export default class Field {
         // insert the new node on the webotsjs side
         for (const parent of parentIds) {
           v.assignId();
-          const x3d = new XMLSerializer().serializeToString(v.toX3d(this));
-          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parent.replace('n', ''));
+          const w3d = new XMLSerializer().serializeToString(v.toW3d(this));
+          view.w3dScene.loadObject('<nodes>' + w3d + '</nodes>', parent.replace('n', ''));
         }
       }
     } else {
@@ -167,12 +167,12 @@ export default class Field {
           const action = {};
           action['id'] = id;
           action[link.name] = this.value.toJson();
-          view.x3dScene.applyUpdate(action);
+          view.w3dScene.applyUpdate(action);
         }
       }
     }
 
-    view.x3dScene.render();
+    view.w3dScene.render();
   }
 
   regenerate(view, v, index) {
@@ -180,7 +180,7 @@ export default class Field {
     for (const id of this.node.getBaseNodeIds()) {
       const jsNode = WbWorld.instance.nodes.get(id);
       parentIds.add(jsNode.parent);
-      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      view.w3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
     }
 
     // now that the nodes have been deleted on the webotsjs side, the corresponding ids need to be cleared in the structure
@@ -201,14 +201,14 @@ export default class Field {
     // insert the new node on the webotsjs side
     for (const id of parentIds) {
       // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
-      // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d
+      // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the w3d
       // (with unique ids) for each node
       this.node.assignId();
-      const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this));
-      promises.push(view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', '')));
+      const w3d = new XMLSerializer().serializeToString(this.node.toW3d(this));
+      promises.push(view.w3dScene.loadObject('<nodes>' + w3d + '</nodes>', id.replace('n', '')));
     }
 
-    Promise.all(promises).then(() => view.x3dScene.render());
+    Promise.all(promises).then(() => view.w3dScene.render());
   }
 
   linksToNotify() {
