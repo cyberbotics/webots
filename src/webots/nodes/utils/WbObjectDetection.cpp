@@ -327,7 +327,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     // move the points in the device referential
     for (int i = 0; i < pointsInFrustum.size(); ++i)
       pointsInFrustum[i] = deviceInverseRotation * (pointsInFrustum[i] - devicePosition);
-    
+
     double minX = pointsInFrustum[0].x();
     double maxX = minX;
     double minY = pointsInFrustum[0].y();
