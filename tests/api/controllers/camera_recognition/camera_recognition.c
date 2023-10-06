@@ -17,7 +17,7 @@
 
 // objects visible in planar camera
 static const char *visible_solid_models[VISIBLE_SOLID_NUMBER] = {
-  "visible sphere", "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO",
+  "visible sphere",   "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO",
   "perpendicular box"};
 
 static const char *occcluded_solid_model = "occluded box";
@@ -46,14 +46,16 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 4, "The spherical camera should initially see %d objects"
-                      " and not %d (with occlusion).", VISIBLE_SOLID_NUMBER + 4, object_number);
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 4,
+                      "The spherical camera should initially see %d objects"
+                      " and not %d (with occlusion).",
+                      VISIBLE_SOLID_NUMBER + 4, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 2, "The cylindrical camera should initially see %d objects"
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 2,
+                      "The cylindrical camera should initially see %d objects"
                       " and not %d (with occlusion).",
                       VISIBLE_SOLID_NUMBER + 2, object_number);
-
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
@@ -166,20 +168,20 @@ int main(int argc, char **argv) {
   // case spherical
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
   objects = wb_camera_recognition_get_objects(camera_spherical);
-  
+
   for (i = 0; i < object_number; ++i) {
     if (strcmp(objects[i].model, "perpendicular box") == 0) {
       ts_assert_doubles_in_delta(3, objects[i].position, perpendicular_box_position, 0.001,
                                  "Position of 'perpendicular box' is not correct for spherical camera: found=("
-                                 "%f, %f, %f), expected=(%f, %f, %f).", objects[i].position[0], objects[i].position[1],
-                                 objects[i].position[2], perpendicular_box_position[0], perpendicular_box_position[1],
-                                 perpendicular_box_position[2]);
+                                 "%f, %f, %f), expected=(%f, %f, %f).",
+                                 objects[i].position[0], objects[i].position[1], objects[i].position[2],
+                                 perpendicular_box_position[0], perpendicular_box_position[1], perpendicular_box_position[2]);
       // orientation
       ts_assert_doubles_in_delta(4, objects[i].orientation, perpendicular_box_orientation, 0.001,
                                  "Orientation of 'perpendicular box' is not correct for spherical camera: found=("
-                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).", objects[i].orientation[0],
-                                 objects[i].orientation[1], objects[i].orientation[2], objects[i].orientation[3],
-                                 perpendicular_box_orientation[0], perpendicular_box_orientation[1],
+                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], perpendicular_box_orientation[0], perpendicular_box_orientation[1],
                                  perpendicular_box_orientation[2], perpendicular_box_orientation[3]);
     }
   }
@@ -191,15 +193,15 @@ int main(int argc, char **argv) {
       // position
       ts_assert_doubles_in_delta(3, objects[i].position, perpendicular_box_position, 0.001,
                                  "Position of 'perpendicular box' is not correct for cylindrical camera: found=("
-                                 "%f, %f, %f), expected=(%f, %f, %f).", objects[i].position[0], objects[i].position[1],
-                                 objects[i].position[2], perpendicular_box_position[0], perpendicular_box_position[1],
-                                 perpendicular_box_position[2]);
+                                 "%f, %f, %f), expected=(%f, %f, %f).",
+                                 objects[i].position[0], objects[i].position[1], objects[i].position[2],
+                                 perpendicular_box_position[0], perpendicular_box_position[1], perpendicular_box_position[2]);
       // orientation
       ts_assert_doubles_in_delta(4, objects[i].orientation, perpendicular_box_orientation, 0.001,
                                  "Orientation of 'perpendicular box' is not correct for cylindrical camera: found=("
-                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).", objects[i].orientation[0],
-                                 objects[i].orientation[1], objects[i].orientation[2], objects[i].orientation[3],
-                                 perpendicular_box_orientation[0], perpendicular_box_orientation[1],
+                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], perpendicular_box_orientation[0], perpendicular_box_orientation[1],
                                  perpendicular_box_orientation[2], perpendicular_box_orientation[3]);
     }
   }
