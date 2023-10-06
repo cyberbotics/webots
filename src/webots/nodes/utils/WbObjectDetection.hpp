@@ -98,7 +98,7 @@ private:
   QList<double> mRaysCollisionDepth;  // rays collision depth
   QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
   double mHorizontalFieldOfView;
-  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV > PI/2)
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV > PI)
   int mOcclusion;
 };
 
