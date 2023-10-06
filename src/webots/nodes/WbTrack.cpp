@@ -876,7 +876,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
   QString rotationString =
     QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
-  if (writer.isX3d())
+  if (writer.isW3d())
     writer << "<Pose role='animatedGeometry'>";
   else {
     writer.indent();
@@ -894,7 +894,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
   writer.indent();
   node->write(writer);
 
-  if (writer.isX3d())
+  if (writer.isW3d())
     writer << "</Pose>";
   else {
     writer.indent();
@@ -912,14 +912,14 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   }
 
   foreach (WbField *field, fields()) {
-    if (!field->isDeprecated() && (field->isVrml() && field->singleType() == WB_SF_NODE)) {
+    if (!field->isDeprecated() && (field->isW3d() && field->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport()) {
         if (field->name() == "children")
           // export it manually in order to include animated geometries
           continue;
 
-        if (writer.isX3d())
+        if (writer.isW3d())
           field->value()->write(writer);
         else
           field->write(writer);
@@ -928,7 +928,7 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   }
 
   bool isEmpty = true;
-  if (!writer.isX3d() && !writer.isUrdf()) {
+  if (!writer.isW3d() && !writer.isUrdf()) {
     writer.indent();
     writer << "children [";
     writer.increaseIndent();
@@ -946,26 +946,16 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   }
 
   // write animated geometries
-  if (!writer.isX3d() && !writer.isUrdf() && !isEmpty)
+  if (!writer.isW3d() && !writer.isUrdf() && !isEmpty)
     writer << "\n";
   isEmpty |= mAnimatedObjectList.isEmpty();
 
   exportAnimatedGeometriesMesh(writer);
 
-  if (!writer.isX3d() && !writer.isUrdf()) {
+  if (!writer.isW3d() && !writer.isUrdf()) {
     writer.decreaseIndent();
     if (!isEmpty)
       writer.indent();
     writer << "]\n";
-  }
-}
-
-void WbTrack::exportNodeFields(WbWriter &writer) const {
-  WbMatter::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!name().isEmpty())
-      writer << " name='" << sanitizedName() << "'";
-    writer << " type='track'";
-    writer << " geometriesCount='" << mGeometriesCountField->value() << "'";
   }
 }
