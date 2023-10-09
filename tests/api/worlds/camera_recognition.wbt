@@ -288,6 +288,28 @@ Solid {
     0 0 1
   ]
 }
+Solid {
+  translation -1.0 1.6 -2.25
+  rotation 0.599079 0.531234 0.599078 -2.82327
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.756863 0.207843 0.207843
+        }
+      }
+      geometry DEF BOX Box {
+        size 0.9 1.9 0.1
+      }
+    }
+  ]
+  name "solid(10)"
+  model "perpendicular box"
+  boundingObject USE BOX
+  recognitionColors [
+    0.756863 0.207843 0.207843
+  ]
+}
 Robot {
   translation -0.116489 0.196931 -0.132093
   rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
