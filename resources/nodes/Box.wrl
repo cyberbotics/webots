@@ -3,5 +3,5 @@
 # By default, the box measures 2 meters in each dimension, from -1 to +1.
 
 Box {
-  vrmlField SFVec3f size 2 2 2
+  w3dField SFVec3f size 2 2 2
 }

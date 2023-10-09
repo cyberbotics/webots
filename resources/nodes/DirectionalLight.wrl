@@ -3,11 +3,11 @@
 # If you want to model a light bulb you should rather use a PointLight or a SpotLight node.
 
 DirectionalLight {
-  vrmlField SFFloat ambientIntensity 0
-  vrmlField SFColor color            1 1 1
-  vrmlField SFVec3f direction        0 0 -1
-  vrmlField SFFloat intensity        1
-  vrmlField SFBool  on               TRUE
-  field     SFBool  castShadows      FALSE
-  field     SFBool  castLensFlares   FALSE
+  w3dField SFFloat ambientIntensity 0
+  w3dField SFColor color            1 1 1
+  w3dField SFVec3f direction        0 0 -1
+  w3dField SFFloat intensity        1
+  w3dField SFBool  on               TRUE
+  w3dField SFBool  castShadows      FALSE
+  field    SFBool  castLensFlares   FALSE
 }

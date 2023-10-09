@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbX3dStreamingServer.hpp"
+#include "WbW3dStreamingServer.hpp"
 
 #include "WbAnimationRecorder.hpp"
 #include "WbHttpReply.hpp"
@@ -26,15 +26,15 @@
 #include <QtCore/QFileInfo>
 #include <QtWebSockets/QWebSocket>
 
-WbX3dStreamingServer::WbX3dStreamingServer() : WbTcpServer(true), mX3dWorldGenerationTime(-1.0) {
+WbW3dStreamingServer::WbW3dStreamingServer() : WbTcpServer(true), mW3dWorldGenerationTime(-1.0) {
 }
 
-WbX3dStreamingServer::~WbX3dStreamingServer() {
+WbW3dStreamingServer::~WbW3dStreamingServer() {
   if (WbAnimationRecorder::isInstantiated())
     WbAnimationRecorder::instance()->cleanupFromStreamingServer();
 }
 
-void WbX3dStreamingServer::start(int port) {
+void WbW3dStreamingServer::start(int port) {
   if (WbWorld::instance()) {
     try {
       WbAnimationRecorder::instance()->initFromStreamingServer();
@@ -46,7 +46,7 @@ void WbX3dStreamingServer::start(int port) {
   WbTcpServer::start(port);
 }
 
-void WbX3dStreamingServer::stop() {
+void WbW3dStreamingServer::stop() {
   // Test that the animation recorder is instantiated.
   // Otherwise, the instance() call can wrongly recreate an instance of the
   // animation recorder in the cleanup routines.
@@ -55,12 +55,12 @@ void WbX3dStreamingServer::stop() {
   WbTcpServer::stop();
 }
 
-void WbX3dStreamingServer::create(int port) {
+void WbW3dStreamingServer::create(int port) {
   WbTcpServer::create(port);
-  generateX3dWorld();
+  generateW3dWorld();
 }
 
-void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
+void WbW3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
   const QString decodedUrl = QUrl::fromPercentEncoding(url.toUtf8());
   QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + decodedUrl);
@@ -70,13 +70,13 @@ void WbX3dStreamingServer::sendTcpRequestReply(const QString &url, const QString
     WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
 }
 
-void WbX3dStreamingServer::processTextMessage(QString message) {
-  if (message.startsWith("x3d")) {
+void WbW3dStreamingServer::processTextMessage(QString message) {
+  if (message.startsWith("w3d")) {
     QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-    WbLog::info(tr("Streaming server: Client set mode to X3D."));
+    WbLog::info(tr("Streaming server: Client set mode to W3D."));
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
     if (!WbWorld::instance()->isLoading()) {
-      startX3dStreaming(client);
+      startW3dStreaming(client);
       sendToClients();  // send possible buffered messages
     }
     // else streaming is started once the world loading is completed
@@ -103,10 +103,10 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
   WbTcpServer::processTextMessage(message);
 }
 
-void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
+void WbW3dStreamingServer::startW3dStreaming(QWebSocket *client) {
   try {
-    if (WbWorld::instance()->isModified() || mX3dWorldGenerationTime != WbSimulationState::instance()->time())
-      generateX3dWorld();
+    if (WbWorld::instance()->isModified() || mW3dWorldGenerationTime != WbSimulationState::instance()->time())
+      generateW3dWorld();
     sendWorldToClient(client);
     // send the current simulation state to the newly connected client
     const QString &stateMessage = simulationStateString();
@@ -117,7 +117,7 @@ void WbX3dStreamingServer::startX3dStreaming(QWebSocket *client) {
   }
 }
 
-void WbX3dStreamingServer::sendUpdatePackageToClients() {
+void WbW3dStreamingServer::sendUpdatePackageToClients() {
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
@@ -133,9 +133,9 @@ void WbX3dStreamingServer::sendUpdatePackageToClients() {
   }
 }
 
-bool WbX3dStreamingServer::prepareWorld() {
+bool WbW3dStreamingServer::prepareWorld() {
   try {
-    generateX3dWorld();
+    generateW3dWorld();
     foreach (QWebSocket *c, mWebSocketClients)
       sendWorldToClient(c);
     WbAnimationRecorder::instance()->initFromStreamingServer();
@@ -148,19 +148,19 @@ bool WbX3dStreamingServer::prepareWorld() {
   return true;
 }
 
-void WbX3dStreamingServer::deleteWorld() {
+void WbW3dStreamingServer::deleteWorld() {
   if (!isActive())
     return;
   WbAnimationRecorder::instance()->cleanupFromStreamingServer();
   WbTcpServer::deleteWorld();
 }
 
-void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
+void WbW3dStreamingServer::propagateNodeAddition(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
   if (node->isProtoParameterNode()) {
-    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    // PROTO parameter nodes are not exported to W3D or transmitted to webots.min.js
     foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
       propagateNodeAddition(nodeInstance);
     return;
@@ -174,7 +174,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
 
   if (!mWebSocketClients.isEmpty()) {
     QString nodeString;
-    WbWriter writer(&nodeString, node->modelName() + ".x3d");
+    WbWriter writer(&nodeString, node->modelName() + ".w3d");
     node->write(writer);
 
     foreach (QWebSocket *c, mWebSocketClients)
@@ -183,7 +183,7 @@ void WbX3dStreamingServer::propagateNodeAddition(WbNode *node) {
   }
 }
 
-void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
+void WbW3dStreamingServer::propagateNodeDeletion(WbNode *node) {
   if (!isActive() || WbWorld::instance() == NULL)
     return;
 
@@ -195,25 +195,25 @@ void WbX3dStreamingServer::propagateNodeDeletion(WbNode *node) {
     c->sendTextMessage(QString("delete:%1").arg(node->uniqueId()));
 }
 
-void WbX3dStreamingServer::generateX3dWorld() {
+void WbW3dStreamingServer::generateW3dWorld() {
   const WbWorld *world = WbWorld::instance();
   if (!world)
     return;
 
   QString worldString;
-  WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".x3d");
+  WbWriter writer(&worldString, QFileInfo(world->fileName()).baseName() + ".w3d");
   world->write(writer);
-  mX3dWorld = worldString;
-  mX3dWorldGenerationTime = WbSimulationState::instance()->time();
+  mW3dWorld = worldString;
+  mW3dWorldGenerationTime = WbSimulationState::instance()->time();
   mLastUpdateTime = -1.0;
 }
 
-void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
+void WbW3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   // when streaming, the world must be sent first so that asset URL can be computed relative to it
   WbTcpServer::sendWorldToClient(client);
 
-  const qint64 ret = client->sendTextMessage(QString("model:") + mX3dWorld);
-  if (ret < mX3dWorld.size())
+  const qint64 ret = client->sendTextMessage(QString("model:") + mW3dWorld);
+  if (ret < mW3dWorld.size())
     throw tr("Cannot send the entire world");
 
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
@@ -227,6 +227,6 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   client->sendTextMessage("scene load completed");
 }
 
-void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {
+void WbW3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {
   client->sendTextMessage(QString("application/json:") + state);
 }

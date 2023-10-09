@@ -1,21 +1,21 @@
 # The Background node defines the background used for rendering the 3D world.
 
 Background {
-  vrmlField MFColor  skyColor [ 0 0 0 ]
+  w3dField MFColor  skyColor [ 0 0 0 ]
 
-  vrmlField MFString backUrl   []
-  vrmlField MFString bottomUrl []
-  vrmlField MFString frontUrl  []
-  vrmlField MFString leftUrl   []
-  vrmlField MFString rightUrl  []
-  vrmlField MFString topUrl    []
+  field    MFString backUrl             []
+  field    MFString bottomUrl           []
+  field    MFString frontUrl            []
+  field    MFString leftUrl             []
+  field    MFString rightUrl            []
+  field    MFString topUrl              []
 
-  field MFString backIrradianceUrl   []
-  field MFString bottomIrradianceUrl []
-  field MFString frontIrradianceUrl  []
-  field MFString leftIrradianceUrl   []
-  field MFString rightIrradianceUrl  []
-  field MFString topIrradianceUrl    []
+  field    MFString backIrradianceUrl   []
+  field    MFString bottomIrradianceUrl []
+  field    MFString frontIrradianceUrl  []
+  field    MFString leftIrradianceUrl   []
+  field    MFString rightIrradianceUrl  []
+  field    MFString topIrradianceUrl    []
 
-  field     SFFloat  luminosity  1
+  w3dField SFFloat  luminosity          1
 }
