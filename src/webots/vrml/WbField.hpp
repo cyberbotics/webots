@@ -56,7 +56,7 @@ public:
 
   // write in VRML format
   virtual void write(WbWriter &writer) const;
-  bool isVrml() const;
+  bool isW3d() const;
 
   bool isDeprecated() const;
 

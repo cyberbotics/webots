@@ -389,7 +389,7 @@ bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
 
-QStringList WbElevationGrid::fieldsToSynchronizeWithX3D() const {
+QStringList WbElevationGrid::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "height"
          << "xDimension"
@@ -638,39 +638,6 @@ void WbElevationGrid::recomputeBoundingSphere() const {
     mBoundingSphere->enclose(vertices[j]);
 
   delete[] vertices;
-}
-
-void WbElevationGrid::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbGeometry::exportNodeFields(writer);
-    return;
-  }
-
-  findField("thickness", true)->write(writer);
-  findField("xDimension", true)->write(writer);
-  findField("yDimension", true)->write(writer);
-  findField("xSpacing", true)->write(writer);
-  findField("ySpacing", true)->write(writer);
-  if (!mHeight->isEmpty())
-    findField("height", true)->write(writer);
-  else {
-    int total = mXDimension->value() * mYDimension->value();
-    if (writer.isX3d())
-      writer << " height=\'";
-    else {
-      writer.indent();
-      writer << "height [ ";
-    }
-    for (int i = 0; i < total; i++) {
-      if (i != 0)
-        writer << " ";
-      writer << "0";
-    }
-    if (writer.isX3d())
-      writer << "\'";
-    else
-      writer << " ]\n";
-  }
 }
 
 ////////////////////////
