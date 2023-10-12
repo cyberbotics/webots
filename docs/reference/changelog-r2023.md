@@ -15,6 +15,7 @@ Released on XXX XXth, 2023.
     - Fixed a crash when [IndexedLineSet](indexedlineset.md) has `coord` but no `coordIndex` ([#6359](https://github.com/cyberbotics/webots/pull/6359)).
     - Fixed values returned by the [Receiver.getEmitterDirection](https://cyberbotics.com/doc/reference/receiver?tab-language=python#wb_receiver_get_emitter_direction) Python method ([#6394](https://github.com/cyberbotics/webots/pull/6394)).
     - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
+    - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
     
 ## Webots R2023b
 Released on June 28th, 2023.
