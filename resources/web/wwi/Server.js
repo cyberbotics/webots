@@ -83,7 +83,7 @@ export default class Server {
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       const url = message.substring(7);
       this.#httpServerUrl = url.replace(/ws/, 'http');
-      if (typeof this.#view.x3dScene !== 'undefined')
+      if (typeof this.#view.w3dScene !== 'undefined')
         this.#view.prefix = this.#httpServerUrl + '/';
       this.#view.stream = new Stream(url, this.#view, this.#onready);
       ImageLoader.stream = true;

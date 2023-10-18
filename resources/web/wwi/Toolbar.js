@@ -806,7 +806,7 @@ export default class Toolbar {
     shadowLi.onclick = _ => {
       button.click();
       changeShadows();
-      this.#view.x3dScene.render();
+      this.#view.w3dScene.render();
     };
   }
 
@@ -938,7 +938,7 @@ export default class Toolbar {
     const animation = this.#view.animation;
     if (animation)
       animation.start = new Date().getTime() - animation.data.basicTimeStep * animation.step / animation.speed;
-    this.#view.x3dScene.render();
+    this.#view.w3dScene.render();
   }
 
   #openGtaoPane() {
@@ -973,7 +973,7 @@ export default class Toolbar {
 
   #resetViewpoint() {
     WbWorld.instance.viewpoint.resetViewpoint();
-    this.#view.x3dScene.render(); // render once to visually reset immediatly the viewpoint.
+    this.#view.w3dScene.render(); // render once to visually reset immediatly the viewpoint.
   }
 
   #createFullscreenButtons() {

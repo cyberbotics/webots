@@ -476,7 +476,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbWrenRenderingContext.cpp \
   WbWrenTextureOverlay.cpp \
   WbWrenWindow.cpp \
-  WbX3dStreamingServer.cpp \
+  WbW3dStreamingServer.cpp \
   WbZoom.cpp
 
 # objects that don't inherit from QObject (alphabetical order)

@@ -2,5 +2,5 @@
 # nodes to map textures to vertices.
 
 TextureCoordinate {
-  vrmlField MFVec2f point []
+  w3dField MFVec2f point []
 }
