@@ -14,7 +14,7 @@ precision highp float;
 
 const float FLT_MAX = intBitsToFloat(0x7F800000);
 
-const vec3 orientations[6] = vec3[6](vec3(1.0, 0.0, 0.0), vec3(-1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, -1.0, 0.0),
+const vec3 orientations[6] = vec3[6](vec3(1.0, 0.0, 0.0), vec3(0.0, -1.0, 0.0), vec3(-1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0),
                                      vec3(0.0, 0.0, 1.0), vec3(0.0, 0.0, -1.0));
 
 in vec2 texUv;
@@ -61,45 +61,30 @@ void main() {
     coord3d = vec3(sx, sy, sz);
   }
 
-  // normalize the 3d coordinate
-  vec3 coord3dAbs = abs(coord3d);
-  int maxIndex = 0;
-  float signedValue = coord3d.x;
-  float absMax = coord3dAbs.x;
-  if (coord3dAbs.y > absMax) {
-    maxIndex = 1;
-    signedValue = coord3d.y;
-    absMax = coord3dAbs.y;
+  // determine on which face the 3d coordinate belongs
+  float maxDot = dot(coord3d, orientations[0]);
+  int face = FRONT;
+  for (int i = 1; i < 6; ++i) {
+    float current_dot = dot(vec3(coord3d.xy, coord3d.z*(pi_2/fovY*fovYCorrectionCoefficient)), orientations[i]);
+    if(maxDot < current_dot) {
+        maxDot = current_dot;
+        face = i;
+    }
   }
-  if (coord3dAbs.z > absMax) {
-    maxIndex = 2;
-    signedValue = coord3d.z;
-    absMax = coord3dAbs.z;
-  }
+
+  // scale the 3d coordinate to be on the cube
+  float absMax = 0.0;
+  if(face == FRONT || face == BACK)
+    absMax = abs(coord3d.x);
+  else if(face == LEFT || face == RIGHT)
+    absMax = abs(coord3d.y);
+  else if(face == UP || face == DOWN)
+    absMax = abs(coord3d.z*(pi_2/fovY*fovYCorrectionCoefficient));
 
   vec3 normalizedCoord3d = coord3d;
   if (absMax > 0.0)
     normalizedCoord3d /= absMax;
 
-  // determine on which face the 3d coordinate hits the cube
-  bool isNegative = (signedValue < 0.0);
-  int face = FRONT;
-  if (maxIndex == 0) {
-    if (isNegative)
-      face = BACK;
-    else
-      face = FRONT;
-  } else if (maxIndex == 1) {
-    if (isNegative)
-      face = RIGHT;
-    else
-      face = LEFT;
-  } else if (maxIndex == 2) {
-    if (isNegative)
-      face = DOWN;
-    else
-      face = UP;
-  }
 
   // retrieve the x-y coordinate relatively to the current face
   // according to the 3D coordinate
@@ -121,39 +106,35 @@ void main() {
     coord.y = normalizedCoord3d.z;
   }
 
-  if (fovX < pi_2)
-    coord.x *= pi_2 / fovX;
-  if (fovY < pi_2)
-    coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
+  if (face != UP && face != DOWN) {
+    if (fovX < pi_2)
+      coord.x *= pi_2 / fovX;
+    if (fovY < pi_2)
+      coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
+  }
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
-  ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
+//   ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = texelFetch(inputTextures[0], imageIndex, 0);
+    fragColor = texture(inputTextures[0], faceCoord, 0);
   else if (face == RIGHT)
-    fragColor = texelFetch(inputTextures[1], imageIndex, 0);
+    fragColor = texture(inputTextures[1], faceCoord, 0);
   else if (face == BACK)
-    fragColor = texelFetch(inputTextures[2], imageIndex, 0);
+    fragColor = texture(inputTextures[2], faceCoord, 0);
   else if (face == LEFT)
-    fragColor = texelFetch(inputTextures[3], imageIndex, 0);
+    fragColor = texture(inputTextures[3], faceCoord, 0);
   else if (face == UP)
-    fragColor = texelFetch(inputTextures[4], imageIndex, 0);
+    fragColor = texture(inputTextures[4], faceCoord, 0);
   else if (face == DOWN)
-    fragColor = texelFetch(inputTextures[5], imageIndex, 0);
+    fragColor = texture(inputTextures[5], faceCoord, 0);
 
   // rectify the spherical transform
   if (rangeCamera) {
     float depth = fragColor.x;
     if (depth < maxRange) {
-      float cosine = 0.0f;
-      for (int i = 0; i < 6; ++i) {
-        float cosineTmp = dot(normalizedCoord3d, orientations[i]);
-        cosineTmp = cosineTmp / length(normalizedCoord3d);
-        if (cosineTmp > cosine)
-          cosine = cosineTmp;
-      }
+      float cosine = dot(coord3d, orientations[face]);
       depth = depth / cosine;
     }
     if (depth < minRange)

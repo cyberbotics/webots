@@ -751,7 +751,9 @@ void WbWrenCamera::setupSphericalSubCameras() {
     mIsCameraActive[CAMERA_ORIENTATION_LEFT] = true;
     lateralCameraNumber += 2;
   }
-  if (mSphericalFieldOfViewY > 1.230959417) {  // 2.0*asin(1/sqrt(3)) // phi angle of the (Sqrt(3), Sqrt(3), Sqrt(3)) coordinate
+  //   if (mSphericalFieldOfViewY > 1.230959417) {  // 2.0*asin(1/sqrt(3)) // phi angle of the (Sqrt(3), Sqrt(3), Sqrt(3))
+  //   coordinate
+  if (true) {
     mIsCameraActive[CAMERA_ORIENTATION_UP] = true;
     mIsCameraActive[CAMERA_ORIENTATION_DOWN] = true;
     verticalCameraNumber += 2;
@@ -883,17 +885,25 @@ void WbWrenCamera::setCamerasOrientations() {
 }
 
 void WbWrenCamera::setFovy(float fov) {
-  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT - 2; ++i) {  // Skip the UP/DOWN camera
     if (mIsCameraActive[i])
       wr_camera_set_fovy(mCamera[i], fov);
   }
+  if (mIsCameraActive[CAMERA_ORIENTATION_UP])
+    wr_camera_set_fovy(mCamera[CAMERA_ORIENTATION_UP], M_PI - fov);
+  if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
+    wr_camera_set_fovy(mCamera[CAMERA_ORIENTATION_DOWN], M_PI - fov);
 }
 
 void WbWrenCamera::setAspectRatio(float aspectRatio) {
-  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT - 2; ++i) {  // Skip the UP/DOWN camera
     if (mIsCameraActive[i])
       wr_camera_set_aspect_ratio(mCamera[i], aspectRatio);
   }
+  if (mIsCameraActive[CAMERA_ORIENTATION_UP])
+    wr_camera_set_aspect_ratio(mCamera[CAMERA_ORIENTATION_UP], 1.0);
+  if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
+    wr_camera_set_aspect_ratio(mCamera[CAMERA_ORIENTATION_DOWN], 1.0);
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
