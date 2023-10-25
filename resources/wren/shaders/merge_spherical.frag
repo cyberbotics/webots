@@ -34,6 +34,46 @@ uniform float fovYCorrectionCoefficient;
 
 uniform sampler2D inputTextures[6];
 
+vec4 smart_texture(sampler2D tex, vec2 p, int bias) {
+    ivec2 texSize = textureSize(tex, 0);
+    ivec2 pixelCoord = ivec2(p.x*(texSize.x-1), p.y*(texSize.y-1));
+
+    vec2 delta = vec2(p.x*(texSize.x-1), p.y*(texSize.y-1)) - pixelCoord;
+
+    vec4 pixelCenter = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
+    vec4 pixelUp = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y+1), bias);
+    vec4 pixelDown = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y-1), bias);
+    vec4 pixelLeft = texelFetch(tex, ivec2(pixelCoord.x-1, pixelCoord.y), bias);
+    vec4 pixelRight = texelFetch(tex, ivec2(pixelCoord.x+1, pixelCoord.y), bias);
+
+    if(pixelCoord.x == 0) {
+        pixelLeft = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    }
+    if(pixelCoord.y == 0) {
+        pixelDown = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    }
+    if(pixelCoord.x + 1 == texSize.x) {
+        pixelRight = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    }
+    if(pixelCoord.y + 1 == texSize.y) {
+        pixelUp = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    }
+
+    vec4 deltaMinX = vec4(0,0,0,0);
+    if(abs(pixelRight.x-pixelCenter.x) < abs(pixelCenter.x-pixelLeft.x))
+      deltaMinX = pixelRight-pixelCenter;
+    else if(abs(pixelRight.x-pixelCenter.x) > abs(pixelCenter.x-pixelLeft.x))
+      deltaMinX = pixelCenter-pixelLeft;
+
+    vec4 deltaMinY = vec4(0,0,0,0);
+    if(abs(pixelUp.x-pixelCenter.x) < abs(pixelCenter.x-pixelDown.x))
+      deltaMinY = pixelUp-pixelCenter;
+    else if(abs(pixelUp.x-pixelCenter.x) < abs(pixelCenter.x-pixelDown.x))
+      deltaMinY = pixelCenter-pixelDown;
+    
+    return pixelCenter + deltaMinX * delta.x + deltaMinY * delta.y;
+}
+
 void main() {
   vec3 coord3d;
 
@@ -118,17 +158,17 @@ void main() {
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = texture(inputTextures[0], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[0], faceCoord, 0);
   else if (face == RIGHT)
-    fragColor = texture(inputTextures[1], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[1], faceCoord, 0);
   else if (face == BACK)
-    fragColor = texture(inputTextures[2], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[2], faceCoord, 0);
   else if (face == LEFT)
-    fragColor = texture(inputTextures[3], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[3], faceCoord, 0);
   else if (face == UP)
-    fragColor = texture(inputTextures[4], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[4], faceCoord, 0);
   else if (face == DOWN)
-    fragColor = texture(inputTextures[5], faceCoord, 0);
+    fragColor = smart_texture(inputTextures[5], faceCoord, 0);
 
   // rectify the spherical transform
   if (rangeCamera) {
