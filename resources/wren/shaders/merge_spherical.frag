@@ -34,47 +34,124 @@ uniform float fovYCorrectionCoefficient;
 
 uniform sampler2D inputTextures[6];
 
-vec4 smart_texture(sampler2D tex, vec2 p, int bias) {
-    ivec2 texSize = textureSize(tex, 0);
-    ivec2 pixelCoord = ivec2(p.x*(texSize.x-1), p.y*(texSize.y-1));
+// Same as texture but pick the side to used for the interpolation to avoid discontinuities
+vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
+  ivec2 texSize = textureSize(tex, 0);
+  ivec2 pixelCoord = ivec2(round((2 * texSize.x * p.x - 1) / 2), round((2 * texSize.y * p.y - 1) / 2));
 
-    vec2 delta = vec2(p.x*(texSize.x-1), p.y*(texSize.y-1)) - pixelCoord;
+  float dx = ((2 * texSize.x * p.x - 1) / 2 - pixelCoord.x);
+  float dy = ((2 * texSize.y * p.y - 1) / 2 - pixelCoord.y);
 
-    vec4 pixelCenter = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
-    vec4 pixelUp = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y+1), bias);
-    vec4 pixelDown = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y-1), bias);
-    vec4 pixelLeft = texelFetch(tex, ivec2(pixelCoord.x-1, pixelCoord.y), bias);
-    vec4 pixelRight = texelFetch(tex, ivec2(pixelCoord.x+1, pixelCoord.y), bias);
+  // Get depth for each corner
+  float dCenter = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias).x;
+  float dUp = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + 1), bias).x;
+  float dDown = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y - 1), bias).x;
+  float dLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y), bias).x;
+  float dRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y), bias).x;
+  float dUpLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y + 1), bias).x;
+  float dDownRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y - 1), bias).x;
+  float dDownLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y - 1), bias).x;
+  float dUpRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y + 1), bias).x;
 
-    if(pixelCoord.x == 0) {
-        pixelLeft = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+  int xSide = 1, ySide = 1;
+  if (texSize.x != 1 && texSize.x != 1) {
+    // Compute variance for each corner
+    float costUpRight =
+      (dUp - dCenter) * (dUp - dCenter) + (dUpRight - dCenter) * (dUpRight - dCenter) + (dRight - dCenter) * (dRight - dCenter);
+    float costDownRight = (dDown - dCenter) * (dDown - dCenter) + (dDownRight - dCenter) * (dDownRight - dCenter) +
+                          (dRight - dCenter) * (dRight - dCenter);
+    float costUpLeft =
+      (dUp - dCenter) * (dUp - dCenter) + (dUpLeft - dCenter) * (dUpLeft - dCenter) + (dLeft - dCenter) * (dLeft - dCenter);
+    float costDownLeft = (dDown - dCenter) * (dDown - dCenter) + (dDownLeft - dCenter) * (dDownLeft - dCenter) +
+                         (dLeft - dCenter) * (dLeft - dCenter);
+
+    // Deal with image borders
+    if (pixelCoord.x == 0) {
+      costUpLeft = FLT_MAX;
+      costDownLeft = FLT_MAX;
     }
-    if(pixelCoord.y == 0) {
-        pixelDown = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    if (pixelCoord.x + 1 > texSize.x - 1) {
+      costUpRight = FLT_MAX;
+      costDownRight = FLT_MAX;
     }
-    if(pixelCoord.x + 1 == texSize.x) {
-        pixelRight = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    if (pixelCoord.y == 0) {
+      costDownLeft = FLT_MAX;
+      costDownRight = FLT_MAX;
     }
-    if(pixelCoord.y + 1 == texSize.y) {
-        pixelUp = vec4(FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX);
+    if (pixelCoord.y + 1 > texSize.y - 1) {
+      costUpLeft = FLT_MAX;
+      costUpRight = FLT_MAX;
+    }
+    // Find the corner with lowest variance
+    float costMin = costUpRight;
+    if (costDownRight < costMin) {
+      xSide = 1;
+      ySide = -1;
+      costMin = costDownRight;
+    }
+    if (costDownLeft < costMin) {
+      xSide = -1;
+      ySide = -1;
+      costMin = costDownLeft;
+    }
+    if (costUpLeft < costMin) {
+      xSide = -1;
+      ySide = 1;
     }
 
-    vec4 deltaMinX = vec4(0,0,0,0);
-    if(abs(pixelRight.x-pixelCenter.x) < abs(pixelCenter.x-pixelLeft.x))
-      deltaMinX = pixelRight-pixelCenter;
-    else if(abs(pixelRight.x-pixelCenter.x) > abs(pixelCenter.x-pixelLeft.x))
-      deltaMinX = pixelCenter-pixelLeft;
+    vec4 c00 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
+    vec4 c01 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias);
+    vec4 c10 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias);
+    vec4 c11 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y + ySide), bias);
 
-    vec4 deltaMinY = vec4(0,0,0,0);
-    if(abs(pixelUp.x-pixelCenter.x) < abs(pixelCenter.x-pixelDown.x))
-      deltaMinY = pixelUp-pixelCenter;
-    else if(abs(pixelUp.x-pixelCenter.x) < abs(pixelCenter.x-pixelDown.x))
-      deltaMinY = pixelCenter-pixelDown;
-    
-    return pixelCenter + deltaMinX * delta.x + deltaMinY * delta.y;
+    vec4 c0 = c00 + (c01 - c00) * dx * xSide;
+    vec4 c1 = c10 + (c11 - c10) * dx * xSide;
+
+    vec4 c = c0 + (c1 - c0) * dy * ySide;
+
+    return c;
+  } else if (texSize.x == 1 && texSize.y == 1) {  // No interpolation
+    return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
+  } else if (texSize.y == 1) {  // Linear interpolation
+    ySide = 0;
+    if (abs(dRight - dCenter) > abs(dLeft - dCenter))
+      xSide = -1;
+    else
+      xSide = 1;
+
+    // Check brounds
+    if (pixelCoord.x == 0)
+      xSide = 1;
+    if (pixelCoord.x == texSize.x - 1)
+      xSide = -1;
+    return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias) +
+           (texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias) -
+            texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias)) *
+             dx;
+  } else if (texSize.x == 1) {  // Linear interpolation
+    xSide = 0;
+    if (abs(dUp - dCenter) > abs(dDown - dCenter))
+      ySide = -1;
+    else
+      ySide = 1;
+
+    // Check brounds
+    if (pixelCoord.y == 0)
+      ySide = 1;
+    if (pixelCoord.y == texSize.y - 1)
+      ySide = -1;
+    return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias) +
+           (texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias) -
+            texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias)) *
+             dy;
+  }
 }
 
 void main() {
+  ivec2 texSize = textureSize(inputTextures[FRONT], 0);
+  ivec2 pixelCoord =
+    ivec2(round((texUv.x - 0.999 / texSize.x / 2) * texSize.x), round((texUv.y - 0.999 / texSize.y / 2) * texSize.y));
+
   vec3 coord3d;
 
   if (cylindrical) {
@@ -105,26 +182,26 @@ void main() {
   float maxDot = dot(coord3d, orientations[0]);
   int face = FRONT;
   for (int i = 1; i < 6; ++i) {
-    float current_dot = dot(vec3(coord3d.xy, coord3d.z*(pi_2/fovY*fovYCorrectionCoefficient)), orientations[i]);
-    if(maxDot < current_dot) {
-        maxDot = current_dot;
-        face = i;
+    float current_dot =
+      dot(vec3(coord3d.xy, coord3d.z * (pi_2 / min(fovY * fovYCorrectionCoefficient, pi_2))), orientations[i]);
+    if (maxDot < current_dot) {
+      maxDot = current_dot;
+      face = i;
     }
   }
 
   // scale the 3d coordinate to be on the cube
   float absMax = 0.0;
-  if(face == FRONT || face == BACK)
+  if (face == FRONT || face == BACK)
     absMax = abs(coord3d.x);
-  else if(face == LEFT || face == RIGHT)
+  else if (face == LEFT || face == RIGHT)
     absMax = abs(coord3d.y);
-  else if(face == UP || face == DOWN)
-    absMax = abs(coord3d.z*(pi_2/fovY*fovYCorrectionCoefficient));
+  else if (face == UP || face == DOWN)
+    absMax = abs(coord3d.z * (pi_2 / min(fovY * fovYCorrectionCoefficient, pi_2)));
 
   vec3 normalizedCoord3d = coord3d;
   if (absMax > 0.0)
     normalizedCoord3d /= absMax;
-
 
   // retrieve the x-y coordinate relatively to the current face
   // according to the 3D coordinate
@@ -154,21 +231,22 @@ void main() {
   }
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
-//   ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY - 1)));
+  //   ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY -
+  //   1)));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = smart_texture(inputTextures[0], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[0], faceCoord, 0);
   else if (face == RIGHT)
-    fragColor = smart_texture(inputTextures[1], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[1], faceCoord, 0);
   else if (face == BACK)
-    fragColor = smart_texture(inputTextures[2], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[2], faceCoord, 0);
   else if (face == LEFT)
-    fragColor = smart_texture(inputTextures[3], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[3], faceCoord, 0);
   else if (face == UP)
-    fragColor = smart_texture(inputTextures[4], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[4], faceCoord, 0);
   else if (face == DOWN)
-    fragColor = smart_texture(inputTextures[5], faceCoord, 0);
+    fragColor = smooth_texture(inputTextures[5], faceCoord, 0);
 
   // rectify the spherical transform
   if (rangeCamera) {
@@ -184,4 +262,11 @@ void main() {
 
     fragColor = vec4(depth, 0.0, 0.0, 0.0);
   }
+  //   fragColor = vec4(fragColor.x, 0.0, 0.0, 0.0);
+  //   fragColor = vec4(face+1, 0.0, 0.0, 0.0);
+  //   fragColor = vec4((faceCoord.x)*10, 0.0, 0.0, 0.0);
+  //   if(texUv.y < 0.5)
+  // fragColor = vec4(texture(inputTextures[FRONT], vec2(texUv.x, texUv.y)).x, 0.0, 0.0, 0.0);
+  //   else
+  //     fragColor = vec4(texture(inputTextures[DOWN], vec2(texUv.x, (texUv.y-0.5)*2)).x, 0.0, 0.0, 0.0);
 }
