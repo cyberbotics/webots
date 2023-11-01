@@ -149,8 +149,7 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
 
 void main() {
   ivec2 texSize = textureSize(inputTextures[FRONT], 0);
-  ivec2 pixelCoord =
-    ivec2(round((texUv.x - 0.999 / texSize.x / 2) * texSize.x), round((texUv.y - 0.999 / texSize.y / 2) * texSize.y));
+  ivec2 pixelCoord = ivec2(round((texUv.x - 1 / texSize.x / 2) * texSize.x), round((texUv.y - 1 / texSize.y / 2) * texSize.y));
 
   vec3 coord3d;
 
@@ -182,8 +181,7 @@ void main() {
   float maxDot = dot(coord3d, orientations[0]);
   int face = FRONT;
   for (int i = 1; i < 6; ++i) {
-    float current_dot =
-      dot(vec3(coord3d.xy, coord3d.z * (pi_2 / min(fovY * fovYCorrectionCoefficient, pi_2))), orientations[i]);
+    float current_dot = dot(vec3(coord3d.xy, coord3d.z / tan(min(fovY, pi_2) / 2)), orientations[i]);
     if (maxDot < current_dot) {
       maxDot = current_dot;
       face = i;
@@ -197,7 +195,7 @@ void main() {
   else if (face == LEFT || face == RIGHT)
     absMax = abs(coord3d.y);
   else if (face == UP || face == DOWN)
-    absMax = abs(coord3d.z * (pi_2 / min(fovY * fovYCorrectionCoefficient, pi_2)));
+    absMax = abs(coord3d.z / tan(min(fovY, pi_2) / 2));
 
   vec3 normalizedCoord3d = coord3d;
   if (absMax > 0.0)
@@ -225,9 +223,9 @@ void main() {
 
   if (face != UP && face != DOWN) {
     if (fovX < pi_2)
-      coord.x *= pi_2 / fovX;
+      coord.x /= tan(fovX / 2);
     if (fovY < pi_2)
-      coord.y *= pi_2 / fovY * fovYCorrectionCoefficient;
+      coord.y /= tan(fovY / 2);
   }
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));

@@ -194,10 +194,9 @@ void WbWrenCamera::setFieldOfView(float fov) {
       init();
     }
 
-    if (fov > M_PI_2) {  // maximum X field of view of the sub-camera is pi / 2
-      aspectRatio = aspectRatio * (M_PI_2 / fov);
-      fov = M_PI_2;
-    }
+    fov = fov > M_PI_2 ? M_PI_2 : fov;  // maximum X field of view of the sub-camera is pi / 2
+    aspectRatio = tan((mSphericalFieldOfViewX > M_PI_2 ? M_PI_2 : mSphericalFieldOfViewX) / 2) /
+                  tan((mSphericalFieldOfViewY > M_PI_2 ? M_PI_2 : mSphericalFieldOfViewY) / 2);
 
     fieldOfViewY = computeFieldOfViewY(fov, aspectRatio);
     if (fieldOfViewY > M_PI_2) {  // maximum Y field of view of the sub-camera is pi / 2
@@ -751,9 +750,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
     mIsCameraActive[CAMERA_ORIENTATION_LEFT] = true;
     lateralCameraNumber += 2;
   }
-  //   if (mSphericalFieldOfViewY > 1.230959417) {  // 2.0*asin(1/sqrt(3)) // phi angle of the (Sqrt(3), Sqrt(3), Sqrt(3))
-  //   coordinate
-  if (true) {
+  if (mSphericalFieldOfViewY > 1.230959417) {  // 2.0*asin(1/sqrt(3)) // phi angle of the (Sqrt(3), Sqrt(3), Sqrt(3)) coordinate
     mIsCameraActive[CAMERA_ORIENTATION_UP] = true;
     mIsCameraActive[CAMERA_ORIENTATION_DOWN] = true;
     verticalCameraNumber += 2;
@@ -768,7 +765,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 
   if (verticalCameraNumber == 1) {
     // this coefficient is set to work even in the worse case (just before enabling top and bottom cameras)
-    mSphericalFovYCorrectionCoefficient = 1.27;
+    mSphericalFovYCorrectionCoefficient = 1.4;
     mSphericalFieldOfViewY *= mSphericalFovYCorrectionCoefficient;
   } else
     mSphericalFovYCorrectionCoefficient = 1.0;
