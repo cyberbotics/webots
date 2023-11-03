@@ -54,7 +54,7 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
   float dUpRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y + 1), bias).x;
 
   int xSide = 1, ySide = 1;
-  if (texSize.x != 1 && texSize.x != 1) {
+  if (texSize.x != 1 && texSize.y != 1) {
     // Compute variance for each corner
     float costUpRight =
       (dUp - dCenter) * (dUp - dCenter) + (dUpRight - dCenter) * (dUpRight - dCenter) + (dRight - dCenter) * (dRight - dCenter);
@@ -104,16 +104,19 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
     vec4 c10 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias);
     vec4 c11 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y + ySide), bias);
 
-    vec4 c0 = c00 + (c01 - c00) * dx * xSide;
-    vec4 c1 = c10 + (c11 - c10) * dx * xSide;
+    if (isinf(c00.x) || isinf(c01.x) || isinf(c10.x) || isinf(c11.x))
+      return c00;
+    else {
+      vec4 c0 = c00 + (c01 - c00) * dx * xSide;
+      vec4 c1 = c10 + (c11 - c10) * dx * xSide;
 
-    vec4 c = c0 + (c1 - c0) * dy * ySide;
+      vec4 c = c0 + (c1 - c0) * dy * ySide;
 
-    return c;
+      return c;
+    }
   } else if (texSize.x == 1 && texSize.y == 1) {  // No interpolation
     return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
   } else if (texSize.y == 1) {  // Linear interpolation
-    ySide = 0;
     if (abs(dRight - dCenter) > abs(dLeft - dCenter))
       xSide = -1;
     else
@@ -124,10 +127,13 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
       xSide = 1;
     if (pixelCoord.x == texSize.x - 1)
       xSide = -1;
-    return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias) +
-           (texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias) -
-            texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias)) *
-             dx;
+
+    vec4 c0 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
+    vec4 c1 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias);
+    if (isinf(c0.x) || isinf(c1.x))
+      return c0;
+    else
+      return c0 + (c1 - c0) * dx;
   } else if (texSize.x == 1) {  // Linear interpolation
     xSide = 0;
     if (abs(dUp - dCenter) > abs(dDown - dCenter))
@@ -140,10 +146,13 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
       ySide = 1;
     if (pixelCoord.y == texSize.y - 1)
       ySide = -1;
-    return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias) +
-           (texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias) -
-            texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias)) *
-             dy;
+
+    vec4 c0 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
+    vec4 c1 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias);
+    if (isinf(c0.x) || isinf(c1.x))
+      return c0;
+    else
+      return c0 + (c1 - c0) * dy;
   }
 }
 
