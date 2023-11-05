@@ -35,23 +35,23 @@ uniform float fovYCorrectionCoefficient;
 uniform sampler2D inputTextures[6];
 
 // Same as texture but pick the side to used for the interpolation to avoid discontinuities
-vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
+vec4 textureSmooth(sampler2D tex, vec2 p, int bias) {
   ivec2 texSize = textureSize(tex, 0);
   ivec2 pixelCoord = ivec2(round((2 * texSize.x * p.x - 1) / 2), round((2 * texSize.y * p.y - 1) / 2));
 
   float dx = ((2 * texSize.x * p.x - 1) / 2 - pixelCoord.x);
   float dy = ((2 * texSize.y * p.y - 1) / 2 - pixelCoord.y);
 
-  // Get depth for each corner
-  float dCenter = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias).x;
-  float dUp = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + 1), bias).x;
-  float dDown = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y - 1), bias).x;
-  float dLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y), bias).x;
-  float dRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y), bias).x;
-  float dUpLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y + 1), bias).x;
-  float dDownRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y - 1), bias).x;
-  float dDownLeft = texelFetch(tex, ivec2(pixelCoord.x - 1, pixelCoord.y - 1), bias).x;
-  float dUpRight = texelFetch(tex, ivec2(pixelCoord.x + 1, pixelCoord.y + 1), bias).x;
+  // Get depth for each pixel in a 3 by 3 grid
+  float dCenter = texelFetch(tex, pixelCoord, bias).x;
+  float dUp = texelFetch(tex, pixelCoord + ivec2(0, 1), bias).x;
+  float dDown = texelFetch(tex, pixelCoord + ivec2(0, -1), bias).x;
+  float dLeft = texelFetch(tex, pixelCoord + ivec2(-1, 0), bias).x;
+  float dRight = texelFetch(tex, pixelCoord + ivec2(1, 0), bias).x;
+  float dUpLeft = texelFetch(tex, pixelCoord + ivec2(-1, 1), bias).x;
+  float dDownRight = texelFetch(tex, pixelCoord + ivec2(1, -1), bias).x;
+  float dDownLeft = texelFetch(tex, pixelCoord + ivec2(-1, -1), bias).x;
+  float dUpRight = texelFetch(tex, pixelCoord + ivec2(1, 1), bias).x;
 
   int xSide = 1, ySide = 1;
   if (texSize.x != 1 && texSize.y != 1) {
@@ -99,10 +99,10 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
       ySide = 1;
     }
 
-    vec4 c00 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
-    vec4 c01 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias);
-    vec4 c10 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias);
-    vec4 c11 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y + ySide), bias);
+    vec4 c00 = texelFetch(tex, pixelCoord, bias);
+    vec4 c01 = texelFetch(tex, pixelCoord + ivec2(xSide, 0), bias);
+    vec4 c10 = texelFetch(tex, pixelCoord + ivec2(0, ySide), bias);
+    vec4 c11 = texelFetch(tex, pixelCoord + ivec2(xSide, ySide), bias);
 
     if (isinf(c00.x) || isinf(c01.x) || isinf(c10.x) || isinf(c11.x))
       return c00;
@@ -117,38 +117,27 @@ vec4 smooth_texture(sampler2D tex, vec2 p, int bias) {
   } else if (texSize.x == 1 && texSize.y == 1) {  // No interpolation
     return texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
   } else if (texSize.y == 1) {  // Linear interpolation
-    if (abs(dRight - dCenter) > abs(dLeft - dCenter))
+    // Pick side with smallest variance (accounting for edges)
+    if ((pixelCoord.x == texSize.x - 1) || ((pixelCoord.x != 0) && (abs(dRight - dCenter) > abs(dLeft - dCenter))))
       xSide = -1;
     else
       xSide = 1;
 
-    // Check brounds
-    if (pixelCoord.x == 0)
-      xSide = 1;
-    if (pixelCoord.x == texSize.x - 1)
-      xSide = -1;
-
-    vec4 c0 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
-    vec4 c1 = texelFetch(tex, ivec2(pixelCoord.x + xSide, pixelCoord.y), bias);
+    vec4 c0 = texelFetch(tex, pixelCoord, bias);
+    vec4 c1 = texelFetch(tex, pixelCoord + ivec2(xSide, 0), bias);
     if (isinf(c0.x) || isinf(c1.x))
       return c0;
     else
       return c0 + (c1 - c0) * dx;
   } else if (texSize.x == 1) {  // Linear interpolation
-    xSide = 0;
-    if (abs(dUp - dCenter) > abs(dDown - dCenter))
+    // Pick side with smallest variance (accounting for edges)
+    if ((pixelCoord.y == texSize.y - 1) || ((pixelCoord.y != 0) && (abs(dUp - dCenter) > abs(dDown - dCenter))))
       ySide = -1;
     else
       ySide = 1;
 
-    // Check brounds
-    if (pixelCoord.y == 0)
-      ySide = 1;
-    if (pixelCoord.y == texSize.y - 1)
-      ySide = -1;
-
-    vec4 c0 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y), bias);
-    vec4 c1 = texelFetch(tex, ivec2(pixelCoord.x, pixelCoord.y + ySide), bias);
+    vec4 c0 = texelFetch(tex, pixelCoord, bias);
+    vec4 c1 = texelFetch(tex, pixelCoord + ivec2(0, ySide), bias);
     if (isinf(c0.x) || isinf(c1.x))
       return c0;
     else
@@ -238,22 +227,20 @@ void main() {
   }
 
   vec2 faceCoord = vec2(0.5 * (1.0 - coord.x), 0.5 * (1.0 - coord.y));
-  //   ivec2 imageIndex = ivec2(round(faceCoord.x * (subCamerasResolutionX - 1)), round(faceCoord.y * (subCamerasResolutionY -
-  //   1)));
 
   fragColor = vec4(0.0, 0.0, 0.0, 1.0);
   if (face == FRONT)
-    fragColor = smooth_texture(inputTextures[0], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[0], faceCoord, 0);
   else if (face == RIGHT)
-    fragColor = smooth_texture(inputTextures[1], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[1], faceCoord, 0);
   else if (face == BACK)
-    fragColor = smooth_texture(inputTextures[2], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[2], faceCoord, 0);
   else if (face == LEFT)
-    fragColor = smooth_texture(inputTextures[3], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[3], faceCoord, 0);
   else if (face == UP)
-    fragColor = smooth_texture(inputTextures[4], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[4], faceCoord, 0);
   else if (face == DOWN)
-    fragColor = smooth_texture(inputTextures[5], faceCoord, 0);
+    fragColor = textureSmooth(inputTextures[5], faceCoord, 0);
 
   // rectify the spherical transform
   if (rangeCamera) {
@@ -269,11 +256,4 @@ void main() {
 
     fragColor = vec4(depth, 0.0, 0.0, 0.0);
   }
-  //   fragColor = vec4(fragColor.x, 0.0, 0.0, 0.0);
-  //   fragColor = vec4(face+1, 0.0, 0.0, 0.0);
-  //   fragColor = vec4((faceCoord.x)*10, 0.0, 0.0, 0.0);
-  //   if(texUv.y < 0.5)
-  // fragColor = vec4(texture(inputTextures[FRONT], vec2(texUv.x, texUv.y)).x, 0.0, 0.0, 0.0);
-  //   else
-  //     fragColor = vec4(texture(inputTextures[DOWN], vec2(texUv.x, (texUv.y-0.5)*2)).x, 0.0, 0.0, 0.0);
 }
