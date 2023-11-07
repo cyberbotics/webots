@@ -4,5 +4,5 @@
 # The Plane is a strictly static object, it cannot be placed in the boundingObject of a dynamic (Physics-based) object.
 
 Plane {
-  field SFVec2f size 1 1
+  w3dField SFVec2f size 1 1
 }

@@ -6,12 +6,12 @@ Webots can be used as a Web streaming server, i.e., to stream a simulation to se
 In this mode the user can watch an already running simulation and navigate into the scene but cannot interact with the simulation, i.e. controlling the execution of the simulation and modifying the robot controller program.
 
 Two different streaming modes are available:
-- `x3d` (default): the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `X3D` file and the animation are sent on the fly to the web browser clients.
+- `w3d` (default): the simulation is streamed using a mechanism similar to the [web animation export](web-animation.md) except that the `W3D` file and the animation are sent on the fly to the web browser clients.
 - `mjpeg`: the Webots scene rendered on the server is directly sent as an `MJPEG` image to the web browser client.
-You should choose between the `x3d` and `mjpeg` depending on the type of application you are developing.
+You should choose between the `w3d` and `mjpeg` depending on the type of application you are developing.
 The following table summarizes the advantages (`+`) and disadvantages (`-`) of the the two modes:
 
-| feature / mode          | `x3d` | `mjpeg` |
+| feature / mode          | `w3d` | `mjpeg` |
 |:-----------------------:|:-----:|:-------:|
 | high resolution images  | +     | -       |
 | 3D navigation latency   | +     | -       |
@@ -81,8 +81,8 @@ This is the API of the `webots-streaming` web component:
   * `server`: The URL of the server. Different URL formats are supported:
       * URL to a session server: "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/projects/languages/python/worlds/example.wbt"
       * WebSocket URL (i.e. "ws://localhost:1234"): this format is used for web broadcast streaming.
-      * URL to a X3D file (i.e. "file.x3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
-  * `mode`: `x3d` or `mjpeg`.
+      * URL to a W3D file (i.e. "file.w3d"): this format is used for showing a [web scene](web-scene.md) or a [web animation](web-animation.md).
+  * `mode`: `w3d` or `mjpeg`.
   * `broadcast`: boolean variable enabling or not the broadcast.
   * `isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `timeout`: the time (in seconds) after which the simulation will be automatically paused (until the play button is pressed again). By default, no timeout is set.
@@ -107,7 +107,7 @@ This is the API of the `webots-streaming` web component:
 
 Moreover, the following attributes are available:
 * `data-server`: URL of the server.
-* `data-mode`: `x3d` or `mjpeg`.
+* `data-mode`: `w3d` or `mjpeg`.
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.

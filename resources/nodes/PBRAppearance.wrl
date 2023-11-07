@@ -3,21 +3,21 @@
 # properties.
 
 PBRAppearance {
-  field     SFColor  baseColor            1 1 1
-  field     SFNode   baseColorMap         NULL
-  field     SFFloat  transparency         0
-  field     SFFloat  roughness            0
-  field     SFNode   roughnessMap         NULL
-  field     SFFloat  metalness            1
-  field     SFNode   metalnessMap         NULL
-  field     SFFloat  IBLStrength          1
-  field     SFNode   normalMap            NULL
-  field     SFFloat  normalMapFactor      1
-  field     SFNode   occlusionMap         NULL
-  field     SFFloat  occlusionMapStrength 1
-  field     SFColor  emissiveColor        0 0 0
-  field     SFNode   emissiveColorMap     NULL
-  field     SFFloat  emissiveIntensity    1
-  field     SFNode   textureTransform     NULL
-  field     SFString name                 "PBRAppearance"
+  w3dField SFColor  baseColor            1 1 1
+  field    SFNode   baseColorMap         NULL
+  w3dField SFFloat  transparency         0
+  w3dField SFFloat  roughness            0
+  field    SFNode   roughnessMap         NULL
+  w3dField SFFloat  metalness            1
+  field    SFNode   metalnessMap         NULL
+  w3dField SFFloat  IBLStrength          1
+  field    SFNode   normalMap            NULL
+  w3dField SFFloat  normalMapFactor      1
+  field    SFNode   occlusionMap         NULL
+  w3dField SFFloat  occlusionMapStrength 1
+  w3dField SFColor  emissiveColor        0 0 0
+  field    SFNode   emissiveColorMap     NULL
+  w3dField SFFloat  emissiveIntensity    1
+  field    SFNode   textureTransform     NULL
+  field    SFString name                 "PBRAppearance"
 }

@@ -2,6 +2,6 @@
 # It is possible to set the gender of the Slot by ending the type string with a '+' or '-'
 
 Slot {
-  field     SFString type      ""
-  vrmlField SFNode   endPoint  NULL
+  field    SFString type     ""
+  field    SFNode   endPoint NULL
 }
