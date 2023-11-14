@@ -3,10 +3,10 @@
 # Camera and infra-red DistanceSensor nodes are sensitive to the color of objects.
 
 Material {
-  vrmlField SFFloat ambientIntensity  0.2         # [0,1]
-  vrmlField SFColor diffuseColor      0.8 0.8 0.8
-  vrmlField SFColor emissiveColor     0 0 0
-  vrmlField SFFloat shininess         0.2         # [0,1]
-  vrmlField SFColor specularColor     0 0 0
-  vrmlField SFFloat transparency      0           # [0,1]
+  w3dField SFFloat ambientIntensity 0.2          # [0,1]
+  w3dField SFColor diffuseColor     0.8 0.8 0.8
+  w3dField SFColor emissiveColor    0 0 0
+  w3dField SFFloat shininess        0.2          # [0,1]
+  w3dField SFColor specularColor    0 0 0
+  w3dField SFFloat transparency     0            # [0,1]
 }

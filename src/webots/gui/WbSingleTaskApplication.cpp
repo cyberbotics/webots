@@ -200,7 +200,7 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    Change the TCP port used by Webots (default value is 1234).").toUtf8().constData() << endl << endl;
   cerr << "  --stream[=<mode>]" << endl;
   cerr << tr("    Start the Webots streaming server. The <mode> argument should be either").toUtf8().constData() << endl;
-  cerr << tr("    x3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
+  cerr << tr("    w3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
   cerr << "  --extern-urls" << endl;
   cerr << tr("    Print on stdout the URL of extern controllers that should be started.").toUtf8().constData() << endl << endl;
   cerr << "  --heartbeat[=<time>]" << endl;

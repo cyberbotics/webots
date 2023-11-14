@@ -464,7 +464,7 @@ void WbBasicJoint::write(WbWriter &writer) const {
     WbBaseNode::write(writer);
   else {
     // we should not export any SolidReference Solid here,
-    // otherwise they will appear duplicate in the X3D/VRML file,
+    // otherwise they will appear duplicate in the W3D/VRML file,
     // this is why we don't use the solidEndPoint() method
     const WbSolid *solid = dynamic_cast<const WbSolid *>(mEndPoint->value());
     if (solid)
