@@ -89,7 +89,7 @@ import MeshLoader from './MeshLoader.js';
 import WbPropeller from './nodes/WbPropeller.js';
 
 /*
-  This module takes an x3d world, parse it and populate the scene.
+  This module takes an w3d world, parse it and populate the scene.
 */
 export default class Parser {
   #downloadingImage;
@@ -120,6 +120,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
+
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -191,7 +192,7 @@ export default class Parser {
 
       WbWorld.instance.readyForUpdates = true;
 
-      webots.currentView.x3dScene.resize();
+      webots.currentView.w3dScene.resize();
       renderer.render();
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
       if (typeof callback === 'function')
@@ -471,17 +472,17 @@ export default class Parser {
     const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
-    const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
+    const position = convertStringToVec3(getNodeAttribute(node, 'position', '-10 0 0'));
     const exposure = parseFloat(getNodeAttribute(node, 'exposure', '1.0'));
     const bloomThreshold = parseFloat(getNodeAttribute(node, 'bloomThreshold', 21));
-    const far = parseFloat(getNodeAttribute(node, 'zFar', '2000'));
-    const near = parseFloat(getNodeAttribute(node, 'zNear', '0.1'));
-    const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness'));
-    const followedId = getNodeAttribute(node, 'followedId');
+    const far = parseFloat(getNodeAttribute(node, 'far', '2000'));
+    const near = parseFloat(getNodeAttribute(node, 'near', '0.1'));
+    const followSmoothness = parseFloat(getNodeAttribute(node, 'followSmoothness', 0.5));
+    const follow = getNodeAttribute(node, 'follow');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
     const viewpoint = new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far,
-      followSmoothness, followedId, ambientOcclusionRadius);
+      followSmoothness, follow, ambientOcclusionRadius);
 
     if (typeof parentNode !== 'undefined') {
       if (parentNode instanceof WbGroup)
@@ -644,12 +645,16 @@ export default class Parser {
     let newNode;
     if (node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
-      newNode = new WbTrack(id, translation, rotation, geometriesCount);
+      if (name === '')
+        name = 'track';
+      newNode = new WbTrack(id, translation, rotation, name, geometriesCount);
     } else if (node.tagName === 'TrackWheel') {
+      const trackWheelRotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '1 0 0 1.5708'));
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
-      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
+      const inner = getNodeAttribute(node, 'inner', 'TRUE').toLowerCase() === 'true';
+      const position = convertStringToVec2(getNodeAttribute(node, 'position', '0 0'));
 
-      newNode = new WbTrackWheel(id, translation, rotation, radius, inner);
+      newNode = new WbTrackWheel(id, position, trackWheelRotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
     } else if (node.tagName === 'Robot' || node.tagName === 'Solid') {
@@ -801,6 +806,8 @@ export default class Parser {
       newNode.parent = parentNode.id;
       if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT)
         parentNode.endPoint = newNode;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -827,6 +834,8 @@ export default class Parser {
         parentNode.boundingObject = group;
       else if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = group;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = group;
       else
         parentNode.children.push(group);
     }
@@ -870,6 +879,8 @@ export default class Parser {
       slot.parent = parentNode.id;
       if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = slot;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = slot;
       else
         parentNode.children.push(slot);
     }
@@ -986,7 +997,7 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
+    const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
     if (!isBoundingObject)
       isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
@@ -1028,6 +1039,8 @@ export default class Parser {
         parentNode.boundingObject = shape;
       else if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = shape;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = shape;
       else
         parentNode.children.push(shape);
       shape.parent = parentNode.id;
@@ -1065,6 +1078,8 @@ export default class Parser {
       cadShape.parent = parentNode.id;
       if (parentNode.nodeType === WbNodeType.WB_NODE_SLOT || parentNode instanceof WbJoint)
         parentNode.endPoint = cadShape;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = cadShape;
       else
         parentNode.children.push(cadShape);
     }

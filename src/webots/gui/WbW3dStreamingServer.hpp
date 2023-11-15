@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_X3D_STREAMING_SERVER_HPP
-#define WB_X3D_STREAMING_SERVER_HPP
+#ifndef WB_W3D_STREAMING_SERVER_HPP
+#define WB_W3D_STREAMING_SERVER_HPP
 
 #include "WbTcpServer.hpp"
 
 #include <QtCore/QHash>
 
-class WbX3dStreamingServer : public WbTcpServer {
+class WbW3dStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:
-  WbX3dStreamingServer();
-  ~WbX3dStreamingServer();
+  WbW3dStreamingServer();
+  ~WbW3dStreamingServer();
 
 private slots:
   void propagateNodeAddition(WbNode *node) override;
@@ -42,12 +42,12 @@ private:
   void deleteWorld() override;
   void sendWorldToClient(QWebSocket *client) override;
 
-  void startX3dStreaming(QWebSocket *client);
-  void generateX3dWorld();
+  void startW3dStreaming(QWebSocket *client);
+  void generateW3dWorld();
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
 
-  QString mX3dWorld;
-  double mX3dWorldGenerationTime;
+  QString mW3dWorld;
+  double mW3dWorldGenerationTime;
 
   qint64 mLastUpdateTime;
 };

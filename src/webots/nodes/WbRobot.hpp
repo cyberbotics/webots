@@ -173,7 +173,6 @@ protected:
   virtual void writeConfigure(WbDataStream &);
 
   // export
-  void exportNodeFields(WbWriter &writer) const override;
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
