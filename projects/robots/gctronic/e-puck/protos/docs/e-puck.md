@@ -60,11 +60,11 @@ E-puck is equipped with a large number of devices, as summarized in this table:
 | --------------------------- | ------------ |
 | Diameter                    | 71 mm        |
 | Height                      | 50 mm        |
-| Wheel radius                | 20.5 mm      |
+| Wheel radius                | 20 mm        |
 | Axle Length                 | 52 mm        |
 | Weight                      | 0.16 kg      |
-| Max. forward/backward speed | 0.25 m/s     |
-| Max. rotation speed         | 6.28 rad/s   |
+| Max. forward/backward speed | 0.15 m/s     |
+| Max. rotation speed         | 7.536 rad/s  |
 
 %end
 
