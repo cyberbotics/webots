@@ -31,9 +31,7 @@ namespace WbContextMenuGenerator {
   void enableProtoActions(bool enabled);
   void enableExternProtoActions(bool enabled);
   void enableRobotActions(bool enabled);
-  void setRobotCameraMenu(QMenu *menu);
-  void setRobotRangeFinderMenu(QMenu *menu);
-  void setRobotDisplayMenu(QMenu *menu);
+  void setOverlaysMenu(QMenu *menu);
 };  // namespace WbContextMenuGenerator
 
 #endif

@@ -358,8 +358,7 @@ static void robot_configure(WbRequest *r) {
   robot.device[0]->name = request_read_string(r);
 
   WEBOTS_VERSION = request_read_string(r);
-  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
-                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+  if (strlen(WEBOTS_VERSION) && (strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, 6)))
     fprintf(stderr,
             "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
             "to undefined behavior.\n",

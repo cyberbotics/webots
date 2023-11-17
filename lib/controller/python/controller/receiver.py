@@ -91,8 +91,8 @@ class Receiver(Sensor):
         return wb.wb_receiver_get_signal_strength(self._tag)
 
     @property
-    def emitter_direction(self):
-        return wb.wb_receiver_get_emitter_direction(self._tag)
+    def emitter_direction(self) -> List[float]:
+        return wb.wb_receiver_get_emitter_direction(self._tag)[:3]
 
     @property
     def channel(self) -> int:

@@ -74,7 +74,8 @@ export default class WbDevice extends WbSolid {
     }
 
     // Axes (X & Z only)
-    const axesCoordinates = [[0, 0, 0, 0.1 * radiusScale, 0, 0], [0, 0, 0, 0, 0.1 * radiusScale, 0], [0, 0, 0, 0, 0, 0.1 * radiusScale]];
+    const axesCoordinates = [[0, 0, 0, 0.1 * radiusScale, 0, 0], [0, 0, 0, 0, 0.1 * radiusScale, 0],
+      [0, 0, 0, 0, 0, 0.1 * radiusScale]];
 
     for (let i = 0; i < 3; ++i) {
       const axesCoordinatesPointer = arrayXPointerFloat(axesCoordinates[i]);

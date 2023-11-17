@@ -429,11 +429,11 @@ bool WbElevationGrid::setOdeHeightfieldData() {
   mHeight->copyItemsTo(mData, xdyd);
 
   // Inverse mData lines for ODE
-  for (int i = 0; i < xd / 2; i++) {  // integer division
-    for (int j = 0; j < yd; j++) {
-      double temp = mData[i * yd + j];
-      mData[i * yd + j] = mData[(xd - 1 - i) * yd + j];
-      mData[(xd - 1 - i) * yd + j] = temp;
+  for (int i = 0; i < yd / 2; i++) {  // integer division
+    for (int j = 0; j < xd; j++) {
+      double temp = mData[i * xd + j];
+      mData[i * xd + j] = mData[(yd - 1 - i) * xd + j];
+      mData[(yd - 1 - i) * xd + j] = temp;
     }
   }
 

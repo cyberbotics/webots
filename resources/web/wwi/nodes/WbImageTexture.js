@@ -1,7 +1,6 @@
 import {textureFiltering} from './wb_preferences.js';
 import {resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import ImageLoader from '../ImageLoader.js';
-import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {WbNodeType} from './wb_node_type.js';
@@ -92,7 +91,7 @@ export default class WbImageTexture extends WbBaseNode {
     if (typeof this.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
-        if (parent instanceof WbAppearance)
+        if (parent.nodeType === WbNodeType.WB_NODE_APPEARANCE)
           parent.texture = undefined;
         else {
           switch (this.role) {
