@@ -49,6 +49,9 @@ mkdir lib/webots/qt/plugins/platforminputcontexts
 mkdir lib/webots/qt/plugins/printsupport
 mkdir lib/webots/qt/plugins/tls
 mkdir lib/webots/qt/plugins/xcbglintegrations
+mkdir lib/webots/qt/plugins/wayland-graphics-integration-client
+mkdir lib/webots/qt/plugins/wayland-shell-integration
+mkdir lib/webots/qt/plugins/wayland-decoration-client
 mkdir lib/webots/qt/resources
 mkdir lib/webots/qt/translations
 
@@ -85,12 +88,17 @@ cp $QT_INSTALLATION_PATH/lib/libicui18n.so.$ICU_VERSION.1           lib/webots/
 cp $QT_INSTALLATION_PATH/lib/libicuuc.so.$ICU_VERSION.1             lib/webots/
 echo $'[Paths]\nPrefix = ..\n' >                                    lib/webots/qt/libexec/qt.conf
 cp $QT_INSTALLATION_PATH/plugins/platforms/libqxcb.so               lib/webots/qt/plugins/platforms/
+cp $QT_INSTALLATION_PATH/plugins/platforms/libqwayland-egl.so       lib/webots/qt/plugins/platforms/
+cp $QT_INSTALLATION_PATH/plugins/platforms/libqwayland-generic.so   lib/webots/qt/plugins/platforms/
 cp $QT_INSTALLATION_PATH/plugins/platformthemes/libqgtk3.so         lib/webots/qt/plugins/platformthemes/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so lib/webots/qt/plugins/platforminputcontexts/
 cp $QT_INSTALLATION_PATH/plugins/platforminputcontexts/libibusplatforminputcontextplugin.so    lib/webots/qt/plugins/platforminputcontexts/
 cp $QT_INSTALLATION_PATH/plugins/printsupport/libcupsprintersupport.so lib/webots/qt/plugins/printsupport/
 cp $QT_INSTALLATION_PATH/plugins/tls/*.so                           lib/webots/qt/plugins/tls/
 cp $QT_INSTALLATION_PATH/plugins/xcbglintegrations/libqxcb-glx-integration.so lib/webots/qt/plugins/xcbglintegrations/
+cp $QT_INSTALLATION_PATH/plugins/wayland-graphics-integration-client/* lib/webots/qt/plugins/wayland-graphics-integration-client/
+cp $QT_INSTALLATION_PATH/plugins/wayland-shell-integration/*        lib/webots/qt/plugins/wayland-shell-integration/
+cp $QT_INSTALLATION_PATH/plugins/wayland-decoration-client/*        lib/webots/qt/plugins/wayland-decoration-client/
 cp $QT_INSTALLATION_PATH/plugins/imageformats/libqjpeg.so           lib/webots/qt/plugins/imageformats/
 cp -r $QT_INSTALLATION_PATH/translations/qt_*                       lib/webots/qt/translations/
 cp -r $QT_INSTALLATION_PATH/translations/qtbase_*                   lib/webots/qt/translations/
@@ -124,6 +132,12 @@ ln -sf libQt6Xml.so.$QT_VERSION               libQt6Xml.so.6
 ln -sf libQt6Xml.so.$QT_VERSION               libQt6Xml.so
 ln -sf libQt6XcbQpa.so.$QT_VERSION            libQt6XcbQpa.so.6
 ln -sf libQt6XcbQpa.so.$QT_VERSION            libQt6XcbQpa.so
+ln -sf libQt6WaylandClient.so.$QT_VERSION     libQt6WaylandClient.so.6
+ln -sf libQt6WaylandClient.so.$QT_VERSION     libQt6WaylandClient.so
+ln -sf libQt6WaylandEglClientHwIntegration.so.$QT_VERSION libQt6WaylandEglClientHwIntegration.so.6
+ln -sf libQt6WaylandEglClientHwIntegration.so.$QT_VERSION libQt6WaylandEglClientHwIntegration.so
+ln -sf libQt6WlShellIntegration.so.$QT_VERSION libQt6WlShellIntegration.so.6
+ln -sf libQt6WlShellIntegration.so.$QT_VERSIOn libQt6WlShellIntegration.so
 ln -sf libicudata.so.$ICU_VERSION.1           libicudata.so.$ICU_VERSION
 ln -sf libicui18n.so.$ICU_VERSION.1           libicui18n.so.$ICU_VERSION
 ln -sf libicuuc.so.$ICU_VERSION.1             libicuuc.so.$ICU_VERSION
