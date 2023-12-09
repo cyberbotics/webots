@@ -62,7 +62,7 @@ public:
 
   uint64_t computeHash() const override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void validIndexedFaceSetInserted();

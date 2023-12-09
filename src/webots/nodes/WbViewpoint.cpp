@@ -1594,18 +1594,3 @@ void WbViewpoint::lookAtAnimationStep(const QVariant &value) {
     mOrientation->setValue(WbRotation(slerpedQuaternion));
   emit refreshRequired();
 }
-
-void WbViewpoint::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (writer.isX3d()) {
-    writer << " exposure=\'" << mExposure->value() << "\'";
-    writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
-    writer << " zNear=\'" << mNear->value() << "\'";
-    writer << " zFar=\'" << mFar->value() << "\'";
-    writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
-    writer << " ambientOcclusionRadius=\'" << mAmbientOcclusionRadius->value() << "\'";
-    if (mFollowedSolid)
-      writer << " followedId=\'n" << QString::number(mFollowedSolid->uniqueId()) << "\'";
-  }
-}
