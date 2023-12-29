@@ -121,4 +121,4 @@ Contact joints will only be created for, at most, the deepest `maxContactJoints`
 Changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
 
 
-> **Note**: The [youBot](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kuka/youbot/protos/Youbot.proto) robot is a good example of asymmetric coulombFriction and forceDependentSlip.
+> **Note**: The [youBot](https://webots.cloud/run?url={{ url.github_blob }}/projects/robots/kuka/youbot/protos/Youbot.proto) robot is a good example of asymmetric coulombFriction and forceDependentSlip.
