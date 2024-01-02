@@ -43,6 +43,7 @@ showdown.extension('wbVariables', function() {
     },
     url: {
       github_tree: `https://github.com/cyberbotics/webots/tree/` + branch,
+      github_blob: `https://github.com/cyberbotics/webots/blob/` + branch,
       github_raw: `https://raw.githubusercontent.com/cyberbotics/webots/` + branch
     }
   };

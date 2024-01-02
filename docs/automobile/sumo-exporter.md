@@ -14,7 +14,7 @@ Please refer to [these instructions](openstreetmap-importer.md#dependencies) to 
 
 If the Webots simulation has been created from the OpenStreetMap importer, then the export should be straight forward.
 
-If it's not the case, you should pay attention on the use of the [Road](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/road/protos/Road.proto) and the [Crossroad](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/road/protos/Crossroad.proto) PROTO nodes.
+If it's not the case, you should pay attention on the use of the [Road](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/road/protos/Road.proto) and the [Crossroad](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/road/protos/Crossroad.proto) PROTO nodes.
 Indeed, their IDs should be unique, and the `Road.startJunction`, the `Road.endJunction` and the `Crossroad.connectedRoadIDs` fields should be filled correctly.
 
 ## How to use the Exporter

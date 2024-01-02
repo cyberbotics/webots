@@ -96,7 +96,7 @@ In addition, there is an equivalent version of a MATLAB controller `force_contro
 In the first layout, the four motorized wheels are positioned circularly, as could be done for omnidirectional-wheeled robots.
 In the second layout, the four motorized wheels are oriented in the same direction, as could be done for a robot with tracks.
 In the third layout, a simple [Ackermann steering geometry](https://en.wikipedia.org/wiki/Ackermann_steering_geometry) is shown.
-Note that more completed Ackermann steering geometry can be achieved using the [AckermannVehicle](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/abstract/AckermannVehicle.proto) PROTO, and the [`car` library](../automobile/car-library.md).
+Note that more completed Ackermann steering geometry can be achieved using the [AckermannVehicle](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/AckermannVehicle.proto) PROTO, and the [`car` library](../automobile/car-library.md).
 
 ### [gears.wbt]({{ url.github_tree }}/projects/samples/howto/gears/worlds/gears.wbt)
 
