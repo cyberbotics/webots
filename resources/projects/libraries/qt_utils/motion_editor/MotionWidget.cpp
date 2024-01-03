@@ -134,7 +134,7 @@ void MotionWidget::setItemAppearance(QListWidgetItem *item, Pose::Status status)
 
   QColor color("black");
   if (status == Pose::INVALID)
-    color.setNamedColor("red");
+    color.fromString("red");
   item->setForeground(QBrush(color));
 }
 

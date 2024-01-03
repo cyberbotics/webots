@@ -591,6 +591,7 @@ void WbWorld::removeRobotIfPresent(WbRobot *robot) {
     return;
 
   mRobots.removeAll(robot);
+  emit robotRemoved(robot);
 }
 
 void WbWorld::addRobotIfNotAlreadyPresent(WbRobot *robot) {

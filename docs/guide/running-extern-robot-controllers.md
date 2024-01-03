@@ -98,6 +98,10 @@ Concrete use cases are discussed in the [Setup](#setup) section.
   --robot-name=<robot-name>
     Target a specific robot by specifying its name in case multiple robots wait for an extern controller in the Webots instance.
 
+  --interactive
+    Launch MATLAB in interactive debugging mode.
+    See https://cyberbotics.com/doc/guide/matlab#using-the-matlab-desktop for more information.
+
   --matlab-path=<matlab-path>
     For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version.
     By default, the launcher checks in the default MATLAB installation folder.
@@ -170,7 +174,11 @@ It is recommended that you do not override this `WEBOTS_TMPDIR` environment vari
 ### Running a MATLAB Extern Robot Controller
 
 Matlab controllers can also be started using the launcher.
-By default, the launcher will look for the latest installed version of MATLAB in the following locations, depending on the OS:
+By default, the new instance of MATLAB will be running in non-interactive ("batch") mode. 
+However, by providing the `--interactive` option, this can be overridden, which will cause the full desktop user interface to run. 
+See [this page](matlab.md) for more details on how to debug webots controllers using the MATLAB desktop.
+
+Regardless of mode, the launcher will look for the latest installed version of MATLAB in the following locations, depending on the OS:
 
 - **Windows**: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
 - **Linux**: /usr/local/MATLAB/R20XXx/bin/matlab
