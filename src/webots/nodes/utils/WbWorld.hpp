@@ -70,10 +70,8 @@ public:
 
   bool isVideoRecording() const { return mIsVideoRecording; }
 
-  static QString defaultX3dFrustumCullingParameter() { return "true"; }
-  static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
-  static bool isX3DStreaming() { return cX3DStreaming; }
-  static void enableX3DStreaming() { cX3DStreaming = true; }
+  static bool isW3dStreaming() { return cW3dStreaming; }
+  static void enableW3dStreaming() { cW3dStreaming = true; }
   static bool printExternUrls() { return cPrintExternUrls; }
   static void setPrintExternUrls() { cPrintExternUrls = true; }
 
@@ -81,9 +79,9 @@ public:
   bool save();
   virtual bool saveAs(const QString &fileName);
 
-  // save and replace Webots specific nodes by VRML/X3D nodes
+  // save and replace Webots specific nodes by VRML/W3D nodes
   bool exportAsHtml(const QString &fileName, bool animation) const;
-  bool exportAsX3d(const QString &fileName) const;
+  bool exportAsW3d(const QString &fileName) const;
   void write(WbWriter &writer) const;
 
   // nodes that do always exist
@@ -206,10 +204,8 @@ private:
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 
   virtual void storeLastSaveTime(){};
-  void createX3DMetaFile(const QString &filename) const;
 
-  static bool cX3DMetaFileExport;
-  static bool cX3DStreaming;
+  static bool cW3dStreaming;
   static bool cPrintExternUrls;
 
 private slots:
