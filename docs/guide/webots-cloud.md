@@ -114,8 +114,8 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 - [Nao room](https://webots.cloud/AcTNYs0)
 
 **Proto**
-- [NAO](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/softbank/nao/protos/Nao.proto)
-- [WoodenPalletStack](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/factory/pallet/protos/WoodenPalletStack.proto)
+- [NAO](https://webots.cloud/run?url={{ url.github_blob }}/projects/robots/softbank/nao/protos/Nao.proto)
+- [WoodenPalletStack](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/factory/pallet/protos/WoodenPalletStack.proto)
 
 **Simulation**:
 
