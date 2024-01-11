@@ -506,10 +506,10 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(int nodeId, const Q
   WbBaseNode *proto = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
   if (!proto) {
     if (node->modelName() != node->nodeModelName())
-        mRobot->warn(
-          tr("Cannot get the PROTO instance for node '%1' (derived from '%2').").arg(node->usefulName(), node->nodeModelName()));
-      else
-        mRobot->warn(tr("Cannot get the PROTO instance for node '%1'.").arg(node->usefulName()));
+      mRobot->warn(
+        tr("Cannot get the PROTO instance for node '%1' (derived from '%2').").arg(node->usefulName(), node->nodeModelName()));
+    else
+      mRobot->warn(tr("Cannot get the PROTO instance for node '%1'.").arg(node->usefulName()));
   }
   return proto;
 }
