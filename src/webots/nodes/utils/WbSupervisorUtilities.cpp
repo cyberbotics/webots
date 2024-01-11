@@ -504,8 +504,7 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(int nodeId, const Q
     return NULL;
   }
   WbBaseNode *proto = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
-  if (!proto)
-  {
+  if (!proto) {
     if (node->modelName() != node->nodeModelName())
         mRobot->warn(tr("Cannot get the PROTO instance for node '%1' (derived from '%2').").arg(node->usefulName(), node->nodeModelName()));
       else
