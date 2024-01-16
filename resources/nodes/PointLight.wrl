@@ -3,12 +3,12 @@
 # Putting a PointLight onboard a robot allows the PointLight to move with the robot.
 
 PointLight {
-  vrmlField SFFloat ambientIntensity  0       # [0,1]
-  vrmlField SFVec3f attenuation       1 0 0   # [0,)
-  vrmlField SFColor color             1 1 1   # [0,1]
-  vrmlField SFFloat intensity         1       # [0,1]
-  vrmlField SFVec3f location          0 0 0   # (-,)
-  vrmlField SFBool  on                TRUE
-  vrmlField SFFloat radius            100     # [0,)
-  field     SFBool  castShadows       FALSE
+  w3dField SFFloat ambientIntensity 0      # [0,1]
+  w3dField SFVec3f attenuation      1 0 0  # [0,)
+  w3dField SFColor color            1 1 1  # [0,1]
+  w3dField SFFloat intensity        1      # [0,1]
+  w3dField SFVec3f location         0 0 0  # (-,)
+  w3dField SFBool  on               TRUE
+  w3dField SFFloat radius           100    # [0,)
+  w3dField SFBool  castShadows      FALSE
 }

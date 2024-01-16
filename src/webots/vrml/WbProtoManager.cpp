@@ -749,7 +749,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     }
 
     QString field;
-    field += model->isVrml() ? "vrmlField " : "field ";
+    field += model->isW3d() ? "w3dField " : "field ";
     field += defaultValue->vrmlTypeName() + " ";
     field += model->name() + " ";
     field += vrmlDefaultValue;

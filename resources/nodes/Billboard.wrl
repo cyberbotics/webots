@@ -3,5 +3,5 @@
 
 Billboard {
   #field that inherits from the Group node:
-  vrmlField MFNode  children           []
+  w3dField MFNode children []
 }

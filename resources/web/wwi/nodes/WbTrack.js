@@ -1,3 +1,4 @@
+import WbPose from './WbPose.js';
 import WbSolid from './WbSolid.js';
 import WbVector2 from './utils/WbVector2.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -12,8 +13,8 @@ import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTrack extends WbSolid {
   #device;
-  constructor(id, translation, rotation, geometriesCount) {
-    super(id, translation, rotation);
+  constructor(id, translation, rotation, name, geometriesCount) {
+    super(id, translation, rotation, name);
     this.geometriesCount = geometriesCount;
     this.pathList = [];
     this.wheelsList = [];
@@ -59,6 +60,15 @@ export default class WbTrack extends WbSolid {
         return;
       }
 
+      if ([WbNodeType.WB_NODE_SHAPE, WbNodeType.WB_NODE_CAD_SHAPE, WbNodeType.WB_NODE_GROUP, WbNodeType.WB_NODE_SLOT]
+        .includes(this.geometryField.nodeType)) {
+        let pose = new WbPose(getAnId(), new WbVector3(), new WbVector4());
+        pose.children.push(this.geometryField);
+        pose.parentNode = this.id;
+        this.geometryField.parentNode = pose.id;
+        this.geometryField = pose;
+        WbWorld.instance.nodes.set(pose.id, pose);
+      }
       const newElement = this.geometryField.clone(getAnId());
       newElement.parent = this.id;
       WbWorld.instance.nodes.set(newElement.id, newElement);

@@ -362,7 +362,8 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
     maxWidth = ((double)w / 2.0) * (1.0 + ratio);
 
     double tmpAngle =
-      (fabs(mPreviousRotatingAngle / (2.0 * M_PI)) - floor(fabs(mPreviousRotatingAngle / (2.0 * M_PI)))) * (2.0 * M_PI);
+      (fabs((mPreviousRotatingAngle - M_PI) / (2.0 * M_PI)) - floor(fabs((mPreviousRotatingAngle - M_PI) / (2.0 * M_PI)))) *
+      (2.0 * M_PI);
     if (tmpAngle < 0)
       tmpAngle += 2.0 * M_PI;
     widthOffset = resolution * (tmpAngle / (2.0 * M_PI));
@@ -383,7 +384,7 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
         memcpy(data + (i + 1) * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
                sizeof(float) * abs(minWidth + widthOffset));
         memcpy(data + i * resolution, mTemporaryImage + width() * (int)(i * skip) - widthOffset,
-               sizeof(float) * (maxWidth + widthOffset));
+               sizeof(float) * abs(maxWidth + widthOffset));
       }
     }
   }
