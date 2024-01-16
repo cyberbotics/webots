@@ -8,6 +8,7 @@ Released on XXX XXth, 2023.
     - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Bug fixes
+    - Avoided crash and provided better warnings when attempting to access PROTO nodes in a wrong way from the supervisor API ([#6473](https://github.com/cyberbotics/webots/pull/6473)).
     - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
     - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
     - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
