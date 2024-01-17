@@ -8,6 +8,7 @@ Released on XXX XXth, 2023.
     - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Bug fixes
+    - Avoided crash and provided better warnings when attempting to access PROTO nodes in a wrong way from the supervisor API ([#6473](https://github.com/cyberbotics/webots/pull/6473)).
     - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
     - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
     - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
@@ -62,7 +63,7 @@ Released on June 28th, 2023.
     - Windows: fixed conflict with Qt5 installation by removing the `QT_QPA_PLATFORM_PLUGIN_PATH` environment variable from the Webots launcher ([#6258](https://github.com/cyberbotics/webots/pull/6258)).
     - Fixed random crashes while creating [Skin](skin.md) and [Mesh](mesh.md) nodes ([#6218](https://github.com/cyberbotics/webots/pull/6218)).
     - Windows: fixed compilation of controller programs located in paths with non-ASCII characters ([#6235](https://github.com/cyberbotics/webots/pull/6235)).
-    - Fixed the size of the Kondo [KHR-3HV](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/kondo/khr-3hv/protos/Khr3hv.proto) robot which was twice too large ([#6228](https://github.com/cyberbotics/webots/pull/6228)).
+    - Fixed the size of the Kondo [KHR-3HV](https://webots.cloud/run?url={{ url.github_blob }}/projects/robots/kondo/khr-3hv/protos/Khr3hv.proto) robot which was twice too large ([#6228](https://github.com/cyberbotics/webots/pull/6228)).
     - Fixed the MATLAB `wb_camera_recognition_get_objects` API function ([#6172](https://github.com/cyberbotics/webots/pull/6172)).
     - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
@@ -83,7 +84,7 @@ Released on June 28th, 2023.
     - Fixed invalid default NULL `from_node` argument in [`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_disable_pose_tracking) ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
     - Lowered the connection retry delay for extern controllers ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
-    - Fixed default translation of [RangeRoverSportSVRSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto) and [TruckSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckSimple.proto) not converted to ENU ([#5653](https://github.com/cyberbotics/webots/pull/5653)).
+    - Fixed default translation of [RangeRoverSportSVRSimple](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto) and [TruckSimple](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/generic/protos/TruckSimple.proto) not converted to ENU ([#5653](https://github.com/cyberbotics/webots/pull/5653)).
     - Fixed a crash when setting the `Robot.battery` after the simulation start ([#5669](https://github.com/cyberbotics/webots/pull/5669)).
     - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
