@@ -41,7 +41,7 @@ class Car(Driver):
         elif sys.platform == 'win32':
             path = os.path.join('lib', 'controller', 'car.dll')
         elif sys.platform == 'darwin':
-            path = os.path.join('Contents', 'MacOS', 'lib', 'controller', 'libcar.dylib')
+            path = os.path.join('Contents', 'lib', 'controller', 'libcar.dylib')
         self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
         self.api.wbu_car_get_front_wheel_radius.restype = ctypes.c_double
         self.api.wbu_car_get_indicator_period.restype = ctypes.c_double
