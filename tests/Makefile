@@ -21,7 +21,7 @@ clean: api cache parser physics protos rendering
 	         *.pyc \
 	         api/controllers/supervisor_animation/animation.html \
 	         api/controllers/supervisor_animation/animation.json \
-	         api/controllers/supervisor_animation/animation.x3d \
+	         api/controllers/supervisor_animation/animation.w3d \
 	         api/controllers/supervisor_animation/animation.css \
 	         api/controllers/supervisor_animation/textures \
 	         api/controllers/supervisor_export_image/image.jpg \

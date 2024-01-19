@@ -335,11 +335,11 @@ WbShape *WbPose::shape() const {
 // Export //
 ////////////
 
-void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbPose::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
     writer << QString("<Pose translation='%1' rotation='%2' role='boundingObject'")
                 .arg(translation().toString(WbPrecision::DOUBLE_MAX))
@@ -357,7 +357,7 @@ void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
   }
 }
 
-QStringList WbPose::fieldsToSynchronizeWithX3D() const {
+QStringList WbPose::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "translation"
          << "rotation";

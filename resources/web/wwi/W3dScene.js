@@ -16,7 +16,7 @@ import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import { findUpperShape } from './nodes/utils/node_utilities.js';
 import { WbNodeType } from './nodes/wb_node_type.js';
 
-export default class X3dScene {
+export default class W3dScene {
   #nextRenderingTime;
   #renderingTimeout;
   constructor(domElement) {
@@ -145,14 +145,14 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  async loadObject(x3dObject, parentId, callback) {
+  async loadObject(w3dObject, parentId, callback) {
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
-    await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
+    await parser.parse(w3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
     if (typeof node === 'undefined')
