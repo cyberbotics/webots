@@ -33,7 +33,7 @@ int main() {
 
   wb_robot_init();
 
-  /* get a handle the the bumper and activate it. */
+  /* get a handle to the bumper and activate it. */
   bumper = wb_robot_get_device("bumper");
   wb_touch_sensor_enable(bumper, TIME_STEP);
 
