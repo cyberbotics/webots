@@ -256,8 +256,8 @@ resources/web/streaming_viewer/index.html
 resources/web/streaming_viewer/setup_viewer.js
 resources/web/streaming_viewer/style.css
 resources/web/templates/
-resources/web/templates/x3d_playback.html
-resources/web/templates/x3d_playback.css
+resources/web/templates/w3d_playback.html
+resources/web/templates/w3d_playback.css
 resources/web/wwi/
 resources/web/wwi/protoVisualizer/
 resources/web/wwi/protoVisualizer/*.js

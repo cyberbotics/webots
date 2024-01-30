@@ -123,7 +123,7 @@ public:
   void setUniformConstraintForResizeHandles(bool enabled) override;
 
   // export
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
   int triangleCount() const;
