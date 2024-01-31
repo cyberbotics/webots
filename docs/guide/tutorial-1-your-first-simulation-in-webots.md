@@ -21,7 +21,7 @@ The guided tour is also available from the *Help* menu of Webots.
 
 ### Create a New World
 
-A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, how is defined the gravity, friction, masses of the objects, etc.
+A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, and the definitions of gravity, friction, masses of the objects, etc.
 It defines the initial state of a simulation.
 The different objects are called **Nodes** and are organized hierarchically in a **Scene Tree**.
 Therefore, a node may contain sub-nodes.
