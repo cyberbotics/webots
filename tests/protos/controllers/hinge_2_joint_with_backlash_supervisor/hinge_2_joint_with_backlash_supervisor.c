@@ -168,7 +168,6 @@ int main(int argc, char **argv) {
                                "In test case 'BACKLASH_ON_NEITHER' the endpoint breached reference's maximal X position.");
 
     // check against the minima
-    tolerance = 1e-10;
     ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_BOTH][X], reference_min_x - tolerance,
                                "In test case 'BACKLASH_ON_BOTH' the endpoint breached reference's minimal X position.");
     ts_assert_double_is_bigger(end_point_position[BACKLASH_ON_AXIS][X], reference_min_x - tolerance,
@@ -180,7 +179,6 @@ int main(int argc, char **argv) {
 
     // TEST: assert if behavior is consistent (those with backlash behave all the same, those without as well)
     // (BACKLASH_ON_BOTH, BACKLASH_ON_AXIS) should behave in the same manner
-    tolerance = 1e-8;
     ts_assert_vec3_in_delta(end_point_position[BACKLASH_ON_BOTH][X], end_point_position[BACKLASH_ON_BOTH][Y],
                             end_point_position[BACKLASH_ON_BOTH][Z], end_point_position[BACKLASH_ON_AXIS][X],
                             end_point_position[BACKLASH_ON_AXIS][Y], end_point_position[BACKLASH_ON_AXIS][Z] + 0.25, tolerance,

@@ -503,7 +503,15 @@ WbNode *WbSupervisorUtilities::getProtoParameterNodeInstance(int nodeId, const Q
     mRobot->warn(tr("%1: node not found.").arg(functionName));
     return NULL;
   }
-  return static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
+  WbBaseNode *proto = static_cast<WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
+  if (!proto) {
+    if (node->modelName() != node->nodeModelName())
+      mRobot->warn(
+        tr("Cannot get the PROTO instance for node '%1' (derived from '%2').").arg(node->usefulName(), node->nodeModelName()));
+    else
+      mRobot->warn(tr("Cannot get the PROTO instance for node '%1'.").arg(node->usefulName()));
+  }
+  return proto;
 }
 
 void WbSupervisorUtilities::changeSimulationMode(int newMode) {
@@ -594,7 +602,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       const QString &stateName = readString(stream);
       WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_load_state()");
-      node->reset(stateName);
+      if (node)
+        node->reset(stateName);
       return;
     }
     case C_SUPERVISOR_NODE_SAVE_STATE: {
@@ -602,7 +611,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       const QString &stateName = readString(stream);
       WbNode *const node = getProtoParameterNodeInstance(nodeId, "wb_supervisor_node_save_state()");
-      node->save(stateName);
+      if (node)
+        node->save(stateName);
       return;
     }
     case C_SUPERVISOR_NODE_SET_JOINT_POSITION: {

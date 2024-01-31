@@ -5,11 +5,6 @@
 %               -MATLAB must be installed and the "matlab" command must be in the PATH environment variable
 function supervisor_matlab
 
-% uncomment the next two lines if you want to use
-% MATLAB's desktop to interact with this controller:
-%desktop;
-%keyboard;
-
 % controller time step
 TIME_STEP = 40;
 

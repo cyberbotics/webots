@@ -1,6 +1,5 @@
 import {arrayXPointer, arrayXPointerFloat} from './utils/utils.js';
 import WbBaseNode from './WbBaseNode.js';
-import WbPbrAppearance from './WbPbrAppearance.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
@@ -223,7 +222,7 @@ export default class WbBackground extends WbBaseNode {
 
   #updatePBRs() {
     WbWorld.instance.nodes.forEach((value, key, map) => {
-      if (value instanceof WbPbrAppearance && typeof value.parent !== 'undefined') {
+      if (value.nodeType === WbNodeType.WB_NODE_PBR_APPEARANCE && typeof value.parent !== 'undefined') {
         const parent = WbWorld.instance.nodes.get(value.parent);
         parent?.applyMaterialToGeometry();
       }

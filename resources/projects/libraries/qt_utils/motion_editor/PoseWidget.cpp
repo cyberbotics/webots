@@ -166,10 +166,10 @@ void PoseWidget::setItemAppearance(QListWidgetItem *item, MotorTargetState::Stat
   QColor color("black");
   switch (status) {
     case MotorTargetState::DISABLED:
-      color.setNamedColor("dimgray");
+      color.fromString("dimgray");
       break;
     case MotorTargetState::INVALID:
-      color.setNamedColor("red");
+      color.fromString("red");
       break;
     default:
       break;

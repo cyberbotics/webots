@@ -158,6 +158,7 @@ signals:
   void worldLoadingHasProgressed(int percent);
   void viewpointChanged();
   void robotAdded(WbRobot *robot);
+  void robotRemoved(WbRobot *robot);
   void resetRequested(bool restartControllers);
 
 public slots:
