@@ -4,8 +4,8 @@
 # All the geometry primitive nodes can be textured.
 
 ImageTexture {
-  vrmlField MFString url       []
-  vrmlField SFBool   repeatS   TRUE
-  vrmlField SFBool   repeatT   TRUE
-  field     SFInt32  filtering 4		# Filtering level: 0 to disable, 1 for basic mipmapping and up to 5 for better quality anisotropic filtering.
+  field    MFString url       []
+  w3dField SFBool   repeatS   TRUE
+  w3dField SFBool   repeatT   TRUE
+  w3dField SFInt32  filtering 4		  # Filtering level: 0 to disable, 1 for basic mipmapping and up to 5 for better quality anisotropic filtering.
 }

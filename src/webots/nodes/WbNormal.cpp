@@ -35,7 +35,7 @@ WbNormal::WbNormal(const WbNode &other) : WbBaseNode(other) {
 WbNormal::~WbNormal() {
 }
 
-QStringList WbNormal::fieldsToSynchronizeWithX3D() const {
+QStringList WbNormal::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "vector";
   return fields;

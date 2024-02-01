@@ -157,9 +157,6 @@ public:
 public slots:
   void updateOptionalRendering(int optionalRendering);
 
-protected:
-  void exportNodeFields(WbWriter &writer) const override;
-
 private:
   // user accessible fields
   WbSFDouble *mFieldOfView;
