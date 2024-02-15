@@ -2,9 +2,9 @@
 # coordinate system and whose central axis is aligned with the local z-axis.
 
 Cone {
-  vrmlField SFFloat bottomRadius 1
-  vrmlField SFFloat height       2
-  vrmlField SFBool  side         TRUE
-  vrmlField SFBool  bottom       TRUE
-  field     SFInt32 subdivision  12
+  w3dField SFFloat bottomRadius 1
+  w3dField SFFloat height       2
+  w3dField SFBool  side         TRUE
+  w3dField SFBool  bottom       TRUE
+  w3dField SFInt32 subdivision  12
 }

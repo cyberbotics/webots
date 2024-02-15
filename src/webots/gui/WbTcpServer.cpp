@@ -584,7 +584,7 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
     return;
 
   if (node->isProtoParameterNode()) {
-    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    // PROTO parameter nodes are not exported to W3D
     foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
       propagateNodeAddition(nodeInstance);
     return;

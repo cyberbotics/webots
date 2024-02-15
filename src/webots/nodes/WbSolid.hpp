@@ -282,9 +282,7 @@ protected:
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
-  void exportNodeFields(WbWriter &writer) const override;
   void exportNodeFooter(WbWriter &writer) const override;
-  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;

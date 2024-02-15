@@ -241,7 +241,7 @@ export default class MouseEvents {
       if (event.deltaMode === 1)
         offset *= 40; // standard line height in pixel
       window.scroll(0, window.pageYOffset + offset);
-      if (this.#state.wheelTimeout) { // you have to rest at least 1.5 seconds over the x3d canvas
+      if (this.#state.wheelTimeout) { // you have to rest at least 1.5 seconds over the w3d canvas
         clearTimeout(this.#state.wheelTimeout); // so that the wheel focus will get enabled and
         // allow you to zoom in/out.
         this.#state.wheelTimeout = setTimeout((event) => { this.#wheelTimeoutCallback(event); }, 1500);
