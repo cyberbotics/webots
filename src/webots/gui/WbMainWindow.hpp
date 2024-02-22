@@ -135,7 +135,11 @@ private slots:
   void showStatusBarMessage(WbLog::Level level, const QString &message);
   void editRobotController();
   void showRobotWindow();
+  void clearOverlaysMenu();
   void updateOverlayMenu();
+  void updateRobotNameInOverlaysMenu();
+  void addRobotInOverlaysMenu(WbRobot *robot);
+  void removeRobotInOverlaysMenu(const WbRobot *robot);
   void createWorldLoadingProgressDialog();
   void deleteWorldLoadingProgressDialog();
   void setWorldLoadingProgress(const int progress);
@@ -198,7 +202,6 @@ private:
   QString findHtmlFileName(const char *title);
   void enableToolsWidgetItems(bool enabled);
   void updateWindowTitle();
-  void updateGui();
   void updateSimulationMenu();
   void writePreferences() const;
   void showDocument(const QString &url);

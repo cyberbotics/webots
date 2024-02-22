@@ -12,9 +12,8 @@ export default class WbLookupTable {
         const v = lookupTable[i];
         this.#inputs[i] = v.x;
       }
-    } else {
+    } else
       this.#inputs = undefined;
-    }
   }
 
   minMetricsRange() {

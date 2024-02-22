@@ -43,7 +43,7 @@ class Driver(Supervisor):
             car = 'car.dll'
             driver = 'driver.dll'
         elif sys.platform == 'darwin':
-            path = os.path.join('Contents', 'MacOS', 'lib', 'controller')
+            path = os.path.join('Contents', 'lib', 'controller')
             car = 'libcar.dylib'
             driver = 'libdriver.dylib'
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, car))

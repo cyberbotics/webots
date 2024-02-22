@@ -194,10 +194,9 @@ void WbWrenCamera::setFieldOfView(float fov) {
       init();
     }
 
-    if (fov > M_PI_2) {  // maximum X field of view of the sub-camera is pi / 2
-      aspectRatio = aspectRatio * (M_PI_2 / fov);
-      fov = M_PI_2;
-    }
+    fov = fov > M_PI_2 ? M_PI_2 : fov;  // maximum X field of view of the sub-camera is pi / 2
+    aspectRatio = tan((mSphericalFieldOfViewX > M_PI_2 ? M_PI_2 : mSphericalFieldOfViewX) / 2) /
+                  tan((mSphericalFieldOfViewY > M_PI_2 ? M_PI_2 : mSphericalFieldOfViewY) / 2);
 
     fieldOfViewY = computeFieldOfViewY(fov, aspectRatio);
     if (fieldOfViewY > M_PI_2) {  // maximum Y field of view of the sub-camera is pi / 2
@@ -766,7 +765,7 @@ void WbWrenCamera::setupSphericalSubCameras() {
 
   if (verticalCameraNumber == 1) {
     // this coefficient is set to work even in the worse case (just before enabling top and bottom cameras)
-    mSphericalFovYCorrectionCoefficient = 1.27;
+    mSphericalFovYCorrectionCoefficient = 1.4;
     mSphericalFieldOfViewY *= mSphericalFovYCorrectionCoefficient;
   } else
     mSphericalFovYCorrectionCoefficient = 1.0;
@@ -883,17 +882,25 @@ void WbWrenCamera::setCamerasOrientations() {
 }
 
 void WbWrenCamera::setFovy(float fov) {
-  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT - 2; ++i) {  // Skip the UP/DOWN camera
     if (mIsCameraActive[i])
       wr_camera_set_fovy(mCamera[i], fov);
   }
+  if (mIsCameraActive[CAMERA_ORIENTATION_UP])
+    wr_camera_set_fovy(mCamera[CAMERA_ORIENTATION_UP], M_PI - fov);
+  if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
+    wr_camera_set_fovy(mCamera[CAMERA_ORIENTATION_DOWN], M_PI - fov);
 }
 
 void WbWrenCamera::setAspectRatio(float aspectRatio) {
-  for (int i = 0; i < CAMERA_ORIENTATION_COUNT; ++i) {
+  for (int i = 0; i < CAMERA_ORIENTATION_COUNT - 2; ++i) {  // Skip the UP/DOWN camera
     if (mIsCameraActive[i])
       wr_camera_set_aspect_ratio(mCamera[i], aspectRatio);
   }
+  if (mIsCameraActive[CAMERA_ORIENTATION_UP])
+    wr_camera_set_aspect_ratio(mCamera[CAMERA_ORIENTATION_UP], 1.0);
+  if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
+    wr_camera_set_aspect_ratio(mCamera[CAMERA_ORIENTATION_DOWN], 1.0);
 }
 
 void WbWrenCamera::updatePostProcessingParameters(int index) {
