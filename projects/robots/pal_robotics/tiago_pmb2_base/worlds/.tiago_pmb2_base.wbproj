@@ -5,5 +5,5 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/tiago_base/tiago_base.c"
+textFiles: 0 "controllers/tiago_base/tiago_pmb2_base.c"
 consoles: Console:All:All

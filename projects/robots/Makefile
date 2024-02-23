@@ -54,7 +54,8 @@ CONTROLLERS=\
   nex/controllers.Makefile \
   niryo/ned/controllers.Makefile \
   nvidia/jetbot/controllers.Makefile \
-  pal_robotics/tiago_base/controllers/tiago_base.Makefile \
+  pal_robotics/tiago_pmb2_base/controllers/tiago_pmb2_base.Makefile \
+  pal_robotics/tiago_omni_base/controllers/tiago_omni_base.Makefile \
   pal_robotics/tiago_lite/controllers/tiago_lite.Makefile \
   pal_robotics/tiago/controllers/tiago.Makefile \
   pal_robotics/tiagopp/controllers/tiago++.Makefile \

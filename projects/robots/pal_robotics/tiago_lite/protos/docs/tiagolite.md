@@ -10,23 +10,25 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 TiagoLite {
-  SFVec3f     translation      0 0 0.095
-  SFRotation  rotation         0 0 1 0
-  SFString    name             "TIAGo LITE"
-  SFString    controller       "tiago_lite"
-  MFString    controllerArgs   []
-  SFString    window           "<generic>"
-  SFString    customData       ""
-  SFBool      supervisor       FALSE
-  SFBool      synchronization  TRUE
-  SFBool      selfCollision    FALSE
-  MFNode      cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
-  MFNode      lidarSlot        HokuyoUrg04lxug01 {}   
+  SFVec3f                translation      0 0 0
+  SFRotation             rotation         0 0 1 0
+  SFString               name             "TIAGo LITE"
+  SFString               controller       "tiago_lite"
+  MFString               controllerArgs   []
+  SFString               window           "<generic>"
+  SFString               customData       ""
+  SFBool                 supervisor       FALSE
+  SFBool                 synchronization  TRUE
+  SFBool                 selfCollision    FALSE
+  SFString{"PMB2, OMNI"} base             "PMB2"
+  MFNode                 cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
+  MFNode                 lidarSlot        HokuyoUrg04lxug01 {}   
 }
 ```
 
 #### TiagoLite Field Summary
 
+- `base`: Defines if the robot is using the TIAGo PMB2 or the OMNI base robot.
 - `cameraSlot`:  Extends the robot with a camera at head level.
 - `lidarSlot`: Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 

@@ -5,7 +5,7 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLigh
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_pmb2_base/protos/TiagoPmb2Base.proto"
 EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
@@ -29,14 +29,14 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a TIAGo Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "This simulation shows a TIAGo PMB2 Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
-  title "Simulation of PAL Robotics' TIAGo Base robot"
+  title "Simulation of PAL Robotics' TIAGo PMB2 Base robot"
 }
 Viewpoint {
   orientation 0.04207463719185939 -0.37422533569250593 -0.9263828166751608 6.041567672773838
   position -6.552398220985782 0.7357475895306282 0.6006993871667716
-  follow "TIAGo Base"
+  follow "TIAGo PMB2 Base"
   followSmoothness 0
 }
 TexturedBackground {
@@ -79,8 +79,8 @@ DEF ROOF RectangleArena {
     }
   }
 }
-TiagoBase {
-  translation -4.416 1.063 0.095
+TiagoPmb2Base {
+  translation -4.416 1.063 0
   lidarSlot [
     HokuyoUrg04lxug01 {
     }
