@@ -29,7 +29,6 @@ PROTO Crazyflie [
     synchronization IS synchronization
     name IS name
     model "Bitcraze's Crazyflie"
-    translation 0 0 0.015
     children [
       DEF BODY Pose {
         translation 0 0 -0.015
