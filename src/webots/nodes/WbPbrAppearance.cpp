@@ -612,7 +612,7 @@ void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
     return;
   }
 
-  if (writer.isX3d()) {
+  if (writer.isW3d()) {
     if (baseColorMap()) {
       baseColorMap()->setRole("baseColorMap");
       baseColorMap()->write(writer);
@@ -643,16 +643,7 @@ void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
   }
 }
 
-void WbPbrAppearance::exportNodeFields(WbWriter &writer) const {
-  WbAbstractAppearance::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    foreach (WbField *field, fields())
-      if (field->singleType() != WB_SF_NODE)
-        field->write(writer);
-  }
-}
-
-QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
+QStringList WbPbrAppearance::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "baseColor"
          << "emissiveColor"
@@ -673,7 +664,7 @@ bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
 }
 
 void WbPbrAppearance::exportShallowNode(const WbWriter &writer) const {
-  if (!writer.isX3d())
+  if (!writer.isW3d())
     return;
 
   if (baseColorMap()) {

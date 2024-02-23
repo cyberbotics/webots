@@ -127,12 +127,6 @@ bool WbCylinder::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCylinder::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
-}
-
 bool WbCylinder::sanitizeFields() {
   if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
@@ -309,7 +303,7 @@ void WbCylinder::updateScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
-QStringList WbCylinder::fieldsToSynchronizeWithX3D() const {
+QStringList WbCylinder::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "radius"
          << "height"
@@ -535,11 +529,6 @@ void WbCylinder::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(0, 0, center), r);
   } else
     mBoundingSphere->set(WbVector3(), WbVector3(r, halfHeight, 0).length());
-}
-
-// if a cylinder has nothing to draw, then it shouldn't be exported to X3D
-bool WbCylinder::shallExport() const {
-  return mBottom->value() || mTop->value() || mSide->value();
 }
 
 ////////////////////////

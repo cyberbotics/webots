@@ -5,10 +5,10 @@
 # The radius of the caps and of the cylinder itself is given by the radius field.
 
 Capsule {
-  vrmlField SFBool  bottom      TRUE
-  vrmlField SFFloat height      2
-  vrmlField SFFloat radius      1
-  vrmlField SFBool  side        TRUE
-  vrmlField SFBool  top         TRUE
-  field     SFInt32 subdivision 12
+  w3dField SFBool  bottom      TRUE
+  w3dField SFFloat height      2
+  w3dField SFFloat radius      1
+  w3dField SFBool  side        TRUE
+  w3dField SFBool  top         TRUE
+  w3dField SFInt32 subdivision 12
 }
