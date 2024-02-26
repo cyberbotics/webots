@@ -30,4 +30,4 @@ Please refer to [this chapter](nodes-and-api-functions.md) for a detailed descri
 
 These reserved keywords cannot be used in DEF or PROTO names:
 
-`DEF, USE, PROTO, IS, TRUE, FALSE, NULL, field, vrmlField, SFNode, SFColor, SFFloat, SFInt32, SFString, SFVec2f, SFVec3f, SFRotation, SFBool, MFNode, MFColor, MFFloat, MFInt32, MFString, MFVec2f, MFVec3f, MFRotation` and `MFBool`.
+`DEF, USE, PROTO, IS, TRUE, FALSE, NULL, field, w3dField, SFNode, SFColor, SFFloat, SFInt32, SFString, SFVec2f, SFVec3f, SFRotation, SFBool, MFNode, MFColor, MFFloat, MFInt32, MFString, MFVec2f, MFVec3f, MFRotation` and `MFBool`.
