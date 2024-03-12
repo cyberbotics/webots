@@ -6,9 +6,10 @@ on:
   schedule:
     - cron:  '0 23 * * *'
   push:
-    tags:
-      - nightly_*
-      - R20*
+  #  tags:
+  #    - nightly_*
+  #    - R20*
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
