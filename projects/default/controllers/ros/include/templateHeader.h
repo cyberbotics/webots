@@ -17,7 +17,7 @@
 #ifndef WEBOTS_ROS_MESSAGE_%SERVICE_NAME%_H
 #define WEBOTS_ROS_MESSAGE_%SERVICE_NAME%_H
 
-#include "ros/service_traits.h"
+#include <ros/service_traits.h>
 
 #include "%service_name%Request.h"
 #include "%service_name%Response.h"

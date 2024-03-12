@@ -45,7 +45,7 @@
 #include "RosSupervisor.hpp"
 #include "RosTouchSensor.hpp"
 #include "RosVacuumGripper.hpp"
-#include "highlevel/RosControl.hpp"
+// #include "highlevel/RosControl.hpp"
 
 #include <webots/Node.hpp>
 #include <webots/Supervisor.hpp>
@@ -54,7 +54,7 @@
 
 #include <algorithm>
 #include <ctime>
-#include "ros/master.h"
+#include <ros/master.h>
 #include "std_msgs/String.h"
 
 // IP resolution includes
@@ -80,11 +80,11 @@ Ros::Ros() :
   mIsSynchronized(false),
   mUseWebotsSimTime(false),
   mAutoPublish(false),
-  mUseRosControl(false),
+  // mUseRosControl(false),
   mRosNameSpace(""),
   mRobotDescriptionPrefix(""),
-  mSetRobotDescription(false),
-  mRosControl(NULL) {
+  mSetRobotDescription(false) {
+  //mRosControl(NULL) {
 }
 
 Ros::~Ros() {
@@ -109,7 +109,7 @@ Ros::~Ros() {
 
   ros::shutdown();
   delete mRobot;
-  delete mRosControl;
+  // delete mRosControl;
   for (unsigned int i = 0; i < mDeviceList.size(); i++)
     delete mDeviceList[i];
   delete mRosJoystick;
@@ -148,7 +148,8 @@ void Ros::launchRos(int argc, char **argv) {
     else if (strcmp(argv[i], "--use-sim-time") == 0)
       mUseWebotsSimTime = true;
     else if (strcmp(argv[i], "--use-ros-control") == 0)
-      mUseRosControl = true;
+      ROS_ERROR("no ros control in this version");
+    //   mUseRosControl = true;
     else if (strcmp(argv[i], "--auto-publish") == 0)
       mAutoPublish = true;
     else if (std::string(argv[i]).rfind("--robot-description") == 0) {
@@ -477,8 +478,8 @@ void Ros::run(int argc, char **argv) {
   if (mSetRobotDescription)
     mNodeHandle->setParam("robot_description", mRobot->getUrdf(mRobotDescriptionPrefix));
 
-  if (mUseRosControl)
-    mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
+  // if (mUseRosControl)
+  //   mRosControl = new highlevel::RosControl(mRobot, mNodeHandle);
 
   while (!mEnd && ros::ok()) {
     if (!ros::master::check()) {
@@ -486,8 +487,8 @@ void Ros::run(int argc, char **argv) {
       mEnd = true;
     }
 
-    if (mRosControl)
-      mRosControl->read();
+    // if (mRosControl)
+    //   mRosControl->read();
 
     publishClockIfNeeded();
     for (unsigned int i = 0; i < mSensorList.size(); i++)
@@ -502,8 +503,8 @@ void Ros::run(int argc, char **argv) {
     } else if (step(mRobot->getBasicTimeStep()) == -1)
       mEnd = true;
 
-    if (mRosControl)
-      mRosControl->write();
+    // if (mRosControl)
+    //   mRosControl->write();
     if (!mIsSynchronized)
       mStep++;
   }
