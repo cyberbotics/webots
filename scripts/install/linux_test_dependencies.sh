@@ -22,8 +22,14 @@ if [[ $@ != *"--exclude-ros"* ]]; then
          curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
          apt update -qq
          apt install -y ros-$ROS_DISTRO-ros-base ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-controller-manager ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-class-loader ros-$ROS_DISTRO-roslib liburdfdom-tools
+         apt install -y ros-$ROS_DISTRO-*msgs
          apt install -y python3-rosdep
-  elif [[ $UBUNTU_VERSION != "22.04" ]]; then
+  elif [[ $UBUNTU_VERSION == "22.04" ]]; then
+         echo "Adding ROS dependencies"
+         apt update -qq
+         apt install -y ros-*
+         apt install -y *-msgs-dev
+  else
          echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
   fi
 fi
