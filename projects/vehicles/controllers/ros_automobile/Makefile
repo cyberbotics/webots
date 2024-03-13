@@ -41,12 +41,17 @@ else
  ros_automobile: $(CXX_SOURCES:.cxx=.d)
 endif
 
-INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
+ifeq ($(ROS_DISTRO),noetic)
+ INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
+ # include ros libraries
+ LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -Wl,-rpath-link=/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lcontroller_manager -lboost_system
+else
+ INCLUDE = -I$(WEBOTS_HOME_PATH)/projects/default/controllers/ros -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
+ LIBRARIES += -W -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lboost_system  # -lcontroller_manager
+endif
+
 LIBRARIES += -lCppDriver -lCppCar -ldriver -lcar
 
-# include ros libraries
-
-LIBRARIES += -W -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lboost_system  # -lcontroller_manager
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
