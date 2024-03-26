@@ -1494,7 +1494,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const node = WbWorld.instance.nodes?.get(id);
       if (node)
         node.applyOptionalRendering(true);
-      this.#view.x3dScene.render();
+      this.#view.w3dScene.render();
     }
   }
 
@@ -1505,7 +1505,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         return;
       node.applyOptionalRendering(false);
     }
-    this.#view.x3dScene.render();
+    this.#view.w3dScene.render();
   }
 
   #changeVisibility(id, event) {
@@ -1518,7 +1518,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else
         event.target.style.backgroundColor = '';
     }
-    this.#view.x3dScene.render();
+    this.#view.w3dScene.render();
   }
 
   populateJointTab() {
@@ -1553,7 +1553,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
             parameters.position = value;
           else
             joint.position = value;
-          this.#view.x3dScene.render();
+          this.#view.w3dScene.render();
         });
 
         this.joints.appendChild(div);
@@ -1569,7 +1569,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
               parameters2.position = value;
             else
               joint.position2 = value;
-            this.#view.x3dScene.render();
+            this.#view.w3dScene.render();
           });
           this.joints.appendChild(div);
 
@@ -1580,7 +1580,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
               parameters3.position = value;
             else
               joint.position3 = value;
-            this.#view.x3dScene.render();
+            this.#view.w3dScene.render();
           });
           this.joints.appendChild(div);
         } else if (joint.nodeType === WbNodeType.WB_NODE_HINGE_2_JOINT) {
@@ -1594,7 +1594,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
               parameters2.position = value;
             else
               joint.position2 = value;
-            this.#view.x3dScene.render();
+            this.#view.w3dScene.render();
           });
           this.joints.appendChild(div);
         }
@@ -1619,9 +1619,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         if (helix) {
           this.#createSlider(undefined, joint.device, div, value => {
             helix.rotation = new WbVector4(helix.rotation.x, helix.rotation.y, helix.rotation.z, value);
-            this.#view.x3dScene.render();
+            this.#view.w3dScene.render();
           });
         }
+        this.joints.appendChild(div);
+      } else if (joint.nodeType === WbNodeType.WB_NODE_TRACK) {
+        numberOfJoint++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-joint';
+        div.appendChild(this.#createJointInfo('Track: ', joint.name, joint.device));
+        let lastValue = 0;
+        this.#createSlider(undefined, joint.device, div, value => {
+          joint.linearSpeed = parseFloat(lastValue) < parseFloat(value) ? 0.05 : -0.05;
+          lastValue = value;
+          joint.linearSpeed = 0.05;
+          joint.animateMesh();
+          this.#view.w3dScene.render();
+        });
         this.joints.appendChild(div);
       }
     }

@@ -2,5 +2,5 @@
 # of vertex-based geometry nodes including IndexedFaceSet and IndexedLineSet nodes.
 
 Coordinate {
-  vrmlField MFVec3f point []
+  w3dField MFVec3f point []
 }
