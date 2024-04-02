@@ -10,11 +10,11 @@ Viewpoint {
   SFFloat    far                     0.0              # [near, inf)
   SFFloat    exposure                1.0              # [0, inf)
   SFString   follow                  ""               # any string
-  SFBool     followType              "Tracking Shot"  # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
+  SFString   followType              "Tracking Shot"  # {"None", "Tracking Shot", "Mounted Shot", "Pan and Tilt Shot"}
   SFFloat    followSmoothness        0.5              # [0, 1]
   SFNode     lensFlare               NULL             # {LensFlare, PROTO}
   SFFloat    ambientOcclusionRadius  2                # [0, inf)
-  SFFloat    bloomThreshold          10               # [0, inf)
+  SFFloat    bloomThreshold          21               # [0, inf)
 }
 ```
 

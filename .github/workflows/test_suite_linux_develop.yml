@@ -170,7 +170,7 @@ jobs:
         path: artifact
     - name: Get branch name
       id: branch-name
-      uses: tj-actions/branch-names@v5.1
+      uses: tj-actions/branch-names@v7.0.7
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact

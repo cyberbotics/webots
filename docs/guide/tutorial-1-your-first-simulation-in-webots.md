@@ -21,7 +21,7 @@ The guided tour is also available from the *Help* menu of Webots.
 
 ### Create a New World
 
-A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, how is defined the gravity, friction, masses of the objects, etc.
+A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, and the definitions of gravity, friction, masses of the objects, etc.
 It defines the initial state of a simulation.
 The different objects are called **Nodes** and are organized hierarchically in a **Scene Tree**.
 Therefore, a node may contain sub-nodes.
@@ -51,9 +51,9 @@ It should currently list the following nodes:
 
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
 - [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
-- [TexturedBackground](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackground.proto): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
-- [TexturedBackgroundLight](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto): defines the light associated with the above background.
-- [RectangleArena](https://webots.cloud/run?url={{ url.github_tree }}/projects/objects/floors/protos/RectangleArena.proto): define the only object you see so far in this scene.
+- [TexturedBackground](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/backgrounds/protos/TexturedBackground.proto): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
+- [TexturedBackgroundLight](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto): defines the light associated with the above background.
+- [RectangleArena](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/floors/protos/RectangleArena.proto): define the only object you see so far in this scene.
 
 Each node has some customizable properties called **Fields**.
 Let's modify these fields to change the rectangle arena:
