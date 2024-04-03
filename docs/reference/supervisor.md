@@ -146,7 +146,7 @@ This means that we are searching for a node named "SOLID" inside a node named "J
 The `wb_supervisor_node_get_from_id` function retrieves a handle to a node, but from its unique identifier (the `id` parameter).
 The function returns NULL if the given identifier doesn't match with any node of the current world.
 It is recommended to use this function only when knowing formerly the identifier (rather than looping on this function to retrieve all the nodes of a world).
-For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
+For example, when exporting an W3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
 Note that in the ROS API the device name has to be used to retrieve the handle to the node.
