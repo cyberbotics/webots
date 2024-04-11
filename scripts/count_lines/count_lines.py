@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Display the number of lines of codes in this repository for different programming languages."""
+
 import glob
 import os
 
