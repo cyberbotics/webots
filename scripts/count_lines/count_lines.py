@@ -1,6 +1,7 @@
 import glob
 import os
 
+
 def count_lines(filename):
     f = open(filename, 'rb')
     lines = 0
@@ -11,6 +12,7 @@ def count_lines(filename):
         lines += buf.count(b'\n')
         buf = read_f(buf_size)
     return lines
+
 
 def count_files(extensions, name):
     line_counter = 0
@@ -23,6 +25,7 @@ def count_files(extensions, name):
         for f in files:
             line_counter += count_lines(f)
     print((name + ':').ljust(12) + str(line_counter).ljust(6) + ' lines of codes in ' + str(file_counter).ljust(4) + ' files')
+
 
 count_files(['cpp', 'hpp'], 'C++')
 count_files(['c', 'h'], 'C')
