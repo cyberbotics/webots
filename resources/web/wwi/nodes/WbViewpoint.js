@@ -2,6 +2,7 @@ import {M_PI_4, TAN_M_PI_8} from './utils/constants.js';
 import {direction, up} from './utils/utils.js';
 import {GtaoLevel, disableAntiAliasing} from './wb_preferences.js';
 import WbBaseNode from './WbBaseNode.js';
+import WbSolid from './WbSolid.js';
 import WbMatrix3 from './utils/WbMatrix3.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -17,6 +18,8 @@ import {WbNodeType} from './wb_node_type.js';
 export default class WbViewpoint extends WbBaseNode {
   #defaultOrientation;
   #defaultPosition;
+  #follow;
+  #followedId;
   #fieldOfViewY;
   #followEnable;
   #followedObjectDeltaPosition;
@@ -32,7 +35,7 @@ export default class WbViewpoint extends WbBaseNode {
   #wrenHdr;
   #wrenSmaa;
   #wrenViewport;
-  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, followedId,
+  constructor(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness, follow,
     ambientOcclusionRadius) {
     super(id);
 
@@ -53,7 +56,7 @@ export default class WbViewpoint extends WbBaseNode {
     this.ambientOcclusionRadius = ambientOcclusionRadius;
 
     this.followSmoothness = followSmoothness;
-    this.followedId = followedId;
+    this.#follow = follow;
     this.#followEnable = true;
     this.#viewpointForce = new WbVector3();
     this.#viewpointVelocity = new WbVector3();
@@ -74,6 +77,10 @@ export default class WbViewpoint extends WbBaseNode {
 
   set defaultPosition(newDefaultPosition) {
     this.#defaultPosition = newDefaultPosition;
+  }
+
+  get followedId() {
+    return this.#followedId;
   }
 
   createWrenObjects() {
@@ -105,6 +112,7 @@ export default class WbViewpoint extends WbBaseNode {
     this.updateFieldOfView();
     this.updateNear();
     this.updateFar();
+    this.#updateFollowedId();
   }
 
   postFinalize() {
@@ -225,8 +233,8 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   updateFollowUp(time, forcePosition) {
-    if (!this.#followEnable || typeof this.followedId === 'undefined' ||
-      typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
+    if (!this.#followEnable || typeof this.#followedId === 'undefined' ||
+      typeof WbWorld.instance.nodes.get(this.#followedId) === 'undefined')
       return;
 
     // reset the viewpoint position and the variables when the animation restarts
@@ -427,6 +435,15 @@ export default class WbViewpoint extends WbBaseNode {
     else {
       this.#tanHalfFieldOfViewY /= this.aspectRatio;
       this.#fieldOfViewY = 2.0 * Math.atan(this.#tanHalfFieldOfViewY);
+    }
+  }
+
+  #updateFollowedId() {
+    for (const node of WbWorld.instance.nodes.values()) {
+      if (node instanceof WbSolid && node.name === this.#follow) {
+        this.#followedId = node.id;
+        break;
+      }
     }
   }
 }

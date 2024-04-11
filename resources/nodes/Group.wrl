@@ -2,5 +2,5 @@
 # It is equivalent to a Transform node without the "translation" and "rotation" fields.
 
 Group {
-  vrmlField MFNode children []
+  w3dField MFNode children []
 }

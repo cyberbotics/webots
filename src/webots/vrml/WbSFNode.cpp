@@ -64,7 +64,7 @@ WbSFNode::~WbSFNode() {
 void WbSFNode::write(WbWriter &writer) const {
   if (mValue)
     mValue->write(writer);
-  else if (!writer.isX3d() && !writer.isUrdf())
+  else if (!writer.isW3d() && !writer.isUrdf())
     writer << "NULL";
 }
 

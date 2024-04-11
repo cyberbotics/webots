@@ -38,7 +38,7 @@ public:
   // helper, the size of receiving array should be equal to (or greater than) the number of mColor items
   void copyValuesToArray(double array[][3]) const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void changed();
