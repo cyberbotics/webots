@@ -36,8 +36,8 @@ public:
   // field name
   const QString &name() const { return mName; }
 
-  // VRML export
-  bool isVrml() const { return mIsVrml; }
+  // W3D export
+  bool isW3d() const { return mIsW3d; }
   void write(WbWriter &writer) const;
 
   bool isDeprecated() const { return mIsDeprecated; }
@@ -83,7 +83,7 @@ private:
   ~WbFieldModel();
 
   QString mName;
-  bool mIsVrml;
+  bool mIsW3d;
   bool mIsHiddenField, mIsHiddenParameter;
   bool mIsTemplateRegenerator;
   bool mIsDeprecated;

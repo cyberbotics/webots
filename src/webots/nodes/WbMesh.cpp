@@ -401,7 +401,7 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isX3d() || writer.isProto()))
+  if (!(writer.isW3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
@@ -412,7 +412,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {
@@ -425,19 +425,10 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   urlFieldCopy.write(writer);
 
-  findField("ccw", true)->write(writer);
-  findField("materialIndex", -1)->write(writer);
-  if (!mName->value().isEmpty()) {
-    QString dirtyName = mName->value();
-    dirtyName.replace("\'", "&apos;", Qt::CaseInsensitive);
-    dirtyName.replace("\"", "&quot;", Qt::CaseInsensitive);
-    dirtyName.replace(">", "&gt;", Qt::CaseInsensitive);
-    dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
-    writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
-  }
+  WbGeometry::exportNodeFields(writer);
 }
 
-QStringList WbMesh::fieldsToSynchronizeWithX3D() const {
+QStringList WbMesh::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"
          << "ccw"
