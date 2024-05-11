@@ -1,0 +1,599 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/obstacles/protos/OilBarrel.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.16309921047752077 0.19944008111105407 0.966241326785408 1.6169049296075801
+  position 8.070777854393498 -25.688059155164265 9.778134839852951
+  follow "heron_usv"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  translation 4.52366040629511 -1.4438652457520302 0.4607078407996285
+  rotation -5.30279570335843e-05 -0.0007384034625238932 -0.9999997259741435 0.14338256759340193
+  children [
+    Transform {
+      translation -0.185 0 0
+      rotation 0 0 1 1.01503e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.964706 0.827451 0.176471
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/plain-rear-plate.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/right_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/left_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "left_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 -0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "right_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    DEF HERON Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.239216 0.219608 0.27451
+        }
+        texture ImageTexture {
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Mesh {
+        url [
+          "../obj/heron_base.stl"
+        ]
+      }
+    }
+  ]
+  name "heron_usv"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 -0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.04
+        children [
+          Box {
+            size 0.75 0.8 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 -0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  controller "heron_usv_controller"
+  linearVelocity -1.0446091457064508e-48 1.6500681733104246e-49 -7.605509238139369e-07
+  angularVelocity 5.858403601863088e-05 0.0004057817764021779 1.7495030374135233e-19
+}
+DEF WATER Fluid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.0626841 0.552224 0.723339
+        transparency 0.7
+        roughness 1
+        metalness 0
+      }
+      geometry DEF WATER_BOX Box {
+        size 1000 1000 0.7
+      }
+    }
+  ]
+  viscosity 0.01
+  boundingObject Transform {
+    children [
+      USE WATER_BOX
+    ]
+  }
+  locked TRUE
+}
+Solid {
+  translation 7.14669 -3.92481 0.3391536512256855
+  rotation -0.015008395722573746 0.027743645210153753 0.9995023952989247 0.9921796879930528
+  scale 5 5 5
+  children [
+    DEF BEAK Transform {
+      translation 0.0394 0 0.05868
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.901961 0.431373 0.109804
+            roughness 0.7
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/beak.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF BODY Transform {
+      children [
+        DEF GEOM Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.8 0
+            roughness 0.7
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/body.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF EYE Transform {
+      translation 0.026677002 0.012248128 0.069200846
+      rotation -0.18117290235136482 0.4918957348778623 0.8515955410067332 -1.18424
+      children [
+        DEF EYE_GEOM Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/textures/eye.jpg"
+              ]
+            }
+            roughness 0.4
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/eye.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF EYE Transform {
+      translation 0.026708849 -0.012243724 0.069238147
+      rotation -0.23056699185533644 0.18891399332670777 0.954541966281283 -2.20978
+      children [
+        USE EYE_GEOM
+      ]
+    }
+  ]
+  name "rubber duck"
+  model "rubber duck"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 -0.018
+        children [
+          Box {
+            size 0.06 0.05 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0.037 0 0.06
+        children [
+          Box {
+            size 0.014 0.025 0.015
+          }
+        ]
+      }
+      Transform {
+        translation 0.01 0 0.059
+        children [
+          Sphere {
+            radius 0.025
+          }
+        ]
+      }
+      Transform {
+        translation -0.042 0 0.013
+        rotation -0.06526396752413574 -0.06526396752413574 0.9957315045161609 1.575074
+        children [
+          Capsule {
+            height 0.04
+            radius 0.008
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.005
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.05
+            radius 0.025
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0.013 0 0.034
+        children [
+          Cylinder {
+            height 0.013
+            radius 0.018
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.02 0
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.036
+            radius 0.018
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.02 0
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.036
+            radius 0.018
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+    }
+  }
+  recognitionColors [
+    0.87451 0.756863 0.113725
+  ]
+  linearVelocity 0 0 3.3293624693543145e-14
+  angularVelocity 1.1305476084480753e-11 9.15134504157895e-12 2.144960893471934e-12
+}
+Solid {
+  translation 6.4943669394246095 -0.621076223979003 0.3391536512256699
+  rotation -0.015013139157627938 0.011737580454808973 0.999818400939741 1.8146543198789304
+  scale 5 5 5
+  children [
+    DEF BEAK Transform {
+      translation 0.0394 0 0.05868
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.901961 0.431373 0.109804
+            roughness 0.7
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/beak.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF BODY Transform {
+      children [
+        DEF GEOM Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.8 0
+            roughness 0.7
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/body.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF EYE Transform {
+      translation 0.026677002 0.012248128 0.069200846
+      rotation -0.18117290235136482 0.4918957348778623 0.8515955410067332 -1.18424
+      children [
+        DEF EYE_GEOM Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/textures/eye.jpg"
+              ]
+            }
+            roughness 0.4
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck/meshes/eye.obj"
+            ]
+          }
+        }
+      ]
+    }
+    DEF EYE Transform {
+      translation 0.026708849 -0.012243724 0.069238147
+      rotation -0.23056699185533644 0.18891399332670777 0.954541966281283 -2.20978
+      children [
+        USE EYE_GEOM
+      ]
+    }
+  ]
+  name "rubber duck(1)"
+  model "rubber duck"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 -0.018
+        children [
+          Box {
+            size 0.06 0.05 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0.037 0 0.06
+        children [
+          Box {
+            size 0.014 0.025 0.015
+          }
+        ]
+      }
+      Transform {
+        translation 0.01 0 0.059
+        children [
+          Sphere {
+            radius 0.025
+          }
+        ]
+      }
+      Transform {
+        translation -0.042 0 0.013
+        rotation -0.06526396752413574 -0.06526396752413574 0.9957315045161609 1.575074
+        children [
+          Capsule {
+            height 0.04
+            radius 0.008
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.005
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.05
+            radius 0.025
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0.013 0 0.034
+        children [
+          Cylinder {
+            height 0.013
+            radius 0.018
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.02 0
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.036
+            radius 0.018
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.02 0
+        rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
+        children [
+          Capsule {
+            height 0.036
+            radius 0.018
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+    }
+  }
+  recognitionColors [
+    0.87451 0.756863 0.113725
+  ]
+  linearVelocity 0 0 -2.9743045305569948e-15
+  angularVelocity -3.454113732048924e-13 1.4447344932541756e-13 3.479845892087314e-14
+}
+OilBarrel {
+  hidden linearVelocity_0 0 0 3.3632587807085425e-16
+  translation -7.137331960846931 1.5026432990788887 0.5595498919704249
+  rotation -0.006514338530380317 0.7086366533239346 -0.7055435188274113 -3.004050319493877
+  physics Physics {
+    density 100
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+    }
+  ]
+}
