@@ -17,7 +17,7 @@ from controller import Robot, Keyboard
 # Create the Robot instance.
 robot = Robot()
 
-keyboard = robot.getKeyboard()
+keyboard = Keyboard()
 keyboard.enable(1000)
 
 # Get the time step of the current world.

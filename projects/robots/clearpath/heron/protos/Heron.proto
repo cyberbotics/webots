@@ -1,6 +1,4 @@
 #VRML_SIM R2023a utf8
-# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
-# license url: https://cyberbotics.com/webots_assets_license
 # Heron USV from Clearpath
 
 PROTO Heron [
@@ -11,7 +9,7 @@ PROTO Heron [
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
   field SFString   window          "<generic>"   # Is `Robot.window`.
   field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
-  field SFColor    color           0.8 0.5 0.1   # Set the bumper color.
+  field SFColor    color           0 0 0   # Set the bumper color.
   field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
 ]
 {
