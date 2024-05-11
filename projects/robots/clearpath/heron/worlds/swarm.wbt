@@ -7,8 +7,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.16182542841255412 0.05086835150351285 0.9855074538198116 2.7734415994114325
-  position 4.405020592471226 -2.5672464156130994 5.889973415227746
+  orientation -0.1530425006556164 0.1186694463170303 0.981068578389852 2.074963317613508
+  position -2.1480771978670727 -7.040105713881074 5.837167217246025
   follow "heron_usv"
 }
 TexturedBackground {
@@ -16,8 +16,8 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 Robot {
-  translation -8.745262721392196 2.2893014497913806 0.4607078932571719
-  rotation -0.00012771567942538524 -0.00014745618704912973 -0.9999999809726887 1.4275640632894828
+  translation -8.966667054553618 2.2522664131230914 0.4607076886234796
+  rotation 4.354910719564034e-05 5.038136330044529e-05 -0.9999999977825967 1.4255773180629152
   children [
     Transform {
       translation -0.185 0 0
@@ -207,8 +207,593 @@ Robot {
     }
   }
   controller "heron_usv_controller"
-  linearVelocity 3.781607611636344e-88 2.7722016315276604e-87 1.1130756256616958e-06
-  angularVelocity 0.0009670554937837543 0.0001394686281319582 -1.2135128876604891e-18
+  linearVelocity -1.374684074496604e-62 -2.3010196993674645e-63 -2.3243030400312516e-06
+  angularVelocity 0.0001991283688528125 2.912222846341607e-05 5.0338743881919334e-20
+}
+Robot {
+  translation -7.86759948870937 2.420336321026957 0.4607075068988634
+  rotation -3.934284907174036e-05 -4.681636255588292e-05 -0.9999999981301843 1.3977479906308097
+  children [
+    Transform {
+      translation -0.185 0 0
+      rotation 0 0 1 1.01503e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.964706 0.827451 0.176471
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/plain-rear-plate.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/right_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/left_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "left_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 -0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "right_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    DEF HERON Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.239216 0.219608 0.27451
+        }
+        texture ImageTexture {
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Mesh {
+        url [
+          "../obj/heron_base.stl"
+        ]
+      }
+    }
+  ]
+  name "heron_usv(1)"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 -0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.04
+        children [
+          Box {
+            size 0.75 0.8 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 -0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  controller "heron_usv_controller"
+  linearVelocity -1.2150020712846084e-60 -3.795358344005562e-61 -7.737287236600241e-07
+  angularVelocity 0.0002026514370308186 3.542278935653201e-05 -3.673487391286503e-19
+}
+Robot {
+  translation -6.8992623579707315 2.5153676374756793 0.4607075789021848
+  rotation 0.00038137592797382136 0.00043400203298794393 -0.9999998330973044 1.4418913333316488
+  children [
+    Transform {
+      translation -0.185 0 0
+      rotation 0 0 1 1.01503e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.964706 0.827451 0.176471
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/plain-rear-plate.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/right_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/left_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "left_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 -0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "right_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    DEF HERON Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.239216 0.219608 0.27451
+        }
+        texture ImageTexture {
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Mesh {
+        url [
+          "../obj/heron_base.stl"
+        ]
+      }
+    }
+  ]
+  name "heron_usv(2)"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 -0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.04
+        children [
+          Box {
+            size 0.75 0.8 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 -0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  controller "heron_usv_controller"
+  linearVelocity -2.4216425029471387e-60 -2.7819643967818302e-61 -1.3202351171575406e-06
+  angularVelocity 0.0021998390209959757 0.00028515176302868785 1.7337001185044833e-18
+}
+Robot {
+  translation -5.70262 2.68036 0.4607075716078548
+  rotation -3.027905820395772e-05 -3.507453185081821e-05 -0.9999999989264781 1.4243041555338372
+  children [
+    Transform {
+      translation -0.185 0 0
+      rotation 0 0 1 1.01503e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.964706 0.827451 0.176471
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/plain-rear-plate.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 -0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/right_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0.35 0.05
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.960784 0.760784 0.0666667
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "../obj/left_panel.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "left_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.73 -0.38 -0.14
+      children [
+        Propeller {
+          device RotationalMotor {
+            name "right_motor"
+            maxVelocity 30
+          }
+          fastHelix Solid {
+            rotation 0 1 0 1.5708
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.368627 0.360784 0.392157
+                }
+                geometry Cylinder {
+                  height 0.1
+                  radius 0.05
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    DEF HERON Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.239216 0.219608 0.27451
+        }
+        texture ImageTexture {
+        }
+        textureTransform TextureTransform {
+        }
+      }
+      geometry Mesh {
+        url [
+          "../obj/heron_base.stl"
+        ]
+      }
+    }
+  ]
+  name "heron_usv(3)"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 -0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0.134 0.35
+        children [
+          Cylinder {
+            height 0.35
+            radius 0.005
+          }
+        ]
+      }
+      Transform {
+        translation 0 0 0.04
+        children [
+          Box {
+            size 0.75 0.8 0.1
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 -0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+      Transform {
+        translation -1.42746e-07 0.37 -0.14
+        rotation 0 1 0 -1.5707953071795862
+        children [
+          Capsule {
+            height 1.2
+            radius 0.1
+            subdivision 16
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density 400
+    centerOfMass [
+      0 0 0
+    ]
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  controller "heron_usv_controller"
+  linearVelocity 0 0 2.3212134488944604e-06
+  angularVelocity 6.85708221219303e-05 1.0117566627096724e-05 1.2638676249562585e-20
 }
 DEF WATER Fluid {
   children [
@@ -233,10 +818,9 @@ DEF WATER Fluid {
   locked TRUE
 }
 OilBarrel {
-  hidden linearVelocity_0 2.279718970196228e-84 7.175507344075087e-84 -9.830093645651827e-08
-  hidden angularVelocity_0 -0.00020240550653680402 0.0007838039869854438 -3.5835749260232474e-19
-  translation -5.769041604986175 5.7137363726152754 0.5595498885934773
-  rotation 0.16995723822816233 0.9045642485178794 -0.390996237164937 -1.7514393221414872
+  hidden linearVelocity_0 0 0 5.482079875807984e-16
+  translation -5.769041604986175 5.7137363726152754 0.5595498919704248
+  rotation -0.16995723822816233 -0.9045642485178795 0.39099623716493703 1.751439322141487
   physics Physics {
     density 100
     damping Damping {
@@ -251,10 +835,9 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 -9.395723537834991e-79 1.4693486219656376e-78 9.180210624799918e-08
-  hidden angularVelocity_0 -0.0013083831220102474 0.00024271599797989288 2.1784688874000346e-20
-  translation -10.052079249302796 2.4814946123187727 0.5595499016183809
-  rotation 0.2750758106273438 0.6600176649821811 -0.6990779501022607 2.843680177267007
+  hidden linearVelocity_0 0 0 -6.820345134302821e-16
+  translation -10.052079249302796 2.4814946123187727 0.5595498919704248
+  rotation -0.2750758106273438 -0.660017664982181 0.6990779501022609 -2.8436801772670064
   name "oil barrel(1)"
   physics Physics {
     density 100
@@ -270,10 +853,9 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 -2.7106540692916766e-80 -9.489085146769864e-80 -6.820345134302821e-16
-  hidden angularVelocity_0 -5.425059666181305e-81 -8.699200035425662e-81 5.127365877507019e-81
+  hidden linearVelocity_0 0 0 7.241904738043405e-17
   translation -9.806804324970415 -3.2705951440882433 0.5595498919704248
-  rotation 0.9914248557443196 0.04559709558681101 0.12246493492588871 1.5859460279251565
+  rotation 0.9914248557443196 0.045597095586811014 0.12246493492588871 1.5859460279251565
   name "oil barrel(2)"
   physics Physics {
     density 100
@@ -289,10 +871,10 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 1.349051149347315e-79 6.193620958413781e-78 -5.825222212626668e-08
-  hidden angularVelocity_0 0.00036016939171020683 0.0011363961039678016 6.227975842817276e-19
-  translation -9.046348837161165 3.2463636605243056 0.5595498900956839
-  rotation 0.7375476409921733 0.14387598358647882 -0.6597902535002343 -2.4503322533169154
+  hidden linearVelocity_0 -3.2387879034767327e-56 4.259374835467848e-56 -7.952911962539142e-08
+  hidden angularVelocity_0 -0.0007666942379761637 -0.0015863719773576397 3.1711574832814148e-19
+  translation -9.210530377900385 3.4633481997220334 0.5595499012259658
+  rotation 0.770575560075714 0.22493029445922938 -0.5963385522071198 -2.1541012385958602
   name "oil barrel(3)"
   physics Physics {
     density 100
