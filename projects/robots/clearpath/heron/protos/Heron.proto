@@ -1,5 +1,12 @@
 #VRML_SIM R2023a utf8
-# Heron USV from Clearpath
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/clearpath/heron/protos/Heron.proto
+# keywords: robot/wheeled
+# Clearpath Heron USV is an autonomous watercraft designed for various marine tasks. 
+# It features electric propulsion, advanced navigation systems, and integration capabilities for collaborative missions.
+# With a streamlined hull and multiple sensor suites including cameras,
+# it excels in environmental monitoring, surveillance, and research.
 
 PROTO Heron [
   field SFVec3f    translation     0 0 0.0     # Is `Pose.translation`.
