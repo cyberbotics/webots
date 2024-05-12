@@ -34,7 +34,6 @@ right_motor.setPosition(float('inf'))
 # Set initial velocities.
 left_velocity = 0.0
 right_velocity = 0.0
-
 # Main loop:
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
