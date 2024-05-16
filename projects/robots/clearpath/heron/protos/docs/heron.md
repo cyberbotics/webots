@@ -40,4 +40,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### [heron\ocean.wbt]({{ url.github_tree }}/projects/robots/clearpath/moose/worlds/heron\ocean.wbt)
 
-![moose_demo.wbt.png](images/moose/moose_demo.wbt.thumbnail.jpg) This simulation shows a Moose robot following a predefined path on an uneven terrain. It carries a cardboard box.2.wbt.thumbnail.jpg) This simulation shows a PR2 robot grabbing biscuit boxes from one table, and putting them on another table.
+![swarm.png](images/heron/swarm.jpg) This simulation shows a basicly swarm robotics.
