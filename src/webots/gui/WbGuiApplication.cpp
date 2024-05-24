@@ -12,6 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifdef _WIN32
+#include <windows.h>
+#include <dwmapi.h>
+#include <QtGui/QWindow>
+#endif
+
 #include "WbGuiApplication.hpp"
 
 #include "WbApplication.hpp"
@@ -492,10 +498,6 @@ void WbGuiApplication::loadInitialWorld() {
 }
 
 #ifdef _WIN32
-#include <Windows.h>
-#include <dwmapi.h>
-#include <QtGui/QWindow>
-
 static bool windowsDarkMode = false;
 
 enum PreferredAppMode { Default, AllowDark, ForceDark, ForceLight, Max };
