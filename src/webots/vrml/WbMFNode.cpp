@@ -198,7 +198,7 @@ void WbMFNode::write(WbWriter &writer) const {
   const int vectorSize = mVector.size();
   for (int i = 0; i < vectorSize; ++i) {
     if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
-      if (!writer.isX3d())
+      if (!writer.isW3d())
         writer.writeMFSeparator(c == 0, smallSeparator(i));
       writeItem(writer, i);
       ++c;

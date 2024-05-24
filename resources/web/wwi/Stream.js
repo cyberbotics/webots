@@ -138,8 +138,8 @@ export default class Stream {
       }
     } else if (data === 'reset finished') {
       this.view.resetSimulation();
-      if (typeof this.view.x3dScene !== 'undefined' && typeof this.view.multimediaClient === 'undefined')
-        this.view.x3dScene.resetViewpoint();
+      if (typeof this.view.w3dScene !== 'undefined' && typeof this.view.multimediaClient === 'undefined')
+        this.view.w3dScene.resetViewpoint();
       if (typeof this.#onready === 'function')
         this.#onready();
     } else if (data.startsWith('time: ')) {
@@ -152,8 +152,8 @@ export default class Stream {
       let messagedProcessed = false;
       if (typeof this.view.multimediaClient !== 'undefined')
         messagedProcessed = this.view.multimediaClient.processServerMessage(data);
-      else if (typeof this.view.x3dScene !== 'undefined')
-        messagedProcessed = this.view.x3dScene.processServerMessage(data, this.view);
+      else if (typeof this.view.w3dScene !== 'undefined')
+        messagedProcessed = this.view.w3dScene.processServerMessage(data, this.view);
       if (!messagedProcessed)
         console.log('WebSocket error: Unknown message received: "' + data + '"');
     }
