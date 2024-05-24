@@ -40,6 +40,10 @@
 
 #include <QtCore/QDataStream>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #define SHIFT(value, shift) (((value) >> (shift)) & 0xFF)
 
 class WbDisplayImage {
