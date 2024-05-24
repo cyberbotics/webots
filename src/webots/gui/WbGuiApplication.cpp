@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #ifdef _WIN32
-#include <windows.h>
 #include <dwmapi.h>
+#include <windows.h>
 #include <QtGui/QWindow>
 #endif
 
