@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     double pos = wb_position_sensor_get_value(sensor);
 
     if (pos >= M_PI / 4)
-      wb_motor_set_velocity(motor, -2 * VITESSE);
+      wb_motor_set_velocity(motor, -2 * SPEED);
     if (pos <= -M_PI / 4)
       wb_motor_set_velocity(motor, VITESSE);
   }
