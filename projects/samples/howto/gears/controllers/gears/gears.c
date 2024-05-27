@@ -24,7 +24,11 @@
 
 #define TIME_STEP 8
 
-int main(int argc, char **argv) {
+
+#define VITESSE 0.3
+int main(int argc, char **argv)
+{
+
   wb_robot_init();
 
   WbDeviceTag motor = wb_robot_get_device("rotational motor");
@@ -38,9 +42,9 @@ int main(int argc, char **argv) {
     double pos = wb_position_sensor_get_value(sensor);
 
     if (pos >= M_PI / 4)
-      wb_motor_set_velocity(motor, -0.2);
+      wb_motor_set_velocity(motor, -2 * VITESSE);
     if (pos <= -M_PI / 4)
-      wb_motor_set_velocity(motor, 0.2);
+      wb_motor_set_velocity(motor, VITESSE);
   }
 
   wb_robot_cleanup();
