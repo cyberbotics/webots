@@ -25,7 +25,7 @@
 #define TIME_STEP 8
 
 
-#define VITESSE 0.3
+#define SPEED 0.3
 int main(int argc, char **argv)
 {
 
