@@ -83,10 +83,10 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
+  else if (test == "getPose")
+    $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
   else if (test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
-  else if (test != "getPose")
-    $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
 }
 %apply double[] {double *};
 
