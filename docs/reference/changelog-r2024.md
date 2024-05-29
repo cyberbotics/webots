@@ -10,4 +10,4 @@ Released on December **th, 2023.
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
   - Bug Fixes
     - Fixed error message on Windows when `libssl-3-x64.dll` was added to `PATH` ([#6553](https://github.com/cyberbotics/webots/pull/6553)).
-    - Fixed length of arrays returned by `getPose()` in Java ([#6328](https://github.com/cyberbotics/webots/pull/6556)).
+    - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
