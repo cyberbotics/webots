@@ -1,13 +1,9 @@
 The [clearpath's Heron USV](https://robots.ros.org/clearpath-heron-usv/) is a USV platform.
 
-### Reliability: 
-  Heron is known for engineering quality and durability based on Clearpath Robotics' years of experience. This allows users to perform their tasks without worrying about reliability.
-### Flexibility: 
-  Heron's modular design allows it to be configured according to users' needs and task requirements. This facilitates the integration of different sensors, equipment and loads, making it suitable for a variety of applications.
-### Autonomous Capabilities: 
-  Heron has autonomous navigation capabilities that can perform complex tasks. This ensures it can travel designated routes and complete tasks without operator intervention.
-### High Performance: 
-  Heron is a high-performance platform optimized for long-range and long-duration missions. This provides the ability to cover large areas, collect data, and be continuously active throughout the mission.
+### Motors
+
+  There are 2 engines, engine name ```left_motor```and ```right_motor``.
+  You can add new Camera, GPS or other sensors you want under ``body_slot```.
 
 ### Movie Presentation
 
