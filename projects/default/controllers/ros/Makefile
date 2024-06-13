@@ -35,17 +35,16 @@ ifeq ($(OSTYPE),linux)
  CFLAGS = -std=c++11
 endif
 
+
 PYTHON_COMMAND ?= python3
-ifeq (, $(ROS_DISTRO))
-release debug profile clean:
-	@$(ECHO) "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
-else
 ifeq (2, $(ROS_VERSION))
 release debug profile clean:
-	@$(ECHO) "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
+	@$(ECHO) "# \033[0;33mROS_VERSION should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
-CXX_SOURCES += $(wildcard highlevel/*.cpp)
+# neither of these work with ros_control
+# CXX_SOURCES += highlevel/RosControl.cpp
+# CXX_SOURCES += highlevel/WebotsHW.cpp
 
 ifeq ($(OSTYPE),windows)
  ros.exe: $(CXX_SOURCES:.cxx=.d)
@@ -65,11 +64,15 @@ include/services/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv include
 	@echo "# generating service header" $(notdir $<)
 	$(SILENT)$(PYTHON_COMMAND) headersFromSRV.py $<
 
-INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
+ifeq ($(ROS_DISTRO),noetic)
+ INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
+ # include ros libraries
+ LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -Wl,-rpath-link=/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lcontroller_manager -lboost_system
+else
+ INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include
+ LIBRARIES += -W -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lboost_system
+endif
 
-# include ros libraries
-
-LIBRARIES += -L/opt/ros/$(ROS_DISTRO)/lib -Wl,-rpath-link=/opt/ros/$(ROS_DISTRO)/lib -lxmlrpcpp -lcpp_common -lrosconsole_backend_interface -lroscpp -lrosconsole -lrosconsole_log4cxx -lroscpp_serialization -lrostime -lcontroller_manager -lboost_system
 ifeq ($(OSTYPE),windows)
  LIBRARIES += -lws2_32
  ifeq ($(MAKECMDGOALS),debug)
@@ -97,5 +100,4 @@ FILES_TO_REMOVE += include/webots_ros include/messages include/services headersG
 ### Do not modify: this includes Webots global Makefile.include
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-endif
 endif

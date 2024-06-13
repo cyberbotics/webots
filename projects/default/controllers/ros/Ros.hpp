@@ -30,7 +30,8 @@
 #include <webots_ros/robot_set_mode.h>
 #include <webots_ros/robot_wait_for_user_input_event.h>
 
-#include <highlevel/RosControl.hpp>
+// temp disable until controller_manager.h is in Ubuntu Debian ros
+// #include <highlevel/RosControl.hpp>
 
 using namespace webots;
 
@@ -122,11 +123,11 @@ private:
   bool mIsSynchronized;
   bool mUseWebotsSimTime;
   bool mAutoPublish;
-  bool mUseRosControl;
+  // bool mUseRosControl;
   std::string mRosNameSpace;
   std::string mRobotDescriptionPrefix;
   bool mSetRobotDescription;
-  highlevel::RosControl *mRosControl;
+  // highlevel::RosControl *mRosControl;
 };
 
 #endif  // ROS_HPP
