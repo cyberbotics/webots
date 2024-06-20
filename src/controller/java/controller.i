@@ -230,7 +230,7 @@ namespace webots {
   }
   const double *getColor(int index) const {
     const double *colors = $self->colors;
-    return colors[index];
+    return &colors[3*index];
   }
 };
 
