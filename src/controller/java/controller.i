@@ -85,12 +85,14 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
   else if (test == "getPose")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
-  else if (test == "getColor")
-    $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
-  else if (test != "getLookupTable")
+  else if (test != "colors" && test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
+
+%typemap(out) double *colors {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->number_of_colors*3);
+}
 
 %typemap(out) const double *getLookupTable {
   $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
@@ -209,7 +211,6 @@ namespace webots {
 %javamethodmodifiers position_on_image "private"
 %javamethodmodifiers size_on_image "private"
 %javamethodmodifiers number_of_colors "private"
-%javamethodmodifiers colors "private"
 
 %typemap(out) int [] {
   $result = SWIG_JavaArrayOutInt(jenv, $1, 2);
@@ -227,10 +228,6 @@ namespace webots {
   }
   int getNumberOfColors() const {
     return $self->number_of_colors;
-  }
-  const double *getColor(int index) const {
-    const double *colors = $self->colors;
-    return &colors[3*index];
   }
 };
 
