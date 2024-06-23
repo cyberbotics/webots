@@ -85,10 +85,14 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
   else if (test == "getPose")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
-  else if (test != "getLookupTable")
+  else if (test != "colors" && test != "getLookupTable")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
+
+%typemap(out) double *colors {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->number_of_colors*3);
+}
 
 %typemap(out) const double *getLookupTable {
   $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
