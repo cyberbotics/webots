@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -26,7 +26,7 @@ Transform {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/tests/api/worlds/textures/color_checker_chart.png"
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/tests/api/worlds/textures/color_checker_chart.png"
           ]
         }
         roughness 1

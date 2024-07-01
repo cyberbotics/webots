@@ -324,7 +324,6 @@ void WbBoundingSphere::parentUpdateNotification() const {
 }
 
 void WbBoundingSphere::setOwnerMoved() {
-  assert(mPoseOwner);
   if (mParentBoundingSphere && !mParentCoordinatesDirty) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)

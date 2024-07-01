@@ -5,9 +5,8 @@ import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbDevice from './nodes/WbDevice.js';
-import WbShape from './nodes/WbShape.js';
-import WbSlot from './nodes/WbSlot.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
+import {WbNodeType} from './nodes/wb_node_type.js';
 
 /* The following member variables can be set by the application:
 
@@ -43,13 +42,13 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023b/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2024a/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
 
     this.progressCss = document.createElement('link');
-    this.progressCss.href = 'https://cyberbotics.com/wwi/R2023b/css/progress.css';
+    this.progressCss.href = 'https://cyberbotics.com/wwi/R2024a/css/progress.css';
     this.progressCss.type = 'text/css';
     this.progressCss.rel = 'stylesheet';
     document.head.appendChild(this.progressCss);
@@ -60,7 +59,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return 'https://cyberbotics.com/wwi/R2023b/' + path;
+          return 'https://cyberbotics.com/wwi/R2024a/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -101,13 +100,13 @@ export default class WebotsView extends HTMLElement {
       });
     };
 
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/ansi_up.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/assimpjs.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/glm-js.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/libtess.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/wrenjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/dependencies/ansi_up.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/dependencies/assimpjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/dependencies/glm-js.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/dependencies/libtess.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/enum.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2024a/wrenjs.js'));
   }
 
   #closeWhenDOMElementRemoved() {
@@ -152,7 +151,7 @@ export default class WebotsView extends HTMLElement {
   resetViewpoint() {
     if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined') {
       WbWorld.instance.viewpoint.resetViewpoint();
-      this._view.x3dScene.render();
+      this._view.w3dScene.render();
     }
   }
 
@@ -166,9 +165,9 @@ export default class WebotsView extends HTMLElement {
       'id': nodeId,
       [field]: value
     };
-    this._view.x3dScene.applyUpdate(update);
+    this._view.w3dScene.applyUpdate(update);
     if (render)
-      this._view.x3dScene.render();
+      this._view.w3dScene.render();
   }
 
   getNode(id) {
@@ -193,7 +192,7 @@ export default class WebotsView extends HTMLElement {
   // Animation's functions
   loadAnimation(scene, animation, play, isMobileDevice, thumbnail, raw) {
     if (typeof scene === 'undefined') {
-      console.error('No x3d file defined');
+      console.error('No w3d file defined');
       return;
     }
 
@@ -262,7 +261,7 @@ export default class WebotsView extends HTMLElement {
 
   /*
    * url : url of the server
-   * mode : x3d or mjpeg
+   * mode : w3d or mjpeg
    * broadcast: boolean
    * isMobileDevice: boolean
    */
@@ -336,7 +335,7 @@ export default class WebotsView extends HTMLElement {
   // Scene functions
   loadScene(scene, isMobileDevice, thumbnail) {
     if (typeof scene === 'undefined') {
-      console.error('No x3d file defined');
+      console.error('No w3d file defined');
       return;
     }
     if (!this.initializationComplete)
@@ -402,13 +401,13 @@ export default class WebotsView extends HTMLElement {
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
-        if (topProtoNode instanceof WbDevice || topProtoNode instanceof WbSlot || topProtoNode instanceof WbShape ||
-          moveFloor === '1')
+        if (topProtoNode instanceof WbDevice || topProtoNode.nodeType === WbNodeType.WB_NODE_SLOT ||
+          topProtoNode.nodeType === WbNodeType.WB_NODE_SHAPE || moveFloor === '1')
           this.#repositionFloor(topProtoNode, WbWorld.instance.root.children[WbWorld.instance.root.children.length - 2]);
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
-        this._view.x3dScene.render();
+        this._view.w3dScene.render();
       };
 
       this.#hasProto = true;

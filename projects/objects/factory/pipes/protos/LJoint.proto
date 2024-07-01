@@ -1,9 +1,10 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2024a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/pipes/protos/LJoint.proto
 # keywords: industrial/plumbing
 # 90-degree L-joint for connecting pipes.
+# template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
 
@@ -15,6 +16,11 @@ PROTO LJoint [
   field SFNode     appearance  OldSteel { textureTransform TextureTransform { rotation 0.78 scale 2 2 } }  # Defines the appearance of the pipe.
 ]
 {
+%<
+  const scaleX = fields.scale.value.x;
+  const scaleY = fields.scale.value.y;
+  const scaleZ = fields.scale.value.z;
+>%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -325,33 +331,33 @@ PROTO LJoint [
     boundingObject Group {
       children [
         Pose {
-          translation 0.031098346 0 -0.036
+          translation %<= scaleX * 0.031098346 >% 0 %<= scaleZ * -0.036 >%
           rotation 0 1 0 1.8325997
           children [
             Capsule {
-              height 0.04
-              radius 0.035
+              height %<= scaleX * 0.04 >%
+              radius %<= scaleX * 0.035 >%
             }
           ]
         }
         Pose {
-          translation -0.036079734 0 0.029794677
+          translation %<= scaleX * -0.036079734 >% 0 %<= scaleZ * 0.029794677 >%
           rotation 0 -1 0 0.2
           children [
             Capsule {
-              height 0.04
-              radius 0.035
+              height %<= scaleX * 0.04 >%
+              radius %<= scaleX * 0.035 >%
             }
           ]
           translationStep 0.001
         }
         Pose {
-          translation -0.019555909 0 -0.0041774259
+          translation %<= scaleX * -0.019555909 >% 0 %<= scaleZ * -0.0041774259 >%
           rotation 0 1 0 -0.59269969
           children [
             Capsule {
-              height 0.04
-              radius 0.035
+              height %<= scaleX * 0.04 >%
+              radius %<= scaleX * 0.035 >%
             }
           ]
           rotationStep 0.01

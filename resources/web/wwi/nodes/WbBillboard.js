@@ -54,7 +54,7 @@ export default class WbBillboard extends WbGroup {
 
   static isDescendantOfBillboard(node) {
     while (typeof node !== 'undefined') {
-      if (node instanceof WbBillboard)
+      if (node.nodeType === WbNodeType.WB_NODE_BILLBOARD)
         return true;
 
       node = WbWorld.instance.nodes.get(node.parent);

@@ -1,8 +1,6 @@
-import WbAppearance from './WbAppearance.js';
 import WbDevice from './WbDevice.js';
 import WbGroup from './WbGroup.js';
 import WbLight from './WbLight.js';
-import WbShape from './WbShape.js';
 import WbVector3 from './utils/WbVector3.js';
 import {clampValuesIfNeeded} from './utils/WbFieldChecker.js';
 import {WbNodeType} from './wb_node_type.js';
@@ -81,9 +79,9 @@ export default class WbLed extends WbDevice {
     }
 
     for (const child of group.children) {
-      if (child instanceof WbShape && typeof child.appearance !== 'undefined') {
+      if (child.nodeType === WbNodeType.WB_NODE_SHAPE && typeof child.appearance !== 'undefined') {
         const appearance = child.appearance;
-        if (appearance instanceof WbAppearance) {
+        if (appearance.nodeType === WbNodeType.WB_NODE_APPEARANCE) {
           const material = appearance.material;
           if (typeof material !== 'undefined')
             this.#materials.push(material);

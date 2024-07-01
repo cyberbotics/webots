@@ -59,6 +59,8 @@ private:
   // Labels
   QVector<QLabel *> mPositionLabels;
   QVector<QLabel *> mRotationLabels;
+  QVector<QLabel *> mScaleLabels;
+  QLabel *mScaleTitleLabel;
 
 private slots:
   void updateRelativeTo(int index);
