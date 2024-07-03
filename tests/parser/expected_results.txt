@@ -17,6 +17,7 @@ parser/worlds/missing_use_value.wbt "Expected field name or '}', found 'USE'."
 parser/worlds/nested_def_name.wbt VOID
 parser/worlds/nested_proto_missing_ending_curly_bracket.wbt "Expected parameter name or '}', found end of file."
 parser/worlds/node_without_brackets.wbt "Expected '{', found 'RectangleArena'."
+parser/worlds/proto_allowed_mf_field_value.wbt VOID
 parser/worlds/proto_concatenated_comment.wbt VOID
 parser/worlds/proto_default_def_parameter.wbt "Wrong order of fields in the instance of PROTO DefaultDef: USE nodes might refer to the wrong DEF nodes."
 parser/worlds/proto_mismatch_field_type.wbt "Type mismatch between 'fieldTexture' PROTO parameter and field 'url'."
