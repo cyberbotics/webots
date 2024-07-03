@@ -32,7 +32,7 @@ ProtoRestrictedFieldValues {
   extensionSlot [
     DerivedAppearanceProto {
     }
-    Transform {
+    Pose {
     }
     Solid {
     }
