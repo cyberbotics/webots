@@ -1,12 +1,12 @@
 #VRML_SIM R2024a utf8
 
-EXTERNPROTO "webots://tests/manual_tests/protos/AppearanceProto.proto"
+EXTERNPROTO "webots://tests/manual_tests/protos/PoseProto.proto"
 
 PROTO ProtoRestrictedFieldValues
 [
   field SFRotation{0 1 0 0, 0 0 1 0, 0 1 0 1.5708} rotation 0 0 1 0
   field SFVec3f{0 0 0} translation 0 0 0
-  field MFNode{Solid{}, AppearanceProto{}} extensionSlot []
+  field MFNode{Solid{}, PoseProto{}} extensionSlot []
 ]
 {
   Solid {
