@@ -212,8 +212,7 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
         assert(mfNode);
         foreach (const WbVariant acceptedVariant, mAcceptedValues) {
           const WbNode *nodeAccepted = acceptedVariant.toNode();
-          if (nodeAccepted && (mfNode->item(i)->nodeModelName() == nodeAccepted->modelName() ||
-                               mfNode->item(i)->modelName() == nodeAccepted->modelName())) {
+          if (nodeAccepted && (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), mfNode->item(i)->proto()) : isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), mfNode->item(i)->model()))) {
             accepted = true;
             break;
           }
@@ -242,8 +241,7 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
           return true;
         const WbNode *nodeAccepted = acceptedVariant.toNode();
         assert(nodeAccepted);
-        if (sfNode->value()->nodeModelName() == nodeAccepted->modelName() ||
-            sfNode->value()->modelName() == nodeAccepted->modelName())
+        if (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), sfNode->value()->proto()) : isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), sfNode->value()->model()))
           return true;
       } else if (singleValue->variantValue() == acceptedVariant)
         return true;
@@ -251,6 +249,18 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
     *refusedIndex = 0;
   }
   return false;
+}
+
+bool WbFieldModel::isBaseNodeTypeAccepted(const QString &expectedType, const WbNodeModel *actualType) const {
+  if (!actualType)
+    return false;
+  return expectedType == actualType->name() || isBaseNodeTypeAccepted(expectedType, actualType->parentModel());
+}
+
+bool WbFieldModel::isProtoNodeTypeAccepted(const QString &expectedType, const WbProtoModel *actualType) const {
+  if (!actualType)
+    return false;
+  return expectedType == actualType->name() || isProtoNodeTypeAccepted(expectedType, actualType->ancestorProtoModel());
 }
 
 bool WbFieldModel::isMultiple() const {

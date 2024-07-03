@@ -21,6 +21,8 @@
 //
 
 #include <QtCore/QString>
+#include <WbNodeModel.hpp>
+#include <WbProtoModel.hpp>
 #include <WbValue.hpp>
 #include <WbVariant.hpp>
 
@@ -53,6 +55,8 @@ public:
 
   // accepted values
   bool isValueAccepted(const WbValue *value, int *refusedIndex) const;
+  bool isBaseNodeTypeAccepted(const QString &expectedType, const WbNodeModel *actualType) const;
+  bool isProtoNodeTypeAccepted(const QString &expectedType, const WbProtoModel *actualType) const;
   bool hasRestrictedValues() const { return !mAcceptedValues.isEmpty(); }
   const QList<WbVariant> acceptedValues() const { return mAcceptedValues; }
 
