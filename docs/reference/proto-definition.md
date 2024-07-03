@@ -77,7 +77,7 @@ PROTO MyProto [
   field SFString                            name          "my proto"
   field SFColor{0 0 0, 0.5 0.5 0.5, 1 1 1}  color         0.5 0.5 0.5
   field SFNode                              physics       NULL
-  field MFNode{Solid{}, Transform{}}             extensionSlot []
+  field MFNode{Solid{}, Transform{}}        extensionSlot []
 ]
 ```
 
