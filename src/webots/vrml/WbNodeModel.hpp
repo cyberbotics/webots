@@ -51,7 +51,8 @@ public:
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
   QStringList fieldNames();
 
-  // parent nodes (only defined for base nodes. For proto nodes, see WbProtoModel::ancestorProtoName/ancestorProtoNameModel/baseType)
+  // parent nodes (only defined for base nodes. For proto nodes, see
+  // WbProtoModel::ancestorProtoName/ancestorProtoNameModel/baseType)
   const QString parentName() const { return mParentName; };
   const WbNodeModel *parentModel() const { return mParentModel; };
 

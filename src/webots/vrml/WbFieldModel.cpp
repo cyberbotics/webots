@@ -212,7 +212,9 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
         assert(mfNode);
         foreach (const WbVariant acceptedVariant, mAcceptedValues) {
           const WbNode *nodeAccepted = acceptedVariant.toNode();
-          if (nodeAccepted && (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), mfNode->item(i)->proto()) : isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), mfNode->item(i)->model()))) {
+          if (nodeAccepted && (nodeAccepted->isProtoInstance() ?
+                                 isProtoNodeTypeAccepted(nodeAccepted->modelName(), mfNode->item(i)->proto()) :
+                                 isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), mfNode->item(i)->model()))) {
             accepted = true;
             break;
           }
@@ -241,7 +243,8 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
           return true;
         const WbNode *nodeAccepted = acceptedVariant.toNode();
         assert(nodeAccepted);
-        if (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), sfNode->value()->proto()) : isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), sfNode->value()->model()))
+        if (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), sfNode->value()->proto()) :
+                                              isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), sfNode->value()->model()))
           return true;
       } else if (singleValue->variantValue() == acceptedVariant)
         return true;
