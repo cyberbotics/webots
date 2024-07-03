@@ -34,7 +34,7 @@ void WbNodeModel::cleanup() {
     delete it.next().value();
 }
 
-WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mName(tokenizer->nextWord()) {
+WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mName(tokenizer->nextWord()), mParentName(tokenizer->parent()) {
   tokenizer->skipToken("{");
 
   while (tokenizer->peekWord() != "}") {
@@ -76,6 +76,13 @@ void WbNodeModel::readAllModels() {
     WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
+  }
+
+  // Now that all the models are loaded, populate the ancestory tree
+  foreach (QString baseModelName, baseModelNames()) {
+    WbNodeModel *baseModel = findModel(baseModelName);
+    if (baseModel)
+      baseModel->mParentModel = findModel(baseModel->mParentName);
   }
 
   qAddPostRoutine(WbNodeModel::cleanup);
