@@ -2,9 +2,9 @@
 
 EXTERNPROTO "webots://tests/manual_tests/protos/PoseProto.proto"
 
-PROTO Pose [
+PROTO DerivedPoseProto [
   field SFVec3f translation 0 0 0
-  field SFVec3f rotation    0 0 1 0
+  field SFRotation rotation 0 0 1 0
 ]
 {
   PoseProto {

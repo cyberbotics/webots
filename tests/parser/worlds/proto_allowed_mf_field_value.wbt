@@ -34,7 +34,7 @@ ProtoRestrictedFieldValues {
     }
     Solid {
     }
-    Accelerometer {
+    Robot {
     }
   ]
 }
