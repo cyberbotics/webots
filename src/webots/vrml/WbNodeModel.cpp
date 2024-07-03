@@ -82,7 +82,7 @@ void WbNodeModel::readAllModels() {
       cModels.insert(model->name(), model);
   }
 
-  // Now that all the models are loaded, populate the ancestory tree
+  // Now that all the models are loaded, populate the ancestry tree
   foreach (QString baseModelName, baseModelNames()) {
     WbNodeModel *baseModel = findModel(baseModelName);
     if (baseModel)
