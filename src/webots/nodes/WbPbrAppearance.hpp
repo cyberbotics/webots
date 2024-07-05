@@ -70,13 +70,12 @@ public:
   double transparency() const;
   double roughness() const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
   void exportShallowNode(const WbWriter &writer) const;
 
 protected:
   bool exportNodeHeader(WbWriter &writer) const override;
   void exportNodeSubNodes(WbWriter &writer) const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable

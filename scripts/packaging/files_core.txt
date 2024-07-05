@@ -111,6 +111,9 @@ lib/webots/libQt6Qml.so* [linux]
 lib/webots/libQt6WebSockets.so* [linux]
 lib/webots/libQt6Widgets.so* [linux]
 lib/webots/libQt6XcbQpa.so* [linux]
+lib/webots/libQt6WaylandClient.so* [linux]
+lib/webots/libQt6WaylandEglClientHwIntegration.so* [linux]
+lib/webots/libQt6WlShellIntegration.so* [linux]
 lib/webots/libQt6Xml.so* [linux]
 lib/webots/libicudata.so* [linux]
 lib/webots/libicui18n.so* [linux]
@@ -134,6 +137,12 @@ lib/webots/qt/plugins/tls/ [linux]
 lib/webots/qt/plugins/tls/*.so [linux]
 lib/webots/qt/plugins/xcbglintegrations/ [linux]
 lib/webots/qt/plugins/xcbglintegrations/libqxcb-glx-integration.so [linux]
+lib/webots/qt/plugins/wayland-graphics-integration-client/ [linux]
+lib/webots/qt/plugins/wayland-graphics-integration-client/* [linux]
+lib/webots/qt/plugins/wayland-decoration-client/ [linux]
+lib/webots/qt/plugins/wayland-decoration-client/* [linux]
+lib/webots/qt/plugins/wayland-shell-integration/ [linux]
+lib/webots/qt/plugins/wayland-shell-integration/* [linux]
 lib/webots/qt/translations/ [linux]
 lib/webots/qt/translations/*.qm [linux]
 lib/webots/qt/libexec/ [linux]
@@ -247,8 +256,8 @@ resources/web/streaming_viewer/index.html
 resources/web/streaming_viewer/setup_viewer.js
 resources/web/streaming_viewer/style.css
 resources/web/templates/
-resources/web/templates/x3d_playback.html
-resources/web/templates/x3d_playback.css
+resources/web/templates/w3d_playback.html
+resources/web/templates/w3d_playback.css
 resources/web/wwi/
 resources/web/wwi/protoVisualizer/
 resources/web/wwi/protoVisualizer/*.js

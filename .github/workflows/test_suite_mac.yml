@@ -43,6 +43,7 @@ jobs:
     - name: Install Webots Compilation Dependencies
       run: |
         # swig wget and cmake are already installed
+        pip install setuptools
         npm install -g appdmg
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}

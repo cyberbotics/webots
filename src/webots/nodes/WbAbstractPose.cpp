@@ -74,6 +74,7 @@ void WbAbstractPose::updateTranslation() {
 
 void WbAbstractPose::updateRotation() {
   mBaseNode->setMatrixNeedUpdate();
+  mRelativeQuaternion = mRotation->value().toQuaternion();
 
   if (mBaseNode->areWrenObjectsInitialized())
     applyRotationToWren();
@@ -87,6 +88,7 @@ void WbAbstractPose::updateRotation() {
 
 void WbAbstractPose::updateTranslationAndRotation() {
   mBaseNode->setMatrixNeedUpdate();
+  mRelativeQuaternion = mRotation->value().toQuaternion();
 
   if (mBaseNode->areWrenObjectsInitialized())
     applyTranslationAndRotationToWren();
@@ -175,6 +177,19 @@ void WbAbstractPose::applyTranslationAndRotationToWren() {  // for performance o
   wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), newTranslation, newRotation);
 }
 
+WbMatrix3 WbAbstractPose::rotationMatrix() const {
+  const WbMatrix4 &m = matrix();
+  WbMatrix3 rm = m.extracted3x3Matrix();
+  const WbTransform *t = dynamic_cast<WbTransform *>(mBaseNode);
+  if (!t)
+    t = mBaseNode->upperTransform();
+  if (t) {
+    const WbVector3 s = t->absoluteScale();
+    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+  }
+  return rm;
+}
+
 // Matrix 4-by-4
 
 const WbMatrix4 &WbAbstractPose::matrix() const {
@@ -195,15 +210,30 @@ const WbMatrix4 &WbAbstractPose::matrix() const {
 void WbAbstractPose::updateMatrix() const {
   assert(mMatrix);
 
-  mMatrix->fromVrml(mTranslation->x(), mTranslation->y(), mTranslation->z(), mRotation->x(), mRotation->y(), mRotation->z(),
-                    mRotation->angle(), 1.0, 1.0, 1.0);
-
-  // multiply with upper matrix if any
-  const WbPose *pose = mBaseNode->upperPose();
+  // combine with upper matrix if any
+  const WbPose *const pose = mBaseNode->upperPose();
+  WbVector3 t, s;
+  WbRotation r;
   if (pose) {
-    const WbTransform *const transform = dynamic_cast<const WbTransform *const>(pose);
-    *mMatrix = transform ? transform->matrix() * *mMatrix : pose->matrix() * *mMatrix;
+    // to prevent shear effect in case of non-uniform scaling, it is not possible to multiply the transform matrix directly
+    // note that this computation matches the one in WREN
+    const WbTransform *transform = dynamic_cast<const WbTransform *>(pose);
+    if (!transform)
+      transform = pose->upperTransform();
+    s = transform ? transform->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+    WbQuaternion q = pose->rotationMatrix().toQuaternion();
+    t = pose->position() + q * (s * mTranslation->value());
+    mRelativeQuaternion = mRotation->value().toQuaternion();
+    q = q * mRelativeQuaternion;
+    q.normalize();
+    r.fromQuaternion(q);
+  } else {
+    t = mTranslation->value();
+    r = mRotation->value();
+    s = WbVector3(1.0, 1.0, 1.0);
   }
+
+  mMatrix->fromVrml(t.x(), t.y(), t.z(), r.x(), r.y(), r.z(), r.angle(), s.x(), s.y(), s.z());
   mMatrixNeedUpdate = false;
 }
 
@@ -239,7 +269,7 @@ void WbAbstractPose::setTranslation(double tx, double ty, double tz) {
 
 void WbAbstractPose::rotate(const WbVector3 &v) {
   WbMatrix3 rotation(v.normalized(), v.length());
-  WbRotation newRotation = WbRotation(rotation * WbMatrix3(mRotation->value()));
+  WbRotation newRotation = WbRotation(rotation * mRotation->value().toMatrix3());
   newRotation.normalize();
   setRotation(newRotation);
 }

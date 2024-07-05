@@ -389,7 +389,7 @@ bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
 
-QStringList WbElevationGrid::fieldsToSynchronizeWithX3D() const {
+QStringList WbElevationGrid::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "height"
          << "xDimension"
@@ -429,11 +429,11 @@ bool WbElevationGrid::setOdeHeightfieldData() {
   mHeight->copyItemsTo(mData, xdyd);
 
   // Inverse mData lines for ODE
-  for (int i = 0; i < xd / 2; i++) {  // integer division
-    for (int j = 0; j < yd; j++) {
-      double temp = mData[i * yd + j];
-      mData[i * yd + j] = mData[(xd - 1 - i) * yd + j];
-      mData[(xd - 1 - i) * yd + j] = temp;
+  for (int i = 0; i < yd / 2; i++) {  // integer division
+    for (int j = 0; j < xd; j++) {
+      double temp = mData[i * xd + j];
+      mData[i * xd + j] = mData[(yd - 1 - i) * xd + j];
+      mData[(yd - 1 - i) * xd + j] = temp;
     }
   }
 
@@ -638,39 +638,6 @@ void WbElevationGrid::recomputeBoundingSphere() const {
     mBoundingSphere->enclose(vertices[j]);
 
   delete[] vertices;
-}
-
-void WbElevationGrid::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbGeometry::exportNodeFields(writer);
-    return;
-  }
-
-  findField("thickness", true)->write(writer);
-  findField("xDimension", true)->write(writer);
-  findField("yDimension", true)->write(writer);
-  findField("xSpacing", true)->write(writer);
-  findField("ySpacing", true)->write(writer);
-  if (!mHeight->isEmpty())
-    findField("height", true)->write(writer);
-  else {
-    int total = mXDimension->value() * mYDimension->value();
-    if (writer.isX3d())
-      writer << " height=\'";
-    else {
-      writer.indent();
-      writer << "height [ ";
-    }
-    for (int i = 0; i < total; i++) {
-      if (i != 0)
-        writer << " ";
-      writer << "0";
-    }
-    if (writer.isX3d())
-      writer << "\'";
-    else
-      writer << " ]\n";
-  }
 }
 
 ////////////////////////

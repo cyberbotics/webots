@@ -18,6 +18,7 @@
 /mingw64/bin/libpcre2-8-0.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
+/mingw64/bin/libssl-3-x64.dll
 /mingw64/bin/Qt6Core.dll
 /mingw64/bin/Qt6Gui.dll
 /mingw64/bin/Qt6Network.dll

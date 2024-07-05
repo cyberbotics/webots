@@ -6,8 +6,8 @@ contact_links:
   - name: GitHub Discussions
     url: https://github.com/cyberbotics/webots/discussions/new
     about: Ask a question or request a new feature in Webots
-  - name: StackOverflow
-    url: https://stackoverflow.com/questions/tagged/webots
+  - name: Robotics StackExchange
+    url: https://robotics.stackexchange.com
     about: Ask technical questions (be sure to use the 'webots' tag).
   - name: Discord Server
     url: https://discordapp.com/invite/nTWbN9m
