@@ -183,8 +183,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
     if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
-                                           WbNodeUtilities::slotType(childNode),
-                                           QStringList() << childNode->nodeModelName() << childNode->modelName(), false)) {
+                                           WbNodeUtilities::slotType(childNode), childNode->modelName(), childNode->model(),
+                                           childNode->proto(), QStringList(), false)) {
       if (avoidIntersections)
         tryToAvoidIntersections(childNode);
       const OperationResult result = initNewNode(childNode, parentNode, field, nodeIndex, true);

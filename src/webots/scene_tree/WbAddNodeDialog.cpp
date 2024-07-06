@@ -395,11 +395,9 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     setPixmap(pixmapPath);
 }
 
-bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
-  foreach (const WbVariant variant, mField->acceptedValues()) {
-    const WbNode *node = variant.toNode();
-    assert(node);
-    if (node->modelName() == nodeName)
+bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const WbNode *node) const {
+  foreach (const WbFieldValueRestriction restriction, mField->acceptedValues()) {
+    if (restriction.isNodeAccepted(node))
       return true;
   }
   return false;
@@ -438,7 +436,7 @@ void WbAddNodeDialog::buildTree() {
     QString errorMessage;
     if (fileInfo.baseName().contains(regexp) &&
         WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
-                                           QStringList(fileInfo.baseName()))) {
+                                           fileInfo.baseName(), WbNodeModel::findModel(fileInfo.baseName()), NULL)) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
       item->setIcon(0, QIcon("enabledIcons:node.png"));
       nodesItem->addChild(item);
@@ -463,8 +461,7 @@ void WbAddNodeDialog::buildTree() {
       const QString &currentFullDefName = currentDefName + " (" + currentModelName + ")";
       if (!currentFullDefName.contains(regexp))
         continue;
-      if (mField->hasRestrictedValues() &&
-          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(node->nodeModelName())))
+      if (mField->hasRestrictedValues() && !doFieldRestrictionsAllowNode(node))
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
@@ -562,7 +559,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     QString errorMessage;
     const QString nodeName = it.key();
     if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            QStringList() << baseType << nodeName))
+                                            nodeName, WbNodeModel::findModel(baseType), NULL, info->parents()))
       continue;
 
     // keep track of unique local proto that may clash

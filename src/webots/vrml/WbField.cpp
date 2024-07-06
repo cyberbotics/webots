@@ -166,7 +166,7 @@ void WbField::checkValueIsAccepted() {
   int refusedIndex;
   if (!mModel->isValueAccepted(mValue, &refusedIndex)) {
     QString acceptedValuesList = "";
-    foreach (const WbVariant acceptedValue, mModel->acceptedValues())
+    foreach (const WbFieldValueRestriction acceptedValue, mModel->acceptedValues())
       acceptedValuesList += acceptedValue.toSimplifiedStringRepresentation() + ", ";
     acceptedValuesList.chop(2);
     QString error;

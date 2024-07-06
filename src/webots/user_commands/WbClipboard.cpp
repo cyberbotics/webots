@@ -19,6 +19,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbRgb.hpp"
 #include "WbRotation.hpp"
+#include "WbProtoModel.hpp"
 #include "WbVector2.hpp"
 #include "WbVector3.hpp"
 #include "WbVrmlNodeUtilities.hpp"
@@ -151,6 +152,7 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo = new WbClipboardNodeInfo();
   mNodeInfo->modelName = n->modelName();
   mNodeInfo->nodeModelName = n->nodeModelName();
+  mNodeInfo->protoParentList = n->proto() ? n->proto()->parentList() : QStringList();
   mNodeInfo->slotType = WbNodeUtilities::slotType(n);
   mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
   mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);
