@@ -38,6 +38,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
+#include "WbVersion.hpp"
 #include "WbWriter.hpp"
 
 #include <cassert>
@@ -102,11 +103,11 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
       defaultValueIsValid = false;
       WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(mDefaultValue);
       if (multipleValue)
-        mAcceptedValues << multipleValue->variantValue(refusedIndex);
+        mAcceptedValues << WbFieldValueRestriction(multipleValue->variantValue(refusedIndex), false);
       else {
         WbSingleValue *singleValue = dynamic_cast<WbSingleValue *>(mDefaultValue);
         assert(singleValue);
-        mAcceptedValues << singleValue->variantValue();
+        mAcceptedValues << WbFieldValueRestriction(singleValue->variantValue(), false);
       }
     }
     if (!defaultValueIsValid)
@@ -176,23 +177,34 @@ WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *
     return NULL;
 }
 
-QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
-  QList<WbVariant> values;
+QList<WbFieldValueRestriction> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
+  QList<WbFieldValueRestriction> values;
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();
+
+    bool allowSubtypeMatch;
+    if (tokenizer->fileVersion() >= WbVersion(2024, 0, 0)) {
+      if(tokenizer->peekWord() == '=') {
+        tokenizer->nextToken();
+        allowSubtypeMatch = false;
+      } else
+        allowSubtypeMatch = true;
+    } else
+      allowSubtypeMatch = false;
+
     const WbSingleValue *singleValue =
       dynamic_cast<const WbSingleValue *>(WbFieldModel::createValueForVrmlType(type, tokenizer, worldPath));
     assert(singleValue);
 
-    WbVariant variant(singleValue->variantValue());
-    if (type == "SFNode" && variant.toNode()) {
+    WbFieldValueRestriction restriction(singleValue->variantValue(), allowSubtypeMatch);
+    if (type == "SFNode" && restriction.toNode()) {
       // explicit copy of the node to be persistent.
-      WbNode *copy = variant.toNode()->cloneAndReferenceProtoInstance();
-      variant.setNode(copy, true);
-      QObject::connect(&variant, &QObject::destroyed, copy, &QObject::deleteLater);
+      WbNode *copy = restriction.toNode()->cloneAndReferenceProtoInstance();
+      restriction.setNode(copy, true);
+      QObject::connect(&restriction, &QObject::destroyed, copy, &QObject::deleteLater);
     }
 
-    values << variant;
+    values << restriction;
     delete singleValue;
   }
   return values;
@@ -207,24 +219,10 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
   if (multipleValue) {
     for (int i = 0; i < multipleValue->size(); ++i) {
       bool accepted = false;
-      if (type() == WB_MF_NODE) {
-        const WbMFNode *mfNode = static_cast<const WbMFNode *>(value);
-        assert(mfNode);
-        foreach (const WbVariant acceptedVariant, mAcceptedValues) {
-          const WbNode *nodeAccepted = acceptedVariant.toNode();
-          if (nodeAccepted && (nodeAccepted->isProtoInstance() ?
-                                 isProtoNodeTypeAccepted(nodeAccepted->modelName(), mfNode->item(i)->proto()) :
-                                 isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), mfNode->item(i)->model()))) {
-            accepted = true;
-            break;
-          }
-        }
-      } else {
-        foreach (const WbVariant acceptedVariant, mAcceptedValues) {
-          if (multipleValue->variantValue(i) == acceptedVariant) {
-            accepted = true;
-            break;
-          }
+      foreach (const WbFieldValueRestriction acceptedVariant, mAcceptedValues) {
+        if (acceptedVariant.isVariantAccepted(multipleValue->variantValue(i))) {
+          accepted = true;
+          break;
         }
       }
       if (!accepted) {
@@ -235,35 +233,13 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
     return true;
   } else {
     assert(singleValue);
-    foreach (const WbVariant acceptedVariant, mAcceptedValues) {
-      if (type() == WB_SF_NODE) {
-        const WbSFNode *sfNode = static_cast<const WbSFNode *>(value);
-        assert(sfNode);
-        if (!sfNode->value())
-          return true;
-        const WbNode *nodeAccepted = acceptedVariant.toNode();
-        assert(nodeAccepted);
-        if (nodeAccepted->isProtoInstance() ? isProtoNodeTypeAccepted(nodeAccepted->modelName(), sfNode->value()->proto()) :
-                                              isBaseNodeTypeAccepted(nodeAccepted->nodeModelName(), sfNode->value()->model()))
-          return true;
-      } else if (singleValue->variantValue() == acceptedVariant)
+    foreach (const WbFieldValueRestriction acceptedVariant, mAcceptedValues) {
+      if(acceptedVariant.isVariantAccepted(singleValue->variantValue()))
         return true;
     }
     *refusedIndex = 0;
+    return false;
   }
-  return false;
-}
-
-bool WbFieldModel::isBaseNodeTypeAccepted(const QString &expectedType, const WbNodeModel *actualType) const {
-  if (!actualType)
-    return false;
-  return expectedType == actualType->name() || isBaseNodeTypeAccepted(expectedType, actualType->parentModel());
-}
-
-bool WbFieldModel::isProtoNodeTypeAccepted(const QString &expectedType, const WbProtoModel *actualType) const {
-  if (!actualType)
-    return false;
-  return expectedType == actualType->name() || isProtoNodeTypeAccepted(expectedType, actualType->ancestorProtoModel());
 }
 
 bool WbFieldModel::isMultiple() const {

@@ -150,6 +150,8 @@ void WbParser::parseFieldValue(WbFieldType type, const QString &worldPath) {
 void WbParser::parseFieldAcceptedValues(WbFieldType type, const QString &worldPath) {
   while (nextWord() != '}') {
     mTokenizer->ungetToken();
+    if (nextWord() != '=')
+      mTokenizer->ungetToken();
     WbParser::parseSingleFieldValue(type, worldPath);
   }
 }
