@@ -52,11 +52,11 @@ bool WbFieldValueRestriction::isNodeAccepted(const WbNode *node) const {
 bool WbFieldValueRestriction::isBaseNodeTypeAccepted(const WbNodeModel *actualType) const {
   if (type() != WB_SF_NODE || !actualType)
     return false;
-  return toNode()->modelName() == actualType->name() || isBaseNodeTypeAccepted(actualType->parentModel());
+  return toNode()->modelName() == actualType->name() || (allowsSubtypes() && isBaseNodeTypeAccepted(actualType->parentModel()));
 }
 
 bool WbFieldValueRestriction::isProtoNodeTypeAccepted(const WbProtoModel *actualType) const {
   if (type() != WB_SF_NODE || !actualType)
     return false;
-  return toNode()->modelName() == actualType->name() || isProtoNodeTypeAccepted(actualType->ancestorProtoModel());
+  return toNode()->modelName() == actualType->name() || (allowsSubtypes() && isProtoNodeTypeAccepted(actualType->ancestorProtoModel()));
 }
