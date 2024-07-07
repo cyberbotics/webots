@@ -182,19 +182,13 @@ QList<WbFieldValueRestriction> WbFieldModel::getAcceptedValues(const QString &ty
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();
 
-    bool allowSubtypeMatch;
-    if (tokenizer->fileVersion() >= WbVersion(2024, 0, 0)) {
-      if(tokenizer->peekWord() == '=') {
-        tokenizer->nextToken();
-        allowSubtypeMatch = false;
-      } else
-        allowSubtypeMatch = true;
-    } else
-      allowSubtypeMatch = false;
-
     const WbSingleValue *singleValue =
       dynamic_cast<const WbSingleValue *>(WbFieldModel::createValueForVrmlType(type, tokenizer, worldPath));
     assert(singleValue);
+
+    bool allowSubtypeMatch = tokenizer->peekWord() == '+';
+    if(allowSubtypeMatch)
+      tokenizer->nextToken();
 
     WbFieldValueRestriction restriction(singleValue->variantValue(), allowSubtypeMatch);
     if (type == "SFNode" && restriction.toNode()) {
