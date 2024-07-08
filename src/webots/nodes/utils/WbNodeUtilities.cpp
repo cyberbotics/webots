@@ -580,7 +580,9 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
+  bool isSolidNode(WbBaseNode *node) {
+    return dynamic_cast<WbSolid *>(node);
+  }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QString &nodeModelName, const WbNodeModel *nodeModel,
                                       const QStringList &protoParentList) {
