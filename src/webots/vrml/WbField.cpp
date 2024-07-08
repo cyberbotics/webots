@@ -167,7 +167,7 @@ void WbField::checkValueIsAccepted() {
   if (!mModel->isValueAccepted(mValue, &refusedIndex)) {
     QString acceptedValuesList = "";
     foreach (const WbFieldValueRestriction acceptedValue, mModel->acceptedValues())
-      acceptedValuesList += acceptedValue.toSimplifiedStringRepresentation() + ", ";
+      acceptedValuesList += acceptedValue.toSimplifiedStringRepresentation() + (acceptedValue->allowsSubtypes() ? "+" : "") + ", ";
     acceptedValuesList.chop(2);
     QString error;
     if (isSingle()) {
