@@ -176,7 +176,8 @@ WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *
     return NULL;
 }
 
-QList<WbFieldValueRestriction> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
+QList<WbFieldValueRestriction> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer,
+                                                               const QString &worldPath) {
   QList<WbFieldValueRestriction> values;
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();
@@ -186,7 +187,7 @@ QList<WbFieldValueRestriction> WbFieldModel::getAcceptedValues(const QString &ty
     assert(singleValue);
 
     bool allowSubtypeMatch = tokenizer->peekWord() == '+';
-    if(allowSubtypeMatch)
+    if (allowSubtypeMatch)
       tokenizer->nextToken();
 
     WbFieldValueRestriction restriction(singleValue->variantValue(), allowSubtypeMatch);
@@ -227,7 +228,7 @@ bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) cons
   } else {
     assert(singleValue);
     foreach (const WbFieldValueRestriction acceptedVariant, mAcceptedValues) {
-      if(acceptedVariant.isVariantAccepted(singleValue->variantValue()))
+      if (acceptedVariant.isVariantAccepted(singleValue->variantValue()))
         return true;
     }
     *refusedIndex = 0;

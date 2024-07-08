@@ -121,8 +121,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         QString error;
         assert(node->parentField() && node->parentNode());
         typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(),
-                                                       error, nodeUse, QString(), definitionNode->modelName(), definitionNode->model(),
-                                                       definitionNode->proto());
+                                                       error, nodeUse, QString(), definitionNode->modelName(),
+                                                       definitionNode->model(), definitionNode->proto());
         match = typeMatch && !definitionNode->isAnAncestorOf(node);
       }
 
@@ -138,10 +138,9 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
           definitionNode = static_cast<WbBaseNode *>(matchingNode->defNode());
           QString error;
           assert(node->parentField() && node->parentNode());
-          typeMatch =
-            WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(), error,
-                                               nodeUse, QString(), definitionNode->modelName(), definitionNode->model(),
-                                               definitionNode->proto());
+          typeMatch = WbNodeUtilities::isAllowedToInsert(
+            node->parentField(), definitionNode->nodeModelName(), node->parentNode(), error, nodeUse, QString(),
+            definitionNode->modelName(), definitionNode->model(), definitionNode->proto());
         }
       }
 

@@ -580,18 +580,17 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) {
-    return dynamic_cast<WbSolid *>(node);
-  }
+  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
 
-  bool doesFieldRestrictionAcceptNode(const WbField *const field, const QString &nodeModelName, const WbNodeModel *nodeModel, const WbProtoModel *protoModel, const QStringList &protoParentList) {
+  bool doesFieldRestrictionAcceptNode(const WbField *const field, const QString &nodeModelName, const WbNodeModel *nodeModel,
+                                      const WbProtoModel *protoModel, const QStringList &protoParentList) {
     assert(field->hasRestrictedValues());
     foreach (const WbFieldValueRestriction restriction, field->acceptedValues()) {
-      if(restriction.type() != WB_SF_NODE)
+      if (restriction.type() != WB_SF_NODE)
         continue;
       if (restriction.isProtoNodeTypeAccepted(protoModel) || restriction.isBaseNodeTypeAccepted(nodeModel) ||
           (!protoModel && (restriction.toNode()->modelName() == nodeModelName ||
-            (restriction.allowsSubtypes() && protoParentList.contains(restriction.toNode()->modelName())))))
+                           (restriction.allowsSubtypes() && protoParentList.contains(restriction.toNode()->modelName())))))
         return true;
     }
     return false;
@@ -1506,7 +1505,8 @@ bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QStrin
                                         const QString &newNodeModel, const WbNodeModel *newNodeBaseModel,
                                         const WbProtoModel *newNodeProtoModel, const QStringList &newNodeProtoParentList,
                                         bool automaticBoundingObjectCheck) {
-  if (field->hasRestrictedValues() && !doesFieldRestrictionAcceptNode(field, newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList))
+  if (field->hasRestrictedValues() &&
+      !doesFieldRestrictionAcceptNode(field, newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList))
     return false;
   if (field->isParameter()) {
     foreach (WbField *internalField, field->internalFields()) {
@@ -1514,7 +1514,8 @@ bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QStrin
       if (internalField->isParameter())
         // recursive call: check only node field names and not parameter names
         valid = isAllowedToInsert(internalField, nodeName, internalField->parentNode(), errorMessage, WbNode::UNKNOWN_USE, type,
-                                  newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList, automaticBoundingObjectCheck);
+                                  newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList,
+                                  automaticBoundingObjectCheck);
       else {
         const WbNode *parentNode = internalField->parentNode();
         valid = ::isAllowedToInsert(internalField->name(), nodeName, parentNode, errorMessage,

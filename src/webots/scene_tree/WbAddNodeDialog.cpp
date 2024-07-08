@@ -558,8 +558,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     QString errorMessage;
     const QString nodeName = it.key();
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            nodeName, WbNodeModel::findModel(baseType), NULL, info->parents()))
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(), nodeName,
+                                            WbNodeModel::findModel(baseType), NULL, info->parents()))
       continue;
 
     // keep track of unique local proto that may clash

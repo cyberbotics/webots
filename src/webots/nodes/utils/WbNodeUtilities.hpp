@@ -172,9 +172,9 @@ namespace WbNodeUtilities {
   // it first retrieve the base field and model and then check the validity
   // type is checked in case of Slot node
   bool isAllowedToInsert(const WbField *const field, const QString &nodeName, const WbNode *node, QString &errorMessage,
-                         WbNode::NodeUse nodeUse, const QString &type, const QString &newNodeModel, const WbNodeModel *newNodeBaseModel,
-                         const WbProtoModel *newNodeProtoModel, const QStringList &newNodeProtoParentList = QStringList(),
-                         bool automaticBoundingObjectCheck = true);
+                         WbNode::NodeUse nodeUse, const QString &type, const QString &newNodeModel,
+                         const WbNodeModel *newNodeBaseModel, const WbProtoModel *newNodeProtoModel,
+                         const QStringList &newNodeProtoParentList = QStringList(), bool automaticBoundingObjectCheck = true);
 
   // check existing node structure
   bool validateExistingChildNode(const WbField *const field, const WbNode *childNode, const WbNode *node,

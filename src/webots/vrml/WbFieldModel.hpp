@@ -98,7 +98,8 @@ private:
   mutable int mRefCount;
 
   static WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
-  static QList<WbFieldValueRestriction> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  static QList<WbFieldValueRestriction> getAcceptedValues(const QString &type, WbTokenizer *tokenizer,
+                                                          const QString &worldPath);
 };
 
 #endif

@@ -17,13 +17,13 @@
 #include "WbNode.hpp"
 
 WbFieldValueRestriction &WbFieldValueRestriction::operator=(const WbFieldValueRestriction &other) {
-  WbVariant::operator =( other );
+  WbVariant::operator=(other);
   mAllowsSubtypes = other.allowsSubtypes();
   return *this;
 }
 
 bool WbFieldValueRestriction::operator==(const WbFieldValueRestriction &other) const {
-  return WbVariant::operator ==( other ) && allowsSubtypes() == other.allowsSubtypes();
+  return WbVariant::operator==(other) && allowsSubtypes() == other.allowsSubtypes();
 }
 
 bool WbFieldValueRestriction::operator!=(const WbFieldValueRestriction &other) const {
@@ -31,22 +31,21 @@ bool WbFieldValueRestriction::operator!=(const WbFieldValueRestriction &other) c
 }
 
 bool WbFieldValueRestriction::isVariantAccepted(const WbVariant &variant) const {
-	if (type() != variant.type())
-		return false;
-	if (type() != WB_SF_NODE)
-		return variant == *this;
-	return isNodeAccepted(variant.toNode());
+  if (type() != variant.type())
+    return false;
+  if (type() != WB_SF_NODE)
+    return variant == *this;
+  return isNodeAccepted(variant.toNode());
 }
 
 bool WbFieldValueRestriction::isNodeAccepted(const WbNode *node) const {
-	if(type() != WB_SF_NODE)
-		return false;
-	if(!toNode() || !node)
-		return toNode() == node;
-	if (allowsSubtypes())
-		return toNode()->isProtoInstance() ? isProtoNodeTypeAccepted(node->proto()) :
-											 isBaseNodeTypeAccepted(node->model());
-	return toNode()->modelName() == node->modelName() || toNode()->modelName() == node->nodeModelName();
+  if (type() != WB_SF_NODE)
+    return false;
+  if (!toNode() || !node)
+    return toNode() == node;
+  if (allowsSubtypes())
+    return toNode()->isProtoInstance() ? isProtoNodeTypeAccepted(node->proto()) : isBaseNodeTypeAccepted(node->model());
+  return toNode()->modelName() == node->modelName() || toNode()->modelName() == node->nodeModelName();
 }
 
 bool WbFieldValueRestriction::isBaseNodeTypeAccepted(const WbNodeModel *actualType) const {
@@ -58,5 +57,6 @@ bool WbFieldValueRestriction::isBaseNodeTypeAccepted(const WbNodeModel *actualTy
 bool WbFieldValueRestriction::isProtoNodeTypeAccepted(const WbProtoModel *actualType) const {
   if (type() != WB_SF_NODE || !actualType)
     return false;
-  return toNode()->modelName() == actualType->name() || (allowsSubtypes() && isProtoNodeTypeAccepted(actualType->ancestorProtoModel()));
+  return toNode()->modelName() == actualType->name() ||
+         (allowsSubtypes() && isProtoNodeTypeAccepted(actualType->ancestorProtoModel()));
 }

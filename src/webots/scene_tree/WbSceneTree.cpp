@@ -1071,7 +1071,8 @@ bool WbSceneTree::isPasteAllowed() {
     QString errorMessage;
     if (!WbNodeUtilities::isAllowedToInsert(field, nodeModelName, parentNode, errorMessage,
                                             static_cast<const WbBaseNode *>(parentNode)->nodeUse(), clipboardNodeInfo->slotType,
-                                            clipboardNodeInfo->modelName, WbNodeModel::findModel(nodeModelName), NULL, clipboardNodeInfo->protoParentList))
+                                            clipboardNodeInfo->modelName, WbNodeModel::findModel(nodeModelName), NULL,
+                                            clipboardNodeInfo->protoParentList))
       return false;
 
     if (clipboardNodeInfo->hasADeviceDescendant)
