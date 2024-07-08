@@ -761,7 +761,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   }
 
   // generate parents string (needed by PROTO wizard)
-  QStringList parents = protoModel->parentList();
+  QStringList parents = protoModel->parentProtoNames();
 
   WbProtoInfo *info = new WbProtoInfo(url, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),

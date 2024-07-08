@@ -417,7 +417,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   return root;
 }
 
-QStringList WbProtoModel::parentList() const {
+QStringList WbProtoModel::parentProtoNames() const {
   QStringList parents;
   const WbProtoModel *parentProtoModel = this;
   while ((parentProtoModel = parentProtoModel->ancestorProtoModel())) {

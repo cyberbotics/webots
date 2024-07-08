@@ -97,7 +97,7 @@ public:
 
   const QString &slotType() const { return mSlotType; }
 
-  QStringList parentList() const;
+  QStringList parentProtoNames() const;
 
   QStringList parameterNames() const;
 
