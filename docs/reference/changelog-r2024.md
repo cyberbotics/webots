@@ -4,9 +4,9 @@
 Released on December **th, 2023.
   - New Features
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
+    - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
-    - Updated proto node restrictions to consider node ancestry ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
   - Bug Fixes
