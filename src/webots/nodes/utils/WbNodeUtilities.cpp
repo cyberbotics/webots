@@ -583,16 +583,11 @@ namespace {
   bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QString &nodeModelName, const WbNodeModel *nodeModel,
-                                      const WbProtoModel *protoModel, const QStringList &protoParentList) {
+                                      const QStringList &protoParentList) {
     assert(field->hasRestrictedValues());
-    foreach (const WbFieldValueRestriction restriction, field->acceptedValues()) {
-      if (restriction.type() != WB_SF_NODE)
-        continue;
-      if (restriction.isProtoNodeTypeAccepted(protoModel) || restriction.isBaseNodeTypeAccepted(nodeModel) ||
-          (!protoModel && (restriction.toNode()->modelName() == nodeModelName ||
-                           (restriction.allowsSubtypes() && protoParentList.contains(restriction.toNode()->modelName())))))
+    foreach (const WbFieldValueRestriction restriction, field->acceptedValues())
+      if (restriction.isNodeAccepted(nodeModelName, nodeModel, protoParentList))
         return true;
-    }
     return false;
   }
 };  // namespace
@@ -1500,25 +1495,23 @@ bool WbNodeUtilities::validateExistingChildNode(const WbField *const field, cons
                              WbNodeUtilities::slotType(childNode));
 }
 
-bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QString &nodeName, const WbNode *node,
-                                        QString &errorMessage, WbNode::NodeUse nodeUse, const QString &type,
-                                        const QString &newNodeModel, const WbNodeModel *newNodeBaseModel,
-                                        const WbProtoModel *newNodeProtoModel, const QStringList &newNodeProtoParentList,
+bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const WbNode *node, QString &errorMessage,
+                                        WbNode::NodeUse nodeUse, const QString &type, const QString &newNodeModelName,
+                                        const WbNodeModel *newNodeBaseModel, const QStringList &newNodeProtoParentList,
                                         bool automaticBoundingObjectCheck) {
   if (field->hasRestrictedValues() &&
-      !doesFieldRestrictionAcceptNode(field, newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList))
+      !doesFieldRestrictionAcceptNode(field, newNodeModelName, newNodeBaseModel, newNodeProtoParentList))
     return false;
   if (field->isParameter()) {
     foreach (WbField *internalField, field->internalFields()) {
       bool valid;
       if (internalField->isParameter())
         // recursive call: check only node field names and not parameter names
-        valid = isAllowedToInsert(internalField, nodeName, internalField->parentNode(), errorMessage, WbNode::UNKNOWN_USE, type,
-                                  newNodeModel, newNodeBaseModel, newNodeProtoModel, newNodeProtoParentList,
-                                  automaticBoundingObjectCheck);
+        valid = isAllowedToInsert(internalField, internalField->parentNode(), errorMessage, WbNode::UNKNOWN_USE, type,
+                                  newNodeModelName, newNodeBaseModel, newNodeProtoParentList, automaticBoundingObjectCheck);
       else {
         const WbNode *parentNode = internalField->parentNode();
-        valid = ::isAllowedToInsert(internalField->name(), nodeName, parentNode, errorMessage,
+        valid = ::isAllowedToInsert(internalField->name(), newNodeBaseModel->name(), parentNode, errorMessage,
                                     static_cast<const WbBaseNode *>(parentNode)->nodeUse(), type, automaticBoundingObjectCheck);
       }
       if (!valid)
@@ -1526,7 +1519,8 @@ bool WbNodeUtilities::isAllowedToInsert(const WbField *const field, const QStrin
     }
     return true;
   } else
-    return ::isAllowedToInsert(field->name(), nodeName, node, errorMessage, nodeUse, type, automaticBoundingObjectCheck);
+    return ::isAllowedToInsert(field->name(), newNodeBaseModel->name(), node, errorMessage, nodeUse, type,
+                               automaticBoundingObjectCheck);
 }
 
 WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *const srcNode, const QString &destModelName,

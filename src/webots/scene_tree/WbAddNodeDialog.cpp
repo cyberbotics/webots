@@ -435,8 +435,8 @@ void WbAddNodeDialog::buildTree() {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
     if (fileInfo.baseName().contains(regexp) &&
-        WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
-                                           fileInfo.baseName(), WbNodeModel::findModel(fileInfo.baseName()), NULL)) {
+        WbNodeUtilities::isAllowedToInsert(mField, mCurrentNode, errorMessage, nodeUse, QString(), fileInfo.baseName(),
+                                           fileInfo.baseName(), QStringList())) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
       item->setIcon(0, QIcon("enabledIcons:node.png"));
       nodesItem->addChild(item);
@@ -558,8 +558,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     QString errorMessage;
     const QString nodeName = it.key();
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(), nodeName,
-                                            WbNodeModel::findModel(baseType), NULL, info->parents()))
+    if (!WbNodeUtilities::isAllowedToInsert(mField, mCurrentNode, errorMessage, nodeUse, info->slotType(), baseType, nodeName,
+                                            info->parents()))
       continue;
 
     // keep track of unique local proto that may clash

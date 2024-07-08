@@ -120,9 +120,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         definitionNode = static_cast<WbBaseNode *>(defNodes[defIndex]);
         QString error;
         assert(node->parentField() && node->parentNode());
-        typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), definitionNode->nodeModelName(), node->parentNode(),
-                                                       error, nodeUse, QString(), definitionNode->modelName(),
-                                                       definitionNode->model(), definitionNode->proto());
+        typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), node->parentNode(), error, nodeUse, QString(),
+                                                       definitionNode);
         match = typeMatch && !definitionNode->isAnAncestorOf(node);
       }
 
@@ -138,9 +137,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
           definitionNode = static_cast<WbBaseNode *>(matchingNode->defNode());
           QString error;
           assert(node->parentField() && node->parentNode());
-          typeMatch = WbNodeUtilities::isAllowedToInsert(
-            node->parentField(), definitionNode->nodeModelName(), node->parentNode(), error, nodeUse, QString(),
-            definitionNode->modelName(), definitionNode->model(), definitionNode->proto());
+          typeMatch = WbNodeUtilities::isAllowedToInsert(node->parentField(), node->parentNode(), error, nodeUse, QString(),
+                                                         definitionNode);
         }
       }
 
@@ -465,8 +463,7 @@ bool WbDictionary::checkBoundingObjectConstraints(const WbBaseNode *defNode, QSt
       if (sfnode) {
         const WbNode *const n = sfnode->value();
         if (n) {
-          if (!WbNodeUtilities::isAllowedToInsert(fields[i], n->nodeModelName(), parentNode, errorMessage, nodeUse, QString(),
-                                                  n->modelName(), n->model(), n->proto(), QStringList(), false))
+          if (!WbNodeUtilities::isAllowedToInsert(fields[i], parentNode, errorMessage, nodeUse, QString(), n, false))
             return false;
           subNodes << n;
         }
@@ -477,8 +474,7 @@ bool WbDictionary::checkBoundingObjectConstraints(const WbBaseNode *defNode, QSt
           for (int j = 0; j < size; ++j) {
             const WbNode *const n = mfnode->item(j);
             if (n) {
-              if (!WbNodeUtilities::isAllowedToInsert(fields[i], n->nodeModelName(), parentNode, errorMessage, nodeUse,
-                                                      QString(), n->modelName(), n->model(), n->proto(), QStringList(), false))
+              if (!WbNodeUtilities::isAllowedToInsert(fields[i], parentNode, errorMessage, nodeUse, QString(), n, false))
                 return false;
 
               subNodes << n;
@@ -536,8 +532,7 @@ bool WbDictionary::isSuitable(const WbNode *defNode, const QString &type) const 
   assert(mTargetField);
   QString errorMessage;
   const WbNode::NodeUse targetNodeUse = static_cast<WbBaseNode *>(mTargetNode)->nodeUse();
-  if (!WbNodeUtilities::isAllowedToInsert(mTargetField, defNode->nodeModelName(), mTargetNode, errorMessage, targetNodeUse,
-                                          type, defNode->modelName(), defNode->model(), defNode->proto(), QStringList(), true))
+  if (!WbNodeUtilities::isAllowedToInsert(mTargetField, mTargetNode, errorMessage, targetNodeUse, type, defNode, true))
     return false;
 
   const WbBaseNode *defBaseNode = dynamic_cast<const WbBaseNode *>(defNode);

@@ -38,24 +38,30 @@ bool WbFieldValueRestriction::isVariantAccepted(const WbVariant &variant) const 
   return isNodeAccepted(variant.toNode());
 }
 
+bool WbFieldValueRestriction::isNodeAccepted(const QString &nodeModelName, const WbNodeModel *nodeModel,
+                                             const QStringList &protoParentList) const {
+  if (type() != WB_SF_NODE || !toNode() || !nodeModel)
+    return false;
+  return nodeModelName == toNode()->modelName() || isBaseNodeTypeAccepted(nodeModel) ||
+         (allowsSubtypes() && protoParentList.contains(toNode()->modelName()));
+}
+
 bool WbFieldValueRestriction::isNodeAccepted(const WbNode *node) const {
   if (type() != WB_SF_NODE)
     return false;
   if (!toNode() || !node)
     return toNode() == node;
-  if (allowsSubtypes())
-    return toNode()->isProtoInstance() ? isProtoNodeTypeAccepted(node->proto()) : isBaseNodeTypeAccepted(node->model());
-  return toNode()->modelName() == node->modelName() || toNode()->modelName() == node->nodeModelName();
+  return toNode()->isProtoInstance() ? isProtoNodeTypeAccepted(node->proto()) : isBaseNodeTypeAccepted(node->model());
 }
 
 bool WbFieldValueRestriction::isBaseNodeTypeAccepted(const WbNodeModel *actualType) const {
-  if (type() != WB_SF_NODE || !actualType)
+  if (type() != WB_SF_NODE || !toNode() || !actualType)
     return false;
   return toNode()->modelName() == actualType->name() || (allowsSubtypes() && isBaseNodeTypeAccepted(actualType->parentModel()));
 }
 
 bool WbFieldValueRestriction::isProtoNodeTypeAccepted(const WbProtoModel *actualType) const {
-  if (type() != WB_SF_NODE || !actualType)
+  if (type() != WB_SF_NODE || !toNode() || !actualType)
     return false;
   return toNode()->modelName() == actualType->name() ||
          (allowsSubtypes() && isProtoNodeTypeAccepted(actualType->ancestorProtoModel()));

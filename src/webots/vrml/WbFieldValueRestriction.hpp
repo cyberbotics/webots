@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_FIELD_VALUE_RESTRICTION
-#define WB_FIELD_VALUE_RESTRICTION
+#ifndef WB_FIELD_VALUE_RESTRICTION_HPP
+#define WB_FIELD_VALUE_RESTRICTION_HPP
 
 #include <QtCore/QString>
 #include <WbNodeModel.hpp>
@@ -48,8 +48,10 @@ public:
   const bool allowsSubtypes() const { return mAllowsSubtypes; }
 
   bool isVariantAccepted(const WbVariant &node) const;
+  bool isNodeAccepted(const QString &nodeModelName, const WbNodeModel *nodeModel, const QStringList &protoParentList) const;
   bool isNodeAccepted(const WbNode *node) const;
   bool isBaseNodeTypeAccepted(const WbNodeModel *actualType) const;
+  // Note: This does not check if the proto's base type would be accepted by isBaseNodeTypeAccepted
   bool isProtoNodeTypeAccepted(const WbProtoModel *actualType) const;
 
 private:
