@@ -1,7 +1,6 @@
 #VRML_SIM R2024a utf8
 
 EXTERNPROTO "webots://tests/manual_tests/protos/DerivedPoseProto.proto"
-EXTERNPROTO "webots://tests/manual_tests/protos/PoseProto.proto"
 EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/parser/protos/ProtoRestrictedFieldValues.proto"
@@ -35,15 +34,9 @@ ProtoRestrictedFieldValues {
     }
     Solid {
     }
-    Robot {
-    }
-  ]
-  extensonSlot2 [
-    PoseProto {
-    }
-  ]
+  ],
   extensionSlot3 [
-    DerivedPoseProto {
+    Solid {
     }
   ]
 }

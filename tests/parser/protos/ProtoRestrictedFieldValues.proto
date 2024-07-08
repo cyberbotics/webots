@@ -8,6 +8,7 @@ PROTO ProtoRestrictedFieldValues
   field SFVec3f{0 0 0} translation 0 0 0
   field MFNode{Solid{}+, PoseProto{}+} extensionSlot []
   field MFNode{PoseProto{}} extensionSlot2 []
+  field MFNode{Pose{}} extensionSlot3 []
 ]
 {
   Solid {
