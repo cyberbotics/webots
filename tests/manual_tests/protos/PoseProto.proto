@@ -6,7 +6,7 @@ PROTO PoseProto [
 ]
 {
   Pose {
-	translation IS translation
-	rotation IS rotation
+    translation IS translation
+    rotation IS rotation
   }
 }
