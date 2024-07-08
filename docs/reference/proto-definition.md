@@ -81,7 +81,7 @@ PROTO MyProto [
 ]
 ```
 
-For node fields, the `<NodeType>{}+` syntax allows the field to also accept nodes which derive from a specific node type.
+For `SFNode`/`MFNode` fields, the `<NodeType>{}+` syntax allows the field to also accept nodes which derive from a specific node type.
 
 In this example, the `color` field value can only be `0 0 0`, `0.5 0.5 0.5` or `1 1 1` and the `extensionSlot` field can only accept [Pose](pose.md) nodes, PROTOs whose base type is [Pose](pose.md), [Solid](solid.md) nodes, nodes derived from [Solid](solid.md), and PROTOs derived from [Solid](solid.md) or a type that inherits from [Solid](../reference/solid.md). Note that because  `Pose{}` is not followed by a `+`, `extensionSlot` does not accept nodes that derive from [Pose](pose.md) (e.g. [Transform](transform.md) or [Fluid](fluid.md)) or PROTOs whose base type is not [Pose](pose.md).
 
