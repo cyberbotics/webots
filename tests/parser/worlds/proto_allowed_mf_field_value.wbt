@@ -38,7 +38,7 @@ ProtoRestrictedFieldValues {
     Robot {
     }
   ]
-  extensonSlot2 [
+  extensionSlot2 [
     PoseProto {
     }
   ]

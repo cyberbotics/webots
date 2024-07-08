@@ -38,7 +38,6 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVersion.hpp"
 #include "WbWriter.hpp"
 
 #include <cassert>
