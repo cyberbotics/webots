@@ -47,7 +47,7 @@ public:
 
   const bool allowsSubtypes() const { return mAllowsSubtypes; }
 
-  bool isVariantAccepted(const WbVariant &node) const;
+  bool isVariantAccepted(const WbVariant &variant) const;
   bool isNodeAccepted(const QString &nodeModelName, const WbNodeModel *nodeModel, const QStringList &protoParentList) const;
   bool isNodeAccepted(const WbNode *node) const;
   bool isBaseNodeTypeAccepted(const WbNodeModel *actualType) const;
