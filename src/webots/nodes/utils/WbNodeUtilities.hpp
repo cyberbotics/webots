@@ -185,8 +185,8 @@ namespace WbNodeUtilities {
   }
   inline bool isAllowedToInsert(const WbField *const field, const WbNode *node, QString &errorMessage, WbNode::NodeUse nodeUse,
                                 const QString &type, const WbNode *newNode, bool automaticBoundingObjectCheck = true) {
-    return isAllowedToInsert(field, node, errorMessage, nodeUse, type, node->modelName(), node->model(),
-                             node->isProtoInstance() ? node->proto()->parentProtoNames() : QStringList(),
+    return isAllowedToInsert(field, node, errorMessage, nodeUse, type, newNode->modelName(), newNode->model(),
+                             newNode->isProtoInstance() ? newNode->proto()->parentProtoNames() : QStringList(),
                              automaticBoundingObjectCheck);
   }
 
