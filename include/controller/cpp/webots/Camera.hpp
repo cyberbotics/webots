@@ -24,6 +24,7 @@ namespace webots {
   class Camera : public Device {
   public:
     explicit Camera(const std::string &name) : Device(name) {}  // Use Robot::getCamera() instead
+    explicit Camera(WbDeviceTag tag) : Device(tag) {}
     virtual ~Camera() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

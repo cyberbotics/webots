@@ -31,6 +31,10 @@ namespace webots {
       Device(name),
       brake(NULL),
       positionSensor(NULL) {}  // Use Robot::getMotor() instead
+    explicit Motor(WbDeviceTag tag) :
+      Device(tag),
+      brake(NULL),
+      positionSensor(NULL) {}
     virtual ~Motor() {}
 
     virtual void setPosition(double position);

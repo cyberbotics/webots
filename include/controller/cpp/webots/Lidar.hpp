@@ -24,6 +24,7 @@ namespace webots {
   class Lidar : public Device {
   public:
     explicit Lidar(const std::string &name) : Device(name) {}  // Use Robot::getLidar() instead
+    explicit Lidar(WbDeviceTag tag) : Device(tag) {}
     virtual ~Lidar() {}
     virtual void enable(int samplingPeriod);
     void enablePointCloud();
