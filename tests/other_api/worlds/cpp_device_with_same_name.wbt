@@ -22,13 +22,21 @@ DirectionalLight {
 }
 Robot {
   children [
-    Accelerometer {
-      name "accel"
+    HingeJoint {
+      device [
+        Brake {
+          name "brake"
+        }
+      ]
     }
-    Accelerometer {
-      name "accel"
+    HingeJoint {
+      device [
+        Brake {
+          name "brake"
+        }
+      ]
     }
-    TestSuiteEmitter {
+  TestSuiteEmitter {
     }
   ]
   controller "cpp_device_with_same_name"
