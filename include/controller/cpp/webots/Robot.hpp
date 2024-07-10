@@ -18,6 +18,8 @@
 #include <iostream>
 #include <vector>
 
+#include "../../c/webots/types.h"
+
 namespace webots {
   class Accelerometer;
   class Altimeter;
