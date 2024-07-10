@@ -29,10 +29,7 @@ namespace webots {
       Device(name),
       brake(NULL),
       motor(NULL) {}  // Use Robot::getPositionSensor() instead
-    explicit PositionSensor(WbDeviceTag tag) :
-      Device(tag),
-      brake(NULL),
-      motor(NULL) {}
+    explicit PositionSensor(WbDeviceTag tag) : Device(tag), brake(NULL), motor(NULL) {}
     virtual ~PositionSensor() {}
     virtual void enable(int samplingPeriod);  // milliseconds
     virtual void disable();
