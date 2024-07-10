@@ -37,7 +37,7 @@ void base_turn_right();
 void base_strafe_left();
 void base_strafe_right();
 
-void base_move();
+void base_move(double vx, double vy, double omega);
 void base_forwards_increment();
 void base_backwards_increment();
 void base_turn_left_increment();
