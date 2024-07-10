@@ -21,6 +21,7 @@ namespace webots {
   class Speaker : public Device {
   public:
     explicit Speaker(const std::string &name) : Device(name) {}  // Use Robot::getSpeaker() instead
+    explicit Speaker(WbDeviceTag tag) : Device(tag) {}
     virtual ~Speaker() {}
     static void playSound(Speaker *left, Speaker *right, const std::string &sound, double volume, double pitch, double balance,
                           bool loop);

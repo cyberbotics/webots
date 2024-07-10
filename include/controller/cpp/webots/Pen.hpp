@@ -21,6 +21,7 @@ namespace webots {
   class Pen : public Device {
   public:
     explicit Pen(const std::string &name) : Device(name) {}  // Use Robot::getPen() instead
+    explicit Pen(WbDeviceTag tag) : Device(tag) {}
     virtual ~Pen() {}
     virtual void write(bool write);
     virtual void setInkColor(int color, double density);

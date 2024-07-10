@@ -23,6 +23,7 @@ namespace webots {
     typedef enum { LOCAL = 0, WGS84 } CoordinateSystem;
 
     explicit GPS(const std::string &name) : Device(name) {}  // Use Robot::getGPS() instead
+    explicit GPS(WbDeviceTag tag) : Device(tag) {}
     virtual ~GPS() {}
 
     virtual void enable(int samplingPeriod);

@@ -21,6 +21,7 @@ namespace webots {
   class Receiver : public Device {
   public:
     explicit Receiver(const std::string &name) : Device(name) {}  // Use Robot::getReceiver() instead
+    explicit Receiver(WbDeviceTag tag) : Device(tag) {}
     virtual ~Receiver() {}
     enum { CHANNEL_BROADCAST = -1 };
     virtual void enable(int samplingPeriod);
