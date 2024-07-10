@@ -839,6 +839,7 @@ namespace webots {
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
 %ignore webots::Robot::getConnector(const std::string &name);
+%ignore webots::Robot::getDevice(const std::string &name);
 %ignore webots::Robot::getDisplay(const std::string &name);
 %ignore webots::Robot::getDistanceSensor(const std::string &name);
 %ignore webots::Robot::getEmitter(const std::string &name);
@@ -945,6 +946,11 @@ namespace webots {
     if (!Device.hasType(tag, Node.CONNECTOR))
       return null;
     return (Connector)getOrCreateDevice(tag);
+  }
+
+  public Device getDevice(String name) {
+    int tag = getDeviceTagFromName(name);
+    return getOrCreateDevice(tag);
   }
 
   protected Display createDisplay(int tag) {
