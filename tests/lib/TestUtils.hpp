@@ -54,7 +54,7 @@ public:
       sendErrorAndExit(errorMessage);
   }
 
-  void assertPointerNotNull(void *ptr, const std::string &errorMessage) {
+  void assertPointerNotNull(const void *ptr, const std::string &errorMessage) {
     if (ptr == NULL)
       sendErrorAndExit(errorMessage);
   }
