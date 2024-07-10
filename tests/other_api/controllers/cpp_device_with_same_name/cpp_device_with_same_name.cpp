@@ -6,7 +6,7 @@
 using namespace webots;
 
 int main(int argc, char **argv) {
-  const Robot *robot = new Robot();
+  Robot *robot = new Robot();
   TestUtils ts(robot, argv[0]);
 
   const int deviceTag1 = robot->getDeviceTagFromIndex(0);
