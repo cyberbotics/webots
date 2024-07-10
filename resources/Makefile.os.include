@@ -72,7 +72,7 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 
- SUPPORTED_SDK = 11 12
+ SUPPORTED_SDK = 11 12 13
  MACOSX_MIN_SDK_VERSION = 11
  ECHO = echo
  # cf. https://stackoverflow.com/a/30225756/2210777
