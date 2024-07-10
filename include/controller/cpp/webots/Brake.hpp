@@ -30,7 +30,6 @@ namespace webots {
       Device(name),
       motor(NULL),
       positionSensor(NULL) {}  // Use Robot::getBrake() instead
-    virtual ~Brake() {}
     explicit Brake(WbDeviceTag tag) :
       Device(tag),
       motor(NULL),
