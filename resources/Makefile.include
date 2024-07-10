@@ -210,15 +210,15 @@ endif
 ifneq ($(C_SOURCES)$(CXX_SOURCES),)
  ifdef BUILD_EXECUTABLE
   MAIN_TARGET = $(NAME)$(EXE_EXTENSION)
-  X86_64_LINKER = -target x86_64-apple-macos11
-  ARM64_LINKER = -target arm64-apple-macos11
+  X86_64_LINKER = -target x86_64-apple-macos12
+  ARM64_LINKER = -target arm64-apple-macos12
  else
   ifdef BUILD_STATIC_LIBRARY
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(STATIC_LIB_EXTENSION)
   else
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(SHARED_LIB_EXTENSION)
-   X86_64_LINKER = -target x86_64-apple-macos11
-   ARM64_LINKER = -target arm64-apple-macos11
+   X86_64_LINKER = -target x86_64-apple-macos12
+   ARM64_LINKER = -target arm64-apple-macos12
   endif
  endif
 endif
@@ -321,8 +321,8 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 ifdef NO_FAT_BINARY
- WBCFLAGS += -target $(PROCESSOR)-apple-macos11
- DYNAMIC_LINK_FLAGS += -target $(PROCESSOR)-apple-macos11
+ WBCFLAGS += -target $(PROCESSOR)-apple-macos12
+ DYNAMIC_LINK_FLAGS += -target $(PROCESSOR)-apple-macos12
 endif
  WBCFLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
  DYNAMIC_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
@@ -627,11 +627,11 @@ $(BUILD_GOAL_DIR)/%.o:%.c
 
 $(BUILD_GOAL_DIR)/x86_64/%.o:%.c
 	@echo "# compiling" $(notdir $<) "(x86_64)"
-	$(SILENT)$(CC) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CC) -c -target x86_64-apple-macos12 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/arm64/%.o:%.c
 	@echo "# compiling" $(notdir $<) "(arm64)"
-	$(SILENT)$(CC) -c -target arm64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CC) -c -target arm64-apple-macos12 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/%.o:%.cc
 	@echo "# compiling" $(notdir $<)
@@ -647,11 +647,11 @@ $(BUILD_GOAL_DIR)/%.o:%.cpp
 
 $(BUILD_GOAL_DIR)/x86_64/%.o:%.cpp
 	@echo "# compiling" $(notdir $<) "(x86_64)"
-	$(SILENT)$(CXX) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c -target x86_64-apple-macos12 $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR)/arm64/%.o:%.cpp
 	@echo "# compiling" $(notdir $<) "(arm64)"
-	$(SILENT)$(CXX) -c -target arm64-apple-macos11 $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(SILENT)$(CXX) -c -target arm64-apple-macos12 $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
 	@echo "# compiling with emcc " $(notdir $<)
