@@ -600,7 +600,7 @@ $(BUILD_GOAL_DIR)/%.d:%.c
 
 $(BUILD_GOAL_DIR)/%.d:%.cc
 	@echo "# updating" $(notdir $@)
-	$(SILENT)$(CXX) $(INCLUDE) $(WBCFLAGS) $(CFLAGS -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.cc=.o))) > $@
+	$(SILENT)$(CXX) $(INCLUDE) $(WBCFLAGS) $(CFLAGS) -MM $< -MT $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(<:.cc=.o))) > $@
 
 $(BUILD_GOAL_DIR)/%.d:%.c++
 	@echo "# updating" $(notdir $@)
