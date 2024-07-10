@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   TestUtils ts(robot, argv[0]);
 
   int deviceTag1 = robot->getDeviceTagFromIndex(0);
-  int deviceTag2 = robot->getDeviceTagFromIndex(0);
+  int deviceTag2 = robot->getDeviceTagFromIndex(1);
   Accelerometer *device1 = dynamic_cast<Accelerometer *>(robot->getDeviceFromTag(deviceTag1));
   Accelerometer *device2 = dynamic_cast<Accelerometer *>(robot->getDeviceFromTag(deviceTag2));
 

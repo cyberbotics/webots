@@ -28,6 +28,8 @@ Robot {
     Accelerometer {
       name "accel"
     }
+    TestSuiteEmitter {
+    }
   ]
   controller "cpp_device_with_same_name"
 }
