@@ -1,7 +1,9 @@
 name: Test Sources with Latest Cppcheck
 
 on:
-  push
+  push:
+    branches:
+      - update-macos-runner
   schedule:
     - cron:  '0 22 * * *'
 
