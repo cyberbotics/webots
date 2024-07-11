@@ -78,7 +78,7 @@ bool Communication::initialize(const string &ip) {
     cleanup();
     return false;
   }
-  rc = connect(mFd, (struct sockaddr *)&address, sizeof(struct sockaddr));
+  rc = connect(mFd, reinterpret_cast<struct sockaddr *>(&address), sizeof(struct sockaddr));
   if (rc == -1) {
     fprintf(stderr, "Cannot connect to the server\n");
     cleanup();
