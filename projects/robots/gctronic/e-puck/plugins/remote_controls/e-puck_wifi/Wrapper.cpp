@@ -177,7 +177,6 @@ int Wrapper::robotStep(int step) {
       break;
     if (command == 1 && got_camera_image)
       break;
-    // cppcheck-suppress knownConditionTrueFalse
     if (command == 0 && header == 3)
       break;
 

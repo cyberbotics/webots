@@ -508,8 +508,11 @@ void WbBuildEditor::jumpToError(QString fileName, int line, int column) {
   if (currentBuffer() && QDir::isRelativePath(fileName))
     fileName = compileDir().absoluteFilePath(fileName);
 
-  if (openFile(fileName) && line != -1)
-    currentBuffer()->markError(line, column);
+  if (openFile(fileName)) {
+    WbTextBuffer *buffer = currentBuffer();
+    if (line != -1)
+      buffer->markError(line, column);
+  }
 }
 
 void WbBuildEditor::unmarkError() {

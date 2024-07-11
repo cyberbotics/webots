@@ -106,18 +106,18 @@ public:
   QList<WbSolid *> findSolids(bool visibleNodes = false) const;
 
   // return the list of all robots
-  const QList<WbRobot *> &robots() const { return mRobots; }
+  QList<WbRobot *> robots() const { return mRobots; }
 
   // return the list of all top solids (not looking recursively)
-  const QList<WbSolid *> &topSolids() const { return mTopSolids; }
+  QList<WbSolid *> topSolids() const { return mTopSolids; }
 
   // return the list of all solids that have a positive radar cross-section (radar target)
-  const QList<WbSolid *> &radarTargetSolids() const { return mRadarTargets; }
+  QList<WbSolid *> radarTargetSolids() const { return mRadarTargets; }
   void addRadarTarget(WbSolid *target) { mRadarTargets.append(target); }
   void removeRadarTarget(WbSolid *target) { mRadarTargets.removeAll(target); }
 
   // return the list of all solids that have a non-empty 'recognitionColors' field
-  const QList<WbSolid *> &cameraRecognitionObjects() const { return mCameraRecognitionObjects; }
+  QList<WbSolid *> cameraRecognitionObjects() const { return mCameraRecognitionObjects; }
   void addCameraRecognitionObject(WbSolid *object) { mCameraRecognitionObjects.append(object); }
   void removeCameraRecognitionObject(WbSolid *object) { mCameraRecognitionObjects.removeAll(object); }
 

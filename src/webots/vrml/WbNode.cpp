@@ -2023,7 +2023,7 @@ void WbNode::subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, i
   }
 }
 
-WbNode *WbNode::findNodeFromSubNodeIndices(const QList<int> &indices, WbNode *root) {
+WbNode *WbNode::findNodeFromSubNodeIndices(QList<int> indices, WbNode *root) {
   WbNode *n = root;
   for (int i = 0; i < indices.size() && n != NULL; ++i)
     n = findNodeFromSubNodeIndex(indices[i], n);

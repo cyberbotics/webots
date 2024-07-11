@@ -86,7 +86,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
     while (1) {  // read chunks one by one
       Chunk chunk;
-      qint64 readSize = mDevice->read(reinterpret_cast<char *>(&chunk), sizeof(Chunk));
+      qint64 readSize = mDevice->read((char *)&chunk, sizeof(Chunk));
       if (readSize <= 0)
         break;  // end of file
       if (readSize != sizeof(Chunk))
@@ -94,7 +94,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       if (strncmp(chunk.id, "RIFF", 4) == 0) {
         RIFFChunkData riffChunk;
-        readSize = mDevice->read(reinterpret_cast<char *>(&riffChunk), sizeof(RIFFChunkData));
+        readSize = mDevice->read((char *)&riffChunk, sizeof(RIFFChunkData));
         if (readSize != sizeof(RIFFChunkData))
           throw QObject::tr("Cannot read RIFF chunk");
 
@@ -105,7 +105,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       } else if (strncmp(chunk.id, "fmt ", 4) == 0) {
         FormatChunkData formatChunk;
-        readSize = mDevice->read(reinterpret_cast<char *>(&formatChunk), sizeof(FormatChunkData));
+        readSize = mDevice->read((char *)&formatChunk, sizeof(FormatChunkData));
         if (readSize != sizeof(FormatChunkData))
           throw QObject::tr("Cannot read format chunk");
 

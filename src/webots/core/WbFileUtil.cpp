@@ -38,7 +38,7 @@ bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &
 }
 
 bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
-                                      const QList<std::pair<QString, QString>> &values) {
+                                      QList<std::pair<QString, QString>> values) {
   QFile sourceFile(sourcePath);
   if (!sourceFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;
@@ -110,7 +110,6 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   if (recurse) {
     QStringList dirs = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     foreach (QString dir, dirs) {
-      // cppcheck-suppress variableScope
       QString srcName = sourcePath + "/" + dir;
       QString destName = destPath + "/" + dir;
       if (!QDir(destName).exists() || merge)

@@ -148,7 +148,6 @@ class TestCppCheck(unittest.TestCase):
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
-        command += ' --suppress=normalCheckLevelMaxBranches --suppress=duplInheritedMember'
         # command += ' --xml '  # Uncomment this line to get more information on the errors
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:

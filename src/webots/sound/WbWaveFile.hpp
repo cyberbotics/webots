@@ -41,7 +41,7 @@ public:
   int nChannels() const { return mNChannels; }
   int bitsPerSample() const { return mBitsPerSample; }
   int rate() const { return mRate; }
-  const QString &filename() const { return mFilename; }
+  QString filename() const { return mFilename; }
 
 private:
   QString mFilename;

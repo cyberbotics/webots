@@ -295,7 +295,7 @@ bool WbPerspective::save() const {
   return true;
 }
 
-void WbPerspective::setSimulationViewState(const QList<QByteArray> &state) {
+void WbPerspective::setSimulationViewState(QList<QByteArray> state) {
   assert(state.size() == 2);
   mSimulationViewState = state[0];
   mSceneTreeState = state[1];

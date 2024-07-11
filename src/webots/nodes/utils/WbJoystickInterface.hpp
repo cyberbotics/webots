@@ -54,7 +54,7 @@ public:
   void setConstantForceDuration(double duration) { mConstantForceDuration = duration; }
   void setForceAxis(int axis);
 
-  const QString &initializationError() const { return mError; }
+  QString initializationError() const { return mError; }
   bool isCorrectlyInitialized() const { return mCorrectlyInitialized; }
   bool hasForceFeedback() const { return mHasForceFeedback; }
   bool supportConstantForceFeedbackEffect() const { return mSupportConstantForceFeedbackEffect; }

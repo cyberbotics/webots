@@ -158,7 +158,6 @@ void Soccer::run() {
   const double acc_step = 20;
 
   while (true) {
-    // cppcheck-suppress variableScope
     double x, y, neckPosition, headPosition;
     bool ballInFieldOfView = getBallCenter(x, y);
     const double *acc = mAccelerometer->getValues();

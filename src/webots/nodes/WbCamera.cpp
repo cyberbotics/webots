@@ -72,18 +72,16 @@ public:
   virtual ~WbRecognizedObject() {}
 
   int id() const { return mId; }
-  const QString &model() const { return mModel; }
-  // cppcheck-suppress returnByReference
+  const QString model() const { return mModel; }
   const WbRotation relativeOrientation() const { return mRelativeOrientation; }
   const WbVector2 positionOnImage() const { return mPositionOnImage; }
   const WbVector2 pixelSize() const { return mPixelSize; }
-  const QList<WbRgb> &colors() const { return mColors; }
+  const QList<WbRgb> colors() const { return mColors; }
 
   void setModel(const QString &model) { mModel = model; }
   void setRelativeOrientation(const WbRotation &relativeOrientation) { mRelativeOrientation = relativeOrientation; }
   void setPositionOnImage(const WbVector2 &positionOnImage) { mPositionOnImage = positionOnImage; }
   void setPixelSize(const WbVector2 &pixelSize) { mPixelSize = pixelSize; }
-  // cppcheck-suppress passedByValue
   void addColor(WbRgb colors) { mColors.append(colors); }
   void clearColors() { mColors.clear(); }
 

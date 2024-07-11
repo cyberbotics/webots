@@ -35,7 +35,7 @@ public:
 
   unsigned int verticalSpace() const;
   unsigned int fontSize() const { return mFontSize; }
-  const QString &error() const { return mError; }
+  QString error() const { return mError; }
 
 private:
   void loadFace(FT_Face *face, const QString &filename, unsigned int size);

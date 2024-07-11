@@ -265,7 +265,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       }
     } else if (sharedParameterNames.contains(token->word()) && !previousRedirectedFieldName.isEmpty()) {
       // check that derived parameter is only redirected to corresponding base parameter
-      // cppcheck-suppress variableScope
       QString parameterName = token->word();
       if (previousRedirectedFieldName != token->word()) {
         tokenizer->reportError(

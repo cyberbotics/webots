@@ -150,7 +150,7 @@ public:
   void retrieveLocalProtoDependencies();
 
   // used primarily when populating the dialog windows
-  const QMap<QString, WbProtoInfo *> &webotsProtoList() { return mWebotsProtoList; };
+  QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
 
   // generates meta info from a PROTO file (license, tags, ...)
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);

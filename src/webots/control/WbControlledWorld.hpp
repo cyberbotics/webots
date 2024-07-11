@@ -41,8 +41,8 @@ public:
 
   void step() override;
 
-  const QList<WbController *> &controllers() const { return mControllers; }
-  const QList<WbController *> &disconnectedExternControllers() const { return mDisconnectedExternControllers; }
+  QList<WbController *> controllers() const { return mControllers; }
+  QList<WbController *> disconnectedExternControllers() const { return mDisconnectedExternControllers; }
 
 public slots:
   void deleteController(WbController *controller);
