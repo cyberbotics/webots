@@ -296,8 +296,6 @@ void WbDictionary::updateProtosPrivateDef(WbBaseNode *&node) {
 
 void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index) {
   const QString &defName = node->defName();
-  const int nestingDegree = mNestedDictionaries.size() - 1;
-  int lookupDegree = nestingDegree;
 
   // Solid, Device, BasicJoint and JointParameters DEF nodes are allowed but not registered in the dictionary,
   // Solid, Device, BasicJoint and JointParameters USE nodes are prohibited
@@ -306,6 +304,8 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
 
   // Handles nodes in protos
   if (mNestedProtos.size() > 0) {
+    const int nestingDegree = mNestedDictionaries.size() - 1;
+    int lookupDegree = nestingDegree;
     if (!defName.isEmpty() && isAValidUseableNode) {
       if (node->isProtoInstance())
         lookupDegree--;

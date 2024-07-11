@@ -110,6 +110,7 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   if (recurse) {
     QStringList dirs = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     foreach (QString dir, dirs) {
+      // cppcheck-suppress variableScope
       QString srcName = sourcePath + "/" + dir;
       QString destName = destPath + "/" + dir;
       if (!QDir(destName).exists() || merge)
