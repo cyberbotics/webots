@@ -116,13 +116,13 @@ public:
   void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
-  const QStringList getEnabledFilters() const { return mEnabledFilters; }
+  const QStringList &getEnabledFilters() const { return mEnabledFilters; }
   void setEnabledFilters(const QStringList &filters);
 
-  const QStringList getEnabledLevels() const { return mEnabledLevels; }
+  const QStringList &getEnabledLevels() const { return mEnabledLevels; }
   void setEnabledLevels(const QStringList &levels);
 
-  const QString name() const { return mConsoleName; }
+  const QString &name() const { return mConsoleName; }
 
 signals:
   void closed();

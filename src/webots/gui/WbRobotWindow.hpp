@@ -25,7 +25,7 @@ public:
   explicit WbRobotWindow(WbRobot *);
 
   WbRobot *robot() { return mRobot; }
-  const QString getClientID() { return mClientID; }
+  const QString &getClientID() { return mClientID; }
   void setupPage(int port);
 
 public slots:

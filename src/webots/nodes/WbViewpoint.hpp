@@ -132,7 +132,7 @@ public:
   void updateOrthographicViewHeight();
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
-  QList<const WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
+  const QList<const WbBaseNode *> &getInvisibleNodes() const { return mInvisibleNodes; }
   void enableNodeVisibility(bool enabled);
 
   // Ray picking based on current projection mode
