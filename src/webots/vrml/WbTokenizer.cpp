@@ -529,6 +529,17 @@ const QString WbTokenizer::documentationUrl() const {
   return QString();
 }
 
+const QString WbTokenizer::parent() const {
+  const QStringList lines = mInfo.split("\n");
+  foreach (QString line, lines) {
+    if (line.startsWith("parent:")) {
+      line.remove("parent:");
+      return line.trimmed();
+    }
+  }
+  return QString();
+}
+
 void WbTokenizer::reportError(const QString &message, int line, int column) const {
   const QString prefix = mFileName.isEmpty() ? mReferralFile : mFileName;
   if (prefix.isEmpty())

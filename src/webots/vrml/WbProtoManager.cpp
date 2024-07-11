@@ -436,7 +436,7 @@ void WbProtoManager::loadWebotsProtoMap() {
         if (reader.name().toString() == "proto") {
           bool needsRobotAncestor = false;
           QString name, url, baseType, license, licenseUrl, documentationUrl, description, slotType;
-          QStringList tags, parameters;
+          QStringList tags, parameters, parents;
           while (reader.readNextStartElement()) {
             if (reader.name().toString() == "name") {
               name = reader.readElementText();
@@ -478,6 +478,10 @@ void WbProtoManager::loadWebotsProtoMap() {
               parameters = reader.readElementText().split("\\n", Qt::SkipEmptyParts);
               reader.readNext();
             }
+            if (reader.name().toString() == "parents") {
+              parents = reader.readElementText().split(",", Qt::SkipEmptyParts);
+              reader.readNext();
+            }
             if (reader.name().toString() == "needs-robot-ancestor") {
               needsRobotAncestor = reader.readElementText() == "true";
               reader.readNext();
@@ -485,7 +489,7 @@ void WbProtoManager::loadWebotsProtoMap() {
           }
           description = description.replace("\\n", "\n");
           WbProtoInfo *const info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType,
-                                                    tags, parameters, needsRobotAncestor);
+                                                    tags, parameters, parents, needsRobotAncestor);
           mWebotsProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
@@ -756,9 +760,12 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     parameters << field;
   }
 
+  // generate parents string (needed by PROTO wizard)
+  QStringList parents = protoModel->parentProtoNames();
+
   WbProtoInfo *info = new WbProtoInfo(url, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
-                                      protoModel->tags(), parameters, needsRobotAncestor);
+                                      protoModel->tags(), parameters, parents, needsRobotAncestor);
 
   protoModel->destroy();
   return info;

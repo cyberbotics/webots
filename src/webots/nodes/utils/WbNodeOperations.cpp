@@ -182,9 +182,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   foreach (WbNode *node, nodes) {
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
-    if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
-                                           WbNodeUtilities::slotType(childNode),
-                                           QStringList() << childNode->nodeModelName() << childNode->modelName(), false)) {
+    if (WbNodeUtilities::isAllowedToInsert(field, parentNode, errorMessage, nodeUse, WbNodeUtilities::slotType(childNode),
+                                           childNode, false)) {
       if (avoidIntersections)
         tryToAvoidIntersections(childNode);
       const OperationResult result = initNewNode(childNode, parentNode, field, nodeIndex, true);
