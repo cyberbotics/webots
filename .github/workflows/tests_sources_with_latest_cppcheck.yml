@@ -1,6 +1,7 @@
 name: Test Sources with Latest Cppcheck
 
 on:
+  push
   schedule:
     - cron:  '0 22 * * *'
 
