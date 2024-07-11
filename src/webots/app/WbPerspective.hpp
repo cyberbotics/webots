@@ -60,7 +60,7 @@ public:
   bool centralWidgetVisible() const { return mCentralWidgetVisible; }
 
   // splitter state of the simulation view
-  void setSimulationViewState(QList<QByteArray> state);
+  void setSimulationViewState(const QList<QByteArray> &state);
   QList<QByteArray> simulationViewState() const;
 
   // index of the selected tab in the text editor

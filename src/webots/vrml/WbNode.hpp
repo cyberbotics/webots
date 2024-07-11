@@ -157,7 +157,7 @@ public:
   static WbNode *findNodeFromSubNodeIndex(int index, WbNode *root);
   // find descendant node from a list of parent indices
   // indices are listed from the ancestor parent node (position 0) to the searched node index (position indices.size()-1)
-  static WbNode *findNodeFromSubNodeIndices(QList<int> indices, WbNode *root);
+  static WbNode *findNodeFromSubNodeIndices(const QList<int> &indices, WbNode *root);
 
   // PROTO
   static WbNode *createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath);

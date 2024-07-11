@@ -46,7 +46,7 @@ namespace wren {
 
     void setDefaultMaterial(Material *material) { mDefaultMaterial = material; }
     void setEffectiveMaterial(Material *material) { mEffectiveMaterial = material; }
-    void setOptionalMaterial(std::string name, Material *material) { mOptionalMaterials[name] = material; }
+    void setOptionalMaterial(const std::string &name, Material *material) { mOptionalMaterials[name] = material; }
 
     // To ensure a valid bounding sphere, only set a Mesh to a Renderable after having called Mesh::setup.
     void setMesh(Mesh *mesh);

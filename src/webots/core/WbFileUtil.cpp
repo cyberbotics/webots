@@ -38,7 +38,7 @@ bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &
 }
 
 bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
-                                      QList<std::pair<QString, QString>> values) {
+                                      const QList<std::pair<QString, QString>> &values) {
   QFile sourceFile(sourcePath);
   if (!sourceFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;
