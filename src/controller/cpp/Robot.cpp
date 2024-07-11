@@ -199,8 +199,8 @@ Accelerometer *Robot::getAccelerometer(const string &name) {
   return dynamic_cast<Accelerometer *>(getOrCreateDevice(tag));
 }
 
-Accelerometer *Robot::createAccelerometer(const string &name) const {
-  return new Accelerometer(name);
+Accelerometer *Robot::createAccelerometer(WbDeviceTag tag) const {
+  return new Accelerometer(tag);
 }
 
 Altimeter *Robot::getAltimeter(const string &name) {
@@ -210,8 +210,8 @@ Altimeter *Robot::getAltimeter(const string &name) {
   return dynamic_cast<Altimeter *>(getOrCreateDevice(tag));
 }
 
-Altimeter *Robot::createAltimeter(const string &name) const {
-  return new Altimeter(name);
+Altimeter *Robot::createAltimeter(WbDeviceTag tag) const {
+  return new Altimeter(tag);
 }
 
 Brake *Robot::getBrake(const string &name) {
@@ -221,8 +221,8 @@ Brake *Robot::getBrake(const string &name) {
   return dynamic_cast<Brake *>(getOrCreateDevice(tag));
 }
 
-Brake *Robot::createBrake(const string &name) const {
-  return new Brake(name);
+Brake *Robot::createBrake(WbDeviceTag tag) const {
+  return new Brake(tag);
 }
 
 Camera *Robot::getCamera(const string &name) {
@@ -232,8 +232,8 @@ Camera *Robot::getCamera(const string &name) {
   return dynamic_cast<Camera *>(getOrCreateDevice(tag));
 }
 
-Camera *Robot::createCamera(const string &name) const {
-  return new Camera(name);
+Camera *Robot::createCamera(WbDeviceTag tag) const {
+  return new Camera(tag);
 }
 
 Compass *Robot::getCompass(const string &name) {
@@ -243,8 +243,8 @@ Compass *Robot::getCompass(const string &name) {
   return dynamic_cast<Compass *>(getOrCreateDevice(tag));
 }
 
-Compass *Robot::createCompass(const string &name) const {
-  return new Compass(name);
+Compass *Robot::createCompass(WbDeviceTag tag) const {
+  return new Compass(tag);
 }
 
 Connector *Robot::getConnector(const string &name) {
@@ -254,8 +254,8 @@ Connector *Robot::getConnector(const string &name) {
   return dynamic_cast<Connector *>(getOrCreateDevice(tag));
 }
 
-Connector *Robot::createConnector(const string &name) const {
-  return new Connector(name);
+Connector *Robot::createConnector(WbDeviceTag tag) const {
+  return new Connector(tag);
 }
 
 Display *Robot::getDisplay(const string &name) {
@@ -265,8 +265,8 @@ Display *Robot::getDisplay(const string &name) {
   return dynamic_cast<Display *>(getOrCreateDevice(tag));
 }
 
-Display *Robot::createDisplay(const string &name) const {
-  return new Display(name);
+Display *Robot::createDisplay(WbDeviceTag tag) const {
+  return new Display(tag);
 }
 
 DistanceSensor *Robot::getDistanceSensor(const string &name) {
@@ -276,8 +276,8 @@ DistanceSensor *Robot::getDistanceSensor(const string &name) {
   return dynamic_cast<DistanceSensor *>(getOrCreateDevice(tag));
 }
 
-DistanceSensor *Robot::createDistanceSensor(const string &name) const {
-  return new DistanceSensor(name);
+DistanceSensor *Robot::createDistanceSensor(WbDeviceTag tag) const {
+  return new DistanceSensor(tag);
 }
 
 Emitter *Robot::getEmitter(const string &name) {
@@ -287,8 +287,8 @@ Emitter *Robot::getEmitter(const string &name) {
   return dynamic_cast<Emitter *>(getOrCreateDevice(tag));
 }
 
-Emitter *Robot::createEmitter(const string &name) const {
-  return new Emitter(name);
+Emitter *Robot::createEmitter(WbDeviceTag tag) const {
+  return new Emitter(tag);
 }
 
 GPS *Robot::getGPS(const string &name) {
@@ -298,8 +298,8 @@ GPS *Robot::getGPS(const string &name) {
   return dynamic_cast<GPS *>(getOrCreateDevice(tag));
 }
 
-GPS *Robot::createGPS(const string &name) const {
-  return new GPS(name);
+GPS *Robot::createGPS(WbDeviceTag tag) const {
+  return new GPS(tag);
 }
 
 Gyro *Robot::getGyro(const string &name) {
@@ -309,8 +309,8 @@ Gyro *Robot::getGyro(const string &name) {
   return dynamic_cast<Gyro *>(getOrCreateDevice(tag));
 }
 
-Gyro *Robot::createGyro(const string &name) const {
-  return new Gyro(name);
+Gyro *Robot::createGyro(WbDeviceTag tag) const {
+  return new Gyro(tag);
 }
 
 InertialUnit *Robot::getInertialUnit(const string &name) {
@@ -320,8 +320,8 @@ InertialUnit *Robot::getInertialUnit(const string &name) {
   return dynamic_cast<InertialUnit *>(getOrCreateDevice(tag));
 }
 
-InertialUnit *Robot::createInertialUnit(const string &name) const {
-  return new InertialUnit(name);
+InertialUnit *Robot::createInertialUnit(WbDeviceTag tag) const {
+  return new InertialUnit(tag);
 }
 
 LED *Robot::getLED(const string &name) {
@@ -331,8 +331,8 @@ LED *Robot::getLED(const string &name) {
   return dynamic_cast<LED *>(getOrCreateDevice(tag));
 }
 
-LED *Robot::createLED(const string &name) const {
-  return new LED(name);
+LED *Robot::createLED(WbDeviceTag tag) const {
+  return new LED(tag);
 }
 
 Lidar *Robot::getLidar(const string &name) {
@@ -342,8 +342,8 @@ Lidar *Robot::getLidar(const string &name) {
   return dynamic_cast<Lidar *>(getOrCreateDevice(tag));
 }
 
-Lidar *Robot::createLidar(const string &name) const {
-  return new Lidar(name);
+Lidar *Robot::createLidar(WbDeviceTag tag) const {
+  return new Lidar(tag);
 }
 
 LightSensor *Robot::getLightSensor(const string &name) {
@@ -353,8 +353,8 @@ LightSensor *Robot::getLightSensor(const string &name) {
   return dynamic_cast<LightSensor *>(getOrCreateDevice(tag));
 }
 
-LightSensor *Robot::createLightSensor(const string &name) const {
-  return new LightSensor(name);
+LightSensor *Robot::createLightSensor(WbDeviceTag tag) const {
+  return new LightSensor(tag);
 }
 
 Motor *Robot::getMotor(const string &name) {
@@ -364,8 +364,8 @@ Motor *Robot::getMotor(const string &name) {
   return dynamic_cast<Motor *>(getOrCreateDevice(tag));
 }
 
-Motor *Robot::createMotor(const string &name) const {
-  return new Motor(name);
+Motor *Robot::createMotor(WbDeviceTag tag) const {
+  return new Motor(tag);
 }
 
 Pen *Robot::getPen(const string &name) {
@@ -375,8 +375,8 @@ Pen *Robot::getPen(const string &name) {
   return dynamic_cast<Pen *>(getOrCreateDevice(tag));
 }
 
-Pen *Robot::createPen(const string &name) const {
-  return new Pen(name);
+Pen *Robot::createPen(WbDeviceTag tag) const {
+  return new Pen(tag);
 }
 
 PositionSensor *Robot::getPositionSensor(const string &name) {
@@ -386,8 +386,8 @@ PositionSensor *Robot::getPositionSensor(const string &name) {
   return dynamic_cast<PositionSensor *>(getOrCreateDevice(tag));
 }
 
-PositionSensor *Robot::createPositionSensor(const string &name) const {
-  return new PositionSensor(name);
+PositionSensor *Robot::createPositionSensor(WbDeviceTag tag) const {
+  return new PositionSensor(tag);
 }
 
 Radar *Robot::getRadar(const string &name) {
@@ -397,8 +397,8 @@ Radar *Robot::getRadar(const string &name) {
   return dynamic_cast<Radar *>(getOrCreateDevice(tag));
 }
 
-Radar *Robot::createRadar(const string &name) const {
-  return new Radar(name);
+Radar *Robot::createRadar(WbDeviceTag tag) const {
+  return new Radar(tag);
 }
 
 RangeFinder *Robot::getRangeFinder(const string &name) {
@@ -408,8 +408,8 @@ RangeFinder *Robot::getRangeFinder(const string &name) {
   return dynamic_cast<RangeFinder *>(getOrCreateDevice(tag));
 }
 
-RangeFinder *Robot::createRangeFinder(const string &name) const {
-  return new RangeFinder(name);
+RangeFinder *Robot::createRangeFinder(WbDeviceTag tag) const {
+  return new RangeFinder(tag);
 }
 
 Receiver *Robot::getReceiver(const string &name) {
@@ -419,8 +419,8 @@ Receiver *Robot::getReceiver(const string &name) {
   return dynamic_cast<Receiver *>(getOrCreateDevice(tag));
 }
 
-Receiver *Robot::createReceiver(const string &name) const {
-  return new Receiver(name);
+Receiver *Robot::createReceiver(WbDeviceTag tag) const {
+  return new Receiver(tag);
 }
 
 Skin *Robot::getSkin(const string &name) {
@@ -430,8 +430,8 @@ Skin *Robot::getSkin(const string &name) {
   return dynamic_cast<Skin *>(getOrCreateDevice(tag));
 }
 
-Skin *Robot::createSkin(const string &name) const {
-  return new Skin(name);
+Skin *Robot::createSkin(WbDeviceTag tag) const {
+  return new Skin(tag);
 }
 
 Speaker *Robot::getSpeaker(const string &name) {
@@ -441,8 +441,8 @@ Speaker *Robot::getSpeaker(const string &name) {
   return dynamic_cast<Speaker *>(getOrCreateDevice(tag));
 }
 
-Speaker *Robot::createSpeaker(const string &name) const {
-  return new Speaker(name);
+Speaker *Robot::createSpeaker(WbDeviceTag tag) const {
+  return new Speaker(tag);
 }
 
 TouchSensor *Robot::getTouchSensor(const string &name) {
@@ -452,8 +452,8 @@ TouchSensor *Robot::getTouchSensor(const string &name) {
   return dynamic_cast<TouchSensor *>(getOrCreateDevice(tag));
 }
 
-TouchSensor *Robot::createTouchSensor(const string &name) const {
-  return new TouchSensor(name);
+TouchSensor *Robot::createTouchSensor(WbDeviceTag tag) const {
+  return new TouchSensor(tag);
 }
 
 VacuumGripper *Robot::getVacuumGripper(const string &name) {
@@ -463,8 +463,8 @@ VacuumGripper *Robot::getVacuumGripper(const string &name) {
   return dynamic_cast<VacuumGripper *>(getOrCreateDevice(tag));
 }
 
-VacuumGripper *Robot::createVacuumGripper(const string &name) const {
-  return new VacuumGripper(name);
+VacuumGripper *Robot::createVacuumGripper(WbDeviceTag tag) const {
+  return new VacuumGripper(tag);
 }
 
 Device *Robot::getDeviceFromTag(int tag) {
@@ -495,84 +495,83 @@ Device *Robot::getOrCreateDevice(int tag) {
   deviceList[0] = NULL;
   for (int i = 0; i < count; i++) {
     WbDeviceTag otherTag = wb_robot_get_device_by_index(i);
-    const char *name = wb_device_get_name(otherTag);
     assert(otherTag <= count);
     switch (wb_device_get_node_type(otherTag)) {
       case WB_NODE_ACCELEROMETER:
-        deviceList[otherTag] = createAccelerometer(name);
+        deviceList[otherTag] = createAccelerometer(otherTag);
         break;
       case WB_NODE_ALTIMETER:
-        deviceList[otherTag] = createAltimeter(name);
+        deviceList[otherTag] = createAltimeter(otherTag);
         break;
       case WB_NODE_BRAKE:
-        deviceList[otherTag] = createBrake(name);
+        deviceList[otherTag] = createBrake(otherTag);
         break;
       case WB_NODE_CAMERA:
-        deviceList[otherTag] = createCamera(name);
+        deviceList[otherTag] = createCamera(otherTag);
         break;
       case WB_NODE_COMPASS:
-        deviceList[otherTag] = createCompass(name);
+        deviceList[otherTag] = createCompass(otherTag);
         break;
       case WB_NODE_CONNECTOR:
-        deviceList[otherTag] = createConnector(name);
+        deviceList[otherTag] = createConnector(otherTag);
         break;
       case WB_NODE_DISPLAY:
-        deviceList[otherTag] = createDisplay(name);
+        deviceList[otherTag] = createDisplay(otherTag);
         break;
       case WB_NODE_DISTANCE_SENSOR:
-        deviceList[otherTag] = createDistanceSensor(name);
+        deviceList[otherTag] = createDistanceSensor(otherTag);
         break;
       case WB_NODE_EMITTER:
-        deviceList[otherTag] = createEmitter(name);
+        deviceList[otherTag] = createEmitter(otherTag);
         break;
       case WB_NODE_GPS:
-        deviceList[otherTag] = createGPS(name);
+        deviceList[otherTag] = createGPS(otherTag);
         break;
       case WB_NODE_GYRO:
-        deviceList[otherTag] = createGyro(name);
+        deviceList[otherTag] = createGyro(otherTag);
         break;
       case WB_NODE_INERTIAL_UNIT:
-        deviceList[otherTag] = createInertialUnit(name);
+        deviceList[otherTag] = createInertialUnit(otherTag);
         break;
       case WB_NODE_LED:
-        deviceList[otherTag] = createLED(name);
+        deviceList[otherTag] = createLED(otherTag);
         break;
       case WB_NODE_LIDAR:
-        deviceList[otherTag] = createLidar(name);
+        deviceList[otherTag] = createLidar(otherTag);
         break;
       case WB_NODE_LIGHT_SENSOR:
-        deviceList[otherTag] = createLightSensor(name);
+        deviceList[otherTag] = createLightSensor(otherTag);
         break;
       case WB_NODE_LINEAR_MOTOR:
       case WB_NODE_ROTATIONAL_MOTOR:
-        deviceList[otherTag] = createMotor(name);
+        deviceList[otherTag] = createMotor(otherTag);
         break;
       case WB_NODE_PEN:
-        deviceList[otherTag] = createPen(name);
+        deviceList[otherTag] = createPen(otherTag);
         break;
       case WB_NODE_POSITION_SENSOR:
-        deviceList[otherTag] = createPositionSensor(name);
+        deviceList[otherTag] = createPositionSensor(otherTag);
         break;
       case WB_NODE_RADAR:
-        deviceList[otherTag] = createRadar(name);
+        deviceList[otherTag] = createRadar(otherTag);
         break;
       case WB_NODE_RANGE_FINDER:
-        deviceList[otherTag] = createRangeFinder(name);
+        deviceList[otherTag] = createRangeFinder(otherTag);
         break;
       case WB_NODE_RECEIVER:
-        deviceList[otherTag] = createReceiver(name);
+        deviceList[otherTag] = createReceiver(otherTag);
         break;
       case WB_NODE_SKIN:
-        deviceList[otherTag] = createSkin(name);
+        deviceList[otherTag] = createSkin(otherTag);
         break;
       case WB_NODE_SPEAKER:
-        deviceList[otherTag] = createSpeaker(name);
+        deviceList[otherTag] = createSpeaker(otherTag);
         break;
       case WB_NODE_TOUCH_SENSOR:
-        deviceList[otherTag] = createTouchSensor(name);
+        deviceList[otherTag] = createTouchSensor(otherTag);
         break;
       case WB_NODE_VACUUM_GRIPPER:
-        deviceList[otherTag] = createVacuumGripper(name);
+        deviceList[otherTag] = createVacuumGripper(otherTag);
         break;
       default:
         deviceList[otherTag] = NULL;

@@ -21,6 +21,7 @@ namespace webots {
   class RangeFinder : public Device {
   public:
     explicit RangeFinder(const std::string &name) : Device(name) {}  // Use Robot::getRangeFinder() instead
+    explicit RangeFinder(WbDeviceTag tag) : Device(tag) {}
     virtual ~RangeFinder() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

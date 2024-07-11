@@ -21,6 +21,7 @@ namespace webots {
   class InertialUnit : public Device {
   public:
     explicit InertialUnit(const std::string &name) : Device(name) {}  // Use Robot::getInertialUnit() instead
+    explicit InertialUnit(WbDeviceTag tag) : Device(tag) {}
     virtual ~InertialUnit() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

@@ -136,7 +136,7 @@ class Robot:
             if type == Node.ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
             elif type == Node.ALTIMETER:
-                self.devices[name] = Altimeter(name)
+                self.devices[name] = Altimeter(tag)
             elif type == Node.BRAKE:
                 self.devices[name] = Brake(tag)
             elif type == Node.CAMERA:
