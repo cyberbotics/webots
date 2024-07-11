@@ -13,7 +13,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [macos-13]
+        os: [macos-14]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [macos-13]
+        os: [macos-14]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -65,7 +65,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [macos-13]
+        os: [macos-14]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [macos-13]
+        os: [macos-14]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
