@@ -21,6 +21,7 @@ namespace webots {
   class Emitter : public Device {
   public:
     explicit Emitter(const std::string &name) : Device(name) {}  // Use Robot::getEmitter() instead
+    explicit Emitter(WbDeviceTag tag) : Device(tag) {}
     virtual ~Emitter() {}
     enum { CHANNEL_BROADCAST = -1 };
     virtual int send(const void *data, int size);

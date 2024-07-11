@@ -21,6 +21,7 @@ namespace webots {
   class Connector : public Device {
   public:
     explicit Connector(const std::string &name) : Device(name) {}  // Use Robot::getConnector() instead
+    explicit Connector(WbDeviceTag tag) : Device(tag) {}
     virtual ~Connector() {}
     virtual void enablePresence(int samplingPeriod);
     virtual void disablePresence();
