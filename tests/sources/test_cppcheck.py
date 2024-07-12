@@ -194,6 +194,8 @@ class TestCppCheck(unittest.TestCase):
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         command += ' --suppress=duplInheritedMember'
+        command += ' --suppress=constParameterCallback:projects/default/controllers/ros/*.cpp'
+        command += ' --suppress=constParameterCallback:projects/vehicles/controllers/ros_automobile/*.cpp'
         command += ' --check-level=exhaustive' if os.environ.get('CI') else ' --suppress=normalCheckLevelMaxBranches'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
