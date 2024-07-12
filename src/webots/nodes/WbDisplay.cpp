@@ -536,6 +536,7 @@ void WbDisplay::drawRectangle(int x, int y, int w, int h, bool fill) {
   int displayWidth = width();
   int displayHeight = height();
 #ifndef NDEBUG
+  // cppcheck-suppress variableScope
   int size = displayWidth * displayHeight;
 #endif
   if (fill) {

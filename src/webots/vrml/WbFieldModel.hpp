@@ -54,7 +54,7 @@ public:
   // accepted values
   bool isValueAccepted(const WbValue *value, int *refusedIndex) const;
   bool hasRestrictedValues() const { return !mAcceptedValues.isEmpty(); }
-  const QList<WbVariant> acceptedValues() const { return mAcceptedValues; }
+  const QList<WbVariant> &acceptedValues() const { return mAcceptedValues; }
 
   // field type
   WbFieldType type() const { return mDefaultValue->type(); }

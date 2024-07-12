@@ -236,7 +236,7 @@ namespace wren {
     renderToViewports({mMainViewport}, culling);
   }
 
-  void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
+  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling) {
     assert(glstate::isInitialized());
 
     DEBUG("Notify frame listeners...");

@@ -176,6 +176,7 @@ static float distance_to_segment(float x, float y, float ax, float ay, float bx,
   float v1p_x = x - ax;  // vector from 1st segment point to test point
   float v1p_y = y - ay;
   float norm_v12 = sqrt(v12_x * v12_x + v12_y * v12_y);
+  // cppcheck-suppress variableScope
   float norm_v1p = sqrt(v1p_x * v1p_x + v1p_y * v1p_y);
   float dot_v12_v1p = v12_x * v1p_x + v12_y * v1p_y;
 
