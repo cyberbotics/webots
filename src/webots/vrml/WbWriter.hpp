@@ -54,8 +54,7 @@ public:
   void writeFieldStart(const QString &name, bool w3dQuote);
   void writeFieldEnd(bool w3dQuote);
 
-  // cppcheck-suppress returnByReference
-  WbVector3 jointOffset() const { return mJointOffset; }
+  const WbVector3 &jointOffset() const { return mJointOffset; }
   void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
 
   // change current indentation

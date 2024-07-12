@@ -73,8 +73,7 @@ public:
 
   int id() const { return mId; }
   const QString &model() const { return mModel; }
-  // cppcheck-suppress returnByReference
-  const WbRotation relativeOrientation() const { return mRelativeOrientation; }
+  const WbRotation &relativeOrientation() const { return mRelativeOrientation; }
   const WbVector2 positionOnImage() const { return mPositionOnImage; }
   const WbVector2 pixelSize() const { return mPixelSize; }
   const QList<WbRgb> &colors() const { return mColors; }
@@ -83,8 +82,7 @@ public:
   void setRelativeOrientation(const WbRotation &relativeOrientation) { mRelativeOrientation = relativeOrientation; }
   void setPositionOnImage(const WbVector2 &positionOnImage) { mPositionOnImage = positionOnImage; }
   void setPixelSize(const WbVector2 &pixelSize) { mPixelSize = pixelSize; }
-  // cppcheck-suppress passedByValue
-  void addColor(WbRgb colors) { mColors.append(colors); }
+  void addColor(const WbRgb &colors) { mColors.append(colors); }
   void clearColors() { mColors.clear(); }
 
 protected:
