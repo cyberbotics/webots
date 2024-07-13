@@ -53,7 +53,7 @@ static void print_keyboard_help() {
  * This function is simply used to display clearly the answers of the Shrimp
  * to our commands.
  */
-static void print_answer(unsigned char *answer) {
+static void print_answer(const unsigned char *answer) {
   int i;
   char answer_string[MAX_STRING_SIZE];
 

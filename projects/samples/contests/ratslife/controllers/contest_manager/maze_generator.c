@@ -62,7 +62,7 @@ static Cell *get_linked_cell(const Cell *c, const Link *l) {
 }
 
 // get the orientation of cell b regard to cell a
-static Orientation get_orientation(Cell *a, Cell *b) {
+static Orientation get_orientation(const Cell *a, const Cell *b) {
   if (a->pos_x > b->pos_x)
     return West;
   else if (a->pos_x < b->pos_x)

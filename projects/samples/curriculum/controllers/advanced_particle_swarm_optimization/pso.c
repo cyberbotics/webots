@@ -123,7 +123,7 @@ void EvolveLayer(layer_t *l, layer_t *pbest, layer_t *gbest) {
   }
 }
 
-void PrintLayerOutput(layer_t *l) {
+void PrintLayerOutput(const layer_t *l) {
   int i;
   char *main_buffer = (char *)malloc(sizeof(char) * (10 * l->depth + 1));
   strcpy(main_buffer, "");
@@ -138,7 +138,7 @@ void PrintLayerOutput(layer_t *l) {
   free(main_buffer);
 }
 
-void SaveLayerWeights(layer_t *l, FILE *fp) {
+void SaveLayerWeights(const layer_t *l, FILE *fp) {
   if (fwrite(l->W, (sizeof(float) * (l->depth) * (l->width)), 1, fp) != 1)
     printf("error writing to file\n");
 }

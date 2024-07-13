@@ -32,7 +32,7 @@ public:
   bool isInitialized() const { return mInitialized; }
 
   bool sendPacket(const Packet *packet);
-  bool receivePacket(Packet *packet);
+  bool receivePacket(const Packet *packet);
   char *talk(const char *source);
   char *readLine();
 

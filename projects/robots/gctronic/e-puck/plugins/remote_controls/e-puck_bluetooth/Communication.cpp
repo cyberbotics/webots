@@ -116,7 +116,7 @@ bool Communication::sendPacket(const Packet *packet) {
   return false;
 }
 
-bool Communication::receivePacket(Packet *packet) {
+bool Communication::receivePacket(const Packet *packet) {
   try {
     if (mSerial) {
       int packetSize = packet->size();

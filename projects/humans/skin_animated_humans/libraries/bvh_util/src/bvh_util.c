@@ -73,7 +73,7 @@ typedef struct WbuBvhMotionPrivate {
 //        Utility functions          //
 //***********************************//
 
-static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, char *this_name, BvhMotionJointPrivate_t *parent,
+static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, const char *this_name, BvhMotionJointPrivate_t *parent,
                                               int *channels_count) {
   // create and init new joint
   BvhMotionJointPrivate_t *new_joint = malloc(sizeof(BvhMotionJointPrivate_t));

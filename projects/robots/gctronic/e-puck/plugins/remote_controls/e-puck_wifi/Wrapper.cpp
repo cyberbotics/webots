@@ -384,6 +384,7 @@ void Wrapper::ledSet(WbDeviceTag tag, int state) {
     led->setState(state);
 }
 
+// cppcheck-suppress constParameterPointer
 void *Wrapper::callCustomFunction(void *args) {
   return NULL;
 }

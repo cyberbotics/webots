@@ -117,17 +117,17 @@ static void place_interval(double x, double y) {
 }
 
 // return the x position in meter of a given cell
-static double cell_get_x_pos(Cell *c) {
+static double cell_get_x_pos(const Cell *c) {
   return RATIO * c->pos_x;
 }
 
 // return the y position in meter of a given cell
-static double cell_get_y_pos(Cell *c) {
+static double cell_get_y_pos(const Cell *c) {
   return RATIO * c->pos_y;
 }
 
 // return the angle in radian that a special cell should have
-static double cell_get_angle(Cell *c) {
+static double cell_get_angle(const Cell *c) {
   if (c->feeder != None) {
     switch (c->feeder) {
       case North:
