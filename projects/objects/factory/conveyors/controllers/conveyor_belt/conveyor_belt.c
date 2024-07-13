@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   wb_robot_init();
   assert(argc == 3);  // speed and timer excepted as argument.

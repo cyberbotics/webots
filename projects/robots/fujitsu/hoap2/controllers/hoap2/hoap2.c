@@ -133,6 +133,7 @@ static const char *joint_number_to_name(int num) {
   }
 }
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   int i, sampling;
   int com_interval;
