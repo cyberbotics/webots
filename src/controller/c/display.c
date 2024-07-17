@@ -513,8 +513,8 @@ void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
     return;
   }
 
-  int px[] = {x};
-  int py[] = {y};
+  const int px[] = {x};
+  const int py[] = {y};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_PIXEL, px, py, 1, false, NULL);
 }
 
@@ -524,8 +524,8 @@ void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x1, x2};
-  int py[] = {y1, y2};
+  const int px[] = {x1, x2};
+  const int py[] = {y1, y2};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_LINE, px, py, 2, false, NULL);
 }
 
@@ -543,8 +543,8 @@ void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
     fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x, width};
-  int py[] = {y, height};
+  const int px[] = {x, width};
+  const int py[] = {y, height};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_RECTANGLE, px, py, 2, false, NULL);
 }
 
@@ -562,8 +562,8 @@ void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
     fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {cx, a};
-  int py[] = {cy, b};
+  const int px[] = {cx, a};
+  const int py[] = {cy, b};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_OVAL, px, py, 2, false, NULL);
 }
 
@@ -590,8 +590,8 @@ void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
     fprintf(stderr, "Error: %s(): 'text' argument is NULL or empty.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x};
-  int py[] = {y};
+  const int px[] = {x};
+  const int py[] = {y};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_TEXT, px, py, 1, false, text);
 }
 
@@ -609,8 +609,8 @@ void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
     fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x, width};
-  int py[] = {y, height};
+  const int px[] = {x, width};
+  const int py[] = {y, height};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_RECTANGLE, px, py, 2, true, NULL);
 }
 
@@ -628,8 +628,8 @@ void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
     fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {cx, a};
-  int py[] = {cy, b};
+  const int px[] = {cx, a};
+  const int py[] = {cy, b};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_OVAL, px, py, 2, true, NULL);
 }
 

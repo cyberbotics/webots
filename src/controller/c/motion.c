@@ -57,7 +57,7 @@ static int cleanup_done = 0;
 // returns UNDEFINED_TIME in case of syntax error
 static int str_to_time(const char *token) {
   // check for illegal characters
-  char cset[] = "0123456789:";
+  const char cset[] = "0123456789:";
   if (strspn(token, cset) < strlen(token))
     return UNDEFINED_TIME;
 
