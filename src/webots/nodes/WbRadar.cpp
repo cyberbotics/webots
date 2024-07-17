@@ -538,6 +538,7 @@ bool WbRadar::refreshSensorIfNeeded() {
   mRadarTargetsPreviousTranslations.clear();
   QList<WbSolid *> targets = WbWorld::instance()->radarTargetSolids();
   for (int i = 0; i < targets.size(); ++i) {
+    // cppcheck-suppress constVariablePointer
     WbSolid *target = targets.at(i);
     if (target != this)
       mRadarTargetsPreviousTranslations.insert(target, target->position());

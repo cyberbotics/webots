@@ -579,7 +579,7 @@ void WbMotor::enforceMotorLimitsInsideJointLimits() {
   if (isPositionUnlimited())
     return;
 
-  WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
+  const WbJoint *parentJoint = dynamic_cast<WbJoint *>(parentNode());
   double p = 0.0;
   if (parentJoint) {
     if (positionIndex() == 1 && parentJoint->parameters())
@@ -767,7 +767,7 @@ void WbMotor::handleMessage(QDataStream &stream) {
       stream >> deviceType;
       assert(mRequestedDeviceTag == NULL);
       mRequestedDeviceTag = new WbDeviceTag[1];
-      WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
+      const WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
       mRequestedDeviceTag[0] = device ? device->tag() : 0;
       break;
     }

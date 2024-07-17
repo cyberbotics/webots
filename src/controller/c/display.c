@@ -357,7 +357,7 @@ static void wb_display_set_property(WbDeviceTag tag, int primitive, void *data, 
 }
 
 static void display_toggle_remote(WbDevice *d, WbRequest *r) {
-  Display *display = d->pdata;
+  const Display *display = d->pdata;
   if (display->hasBeenUsed)
     request_write_uchar(r, C_DISPLAY_IMAGE_GET_ALL);
 }
@@ -386,7 +386,7 @@ void wb_display_init(WbDevice *d) {
 int wb_display_get_height(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->height;
   else
@@ -398,7 +398,7 @@ int wb_display_get_height(WbDeviceTag tag) {
 int wb_display_get_width(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->width;
   else
@@ -408,7 +408,7 @@ int wb_display_get_width(WbDeviceTag tag) {
 }
 
 void wb_display_set_color(WbDeviceTag tag, int color) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -421,7 +421,7 @@ void wb_display_set_color(WbDeviceTag tag, int color) {
 }
 
 void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -434,7 +434,7 @@ void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
 }
 
 void wb_display_set_opacity(WbDeviceTag tag, double opacity) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -452,7 +452,7 @@ void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_
     return;
   }
   robot_mutex_lock();
-  Display *display = wb_display_get_struct(tag);
+  const Display *display = wb_display_get_struct(tag);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock();
@@ -465,7 +465,7 @@ void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_
 void wb_display_attach_camera(WbDeviceTag tag, WbDeviceTag camera_tag) {
   robot_mutex_lock();
   Display *display = wb_display_get_struct(tag);
-  WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
+  const WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock();
@@ -507,7 +507,7 @@ void wb_display_detach_camera(WbDeviceTag tag) {
 }
 
 void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -519,7 +519,7 @@ void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
 }
 
 void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -530,7 +530,7 @@ void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
 }
 
 void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -549,7 +549,7 @@ void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
 }
 
 void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -568,7 +568,7 @@ void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
 }
 
 void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -581,7 +581,7 @@ void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int si
 }
 
 void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -596,7 +596,7 @@ void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
 }
 
 void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -615,7 +615,7 @@ void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
 }
 
 void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -634,7 +634,7 @@ void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
 }
 
 void wb_display_fill_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -746,7 +746,7 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
   else {  // channel == 4
     int j;
     const int s = width * height;
-    unsigned char *img = (unsigned char *)data;
+    const unsigned char *img = (unsigned char *)data;
     for (j = 0; j < s; j++)
       ((uint32_t *)i->image)[j] = img[j * 4 + 3] << 24 | img[j * 4 + 2] << 16 | img[j * 4 + 1] << 8 | img[j * 4];
   }

@@ -117,7 +117,7 @@ void wb_vacuum_gripper_enable_presence(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_vacuum_gripper_disable_presence(WbDeviceTag tag) {
-  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
+  const VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
     wb_vacuum_gripper_enable_presence(tag, 0);
   else
@@ -127,7 +127,7 @@ void wb_vacuum_gripper_disable_presence(WbDeviceTag tag) {
 int wb_vacuum_gripper_get_presence_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
+  const VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
     sampling_period = vc->presence_sampling_period;
   else
@@ -161,7 +161,7 @@ void wb_vacuum_gripper_turn_off(WbDeviceTag tag) {
 bool wb_vacuum_gripper_get_presence(WbDeviceTag tag) {
   bool result = false;
   robot_mutex_lock();
-  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
+  const VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc) {
     if (vc->presence_sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_vacuum_gripper_enable_presence().\n",
@@ -176,7 +176,7 @@ bool wb_vacuum_gripper_get_presence(WbDeviceTag tag) {
 bool wb_vacuum_gripper_is_on(WbDeviceTag tag) {
   bool result;
   robot_mutex_lock();
-  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
+  const VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
     result = vc->is_on;
   else {

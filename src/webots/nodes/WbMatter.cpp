@@ -137,7 +137,7 @@ void WbMatter::postFinalize() {
     WbNode *parameter = protoParameterNode();
     while (parameter->protoParameterNode())
       parameter = parameter->protoParameterNode();
-    WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
+    const WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
     if (matter)
       matter->connectNameUpdates();
   }
@@ -251,7 +251,7 @@ dGeomID WbMatter::odeGeom() const {
   if (bo == NULL)
     return NULL;
 
-  WbGeometry *g = NULL;
+  const WbGeometry *g = NULL;
 
   const WbPose *const p = dynamic_cast<WbPose *>(bo);
   // cppcheck-suppress knownConditionTrueFalse

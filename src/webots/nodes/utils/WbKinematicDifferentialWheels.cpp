@@ -65,7 +65,7 @@ WbCylinder *WbKinematicDifferentialWheels::getRecursivelyBigestCylinder(WbBaseNo
     WbCylinder *cylinder = dynamic_cast<WbCylinder *>(node);
     if (cylinder)
       return cylinder;
-    WbGroup *group = dynamic_cast<WbGroup *>(node);
+    const WbGroup *group = dynamic_cast<WbGroup *>(node);
     if (group) {
       for (int i = 0; i < group->childCount(); ++i) {
         cylinder = getRecursivelyBigestCylinder(group->child(i));
@@ -106,7 +106,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
   // check all the possible pairs of joints
   for (int i = 0; i < motorizedJoints.size(); ++i) {
     leftJoint = motorizedJoints.at(i);
-    WbCylinder *leftWheelCylinder = getRecursivelyBigestCylinder(leftJoint->solidEndPoint()->boundingObject());
+    const WbCylinder *leftWheelCylinder = getRecursivelyBigestCylinder(leftJoint->solidEndPoint()->boundingObject());
     // make sure this joint has a cylinder bounding object
     if (!leftWheelCylinder || leftWheelCylinder->radius() <= 0.0)
       continue;
@@ -115,7 +115,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
     for (int j = i + 1; j < motorizedJoints.size(); ++j) {
       rightJoint = motorizedJoints.at(j);
       // make sure this joint has a cylinder bounding object
-      WbCylinder *rightWheelCylinder = getRecursivelyBigestCylinder(rightJoint->solidEndPoint()->boundingObject());
+      const WbCylinder *rightWheelCylinder = getRecursivelyBigestCylinder(rightJoint->solidEndPoint()->boundingObject());
       if (!rightWheelCylinder || rightWheelCylinder->radius() <= 0.0)
         continue;
       // make sure both cylinders have the same size

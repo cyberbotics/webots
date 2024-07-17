@@ -164,14 +164,14 @@ void WbColorEditor::apply() {
   updateButton();
 
   if (singleValue()) {
-    WbSFColor *const sfColor = static_cast<WbSFColor *>(singleValue());
+    const WbSFColor *const sfColor = static_cast<WbSFColor *>(singleValue());
     if (sfColor->value() == mRgb)
       return;
 
     mPreviousValue->setColor(sfColor->value());
 
   } else if (multipleValue()) {
-    WbMFColor *const mfColor = static_cast<WbMFColor *>(multipleValue());
+    const WbMFColor *const mfColor = static_cast<WbMFColor *>(multipleValue());
     if (mfColor->item(index()) == mRgb)
       return;
 

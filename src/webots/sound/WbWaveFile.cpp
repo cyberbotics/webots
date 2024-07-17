@@ -160,7 +160,7 @@ void WbWaveFile::loadConvertedFile(int side) {
     int newSize = mBufferSize / 2;
     qint16 *newBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * newSize));
     if (mBitsPerSample == 8) {
-      qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
+      const qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
       qint8 *outBuffer = reinterpret_cast<qint8 *>(newBuffer);
       for (int i = 0; i < newSize; i += 1) {
         if (side == 1)

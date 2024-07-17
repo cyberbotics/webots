@@ -365,8 +365,8 @@ void WbPropeller::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    WbSolid *const fastHelix = helix(FAST_HELIX);
-    WbSolid *const slowHelix = helix(SLOW_HELIX);
+    const WbSolid *const fastHelix = helix(FAST_HELIX);
+    const WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isW3d())
       writer << "<Propeller>";
     else {

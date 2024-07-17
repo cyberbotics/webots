@@ -91,7 +91,7 @@ void WbTemplateManager::blockRegeneration(bool block) {
 }
 
 void WbTemplateManager::clear() {
-  foreach (WbNode *node, mTemplates)
+  foreach (const WbNode *node, mTemplates)
     disconnect(node, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
   mTemplates.clear();
 }
@@ -121,7 +121,7 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
   if (!node->isProtoInstance())
     return false;
 
-  foreach (WbField *field, node->fieldsOrParameters()) {
+  foreach (const WbField *field, node->fieldsOrParameters()) {
     if (!field->alias().isEmpty())
       return true;
   }
@@ -237,7 +237,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
   WbNode::setRestoreUniqueIdOnClone(true);
-  foreach (WbField *parameter, node->parameters()) {
+  foreach (const WbField *parameter, node->parameters()) {
     parameters << new WbField(*parameter, NULL);
     if (parameter->parameter() != NULL)
       previousParentRedirections.append(parameter->parameter());
@@ -321,7 +321,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
         WbMFNode *mfnode = static_cast<WbMFNode *>(pf->value());
         bool found = false;
         for (int i = 0; i < mfnode->size(); ++i) {
-          WbNode *n = mfnode->item(i);
+          const WbNode *n = mfnode->item(i);
           if (n == node) {
             if (ancestorTemplateRegeneration)
               mfnode->blockSignals(true);
@@ -351,7 +351,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     WbGroup *const parentGroup = dynamic_cast<WbGroup *>(parent);
     WbBasicJoint *const parentJoint = dynamic_cast<WbBasicJoint *>(parent);
     WbShape *const parentShape = dynamic_cast<WbShape *>(parent);
-    WbSkin *const parentSkin = dynamic_cast<WbSkin *>(parent);
+    const WbSkin *const parentSkin = dynamic_cast<WbSkin *>(parent);
     WbSlot *const parentSlot = dynamic_cast<WbSlot *>(parent);
     WbAppearance *const newAppearance = dynamic_cast<WbAppearance *>(newNode);
     WbPbrAppearance *const newPbrAppearance = dynamic_cast<WbPbrAppearance *>(newNode);

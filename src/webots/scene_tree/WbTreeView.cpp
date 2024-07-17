@@ -29,7 +29,7 @@ public:
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
     QStyleOptionViewItem itemOption(option);
 
-    WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
+    const WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
     if (item->isDefault())
       // paint unmodified tree items in black
       itemOption.palette.setColor(QPalette::Text, mDefaultColor);

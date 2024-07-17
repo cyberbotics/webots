@@ -294,7 +294,7 @@ void WbWrenTextureOverlay::copyDataToTexture(void *data, TextureType type, int x
 
   if (type == TEXTURE_TYPE_DEPTH) {
     int *processedData = new int[width * height];
-    float *originalData = static_cast<float *>(data);
+    const float *originalData = static_cast<float *>(data);
     const float multiplier = 255.0f / mMaxRange;
     for (int i = 0; i < width * height; ++i) {
       unsigned char v = (unsigned char)(multiplier * originalData[i]);

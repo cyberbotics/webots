@@ -514,7 +514,7 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
 }
 
 const char *wb_speaker_get_engine(WbDeviceTag tag) {
-  Speaker *speaker = speaker_get_struct(tag);
+  const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
@@ -523,7 +523,7 @@ const char *wb_speaker_get_engine(WbDeviceTag tag) {
 }
 
 const char *wb_speaker_get_language(WbDeviceTag tag) {
-  Speaker *speaker = speaker_get_struct(tag);
+  const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;

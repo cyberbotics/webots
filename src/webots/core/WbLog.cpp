@@ -261,7 +261,7 @@ void WbLog::toggle(FILE *std_stream) {
   assert(no >= 1);  // it shouldn't be stdin
   fflush(std_stream);
   if (fd[no] == 0) {
-    static FILE *stream;  // to make cppcheck happy about resource leak
+    static const FILE *stream;  // to make cppcheck happy about resource leak
     fd[no] = dup(no);
     stream = freopen("/dev/null", "w", std_stream);
     if (!stream)

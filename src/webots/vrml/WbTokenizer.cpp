@@ -58,7 +58,7 @@ void WbTokenizer::skipToken(const char *expectedWord) {
     throw 0;
   }
 
-  WbToken *token = nextToken();
+  const WbToken *token = nextToken();
 
   if (token->word() != expectedWord) {
     reportError(QObject::tr("Expected '%1' but found '%2'").arg(expectedWord).arg(token->word()), token);
@@ -422,6 +422,7 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
     mChar = readChar();
     while (true) {
       QString word = readWord();
+      // cppcheck-suppress constVariablePointer
       WbToken *token = new WbToken(word, mTokenLine, mTokenColumn);
       mVector.append(token);
       if (!token->isValid()) {
@@ -455,6 +456,7 @@ int WbTokenizer::tokenizeString(const QString &string) {
     mChar = readChar();
     while (true) {
       QString word = readWord();
+      // cppcheck-suppress constVariablePointer
       WbToken *token = new WbToken(word, mTokenLine, mTokenColumn);
       mVector.append(token);
       if (!token->isValid()) {

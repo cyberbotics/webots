@@ -124,7 +124,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
     vlayout->addWidget(mToolBar);
   vlayout->addWidget(mSplitter, 1);
 
-  WbSimulationState *state = WbSimulationState::instance();
+  const WbSimulationState *state = WbSimulationState::instance();
 
   //  show a black screen if rendering is turned off
   if (!state->isRendering())

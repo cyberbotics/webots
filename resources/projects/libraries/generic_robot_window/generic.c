@@ -212,7 +212,7 @@ bool wbu_generic_robot_window_parse_device_control_command(char *first_token, ch
     return false;
   WbNodeType type = WB_NODE_NO_NODE;
 
-  char *token = NULL;
+  const char *token = NULL;
   while ((token = wbu_string_strsep(&tokens, ":"))) {
     if (type == WB_NODE_NO_NODE) {
       type = stringToDeviceType(token);

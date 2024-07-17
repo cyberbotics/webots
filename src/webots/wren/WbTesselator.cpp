@@ -78,7 +78,7 @@ static void tessEnd() {
 // index list
 static void tessVertexData(void *vertex, void *r) {
   QList<QVector<int>> *results = static_cast<QList<QVector<int>> *>(r);
-  TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
+  const TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
   results->append(QVector<int>() << tesselatorData->coordIndex << tesselatorData->normalIndex << tesselatorData->texIndex);
 }
 

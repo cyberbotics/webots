@@ -154,7 +154,7 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   if (solid->boundingObject())
     return true;
   else {
-    foreach (WbSolid *sc, solid->solidChildren()) {
+    foreach (const WbSolid *sc, solid->solidChildren()) {
       if (doesChildrenHaveBoundingObject(sc))
         return true;
     }

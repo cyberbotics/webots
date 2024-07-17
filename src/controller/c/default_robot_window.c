@@ -277,7 +277,7 @@ static void ue_write_values(struct UpdateElement *ue) {
       else
         buffer_append_double(value);
     } else {
-      double *values = ue_value_at(ue, v);
+      const double *values = ue_value_at(ue, v);
       buffer_append("[");
       for (c = 0; c < ue->n_components; ++c) {
         if (c != 0)

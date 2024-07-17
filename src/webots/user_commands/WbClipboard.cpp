@@ -211,7 +211,7 @@ QString WbClipboard::computeNodeExportStringForInsertion(WbNode *parentNode, WbF
   for (int i = mLinkedDefNodeDefinitions.size() - 1; i >= 0; --i) {
     bool found = false;
     for (int j = 0; j < existingDefNodesSize && !found; ++j) {
-      WbBaseNode *node = dynamic_cast<WbBaseNode *>(existingDefNodes[j]);
+      const WbBaseNode *node = dynamic_cast<WbBaseNode *>(existingDefNodes[j]);
       found =
         node->defName() == mLinkedDefNodeDefinitions[i]->defName && node->nodeType() == mLinkedDefNodeDefinitions[i]->type;
     }

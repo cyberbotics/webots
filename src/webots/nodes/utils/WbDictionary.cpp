@@ -226,7 +226,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
   }
 
   const QVector<WbField *> &fields = node->fieldsOrParameters();
-  foreach (WbField *const field, fields) {
+  foreach (const WbField *const field, fields) {
     WbValue *const value = field->value();
     WbSFNode *const sf = dynamic_cast<WbSFNode *>(value);
     if (sf) {
@@ -329,7 +329,7 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
           WbNode *upperDefinition = upperUseNode->defNode();
           if (mNestedProtos.last()->isAnAncestorOf(upperDefinition)) {
             int childIndex = WbNode::subNodeIndex(node, upperUseNode);
-            WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
+            const WbNode *matchingUse = WbNode::findNodeFromSubNodeIndex(childIndex, upperDefinition);
             definitionNode = static_cast<WbBaseNode *>(matchingUse->defNode());
           }
         }
@@ -361,7 +361,7 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
 
   // Handles non-parameter fields only
   const QVector<WbField *> &fields = node->fields();
-  foreach (WbField *const field, fields) {
+  foreach (const WbField *const field, fields) {
     if (field->parameter())
       continue;
 
@@ -496,7 +496,7 @@ bool WbDictionary::checkChargerAndLedConstraints(WbNode *useNodeParent, const Wb
   // In case of Material or Light USE node inserted in first child of Charger or LED nodes:
   // the corresponding DEF node has also to be a descendant of first child
   WbNode *upperLedOrCharger;
-  WbBaseNode *parentBaseNode = dynamic_cast<WbBaseNode *>(useNodeParent);
+  const WbBaseNode *parentBaseNode = dynamic_cast<WbBaseNode *>(useNodeParent);
   if (parentBaseNode->nodeType() == WB_NODE_LED)
     upperLedOrCharger = useNodeParent;
   else
@@ -519,6 +519,7 @@ bool WbDictionary::checkChargerAndLedConstraints(WbNode *useNodeParent, const Wb
   if (!types.contains(defNode->nodeType()) && !WbNodeUtilities::hasDescendantNodesOfType(defNode, types))
     return true;
 
+  // cppcheck-suppress constVariablePointer
   WbNode *firstChild = dynamic_cast<WbGroup *>(upperLedOrCharger)->child(0);
   QList<WbNode *> firstChildDescendants = firstChild->subNodes(true);
   firstChildDescendants.prepend(firstChild);

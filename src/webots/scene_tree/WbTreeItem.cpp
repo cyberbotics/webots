@@ -345,7 +345,7 @@ bool WbTreeItem::canCut() const {
         return false;
       return true;
     case FIELD: {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
+      const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
       return sfnode && sfnode->value() && !sfnode->value()->isUseNode();
     }
     case ITEM:
@@ -370,7 +370,7 @@ bool WbTreeItem::canDelete() const {
       return true;
     }
     case FIELD: {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
+      const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
       return sfnode && sfnode->value() != NULL;
     }
     case ITEM: {
@@ -446,8 +446,8 @@ void WbTreeItem::deleteAllChildren() {
 
 void WbTreeItem::sfnodeChanged() {
   assert(mType == FIELD);
-  WbSFNode *sfnode = static_cast<WbSFNode *>(mField->value());
-  WbNode *nodeObject = sfnode->value();
+  const WbSFNode *sfnode = static_cast<WbSFNode *>(mField->value());
+  const WbNode *nodeObject = sfnode->value();
 
   // delete previous children items
   int count = 0;
@@ -470,7 +470,7 @@ WbNode *WbTreeItem::node() const {
   if (mType == NODE)
     return mNode;
 
-  WbSFNode *sfNode = dynamic_cast<WbSFNode *>(mField->value());
+  const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(mField->value());
   if (!sfNode)
     return NULL;
 

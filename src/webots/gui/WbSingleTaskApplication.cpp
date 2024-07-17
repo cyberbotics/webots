@@ -109,7 +109,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Combine the user parameters with the default ones
   QVector<WbField *> fields;
-  for (WbFieldModel *fieldModel : model->fieldModels()) {
+  for (const WbFieldModel *fieldModel : model->fieldModels()) {
     WbField *field = new WbField(fieldModel);
     if (userParameters.contains(field->name())) {
       WbTokenizer tokenizer;
@@ -130,7 +130,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Generate a node structure
   WbNode::setInstantiateMode(true);
-  WbNode *node = WbNode::createProtoInstanceFromParameters(model, fields, "");
+  const WbNode *node = WbNode::createProtoInstanceFromParameters(model, fields, "");
   for (WbNode *subNode : node->subNodes(true)) {
     if (dynamic_cast<WbSolidReference *>(subNode))
       cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")

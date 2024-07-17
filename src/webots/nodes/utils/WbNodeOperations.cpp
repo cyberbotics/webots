@@ -46,7 +46,7 @@
 #include <cassert>
 
 static bool isRegionOccupied(const WbVector3 &pos) {
-  WbWorld *const world = WbWorld::instance();
+  const WbWorld *const world = WbWorld::instance();
   const double ls = world->worldInfo()->lineScale();
   const QList<WbSolid *> &l = world->topSolids();
   foreach (const WbSolid *const solid, l) {
@@ -287,6 +287,7 @@ void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
     return;
   }
   QList<WbSolid *> solidNodes;
+  // cppcheck-suppress constVariablePointer
   WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
   if (solidNode)
     solidNodes << solidNode;

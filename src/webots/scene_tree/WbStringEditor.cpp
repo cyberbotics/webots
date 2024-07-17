@@ -74,14 +74,14 @@ void WbStringEditor::apply() {
   mString = field()->hasRestrictedValues() ? mComboBox->currentText() : mLineEdit->text();
 
   if (singleValue()) {
-    WbSFString *const sfString = static_cast<WbSFString *>(singleValue());
+    const WbSFString *const sfString = static_cast<WbSFString *>(singleValue());
     if (sfString->value() == mString)
       return;
 
     mPreviousValue->setString(sfString->value());
 
   } else if (multipleValue()) {
-    WbMFString *const mfString = static_cast<WbMFString *>(multipleValue());
+    const WbMFString *const mfString = static_cast<WbMFString *>(multipleValue());
     if (mfString->item(index()) == mString)
       return;
 

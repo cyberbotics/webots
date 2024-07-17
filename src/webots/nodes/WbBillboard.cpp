@@ -69,7 +69,7 @@ void WbBillboard::applyTranslationToWren() {
 
 void WbBillboard::applyRotationToWren() {
   const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
-  WbSFRotation *orientation = viewpoint->orientation();
+  const WbSFRotation *orientation = viewpoint->orientation();
   float rotation[4];
   orientation->value().toFloatArray(rotation);
   wr_transform_set_orientation(wrenNode(), rotation);

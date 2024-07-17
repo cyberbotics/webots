@@ -167,16 +167,16 @@ void WbDisplay::findImageTextures() {
     return;
 
   WbNode *firstChild = children().item(0);
-  WbShape *shape = dynamic_cast<WbShape *>(firstChild);
+  const WbShape *shape = dynamic_cast<WbShape *>(firstChild);
   if (shape) {
-    WbAppearance *appearance = shape->appearance();
-    WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+    const WbAppearance *appearance = shape->appearance();
+    const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
     if (appearance) {
-      WbImageTexture *theTexture = appearance->texture();
+      const WbImageTexture *theTexture = appearance->texture();
       if (theTexture)
         mImageTextures.push_back(theTexture);
     } else if (pbrAppearance) {
-      WbImageTexture *theTexture = pbrAppearance->baseColorMap();
+      const WbImageTexture *theTexture = pbrAppearance->baseColorMap();
       if (theTexture)
         mImageTextures.push_back(theTexture);
       theTexture = pbrAppearance->emissiveColorMap();
@@ -210,16 +210,16 @@ void WbDisplay::findImageTextures(WbGroup *group) {
   WbMFNode::Iterator i(group->children());
   while (i.hasNext()) {
     WbNode *node = i.next();
-    WbShape *shape = dynamic_cast<WbShape *>(node);
+    const WbShape *shape = dynamic_cast<WbShape *>(node);
     if (shape) {
-      WbAppearance *appearance = shape->appearance();
-      WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+      const WbAppearance *appearance = shape->appearance();
+      const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
       if (appearance) {
-        WbImageTexture *theTexture = appearance->texture();
+        const WbImageTexture *theTexture = appearance->texture();
         if (theTexture)
           mImageTextures.push_back(theTexture);
       } else if (pbrAppearance) {
-        WbImageTexture *theTexture = pbrAppearance->baseColorMap();
+        const WbImageTexture *theTexture = pbrAppearance->baseColorMap();
         if (theTexture)
           mImageTextures.push_back(theTexture);
         theTexture = pbrAppearance->emissiveColorMap();
@@ -404,7 +404,7 @@ void WbDisplay::writeAnswer(WbDataStream &stream) {
     stream.writeRawData(reinterpret_cast<const char *>(mImage), 4 * width() * height());
 
     for (unsigned i = 0; i < number; i++) {
-      WbDisplayImage *di = mImages.at(i);
+      const WbDisplayImage *di = mImages.at(i);
       stream << (qint32)di->id();
       stream << (quint16)di->width();
       stream << (quint16)di->height();
@@ -935,7 +935,7 @@ unsigned int *WbDisplay::imageCopy(short int x, short int y, short int &w, short
 void WbDisplay::imagePaste(int id, int x, int y, bool blend) {
   if (x >= width() || y >= height())
     return;
-  WbDisplayImage *subImage = NULL;
+  const WbDisplayImage *subImage = NULL;
   for (int i = 0; i < mImages.size(); i++)
     if (mImages.at(i)->id() == id) {
       subImage = mImages.at(i);

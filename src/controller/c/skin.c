@@ -226,7 +226,7 @@ void wb_skin_set_bone_position(WbDeviceTag tag, int index, const double position
 int wb_skin_get_bone_count(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Skin *skin = skin_get_struct(tag);
+  const Skin *skin = skin_get_struct(tag);
   if (skin)
     result = skin->bone_count;
   else

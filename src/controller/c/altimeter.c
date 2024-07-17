@@ -110,7 +110,7 @@ void wb_altimeter_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_altimeter_disable(WbDeviceTag tag) {
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter)
     wb_altimeter_enable(tag, 0);
   else
@@ -120,7 +120,7 @@ void wb_altimeter_disable(WbDeviceTag tag) {
 int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter)
     sampling_period = altimeter->sampling_period;
   else
@@ -132,7 +132,7 @@ int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
 double wb_altimeter_get_value(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter) {
     if (altimeter->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_altimeter_enable().\n", __FUNCTION__);

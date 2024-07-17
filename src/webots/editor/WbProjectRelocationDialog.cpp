@@ -80,7 +80,7 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
 }
 
 void WbProjectRelocationDialog::initCompleteRelocation() {
-  QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
+  const QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
   mTargetPath = WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName();
@@ -116,7 +116,7 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
 }
 
 void WbProjectRelocationDialog::initProtoSourceRelocation() {
-  QLabel *title = new QLabel(tr("<b>Copy necessary files from source to current project directory?</b>"), this);
+  const QLabel *title = new QLabel(tr("<b>Copy necessary files from source to current project directory?</b>"), this);
 
   mTargetPath = mProject->path();
 
@@ -403,7 +403,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &fileN
   if (!WbFileUtil::isLocatedInDirectory(fileName, current->path()) ||
       WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::resourcesPath())) {
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-    foreach (WbRobot *robot, robots) {
+    foreach (const WbRobot *robot, robots) {
       const WbProtoModel *proto = robot->proto();
       if (!proto)
         continue;

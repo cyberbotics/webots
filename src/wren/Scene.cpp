@@ -670,10 +670,10 @@ namespace wren {
       const primitive::Aabb &cameraAabb = camera->aabb();
       glm::vec3 cameraToLightInv;
       if (light->type() != LightNode::TYPE_DIRECTIONAL) {
-        PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
+        const PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
         cameraToLightInv = 1.0f / glm::normalize(positionalLight->position() - camera->position());
       } else {
-        DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
+        const DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
         cameraToLightInv = 1.0f / -directionalLight->direction();
       }
 

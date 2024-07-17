@@ -100,7 +100,7 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
     bool defaultValueIsValid = true;
     while (!isValueAccepted(mDefaultValue, &refusedIndex)) {
       defaultValueIsValid = false;
-      WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(mDefaultValue);
+      const WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(mDefaultValue);
       if (multipleValue)
         mAcceptedValues << multipleValue->variantValue(refusedIndex);
       else {

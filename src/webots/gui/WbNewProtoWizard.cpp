@@ -293,6 +293,7 @@ QWizardPage *WbNewProtoWizard::createIntroPage() {
   page->setTitle(tr("New PROTO creation"));
 
   QVBoxLayout *layout = new QVBoxLayout(page);
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(tr("This wizard will help you creating a new PROTO."), page);
   layout->addWidget(label);
 

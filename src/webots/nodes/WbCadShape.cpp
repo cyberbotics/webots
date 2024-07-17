@@ -132,7 +132,7 @@ void WbCadShape::retrieveMaterials() {
 
 void WbCadShape::materialDownloadTracker() {
   bool finished = true;
-  foreach (WbDownloader *downloader, mMaterialDownloaders) {
+  foreach (const WbDownloader *downloader, mMaterialDownloaders) {
     if (!downloader->hasFinished())
       finished = false;
 
@@ -386,7 +386,7 @@ void WbCadShape::createWrenObjects() {
                .arg(mesh->mName.C_Str()));
 
       aiMatrix4x4 transform;
-      aiNode *current = node;
+      const aiNode *current = node;
       while (current != NULL) {
         transform *= current->mTransformation;
         current = current->mParent;
@@ -437,6 +437,7 @@ void WbCadShape::createWrenObjects() {
       if (currentIndexIndex == 0)  // if all faces turned out to be invalid, ignore the mesh
         continue;
 
+      // cppcheck-suppress constVariablePointer
       WrStaticMesh *staticMesh =
         wr_static_mesh_new(vertices, currentIndexIndex, coordData, normalData, texCoordData, texCoordData, indexData, false);
 

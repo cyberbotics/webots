@@ -92,7 +92,7 @@ void wb_led_set(WbDeviceTag tag, int value) {
 int wb_led_get(WbDeviceTag tag) {
   int state = 0;
   robot_mutex_lock();
-  LED *led = led_get_struct(tag);
+  const LED *led = led_get_struct(tag);
   if (led)
     state = led->state;
   else

@@ -169,7 +169,7 @@ void *request_read_data(WbRequest *r, int size) {
 }
 
 char *request_read_string(WbRequest *r) {
-  char *src = r->data + r->pointer;
+  const char *src = r->data + r->pointer;
   const int l = strlen(src) + 1;
   char *dst = malloc(l);
   memcpy(dst, src, l);

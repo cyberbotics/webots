@@ -168,7 +168,7 @@ static bool get_webots_home() {
 
 // Gets and stores the path to the latest installed version of Matlab on the system.
 static bool get_matlab_path() {
-  struct dirent *directory_entry;  // Pointer for directory entry
+  const struct dirent *directory_entry;  // Pointer for directory entry
 
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
@@ -333,7 +333,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Write WEBOTS_CONTROLLER_URL in function of given options
   const char *robot_separator = robot_name ? "/" : "";
-  char *robot_name_string = robot_name ? robot_name : "";
+  const char *robot_name_string = robot_name ? robot_name : "";
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
       fprintf(stderr, "Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
@@ -564,7 +564,7 @@ static void format_ini_paths(char **string) {
 
   // Add absolute path to runtime.ini in front of all relative paths
   char *tmp = strdup(*string);
-  char *ptr = strtok(tmp, "=");
+  const char *ptr = strtok(tmp, "=");
   int offset = 0;
   while (ptr != NULL) {
     int index = ptr - tmp + offset;

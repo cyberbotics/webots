@@ -92,7 +92,7 @@ void WbPositionSensor::handleMessage(QDataStream &stream) {
     stream >> deviceType;
     assert(mRequestedDeviceTag == NULL);
     mRequestedDeviceTag = new WbDeviceTag[1];
-    WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
+    const WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
     if (!device && deviceType == WB_NODE_ROTATIONAL_MOTOR)
       // check both motor types
       device = getSiblingDeviceByType(WB_NODE_LINEAR_MOTOR);

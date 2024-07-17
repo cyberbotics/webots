@@ -306,9 +306,9 @@ void WbShape::applyMaterialToGeometry() {
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
 void WbShape::pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness, double *occlusion) const {
-  WbAppearance *const app = appearance();
-  WbPbrAppearance *const pbrApp = pbrAppearance();
-  WbGeometry *const geom = geometry();
+  const WbAppearance *const app = appearance();
+  const WbPbrAppearance *const pbrApp = pbrAppearance();
+  const WbGeometry *const geom = geometry();
 
   WbRgb diffuseColor(1.0f, 1.0f, 1.0f);
   WbRgb textureColor(1.0f, 1.0f, 1.0f);

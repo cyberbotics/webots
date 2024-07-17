@@ -319,7 +319,7 @@ void WbField::redirectTo(WbField *parameter, bool skipCopy) {
 
   if (mParameter) {
     // remove previous connections
-    WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
+    const WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
     if (mfnode) {
       disconnect(mfnode, &WbMFNode::itemInserted, mParameter, &WbField::parameterNodeInserted);
       disconnect(mfnode, &WbMFNode::itemRemoved, mParameter, &WbField::parameterNodeRemoved);

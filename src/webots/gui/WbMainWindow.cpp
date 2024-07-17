@@ -1180,7 +1180,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveE
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
   WbWorld *world = WbWorld::instance();
-  WbPerspective *perspective = world->perspective();
+  const WbPerspective *perspective = world->perspective();
   bool meansOfLoading = false;
   if (loadingFromMemory)
     meansOfLoading = true;
@@ -1731,7 +1731,7 @@ void WbMainWindow::uploadFinished() {
     QJsonDocument doc(obj);
     QByteArray data = doc.toJson();
 
-    QNetworkReply *uploadReply = manager->post(request, data);
+    const QNetworkReply *uploadReply = manager->post(request, data);
 
     QObject::connect(uploadReply, &QNetworkReply::finished, this, &WbMainWindow::uploadStatus);
 
@@ -2617,7 +2617,7 @@ void WbMainWindow::disableAnimationAction() {
 }
 
 void WbMainWindow::logActiveControllersTermination() {
-  WbControlledWorld *controlledWorld = WbControlledWorld::instance();
+  const WbControlledWorld *controlledWorld = WbControlledWorld::instance();
   if (controlledWorld) {
     QStringList activeControllers = controlledWorld->activeControllersNames();
     foreach (QString controllerName, activeControllers)

@@ -214,7 +214,7 @@ void WbExtendedStringEditor::editInTextEditor() {
 
   // Searches into the controllers/plugins associated with selected proto instance
   if (dirLocation == noFile && node()->isProtoInstance()) {
-    WbProtoModel *proto = node()->proto();
+    const WbProtoModel *proto = node()->proto();
     if (!proto->projectPath().isEmpty()) {
       QDir protoDir(proto->projectPath() + "/" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
@@ -231,7 +231,7 @@ void WbExtendedStringEditor::editInTextEditor() {
   // Searches into the protos/../plugins of all the loaded protos
   // needed to load physics plugins
   if (dirLocation == noFile && isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
+    foreach (const WbProtoModel *model, WbProtoManager::instance()->models()) {
       QDir protoDir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0) + stringValue());
       if (protoDir.exists()) {
         dirLocation = externalProtoFile;
@@ -360,7 +360,7 @@ void WbExtendedStringEditor::select() {
   // needed only for physics plugins
   // add protos/../plugins
   if (isWorldInfoPluginType(mStringType)) {
-    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
+    foreach (const WbProtoModel *model, WbProtoManager::instance()->models()) {
       if (!model->path().isEmpty()) {
         QDir dir(model->path() + "../" + ITEM_LIST_INFO[mStringType].at(0));
         items += dir.entryList(FILTERS);
@@ -452,7 +452,7 @@ void WbExtendedStringEditor::edit(bool copyOriginalValue) {
   WbStringEditor::edit(copyOriginalValue);
 
   if (copyOriginalValue) {
-    WbField *effectiveField = field();
+    const WbField *effectiveField = field();
     if (effectiveField->isParameter())
       effectiveField = effectiveField->internalFields().at(0);
 
@@ -497,7 +497,7 @@ bool WbExtendedStringEditor::populateItems(QStringList &items) {
       const WbNode *const np = field()->parentNode();
       assert(np);
       const WbSolid *const upperSolid = WbNodeUtilities::findUpperSolid(np);
-      WbSolid *const topSolid = upperSolid->topSolid();
+      const WbSolid *const topSolid = upperSolid->topSolid();
       items << WbSolidReference::STATIC_ENVIRONMENT;
       topSolid->collectSolidDescendantNames(items, upperSolid);
       break;
