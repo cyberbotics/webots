@@ -51,7 +51,7 @@ namespace wren {
     // Encapsulate memory management
     static FrameBuffer *createFrameBuffer() { return new FrameBuffer(); }
     static void deleteFrameBuffer(FrameBuffer *frameBuffer);
-    static void swapTexture(TextureRtt *texture);
+    static void swapTexture(const TextureRtt *texture);
 
     void appendOutputTexture(TextureRtt *texture);
     void appendOutputTextureDisable(TextureRtt *texture);

@@ -72,7 +72,7 @@ static void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-static void replace_char(char *string, char occurrence, char replace) {
+static void replace_char(const char *string, char occurrence, char replace) {
   char *current_pos = strchr(string, occurrence);
   while (current_pos) {
     *current_pos = replace;
@@ -136,7 +136,7 @@ static void replace_substring(char **string, const char *substring, const char *
 }
 
 // Inserts a string into another string at a specified index.
-static void insert_string(char **string, char *insert, int index) {
+static void insert_string(char **string, const char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
   *string = realloc(*string, new_size);
@@ -695,7 +695,7 @@ static void parse_runtime_ini() {
 }
 
 // Add a single string argument to the argument 'argv' array
-static char **add_single_argument(char **argv, size_t *current_size, char *str) {
+static char **add_single_argument(char **argv, size_t *current_size, const char *str) {
   (*current_size)++;
   argv = realloc(argv, *current_size * sizeof(char *));
   if (!argv)

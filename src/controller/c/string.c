@@ -47,7 +47,7 @@ char *wbu_string_strsep(char **stringp, const char *delim) {
 }
 
 // ref. https://stackoverflow.com/a/779960/2210777
-char *wbu_string_replace(char *value, char *before, char *after) {
+char *wbu_string_replace(char *value, const char *before, const char *after) {
   char *result, *ins, *tmp;
   int len_before, len_after, count;
 

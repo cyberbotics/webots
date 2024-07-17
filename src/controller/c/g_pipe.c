@@ -141,7 +141,7 @@ int g_pipe_receive(GPipe *p, char *data, int size) {
 #endif
 }
 
-size_t g_pipe_get_handle(GPipe *p) {
+size_t g_pipe_get_handle(const GPipe *p) {
   if (p)
     return (size_t)p->handle;
   return 0;

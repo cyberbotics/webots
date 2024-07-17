@@ -41,7 +41,7 @@ namespace WbTriangleMeshCache {
     TriangleMeshGeometryKey();
     explicit TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry);
 
-    void set(WbTriangleMeshGeometry *triangleMeshGeometry);
+    void set(const WbTriangleMeshGeometry *triangleMeshGeometry);
     bool operator==(const TriangleMeshGeometryKey &rhs) const;
 
     uint64_t mHash;

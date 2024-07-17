@@ -433,7 +433,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   return true;
 }
 
-bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized,
+bool WbObjectDetection::recursivelyCheckIfWithinBounds(const WbSolid *solid, const bool boundsInitialized,
                                                        const WbAffinePlane *frustumPlanes) {
   bool initialized = boundsInitialized;
   if (initialized) {

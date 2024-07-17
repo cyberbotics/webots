@@ -228,7 +228,7 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
     ue->values[last_index][v] = value[v];
 }
 
-static int ue_number_of_values(struct UpdateElement *ue) {
+static int ue_number_of_values(const struct UpdateElement *ue) {
   return ue->n_values;
 }
 

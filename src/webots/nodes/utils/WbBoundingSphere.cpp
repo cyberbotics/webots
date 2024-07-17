@@ -29,6 +29,7 @@
 bool gUpdatesEnabled = false;
 bool gRayTracingEnabled = false;
 
+// cppcheck-suppress constParameterPointer
 void WbBoundingSphere::enableUpdates(bool enabled, WbBoundingSphere *root) {
   gUpdatesEnabled = enabled;
   if (enabled && root) {

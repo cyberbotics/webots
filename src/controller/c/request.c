@@ -186,7 +186,7 @@ int request_get_size(WbRequest *r) {
   return *((int *)r->data);
 }
 
-int request_get_position(WbRequest *r) {
+int request_get_position(const WbRequest *r) {
   return r->pointer;
 }
 
@@ -198,7 +198,7 @@ void request_set_immediate(WbRequest *r, bool immediate) {
   r->immediate = immediate;
 }
 
-bool request_is_immediate(WbRequest *r) {
+bool request_is_immediate(const WbRequest *r) {
   return r->immediate;
 }
 

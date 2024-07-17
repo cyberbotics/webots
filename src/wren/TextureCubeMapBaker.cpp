@@ -313,7 +313,7 @@ namespace wren {
       return prefilteredCube;
     }
 
-    TextureRtt *bakeBrdf(ShaderProgram *brdfShader, unsigned int size) {
+    TextureRtt *bakeBrdf(const ShaderProgram *brdfShader, unsigned int size) {
       unsigned int captureFBO = 0;
       unsigned int captureRBO = 0;
       glGenFramebuffers(1, &captureFBO);

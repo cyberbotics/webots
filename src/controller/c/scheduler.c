@@ -130,7 +130,7 @@ void scheduler_cleanup() {
   }
 }
 
-void scheduler_send_request(WbRequest *r) {
+void scheduler_send_request(const WbRequest *r) {
   if (scheduler_is_ipc())
     g_pipe_send(scheduler_pipe, r->data, r->pointer);
   else {

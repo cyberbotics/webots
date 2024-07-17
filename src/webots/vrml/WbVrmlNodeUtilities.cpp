@@ -27,7 +27,7 @@ namespace {
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
 
-  bool checkForUseOrDefNode(WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
+  bool checkForUseOrDefNode(const WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch) {
     WbValue *const value = field->value();
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(value);
@@ -282,7 +282,7 @@ QList<const WbNode *> WbVrmlNodeUtilities::protoNodesInWorldFile(const WbNode *r
   return result;
 }
 
-bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, WbNode *root) {
+bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, const WbNode *root) {
   if (!root)
     return false;
 
@@ -304,7 +304,7 @@ bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, 
   return false;
 }
 
-WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(const WbField *modifiedField, WbNode *parentNode) {
   if (parentNode == NULL || modifiedField == NULL)
     return NULL;
 
@@ -314,7 +314,7 @@ WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbFie
   return findUpperTemplateNeedingRegeneration(parentNode);
 }
 
-WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(const WbNode *modifiedNode) {
   if (modifiedNode == NULL)
     return NULL;
 
@@ -477,7 +477,7 @@ QList<WbNode *> WbVrmlNodeUtilities::findUseNodeAncestors(WbNode *node) {
   return list;
 }
 
-QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
+QString WbVrmlNodeUtilities::exportNodeToString(const WbNode *node) {
   QString nodeString;
   WbWriter writer(&nodeString, ".wbt");
   node->write(writer);

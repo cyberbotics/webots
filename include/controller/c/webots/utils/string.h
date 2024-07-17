@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 char *wbu_string_strsep(char **stringp, const char *delim);
-char *wbu_string_replace(char *value, char *before, char *after);
+char *wbu_string_replace(char *value, const char *before, const char *after);
 
 #ifdef __cplusplus
 }

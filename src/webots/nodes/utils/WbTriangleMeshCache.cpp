@@ -48,7 +48,7 @@ namespace WbTriangleMeshCache {
     set(triangleMeshGeometry);
   }
 
-  void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
+  void TriangleMeshGeometryKey::set(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     mHash = triangleMeshGeometry->computeHash();
   }
 

@@ -653,7 +653,7 @@ void WbDictionary::updateNodeDefName(WbNode *node, bool fromUseToDef) {
   update(false);
 }
 
-void WbDictionary::removeNodeFromDictionary(WbNode *node) {
+void WbDictionary::removeNodeFromDictionary(const WbNode *node) {
   if (node->useCount() > 0)
     // dictionary will be completely recomputed
     return;
