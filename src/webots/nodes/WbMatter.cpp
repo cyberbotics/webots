@@ -523,7 +523,7 @@ void WbMatter::updateLineScale() {
 }
 
 void WbMatter::updateName() {
-  QString nameValue = mName->value();
+  const QString &nameValue = mName->value();
   if (nameValue.isEmpty()) {
     const QString &defaultName = dynamic_cast<const WbSFString *>(findField("name")->defaultValue())->value();
     parsingWarn(tr("'name' cannot be empty. Default node name '%1' is automatically set.").arg(defaultName));
