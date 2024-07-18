@@ -2005,7 +2005,7 @@ void WbNode::subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, i
     const WbValue *value = f->value();
     const WbSFNode *sfNode = dynamic_cast<const WbSFNode *>(value);
     if (sfNode) {
-      WbNode *node = sfNode->value();
+      const WbNode *node = sfNode->value();
       if (node)
         subNodeIndex(node, targetNode, index, subNodeFound);
     } else {

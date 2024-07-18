@@ -183,8 +183,8 @@ void wb_lidar_init(WbDevice *d) {
   // g_print("lidar init done\n");
 }
 
-int wb_lidar_get_unique_id(WbDevice *d) {
-  AbstractCamera *ac = d->pdata;
+int wb_lidar_get_unique_id(const WbDevice *d) {
+  const AbstractCamera *ac = d->pdata;
   return ac->unique_id;
 }
 

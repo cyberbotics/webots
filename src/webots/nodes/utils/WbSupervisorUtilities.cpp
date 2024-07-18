@@ -1147,7 +1147,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     case C_SUPERVISOR_NODE_EXPORT_STRING: {
       unsigned int nodeId;
       stream >> nodeId;
-      WbNode *node = WbNode::findNode(nodeId);
+      const WbNode *node = WbNode::findNode(nodeId);
 
       mNodeExportString = WbVrmlNodeUtilities::exportNodeToString(node);
       mNodeExportStringRequest = true;

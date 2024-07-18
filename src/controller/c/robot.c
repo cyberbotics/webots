@@ -1291,7 +1291,7 @@ static char *compute_socket_filename(char *error_buffer) {
     }
     char **filenames = NULL;
     int count = 0;
-    struct dirent *de;
+    const struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
       if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
         continue;

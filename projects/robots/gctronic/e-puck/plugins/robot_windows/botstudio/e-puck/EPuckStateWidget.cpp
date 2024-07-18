@@ -73,7 +73,7 @@ EPuckStateWidget::~EPuckStateWidget() {
 void EPuckStateWidget::setActuatorCommand(RobotActuatorCommand *command) {
   RobotStateWidget::setActuatorCommand(command);
 
-  EPuckActuatorCommand *eac = static_cast<EPuckActuatorCommand *>(actuatorCommand());
+  const EPuckActuatorCommand *eac = static_cast<EPuckActuatorCommand *>(actuatorCommand());
 
   mSpeedSliders[EPuckFacade::LEFT]->setValue(eac->leftSpeed());
   mSpeedSliders[EPuckFacade::RIGHT]->setValue(eac->rightSpeed());
@@ -82,7 +82,7 @@ void EPuckStateWidget::setActuatorCommand(RobotActuatorCommand *command) {
 }
 
 void EPuckStateWidget::updateSpeedCommand() {
-  EPuckSlider *slider = dynamic_cast<EPuckSlider *>(sender());
+  const EPuckSlider *slider = dynamic_cast<EPuckSlider *>(sender());
   if (slider) {
     EPuckActuatorCommand *eac = static_cast<EPuckActuatorCommand *>(actuatorCommand());
     int value = slider->value();

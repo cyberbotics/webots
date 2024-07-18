@@ -108,8 +108,8 @@ void EvolveLayer(layer_t *l, layer_t *pbest, layer_t *gbest) {
   int i, j;
   float *lW = l->W;
   float *lvW = l->vW;
-  float *gbW = gbest->W;
-  float *pbW = pbest->W;
+  const float *gbW = gbest->W;
+  const float *pbW = pbest->W;
 
   for (i = 0; i < l->width; i++) {
     for (j = 0; j < l->depth; j++) {

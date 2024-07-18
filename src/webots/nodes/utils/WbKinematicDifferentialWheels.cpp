@@ -77,7 +77,7 @@ WbCylinder *WbKinematicDifferentialWheels::getRecursivelyBigestCylinder(WbBaseNo
         }
       }
     }
-    WbShape *shape = dynamic_cast<WbShape *>(node);
+    const WbShape *shape = dynamic_cast<WbShape *>(node);
     if (shape) {
       cylinder = dynamic_cast<WbCylinder *>(shape->geometry());
       if (cylinder)
@@ -96,6 +96,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
   const QVector<WbBasicJoint *> joints = robot->jointChildren();
   QVector<WbHingeJoint *> motorizedJoints;
   for (int i = 0; i < joints.size(); ++i) {
+    // cppcheck-suppress constVariablePointer
     WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(joints.at(i));
     if (!joint || !joint->motor() || !joint->solidEndPoint())
       continue;

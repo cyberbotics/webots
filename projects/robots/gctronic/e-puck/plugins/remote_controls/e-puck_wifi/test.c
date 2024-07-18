@@ -77,7 +77,7 @@ static void cleanup() {
 
 int main(int argc, const char *argv[]) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   int rc;
   const char *ip = argv[1];
 

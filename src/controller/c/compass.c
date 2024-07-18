@@ -77,7 +77,7 @@ static void compass_read_answer(WbDevice *d, WbRequest *r) {
 int wb_compass_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Compass *dev = compass_get_struct(tag);
+  const Compass *dev = compass_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else

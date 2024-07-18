@@ -190,7 +190,7 @@ int main(int argc, char *argv[]) {
   next_position[larm_joint_5] = 0.0;
   next_position[rarm_joint_5] = 0.0;
 
-  char *ptr = fgets(l, 500, file);
+  const char *ptr = fgets(l, 500, file);
   if (ptr == NULL) {
     fprintf(stderr, "Error while reading the %s file\n", filename);
     fclose(file);

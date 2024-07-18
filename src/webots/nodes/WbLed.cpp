@@ -112,6 +112,7 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
     if (n->nodeType() == WB_NODE_SHAPE) {
       const WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
       if (appearance) {
+        // cppcheck-suppress constVariablePointer
         WbMaterial *material = appearance->material();
         if (material)
           mMaterials.append(material);

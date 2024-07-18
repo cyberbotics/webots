@@ -126,7 +126,7 @@ void wb_range_finder_init(WbDevice *d) {
   // g_print("range_finder init done\n");
 }
 
-int wb_range_finder_get_unique_id(WbDevice *d) {
+int wb_range_finder_get_unique_id(const WbDevice *d) {
   const AbstractCamera *ac = d->pdata;
   return ac->unique_id;
 }

@@ -181,7 +181,7 @@ static void run_step() {
 
 int main() {
   unsigned char buffer[MAX_BUFFER_SIZE];
-  unsigned char *answer;
+  const unsigned char *answer;
   int position, in_position;
 
   wb_robot_init();

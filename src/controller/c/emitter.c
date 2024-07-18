@@ -247,7 +247,7 @@ int wb_emitter_send(WbDeviceTag tag, const void *data, int size) {
 int wb_emitter_get_buffer_size(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
     const Emitter *es = d->pdata;
     result = es->buffer_size;
@@ -260,7 +260,7 @@ int wb_emitter_get_buffer_size(WbDeviceTag tag) {
 int wb_emitter_get_channel(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
     const Emitter *es = d->pdata;
     result = es->channel;
@@ -307,7 +307,7 @@ void wb_emitter_set_channel(WbDeviceTag tag, int channel) {
 double wb_emitter_get_range(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
     const Emitter *es = d->pdata;
     result = es->range;

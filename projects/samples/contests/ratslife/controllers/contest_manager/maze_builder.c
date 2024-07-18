@@ -170,8 +170,8 @@ static double link_get_y_pos(Link *l) {
 
 // return the angle in radian that a link should have
 static double link_get_angle(Link *l) {
-  Cell *a = l->cell_A;
-  Cell *b = l->cell_B;
+  const Cell *a = l->cell_A;
+  const Cell *b = l->cell_B;
   if (a->pos_x != b->pos_x)
     return 0.0;
   else if (a->pos_y != b->pos_y)
@@ -244,7 +244,7 @@ void build_maze(Maze *maze) {
 
   // place the feeders and the e-pucks
   for (i = 0; i < dim; i++) {
-    Cell *c = maze->cells[i];
+    const Cell *c = maze->cells[i];
     if (c->feeder != None)
       place_feeder(cell_get_x_pos(c), cell_get_y_pos(c), cell_get_angle(c));
     else if (c->init_pos != None)

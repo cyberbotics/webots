@@ -250,7 +250,7 @@ void WbTouchSensor::setODEDynamicFlag(const WbBaseNode *_node) {
 
 void WbTouchSensor::createOdeObjects() {
   WbSolidDevice::createOdeObjects();
-  WbBaseNode *node = WbSolidDevice::boundingObject();
+  const WbBaseNode *node = WbSolidDevice::boundingObject();
   setODEDynamicFlag(node);
 }
 

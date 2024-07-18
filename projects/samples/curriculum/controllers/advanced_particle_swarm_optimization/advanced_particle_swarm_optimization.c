@@ -116,8 +116,7 @@ static void reset(void) {
     s[2]++;                          // increases the device number
     wb_distance_sensor_enable(ds[i], TIME_STEP);
   }
-  char *robot_name;
-  robot_name = (char *)wb_robot_get_name();
+  const char *robot_name = wb_robot_get_name();
 
   sscanf(robot_name, "epuck%d", &robot_id);  // read robot id from the robot's name
 

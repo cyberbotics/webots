@@ -257,7 +257,7 @@ int Wrapper::robotStep(int step) {
       }
     }
   } while (true);
-  Camera *camera = DeviceManager::instance()->camera();
+  const Camera *camera = DeviceManager::instance()->camera();
   if (camera->isEnabled()) {
     unsigned char *bgraImage = static_cast<unsigned char *>(malloc(160 * 120 * 4));
     if (camera->rawToBgraImage(bgraImage, static_cast<const unsigned char *>(image))) {
@@ -267,7 +267,7 @@ int Wrapper::robotStep(int step) {
       log("Cannot rawToBgraImage\n");
     free(bgraImage);
   }
-  TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
+  const TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
   if (accelerometer->isEnabled()) {
     const double calibration_k[3] = {-9.81 / 800.0, 9.81 / 800.0, 9.81 / 800.0};
     const double calibration_offset = -2000.0;

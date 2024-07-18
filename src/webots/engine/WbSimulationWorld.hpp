@@ -86,7 +86,7 @@ private:
   void propagateBoundingObjectMaterialUpdate(bool onMenuAction);
 
 private slots:
-  void removeNodeFromAddedNodeList(QObject *node);
+  void removeNodeFromAddedNodeList(const QObject *node);
   void propagateBoundingObjectUpdate() { propagateBoundingObjectMaterialUpdate(false); }
   void updateRandomSeed();
 };

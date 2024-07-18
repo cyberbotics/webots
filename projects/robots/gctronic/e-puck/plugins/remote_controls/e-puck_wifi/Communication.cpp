@@ -60,7 +60,7 @@ Communication::~Communication() {
 
 bool Communication::initialize(const string &ip) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   int rc;
   mFd = socket(AF_INET, SOCK_STREAM, 0);
   if (mFd == -1) {

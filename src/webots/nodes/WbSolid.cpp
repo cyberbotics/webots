@@ -2208,7 +2208,7 @@ void WbSolid::notifyChildJerk(WbPose *childNode) {
 
 void WbSolid::childrenJerk() {
   updateOdeGeomPosition();
-  foreach (WbPose *childNode, mMovedChildren) {
+  foreach (const WbPose *childNode, mMovedChildren) {
     QVector<WbSolid *> solidChildrenList;
     QVector<WbBasicJoint *> jointChildrenList;
     QVector<WbPropeller *> propellerChildrenList;

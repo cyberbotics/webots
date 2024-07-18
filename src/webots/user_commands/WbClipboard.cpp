@@ -161,7 +161,7 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   // store all the required external DEF nodes data in order to work correctly
   // independently if other nodes are deleted
   for (int i = 0; i < externalDefNodes.size(); ++i) {
-    WbBaseNode *node = dynamic_cast<WbBaseNode *>(externalDefNodes[i].first);
+    const WbBaseNode *node = dynamic_cast<WbBaseNode *>(externalDefNodes[i].first);
     LinkedDefNodeDefinitions *data = new LinkedDefNodeDefinitions();
     data->position = externalDefNodes[i].second;
     data->type = node->nodeType();
