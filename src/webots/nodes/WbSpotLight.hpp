@@ -31,7 +31,7 @@ public:
   explicit WbSpotLight(WbTokenizer *tokenizer = NULL);
   WbSpotLight(const WbSpotLight &other);
   explicit WbSpotLight(const WbNode &other);
-  virtual ~WbSpotLight();
+  virtual ~WbSpotLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SPOT_LIGHT; }

@@ -24,7 +24,7 @@ class WbW3dStreamingServer : public WbTcpServer {
 
 public:
   WbW3dStreamingServer();
-  ~WbW3dStreamingServer();
+  ~WbW3dStreamingServer() override;
 
 private slots:
   void propagateNodeAddition(WbNode *node) override;

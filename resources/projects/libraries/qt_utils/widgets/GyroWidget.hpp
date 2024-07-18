@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit GyroWidget(Device *device, QWidget *parent = NULL);
-    virtual ~GyroWidget() {}
+    virtual ~GyroWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

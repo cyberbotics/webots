@@ -47,7 +47,7 @@ public:
   explicit WbSolid(WbTokenizer *tokenizer = NULL);
   WbSolid(const WbSolid &other);
   explicit WbSolid(const WbNode &other);
-  virtual ~WbSolid();
+  virtual ~WbSolid() override;
 
   // list of finalized solids
   static const QList<const WbSolid *> &solids() { return cSolids; }

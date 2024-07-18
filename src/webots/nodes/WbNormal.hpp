@@ -28,7 +28,7 @@ public:
   explicit WbNormal(WbTokenizer *tokenizer = NULL);
   WbNormal(const WbNormal &other);
   explicit WbNormal(const WbNode &other);
-  virtual ~WbNormal();
+  virtual ~WbNormal() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_NORMAL; }

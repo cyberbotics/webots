@@ -29,7 +29,7 @@ class WbMultipleValue : public WbValue {
   Q_OBJECT
 
 public:
-  virtual ~WbMultipleValue() {}
+  virtual ~WbMultipleValue() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override;
   virtual int size() const = 0;
   bool isEmpty() const { return size() == 0; };

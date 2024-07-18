@@ -97,7 +97,7 @@ namespace wren {
 
   private:
     FrameBuffer();
-    ~FrameBuffer() {}
+    ~FrameBuffer() override {}
 
     const Texture::GlFormatParams &drawBufferFormat(size_t index) const;
 

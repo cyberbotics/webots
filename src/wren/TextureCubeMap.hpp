@@ -41,7 +41,7 @@ namespace wren {
 
   private:
     TextureCubeMap();
-    ~TextureCubeMap() {}
+    ~TextureCubeMap() override {}
 
     void prepareGl() override;
 

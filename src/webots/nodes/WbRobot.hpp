@@ -49,7 +49,7 @@ public:
   explicit WbRobot(WbTokenizer *tokenizer = NULL);
   WbRobot(const WbRobot &other);
   explicit WbRobot(const WbNode &other);
-  virtual ~WbRobot();
+  virtual ~WbRobot() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ROBOT; }

@@ -25,7 +25,7 @@ public:
   explicit WbPlane(WbTokenizer *tokenizer = NULL);
   WbPlane(const WbPlane &other);
   explicit WbPlane(const WbNode &other);
-  virtual ~WbPlane();
+  virtual ~WbPlane() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PLANE; }

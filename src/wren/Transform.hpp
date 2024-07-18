@@ -52,7 +52,7 @@ namespace wren {
   protected:
     Transform();
     explicit Transform(Transform *source);
-    virtual ~Transform();
+    virtual ~Transform() override;
 
   private:
     void recomputeAabb() const override {

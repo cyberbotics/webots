@@ -36,7 +36,7 @@ public:
 
   WbMFNode(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFNode(const WbMFNode &other);
-  virtual ~WbMFNode();
+  virtual ~WbMFNode() override;
   WbValue *clone() const override { return new WbMFNode(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

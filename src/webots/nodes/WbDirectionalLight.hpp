@@ -29,7 +29,7 @@ public:
   explicit WbDirectionalLight(WbTokenizer *tokenizer = NULL);
   WbDirectionalLight(const WbDirectionalLight &other);
   explicit WbDirectionalLight(const WbNode &other);
-  virtual ~WbDirectionalLight();
+  virtual ~WbDirectionalLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DIRECTIONAL_LIGHT; }

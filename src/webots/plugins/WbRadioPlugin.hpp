@@ -54,7 +54,7 @@ public:
   // constructor & destructor
   // name: name of the plugin, e.g. "omnet"
   explicit WbRadioPlugin(const QString &name);
-  virtual ~WbRadioPlugin();
+  virtual ~WbRadioPlugin() override;
 
 protected:
   // reimplemented protected functions

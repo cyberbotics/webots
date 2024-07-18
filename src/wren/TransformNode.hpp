@@ -121,7 +121,7 @@ namespace wren {
   protected:
     TransformNode();
     explicit TransformNode(TransformNode *source);
-    ~TransformNode() {}
+    virtual ~TransformNode() override {}
 
   private:
     // May be modified when getting position/scale/orientation/matrix, thus mutable

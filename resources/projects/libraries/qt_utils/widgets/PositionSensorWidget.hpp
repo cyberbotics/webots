@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit PositionSensorWidget(Device *device, QWidget *parent = NULL);
-    virtual ~PositionSensorWidget() {}
+    virtual ~PositionSensorWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

@@ -28,7 +28,7 @@ class WbRenderingDevice : public WbSolidDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbRenderingDevice();
+  virtual ~WbRenderingDevice() override;
 
   // reimplemented public functions
   void preFinalize() override;

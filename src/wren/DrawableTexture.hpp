@@ -43,7 +43,7 @@ namespace wren {
 
   private:
     DrawableTexture();
-    ~DrawableTexture();
+    ~DrawableTexture() override;
 
     void updateDirtyRect(int x, int y);
     void resetDirtyRect() {

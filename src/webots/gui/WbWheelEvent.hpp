@@ -28,7 +28,7 @@ class WbSolid;
 // WbWheelEvent class
 class WbWheelEvent {
 public:
-  virtual ~WbWheelEvent() {}
+  virtual ~WbWheelEvent() override {}
   virtual void apply(int delta) = 0;
 
 protected:
@@ -39,7 +39,7 @@ protected:
 class WbWheelLiftSolidEvent : public WbWheelEvent {
 public:
   WbWheelLiftSolidEvent(WbViewpoint *viewpoint, WbSolid *selectedSolid);
-  virtual ~WbWheelLiftSolidEvent();
+  virtual ~WbWheelLiftSolidEvent() override;
   void apply(int delta) override;
 
 private:

@@ -11,7 +11,7 @@ namespace webotsQtUtils {
   class Motor : public Device {
   public:
     explicit Motor(WbDeviceTag tag);
-    virtual ~Motor() {}
+    virtual ~Motor() override {}
 
     void enable(bool enable);
     bool isEnabled() const;

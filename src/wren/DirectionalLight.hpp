@@ -36,7 +36,7 @@ namespace wren {
 
   private:
     DirectionalLight();
-    virtual ~DirectionalLight();
+    virtual ~DirectionalLight() override;
 
     void recomputeAabb() const override { mAabb = gAabbInf; }
 

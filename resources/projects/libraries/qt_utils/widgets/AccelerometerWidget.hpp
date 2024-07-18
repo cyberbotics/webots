@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit AccelerometerWidget(Device *device, QWidget *parent = NULL);
-    virtual ~AccelerometerWidget() {}
+    virtual ~AccelerometerWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

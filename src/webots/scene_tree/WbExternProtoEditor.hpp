@@ -28,7 +28,7 @@ class WbExternProtoEditor : public WbValueEditor {
 
 public:
   explicit WbExternProtoEditor(QWidget *parent = NULL);
-  virtual ~WbExternProtoEditor();
+  virtual ~WbExternProtoEditor() override;
 
   void recursiveBlockSignals(bool block) override {}
   void edit(WbNode *node, WbField *field, int index) override {}

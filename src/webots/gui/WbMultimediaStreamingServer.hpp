@@ -30,7 +30,7 @@ class WbMultimediaStreamingServer : public WbTcpServer {
 
 public:
   WbMultimediaStreamingServer();
-  ~WbMultimediaStreamingServer();
+  ~WbMultimediaStreamingServer() override;
   void sendImage(const QImage &image);
 
   void setView3D(WbView3D *view3D);

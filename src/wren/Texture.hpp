@@ -96,7 +96,7 @@ namespace wren {
 
   protected:
     Texture();
-    virtual ~Texture();
+    virtual ~Texture() override;
 
     virtual void setGlName(unsigned int glName) = 0;
     void cleanupGl() override;

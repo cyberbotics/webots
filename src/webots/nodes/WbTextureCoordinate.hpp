@@ -28,7 +28,7 @@ public:
   explicit WbTextureCoordinate(WbTokenizer *tokenizer = NULL);
   WbTextureCoordinate(const WbTextureCoordinate &other);
   explicit WbTextureCoordinate(const WbNode &other);
-  virtual ~WbTextureCoordinate();
+  virtual ~WbTextureCoordinate() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_TEXTURE_COORDINATE; }

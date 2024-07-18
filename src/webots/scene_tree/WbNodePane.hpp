@@ -34,7 +34,7 @@ class WbNodePane : public WbValueEditor {
 
 public:
   explicit WbNodePane(QWidget *parent = NULL);
-  virtual ~WbNodePane();
+  virtual ~WbNodePane() override;
 
   void recursiveBlockSignals(bool block) override;
 

@@ -42,7 +42,7 @@ public:
   explicit WbTrack(WbTokenizer *tokenizer = NULL);
   WbTrack(const WbTrack &other);
   explicit WbTrack(const WbNode &other);
-  virtual ~WbTrack();
+  virtual ~WbTrack() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_TRACK; }

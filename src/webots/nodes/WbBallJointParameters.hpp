@@ -28,7 +28,7 @@ class WbBallJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
-  virtual ~WbBallJointParameters();
+  virtual ~WbBallJointParameters() override;
   WbBallJointParameters(const QString &modelName, WbTokenizer *tokenizer);
   explicit WbBallJointParameters(WbTokenizer *tokenizer = NULL);
   WbBallJointParameters(const WbBallJointParameters &other);

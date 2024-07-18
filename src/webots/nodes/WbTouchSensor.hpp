@@ -29,7 +29,7 @@ public:
   explicit WbTouchSensor(WbTokenizer *tokenizer = NULL);
   WbTouchSensor(const WbTouchSensor &other);
   explicit WbTouchSensor(const WbNode &other);
-  virtual ~WbTouchSensor();
+  virtual ~WbTouchSensor() override;
 
   void setTouching(bool touching) { mIsTouching = touching; }
   void setGuiTouch(bool touching) { mIsGuiTouch = touching; }

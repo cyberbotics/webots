@@ -46,7 +46,7 @@ class WbDragResizeHandleEvent : public WbDragView3DEvent {
 public:
   WbDragResizeHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
                           WbGeometry *selectedGeometry);
-  virtual ~WbDragResizeHandleEvent();
+  virtual ~WbDragResizeHandleEvent() override;
   void apply(const QPoint &currentMousePosition) override = 0;
   virtual void addActionInUndoStack() = 0;
 

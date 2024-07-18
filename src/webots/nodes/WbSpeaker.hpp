@@ -29,7 +29,7 @@ public:
   explicit WbSpeaker(WbTokenizer *tokenizer = NULL);
   WbSpeaker(const WbSpeaker &other);
   explicit WbSpeaker(const WbNode &other);
-  virtual ~WbSpeaker();
+  virtual ~WbSpeaker() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SPEAKER; }

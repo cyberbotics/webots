@@ -27,7 +27,7 @@ public:
   explicit WbRadio(WbTokenizer *tokenizer = NULL);
   WbRadio(const WbRadio &other);
   explicit WbRadio(const WbNode &other);
-  virtual ~WbRadio();
+  virtual ~WbRadio() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RADIO; }

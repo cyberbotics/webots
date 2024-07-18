@@ -28,7 +28,7 @@ class WbPositionSensor : public WbJointDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbPositionSensor() { delete mSensor; }
+  virtual ~WbPositionSensor() override { delete mSensor; }
   explicit WbPositionSensor(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbPositionSensor(WbTokenizer *tokenizer = NULL);
   WbPositionSensor(const WbPositionSensor &other);

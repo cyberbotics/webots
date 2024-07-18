@@ -31,7 +31,7 @@ class WbLight : public WbBaseNode {
 
 public:
   // destructor
-  virtual ~WbLight();
+  virtual ~WbLight() override;
 
   // reimplemented public functions
   void createWrenObjects() override;

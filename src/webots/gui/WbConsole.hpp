@@ -36,7 +36,7 @@ class ConsoleEdit : public QPlainTextEdit {
 
 public:
   explicit ConsoleEdit(QWidget *parent);
-  virtual ~ConsoleEdit();
+  virtual ~ConsoleEdit() override;
   void copy();
   void mouseDoubleClickEvent(QMouseEvent *event) override;
 
@@ -87,7 +87,7 @@ class WbConsole : public WbDockWidget {
 
 public:
   explicit WbConsole(QWidget *parent = NULL, const QString &name = QString("Console"));
-  virtual ~WbConsole() {}
+  virtual ~WbConsole() override {}
 
   // parse compilation error line
   void jumpToError(const QString &errorLine);

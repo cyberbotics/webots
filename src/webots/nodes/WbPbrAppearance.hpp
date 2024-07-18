@@ -33,7 +33,7 @@ public:
   WbPbrAppearance(const WbPbrAppearance &other);
   explicit WbPbrAppearance(const WbNode &other);
   WbPbrAppearance(const aiMaterial *material, const QString &filePath);
-  virtual ~WbPbrAppearance();
+  virtual ~WbPbrAppearance() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PBR_APPEARANCE; }

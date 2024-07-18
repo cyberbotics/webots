@@ -26,7 +26,7 @@ public:
   explicit WbHingeJointParameters(WbTokenizer *tokenizer = NULL, bool fromDeprecatedHinge2JointParameters = false);
   WbHingeJointParameters(const WbHingeJointParameters &other);
   explicit WbHingeJointParameters(const WbNode &other, bool fromDeprecatedHinge2JointParameters = false);
-  virtual ~WbHingeJointParameters();
+  virtual ~WbHingeJointParameters() override;
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT_PARAMETERS; }
   void preFinalize() override;

@@ -29,7 +29,7 @@ public:
 
   // constructors and destructor
   explicit WbControlledWorld(WbTokenizer *tokenizer = NULL);
-  virtual ~WbControlledWorld();
+  virtual ~WbControlledWorld() override;
 
   void startController(WbRobot *robot);
   void externConnection(WbController *controller, bool connect);

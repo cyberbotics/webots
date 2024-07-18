@@ -29,7 +29,7 @@ public:
   explicit WbMesh(WbTokenizer *tokenizer = NULL);
   WbMesh(const WbMesh &other);
   explicit WbMesh(const WbNode &other);
-  virtual ~WbMesh();
+  virtual ~WbMesh() override;
 
   void updateTriangleMesh(bool issueWarnings = true) override;
 
@@ -39,7 +39,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void createResizeManipulator() override;
-  void rescale(const WbVector3 &scale) override{};
+  void rescale(const WbVector3 &scale) override {};
 
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
   uint64_t computeHash() const override;

@@ -96,7 +96,7 @@ namespace wren {
     static const char *cUseMaterialName;
 
     Renderable();
-    virtual ~Renderable();
+    virtual ~Renderable() override;
 
     void setupAndRender(const ShaderProgram *program);
     void updateShadowVolumeCaster();

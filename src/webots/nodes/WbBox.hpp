@@ -27,7 +27,7 @@ public:
   explicit WbBox(WbTokenizer *tokenizer = NULL);
   WbBox(const WbBox &other);
   explicit WbBox(const WbNode &other);
-  virtual ~WbBox();
+  virtual ~WbBox() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_BOX; }

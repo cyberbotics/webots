@@ -35,7 +35,7 @@ public:
   explicit WbLed(WbTokenizer *tokenizer = NULL);
   WbLed(const WbLed &other);
   explicit WbLed(const WbNode &other);
-  virtual ~WbLed();
+  virtual ~WbLed() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_LED; }

@@ -46,7 +46,7 @@ class WbGeometry : public WbBaseNode {
 
 public:
   // Destructor
-  virtual ~WbGeometry();
+  virtual ~WbGeometry() override;
 
   // Reimplemented public functions
   void postFinalize() override;

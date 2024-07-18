@@ -32,7 +32,7 @@ public:
   explicit WbSliderJoint(WbTokenizer *tokenizer = NULL);
   WbSliderJoint(const WbSliderJoint &other);
   explicit WbSliderJoint(const WbNode &other);
-  virtual ~WbSliderJoint();
+  virtual ~WbSliderJoint() override;
 
   int nodeType() const override { return WB_NODE_SLIDER_JOINT; }
   void prePhysicsStep(double ms) override;

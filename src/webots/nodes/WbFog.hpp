@@ -32,7 +32,7 @@ public:
   explicit WbFog(WbTokenizer *tokenizer = NULL);
   WbFog(const WbFog &other);
   explicit WbFog(const WbNode &other);
-  virtual ~WbFog();
+  virtual ~WbFog() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_FOG; }
