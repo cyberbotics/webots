@@ -490,7 +490,7 @@ const QStringList WbTokenizer::tags() const {
 
 const QString WbTokenizer::templateLanguage() const {
   const QStringList lines = mInfo.split("\n");
-  foreach (QString line, lines) {
+  foreach (const QString &line, lines) {
     if (line.startsWith("template language:") && line.toLower().contains("javascript")) {
       return QString("javascript");
     }

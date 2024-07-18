@@ -618,7 +618,7 @@ QStringList WbTextEditor::openFiles() const {
 void WbTextEditor::openFiles(const QStringList &list, int selectedTab) {
   closeAllBuffers();
 
-  foreach (QString file, list) {
+  foreach (const QString &file, list) {
     WbTextBuffer *newBuffer = new WbTextBuffer(this);
     connectBuffer(newBuffer);
     bool success = newBuffer->load(file);

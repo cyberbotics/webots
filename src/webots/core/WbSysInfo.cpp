@@ -291,7 +291,7 @@ const QString &WbSysInfo::linuxCpuModelName() {
   QFile cpuinfoFile("/proc/cpuinfo");
   if (cpuinfoFile.open(QIODevice::ReadOnly)) {
     const QStringList lines = QString(cpuinfoFile.readAll()).split('\n');
-    foreach (const QString line, lines) {
+    foreach (const QString &line, lines) {
       if (line.startsWith("model name")) {
         // 12 corresponds to the strlen("model name: ")
         cpuinfo = line.mid(12).trimmed();  // remove leading and trailing whitespace

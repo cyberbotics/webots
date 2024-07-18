@@ -331,7 +331,7 @@ void WbExtendedStringEditor::editInTextEditor() {
 
   dirPath += fileType + stringValue();
   QStringList files = QFileDialog::getOpenFileNames(this, ITEM_LIST_INFO[mStringType].at(1), dirPath);
-  foreach (QString fileName, files)
+  foreach (const QString &fileName, files)
     emit editRequested(fileName);
 }
 

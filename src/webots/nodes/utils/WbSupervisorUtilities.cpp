@@ -525,7 +525,7 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
   if (mWatchedFields.isEmpty())
     return;
   const int nodeId = node->uniqueId();
-  foreach (const WbUpdatedFieldInfo info, mWatchedFields) {
+  foreach (const WbUpdatedFieldInfo &info, mWatchedFields) {
     if (info.nodeId == nodeId) {
       const WbField *field = node->findField(info.fieldName, false);
       assert(field->isMultiple() || field->type() == WB_SF_NODE);
@@ -2145,7 +2145,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     mFieldGetRequest = NULL;
   }
   if (!mUpdatedFields.isEmpty()) {
-    foreach (const WbUpdatedFieldInfo info, mUpdatedFields) {
+    foreach (const WbUpdatedFieldInfo &info, mUpdatedFields) {
       stream << (short unsigned int)0;
       stream << (unsigned char)C_SUPERVISOR_FIELD_COUNT_CHANGED;
       stream << (int)info.nodeId;

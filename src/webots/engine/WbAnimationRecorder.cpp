@@ -262,7 +262,7 @@ void WbAnimationRecorder::populateCommands() {
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (const WbRobot *const robot, robots) {
       if (robot->supervisor()) {
-        foreach (QString label, robot->supervisorUtilities()->labelsState())
+        foreach (const QString &label, robot->supervisorUtilities()->labelsState())
           addChangedLabelToList(label);
 
         connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this,
@@ -370,7 +370,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 
   if (mChangedLabels.size() != 0) {
     out << ",\"labels\":[";
-    foreach (QString label, mChangedLabels) {
+    foreach (const QString &label, mChangedLabels) {
       out << "{";
       out << label;
       mLabelsIds.insert(label.mid(5, label.indexOf("font") - 7));
@@ -470,7 +470,7 @@ void WbAnimationRecorder::stopRecording() {
   }
   out << " \"labelsIds\":\"";
   bool firstLabel = true;
-  foreach (QString id, mLabelsIds) {
+  foreach (const QString &id, mLabelsIds) {
     // cppcheck-suppress knownConditionTrueFalse
     if (!firstLabel)
       out << ";";

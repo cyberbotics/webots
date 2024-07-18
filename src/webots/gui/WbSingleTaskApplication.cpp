@@ -92,7 +92,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Get user parameters strings
   QMap<QString, QString> userParameters;
-  for (QString param : cliParser.values("p")) {
+  for (const QString &param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
       cerr << tr("A parameter is not properly formatted!\n").toUtf8().constData();

@@ -235,7 +235,7 @@ bool WbTreeItem::isFixedRowsMFitem() const {
   if (f == NULL)
     return false;
 
-  foreach (const QString name, FIXED_ROWS_MFFIELD) {
+  foreach (const QString &name, FIXED_ROWS_MFFIELD) {
     if (f->name() == name)
       return true;
   }
@@ -244,7 +244,7 @@ bool WbTreeItem::isFixedRowsMFitem() const {
     f = f->internalFields().at(0);
     if (f == NULL)
       return false;
-    foreach (const QString name, FIXED_ROWS_MFFIELD) {
+    foreach (const QString &name, FIXED_ROWS_MFFIELD) {
       if (f->name() == name)
         return true;
     }
@@ -260,7 +260,7 @@ bool WbTreeItem::isNonEmptyFixedRowsMFfield() const {
   if (f == NULL || !f->isMultiple())
     return false;
 
-  foreach (const QString name, FIXED_ROWS_MFFIELD) {
+  foreach (const QString &name, FIXED_ROWS_MFFIELD) {
     if (f->name() == name)
       return !dynamic_cast<WbMultipleValue *>(f->value())->isEmpty();
   }
@@ -270,7 +270,7 @@ bool WbTreeItem::isNonEmptyFixedRowsMFfield() const {
     if (f == NULL)
       return false;
 
-    foreach (const QString name, FIXED_ROWS_MFFIELD) {
+    foreach (const QString &name, FIXED_ROWS_MFFIELD) {
       if (f->name() == name)
         return !dynamic_cast<WbMultipleValue *>(f->value())->isEmpty();
     }

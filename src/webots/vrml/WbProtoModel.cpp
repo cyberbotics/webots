@@ -246,7 +246,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             QStringList derivedParameterNames = parameterNames();
             QStringList baseParameterNames = baseProtoModel->parameterNames();
             baseTypeSlotType = baseProtoModel->slotType();
-            foreach (QString derivedName, derivedParameterNames) {
+            foreach (const QString &derivedName, derivedParameterNames) {
               if (baseParameterNames.contains(derivedName))
                 sharedParameterNames.append(derivedName);
             }

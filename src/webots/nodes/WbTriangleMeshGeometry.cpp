@@ -101,7 +101,7 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  foreach (QString warning, mTriangleMesh->warnings())
+  foreach (const QString &warning, mTriangleMesh->warnings())
     parsingWarn(warning);
 
   if (!mTriangleMeshError.isEmpty())

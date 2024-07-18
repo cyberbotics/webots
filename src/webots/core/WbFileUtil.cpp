@@ -89,7 +89,7 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   // copy files
   int count = 0;
   QStringList files = sourceDir.entryList(QDir::Files | QDir::Hidden);
-  foreach (QString file, files) {
+  foreach (const QString &file, files) {
     QString srcName = sourcePath + "/" + file;
     QString destName = destPath + "/" + file;
     if (QFile::exists(destName)) {
@@ -109,7 +109,7 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   // recurse in subdirectories
   if (recurse) {
     QStringList dirs = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    foreach (QString dir, dirs) {
+    foreach (const QString &dir, dirs) {
       // cppcheck-suppress variableScope
       QString srcName = sourcePath + "/" + dir;
       QString destName = destPath + "/" + dir;

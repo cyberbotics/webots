@@ -99,7 +99,7 @@ void WbLinkWindow::reject() {
   QDir dir(WbStandardPaths::webotsTmpPath() + "textures/");  // remove tmp files
   dir.removeRecursively();
   const QStringList extensions = {".html", ".w3d", ".json", ".jpg"};
-  foreach (QString extension, extensions)
+  foreach (const QString &extension, extensions)
     QFile::remove(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension);
 
   QDialog::reject();

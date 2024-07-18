@@ -848,7 +848,7 @@ QList<QString> WbProtoManager::externProtoClipboardBufferUrls() const {
 
 void WbProtoManager::resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls) {
   clearExternProtoClipboardBuffer();
-  foreach (QString url, bufferUrls)
+  foreach (const QString &url, bufferUrls)
     saveToExternProtoClipboardBuffer(url);
 }
 

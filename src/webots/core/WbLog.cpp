@@ -225,7 +225,7 @@ void WbLog::enqueueMessage(QList<PostponedMessage> &list, const QString &message
 void WbLog::showPostponedPopUpMessages() {
   bool tmp = instance()->mPopUpMessagesPostponed;
   setPopUpPostponed(false);
-  foreach (PostponedMessage msg, instance()->mPostponedPopUpMessageQueue) {
+  foreach (const PostponedMessage &msg, instance()->mPostponedPopUpMessageQueue) {
     switch (msg.level) {
       case DEBUG:
         debug(msg.text, msg.name, true);
@@ -249,7 +249,7 @@ void WbLog::showPostponedPopUpMessages() {
 }
 
 void WbLog::showPendingConsoleMessages() {
-  foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
+  foreach (const PostponedMessage &msg, instance()->mPendingConsoleMessages)
     emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
 }

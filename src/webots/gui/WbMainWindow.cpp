@@ -1622,7 +1622,7 @@ void WbMainWindow::upload() {
 
   // add files content
   QMap<QString, QString> map;
-  foreach (const QString fileName, fileNames) {
+  foreach (const QString &fileName, fileNames) {
     QHttpPart mainPart;
     if (fileName.contains("w3d")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();

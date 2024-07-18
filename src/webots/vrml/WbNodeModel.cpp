@@ -73,7 +73,7 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString modelName, list) {
+  foreach (const QString &modelName, list) {
     // cppcheck-suppress constVariablePointer
     WbNodeModel *model = readModel(path + modelName);
     if (model)

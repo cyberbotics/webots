@@ -113,7 +113,7 @@ void WbCadShape::retrieveMaterials() {
   mMaterialDownloaders.clear();
 
   const QStringList rawMaterials = objMaterialList(completeUrl);
-  foreach (QString material, rawMaterials) {
+  foreach (const QString &material, rawMaterials) {
     const QString newUrl = WbUrl::combinePaths(material, completeUrl);
     if (!newUrl.isEmpty()) {
       mObjMaterials.insert(material, newUrl);
@@ -223,7 +223,7 @@ void WbCadShape::updateUrl() {
       mObjMaterials.clear();
       // generate mapping between referenced files and cached files
       const QStringList rawMaterials = objMaterialList(completeUrl);
-      foreach (QString material, rawMaterials) {
+      foreach (const QString &material, rawMaterials) {
         const QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
         assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
@@ -241,7 +241,7 @@ void WbCadShape::updateUrl() {
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
   QStringList rawMaterials = objMaterialList(url);  // note: 'dae' files will generate an empty list
-  foreach (QString material, rawMaterials) {
+  foreach (const QString &material, rawMaterials) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(WbUrl::combinePaths(material, url)))
       return false;
   }
@@ -264,7 +264,7 @@ QStringList WbCadShape::objMaterialList(const QString &url) const {
     content = content.replace("\r\n", "\n");
 
     QStringList lines = content.split('\n', Qt::SkipEmptyParts);
-    foreach (QString line, lines) {
+    foreach (const QString &line, lines) {
       QString cleanLine = line.trimmed();
       if (!cleanLine.startsWith("mtllib"))
         continue;
@@ -594,7 +594,7 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   // export materials
   if (writer.isW3d()) {  // only needs to be included in the w3d, when converting to base node it shouldn't be included
     const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
-    for (QString material : objMaterialList(parentUrl)) {
+    for (const QString &material : objMaterialList(parentUrl)) {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
       WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
       if (WbUrl::isLocalUrl(materialUrl))
