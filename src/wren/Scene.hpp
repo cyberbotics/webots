@@ -114,7 +114,6 @@ namespace wren {
     static RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
-    static RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 

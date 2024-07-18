@@ -585,10 +585,6 @@ namespace wren {
     return std::partition(first, last, [](const Renderable *r) -> bool { return !r->receiveShadows(); });
   }
 
-  Scene::RenderQueueIterator Scene::partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last) {
-    return std::partition(first, last, [](const Renderable *r) -> bool { return r->zSortedRendering(); });
-  }
-
   Scene::ShadowVolumeIterator Scene::partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last,
                                                                   LightNode *light) {
     return std::partition(first, last, [this, &light](ShadowVolumeCaster *shadowVolume) -> bool {
