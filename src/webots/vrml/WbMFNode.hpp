@@ -43,6 +43,7 @@ public:
   int size() const override { return mVector.size(); }
   void clear() override;
   void insertDefaultItem(int index) override;
+  // cppcheck-suppress knownPointerToBool
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
   void removeItem(int index) override;  // remove and delete the node instance
   bool removeNode(WbNode *node);        // remove without deleting the node instance
