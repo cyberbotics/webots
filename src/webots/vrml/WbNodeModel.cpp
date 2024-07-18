@@ -150,7 +150,7 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   return true;
 }
 
-QStringList WbNodeModel::fieldNames() {
+QStringList WbNodeModel::fieldNames() const {
   QStringList names;
   foreach (const WbFieldModel *fieldModel, mFieldModels)
     names.append(fieldModel->name());

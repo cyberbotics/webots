@@ -771,10 +771,7 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
       const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height());
       const double theta1 = -atan2(position.y(), fabs(position.x()));
       const double theta2 = atan2(position.z(), fabs(position.x()));
-      if (mProjection->value() == "planar")
-        uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
-      else
-        uv.setX(theta1 * fovX);
+      uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
       uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
     }
   } else if (mProjection->value() == "spherical") {

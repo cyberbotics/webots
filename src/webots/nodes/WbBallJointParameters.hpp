@@ -35,7 +35,6 @@ public:
   explicit WbBallJointParameters(const WbNode &other);
 
   int nodeType() const override { return WB_NODE_BALL_JOINT_PARAMETERS; }
-  void preFinalize() override;
   void postFinalize() override;
 
   virtual const WbVector3 &anchor() const { return mAnchor->value(); }

@@ -1410,7 +1410,7 @@ bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode
         QString errorMessage;
         if (parentSlot && lowerSlot)
           errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node, because a trio of slot is not allowed.");
-        else if (!parentSlot && !lowerSlot && slot->endPoint())
+        else if (!parentSlot && !lowerSlot)
           errorMessage =
             QObject::tr("Cannot insert %1 node in '%2' field of %3 node: only a slot can be added in the parent slot.");
 
