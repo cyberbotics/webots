@@ -350,8 +350,7 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
 
 bool WbBox::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet) const {
   WbVector3 localCollisionPoint;
-  int faceIndex;
-  double collisionDistance = computeLocalCollisionPoint(localCollisionPoint, faceIndex, ray);
+  double collisionDistance = computeLocalCollisionPoint(localCollisionPoint, ray);
   if (collisionDistance < 0)
     // no valid collision
     return false;
@@ -364,11 +363,10 @@ bool WbBox::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSe
 
 double WbBox::computeDistance(const WbRay &ray) const {
   WbVector3 collisionPoint;
-  int faceIndex;
-  return computeLocalCollisionPoint(collisionPoint, faceIndex, ray);
+  return computeLocalCollisionPoint(collisionPoint, ray);
 }
 
-double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
+double WbBox::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbRay localRay(ray);
   const WbPose *const pose = upperPose();
   if (pose) {

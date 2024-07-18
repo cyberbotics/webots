@@ -92,7 +92,7 @@ private:
 
   // ray tracing
   // compute collision point and return distance
-  double computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const;
+  double computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const;
 
 private slots:
   void updateSize();

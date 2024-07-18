@@ -1122,6 +1122,7 @@ QList<WbSolid *> WbNodeUtilities::findSolidDescendants(WbNode *node) {
 }
 
 // cppcheck-suppress constParameterPointer
+// cppcheck-suppress constParameterReference
 QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive) {
   QList<WbNode *> result;
   QList<WbNode *> queue;
