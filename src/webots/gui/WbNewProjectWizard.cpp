@@ -54,7 +54,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
     }
   } else {  // otherwise propose new project dir as sibling of current project
     QDir dir(WbProject::current()->path());
-    dir.cdUp();
+    assert(dir.cdUp());
     path = dir.absolutePath() + "/my_project";
   }
   // propose only if this directory does not yet exist or is empty
@@ -80,7 +80,7 @@ void WbNewProjectWizard::accept() {
   createWorldFile();
   // store the accepted project directory in the preferences
   QDir dir(mProject->path());
-  dir.cdUp();  // store the upper level, probably the path where the directories are stored
+  assert(dir.cdUp());  // store the upper level, probably the path where the directories are stored
   WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
   QDialog::accept();
 }

@@ -469,6 +469,7 @@ const QString WbProtoModel::projectPath() const {
       if (protoProjectDir.isRoot())
         return QString();
     }
+    // cppcheck-suppress ignoredReturnErrorCode
     protoProjectDir.cdUp();
     return protoProjectDir.absolutePath();
   }

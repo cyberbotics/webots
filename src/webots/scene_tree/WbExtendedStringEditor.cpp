@@ -475,8 +475,8 @@ void WbExtendedStringEditor::selectFile(const QString &folder, const QString &ti
 
   if (!stringValue().isEmpty()) {
     QDir dir(QDir::cleanPath(worldPath.absoluteFilePath(stringValue())));
-    dir.cdUp();
-    path = dir.absolutePath();
+    if (dir.cdUp())
+      path = dir.absolutePath();
   } else {
     if (worldPath.exists(folder))
       path += folder + '/';
