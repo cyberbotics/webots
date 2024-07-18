@@ -350,7 +350,7 @@ int wb_lidar_get_horizontal_resolution(WbDeviceTag tag) {
 }
 
 double wb_lidar_get_fov(WbDeviceTag tag) {
-  WbDevice *d = lidar_get_device(tag);
+  const WbDevice *d = lidar_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_fov(d);
@@ -369,7 +369,7 @@ double wb_lidar_get_vertical_fov(WbDeviceTag tag) {
 }
 
 double wb_lidar_get_min_range(WbDeviceTag tag) {
-  WbDevice *d = lidar_get_device(tag);
+  const WbDevice *d = lidar_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_near(d);

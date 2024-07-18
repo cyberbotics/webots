@@ -120,7 +120,7 @@ void wb_abstract_camera_enable(WbDevice *d, int sampling_period) {
   robot_mutex_unlock();
 }
 
-int wb_abstract_camera_get_sampling_period(WbDevice *d) {
+int wb_abstract_camera_get_sampling_period(const WbDevice *d) {
   int sampling_period = 0;
   robot_mutex_lock();
   const AbstractCamera *ac = d->pdata;
@@ -130,7 +130,7 @@ int wb_abstract_camera_get_sampling_period(WbDevice *d) {
   return sampling_period;
 }
 
-int wb_abstract_camera_get_height(WbDevice *d) {
+int wb_abstract_camera_get_height(const WbDevice *d) {
   int result = -1;
   robot_mutex_lock();
   const AbstractCamera *ac = d->pdata;
@@ -140,7 +140,7 @@ int wb_abstract_camera_get_height(WbDevice *d) {
   return result;
 }
 
-int wb_abstract_camera_get_width(WbDevice *d) {
+int wb_abstract_camera_get_width(const WbDevice *d) {
   int result = -1;
   robot_mutex_lock();
   const AbstractCamera *ac = d->pdata;
@@ -150,7 +150,7 @@ int wb_abstract_camera_get_width(WbDevice *d) {
   return result;
 }
 
-double wb_abstract_camera_get_fov(WbDevice *d) {
+double wb_abstract_camera_get_fov(const WbDevice *d) {
   double result = NAN;
   robot_mutex_lock();
   const AbstractCamera *ac = d->pdata;
@@ -160,7 +160,7 @@ double wb_abstract_camera_get_fov(WbDevice *d) {
   return result;
 }
 
-double wb_abstract_camera_get_near(WbDevice *d) {
+double wb_abstract_camera_get_near(const WbDevice *d) {
   double result = NAN;
   robot_mutex_lock();
   const AbstractCamera *ac = d->pdata;

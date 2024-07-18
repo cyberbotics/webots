@@ -368,28 +368,28 @@ void wb_camera_disable(WbDeviceTag tag) {
 }
 
 int wb_camera_get_sampling_period(WbDeviceTag tag) {
-  WbDevice *d = camera_get_device(tag);
+  const WbDevice *d = camera_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s: invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_sampling_period(d);
 }
 
 int wb_camera_get_height(WbDeviceTag tag) {
-  WbDevice *d = camera_get_device(tag);
+  const WbDevice *d = camera_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_height(d);
 }
 
 int wb_camera_get_width(WbDeviceTag tag) {
-  WbDevice *d = camera_get_device(tag);
+  const WbDevice *d = camera_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_width(d);
 }
 
 double wb_camera_get_fov(WbDeviceTag tag) {
-  WbDevice *d = camera_get_device(tag);
+  const WbDevice *d = camera_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   return wb_abstract_camera_get_fov(d);
@@ -544,7 +544,7 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
 }
 
 double wb_camera_get_near(WbDeviceTag tag) {
-  WbDevice *d = camera_get_device(tag);
+  const WbDevice *d = camera_get_device(tag);
   if (!d)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
