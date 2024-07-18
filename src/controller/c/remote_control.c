@@ -351,6 +351,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
     case WB_NODE_LINEAR_MOTOR:
       // cppcheck-suppress incorrectStringBooleanError
       REQUEST_ASSERT(!"Impossible fallback", tag, type, c);
+      break;
     default:
       REQUEST_ASSERT(0, tag, type, c);
   }
