@@ -42,7 +42,7 @@ jobs:
           - os: macos-14
             DEPENDENCIES_INSTALLATION: "brew tap-new --no-git $USER/local-cppcheck; brew extract --version=2.14.2 cppcheck $USER/local-cppcheck; brew install cppcheck@2.14.2; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "curl -o cppcheck-2.14.1-x64-Setup.msi https://github.com/danmar/cppcheck/releases/download/2.14.1/cppcheck-2.14.1-x64-Setup.msi; msiexec /qn /i cppcheck-2.14.1-x64-Setup.msi; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "curl -LJO https://github.com/danmar/cppcheck/releases/download/2.14.1/cppcheck-2.14.1-x64-Setup.msi; msiexec /qn /i cppcheck-2.14.1-x64-Setup.msi; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
