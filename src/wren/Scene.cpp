@@ -600,7 +600,7 @@ namespace wren {
     std::sort(first, last, [](const Renderable *a, const Renderable *b) -> bool { return a->sortingId() > b->sortingId(); });
   }
 
-  void Scene::sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) {
+  void Scene::sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) const {
     for (auto it = first; it < last; ++it)
       (*it)->recomputeBoundingSphereInViewSpace(mCurrentViewport->camera()->view());
 
@@ -812,7 +812,7 @@ namespace wren {
     }
   }
 
-  void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) {
+  void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const {
     glstate::setBlend(true);
     glstate::setBlendEquation(GL_FUNC_ADD);
     glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

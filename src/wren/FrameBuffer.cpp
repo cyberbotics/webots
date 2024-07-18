@@ -113,7 +113,7 @@ namespace wren {
       setRequireAction(GlUser::GL_ACTION_PREPARE);
   }
 
-  void FrameBuffer::bind() {
+  void FrameBuffer::bind() const {
     glstate::bindFrameBuffer(mGlName);
 
     std::vector<unsigned int> drawBuffers;
@@ -125,13 +125,13 @@ namespace wren {
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
   }
 
-  void FrameBuffer::blitToScreen() {
+  void FrameBuffer::blitToScreen() const {
     glstate::bindDrawFrameBuffer(0);
 
     blit(0, true, false, false, 0, 0, mWidth, mHeight, 0, 0, mWidth, mHeight);
   }
 
-  void FrameBuffer::release() {
+  void FrameBuffer::release() const {
     glstate::releaseFrameBuffer(mGlName);
   }
 

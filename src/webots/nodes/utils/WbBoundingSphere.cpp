@@ -249,7 +249,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
   mParentCoordinatesDirty = false;
 }
 
-void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
+void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) const {
   const WbPose *upperPose = dynamic_cast<const WbPose *>(mPoseOwner);
   if (upperPose == NULL)
     upperPose = WbNodeUtilities::findUpperPose(mOwner);

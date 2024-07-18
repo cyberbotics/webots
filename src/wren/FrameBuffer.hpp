@@ -81,9 +81,9 @@ namespace wren {
     unsigned int glName() const { return mGlName; }
 
     void setup();
-    void blitToScreen();
-    void bind();
-    void release();
+    void blitToScreen() const;
+    void bind() const;
+    void release() const;
 
     void initiateCopyToPbo();
     void copyContents(size_t index, void *data);
