@@ -205,13 +205,10 @@ void WbWaveFile::loadFromFile(const QString &extension, int side) {
 
 #ifdef __linux__
   static QString ffmpeg("avconv");
-  static QString percentageChar = "%";
 #elif defined(__APPLE__)
   static QString ffmpeg(QString("%1Contents/util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
-  static QString percentageChar = "%";
 #else  // _WIN32
   static QString ffmpeg = "ffmpeg.exe";
-  static QString percentageChar = "%%";
 #endif
 
   const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";

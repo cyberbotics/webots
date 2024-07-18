@@ -697,7 +697,6 @@ void WbSimulationView::takeScreenshot() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
-  static QStringList winFilters = QStringList() << tr("PNG (*.png)") << tr("JPEG (*.jpg *.jpeg)");
   static QString otherFilters = tr("Images (*.png *.jpg *.jpeg)");
   static QString dialogCaption = tr("Save as...");
 

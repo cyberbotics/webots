@@ -1174,7 +1174,6 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer)
     const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
-      const QString url = path;
 
       const QString subProtoUrl = WbUrl::combinePaths(subProto, path);
       if (subProtoUrl.isEmpty())
