@@ -629,6 +629,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
 }
 
 const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) const {
+  // cppcheck-suppress unassignedVariable
   static QMap<QString, WbProtoInfo *> empty;
 
   switch (category) {
