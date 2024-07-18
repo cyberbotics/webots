@@ -50,6 +50,7 @@ public:
 
 protected slots:
   void updateAmbientIntensity() override;
+  // cppcheck-suppress uselessOverride
   void updateIntensity() override;
   void updateOn() override;
 

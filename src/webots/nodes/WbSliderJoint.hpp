@@ -56,6 +56,7 @@ protected:
   void writeExport(WbWriter &writer) const override;
 
 protected slots:
+  // cppcheck-suppress uselessOverride
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
 

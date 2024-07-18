@@ -39,7 +39,6 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_LED; }
-  void preFinalize() override;
   void postFinalize() override;
   void reset(const QString &id) override;
 

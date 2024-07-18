@@ -50,10 +50,6 @@ WbLed::~WbLed() {
   clearMaterialsAndLights();
 }
 
-void WbLed::preFinalize() {
-  WbSolidDevice::preFinalize();
-}
-
 void WbLed::postFinalize() {
   WbSolidDevice::postFinalize();
 

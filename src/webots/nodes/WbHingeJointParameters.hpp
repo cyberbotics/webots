@@ -29,7 +29,6 @@ public:
   virtual ~WbHingeJointParameters() override;
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT_PARAMETERS; }
-  void preFinalize() override;
   void postFinalize() override;
 
   double suspensionSpringConstant() const { return mSuspensionSpringConstant->value(); }
