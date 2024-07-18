@@ -23,7 +23,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [windows-2022]
+        os: [windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: msys2/setup-msys2@v2
@@ -46,7 +46,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [windows-2022]
+        os: [windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: msys2/setup-msys2@v2
@@ -98,7 +98,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [windows-2022]
+        os: [windows-2019]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
