@@ -351,8 +351,9 @@ bool WbSysInfo::isVirtualMachine() {
   const auto queryVendorIdMagic = 0x40000000;
   __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
   const int vendorIdLength = 13;
-  using VendorIdStr = char[vendorIdLength];
+  using VendorIdStr = const char[vendorIdLength];
   VendorIdStr hyperVendorId = {};
+  // cppcheck-suppress nullPointer
   memcpy(hyperVendorId + 0, &ebx, 4);
   memcpy(hyperVendorId + 4, &ecx, 4);
   memcpy(hyperVendorId + 8, &edx, 4);
