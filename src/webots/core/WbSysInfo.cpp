@@ -351,7 +351,7 @@ bool WbSysInfo::isVirtualMachine() {
   const auto queryVendorIdMagic = 0x40000000;
   __get_cpuid(queryVendorIdMagic, &eax, &ebx, &ecx, &edx);
   const int vendorIdLength = 13;
-  using VendorIdStr = const char[vendorIdLength];
+  using VendorIdStr = char[vendorIdLength];
   VendorIdStr hyperVendorId = {};
   // cppcheck-suppress nullPointer
   memcpy(hyperVendorId + 0, &ebx, 4);
@@ -366,6 +366,7 @@ bool WbSysInfo::isVirtualMachine() {
     "prl hyperv  ",     // Parallels
     "VBoxVBoxVBox"      // VirtualBox
   };
+  // cppcheck-suppress constVariableReference
   for (const auto &vendor : vendors) {
     if (!memcmp(vendor, hyperVendorId, vendorIdLength)) {
       virtualMachine = 1;
