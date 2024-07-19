@@ -47,8 +47,10 @@ const QString &WbStandardPaths::webotsHomePath() {
 #endif
   if (path.isEmpty()) {
     QDir dir(QCoreApplication::applicationDirPath());
-    for (int i = 0; i < depth; i++)
-      assert(dir.cdUp());
+    for (int i = 0; i < depth; i++) {
+      bool exists = dir.cdUp();
+      assert(exists);
+    }
     path = dir.absolutePath() + "/";
   }
   return path;
@@ -243,7 +245,8 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
 #endif
   // cleanup old and unused tmp directories
   QDir directory(cWebotsTmpPath);
-  assert(directory.cdUp());
+  bool dirExists = directory.cdUp();
+  assert(dirExists);
   const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
   foreach (const QString &dirname, webotsTmp) {
     const QString fullName(directory.absolutePath() + "/" + dirname);

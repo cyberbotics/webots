@@ -222,7 +222,8 @@ void WbProjectRelocationDialog::copy() {
   mProject->setPath(dir.path());
 
   // store the accepted project directory in the preferences
-  assert(dir.cdUp());  // store the upper level, probably the path where the directories are stored
+  bool dirExists = dir.cdUp();
+  assert(dirExists);  // store the upper level, probably the path where the directories are stored
   WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + '/');
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
