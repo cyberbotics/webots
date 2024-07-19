@@ -124,8 +124,8 @@ static void automatic_behavior() {
 
   double delta = distance_origin_platform - distance_arm0_platform - distance_arm0_robot_center;
   const double goto_info[3][3] = {{delta * sin(angles[0]), delta * cos(angles[0]), -angles[0]},
-                            {delta * sin(angles[1]), delta * cos(angles[1]), -angles[1]},
-                            {delta * sin(angles[2]), delta * cos(angles[2]), -angles[2]}};
+                                  {delta * sin(angles[1]), delta * cos(angles[1]), -angles[1]},
+                                  {delta * sin(angles[2]), delta * cos(angles[2]), -angles[2]}};
 
   arm_set_height(ARM_HANOI_PREPARE);
   // SRC A1 => DST
