@@ -95,7 +95,7 @@ void EPuckStateWidget::updateSpeedCommand() {
 }
 
 void EPuckStateWidget::updateLedCommand() {
-  EPuckLedButton *button = dynamic_cast<EPuckLedButton *>(sender());
+  const EPuckLedButton *button = dynamic_cast<EPuckLedButton *>(sender());
   if (button) {
     EPuckActuatorCommand *eac = static_cast<EPuckActuatorCommand *>(actuatorCommand());
     int value = button->value();

@@ -104,7 +104,7 @@ void ActivateLayer(layer_t *l) {
   }
 }*/
 
-void EvolveLayer(layer_t *l, layer_t *pbest, layer_t *gbest) {
+void EvolveLayer(layer_t *l, const layer_t *pbest, const layer_t *gbest) {
   int i, j;
   float *lW = l->W;
   float *lvW = l->vW;
