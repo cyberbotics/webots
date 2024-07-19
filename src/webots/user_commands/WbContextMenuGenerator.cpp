@@ -31,11 +31,21 @@ namespace WbContextMenuGenerator {
   static bool gAreExternProtoActionsEnabled = false;
   static QMenu *gOverlaysMenu = NULL;
 
-  void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
-  void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
-  void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
-  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
-  void setOverlaysMenu(QMenu *menu) { gOverlaysMenu = menu; }
+  void enableNodeActions(bool enabled) {
+    gAreNodeActionsEnabled = enabled;
+  }
+  void enableRobotActions(bool enabled) {
+    gAreRobotActionsEnabled = enabled;
+  }
+  void enableProtoActions(bool enabled) {
+    gAreProtoActionsEnabled = enabled;
+  }
+  void enableExternProtoActions(bool enabled) {
+    gAreExternProtoActionsEnabled = enabled;
+  }
+  void setOverlaysMenu(QMenu *menu) {
+    gOverlaysMenu = menu;
+  }
 
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
     // populate transform combo box

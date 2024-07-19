@@ -33,11 +33,17 @@ namespace WbTriangleMeshCache {
     0x4242424242424242ull,
   };
 
-  uint64_t sipHash13c(const char *bytes, const int size) { return highwayhash::SipHash13(SIPHASH_KEY, bytes, size); }
-  TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
-  TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
+  uint64_t sipHash13c(const char *bytes, const int size) {
+    return highwayhash::SipHash13(SIPHASH_KEY, bytes, size);
+  }
+  TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {
+  }
+  TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {
+  }
 
-  TriangleMeshGeometryKey::TriangleMeshGeometryKey() { mHash = 0; }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey() {
+    mHash = 0;
+  }
   TriangleMeshGeometryKey::TriangleMeshGeometryKey(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     set(triangleMeshGeometry);
   }
@@ -46,7 +52,9 @@ namespace WbTriangleMeshCache {
     mHash = triangleMeshGeometry->computeHash();
   }
 
-  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const { return mHash == rhs.mHash; }
+  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const {
+    return mHash == rhs.mHash;
+  }
 
   std::size_t TriangleMeshGeometryKeyHasher::operator()(const TriangleMeshGeometryKey &k) const {
     assert(sizeof(size_t) == sizeof(uint64_t));

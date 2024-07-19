@@ -131,7 +131,9 @@ namespace wren {
     }
   }
 
-  void LightNode::setColor(const glm::vec3 &color) { mColor = colorutils::srgbToLinear(glm::vec4(color, 1.0)); }
+  void LightNode::setColor(const glm::vec3 &color) {
+    mColor = colorutils::srgbToLinear(glm::vec4(color, 1.0));
+  }
 
   void LightNode::setCastShadows(bool castShadows) {
     if (mCastShadows == castShadows)
@@ -146,7 +148,8 @@ namespace wren {
     }
   }
 
-  LightNode::LightNode() : mOn(true), mCastShadows(false), mIntensity(1.0f), mAmbientIntensity(0.0f), mColor(gVec3Ones) {}
+  LightNode::LightNode() : mOn(true), mCastShadows(false), mIntensity(1.0f), mAmbientIntensity(0.0f), mColor(gVec3Ones) {
+  }
 
   LightNode::~LightNode() {
     if (mOn && mCastShadows) {
@@ -155,7 +158,9 @@ namespace wren {
     }
   }
 
-  void LightNode::enableShadowCasting() { ++LightNode::cActiveLightsCastingShadows[this->type()]; }
+  void LightNode::enableShadowCasting() {
+    ++LightNode::cActiveLightsCastingShadows[this->type()];
+  }
 
   void LightNode::disableShadowCasting() {
     --LightNode::cActiveLightsCastingShadows[this->type()];
