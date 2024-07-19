@@ -61,7 +61,7 @@ void pid_attitude_fixed_height_controller(actual_state_t actual_state, const des
   motor_mixing(control_commands, motorCommands);
 }
 
-void pid_velocity_fixed_height_controller(actual_state_t actual_state, const desired_state_t *desired_state, gains_pid_t gains_pid,
+void pid_velocity_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
                                           double dt, motor_power_t *motorCommands) {
   control_commands_t control_commands = {0};
   pid_horizontal_velocity_controller(actual_state, desired_state, gains_pid, dt);

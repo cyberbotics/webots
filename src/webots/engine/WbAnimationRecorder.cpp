@@ -254,7 +254,8 @@ void WbAnimationRecorder::populateCommands() {
         continue;
       const QStringList fields = node->fieldsToSynchronizeWithW3d();
       if (fields.size() > 0) {
-        const WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
+        // cppcheck-suppress constVariablePointer
+        WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
         mCommands << command;
       }
     }
@@ -463,7 +464,8 @@ void WbAnimationRecorder::stopRecording() {
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
   QList<WbAnimationCommand *> commandsChangedFromStart;
-  foreach (const WbAnimationCommand *command, mCommands) {
+  // cppcheck-suppress constVariablePointer
+  foreach (WbAnimationCommand *command, mCommands) {
     // store only ids of nodes that changed during the animation
     if (command->isChangedFromStart())
       commandsChangedFromStart << command;

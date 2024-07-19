@@ -80,7 +80,8 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
 }
 
 void WbProjectRelocationDialog::initCompleteRelocation() {
-  const QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
+  // cppcheck-suppress constVariablePointer
+  QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
   mTargetPath = WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName();
@@ -116,7 +117,8 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
 }
 
 void WbProjectRelocationDialog::initProtoSourceRelocation() {
-  const QLabel *title = new QLabel(tr("<b>Copy necessary files from source to current project directory?</b>"), this);
+  // cppcheck-suppress constVariablePointer
+  QLabel *title = new QLabel(tr("<b>Copy necessary files from source to current project directory?</b>"), this);
 
   mTargetPath = mProject->path();
 

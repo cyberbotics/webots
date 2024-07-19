@@ -299,7 +299,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (node->isProtoParameterNode()) {
     // internal PROTO child could be regenerated due to a parameter exposed in the parent PROTO node
     // so for parent PROTO instances both fields and parameters needs to be checked
-    const QList<WbField *> parentFields = (parent->isProtoInstance() ? parent->parameters() : QList<WbField *>())
+    const QList<WbField *> parentFields = (parent->isProtoInstance() ? QList(parent->parameters()) : QList<WbField *>())
                                           << parent->fields();
     foreach (WbField *const pf, parentFields) {
       if (pf->type() == WB_SF_NODE) {

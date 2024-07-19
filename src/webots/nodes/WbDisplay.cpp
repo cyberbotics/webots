@@ -172,11 +172,13 @@ void WbDisplay::findImageTextures() {
     const WbAppearance *appearance = shape->appearance();
     const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
     if (appearance) {
-      const WbImageTexture *theTexture = appearance->texture();
+      // cppcheck-suppress constVariablePointer
+      WbImageTexture *theTexture = appearance->texture();
       if (theTexture)
         mImageTextures.push_back(theTexture);
     } else if (pbrAppearance) {
-      const WbImageTexture *theTexture = pbrAppearance->baseColorMap();
+      // cppcheck-suppress constVariablePointer
+      WbImageTexture *theTexture = pbrAppearance->baseColorMap();
       if (theTexture)
         mImageTextures.push_back(theTexture);
       theTexture = pbrAppearance->emissiveColorMap();
@@ -215,11 +217,13 @@ void WbDisplay::findImageTextures(WbGroup *group) {
       const WbAppearance *appearance = shape->appearance();
       const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
       if (appearance) {
-        const WbImageTexture *theTexture = appearance->texture();
+        // cppcheck-suppress constVariablePointer
+        WbImageTexture *theTexture = appearance->texture();
         if (theTexture)
           mImageTextures.push_back(theTexture);
       } else if (pbrAppearance) {
-        const WbImageTexture *theTexture = pbrAppearance->baseColorMap();
+        // cppcheck-suppress constVariablePointer
+        WbImageTexture *theTexture = pbrAppearance->baseColorMap();
         if (theTexture)
           mImageTextures.push_back(theTexture);
         theTexture = pbrAppearance->emissiveColorMap();

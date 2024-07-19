@@ -28,7 +28,7 @@ class WbSolid;
 // WbWheelEvent class
 class WbWheelEvent {
 public:
-  virtual ~WbWheelEvent() override {}
+  virtual ~WbWheelEvent() {}
   virtual void apply(int delta) = 0;
 
 protected:

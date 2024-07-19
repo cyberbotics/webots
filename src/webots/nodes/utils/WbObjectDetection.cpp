@@ -442,7 +442,7 @@ bool WbObjectDetection::recursivelyCheckIfWithinBounds(const WbSolid *solid, con
       mergeBounds(mObjectSize, mObjectRelativePosition, newObjectSize, newObjectRelativePosition);
   } else
     initialized = isWithinBounds(frustumPlanes, solid->boundingObject(), mObjectSize, mObjectRelativePosition, solid);
-  foreach (WbSolid *s, solid->solidChildren())
+  foreach (const WbSolid *s, solid->solidChildren())
     initialized = recursivelyCheckIfWithinBounds(s, initialized, frustumPlanes);
   return initialized;
 }

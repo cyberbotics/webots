@@ -15,7 +15,7 @@ typedef struct WrFont WrFont;
 WrDrawableTexture *wr_drawable_texture_new();
 
 void wr_drawable_texture_set_font(WrDrawableTexture *texture, WrFont *font);
-void wr_drawable_texture_set_color(WrDrawableTexture *texture, float *color);
+void wr_drawable_texture_set_color(WrDrawableTexture *texture, const float *color);
 void wr_drawable_texture_set_antialasing(WrDrawableTexture *texture, bool enabled);
 void wr_drawable_texture_set_use_premultiplied_alpha(WrDrawableTexture *texture, bool premultipliedAlpha);
 

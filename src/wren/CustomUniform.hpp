@@ -24,7 +24,7 @@ namespace wren {
   class CustomUniformBase {
   public:
     CustomUniformBase(const std::string &name);
-    virtual ~CustomUniformBase() override {}
+    virtual ~CustomUniformBase() {}
 
     void setLocation(int location) { mLocation = location; }
 

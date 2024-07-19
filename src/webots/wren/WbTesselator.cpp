@@ -114,11 +114,11 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
   GLUtesselator *tesselator = gluNewTess();
   assert(tesselator);
 
-  gluTessCallback(tesselator, GLU_TESS_BEGIN, static_cast<GLU_function_pointer>(&tessBegin));
-  gluTessCallback(tesselator, GLU_TESS_VERTEX_DATA, static_cast<GLU_function_pointer>(&tessVertexData));
-  gluTessCallback(tesselator, GLU_TESS_END, static_cast<GLU_function_pointer>(&tessEnd));
-  gluTessCallback(tesselator, GLU_TESS_EDGE_FLAG, static_cast<GLU_function_pointer>(&tessEdgeFlag));
-  gluTessCallback(tesselator, GLU_TESS_ERROR, static_cast<GLU_function_pointer>(&tessError));
+  gluTessCallback(tesselator, GLU_TESS_BEGIN, reinterpret_cast<GLU_function_pointer>(&tessBegin));
+  gluTessCallback(tesselator, GLU_TESS_VERTEX_DATA, reinterpret_cast<GLU_function_pointer>(&tessVertexData));
+  gluTessCallback(tesselator, GLU_TESS_END, reinterpret_cast<GLU_function_pointer>(&tessEnd));
+  gluTessCallback(tesselator, GLU_TESS_EDGE_FLAG, reinterpret_cast<GLU_function_pointer>(&tessEdgeFlag));
+  gluTessCallback(tesselator, GLU_TESS_ERROR, reinterpret_cast<GLU_function_pointer>(&tessError));
   gluTessProperty(tesselator, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_POSITIVE);
   gluTessBeginPolygon(tesselator, &results);
   gluTessBeginContour(tesselator);
