@@ -78,9 +78,7 @@ namespace wren {
     mParams.mTextureFlags.y = mAdditionalTextures.size();
   }
 
-  void Overlay::setCachePersistency(bool isPersistent) {
-    mMesh->setCachePersistency(isPersistent);
-  }
+  void Overlay::setCachePersistency(bool isPersistent) { mMesh->setCachePersistency(isPersistent); }
 
   void Overlay::render() {
     assert(mMesh);

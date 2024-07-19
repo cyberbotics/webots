@@ -32,12 +32,8 @@ namespace WbMathsUtilities {
   bool isPowerOf2(unsigned int n);
   unsigned int nextPowerOf2(unsigned int n);
   int round(double n);
-  inline double discretize(double value, double resolution) {
-    return ((int)(value / resolution + 0.5)) * resolution;
-  }
-  inline double discretize(float value, float resolution) {
-    return ((int)(value / resolution + 0.5f)) * ((double) resolution);
-  }
+  inline double discretize(double value, double resolution) { return ((int)(value / resolution + 0.5)) * resolution; }
+  inline double discretize(float value, float resolution) { return ((int)(value / resolution + 0.5f)) * ((double)resolution); }
 
   // performs two Graham scan and returns the indices of points in the convex hull
   int twoStepsConvexHull(const QVector<WbVector2> &points, QVector<int> &hullIndices);

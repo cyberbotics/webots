@@ -124,7 +124,7 @@ QString WbProject::projectPathFromWorldFile(const QString &fileName, bool &valid
   assert(info.suffix() == "wbt");
   QDir directory = info.absoluteDir();
   valid = directory.dirName() == "worlds";
-    // cppcheck-suppress ignoredReturnErrorCode
+  // cppcheck-suppress ignoredReturnErrorCode
   directory.cdUp();  // remove "worlds"
   return directory.absolutePath() + "/";
 }

@@ -117,9 +117,7 @@ namespace wren {
     updateGlShadow();
   }
 
-  void DynamicMesh::releaseShadowVolume() {
-    glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow);
-  }
+  void DynamicMesh::releaseShadowVolume() { glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow); }
 
   void DynamicMesh::render(unsigned int drawingMode) {
     bind();
@@ -148,9 +146,7 @@ namespace wren {
       mColors.clear();
   }
 
-  size_t DynamicMesh::sortingId() const {
-    return mMeshId.id();
-  }
+  size_t DynamicMesh::sortingId() const { return mMeshId.id(); }
 
   primitive::Aabb DynamicMesh::recomputeAabb(const glm::vec3 &scale) {
     if (!mCoords.size())

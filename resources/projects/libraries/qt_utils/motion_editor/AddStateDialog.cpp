@@ -66,7 +66,7 @@ void AddStateDialog::populateListWidget() {
   QSet<QString> motorAlreadyDefined;
   if (mMotion->poses().count() > 0) {
     const Pose *pose = mMotion->poses()[0];
-  foreach (const MotorTargetState *state, pose->states())
+    foreach (const MotorTargetState *state, pose->states())
       motorAlreadyDefined.insert(state->motor()->name());
   }
 

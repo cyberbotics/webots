@@ -669,8 +669,8 @@ void WbDisplay::drawOval(int cx, int cy, int a, int b, bool fill) {
   my1 = cy;
   mx2 = cx + a;
   my2 = cy;
-  aq = (qint64) a * a;
-  bq = (qint64) b * b;
+  aq = (qint64)a * a;
+  bq = (qint64)b * b;
   dx = aq << 1;
   dy = bq << 1;
   r = a * bq;

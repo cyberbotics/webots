@@ -131,9 +131,7 @@ namespace wren {
     blit(0, true, false, false, 0, 0, mWidth, mHeight, 0, 0, mWidth, mHeight);
   }
 
-  void FrameBuffer::release() const {
-    glstate::releaseFrameBuffer(mGlName);
-  }
+  void FrameBuffer::release() const { glstate::releaseFrameBuffer(mGlName); }
 
   void FrameBuffer::initiateCopyToPbo() {
     if (!mGlName)
@@ -257,8 +255,7 @@ namespace wren {
     mIsCopyingEnabled(false),
     mWidth(0),
     mHeight(0),
-    mDepthTexture(NULL) {
-  }
+    mDepthTexture(NULL) {}
 
   const Texture::GlFormatParams &FrameBuffer::drawBufferFormat(size_t index) const {
     if (mOutputDrawBuffers[index].mIsRenderBuffer)
