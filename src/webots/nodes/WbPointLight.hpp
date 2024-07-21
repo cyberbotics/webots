@@ -32,7 +32,7 @@ public:
   explicit WbPointLight(WbTokenizer *tokenizer = NULL);
   WbPointLight(const WbPointLight &other);
   explicit WbPointLight(const WbNode &other);
-  virtual ~WbPointLight();
+  virtual ~WbPointLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_POINT_LIGHT; }
@@ -50,6 +50,7 @@ public:
 
 protected slots:
   void updateAmbientIntensity() override;
+  // cppcheck-suppress uselessOverride
   void updateIntensity() override;
   void updateOn() override;
 

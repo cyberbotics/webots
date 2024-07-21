@@ -25,7 +25,7 @@ class WbRotationalMotor : public WbMotor {
   Q_OBJECT
 
 public:
-  virtual ~WbRotationalMotor();
+  virtual ~WbRotationalMotor() override;
   explicit WbRotationalMotor(WbTokenizer *tokenizer = NULL);
   WbRotationalMotor(const WbRotationalMotor &other);
   explicit WbRotationalMotor(const WbNode &other);

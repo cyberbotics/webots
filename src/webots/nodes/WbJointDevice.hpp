@@ -28,7 +28,7 @@ class WbJointDevice : public WbLogicalDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbJointDevice();
+  virtual ~WbJointDevice() override;
 
   // inherited from WbBaseNode
   void preFinalize() override;

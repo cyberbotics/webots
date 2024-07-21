@@ -1189,7 +1189,7 @@ void WbActionManager::updateRenderingButton() {
 }
 
 void WbActionManager::forwardTransformToActionToSceneTree() {
-  QAction *senderAction = static_cast<QAction *>(sender());
+  const QAction *senderAction = static_cast<QAction *>(sender());
   if (!senderAction)
     return;
 
@@ -1197,7 +1197,7 @@ void WbActionManager::forwardTransformToActionToSceneTree() {
 }
 
 void WbActionManager::dispatchUserCommand() {
-  QAction *senderAction = static_cast<QAction *>(sender());
+  const QAction *senderAction = static_cast<QAction *>(sender());
   if (!senderAction)
     return;
 

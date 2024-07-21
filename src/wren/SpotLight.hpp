@@ -66,7 +66,7 @@ namespace wren {
 
   private:
     SpotLight();
-    virtual ~SpotLight();
+    virtual ~SpotLight() override;
 
     mutable bool mIsDirectionDirty;
     mutable glm::vec3 mDirectionAbsolute;

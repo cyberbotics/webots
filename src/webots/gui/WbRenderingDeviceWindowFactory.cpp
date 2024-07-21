@@ -72,7 +72,7 @@ void WbRenderingDeviceWindowFactory::showWindowForDevice(WbRenderingDevice *devi
 void WbRenderingDeviceWindowFactory::saveWindowsPerspective(WbPerspective &perspective) {
   for (int i = 0; i < mWindowsList.size(); ++i) {
     if (mWindowsList[i]->isVisible()) {
-      WbRenderingDeviceWindow *window = mWindowsList[i];
+      const WbRenderingDeviceWindow *window = mWindowsList[i];
       QStringList devicePerspective(window->device()->perspective());
       devicePerspective << window->perspective();
       perspective.setRenderingDevicePerspective(window->device()->computeShortUniqueName(), devicePerspective);

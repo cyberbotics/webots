@@ -167,6 +167,7 @@ void WbGroup::deleteAllSolids() {
   QList<WbSolid *> solids;
   while (it.hasNext()) {
     WbNode *const n = it.next();
+    // cppcheck-suppress constVariablePointer
     WbSolid *s = dynamic_cast<WbSolid *const>(n);
     if (s)
       solids << s;
@@ -403,7 +404,7 @@ bool WbGroup::resetHiddenKinematicParameters() {
 void WbGroup::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map, int &counter) const {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
+    const WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
     if (g)
       g->collectHiddenKinematicParameters(map, counter);
   }

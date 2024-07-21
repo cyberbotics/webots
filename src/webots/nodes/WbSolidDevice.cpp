@@ -53,7 +53,7 @@ void WbSolidDevice::subscribeToRaysUpdate(dGeomID ray) {
 }
 
 QString WbSolidDevice::computeShortUniqueName() const {
-  WbSolid *robot = WbNodeUtilities::findRobotAncestor(this);
+  const WbSolid *robot = WbNodeUtilities::findRobotAncestor(this);
   if (robot)
     return QString("%1:%2").arg(robot->computeUniqueName()).arg(WbSolid::name());
   return computeUniqueName();

@@ -21,7 +21,7 @@ namespace webotsQtUtils {
 
   public:
     explicit PoseWidget(QWidget *parent = NULL);
-    virtual ~PoseWidget();
+    virtual ~PoseWidget() override;
 
     void changePose(Pose *pose);
 

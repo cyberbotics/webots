@@ -130,6 +130,7 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
       mReadNodesCanceled = false;
       return nodes;
     }
+    // cppcheck-suppress constVariablePointer
     WbNode *node = readNode(tokenizer, worldPath);
     if (node)
       nodes.append(node);

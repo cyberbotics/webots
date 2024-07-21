@@ -275,7 +275,7 @@ void wr_drawable_texture_set_font(WrDrawableTexture *texture, WrFont *font) {
   reinterpret_cast<wren::DrawableTexture *>(texture)->setFont(reinterpret_cast<wren::Font *>(font));
 }
 
-void wr_drawable_texture_set_color(WrDrawableTexture *texture, float *color) {
+void wr_drawable_texture_set_color(WrDrawableTexture *texture, const float *color) {
   reinterpret_cast<wren::DrawableTexture *>(texture)->setColor(color);
 }
 

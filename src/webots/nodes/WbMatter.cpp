@@ -137,7 +137,7 @@ void WbMatter::postFinalize() {
     WbNode *parameter = protoParameterNode();
     while (parameter->protoParameterNode())
       parameter = parameter->protoParameterNode();
-    WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
+    const WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
     if (matter)
       matter->connectNameUpdates();
   }
@@ -251,7 +251,7 @@ dGeomID WbMatter::odeGeom() const {
   if (bo == NULL)
     return NULL;
 
-  WbGeometry *g = NULL;
+  const WbGeometry *g = NULL;
 
   const WbPose *const p = dynamic_cast<WbPose *>(bo);
   // cppcheck-suppress knownConditionTrueFalse
@@ -523,7 +523,7 @@ void WbMatter::updateLineScale() {
 }
 
 void WbMatter::updateName() {
-  QString nameValue = mName->value();
+  const QString &nameValue = mName->value();
   if (nameValue.isEmpty()) {
     const QString &defaultName = dynamic_cast<const WbSFString *>(findField("name")->defaultValue())->value();
     parsingWarn(tr("'name' cannot be empty. Default node name '%1' is automatically set.").arg(defaultName));

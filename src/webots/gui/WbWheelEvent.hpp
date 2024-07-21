@@ -39,7 +39,7 @@ protected:
 class WbWheelLiftSolidEvent : public WbWheelEvent {
 public:
   WbWheelLiftSolidEvent(WbViewpoint *viewpoint, WbSolid *selectedSolid);
-  virtual ~WbWheelLiftSolidEvent();
+  virtual ~WbWheelLiftSolidEvent() override;
   void apply(int delta) override;
 
 private:

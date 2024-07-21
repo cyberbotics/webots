@@ -33,7 +33,7 @@ public:
   explicit WbPose(WbTokenizer *tokenizer = NULL);
   WbPose(const WbPose &other);
   explicit WbPose(const WbNode &other);
-  virtual ~WbPose();
+  virtual ~WbPose() override;
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_POSE; }

@@ -54,7 +54,7 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   tryToAddResolution(WbResolution(3840, 2160, "4K UHD"), fullScreen);
   tryToAddResolution(WbResolution(fullScreen.width(), fullScreen.height(), ""), fullScreen);
 
-  foreach (WbResolution r, mAvailableResolutions)
+  foreach (const WbResolution &r, mAvailableResolutions)
     mResolutionList.addItem(r.toString());
 
   // quality

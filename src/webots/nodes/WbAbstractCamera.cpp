@@ -445,7 +445,7 @@ void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *> nodes, bool 
 }
 
 void WbAbstractCamera::removeInvisibleNodeFromList(QObject *node) {
-  WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
+  const WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
   mInvisibleNodes.removeAll(baseNode);
 }
 
@@ -529,7 +529,7 @@ void WbAbstractCamera::updateBackground() {
   if (!mWrenCamera)
     return;
 
-  WbBackground *background = WbBackground::firstInstance();
+  const WbBackground *background = WbBackground::firstInstance();
   if (background)
     mWrenCamera->setBackgroundColor(background->skyColor());
   else

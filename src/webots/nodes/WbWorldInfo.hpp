@@ -35,7 +35,7 @@ public:
   explicit WbWorldInfo(WbTokenizer *tokenizer = NULL);
   WbWorldInfo(const WbWorldInfo &other);
   explicit WbWorldInfo(const WbNode &other);
-  virtual ~WbWorldInfo();
+  virtual ~WbWorldInfo() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_WORLD_INFO; }

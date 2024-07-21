@@ -25,7 +25,7 @@ public:
   explicit WbBillboard(WbTokenizer *tokenizer = NULL);
   WbBillboard(const WbBillboard &other);
   explicit WbBillboard(const WbNode &other);
-  virtual ~WbBillboard();
+  virtual ~WbBillboard() override;
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_BILLBOARD; }

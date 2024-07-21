@@ -274,6 +274,7 @@ void WbRobot::addDevices(WbNode *node) {
 
   WbGroup *group = dynamic_cast<WbGroup *>(node);
   if (group) {
+    // cppcheck-suppress constVariablePointer
     WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(node);
     if (solidDevice) {
       mDevices.append(solidDevice);
@@ -293,7 +294,7 @@ void WbRobot::addDevices(WbNode *node) {
       }
     }
 
-    WbTrack *const track = dynamic_cast<WbTrack *>(group);
+    const WbTrack *const track = dynamic_cast<WbTrack *>(group);
     if (track) {
       const QVector<WbLogicalDevice *> trackDevices = track->devices();
       for (int i = 0; i < trackDevices.size(); ++i) {
@@ -317,7 +318,7 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbSlot *const slot = dynamic_cast<WbSlot *>(node);
+  const WbSlot *const slot = dynamic_cast<WbSlot *>(node);
   if (slot) {
     addDevices(slot->endPoint());
     return;
@@ -325,7 +326,7 @@ void WbRobot::addDevices(WbNode *node) {
 
   WbBasicJoint *const basicJoint = dynamic_cast<WbBasicJoint *>(node);
   if (basicJoint) {
-    WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
+    const WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
     if (joint) {
       const QVector<WbLogicalDevice *> &jointDevices = joint->devices();
       foreach (WbLogicalDevice *const jointDevice, jointDevices) {
@@ -355,8 +356,8 @@ void WbRobot::addDevices(WbNode *node) {
   // check if there are duplicated names, and print a warning if necessary
   if (dynamic_cast<const WbRobot *>(node)) {  // top node
     QStringList displayedWarnings;
-    foreach (WbDevice *deviceA, mDevices) {
-      foreach (WbDevice *deviceB, mDevices) {
+    foreach (const WbDevice *deviceA, mDevices) {
+      foreach (const WbDevice *deviceB, mDevices) {
         if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName() &&
             !displayedWarnings.contains(deviceA->deviceName())) {
           parsingWarn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
@@ -441,7 +442,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
         }
       }
       // search in project folder associated with parent PROTO models
-      WbProtoModel *protoModel = proto();
+      const WbProtoModel *protoModel = proto();
       while (protoModel) {
         if (!protoModel->projectPath().isEmpty()) {
           QDir protoDir(protoModel->projectPath() + "/plugins/" + pluginSubdirectory + "/" + key);
@@ -670,7 +671,7 @@ double WbRobot::energyUploadSpeed() const {
 
 double WbRobot::energyConsumption() const {
   double e = mCpuConsumption->value();
-  foreach (WbDevice *deviceObject, mDevices)  // add energy consumption for each device
+  foreach (const WbDevice *deviceObject, mDevices)  // add energy consumption for each device
     e += deviceObject->energyConsumption();
   return e;
 }
@@ -1376,7 +1377,7 @@ QString WbRobot::windowFile(const QString &extension) const {
     if (file.exists() && file.isFile() && file.isReadable())
       return path;
     // search in project folder associated with parent PROTO models
-    WbProtoModel *protoModel = proto();
+    const WbProtoModel *protoModel = proto();
     while (protoModel) {
       if (!protoModel->projectPath().isEmpty()) {
         path = protoModel->projectPath() + "/plugins/robot_windows/" + fileName;
@@ -1532,7 +1533,7 @@ const QString WbRobot::urdfName() const {
 }
 
 int WbRobot::computeSimulationMode() {
-  WbSimulationState *state = WbSimulationState::instance();
+  const WbSimulationState *state = WbSimulationState::instance();
   switch (state->mode()) {
     case WbSimulationState::REALTIME:
       return WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME;

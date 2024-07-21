@@ -26,7 +26,7 @@ public:
   explicit WbCapsule(WbTokenizer *tokenizer = NULL);
   WbCapsule(const WbCapsule &other);
   explicit WbCapsule(const WbNode &other);
-  virtual ~WbCapsule();
+  virtual ~WbCapsule() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CAPSULE; }

@@ -68,7 +68,7 @@ public:
   double scaledRadius();
   const WbVector3 &center();
 
-  void computeSphereInGlobalCoordinates(WbVector3 &center, double &radius);
+  void computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) const;
 
   // Set the bound space to be empty.
   void empty();

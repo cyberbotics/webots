@@ -76,19 +76,19 @@ typedef struct gains_pid_s {
 float constrain(float value, const float minVal, const float maxVal);
 void init_pid_attitude_fixed_height_controller();
 
-void pid_attitude_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
-                                          double dt, motor_power_t *motorCommands);
+void pid_attitude_fixed_height_controller(actual_state_t actual_state, const desired_state_t *desired_state,
+                                          gains_pid_t gains_pid, double dt, motor_power_t *motorCommands);
 
 void pid_velocity_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
                                           double dt, motor_power_t *motorCommands);
 
-void pid_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid, double dt,
-                                 control_commands_t *control_commands);
+void pid_fixed_height_controller(actual_state_t actual_state, const desired_state_t *desired_state, gains_pid_t gains_pid,
+                                 double dt, control_commands_t *control_commands);
 
 void motor_mixing(control_commands_t control_commands, motor_power_t *motorCommands);
 
-void pid_attitude_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid, double dt,
-                             control_commands_t *control_commands);
+void pid_attitude_controller(actual_state_t actual_state, const desired_state_t *desired_state, gains_pid_t gains_pid,
+                             double dt, control_commands_t *control_commands);
 
 void pid_horizontal_velocity_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
                                         double dt);

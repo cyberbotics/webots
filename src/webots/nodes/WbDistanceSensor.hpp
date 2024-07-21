@@ -42,7 +42,7 @@ public:
   explicit WbDistanceSensor(WbTokenizer *tokenizer = NULL);
   WbDistanceSensor(const WbDistanceSensor &other);
   explicit WbDistanceSensor(const WbNode &other);
-  virtual ~WbDistanceSensor();
+  virtual ~WbDistanceSensor() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DISTANCE_SENSOR; }

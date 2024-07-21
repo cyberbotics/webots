@@ -56,7 +56,7 @@ namespace wren {
 
   protected:
     PositionalLight();
-    virtual ~PositionalLight() {}
+    virtual ~PositionalLight() override {}
 
   private:
     mutable bool mIsPositionDirty;

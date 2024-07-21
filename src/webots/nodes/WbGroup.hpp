@@ -30,7 +30,7 @@ public:
   explicit WbGroup(WbTokenizer *tokenizer = NULL);
   WbGroup(const WbGroup &other);
   explicit WbGroup(const WbNode &other);
-  virtual ~WbGroup();
+  virtual ~WbGroup() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_GROUP; }

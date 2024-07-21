@@ -89,7 +89,7 @@ static void load_motion_list() {
   const char *motion_dir = "../../motions";
   DIR *d = opendir(motion_dir);
   if (d) {
-    struct dirent *dir;
+    const struct dirent *dir;
     struct Motion *current_motion = NULL;
     while ((dir = readdir(d)) != NULL) {
       const char *name = dir->d_name;

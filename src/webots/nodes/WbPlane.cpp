@@ -238,7 +238,7 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbPose *pose = upperPose();
+  const WbPose *pose = upperPose();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal

@@ -34,7 +34,7 @@ public:
   bool enableSensor(int timestep);
 
 protected:
-  RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices = true);
+  RosSensor(const std::string &deviceName, Device *device, Ros *ros, bool enableDefaultServices = true);
 
   virtual ros::Publisher createPublisher() = 0;
   virtual void publishValue(ros::Publisher publisher) = 0;

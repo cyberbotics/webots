@@ -23,7 +23,7 @@ class WbBrake : public WbJointDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbBrake() {}
+  virtual ~WbBrake() override {}
   explicit WbBrake(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbBrake(WbTokenizer *tokenizer = NULL);
   WbBrake(const WbBrake &other);

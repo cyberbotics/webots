@@ -82,7 +82,7 @@ namespace wren {
 
   protected:
     StaticMesh();
-    virtual ~StaticMesh() {}
+    virtual ~StaticMesh() override {}
 
   private:
     void computeTrianglesAndEdges();

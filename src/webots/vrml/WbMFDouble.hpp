@@ -36,7 +36,7 @@ public:
 
   WbMFDouble(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFDouble(const WbMFDouble &other) : mVector(other.mVector) {}
-  virtual ~WbMFDouble() {}
+  virtual ~WbMFDouble() override {}
   WbValue *clone() const override { return new WbMFDouble(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

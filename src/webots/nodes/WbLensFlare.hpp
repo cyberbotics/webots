@@ -32,7 +32,7 @@ public:
   explicit WbLensFlare(WbTokenizer *tokenizer = NULL);
   WbLensFlare(const WbLensFlare &other);
   explicit WbLensFlare(const WbNode &other);
-  virtual ~WbLensFlare();
+  virtual ~WbLensFlare() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_LENS; }

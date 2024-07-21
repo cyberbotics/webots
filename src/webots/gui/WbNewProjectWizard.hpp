@@ -29,7 +29,7 @@ class WbNewProjectWizard : public WbNewWorldWizard {
 
 public:
   explicit WbNewProjectWizard(QWidget *parent = NULL);
-  virtual ~WbNewProjectWizard();
+  virtual ~WbNewProjectWizard() override;
 
   void accept() override;
   bool validateCurrentPage() override;

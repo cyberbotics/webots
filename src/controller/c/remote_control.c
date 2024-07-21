@@ -307,6 +307,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
             }
             break;
           case WB_NODE_RADIO:
+            // cppcheck-suppress incorrectStringBooleanError
             ROBOT_ASSERT(!"radio unimplemented");
             break;
           default:
@@ -318,6 +319,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       handleRobotMessage(r, c);
       break;
     case WB_NODE_CONNECTOR:
+      // cppcheck-suppress incorrectStringBooleanError
       ROBOT_ASSERT(!"connector unimplemented");
       break;
     case WB_NODE_DISPLAY:
@@ -347,7 +349,9 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       break;
     case WB_NODE_ROTATIONAL_MOTOR:
     case WB_NODE_LINEAR_MOTOR:
+      // cppcheck-suppress incorrectStringBooleanError
       REQUEST_ASSERT(!"Impossible fallback", tag, type, c);
+      break;
     default:
       REQUEST_ASSERT(0, tag, type, c);
   }

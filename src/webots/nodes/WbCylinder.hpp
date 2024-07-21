@@ -28,7 +28,7 @@ public:
   explicit WbCylinder(WbTokenizer *tokenizer = NULL);
   WbCylinder(const WbCylinder &other);
   explicit WbCylinder(const WbNode &other);
-  virtual ~WbCylinder();
+  virtual ~WbCylinder() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CYLINDER; }

@@ -31,7 +31,7 @@ public:
   WbSFRotation(WbTokenizer *tokenizer, const QString &worldPath) { readSFRotation(tokenizer, worldPath); }
   WbSFRotation(const WbSFRotation &other) : mValue(other.mValue) {}
   explicit WbSFRotation(const WbRotation &r) : mValue(r) {}
-  virtual ~WbSFRotation() {}
+  virtual ~WbSFRotation() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFRotation(tokenizer, worldPath); }
   void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);

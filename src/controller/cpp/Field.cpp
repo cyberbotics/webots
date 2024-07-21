@@ -171,7 +171,7 @@ void Field::setSFRotation(const double values[4]) {
   wb_supervisor_field_set_sf_rotation(fieldRef, values);
 }
 
-void Field::setSFColor(const double values[4]) {
+void Field::setSFColor(const double values[3]) {
   wb_supervisor_field_set_sf_color(fieldRef, values);
 }
 

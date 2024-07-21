@@ -148,7 +148,7 @@ namespace WbContextMenuGenerator {
 
           if (!suitableTransformToModels.isEmpty()) {
             foreach (const QString &model, suitableTransformToModels) {
-              QAction *action = subMenu->addAction(model);
+              const QAction *action = subMenu->addAction(model);
               QObject::connect(action, &QAction::triggered, WbActionManager::instance(),
                                &WbActionManager::forwardTransformToActionToSceneTree);
             }

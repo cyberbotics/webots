@@ -73,7 +73,7 @@ static void light_sensor_read_answer(WbDevice *d, WbRequest *r) {
 int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  LightSensor *dev = light_sensor_get_struct(tag);
+  const LightSensor *dev = light_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
@@ -152,7 +152,7 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_light_sensor_disable(WbDeviceTag tag) {
-  LightSensor *ls = light_sensor_get_struct(tag);
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls)
     wb_light_sensor_enable(tag, 0);
   else
@@ -162,7 +162,7 @@ void wb_light_sensor_disable(WbDeviceTag tag) {
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  LightSensor *ls = light_sensor_get_struct(tag);
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls)
     sampling_period = ls->sampling_period;
   else
@@ -174,7 +174,7 @@ int wb_light_sensor_get_sampling_period(WbDeviceTag tag) {
 double wb_light_sensor_get_value(WbDeviceTag tag) {
   double value = NAN;
   robot_mutex_lock();
-  LightSensor *ls = light_sensor_get_struct(tag);
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls) {
     if (ls->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_light_sensor_enable().\n", __FUNCTION__);

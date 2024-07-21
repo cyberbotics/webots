@@ -33,10 +33,6 @@ WbBallJointParameters::WbBallJointParameters(const WbNode &other) : WbJointParam
 WbBallJointParameters::~WbBallJointParameters() {
 }
 
-void WbBallJointParameters::preFinalize() {
-  WbJointParameters::preFinalize();
-}
-
 void WbBallJointParameters::postFinalize() {
   WbJointParameters::postFinalize();
 

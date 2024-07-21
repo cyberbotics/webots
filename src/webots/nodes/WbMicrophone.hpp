@@ -28,7 +28,7 @@ public:
   explicit WbMicrophone(WbTokenizer *tokenizer = NULL);
   WbMicrophone(const WbMicrophone &other);
   explicit WbMicrophone(const WbNode &other);
-  virtual ~WbMicrophone();
+  virtual ~WbMicrophone() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MICROPHONE; }

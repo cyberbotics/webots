@@ -155,7 +155,7 @@ void WbParser::parseFieldAcceptedValues(WbFieldType type, const QString &worldPa
 }
 
 void WbParser::parseFieldDeclaration(const QString &worldPath) {
-  WbToken *const token = nextToken();
+  const WbToken *const token = nextToken();
   if (token->word() != "field" && token->word() != "w3dField" && token->word() != "hiddenField" &&
       token->word() != "deprecatedField" && token->word() != "unconnectedField")
     reportUnexpected(QObject::tr("'field', 'unconnectedField', 'w3dField' or 'hiddenField' keywords"));
@@ -274,7 +274,7 @@ void WbParser::parseEof() {
 }
 
 const QString &WbParser::parseIdentifier(const QString &expected) {
-  WbToken *token = nextToken();
+  const WbToken *token = nextToken();
 
   if (!token->isIdentifier())
     reportUnexpected(expected);

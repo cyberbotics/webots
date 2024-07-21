@@ -335,7 +335,7 @@ void WbVirtualRealityHeadset::createWrenObjects(WrTransform *node, bool antiAlia
 
     connect(mTimer, &QTimer::timeout, this, &WbVirtualRealityHeadset::renderRequired);
 
-    WbSimulationState *simulationState = WbSimulationState::instance();
+    const WbSimulationState *simulationState = WbSimulationState::instance();
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbVirtualRealityHeadset::updateTimer);
     if (simulationState->isPaused() || simulationState->isStep())
       mTimer->start(1000.0 / WbWorld::instance()->worldInfo()->fps());
@@ -419,7 +419,7 @@ void WbVirtualRealityHeadset::updateOrientationAndPosition() {
 }
 
 void WbVirtualRealityHeadset::updateTimer() {
-  WbSimulationState *simulationState = WbSimulationState::instance();
+  const WbSimulationState *simulationState = WbSimulationState::instance();
   if (simulationState->isPaused() || simulationState->isStep())
     mTimer->start(1000.0 / WbWorld::instance()->worldInfo()->fps());
   else

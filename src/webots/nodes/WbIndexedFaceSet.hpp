@@ -30,7 +30,7 @@ public:
   explicit WbIndexedFaceSet(WbTokenizer *tokenizer = NULL);
   WbIndexedFaceSet(const WbIndexedFaceSet &other);
   explicit WbIndexedFaceSet(const WbNode &other);
-  virtual ~WbIndexedFaceSet();
+  virtual ~WbIndexedFaceSet() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_INDEXED_FACE_SET; }

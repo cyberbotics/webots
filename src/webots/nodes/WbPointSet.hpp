@@ -30,7 +30,7 @@ public:
   explicit WbPointSet(WbTokenizer *tokenizer = NULL);
   WbPointSet(const WbPointSet &other);
   explicit WbPointSet(const WbNode &other);
-  virtual ~WbPointSet();
+  virtual ~WbPointSet() override;
 
   // field accessors
   WbCoordinate *coord() const;

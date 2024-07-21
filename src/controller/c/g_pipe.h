@@ -46,7 +46,7 @@ GPipe *g_pipe_new(const char *);  // named pipe on Windows, UNIX domain socket o
 void g_pipe_delete(GPipe *);
 void g_pipe_send(GPipe *, const char *data, int size);
 int g_pipe_receive(GPipe *, char *data, int size);
-size_t g_pipe_get_handle(GPipe *);
+size_t g_pipe_get_handle(const GPipe *);
 
 #ifdef __cplusplus
 }

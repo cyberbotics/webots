@@ -113,6 +113,7 @@ QWizardPage *WbNewPhysicsPluginWizard::createIntroPage() {
 
   page->setTitle(tr("New physics plugin creation"));
 
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(tr("This wizard will help you creating a new physics plugin."), page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);

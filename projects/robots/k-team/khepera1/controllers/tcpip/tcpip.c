@@ -85,7 +85,7 @@ static int accept_client(int server_fd) {
 #else
   int asize;
 #endif
-  struct hostent *client_info;
+  const struct hostent *client_info;
 
   asize = sizeof(struct sockaddr_in);
 

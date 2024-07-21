@@ -157,7 +157,7 @@ public:
   static WbNode *findNodeFromSubNodeIndex(int index, WbNode *root);
   // find descendant node from a list of parent indices
   // indices are listed from the ancestor parent node (position 0) to the searched node index (position indices.size()-1)
-  static WbNode *findNodeFromSubNodeIndices(QList<int> indices, WbNode *root);
+  static WbNode *findNodeFromSubNodeIndices(const QList<int> &indices, WbNode *root);
 
   // PROTO
   static WbNode *createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath);
@@ -170,7 +170,7 @@ public:
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
   const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
-  QList<WbField *> parameters() const { return mParameters; }
+  const QList<WbField *> &parameters() const { return mParameters; }
   void setProtoInstanceTemplateContent(const QByteArray &content) { mProtoInstanceTemplateContent = content; }
   // pass argument if we know that a PROTO ancestor exists, otherwise if hasAProtoAncestorFlag is FALSE it will be computed
   void updateNestedProtoFlag(bool hasAProtoAncestorFlag = false);
@@ -180,7 +180,7 @@ public:
   // is a parameter node contained in a PROTO instance
   bool isProtoParameterNode() const;
   // return the node instances redirected to this PROTO parameter node
-  QList<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
+  const QList<WbNode *> &protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
   // connect nested PROTO parameters
@@ -202,7 +202,7 @@ public:
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
-  QList<WbField *> fields() const { return mFields; }
+  const QList<WbField *> &fields() const { return mFields; }
   const QList<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
   int numFields() const { return fieldsOrParameters().size(); }
   WbField *field(int index, bool internal = false) const;

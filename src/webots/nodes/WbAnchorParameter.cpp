@@ -35,10 +35,6 @@ WbAnchorParameter::WbAnchorParameter(const WbNode &other) : WbBaseNode(other) {
 WbAnchorParameter::~WbAnchorParameter() {
 }
 
-void WbAnchorParameter::preFinalize() {
-  WbBaseNode::preFinalize();
-}
-
 void WbAnchorParameter::postFinalize() {
   WbBaseNode::postFinalize();
   connect(mAnchor, &WbSFVector3::changed, this, &WbAnchorParameter::anchorChanged);

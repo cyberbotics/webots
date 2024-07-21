@@ -49,7 +49,7 @@ public:
   explicit WbRobot(WbTokenizer *tokenizer = NULL);
   WbRobot(const WbRobot &other);
   explicit WbRobot(const WbNode &other);
-  virtual ~WbRobot();
+  virtual ~WbRobot() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ROBOT; }
@@ -99,7 +99,7 @@ public:
   WbDevice *device(int index) const { return mDevices[index]; }
   WbDevice *findDevice(WbDeviceTag tag) const;
   void descendantNodeInserted(WbBaseNode *decendant) override;
-  QList<WbRenderingDevice *> renderingDevices() { return mRenderingDevices; }
+  const QList<WbRenderingDevice *> &renderingDevices() { return mRenderingDevices; }
 
   // update sensors in case of no answer needs to be written at this step
   virtual void updateSensors();

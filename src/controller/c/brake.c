@@ -115,7 +115,7 @@ void wb_brake_set_damping_constant(WbDeviceTag tag, double damping_constant) {
     return;
   }
 
-  Brake *b = brake_get_struct(tag);
+  const Brake *b = brake_get_struct(tag);
   if (!b) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -129,7 +129,7 @@ void wb_brake_set_damping_constant(WbDeviceTag tag, double damping_constant) {
 WbJointType wb_brake_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
   robot_mutex_lock();
-  Brake *b = brake_get_struct(tag);
+  const Brake *b = brake_get_struct(tag);
   if (b)
     type = b->type;
   else

@@ -128,9 +128,9 @@ bool WbSelection::isObjectMotionAllowed() const {
     return false;
 
   WbBaseNode *topNode = mSelectedAbstractPose->baseNode();
-  WbAbstractPose *topPose = NULL;
+  const WbAbstractPose *topPose = NULL;
   if (!topNode->isTopLevel()) {
-    WbSolid *solid = WbNodeUtilities::findUppermostSolid(topNode);
+    const WbSolid *solid = WbNodeUtilities::findUppermostSolid(topNode);
     if (solid)
       topPose = dynamic_cast<WbAbstractPose *>(topNode);
     else

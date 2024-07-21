@@ -84,7 +84,7 @@ namespace wren {
 
   protected:
     DynamicMesh(bool hasNormals, bool hasTextureCoordinates, bool hasColorPerVertex);
-    virtual ~DynamicMesh(){};
+    virtual ~DynamicMesh() override{};
 
   private:
     void updateGl();

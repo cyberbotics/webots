@@ -484,6 +484,7 @@ void WbProtoManager::loadWebotsProtoMap() {
             }
           }
           description = description.replace("\\n", "\n");
+          // cppcheck-suppress constVariablePointer
           WbProtoInfo *const info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType,
                                                     tags, parameters, needsRobotAncestor);
           mWebotsProtoList.insert(name, info);
@@ -628,6 +629,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
 }
 
 const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) const {
+  // cppcheck-suppress unassignedVariable
   static QMap<QString, WbProtoInfo *> empty;
 
   switch (category) {
@@ -718,7 +720,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   bool needsRobotAncestor = false;
   // establish if it requires a Robot ancestor by checking if it contains devices
   while (tokenizer.hasMoreTokens()) {
-    WbToken *token = tokenizer.nextToken();
+    const WbToken *token = tokenizer.nextToken();
     if (token->isIdentifier() && mNeedsRobotAncestorCallback(token->word())) {
       needsRobotAncestor = true;
       break;
@@ -840,14 +842,14 @@ void WbProtoManager::clearExternProtoClipboardBuffer() {
 
 QList<QString> WbProtoManager::externProtoClipboardBufferUrls() const {
   QList<QString> list;
-  foreach (WbExternProto *proto, mExternProtoClipboardBuffer)
+  foreach (const WbExternProto *proto, mExternProtoClipboardBuffer)
     list << proto->url();
   return list;
 }
 
 void WbProtoManager::resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls) {
   clearExternProtoClipboardBuffer();
-  foreach (QString url, bufferUrls)
+  foreach (const QString &url, bufferUrls)
     saveToExternProtoClipboardBuffer(url);
 }
 

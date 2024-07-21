@@ -304,6 +304,7 @@ static void radio_event_destroy(struct WebotsRadioEvent *p) {
 
 void WbRadio::receiveCallback(const struct WebotsRadioEvent *event) {
   // yvan: Radio N>2 bug was fixed here: a *deep* copy of WebotsRadioEvent is required
+  // cppcheck-suppress constVariablePointer
   struct WebotsRadioEvent *copy = radio_event_duplicate(event);
   mReceivedEvents.append(copy);
 }

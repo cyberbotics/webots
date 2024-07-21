@@ -28,7 +28,7 @@ public:
   explicit WbSphere(WbTokenizer *tokenizer = NULL);
   WbSphere(const WbSphere &other);
   explicit WbSphere(const WbNode &other);
-  virtual ~WbSphere();
+  virtual ~WbSphere() override;
 
   // field accessors
   double radius() const { return mRadius->value(); }

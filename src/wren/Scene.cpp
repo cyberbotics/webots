@@ -236,7 +236,7 @@ namespace wren {
     renderToViewports({mMainViewport}, culling);
   }
 
-  void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
+  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling) {
     assert(glstate::isInitialized());
 
     DEBUG("Notify frame listeners...");
@@ -585,10 +585,6 @@ namespace wren {
     return std::partition(first, last, [](const Renderable *r) -> bool { return !r->receiveShadows(); });
   }
 
-  Scene::RenderQueueIterator Scene::partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last) {
-    return std::partition(first, last, [](const Renderable *r) -> bool { return r->zSortedRendering(); });
-  }
-
   Scene::ShadowVolumeIterator Scene::partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last,
                                                                   LightNode *light) {
     return std::partition(first, last, [this, &light](ShadowVolumeCaster *shadowVolume) -> bool {
@@ -600,7 +596,7 @@ namespace wren {
     std::sort(first, last, [](const Renderable *a, const Renderable *b) -> bool { return a->sortingId() > b->sortingId(); });
   }
 
-  void Scene::sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) {
+  void Scene::sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) const {
     for (auto it = first; it < last; ++it)
       (*it)->recomputeBoundingSphereInViewSpace(mCurrentViewport->camera()->view());
 
@@ -670,10 +666,10 @@ namespace wren {
       const primitive::Aabb &cameraAabb = camera->aabb();
       glm::vec3 cameraToLightInv;
       if (light->type() != LightNode::TYPE_DIRECTIONAL) {
-        PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
+        const PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
         cameraToLightInv = 1.0f / glm::normalize(positionalLight->position() - camera->position());
       } else {
-        DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
+        const DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
         cameraToLightInv = 1.0f / -directionalLight->direction();
       }
 
@@ -812,7 +808,7 @@ namespace wren {
     }
   }
 
-  void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) {
+  void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const {
     glstate::setBlend(true);
     glstate::setBlendEquation(GL_FUNC_ADD);
     glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

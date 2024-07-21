@@ -105,8 +105,8 @@ WbPaintTexture::WbPaintTexture(const WbShape *shape) : mShape(shape), mEvaporati
   mTexture = wr_drawable_texture_new();
 
   // add painting layer
-  WbAppearance *appearance = shape->appearance();
-  WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+  const WbAppearance *appearance = shape->appearance();
+  const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
   if (appearance && appearance->texture() && appearance->texture()->wrenTexture())
     mTextureSize = computeTextureSize(appearance->texture()->width(), appearance->texture()->height());
   else if (pbrAppearance && pbrAppearance->baseColorMap() && pbrAppearance->baseColorMap()->wrenTexture())
@@ -156,7 +156,7 @@ WbPaintTexture::~WbPaintTexture() {
 }
 
 void WbPaintTexture::prePhysicsStep(double ms) {
-  WbWorldInfo *wi = WbWorld::instance()->worldInfo();
+  const WbWorldInfo *wi = WbWorld::instance()->worldInfo();
   double ie = wi->inkEvaporation();
 
   if (ie) {

@@ -109,7 +109,7 @@ void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
     texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
-    foreach (QString warning, mTriangleMesh->warnings())
+    foreach (const QString &warning, mTriangleMesh->warnings())
       parsingWarn(warning);
 
     if (!mTriangleMeshError.isEmpty())

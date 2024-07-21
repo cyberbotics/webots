@@ -139,7 +139,7 @@ namespace WbNodeUtilities {
   bool isSelected(const WbNode *node);
 
   // is this node or a WbMatter ancestor of the current node locked
-  bool isNodeOrAncestorLocked(WbNode *node);
+  bool isNodeOrAncestorLocked(const WbNode *node);
 
   // tests node types
   bool isGeometryTypeName(const QString &modelName);

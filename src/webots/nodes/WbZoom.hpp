@@ -25,7 +25,7 @@ public:
   explicit WbZoom(WbTokenizer *tokenizer = NULL);
   WbZoom(const WbZoom &other);
   explicit WbZoom(const WbNode &other);
-  virtual ~WbZoom();
+  virtual ~WbZoom() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ZOOM; }

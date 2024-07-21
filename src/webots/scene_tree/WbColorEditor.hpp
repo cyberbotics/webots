@@ -31,7 +31,7 @@ class WbColorEditor : public WbValueEditor {
 
 public:
   explicit WbColorEditor(QWidget *parent = NULL);
-  virtual ~WbColorEditor();
+  virtual ~WbColorEditor() override;
 
   void recursiveBlockSignals(bool block) override;
 

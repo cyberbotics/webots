@@ -53,6 +53,7 @@ WbWrenVertexArrayFrameListener::~WbWrenVertexArrayFrameListener() {
     wr_scene_remove_frame_listener(wr_scene_get_instance(), &processEvent);
 }
 
+// cppcheck-suppress constParameterPointer
 void WbWrenVertexArrayFrameListener::subscribeTrack(WbTrack *track) {
   if (mTrackList.contains(track))
     return;
@@ -60,6 +61,7 @@ void WbWrenVertexArrayFrameListener::subscribeTrack(WbTrack *track) {
   updateListening();
 }
 
+// cppcheck-suppress constParameterPointer
 void WbWrenVertexArrayFrameListener::subscribeMuscle(WbMuscle *muscle) {
   if (mMuscleList.contains(muscle))
     return;
@@ -67,11 +69,13 @@ void WbWrenVertexArrayFrameListener::subscribeMuscle(WbMuscle *muscle) {
   updateListening();
 }
 
+// cppcheck-suppress constParameterPointer
 void WbWrenVertexArrayFrameListener::unsubscribeTrack(WbTrack *track) {
   mTrackList.removeAll(track);
   updateListening();
 }
 
+// cppcheck-suppress constParameterPointer
 void WbWrenVertexArrayFrameListener::unsubscribeMuscle(WbMuscle *muscle) {
   mMuscleList.removeAll(muscle);
   updateListening();

@@ -107,7 +107,7 @@ WbTextureTransform *WbAbstractAppearance::textureTransform() const {
 }
 
 WbVector2 WbAbstractAppearance::transformUVCoordinate(const WbVector2 &uv) const {
-  WbTextureTransform *tt = textureTransform();
+  const WbTextureTransform *tt = textureTransform();
   if (tt)
     return tt->transformUVCoordinate(uv);
   return uv;

@@ -34,7 +34,7 @@ public:
   explicit WbTrackWheel(WbTokenizer *tokenizer = NULL);
   WbTrackWheel(const WbTrackWheel &other);
   explicit WbTrackWheel(const WbNode &other);
-  virtual ~WbTrackWheel();
+  virtual ~WbTrackWheel() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_TRACK_WHEEL; }

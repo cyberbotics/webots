@@ -60,7 +60,7 @@ public:
   bool centralWidgetVisible() const { return mCentralWidgetVisible; }
 
   // splitter state of the simulation view
-  void setSimulationViewState(QList<QByteArray> state);
+  void setSimulationViewState(const QList<QByteArray> &state);
   QList<QByteArray> simulationViewState() const;
 
   // index of the selected tab in the text editor
@@ -73,7 +73,7 @@ public:
 
   // list of opened files in the text editor
   void setFilesList(const QStringList &list) { mFilesList = list; }
-  QStringList filesList() const { return mFilesList; }
+  const QStringList &filesList() const { return mFilesList; }
 
   void setRobotWindowNodeNames(const QStringList &robotWindowNodeNames) { mRobotWindowNodeNames = robotWindowNodeNames; }
   const QStringList &enabledRobotWindowNodeNames() const { return mRobotWindowNodeNames; }
@@ -104,7 +104,7 @@ public:
   void setUserInteractionDisabled(WbAction::WbActionKind action, bool disabled) {
     mDisabledUserInteractionsMap[action] = disabled;
   }
-  QMap<WbAction::WbActionKind, bool> disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
+  const QMap<WbAction::WbActionKind, bool> &disabledUserInteractionsMap() const { return mDisabledUserInteractionsMap; }
   bool isUserInteractionDisabled(WbAction::WbActionKind action) const {
     return mDisabledUserInteractionsMap.value(action, false);
   }

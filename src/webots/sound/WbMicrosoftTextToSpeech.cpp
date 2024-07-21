@@ -40,11 +40,11 @@ WbMicrosoftTextToSpeech::WbMicrosoftTextToSpeech() {
     gError = "Failed to initialize Microsoft COM.";
     return;
   }
-  if (FAILED(CoCreateInstance(CLSID_SpStream, NULL, CLSCTX_ALL, __uuidof(ISpStream), (void **)&gStream))) {
+  if (FAILED(CoCreateInstance(CLSID_SpStream, NULL, CLSCTX_ALL, __uuidof(ISpStream), reinterpret_cast<LPVOID *>(&gStream)))) {
     gError = "Failed to create COM instance for Stream.";
     return;
   }
-  if (FAILED(CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&gVoice))) {
+  if (FAILED(CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<LPVOID *>(&gVoice)))) {
     gError = "Failed to create COM instance for Voice.";
     return;
   }

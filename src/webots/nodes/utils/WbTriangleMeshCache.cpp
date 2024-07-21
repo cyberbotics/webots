@@ -44,11 +44,11 @@ namespace WbTriangleMeshCache {
   TriangleMeshGeometryKey::TriangleMeshGeometryKey() {
     mHash = 0;
   }
-  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) {
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     set(triangleMeshGeometry);
   }
 
-  void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
+  void TriangleMeshGeometryKey::set(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     mHash = triangleMeshGeometry->computeHash();
   }
 
