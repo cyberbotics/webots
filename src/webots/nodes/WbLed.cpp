@@ -50,10 +50,6 @@ WbLed::~WbLed() {
   clearMaterialsAndLights();
 }
 
-void WbLed::preFinalize() {
-  WbSolidDevice::preFinalize();
-}
-
 void WbLed::postFinalize() {
   WbSolidDevice::postFinalize();
 
@@ -109,12 +105,14 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
 
   for (int i = 0; i < size; ++i) {
     WbBaseNode *const n = group->child(i);
+    // cppcheck-suppress constVariablePointer
     WbLight *lightChild = dynamic_cast<WbLight *>(n);
     WbGroup *groupChild = dynamic_cast<WbGroup *>(n);
 
     if (n->nodeType() == WB_NODE_SHAPE) {
-      WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
+      const WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
       if (appearance) {
+        // cppcheck-suppress constVariablePointer
         WbMaterial *material = appearance->material();
         if (material)
           mMaterials.append(material);

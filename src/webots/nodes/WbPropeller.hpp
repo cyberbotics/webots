@@ -37,7 +37,7 @@ public:
   explicit WbPropeller(WbTokenizer *tokenizer = NULL);
   WbPropeller(const WbPropeller &other);
   explicit WbPropeller(const WbNode &other);
-  virtual ~WbPropeller();
+  virtual ~WbPropeller() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PROPELLER; }

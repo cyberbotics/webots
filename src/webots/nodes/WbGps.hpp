@@ -30,7 +30,7 @@ public:
   explicit WbGps(WbTokenizer *tokenizer = NULL);
   WbGps(const WbGps &other);
   explicit WbGps(const WbNode &other);
-  virtual ~WbGps();
+  virtual ~WbGps() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_GPS; }

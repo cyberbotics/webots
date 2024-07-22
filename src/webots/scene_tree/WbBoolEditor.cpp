@@ -91,12 +91,12 @@ void WbBoolEditor::apply() {
   mBool = field()->hasRestrictedValues() ? mComboBox->currentText() == "TRUE" : mCheckBox->checkState();
 
   if (singleValue()) {
-    WbSFBool *const sfBool = static_cast<WbSFBool *>(singleValue());
+    const WbSFBool *const sfBool = static_cast<WbSFBool *>(singleValue());
     if (sfBool->value() == mBool)
       return;
     mPreviousValue->setBool(sfBool->value());
   } else if (multipleValue()) {
-    WbMFBool *const mfBool = static_cast<WbMFBool *>(multipleValue());
+    const WbMFBool *const mfBool = static_cast<WbMFBool *>(multipleValue());
     if (mfBool->item(index()) == mBool)
       return;
     mPreviousValue->setBool(mfBool->item(index()));

@@ -148,7 +148,7 @@ void wb_radar_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_radar_disable(WbDeviceTag tag) {
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     wb_radar_enable(tag, 0);
   else
@@ -158,7 +158,7 @@ void wb_radar_disable(WbDeviceTag tag) {
 int wb_radar_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     sampling_period = radar->sampling_period;
   else
@@ -170,7 +170,7 @@ int wb_radar_get_sampling_period(WbDeviceTag tag) {
 int wb_radar_get_number_of_targets(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
@@ -184,7 +184,7 @@ int wb_radar_get_number_of_targets(WbDeviceTag tag) {
 const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
   const WbRadarTarget *result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_radar_enable().\n", __FUNCTION__);
@@ -198,7 +198,7 @@ const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
 double wb_radar_get_min_range(WbDeviceTag tag) {
   double result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->min_range;
   else
@@ -210,7 +210,7 @@ double wb_radar_get_min_range(WbDeviceTag tag) {
 double wb_radar_get_max_range(WbDeviceTag tag) {
   double result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->max_range;
   else
@@ -222,7 +222,7 @@ double wb_radar_get_max_range(WbDeviceTag tag) {
 double wb_radar_get_horizontal_fov(WbDeviceTag tag) {
   double result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->horizontal_fov;
   else
@@ -234,7 +234,7 @@ double wb_radar_get_horizontal_fov(WbDeviceTag tag) {
 double wb_radar_get_vertical_fov(WbDeviceTag tag) {
   double result = 0;
   robot_mutex_lock();
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->vertical_fov;
   else
@@ -244,7 +244,7 @@ double wb_radar_get_vertical_fov(WbDeviceTag tag) {
 }
 
 const WbRadarTarget *wb_radar_get_target(WbDeviceTag tag, int index) {
-  Radar *radar = radar_get_struct(tag);
+  const Radar *radar = radar_get_struct(tag);
   if (radar)
     return (wb_radar_get_targets(tag) + index);
 

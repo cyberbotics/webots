@@ -7,7 +7,7 @@ using namespace webotsQtUtils;
 Motor::Motor(WbDeviceTag tag) : Device(tag) {
 }
 
-void Motor::enable(bool enable) {
+void Motor::enable(bool enable) const {
   if (wb_motor_get_type(mTag) == WB_ROTATIONAL) {
     if (enable)
       wb_motor_enable_torque_feedback(mTag, static_cast<int>(wb_robot_get_basic_time_step()));
@@ -47,6 +47,6 @@ double Motor::targetPosition() const {
   return wb_motor_get_target_position(mTag);
 }
 
-void Motor::setPosition(double position) {
+void Motor::setPosition(double position) const {
   wb_motor_set_position(mTag, position);
 }

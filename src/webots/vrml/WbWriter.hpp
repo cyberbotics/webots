@@ -54,7 +54,7 @@ public:
   void writeFieldStart(const QString &name, bool w3dQuote);
   void writeFieldEnd(bool w3dQuote);
 
-  WbVector3 jointOffset() const { return mJointOffset; }
+  const WbVector3 &jointOffset() const { return mJointOffset; }
   void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
 
   // change current indentation
@@ -73,7 +73,7 @@ public:
   void trackDeclaration(const QString &protoName, const QString &protoUrl) {
     mTrackedDeclarations.append(std::pair<QString, QString>(protoName, protoUrl));
   };
-  QList<std::pair<QString, QString>> declarations() const { return mTrackedDeclarations; };
+  const QList<std::pair<QString, QString>> &declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);

@@ -49,7 +49,7 @@ public:
   void removeTransition(Transition *t);
   void removeTransitionAt(int i);
   void removeAllTransitions();
-  QList<Transition *> transitions() const { return mTransition; }
+  const QList<Transition *> &transitions() const { return mTransition; }
 
   void fromString(const QString &string);
   void fromStringVersion3(const QString &string);  // backward compatibility code

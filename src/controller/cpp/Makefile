@@ -130,11 +130,11 @@ $(TARGET): $(BUILD_GOAL_DIR)/x86_64/libCppController.dylib $(BUILD_GOAL_DIR)/arm
 
 $(BUILD_GOAL_DIR)/x86_64/libCppController.dylib: $(X86_64_OBJECTS)
 	@echo "# linking" $@ "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 $(LDFLAGS) $(X86_64_OBJECTS) $(SHAREDLIBS) -o "$@"
+	@$(CXX) -target x86_64-apple-macos12 $(LDFLAGS) $(X86_64_OBJECTS) $(SHAREDLIBS) -o "$@"
 
 $(BUILD_GOAL_DIR)/arm64/libCppController.dylib: $(ARM64_OBJECTS)
 	@echo "# linking" $@ "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 $(LDFLAGS) $(ARM64_OBJECTS) $(SHAREDLIBS) -o "$@"
+	@$(CXX) -target arm64-apple-macos12 $(LDFLAGS) $(ARM64_OBJECTS) $(SHAREDLIBS) -o "$@"
 
 else
 
@@ -154,11 +154,11 @@ $(OBJDIR)/%.o:%.cpp
 
 $(OBJDIR)/arm64/%.o:%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
+	@$(CXX) -target arm64-apple-macos12 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
 
 $(OBJDIR)/x86_64/%.o:%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
+	@$(CXX) -target x86_64-apple-macos12 $(CPPFLAGS) $(CPPINCLUDES) -o $@ $<
 
 # dependency rule
 $(OBJDIR)/%.d:%.cpp

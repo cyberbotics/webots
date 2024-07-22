@@ -31,7 +31,7 @@ public:
   // Constructor and destructor
   WbSpotLightRepresentation(WrTransform *parent, const WbVector3 &position, float radius, float cutOffAngle,
                             const WbVector3 &direction);
-  ~WbSpotLightRepresentation();
+  ~WbSpotLightRepresentation() override;
 
   // Setters
   void setRadius(float radius) {

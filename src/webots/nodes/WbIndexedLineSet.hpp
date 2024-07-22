@@ -29,7 +29,7 @@ public:
   explicit WbIndexedLineSet(WbTokenizer *tokenizer = NULL);
   WbIndexedLineSet(const WbIndexedLineSet &other);
   explicit WbIndexedLineSet(const WbNode &other);
-  virtual ~WbIndexedLineSet();
+  virtual ~WbIndexedLineSet() override;
 
   // field accessors
   WbCoordinate *coord() const;

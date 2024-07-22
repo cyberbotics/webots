@@ -219,7 +219,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
     // compute absolute transform of this node from all the parents
     aiMatrix4x4 transform;
-    aiNode *current = node;
+    const aiNode *current = node;
     while (current != NULL) {
       transform *= current->mTransformation;
       current = current->mParent;
@@ -286,7 +286,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
 
   if (issueWarnings) {
-    foreach (QString warning, mTriangleMesh->warnings())
+    foreach (const QString &warning, mTriangleMesh->warnings())
       warn(warning);
 
     if (!mTriangleMeshError.isEmpty())

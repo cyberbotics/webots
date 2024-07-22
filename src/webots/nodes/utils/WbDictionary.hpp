@@ -53,7 +53,7 @@ public:
   // Get node from DEF name
   WbNode *getNodeFromDEF(const QString &defName) const;
   void updateNodeDefName(WbNode *node, bool fromUseToDef);
-  void removeNodeFromDictionary(WbNode *node);
+  void removeNodeFromDictionary(const WbNode *node);
 
 private:
   static WbDictionary *cInstance;

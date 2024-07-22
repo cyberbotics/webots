@@ -643,7 +643,7 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
     return NULL;
   WbMatter *upperMatter = findUpperMatter(node);
   // in the case of slot we want to return the parent node of the first slot
-  WbSlot *slot = dynamic_cast<WbSlot *>(upperMatter);
+  const WbSlot *slot = dynamic_cast<WbSlot *>(upperMatter);
   while (slot) {
     upperMatter = findUpperMatter(upperMatter);
     slot = dynamic_cast<WbSlot *>(upperMatter);
@@ -762,7 +762,7 @@ bool WbNodeUtilities::hasADeviceDescendant(const WbNode *node, bool ignoreConnec
 }
 
 bool WbNodeUtilities::hasARobotAncestor(const WbNode *node) {
-  WbRobot *robot = findRobotAncestor(node);
+  const WbRobot *robot = findRobotAncestor(node);
 
   return robot != NULL;
 }
@@ -788,7 +788,7 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
 
   WbNode *n = const_cast<WbNode *>(node);
   while (n && !n->isWorldRoot()) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+    const WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
     if (!baseNode)
       return false;
@@ -826,7 +826,7 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
   WbNode::NodeUse nodeUse = WbNode::UNKNOWN_USE;
   if (n->isDefNode()) {
     // check if at least one of the USE node is in bounding object
-    foreach (WbNode *useNode, n->useNodes()) {
+    foreach (const WbNode *useNode, n->useNodes()) {
       nodeUse = static_cast<WbNode::NodeUse>(nodeUse | checkNodeUse(useNode));
       if (nodeUse == WbNode::BOTH_USE)
         return nodeUse;
@@ -836,7 +836,7 @@ WbNode::NodeUse WbNodeUtilities::checkNodeUse(const WbNode *n) {
   if (n->isProtoParameterNode()) {
     QVector<WbNode *> instances = n->protoParameterNodeInstances();
     // check if at least one of the instances is in bounding object
-    foreach (WbNode *instance, instances) {
+    foreach (const WbNode *instance, instances) {
       nodeUse = static_cast<WbNode::NodeUse>(nodeUse | checkNodeUse(instance));
       if (nodeUse == WbNode::BOTH_USE)
         return nodeUse;
@@ -1117,6 +1117,8 @@ QList<WbSolid *> WbNodeUtilities::findSolidDescendants(WbNode *node) {
   return solidsList;
 }
 
+// cppcheck-suppress constParameterPointer
+// cppcheck-suppress constParameterReference
 QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive) {
   QList<WbNode *> result;
   QList<WbNode *> queue;
@@ -1132,7 +1134,7 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
         continue;
     }
 
-    WbGroup *const group = dynamic_cast<WbGroup *>(n);
+    const WbGroup *const group = dynamic_cast<WbGroup *>(n);
     if (group) {
       int childCount = group->childCount();
       for (int i = 0; i < childCount; ++i)
@@ -1142,6 +1144,7 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
 
     const WbSlot *const slot = dynamic_cast<WbSlot *>(n);
     if (slot) {
+      // cppcheck-suppress constVariablePointer
       WbNode *baseEndPoint = slot->endPoint();
       if (baseEndPoint && (!slot->solidReferenceEndPoint() || !visited.contains(baseEndPoint)))
         queue.append(baseEndPoint);
@@ -1150,6 +1153,7 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
 
     const WbBasicJoint *const joint = dynamic_cast<WbBasicJoint *>(n);
     if (joint) {
+      // cppcheck-suppress constVariablePointer
       WbSolid *endPoint = joint->solidEndPoint();
       if (endPoint && (!joint->solidReference() || !visited.contains(endPoint)))
         queue.append(endPoint);
@@ -1171,14 +1175,14 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   return false;
 }
 
-bool WbNodeUtilities::isNodeOrAncestorLocked(WbNode *node) {
-  WbNode *n = node;
+bool WbNodeUtilities::isNodeOrAncestorLocked(const WbNode *node) {
+  const WbNode *n = node;
   while (n && !n->isWorldRoot()) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+    const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(n);
     if (baseNode && baseNode->nodeType() == WB_NODE_BILLBOARD)
       return true;
 
-    WbMatter *matter = dynamic_cast<WbMatter *>(n);
+    const WbMatter *matter = dynamic_cast<const WbMatter *>(n);
     if (matter && matter->isLocked())
       return true;
 
@@ -1373,6 +1377,7 @@ bool WbNodeUtilities::isSlotTypeMatch(const QString &firstType, const QString &s
   return false;
 }
 
+// cppcheck-suppress constParameterPointer
 bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode, const WbNode *parentNode,
                                            bool isInBoundingObject) {
   if (newNode == NULL || field == NULL || parentNode == NULL)
@@ -1401,7 +1406,7 @@ bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode
         QString errorMessage;
         if (parentSlot && lowerSlot)
           errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node, because a trio of slot is not allowed.");
-        else if (!parentSlot && !lowerSlot && slot->endPoint())
+        else if (!parentSlot && !lowerSlot)
           errorMessage =
             QObject::tr("Cannot insert %1 node in '%2' field of %3 node: only a slot can be added in the parent slot.");
 
@@ -1415,7 +1420,7 @@ bool WbNodeUtilities::validateInsertedNode(WbField *field, const WbNode *newNode
           lowerSlot->validate(internalParentNode, internalField, isInBoundingObject);
         else if (dynamic_cast<const WbSlot *>(internalParentNode)) {
           // upper slot
-          WbField *internalParentField = internalParentNode->parentField(true);
+          const WbField *internalParentField = internalParentNode->parentField(true);
           internalParentNode = internalParentNode->parentNode();
           newNode->validate(internalParentNode, internalParentField, isInBoundingObject);
         } else  // invalid structure

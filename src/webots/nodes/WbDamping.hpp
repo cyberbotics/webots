@@ -26,7 +26,7 @@ public:
   explicit WbDamping(WbTokenizer *tokenizer = NULL);
   WbDamping(const WbDamping &other);
   explicit WbDamping(const WbNode &other);
-  virtual ~WbDamping();
+  virtual ~WbDamping() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DAMPING; }

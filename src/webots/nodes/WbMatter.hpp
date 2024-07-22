@@ -31,7 +31,7 @@ class WbMatter : public WbPose {
 
 public:
   // constructors and destructor
-  virtual ~WbMatter();
+  virtual ~WbMatter() override;
 
   // reimplemented public functions
   void createWrenObjects() override;

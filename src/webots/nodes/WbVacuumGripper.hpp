@@ -28,7 +28,7 @@ public:
   explicit WbVacuumGripper(WbTokenizer *tokenizer = NULL);
   WbVacuumGripper(const WbVacuumGripper &other);
   explicit WbVacuumGripper(const WbNode &other);
-  virtual ~WbVacuumGripper();
+  virtual ~WbVacuumGripper() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_VACUUM_GRIPPER; }

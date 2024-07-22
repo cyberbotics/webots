@@ -134,7 +134,7 @@ void WbWrenFullScreenOverlay::setupTexture(const QString &text, int fontSize) {
   wr_texture_set_translucent(WR_TEXTURE(mTexture), false);
   wr_texture_setup(WR_TEXTURE(mTexture));
 
-  float white[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+  const float white[4] = {1.0f, 1.0f, 1.0f, 1.0f};
   wr_drawable_texture_set_color(mTexture, white);
   wr_drawable_texture_clear(mTexture);
   wr_drawable_texture_set_font(mTexture, font);

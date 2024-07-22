@@ -27,7 +27,7 @@ public:
   explicit WbCone(WbTokenizer *tokenizer = NULL);
   WbCone(const WbCone &other);
   explicit WbCone(const WbNode &other);
-  virtual ~WbCone();
+  virtual ~WbCone() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONE; }

@@ -41,8 +41,8 @@ public:
   void replace(const QString &before, const QString &after, FindFlags findFlags);
   void replaceAll(const QString &before, const QString &after, FindFlags findFlags);
 
-  static QStringList findStringList() { return cFindStringList; }
-  static QStringList replaceStringList() { return cReplaceStringList; }
+  static QStringList &findStringList() { return cFindStringList; }
+  static QStringList &replaceStringList() { return cReplaceStringList; }
   static FindFlags lastFindFlags() { return cLastFindFlags; }
 
 signals:

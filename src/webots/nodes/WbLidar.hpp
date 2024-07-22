@@ -33,7 +33,7 @@ public:
   explicit WbLidar(WbTokenizer *tokenizer = NULL);
   WbLidar(const WbLidar &other);
   explicit WbLidar(const WbNode &other);
-  virtual ~WbLidar();
+  virtual ~WbLidar() override;
 
   // reimplemented public functions
   void createOdeObjects() override;

@@ -33,7 +33,7 @@ public:
   explicit WbElevationGrid(WbTokenizer *tokenizer = NULL);
   WbElevationGrid(const WbElevationGrid &other);
   explicit WbElevationGrid(const WbNode &other);
-  virtual ~WbElevationGrid();
+  virtual ~WbElevationGrid() override;
 
   // field accessors
   // getters

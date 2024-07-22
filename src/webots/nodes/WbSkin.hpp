@@ -37,7 +37,7 @@ public:
   explicit WbSkin(WbTokenizer *tokenizer = NULL);
   WbSkin(const WbSkin &other);
   explicit WbSkin(const WbNode &other);
-  virtual ~WbSkin();
+  virtual ~WbSkin() override;
 
   WbMFNode *appearanceField() const { return mAppearanceField; }
 

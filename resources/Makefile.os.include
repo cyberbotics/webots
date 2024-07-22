@@ -72,8 +72,8 @@ endif
 
 ifeq ($(OSTYPE),darwin)
 
- SUPPORTED_SDK = 11 12
- MACOSX_MIN_SDK_VERSION = 11
+ SUPPORTED_SDK = 12 13 14
+ MACOSX_MIN_SDK_VERSION = 12
  ECHO = echo
  # cf. https://stackoverflow.com/a/30225756/2210777
  MACOSX_SDK_PATH = $(shell xcrun --sdk macosx --show-sdk-path)

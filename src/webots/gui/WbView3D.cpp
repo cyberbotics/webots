@@ -252,7 +252,7 @@ void WbView3D::onSelectionChanged(WbAbstractPose *selectedPose) {
     return;
 
   WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedPose);
-  WbViewpoint *const viewpoint = mWorld->viewpoint();
+  const WbViewpoint *const viewpoint = mWorld->viewpoint();
 
   if (selectedSolid) {
     setCheckedShowSupportPolygonAction(selectedSolid);
@@ -1087,7 +1087,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   // connect supervisor scene tree modifications to graphical updates
   const QList<WbRobot *> &robots = mWorld->robots();
-  foreach (WbRobot *const robot, robots) {
+  foreach (const WbRobot *const robot, robots) {
     if (robot->supervisor())
       connect(robot->supervisorUtilities(), &WbSupervisorUtilities::worldModified, this,
               &WbView3D::handleWorldModificationFromSupervisor);
@@ -2196,6 +2196,7 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
 #endif
                         (((event->modifiers() & Qt::ALT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::ALT));
 
+  // cppcheck-suppress constVariablePointer
   WbRobot *const currentRobot = getCurrentRobot();
   QList<WbRobot *> robotList;
   if (currentRobot)
@@ -2218,6 +2219,7 @@ void WbView3D::keyReleaseEvent(QKeyEvent *event) {
 
   // pass key event to robots
   if (mWorld) {
+    // cppcheck-suppress constVariablePointer
     WbRobot *const currentRobot = getCurrentRobot();
     QList<WbRobot *> robotList;
     if (currentRobot)

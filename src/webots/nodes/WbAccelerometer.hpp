@@ -28,7 +28,7 @@ public:
   explicit WbAccelerometer(WbTokenizer *tokenizer = NULL);
   WbAccelerometer(const WbAccelerometer &other);
   explicit WbAccelerometer(const WbNode &other);
-  virtual ~WbAccelerometer();
+  virtual ~WbAccelerometer() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ACCELEROMETER; }

@@ -43,10 +43,6 @@ WbSolidReference::WbSolidReference(const WbNode &other) : WbBaseNode(other) {
 WbSolidReference::~WbSolidReference() {
 }
 
-void WbSolidReference::preFinalize() {
-  WbBaseNode::preFinalize();
-}
-
 void WbSolidReference::postFinalize() {
   WbBaseNode::postFinalize();
   connect(mName, &WbSFString::changed, this, &WbSolidReference::changed);

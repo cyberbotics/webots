@@ -36,7 +36,7 @@ namespace wren {
 
   protected:
     TextureRtt();
-    virtual ~TextureRtt() {}
+    virtual ~TextureRtt() override {}
 
     unsigned int mGlName;
     bool mInitializeData;

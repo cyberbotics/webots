@@ -207,7 +207,7 @@ WbNode::WbNode(const WbNode &other) :
     mHasUseAncestor = true;
 
   // copy fields
-  foreach (WbField *f, other.fields()) {
+  foreach (const WbField *f, other.fields()) {
     WbField *copy = new WbField(*f, this);
     mFields.append(copy);
     connect(copy, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
@@ -215,7 +215,7 @@ WbNode::WbNode(const WbNode &other) :
 
   // copy parameters
   if (other.mProto) {
-    foreach (WbField *parameter, other.parameters()) {
+    foreach (const WbField *parameter, other.parameters()) {
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
@@ -523,7 +523,7 @@ WbField *WbNode::parentFieldAndIndex(int &index, bool internal) const {
 }
 
 WbValue *WbNode::findValue(const QString &fieldName) const {
-  foreach (WbField *const f, mFields) {
+  foreach (const WbField *const f, mFields) {
     if (fieldName == f->name())
       return f->value();
   }
@@ -682,7 +682,7 @@ void WbNode::notifyFieldChanged() {
       if (index >= 0) {
         WbNode *parent = NULL;
         // apply changes to the same field in each USE node
-        foreach (WbNode *const useNode, n->mUseNodes) {
+        foreach (const WbNode *const useNode, n->mUseNodes) {
           WbField *const subField = useNode->findSubField(index, parent);
           if (!subField || subField->type() != f->type() || subField->name() != f->name())
             continue;
@@ -722,7 +722,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
   int count = 0;
   QList<WbNode *> list(subNodes(true, true, false));
   list.prepend(const_cast<WbNode *>(this));
-  foreach (WbNode *const node, list) {
+  foreach (const WbNode *const node, list) {
     foreach (const WbField *const f, node->mFields) {
       if (f == searched)
         return count;
@@ -761,7 +761,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
     if (sfnode) {
       if (f->name() == "boundingObject")
         isInBoundingObject = true;
-      WbNode *child = sfnode->value();
+      const WbNode *child = sfnode->value();
       if (child) {
         QString errorMessage;
         if (!WbNodeFactory::instance()->validateExistingChildNode(f, child, parent, isInBoundingObject, errorMessage)) {
@@ -791,7 +791,7 @@ void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool i
       }
     } else if (mfnode) {
       for (int i = 0; i < mfnode->size(); ++i) {
-        WbNode *child = mfnode->item(i);
+        const WbNode *child = mfnode->item(i);
         QString errorMessage;
         if (!WbNodeFactory::instance()->validateExistingChildNode(f, child, parent, isInBoundingObject, errorMessage)) {
           bool emptyErrorMessage = errorMessage.isEmpty();
@@ -850,7 +850,7 @@ void WbNode::readFields(WbTokenizer *tokenizer, const QString &worldPath) {
         tokenizer->skipToken("IS");
         const QString &alias = tokenizer->nextWord();
         bool exists = false;
-        foreach (WbField *p, *(gProtoParameterList.last()->params)) {
+        foreach (const WbField *p, *(gProtoParameterList.last()->params)) {
           if (p->name() == alias) {
             exists = true;
             break;
@@ -889,7 +889,7 @@ QList<std::pair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
 }
 
 void WbNode::writeParameters(WbWriter &writer) const {
-  foreach (WbField *parameter, parameters())
+  foreach (const WbField *parameter, parameters())
     parameter->write(writer);
 }
 
@@ -966,7 +966,7 @@ void WbNode::write(WbWriter &writer) const {
   if (isProtoInstance())
     writeParameters(writer);
   else
-    foreach (WbField *f, fields())
+    foreach (const WbField *f, fields())
       if (!f->isDeprecated())
         f->write(writer);
 
@@ -1086,14 +1086,14 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
 
-  foreach (WbField *f, fields()) {
+  foreach (const WbField *f, fields()) {
     if (!f->isDeprecated() && ((f->isW3d() || writer.isProto()) && f->singleType() != WB_SF_NODE))
       f->write(writer);
   }
 }
 
 void WbNode::exportNodeSubNodes(WbWriter &writer) const {
-  foreach (WbField *f, fields()) {
+  foreach (const WbField *f, fields()) {
     if (!f->isDeprecated() && ((f->isW3d() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(f->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
@@ -1174,7 +1174,6 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer)
     const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
       const QString subProto = match.captured(1);
-      const QString url = path;
 
       const QString subProtoUrl = WbUrl::combinePaths(subProto, path);
       if (subProtoUrl.isEmpty())
@@ -1247,7 +1246,7 @@ bool WbNode::operator==(const WbNode &other) const {
 
 bool WbNode::isDefault() const {
   QList<WbField *> fieldsList = fieldsOrParameters();
-  foreach (WbField *f, fieldsList) {
+  foreach (const WbField *f, fieldsList) {
     if (!(f->isDeprecated() || f->isDefault()))
       return false;
   }
@@ -1455,7 +1454,7 @@ void WbNode::copyAliasValue(WbField *field, const QString &alias) {
   // this avoids double setup of the parameter and is particularly
   // helpful for nested PROTOs
   if (!gProtoParameterList.isEmpty()) {
-    foreach (WbField *p, *(gProtoParameterList.last()->params)) {
+    foreach (const WbField *p, *(gProtoParameterList.last()->params)) {
       if (p->name() == alias && p->type() == field->type())
         field->copyValueFrom(p);
     }
@@ -1500,7 +1499,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
       QString parameterName = tokenizer->nextWord();
-      WbFieldModel *parameterModel = NULL;
+      const WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
         static const QRegularExpression rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of
@@ -1770,7 +1769,7 @@ void WbNode::updateNestedProtoFlag(bool hasAProtoAncestorFlag) {
     return;  // flag already set
   mIsNestedProtoNode = newValue;
   const QList<WbField *> fieldList = fields() + parameters();
-  foreach (WbField *f, fieldList) {
+  foreach (const WbField *f, fieldList) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(f->value());
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(f->value());
     if (sfnode) {
@@ -1808,7 +1807,7 @@ bool WbNode::isProtoParameterChild(const WbNode *node) const {
   if (node->mProtoParameterParentNode)
     return node->mProtoParameterParentNode == this;
 
-  foreach (WbField *const p, parameters()) {
+  foreach (const WbField *const p, parameters()) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(p->value());
     if (sfnode && sfnode->value() == node) {
       node->mProtoParameterParentNode = this;
@@ -1832,7 +1831,7 @@ bool WbNode::isProtoParameterNode() const {
   if (mIsProtoParameterNode)
     return mIsProtoParameterNode[0];
   mIsProtoParameterNode = new bool[1];
-  WbNode *parent = parentNode();
+  const WbNode *parent = parentNode();
   if (!parent || parent->isWorldRoot()) {
     mIsProtoParameterNode[0] = false;
     return false;
@@ -1869,6 +1868,7 @@ QList<WbNode *> WbNode::subNodes(const WbField *field, bool recurse, bool search
   const WbValue *const value = field->value();
   const WbSFNode *const sfnode = dynamic_cast<const WbSFNode *>(value);
   if (sfnode && sfnode->value()) {
+    // cppcheck-suppress constVariablePointer
     WbNode *const node = sfnode->value();
     result.append(node);
     if (recurse)
@@ -1877,6 +1877,7 @@ QList<WbNode *> WbNode::subNodes(const WbField *field, bool recurse, bool search
     const WbMFNode *const mfnode = dynamic_cast<const WbMFNode *>(value);
     if (mfnode) {
       for (int i = 0; i < mfnode->size(); ++i) {
+        // cppcheck-suppress constVariablePointer
         WbNode *const node = mfnode->item(i);
         result.append(node);
         if (recurse)
@@ -1906,7 +1907,7 @@ bool WbNode::hasAProtoAncestor() const {
     if (currentNode->isProtoInstance())
       return true;
 
-    WbNode *ppn = currentNode->protoParameterNode();
+    const WbNode *ppn = currentNode->protoParameterNode();
     if (ppn && ppn->isProtoInstance())
       return true;
 
@@ -1966,19 +1967,19 @@ int WbNode::subNodeIndex(const WbNode *subNode, const WbNode *root) {
   int result = 0;
 
   const QList<WbField *> &fieldsList = root->fields();
-  foreach (WbField *f, fieldsList) {
-    WbValue *value = f->value();
-    WbSFNode *sfNode = dynamic_cast<WbSFNode *>(value);
+  foreach (const WbField *f, fieldsList) {
+    const WbValue *value = f->value();
+    const WbSFNode *sfNode = dynamic_cast<const WbSFNode *>(value);
     if (sfNode) {
-      WbNode *node = sfNode->value();
+      const WbNode *node = sfNode->value();
       if (node)
         subNodeIndex(node, subNode, result, subNodeFound);
     } else {
-      WbMFNode *mfNode = dynamic_cast<WbMFNode *>(value);
+      const WbMFNode *mfNode = dynamic_cast<const WbMFNode *>(value);
       if (mfNode) {
         const int n = mfNode->size();
         for (int i = 0; !subNodeFound && (i < n); ++i) {
-          WbNode *node = mfNode->item(i);
+          const WbNode *node = mfNode->item(i);
           subNodeIndex(node, subNode, result, subNodeFound);
         }
       }
@@ -2000,19 +2001,19 @@ void WbNode::subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, i
   }
 
   const QList<WbField *> &fieldsList = currentNode->fields();
-  foreach (WbField *f, fieldsList) {
-    WbValue *value = f->value();
-    WbSFNode *sfNode = dynamic_cast<WbSFNode *>(value);
+  foreach (const WbField *f, fieldsList) {
+    const WbValue *value = f->value();
+    const WbSFNode *sfNode = dynamic_cast<const WbSFNode *>(value);
     if (sfNode) {
-      WbNode *node = sfNode->value();
+      const WbNode *node = sfNode->value();
       if (node)
         subNodeIndex(node, targetNode, index, subNodeFound);
     } else {
-      WbMFNode *mfNode = dynamic_cast<WbMFNode *>(value);
+      const WbMFNode *mfNode = dynamic_cast<const WbMFNode *>(value);
       if (mfNode) {
         const int n = mfNode->size();
         for (int i = 0; !subNodeFound && (i < n); i++) {
-          WbNode *node = mfNode->item(i);
+          const WbNode *node = mfNode->item(i);
           subNodeIndex(node, targetNode, index, subNodeFound);
         }
       }
@@ -2023,7 +2024,7 @@ void WbNode::subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, i
   }
 }
 
-WbNode *WbNode::findNodeFromSubNodeIndices(QList<int> indices, WbNode *root) {
+WbNode *WbNode::findNodeFromSubNodeIndices(const QList<int> &indices, WbNode *root) {
   WbNode *n = root;
   for (int i = 0; i < indices.size() && n != NULL; ++i)
     n = findNodeFromSubNodeIndex(indices[i], n);
@@ -2035,9 +2036,9 @@ WbNode *WbNode::findNodeFromSubNodeIndex(int index, WbNode *root) {
     return root;
 
   const QList<WbField *> &fieldsList = root->fields();
-  foreach (WbField *f, fieldsList) {
-    WbValue *value = f->value();
-    WbSFNode *sfNode = dynamic_cast<WbSFNode *>(value);
+  foreach (const WbField *f, fieldsList) {
+    const WbValue *value = f->value();
+    const WbSFNode *sfNode = dynamic_cast<const WbSFNode *>(value);
     if (sfNode) {
       WbNode *node = sfNode->value();
       if (node) {
@@ -2046,7 +2047,7 @@ WbNode *WbNode::findNodeFromSubNodeIndex(int index, WbNode *root) {
           return returnNode;
       }
     } else {
-      WbMFNode *mfNode = dynamic_cast<WbMFNode *>(value);
+      const WbMFNode *mfNode = dynamic_cast<const WbMFNode *>(value);
       if (mfNode) {
         const int n = mfNode->size();
         for (int i = 0; (index > 0) && (i < n); i++) {
@@ -2069,9 +2070,9 @@ WbNode *WbNode::findNode(int &index, WbNode *root) {
     return root;
 
   const QList<WbField *> &fieldsList = root->fields();
-  foreach (WbField *f, fieldsList) {
-    WbValue *value = f->value();
-    WbSFNode *sfNode = dynamic_cast<WbSFNode *>(value);
+  foreach (const WbField *f, fieldsList) {
+    const WbValue *value = f->value();
+    const WbSFNode *sfNode = dynamic_cast<const WbSFNode *>(value);
     if (sfNode) {
       WbNode *node = sfNode->value();
       if (node) {
@@ -2080,7 +2081,7 @@ WbNode *WbNode::findNode(int &index, WbNode *root) {
           return returnNode;
       }
     } else {
-      WbMFNode *mfNode = dynamic_cast<WbMFNode *>(value);
+      const WbMFNode *mfNode = dynamic_cast<const WbMFNode *>(value);
       if (mfNode) {
         const int n = mfNode->size();
         for (int i = 0; (index > 0) && (i < n); i++) {
@@ -2096,7 +2097,7 @@ WbNode *WbNode::findNode(int &index, WbNode *root) {
 }
 
 void WbNode::disconnectFieldNotification(const WbValue *value) {
-  foreach (WbField *f, mFields) {
+  foreach (const WbField *f, mFields) {
     if (f->value() == value)
       disconnect(f, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
   }

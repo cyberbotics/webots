@@ -28,7 +28,7 @@ public:
   explicit WbImmersionProperties(WbTokenizer *tokenizer = NULL);
   WbImmersionProperties(const WbImmersionProperties &other);
   explicit WbImmersionProperties(const WbNode &other);
-  virtual ~WbImmersionProperties();
+  virtual ~WbImmersionProperties() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_IMMERSION_PROPERTIES; }

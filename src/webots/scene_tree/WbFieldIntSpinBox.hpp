@@ -28,7 +28,7 @@ class WbFieldIntSpinBox : public WbIntSpinBox {
 
 public:
   explicit WbFieldIntSpinBox(QWidget *parent = NULL);
-  virtual ~WbFieldIntSpinBox();
+  virtual ~WbFieldIntSpinBox() override;
   void stepBy(int steps) override;
   void setValueNoSignals(int value);
 

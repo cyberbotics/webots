@@ -242,7 +242,7 @@ void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
   if (writer.isWebots() || writer.isUrdf())
     return;
 
-  WbSolid *s = solidEndPoint();
+  const WbSolid *s = solidEndPoint();
   if (s)
     s->write(writer);
 }
@@ -1005,7 +1005,7 @@ void WbLidar::attachResizeManipulator() {
 
 void WbLidar::detachResizeManipulator() const {
   WbAbstractCamera::detachResizeManipulator();
-  WbSolid *s = solidEndPoint();
+  const WbSolid *s = solidEndPoint();
   if (s)
     s->detachResizeManipulator();
 }

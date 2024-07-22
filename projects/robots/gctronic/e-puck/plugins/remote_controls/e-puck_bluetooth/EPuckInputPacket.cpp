@@ -116,7 +116,7 @@ void EPuckInputPacket::decode(int simulationTime, const EPuckOutputPacket &outpu
     int mode = (int)readUCharAt(currentPos++);
     int wh1 = (int)readUCharAt(currentPos++);  // can be width or height depending on the mode
     int wh2 = (int)readUCharAt(currentPos++);  // can be width or height depending on the mode
-    const unsigned char *rawImage = (const unsigned char *)&(data()[currentPos]);
+    const unsigned char *rawImage = reinterpret_cast<const unsigned char *>(&(data()[currentPos]));
 
     Camera *camera = DeviceManager::instance()->camera();
     camera->resetSensorRequested();

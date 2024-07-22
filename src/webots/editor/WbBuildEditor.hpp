@@ -35,7 +35,7 @@ public:
   static WbBuildEditor *instance();
 
   explicit WbBuildEditor(QWidget *parent, const QString &toolBarAlign);
-  virtual ~WbBuildEditor();
+  virtual ~WbBuildEditor() override;
 
   // open specified file, show line if specified, show exact word if column specified
   void jumpToError(QString fileName, int line = -1, int column = -1);

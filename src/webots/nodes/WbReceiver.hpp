@@ -37,7 +37,7 @@ public:
   explicit WbReceiver(WbTokenizer *tokenizer = NULL);
   WbReceiver(const WbReceiver &other);
   explicit WbReceiver(const WbNode &other);
-  virtual ~WbReceiver();
+  virtual ~WbReceiver() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RECEIVER; }

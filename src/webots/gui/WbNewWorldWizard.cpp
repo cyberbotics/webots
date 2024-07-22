@@ -148,6 +148,7 @@ QString WbNewWorldWizard::fileName() const {
 QWizardPage *WbNewWorldWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
   page->setTitle(introTitle());
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(introText(), page);
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);

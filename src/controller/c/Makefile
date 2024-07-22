@@ -42,7 +42,7 @@ LIBCONTROLLER_VERSION := "$(shell cat $(WEBOTS_HOME_PATH)/resources/version.txt)
 endif
 
 ifeq ($(OSTYPE),darwin)
-CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
+CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -Wno-single-bit-bitfield-constant-conversion -I/Developer/Headers/FlatCarbon -Wall -fno-common -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/Contents/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
 SHARED_LIBS = -lz
@@ -155,12 +155,12 @@ $(TARGET): $(OBJDIR)/x86_64/libController.dylib $(OBJDIR)/arm64/libController.dy
 
 $(OBJDIR)/x86_64/libController.dylib: $(X86_64_OBJECTS)
 	@echo "# linking "$@" (x86_64)"
-	@$(CC) $(LD_FLAGS) -target x86_64-apple-macos11 -o $@ $(X86_64_OBJECTS) $(SHARED_LIBS)
+	@$(CC) $(LD_FLAGS) -target x86_64-apple-macos12 -o $@ $(X86_64_OBJECTS) $(SHARED_LIBS)
 	@chmod a-x $@
 
 $(OBJDIR)/arm64/libController.dylib: $(ARM64_OBJECTS)
 	@echo "# linking "$@" (arm64)"
-	@$(CC) $(LD_FLAGS) -target arm64-apple-macos11 -o $@ $(ARM64_OBJECTS) $(SHARED_LIBS)
+	@$(CC) $(LD_FLAGS) -target arm64-apple-macos12 -o $@ $(ARM64_OBJECTS) $(SHARED_LIBS)
 	@chmod a-x $@
 
 endif
@@ -180,11 +180,11 @@ $(OBJDIR)/%.o:%.c
 
 $(OBJDIR)/arm64/%o:%c
 	@echo "# compiling "$<" (arm64)"
-	@$(CC) -c -target arm64-apple-macos11 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/arm64/$(notdir $@)
+	@$(CC) -c -target arm64-apple-macos12 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/arm64/$(notdir $@)
 
 $(OBJDIR)/x86_64/%o:%c
 	@echo "# compiling "$<" (x86_64)"
-	@$(CC) -c -target x86_64-apple-macos11 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/x86_64/$(notdir $@)
+	@$(CC) -c -target x86_64-apple-macos12 $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $< -o $(OBJDIR)/x86_64/$(notdir $@)
 
 $(OBJDIR)/%.d:%.c
 	@echo "# updating "$(notdir $@)

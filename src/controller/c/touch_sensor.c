@@ -81,7 +81,7 @@ static void touch_sensor_read_answer(WbDevice *d, WbRequest *r) {
 int wb_touch_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  TouchSensor *dev = touch_sensor_get_struct(tag);
+  const TouchSensor *dev = touch_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
@@ -180,7 +180,7 @@ void wb_touch_sensor_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_touch_sensor_disable(WbDeviceTag tag) {
-  TouchSensor *ts = touch_sensor_get_struct(tag);
+  const TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts)
     wb_touch_sensor_enable(tag, 0);
   else
@@ -190,7 +190,7 @@ void wb_touch_sensor_disable(WbDeviceTag tag) {
 int wb_touch_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  TouchSensor *ts = touch_sensor_get_struct(tag);
+  const TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts)
     sampling_period = ts->sampling_period;
   else
@@ -241,7 +241,7 @@ const double *wb_touch_sensor_get_values(WbDeviceTag tag) {
 WbTouchSensorType wb_touch_sensor_get_type(WbDeviceTag tag) {
   WbTouchSensorType result = WB_TOUCH_SENSOR_BUMPER;
   robot_mutex_lock();
-  TouchSensor *ts = touch_sensor_get_struct(tag);
+  const TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts)
     result = ts->type;
   else

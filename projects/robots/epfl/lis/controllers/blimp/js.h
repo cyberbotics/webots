@@ -495,13 +495,13 @@ public:
     saturate[axis] = st;
   }
 
-  void setMinRange(float *axes) {
+  void setMinRange(const float *axes) {
     memcpy(min, axes, num_axes * sizeof(float));
   }
-  void setMaxRange(float *axes) {
+  void setMaxRange(const float *axes) {
     memcpy(max, axes, num_axes * sizeof(float));
   }
-  void setCenter(float *axes) {
+  void setCenter(const float *axes) {
     memcpy(center, axes, num_axes * sizeof(float));
   }
 

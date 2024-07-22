@@ -167,7 +167,7 @@ WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
     return;
   QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
   f->glDeleteVertexArrays(1, &mVaoId);
-  f->glDeleteBuffers(2, (GLuint *)&mVboId);
+  f->glDeleteBuffers(2, reinterpret_cast<GLuint *>(&mVboId));
   mContext->doneCurrent();
   delete mVboId;
 }

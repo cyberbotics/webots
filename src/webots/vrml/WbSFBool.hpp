@@ -29,7 +29,7 @@ public:
   WbSFBool(WbTokenizer *tokenizer, const QString &worldPath) { readSFBool(tokenizer, worldPath); }
   WbSFBool(const WbSFBool &other);
   explicit WbSFBool(bool value) : mValue(value) {}
-  virtual ~WbSFBool() {}
+  virtual ~WbSFBool() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFBool(tokenizer, worldPath); }
   void write(WbWriter &writer) const override { writer << toString(WbPrecision::DOUBLE_MAX); }
   WbValue *clone() const override { return new WbSFBool(*this); }

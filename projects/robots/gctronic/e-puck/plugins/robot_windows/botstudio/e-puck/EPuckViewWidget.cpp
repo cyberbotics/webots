@@ -97,7 +97,7 @@ EPuckViewWidget::~EPuckViewWidget() {
 
 void EPuckViewWidget::updateValues() {
   setUpdatesEnabled(false);
-  EPuckFacade *epuck = static_cast<EPuckFacade *>(mModel->robotFacade());
+  const EPuckFacade *epuck = static_cast<EPuckFacade *>(mModel->robotFacade());
 
   for (int i = 0; i < EPuckFacade::NUMBER_OF_DISTANCE_SENSORS; i++)
     mDistanceSensorSliders[i]->setValue(epuck->distanceSensorValue(i));

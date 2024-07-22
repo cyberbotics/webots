@@ -55,10 +55,10 @@ unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d);
 void abstract_camera_allocate_image(WbDevice *d, int size);
 
 void wb_abstract_camera_enable(WbDevice *d, int sampling_period);
-int wb_abstract_camera_get_sampling_period(WbDevice *d);
-int wb_abstract_camera_get_height(WbDevice *d);
-int wb_abstract_camera_get_width(WbDevice *d);
-double wb_abstract_camera_get_fov(WbDevice *d);
-double wb_abstract_camera_get_near(WbDevice *d);
+int wb_abstract_camera_get_sampling_period(const WbDevice *d);
+int wb_abstract_camera_get_height(const WbDevice *d);
+int wb_abstract_camera_get_width(const WbDevice *d);
+double wb_abstract_camera_get_fov(const WbDevice *d);
+double wb_abstract_camera_get_near(const WbDevice *d);
 
 #endif  // ABSTRACT_CAMERA_PRIVATE_H

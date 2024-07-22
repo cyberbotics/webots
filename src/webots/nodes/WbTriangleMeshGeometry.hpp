@@ -34,7 +34,7 @@ class WbTriangleMeshGeometry : public WbGeometry {
 
 public:
   // constructors and destructor
-  virtual ~WbTriangleMeshGeometry();
+  virtual ~WbTriangleMeshGeometry() override;
 
   // reimplemented public functions
   void preFinalize() override;

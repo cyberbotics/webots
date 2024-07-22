@@ -55,7 +55,7 @@ class WbView3D : public WbWrenWindow {
 
 public:
   explicit WbView3D();
-  virtual ~WbView3D();
+  virtual ~WbView3D() override;
 
   void setParentWidget(QWidget *widget) { mParentWidget = widget; }
 

@@ -34,7 +34,7 @@ public:
   explicit WbConnector(WbTokenizer *tokenizer = NULL);
   WbConnector(const WbConnector &other);
   explicit WbConnector(const WbNode &other);
-  virtual ~WbConnector();
+  virtual ~WbConnector() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONNECTOR; }

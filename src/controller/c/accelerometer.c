@@ -77,7 +77,7 @@ static void accelerometer_read_answer(WbDevice *d, WbRequest *r) {
 int wb_accelerometer_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Accelerometer *dev = accelerometer_get_struct(tag);
+  const Accelerometer *dev = accelerometer_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
@@ -87,9 +87,9 @@ int wb_accelerometer_get_lookup_table_size(WbDeviceTag tag) {
 }
 
 const double *wb_accelerometer_get_lookup_table(WbDeviceTag tag) {
-  double *result = NULL;
+  const double *result = NULL;
   robot_mutex_lock();
-  Accelerometer *dev = accelerometer_get_struct(tag);
+  const Accelerometer *dev = accelerometer_get_struct(tag);
   if (dev)
     result = dev->lookup_table;
   else
@@ -158,7 +158,7 @@ void wb_accelerometer_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_accelerometer_disable(WbDeviceTag tag) {
-  Accelerometer *acc = accelerometer_get_struct(tag);
+  const Accelerometer *acc = accelerometer_get_struct(tag);
   if (acc)
     wb_accelerometer_enable(tag, 0);
   else
@@ -168,7 +168,7 @@ void wb_accelerometer_disable(WbDeviceTag tag) {
 int wb_accelerometer_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Accelerometer *acc = accelerometer_get_struct(tag);
+  const Accelerometer *acc = accelerometer_get_struct(tag);
   if (acc)
     sampling_period = acc->sampling_period;
   else
@@ -180,7 +180,7 @@ int wb_accelerometer_get_sampling_period(WbDeviceTag tag) {
 const double *wb_accelerometer_get_values(WbDeviceTag tag) {
   const double *result = NULL;
   robot_mutex_lock();
-  Accelerometer *acc = accelerometer_get_struct(tag);
+  const Accelerometer *acc = accelerometer_get_struct(tag);
   if (acc) {
     if (acc->sampling_period == 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_accelerometer_enable().\n", __FUNCTION__);

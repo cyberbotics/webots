@@ -133,6 +133,7 @@ static const char *joint_number_to_name(int num) {
   }
 }
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   int i, sampling;
   int com_interval;
@@ -189,7 +190,7 @@ int main(int argc, char *argv[]) {
   next_position[larm_joint_5] = 0.0;
   next_position[rarm_joint_5] = 0.0;
 
-  char *ptr = fgets(l, 500, file);
+  const char *ptr = fgets(l, 500, file);
   if (ptr == NULL) {
     fprintf(stderr, "Error while reading the %s file\n", filename);
     fclose(file);

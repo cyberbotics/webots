@@ -448,6 +448,7 @@ static void update_engine_sound() {
     }
     if (rpm < instance->car->engine_min_rpm)
       rpm = instance->car->engine_min_rpm;
+    // cppcheck-suppress variableScope
     double pitch = rpm / instance->car->engine_sound_rpm_reference;
     if (stop_sound)
       wb_speaker_stop(instance->engine_speaker, instance->car->engine_sound);

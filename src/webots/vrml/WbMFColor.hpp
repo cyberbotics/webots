@@ -35,7 +35,7 @@ public:
 
   WbMFColor(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFColor(const WbMFColor &other) : mVector(other.mVector) {}
-  virtual ~WbMFColor() {}
+  virtual ~WbMFColor() override {}
   WbValue *clone() const override { return new WbMFColor(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

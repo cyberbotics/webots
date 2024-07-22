@@ -77,7 +77,7 @@ static void compass_read_answer(WbDevice *d, WbRequest *r) {
 int wb_compass_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Compass *dev = compass_get_struct(tag);
+  const Compass *dev = compass_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
@@ -156,7 +156,7 @@ void wb_compass_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_compass_disable(WbDeviceTag tag) {
-  Compass *compass = compass_get_struct(tag);
+  const Compass *compass = compass_get_struct(tag);
   if (compass)
     wb_compass_enable(tag, 0);
   else
@@ -166,7 +166,7 @@ void wb_compass_disable(WbDeviceTag tag) {
 int wb_compass_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Compass *compass = compass_get_struct(tag);
+  const Compass *compass = compass_get_struct(tag);
   if (compass)
     sampling_period = compass->sampling_period;
   else
@@ -178,7 +178,7 @@ int wb_compass_get_sampling_period(WbDeviceTag tag) {
 const double *wb_compass_get_values(WbDeviceTag tag) {
   const double *result = NULL;
   robot_mutex_lock();
-  Compass *compass = compass_get_struct(tag);
+  const Compass *compass = compass_get_struct(tag);
   if (compass) {
     if (compass->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_compass_enable().\n", __FUNCTION__);

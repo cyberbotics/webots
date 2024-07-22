@@ -32,7 +32,7 @@ public:
   explicit WbShape(WbTokenizer *tokenizer = NULL);
   WbShape(const WbShape &other);
   explicit WbShape(const WbNode &other);
-  virtual ~WbShape();
+  virtual ~WbShape() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SHAPE; }

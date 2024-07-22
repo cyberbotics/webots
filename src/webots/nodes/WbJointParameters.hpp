@@ -27,7 +27,7 @@ public:
   explicit WbJointParameters(WbTokenizer *tokenizer = NULL);
   WbJointParameters(const WbJointParameters &other);
   explicit WbJointParameters(const WbNode &other);
-  virtual ~WbJointParameters();
+  virtual ~WbJointParameters() override;
 
   int nodeType() const override { return WB_NODE_JOINT_PARAMETERS; }
   void preFinalize() override;

@@ -254,15 +254,16 @@ void WbAnimationRecorder::populateCommands() {
         continue;
       const QStringList fields = node->fieldsToSynchronizeWithW3d();
       if (fields.size() > 0) {
+        // cppcheck-suppress constVariablePointer
         WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
         mCommands << command;
       }
     }
 
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-    foreach (WbRobot *const robot, robots) {
+    foreach (const WbRobot *const robot, robots) {
       if (robot->supervisor()) {
-        foreach (QString label, robot->supervisorUtilities()->labelsState())
+        foreach (const QString &label, robot->supervisorUtilities()->labelsState())
           addChangedLabelToList(label);
 
         connect(robot->supervisorUtilities(), &WbSupervisorUtilities::labelChanged, this,
@@ -370,7 +371,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
 
   if (mChangedLabels.size() != 0) {
     out << ",\"labels\":[";
-    foreach (QString label, mChangedLabels) {
+    foreach (const QString &label, mChangedLabels) {
       out << "{";
       out << label;
       mLabelsIds.insert(label.mid(5, label.indexOf("font") - 7));
@@ -463,6 +464,7 @@ void WbAnimationRecorder::stopRecording() {
   const double step = worldInfo->basicTimeStep() * ceil((1000.0 / worldInfo->fps()) / worldInfo->basicTimeStep());
   out << QString(" \"basicTimeStep\":%1,\n").arg(step);
   QList<WbAnimationCommand *> commandsChangedFromStart;
+  // cppcheck-suppress constVariablePointer
   foreach (WbAnimationCommand *command, mCommands) {
     // store only ids of nodes that changed during the animation
     if (command->isChangedFromStart())
@@ -470,7 +472,7 @@ void WbAnimationRecorder::stopRecording() {
   }
   out << " \"labelsIds\":\"";
   bool firstLabel = true;
-  foreach (QString id, mLabelsIds) {
+  foreach (const QString &id, mLabelsIds) {
     // cppcheck-suppress knownConditionTrueFalse
     if (!firstLabel)
       out << ";";
@@ -489,7 +491,7 @@ void WbAnimationRecorder::stopRecording() {
                    "If you just want a 3D environment file, consider exporting a scene instead."));
     return;
   }
-  foreach (WbAnimationCommand *command, commandsChangedFromStart) {
+  foreach (const WbAnimationCommand *command, commandsChangedFromStart) {
     // store only initial state of nodes that changed during the animation
     if (command != commandsChangedFromStart.first())
       out << ",";

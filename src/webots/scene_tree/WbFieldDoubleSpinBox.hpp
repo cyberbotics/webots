@@ -33,7 +33,7 @@ class WbFieldDoubleSpinBox : public WbDoubleSpinBox {
 public:
   enum { NORMAL, RADIANS, AXIS, RGB };
   explicit WbFieldDoubleSpinBox(QWidget *parent = NULL, int mode = NORMAL);
-  virtual ~WbFieldDoubleSpinBox();
+  virtual ~WbFieldDoubleSpinBox() override;
 
   void setValueNoSignals(double value);
   void setMode(int mode);

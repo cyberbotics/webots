@@ -28,7 +28,7 @@ public:
   explicit WbCoordinate(WbTokenizer *tokenizer = NULL);
   WbCoordinate(const WbCoordinate &other);
   explicit WbCoordinate(const WbNode &other);
-  virtual ~WbCoordinate();
+  virtual ~WbCoordinate() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_COORDINATE; }

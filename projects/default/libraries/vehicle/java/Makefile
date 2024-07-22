@@ -88,10 +88,10 @@ $(WRAPPER_OBJECT): $(WRAPPER)
 	@$(CXX) $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
 $(WRAPPER_OBJECT_ARM64): $(WRAPPER)
-	@$(CXX) -target arm64-apple-macos11 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
+	@$(CXX) -target arm64-apple-macos12 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
 $(WRAPPER_OBJECT_X86_64): $(WRAPPER)
-	@$(CXX) -target x86_64-apple-macos11 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
+	@$(CXX) -target x86_64-apple-macos12 $(CFLAGS2) $(INCLUDES) $(JAVA_INCLUDES) $< -o "$@"
 
 %.so: $(WRAPPER_OBJECT)
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
@@ -102,8 +102,8 @@ $(WRAPPER_OBJECT_X86_64): $(WRAPPER)
 	@$(CXX) -shared -mwindows -Wl,--add-stdcall-alias -Wl,--enable-auto-import -O -lm $< $(LIB) -o "$@"
 
 %.jnilib: $(WRAPPER_OBJECT_ARM64) $(WRAPPER_OBJECT_X86_64)
-	@$(CXX) -target arm64-apple-macos11 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_ARM64) $(LIB) -o lib$(MODULE_NAME)-arm64.jnilib
-	@$(CXX) -target x86_64-apple-macos11 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_X86_64) $(LIB) -o lib$(MODULE_NAME)-x86_64.jnilib
+	@$(CXX) -target arm64-apple-macos12 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_ARM64) $(LIB) -o lib$(MODULE_NAME)-arm64.jnilib
+	@$(CXX) -target x86_64-apple-macos12 $(CFLAGS1) -bundle $(WRAPPER_OBJECT_X86_64) $(LIB) -o lib$(MODULE_NAME)-x86_64.jnilib
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	@lipo -create -output "$@" lib$(MODULE_NAME)-arm64.jnilib lib$(MODULE_NAME)-x86_64.jnilib
 	@codesign -s - "$@"

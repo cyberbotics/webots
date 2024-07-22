@@ -154,7 +154,7 @@ namespace wren {
 
   private:
     Camera();
-    virtual ~Camera() {}
+    virtual ~Camera() override {}
 
     void updateView() const;
     void updateProjection() const;

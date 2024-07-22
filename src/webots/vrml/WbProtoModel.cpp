@@ -246,7 +246,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             QStringList derivedParameterNames = parameterNames();
             QStringList baseParameterNames = baseProtoModel->parameterNames();
             baseTypeSlotType = baseProtoModel->slotType();
-            foreach (QString derivedName, derivedParameterNames) {
+            foreach (const QString &derivedName, derivedParameterNames) {
               if (baseParameterNames.contains(derivedName))
                 sharedParameterNames.append(derivedName);
             }
@@ -265,6 +265,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       }
     } else if (sharedParameterNames.contains(token->word()) && !previousRedirectedFieldName.isEmpty()) {
       // check that derived parameter is only redirected to corresponding base parameter
+      // cppcheck-suppress variableScope
       QString parameterName = token->word();
       if (previousRedirectedFieldName != token->word()) {
         tokenizer->reportError(
@@ -330,7 +331,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 }
 
 WbProtoModel::~WbProtoModel() {
-  foreach (WbFieldModel *model, mFieldModels)
+  foreach (const WbFieldModel *model, mFieldModels)
     model->unref();
   mFieldModels.clear();
   mDeterministicContentMap.clear();
@@ -350,7 +351,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   if (mTemplate) {
     QString key;
     if (mIsDeterministic) {
-      foreach (WbField *parameter, parameters) {
+      foreach (const WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
           QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
           if (mTemplateLanguage == "lua")
@@ -476,6 +477,7 @@ const QString WbProtoModel::projectPath() const {
       if (protoProjectDir.isRoot())
         return QString();
     }
+    // cppcheck-suppress ignoredReturnErrorCode
     protoProjectDir.cdUp();
     return protoProjectDir.absolutePath();
   }
@@ -484,7 +486,7 @@ const QString WbProtoModel::projectPath() const {
 
 QStringList WbProtoModel::parameterNames() const {
   QStringList names;
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     names.append(fieldModel->name());
   return names;
 }
@@ -505,7 +507,7 @@ void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbToken
     fields = node->fields();
 
   // search self
-  foreach (WbField *field, fields) {
+  foreach (const WbField *field, fields) {
     if (field->alias() == param->name()) {
       if (field->type() == param->type())
         ok = true;

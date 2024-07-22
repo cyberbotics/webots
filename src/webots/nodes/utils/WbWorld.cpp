@@ -124,7 +124,7 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
       return;
     }
     WbTemplateManager::instance()->blockRegeneration(true);
-    WbField *childrenField = mRoot->findField("children");
+    const WbField *childrenField = mRoot->findField("children");
     int index = 0;
     WbApplication::instance()->setWorldLoadingStatus(tr("Creating nodes"));
     foreach (WbNode *node, nodes) {
@@ -460,6 +460,7 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   QList<WbSolid *> allSolids;
 
   foreach (WbNode *const node, allNodes) {
+    // cppcheck-suppress constVariablePointer
     WbSolid *const solid = dynamic_cast<WbSolid *>(node);
     if (solid)
       allSolids.append(solid);
@@ -561,7 +562,7 @@ void WbWorld::retrieveNodeNamesWithOptionalRendering(QStringList &centerOfMassNo
   centerOfBuoyancyNodeNames.clear();
   supportPolygonNodeNames.clear();
 
-  WbSolid *solid = NULL;
+  const WbSolid *solid = NULL;
   const QList<WbNode *> &allNodes = mRoot->subNodes(true);
   for (int i = 0; i < allNodes.size(); ++i) {
     solid = dynamic_cast<WbSolid *>(allNodes[i]);
@@ -583,17 +584,17 @@ QString WbWorld::logWorldMetrics() const {
   int jointCount = 0;
   int geomCount = 0;
   const QList<WbNode *> &allNodes = mRoot->subNodes(true);
-  foreach (WbNode *node, allNodes) {
-    if (dynamic_cast<WbBasicJoint *>(node)) {
+  foreach (const WbNode *node, allNodes) {
+    if (dynamic_cast<const WbBasicJoint *>(node)) {
       jointCount++;
       continue;
     }
-    WbSolid *solid = dynamic_cast<WbSolid *>(node);
+    const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
     if (solid && (solid->isKinematic() || solid->isSolidMerger())) {
       solidCount++;
       continue;
     }
-    WbGeometry *geometry = dynamic_cast<WbGeometry *>(node);
+    const WbGeometry *geometry = dynamic_cast<const WbGeometry *>(node);
     if (geometry && !geometry->isInBoundingObject())
       geomCount++;
   }

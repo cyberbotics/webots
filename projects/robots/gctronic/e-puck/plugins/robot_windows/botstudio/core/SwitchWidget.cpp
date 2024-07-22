@@ -57,9 +57,9 @@ SwitchWidget::~SwitchWidget() {
 }
 
 void SwitchWidget::selectWidget() {
-  AutomatonObject *object = mModel->automaton()->findSelectedObject();
-  State *state = dynamic_cast<State *>(object);
-  Transition *transition = dynamic_cast<Transition *>(object);
+  const AutomatonObject *object = mModel->automaton()->findSelectedObject();
+  const State *state = dynamic_cast<const State *>(object);
+  const Transition *transition = dynamic_cast<const Transition *>(object);
 
   if (state) {
     RobotActuatorCommand *actuatorCommand = state->actuatorCommand();

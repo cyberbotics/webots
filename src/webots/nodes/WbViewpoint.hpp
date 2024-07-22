@@ -51,7 +51,7 @@ public:
   explicit WbViewpoint(WbTokenizer *tokenizer = NULL);
   WbViewpoint(const WbViewpoint &other);
   explicit WbViewpoint(const WbNode &other);
-  virtual ~WbViewpoint();
+  virtual ~WbViewpoint() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_VIEWPOINT; }
@@ -132,7 +132,7 @@ public:
   void updateOrthographicViewHeight();
 
   void setNodesVisibility(QList<const WbBaseNode *> nodes, bool visible);
-  QList<const WbBaseNode *> getInvisibleNodes() const { return mInvisibleNodes; }
+  const QList<const WbBaseNode *> &getInvisibleNodes() const { return mInvisibleNodes; }
   void enableNodeVisibility(bool enabled);
 
   // Ray picking based on current projection mode

@@ -60,11 +60,11 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
- WBCFLAGS += -Wno-unknown-pragmas -target $(PROCESSOR)-apple-macos11
+ WBCFLAGS += -Wno-unknown-pragmas -target $(PROCESSOR)-apple-macos12
  FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
  INCLUDE += -F"$(FRAMEWORKS_DIR)"
  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
- LD_FLAGS = -target $(PROCESSOR)-apple-macos11
+ LD_FLAGS = -target $(PROCESSOR)-apple-macos12
  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__APPLE__

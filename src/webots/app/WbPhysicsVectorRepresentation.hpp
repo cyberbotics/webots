@@ -77,7 +77,7 @@ class WbTorqueRepresentation : public WbPhysicsVectorRepresentation {
   Q_OBJECT
 public:
   WbTorqueRepresentation();
-  virtual ~WbTorqueRepresentation();
+  virtual ~WbTorqueRepresentation() override;
 
 private:
   void initializeSpinSymbol();

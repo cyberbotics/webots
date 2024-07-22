@@ -52,6 +52,7 @@ static void init_devices() {
   step();
 }
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   /* define variables */
   long int currentColor = 0;

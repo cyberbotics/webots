@@ -377,7 +377,7 @@ WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
     assert(parentNode);
   }
 
-  WbPose *previousPose = const_cast<WbPose *>(poseList.takeLast());
+  const WbPose *previousPose = const_cast<WbPose *>(poseList.takeLast());
   WbVector3 translationResult = previousPose->translation();
   while (poseList.size() > 0) {
     const WbPose *pose = poseList.takeLast();

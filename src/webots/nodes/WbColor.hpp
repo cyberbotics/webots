@@ -25,7 +25,7 @@ public:
   explicit WbColor(WbTokenizer *tokenizer = NULL);
   WbColor(const WbColor &other);
   explicit WbColor(const WbNode &other);
-  virtual ~WbColor();
+  virtual ~WbColor() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_COLOR; }

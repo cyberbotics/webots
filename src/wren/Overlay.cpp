@@ -159,7 +159,7 @@ namespace wren {
     cOverlays.erase(std::remove(cOverlays.begin(), cOverlays.end(), this), cOverlays.end());
   }
 
-  void Overlay::prepareTexture(Texture *texture, int textureUnitIndex) {
+  void Overlay::prepareTexture(Texture *texture, int textureUnitIndex) const {
     if (!texture)
       return;
 

@@ -42,6 +42,7 @@ WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) :
   tokenizer->skipToken("{");
 
   while (tokenizer->peekWord() != "}") {
+    // cppcheck-suppress constVariablePointer
     WbFieldModel *fieldModel = new WbFieldModel(tokenizer, "");
     fieldModel->ref();
     mFieldModels.append(fieldModel);
@@ -51,7 +52,7 @@ WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) :
 }
 
 WbNodeModel::~WbNodeModel() {
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     fieldModel->unref();
   mFieldModels.clear();
 }
@@ -76,7 +77,8 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString modelName, list) {
+  foreach (const QString &modelName, list) {
+    // cppcheck-suppress constVariablePointer
     WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
@@ -159,9 +161,9 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   return true;
 }
 
-QStringList WbNodeModel::fieldNames() {
+QStringList WbNodeModel::fieldNames() const {
   QStringList names;
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     names.append(fieldModel->name());
   return names;
 }

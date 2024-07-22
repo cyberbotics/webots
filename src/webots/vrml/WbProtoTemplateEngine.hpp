@@ -32,7 +32,7 @@ class WbProtoTemplateEngine : public WbTemplateEngine {
 
 public:
   explicit WbProtoTemplateEngine(const QString &templateContent);
-  virtual ~WbProtoTemplateEngine() {}
+  virtual ~WbProtoTemplateEngine() override {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
                 const QString &worldPath, int id, const QString &templateLanguage);

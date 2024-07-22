@@ -1165,7 +1165,7 @@ static char *compute_socket_filename(char *error_buffer) {
     struct stat filestat;
     double timestamp = 0.0;
     int number = -1;
-    struct dirent *de;
+    const struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
 #ifndef _WIN32
       if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
@@ -1266,7 +1266,7 @@ static char *compute_socket_filename(char *error_buffer) {
   free(loading_file_path);
 
   free(robot_name);
-  char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  const char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
   robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
   if (robot_name) {
 #ifndef _WIN32
@@ -1291,7 +1291,7 @@ static char *compute_socket_filename(char *error_buffer) {
     }
     char **filenames = NULL;
     int count = 0;
-    struct dirent *de;
+    const struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
       if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
         continue;
@@ -1303,7 +1303,7 @@ static char *compute_socket_filename(char *error_buffer) {
       DIR *d = opendir(subfolder);
       free(subfolder);
       if (d) {
-        struct dirent *sub;
+        const struct dirent *sub;
         while ((sub = readdir(d)) != NULL) {
           if (strcmp(sub->d_name, "extern") == 0) {
             found = true;

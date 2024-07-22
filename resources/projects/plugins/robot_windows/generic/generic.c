@@ -19,7 +19,7 @@ void wb_robot_window_step(int time_step) {
       // example:
       //   "e-puck:forward,ds0:enable,myMotor0:value=1.2"
       char *tokens = strdup(message);
-      char *token = NULL;
+      const char *token = NULL;
       while ((token = wbu_string_strsep(&tokens, ","))) {
         char *command = strdup(token);
         char *first_word = wbu_string_strsep(&command, ":");

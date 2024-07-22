@@ -99,6 +99,7 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
+      // cppcheck-suppress constVariablePointer
       WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
       mChildren.append(child);
     }
@@ -163,7 +164,7 @@ void WbProtoTreeItem::downloadUpdate() {
 
 void WbProtoTreeItem::readyCheck() {
   mIsReady = true;
-  foreach (WbProtoTreeItem *subProto, mChildren)
+  foreach (const WbProtoTreeItem *subProto, mChildren)
     mIsReady = mIsReady && subProto->isReady();
 
   if (mIsReady) {
@@ -199,6 +200,7 @@ void WbProtoTreeItem::generateSessionProtoList(QStringList &sessionList) {
 
 void WbProtoTreeItem::insert(const QString &url) {
   // since the insert function is used to inject missing declarations, by default they have to be considered as non-importable
+  // cppcheck-suppress constVariablePointer
   WbProtoTreeItem *child = new WbProtoTreeItem(url, this, false);
   mChildren.append(child);
 }

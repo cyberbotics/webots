@@ -388,6 +388,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
   if (collisionDistance < 0)
     return false;
 
+  // cppcheck-suppress variableScope
   double h = scaledHeight();
   double r = scaledRadius();
 

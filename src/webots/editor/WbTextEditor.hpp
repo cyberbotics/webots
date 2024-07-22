@@ -41,7 +41,7 @@ class WbTextEditor : public WbDockWidget {
 
 public:
   explicit WbTextEditor(QWidget *parent, const QString &toolBarAlign);
-  virtual ~WbTextEditor();
+  virtual ~WbTextEditor() override;
 
   // index of currently selected tab, or -1 if there is no tab
   int selectedTab() const;

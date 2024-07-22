@@ -22,7 +22,7 @@
 class WbPicoTextToSpeech : public WbTextToSpeech {
 public:
   WbPicoTextToSpeech();
-  ~WbPicoTextToSpeech();
+  ~WbPicoTextToSpeech() override;
   qint16 *generateBufferFromText(const QString &text, int *size, const QString &language) override;
   const QString error() override;
 };

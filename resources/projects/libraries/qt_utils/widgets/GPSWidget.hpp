@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit GPSWidget(Device *device, QWidget *parent = NULL);
-    virtual ~GPSWidget() {}
+    virtual ~GPSWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

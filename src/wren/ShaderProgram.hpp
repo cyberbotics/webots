@@ -83,7 +83,7 @@ namespace wren {
     static bool readFile(const std::string &path, std::string &contents);
 
     ShaderProgram();
-    ~ShaderProgram();
+    ~ShaderProgram() override;
 
     unsigned int compileShader(const std::string &path, unsigned int type);
     bool linkProgram();
