@@ -53,7 +53,7 @@ public:
 
   // parent nodes (only defined for base nodes. For proto nodes, see
   // WbProtoModel::ancestorProtoName/ancestorProtoNameModel/baseType)
-  const QString parentName() const { return mParentName; };
+  const QString &parentName() const { return mParentName; };
   const WbNodeModel *parentModel() const { return mParentModel; };
 
   QStringList documentationBookAndPage() const { return QStringList() << "reference" << mName.toLower(); }
