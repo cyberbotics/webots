@@ -43,7 +43,7 @@ public:
   bool operator==(const WbFieldValueRestriction &other) const;
   bool operator!=(const WbFieldValueRestriction &other) const;
 
-  virtual ~WbFieldValueRestriction() {}
+  virtual ~WbFieldValueRestriction() override {}
 
   const bool allowsSubtypes() const { return mAllowsSubtypes; }
 
