@@ -1,4 +1,5 @@
 # The Camera node is used to model an on-board camera.
+# parent: Solid
 
 Camera {
   #fields that inherit from the Solid node:
