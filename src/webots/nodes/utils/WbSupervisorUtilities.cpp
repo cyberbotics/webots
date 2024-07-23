@@ -801,6 +801,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundNodeTag = (device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1;
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
       mFoundNodeIsProtoInternal = false;
+      mFoundNodeProtoAncestorId = baseNode && baseNode->hasAProtoAncestor() ? baseNode->protoAncestor()->uniqueId() : -1;
       if (baseNode) {
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
@@ -1938,6 +1939,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     stream << (int)mFoundNodeTag;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
+    stream << (int)mFoundNodeProtoAncestorId;
     const QByteArray s = mFoundNodeModelName.toUtf8();
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
@@ -2240,6 +2242,7 @@ void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
                             !WbVrmlNodeUtilities::isVisible(selfNode->parentField()));
+  stream << (int)(selfNode->hasAProtoAncestor() ? selfNode->protoAncestor()->uniqueId() : -1);
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
