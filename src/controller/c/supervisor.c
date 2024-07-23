@@ -1974,6 +1974,22 @@ WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node) {
   return parent_node;
 }
 
+WbNodeRef wb_supervisor_node_get_proto_ancestor(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  allow_search_in_proto = true;
+  WbNodeRef ancestor_proto_node = node_get_from_id(node->proto_ancestor_id, __FUNCTION__);
+  allow_search_in_proto = false;
+  return ancestor_proto_node;
+}
+
 WbNodeRef wb_supervisor_node_get_selected() {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;

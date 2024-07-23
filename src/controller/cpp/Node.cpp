@@ -87,6 +87,11 @@ bool Node::isProto() const {
   return wb_supervisor_node_is_proto(nodeRef);
 }
 
+Node *Node::getProtoAncestor() const {
+  WbNodeRef protoAncestorRef = wb_supervisor_node_get_proto_ancestor(nodeRef);
+  return findNode(protoAncestorRef);
+}
+
 int Node::getNumberOfFields() const {
   return wb_supervisor_node_get_number_of_fields(nodeRef);
 }

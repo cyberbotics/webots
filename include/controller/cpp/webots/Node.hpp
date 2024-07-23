@@ -133,6 +133,7 @@ namespace webots {
     std::string getBaseTypeName() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Node *getProtoAncestor() const;
     Node *getFromProtoDef(const std::string &name) const;
     int getNumberOfFields() const;
     int getProtoNumberOfFields() const;
