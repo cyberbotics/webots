@@ -55,7 +55,7 @@ union WbFieldData {
 
 typedef struct WbFieldStructPrivate {
   const char *name;
-  WbFieldType type;  // WB_SF_* or WB_MT_* as defined in supervisor.h
+  WbFieldType type;  // WB_SF_* or WB_MF_* as defined in supervisor.h
   int count;         // used in MF fields only
   int node_unique_id;
   int id;                        // attributed by Webots
