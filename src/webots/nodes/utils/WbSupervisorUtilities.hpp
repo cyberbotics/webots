@@ -84,6 +84,7 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
+  int mFoundNodeProtoAncestorId;
   int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;

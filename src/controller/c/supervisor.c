@@ -114,6 +114,8 @@ typedef struct WbNodeStructPrivate {
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
   bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
+  int proto_ancestor_id;
+
   WbNodeRef parent_proto;
   int tag;
   WbNodeRef next;
@@ -346,7 +348,7 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
 }
 
 static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int tag, int parent_id,
-                             bool is_proto) {
+                             bool is_proto, int proto_ancestor_id) {
   WbNodeRef nodeInList = find_node_by_id(uid);
   if (nodeInList) {
     // already in the list, update DEF name if needed
@@ -383,6 +385,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->is_proto = is_proto;
   n->is_proto_internal = false;
   n->parent_proto = NULL;
+  n->proto_ancestor_id = proto_ancestor_id;
   n->tag = tag;
   n->next = node_list;
   node_list = n;
@@ -944,8 +947,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
+      const int proto_ancestor_id = request_read_int32(r);
       if (uid && (!is_proto_internal || allow_search_in_proto)) {
-        add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto);
+        add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto, proto_ancestor_id);
         node_id = uid;
       }
     } break;
