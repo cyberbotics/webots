@@ -295,12 +295,11 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   dJointSetAMotorNumAxes(mSpringAndDamperMotor, numberOfAxes);
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
 
+  applyToOdeAxis();
+
   // Axis dependent settings
-  const WbMatrix4 &m4 = upperPose()->matrix();
   if (mSpringAndDampingConstantsAxis1On) {
     const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
-    const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
     dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
     dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped);
     dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped);
@@ -310,16 +309,13 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
 
   if (mSpringAndDampingConstantsAxis2On) {
     const double clamped2 = WbMathsUtilities::normalizeAngle(mOdePositionOffset2);
-    const WbVector3 &a2 = m4.sub3x3MatrixDot(axis2());
     if (bothAxes) {  // axes 0 and 1 of the AMotorAngle are enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
       dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp2);
     } else {  // only axis 0 of the AMotorAngle is enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
       dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped2);
