@@ -205,7 +205,9 @@ class WindowsWebotsPackage(WebotsPackage):
         else:
             INNO_SETUP_HOME = "/C/Program Files (x86)/Inno Setup 6"
         print('creating webots_setup.exe (takes long)\n')
-        subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
+        subprocess.run(
+            [INNO_SETUP_HOME + "/iscc", "-Q", "webots.iss"]
+        ).check_returncode()
 
         print('Done.')
 
