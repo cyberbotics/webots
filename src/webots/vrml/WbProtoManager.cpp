@@ -171,9 +171,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCachedWithMapUpdate(modelPath))
-    modelPath = protoDeclaration;
-  else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
+  if (WbUrl::isWeb(protoDeclaration)) {
+    // The PROTO is a remote asset, check if it's already cached
+    if (WbNetwork::instance()->isCachedWithMapUpdate(protoDeclaration))
+      modelPath = protoDeclaration;
+  } else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
     // another PROTO (both being cached)
