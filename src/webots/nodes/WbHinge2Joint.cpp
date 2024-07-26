@@ -197,12 +197,12 @@ void WbHinge2Joint::applyToOdeAxis() {
       if (mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On) {
         // axes 0 and 1 of the AMotorAngle are enabled
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 2, a2.x(), a2.y(), a2.z());
       } else if (mSpringAndDampingConstantsAxis1On) {
         // only axis 0 of the AMotorAngle is enabled
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
       } else
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 2, a2.x(), a2.y(), a2.z());
     }
   } else {
     parsingWarn(tr("Hinge axes are aligned: using x and z axes instead."));
@@ -210,7 +210,7 @@ void WbHinge2Joint::applyToOdeAxis() {
     dJointSetHinge2Axis2(mJoint, 0.0, 0.0, 1.0);
     if (mSpringAndDamperMotor) {
       dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 2, 0.0, 0.0, 1.0);
     }
   }
 }
