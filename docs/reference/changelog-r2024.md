@@ -14,3 +14,4 @@ Released on December **th, 2023.
     - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
     - Fixed length of arrays returned by `CameraRecognitionObject.getColors()` in Java ([#6564](https://github.com/cyberbotics/webots/pull/6564)).
     - Fixed handling of device objects with the same name in the controller API ([#6579](https://github.com/cyberbotics/webots/pull/6579)).
+    - Fixed `Brake`s added to the second axis of a `Hinge2Joint` being applied to the non-transformed axis ([#6584](https://github.com/cyberbotics/webots/pull/6584)).
