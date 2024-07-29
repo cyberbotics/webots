@@ -33,7 +33,6 @@
 /mingw64/share/qt6/plugins/imageformats/qjpeg.dll
 /mingw64/bin/libjpeg-8.dll
 /mingw64/share/qt6/plugins/platforms/qwindows.dll
-/mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
 /mingw64/share/qt6/plugins/tls/qopensslbackend.dll
 /mingw64/share/qt6/plugins/tls/qschannelbackend.dll
