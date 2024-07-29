@@ -138,13 +138,13 @@ void WbWaveFile::loadConvertedFile(int side) {
     }
 
     if (riffChunkRead == false)
-      throw("Corrupted WAVE file: RIFF chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: RIFF chunk not found"));
 
     if (formatChunkRead == false)
-      throw("Corrupted WAVE file: format chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: format chunk not found"));
 
     if (dataChunkRead == false)
-      throw("Corrupted WAVE file: data chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: data chunk not found"));
 
   } catch (const QString &e) {
     // clean up
