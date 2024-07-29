@@ -1,4 +1,5 @@
 # The Track node can be used to simulate tracks of tank robots or conveyor belts.
+# parent: Solid
 
 Track {
   #fields that inherit from the Solid node:

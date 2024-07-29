@@ -88,7 +88,7 @@ private:
   int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
                 const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = -1, const QString &boundingObjectInfo = "");
-  bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
+  bool doFieldRestrictionsAllowNode(const WbNode *node) const;
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
 
