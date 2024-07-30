@@ -17,4 +17,3 @@ Released on December **th, 2023.
     - Fixed crashes (with some graphics cards) caused by references to unused GLSL uniforms ([#6587](https://github.com/cyberbotics/webots/pull/6587)).
     - Fixed `Brake`s added to the second axis of a `Hinge2Joint` being applied to the non-transformed axis ([#6584](https://github.com/cyberbotics/webots/pull/6584)).
     - Fixed invalid absolute sound file path resulted in crash ([#6593](https://github.com/cyberbotics/webots/pull/6593))
-    - Fixed encoding in the thumbnail generation ([#6598](https://github.com/cyberbotics/webots/pull/6598))
