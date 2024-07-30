@@ -23,10 +23,10 @@ from PIL import Image
 
 def search_and_replace(filename, fromString, toString):
     """Search and replace string in a file."""
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding="utf-8") as file:
         data = file.read()
     data = data.replace(fromString, toString)
-    with open(filename, 'w') as file:
+    with open(filename, 'w', encoding="utf-8") as file:
         file.write(data)
 
 
