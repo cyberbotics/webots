@@ -205,7 +205,7 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
   if (!mSoundSourcesMap.contains(key)) {  // this sound was never played
     QString path;
     // check if the path is absolute
-    if (QDir::isAbsolutePath(filename))
+    if (QDir::isAbsolutePath(filename) && QFile::exists(filename))
       path = filename;
     // check if the path is relative to the controller
     if (path.isEmpty() && QFile::exists(mControllerDir + filename))
