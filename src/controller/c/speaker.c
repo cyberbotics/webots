@@ -40,6 +40,8 @@ struct Sound {
   bool need_update;
   bool need_stop;
   bool is_playing;
+  unsigned char *upload_data;  // sound data for uploading to webots
+  int upload_size;             // size of streaming date
   struct Sound *next;
 };
 
@@ -257,6 +259,18 @@ static void speaker_write_request(WbDevice *d, WbRequest *r) {
         else
           request_write_char(r, 0);
       }
+
+      request_write_int32(r, sound->upload_size);
+      if (sound->upload_size) {
+        /* Sound data available to stream, send it one time and discard it.
+         * Webots will cache the data inside the device.
+         */
+        request_write_data(r, sound->upload_data, sound->upload_size);
+        free(sound->upload_data);
+        sound->upload_data = NULL;
+        sound->upload_size = 0;
+      }
+
       sound->need_update = false;
       sound = sound->next;
     }
@@ -298,6 +312,49 @@ static void speaker_toggle_remote(WbDevice *d, WbRequest *r) {
   // nothing to do.
 }
 
+/* Try to read sound file contents and stream it to webots.
+ * This is done to support extern controllers that runs as a
+ * different process or machine. Fall back to provide only 
+ * the filename to webots if it cannot be found by the controller
+ * process.
+ */
+static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_name) {
+  long file_size = 0L;
+  FILE *fp;
+
+  sound->upload_data = NULL;
+  sound->upload_size = 0;
+
+  if (NULL != (fp = fopen(sound_file_name, "rb"))) {
+    if (0 == fseek(fp, 0L, SEEK_END)) {
+      file_size = ftell(fp);
+      if (-1 != file_size) {
+        if (0 == fseek(fp, 0L, SEEK_SET)) {
+          size_t consumed = 0U;
+          sound->upload_data = malloc(file_size);
+          sound->upload_size = (int)file_size;
+          while (consumed < file_size) {
+            size_t read = fread(&sound->upload_data[consumed], sizeof(unsigned char), file_size - consumed, fp);
+            if (ferror(fp)) {
+              free(sound->upload_data);
+              sound->upload_data = NULL;
+              sound->upload_size = 0;
+              break;
+            }
+            consumed += read;
+          }
+        }
+      }
+    }
+
+    if (NULL == sound->upload_data) {
+      fprintf(stderr, "Warning: %s() failed to read sound file '%s' :", __FUNCTION__, sound_file_name);
+      perror(NULL);
+    }
+    fclose(fp);
+  }
+}
+
 static void speaker_play_sound(WbDevice *device, const char *sound_name, double volume, double pitch, double balance, bool loop,
                                int side) {
   Sound *sound = speaker_get_sound_if_exist(device, sound_name);
@@ -309,6 +366,8 @@ static void speaker_play_sound(WbDevice *device, const char *sound_name, double 
     memcpy(sound->sound_file, sound_name, l);
     sound->next = ((Speaker *)device->pdata)->sound_list;
     ((Speaker *)device->pdata)->sound_list = sound;
+
+    speaker_try_load_sound_local(sound, sound_name);
   }
   sound->volume = volume;
   sound->pitch = pitch;

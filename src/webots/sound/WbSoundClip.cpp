@@ -34,6 +34,8 @@ WbSoundClip::WbSoundClip() : mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) 
 WbSoundClip::~WbSoundClip() {
   if (mBuffer && WbSoundEngine::openAL())
     alDeleteBuffers(1, &mBuffer);
+
+  delete mDevice;
 }
 
 void WbSoundClip::load(const QString &filename, const QString &extension, QIODevice *device, double balance, int side) {

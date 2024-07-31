@@ -111,8 +111,11 @@ Finally, the boolean `loop` argument defines if the sound will be played only on
 
 It is possible to change the volume, pitch, balance, and loop parameters of a sound currently playing by calling again the `wb_speaker_play_sound` function with the same speakers and `sound` arguments.
 
-> **Note**: The path to the sound file should be defined either absolutely or relatively.
-If defined relatively, it will be searched first relatively to the robot controller folder.
+> **Note**: The path to the sound file should be defined either absolutely or relatively.<br>
+If the file is found by the controller using the provided path, it is loaded by the controller
+and the contents is streamed to Webots.<br>
+If the file is not found by the controller, only the given path is passed to Webots.
+If this path is relative, it will be searched first relatively to the robot controller folder.
 If not found there and if the robot is a PROTO, it will be searched relatively to the PROTO folder of the robot.
 
 ---

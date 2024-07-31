@@ -20,6 +20,7 @@
 #include <QtCore/QMap>
 
 class WbSoundSource;
+class QDataStream;
 
 class WbSpeaker : public WbSolidDevice {
   Q_OBJECT
@@ -39,12 +40,39 @@ public:
   void postPhysicsStep() override;
 
 private:
+  // private data types
+
+  // Data from wb_speaker_play_sound() API
+  class SoundPlayData {
+  public:
+    SoundPlayData(QDataStream &);
+
+    const QString &file() { return mFile; }
+    double volume() { return mVolume; }
+    double pitch() { return mPitch; }
+    double balance() { return mBalance; }
+    bool loop() { return mLoop; }
+    short side() { return mSide; }
+    int rawLength() { return mRawLength; }
+    QByteArray &rawData() { return mRawData; }
+
+  private:
+    QString mFile;
+    double mVolume;
+    double mPitch;
+    double mBalance;
+    bool mLoop;
+    short mSide;
+    int mRawLength;
+    QByteArray mRawData;
+  };
+
   // private functions
   WbSpeaker &operator=(const WbSpeaker &);  // non copyable
   WbNode *clone() const override { return new WbSpeaker(*this); }
   void init();
 
-  void playSound(const char *file, double volume, double pitch, double balance, bool loop, int side);
+  void playSound(SoundPlayData &playData);
   void playText(const char *text, double volume);
   void stop(const char *sound);
   void stopAll();
@@ -53,6 +81,7 @@ private:
 
   QMap<QString, WbSoundSource *> mSoundSourcesMap;
   QMap<QString, const WbSoundSource *> mPlayingSoundSourcesMap;
+  QMap<QString, QByteArray *> mStreamedSoundDataMap;
 
   QString mControllerDir;
   QString mEngine;
