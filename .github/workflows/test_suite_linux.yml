@@ -114,14 +114,13 @@ jobs:
         python-version: 3.9
     - name: Test Suite
       run: |
-        export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=$PWD/artifact/webots
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         sudo apt-get install mutter dbus-x11 xwayland
-        dbus-run-session mutter --wayland --headless --virtual-monitor 1920x1080 -- python tests/test_suite.py
+        dbus-run-session mutter --headless --virtual-monitor 1920x1080 -- python tests/test_suite.py
     - uses: actions/upload-artifact@v3
       if: failure()
       with:
