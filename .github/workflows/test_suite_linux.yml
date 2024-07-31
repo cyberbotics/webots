@@ -121,7 +121,7 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         sudo apt-get install mutter dbus-x11
-        dbus-launch --auto-syntax mutter --headless --virtual-monitor 1920x1080 -- python tests/test_suite.py
+        xvfb-run --auto-servernum dbus-run-session mutter --headless --virtual-monitor 1920x1080 -- python tests/test_suite.py
     - uses: actions/upload-artifact@v3
       if: failure()
       with:
