@@ -16,7 +16,7 @@ A new robot model has been added to the Webots library.
 The ROS-based four-wheeled ROSbot XL robot from [Husarion](https://husarion.com/) is now included in Webots.
 
 %figure "ROSbot XL"
-![Added Robots](images/rosbot_xl.thumbnail.png)
+![Added Robots](images/rosbot_xl.thumbnail.jpg)
 %end
 
 You can discover this new robot in its demo world under `File > Open Sample World > rosbot_xl.wbt`.
@@ -28,7 +28,7 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 Several [Robotiq](https://robotiq.com/) grippers have also been added to the Webots library, namely the 2F-85 and the 2F-140 parallel grippers as well as the EPick vacuum gripper.
 
 %figure "New devices"
-![Added Devices](images/devices_r2023b.thumbnail.png)
+![Added Devices](images/devices_r2023b.thumbnail.jpg)
 %end
 
 ---
