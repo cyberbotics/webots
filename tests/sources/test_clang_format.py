@@ -31,15 +31,16 @@ class TestClangFormat(unittest.TestCase):
     def setUp(self):
         """Set up called before each test."""
         self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+        self.CLANG_FORMAT = os.environ.get('CLANG_FORMAT', 'clang-format')
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
-        return subprocess.check_output(['clang-format', '-style=file', f])
+        return subprocess.check_output([self.CLANG_FORMAT, '-style=file', f])
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
         self.assertTrue(
-            shutil.which('clang-format') is not None,
+            shutil.which(self.CLANG_FORMAT) is not None,
             msg='ClangFormat is not installed on this computer.'
         )
         clangFormatConfigFile = os.path.join(self.WEBOTS_HOME, '.clang-format')
