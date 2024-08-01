@@ -17,6 +17,7 @@
 #include "WbField.hpp"
 #include "WbMFNode.hpp"
 #include "WbNode.hpp"
+#include "WbProto.hpp"
 #include "WbSFNode.hpp"
 #include "WbTokenizer.hpp"
 #include "WbWriter.hpp"
@@ -184,14 +185,14 @@ WbField *WbVrmlNodeUtilities::findFieldParent(const WbField *target, bool intern
 WbProtoModel *WbVrmlNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
-    WbProtoModel *proto = n->proto();
+    const WbProto *proto = n->proto();
     if (proto)
-      return proto;
+      return proto->model();
     else {
       const WbNode *const protoParameterNode = n->protoParameterNode();
       proto = protoParameterNode ? protoParameterNode->proto() : NULL;
       if (proto)
-        return proto;
+        return proto->model();
 
       n = n->parentNode();
     }
@@ -233,7 +234,7 @@ const WbField *WbVrmlNodeUtilities::findClosestParameterInProto(const WbField *f
   const WbNode *parameterNode = proto;
   while (parameterNode) {
     const WbField *parameter = field;
-    const QVector<WbField *> parameterList = parameterNode->parameters();
+    const QVector<WbField *> parameterList = parameterNode->proto()->parameters();
 
     while (parameter) {
       if (parameterList.contains(const_cast<WbField *>(parameter)))
@@ -251,7 +252,7 @@ const WbField *WbVrmlNodeUtilities::findClosestParameterInProto(const WbField *f
 WbNode *WbVrmlNodeUtilities::findRootProtoNode(WbNode *const node) {
   WbNode *n = node;
   do {
-    const WbProtoModel *proto = n->proto();
+    const WbProto *proto = n->proto();
     if (proto)
       return n;
     n = n->parentNode();

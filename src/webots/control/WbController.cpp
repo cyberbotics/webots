@@ -26,6 +26,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProto.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
@@ -542,7 +543,7 @@ void WbController::setProcessEnvironment() {
   QList<WbNode *> nodes = mRobot->subNodes(true, true, true);
   for (int i = 0; i < nodes.size(); ++i) {
     if (nodes.at(i)->isProtoInstance()) {
-      const WbProtoModel *protoModel = nodes.at(i)->proto();
+      const WbProtoModel *protoModel = nodes.at(i)->proto()->model();
       do {
         if (!protoModel->projectPath().isEmpty()) {
           QDir protoProjectDir(protoModel->projectPath());

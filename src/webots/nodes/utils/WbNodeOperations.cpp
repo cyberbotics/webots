@@ -25,6 +25,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
+#include "WbProto.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
@@ -405,13 +406,13 @@ void WbNodeOperations::updateExternProtoDeclarations(WbField *modifiedField) {
   QList<const WbNode *> protoList(WbVrmlNodeUtilities::protoNodesInWorldFile(topProto));
   foreach (const WbNode *proto, protoList) {
     const QString previousUrl(
-      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false));
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->model()->url(), false, false));
     if (!previousUrl.isEmpty())
       WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
                         "saving and reverting the world. "
                         "To use the other instead you will need to change it manually in the world file.")
                        .arg(proto->modelName())
                        .arg(previousUrl)
-                       .arg(proto->proto()->url()));
+                       .arg(proto->proto()->model()->url()));
   }
 }

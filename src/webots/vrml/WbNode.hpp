@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 
 class WbNodeModel;
+class WbProto;
 class WbProtoModel;
 class WbField;
 class WbFieldModel;
@@ -165,12 +166,11 @@ public:
                                                    const QString &worldPath, int uniqueId = -1);
 
   bool isProtoInstance() const { return mProto != NULL; }
-  WbProtoModel *proto() const { return mProto; }
+  const WbProto *proto() const { return mProto; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
   const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
-  const QList<WbField *> &parameters() const { return mParameters; }
   void setProtoInstanceTemplateContent(const QByteArray &content) { mProtoInstanceTemplateContent = content; }
   // pass argument if we know that a PROTO ancestor exists, otherwise if hasAProtoAncestorFlag is FALSE it will be computed
   void updateNestedProtoFlag(bool hasAProtoAncestorFlag = false);
@@ -203,7 +203,7 @@ public:
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
   const QList<WbField *> &fields() const { return mFields; }
-  const QList<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
+  const QList<WbField *> &fieldsOrParameters() const;
   int numFields() const { return fieldsOrParameters().size(); }
   WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
@@ -214,7 +214,6 @@ public:
   WbField *parentFieldAndIndex(int &index, bool internal = false) const;
   int findFieldId(const QString &fieldName, bool internal = false) const;
   int fieldIndex(const WbField *field) const;
-  int parameterIndex(const WbField *field) const;
   void disconnectFieldNotification(const WbValue *value);
   // set parent node of fields for this node and its subnodes
   void setFieldsParentNode();
@@ -358,8 +357,7 @@ private:
   bool mHasUseAncestor;
 
   // for proto instances only
-  WbProtoModel *mProto;
-  QList<WbField *> mParameters;
+  WbProto *mProto;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 

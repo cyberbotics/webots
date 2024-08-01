@@ -27,6 +27,7 @@
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
+#include "WbProto.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbShape.hpp"
@@ -146,7 +147,7 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
   int directSubscribeMinIndex = 0;
   if (node->isProtoInstance()) {
     directSubscribeMinIndex = fields.size();
-    fields.append(node->parameters());
+    fields.append(node->proto()->parameters());
   }
   WbField *field = NULL;
   for (int i = 0; i < fields.size(); ++i) {
@@ -227,7 +228,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   // 1. get stuff
   WbNode *parent = node->parentNode();
-  WbProtoModel *proto = node->proto();
+  WbProto *proto = node->proto();
   assert(parent && proto);
   if (!parent || !proto)
     return;
@@ -237,7 +238,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
   WbNode::setRestoreUniqueIdOnClone(true);
-  foreach (const WbField *parameter, node->parameters()) {
+  foreach (const WbField *parameter, proto->parameters()) {
     parameters << new WbField(*parameter, NULL);
     if (parameter->parameter() != NULL)
       previousParentRedirections.append(parameter->parameter());
@@ -275,7 +276,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   WbNode::setGlobalParentNode(parent);
 
-  WbNode *newNode = WbNode::createProtoInstanceFromParameters(proto, parameters, WbWorld::instance()->fileName(), uniqueId);
+  WbNode *newNode = WbNode::createProtoInstanceFromParameters(proto->model(), parameters, WbWorld::instance()->fileName(), uniqueId);
 
   if (!newNode) {
     WbLog::error(tr("Template regeneration failed. The node cannot be generated."), false, WbLog::PARSING);
@@ -299,7 +300,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (node->isProtoParameterNode()) {
     // internal PROTO child could be regenerated due to a parameter exposed in the parent PROTO node
     // so for parent PROTO instances both fields and parameters needs to be checked
-    const QList<WbField *> parentFields = (parent->isProtoInstance() ? QList(parent->parameters()) : QList<WbField *>())
+    const QList<WbField *> parentFields = (parent->isProtoInstance() ? QList(parent->proto()->parameters()) : QList<WbField *>())
                                           << parent->fields();
     foreach (WbField *const pf, parentFields) {
       if (pf->type() == WB_SF_NODE) {
@@ -408,7 +409,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   // redirect parent parameters
   if (!previousParentRedirections.isEmpty()) {
     foreach (WbField *parentParameter, previousParentRedirections) {
-      foreach (WbField *newParam, newNode->parameters()) {
+      foreach (WbField *newParam, newNode->proto()->parameters()) {
         if (parentParameter->name() == newParam->alias()) {
           newParam->blockSignals(true);
           newParam->redirectTo(parentParameter);

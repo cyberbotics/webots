@@ -535,6 +535,7 @@ OTHER_SOURCES = \
   WbPicoTextToSpeech.cpp \
   WbPolygon.cpp \
   WbPrecision.cpp \
+  WbProto.cpp \
   WbRandom.cpp \
   WbRay.cpp \
   WbResetCommand.cpp \
