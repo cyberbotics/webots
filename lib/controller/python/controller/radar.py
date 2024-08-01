@@ -51,7 +51,7 @@ class Radar(Sensor):
         data = wb.wb_radar_get_targets(self._tag)
         list = []
         for i in range(number_of_targets):
-            list.append(RadarTarget(data[0], data[1], data[2], data[3]))
+            list.append(RadarTarget(data[0 + 4*i], data[1 + 4*i], data[2 + 4*i], data[3 + 4*i]))
         return list
 
     @property
