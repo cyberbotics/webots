@@ -291,26 +291,23 @@ void WbSpeaker::updateSoundSource(WbSoundSource *source) {
   source->setDirection(rotationMatrix() * WbVector3(0, 1, 0));
 }
 
-WbSpeaker::SoundPlayData::SoundPlayData(QDataStream& stream) :
-      mFile(),
-      mRawData()
-{
-        short size;
-        unsigned char loop;
-        stream >> size;
-        char soundFile[size];
-        stream.readRawData(soundFile, size);
-        mFile = QString(soundFile);
+WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData() {
+  short size;
+  unsigned char loop;
+  stream >> size;
+  char soundFile[size];
+  stream.readRawData(soundFile, size);
+  mFile = QString(soundFile);
 
-        stream >> mVolume;
-        stream >> mPitch;
-        stream >> mBalance;
-        stream >> mSide;
-        stream >> loop;
-        mLoop = (bool)loop;
-        stream >> mRawLength;
-        if (mRawLength) {
-          mRawData.resize(mRawLength);
-          stream.readRawData(mRawData.data(), mRawLength);
-        }
+  stream >> mVolume;
+  stream >> mPitch;
+  stream >> mBalance;
+  stream >> mSide;
+  stream >> loop;
+  mLoop = (bool)loop;
+  stream >> mRawLength;
+  if (mRawLength) {
+    mRawData.resize(mRawLength);
+    stream.readRawData(mRawData.data(), mRawLength);
+  }
 }
