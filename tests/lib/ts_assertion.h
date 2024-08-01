@@ -216,6 +216,10 @@ void ts_assert_string_contains(const char *haystack, const char *needle, const c
 void ts_assert_color_in_delta(int red, int green, int blue, int expected_red, int expected_green, int expected_blue, int delta,
                               const char *error_message, ...) {
   bool correct = abs(red - expected_red) <= delta && abs(green - expected_green) <= delta && abs(blue - expected_blue) <= delta;
+  if (!correct) {
+    fprintf(stderr, "Actual color: (%d, %d, %d). Expected color: (%d, %d, %d)\n", red, green, blue, expected_red,
+            expected_green, expected_blue);
+  }
   TS_FINAL_CHECK();
 }
 
