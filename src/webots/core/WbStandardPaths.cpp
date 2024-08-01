@@ -244,17 +244,17 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
 #endif
   // cleanup old and unused tmp directories
   QDir directory(cWebotsTmpPath);
-  if (!directory.cdUp())
-    assert(false);
-  const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
-  foreach (const QString &dirname, webotsTmp) {
-    const QString fullName(directory.absolutePath() + "/" + dirname);
-    const QFileInfo fileInfo(fullName + "/live.txt");
-    const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
-    const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
-    if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
-      QDir d(fullName);
-      d.removeRecursively();
+  if (directory.cdUp()) {
+    const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
+    foreach (const QString &dirname, webotsTmp) {
+      const QString fullName(directory.absolutePath() + "/" + dirname);
+      const QFileInfo fileInfo(fullName + "/live.txt");
+      const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
+      const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
+      if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
+        QDir d(fullName);
+        d.removeRecursively();
+      }
     }
   }
 
