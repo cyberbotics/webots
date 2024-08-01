@@ -186,7 +186,7 @@ void WbSpeaker::playText(const char *text, double volume) {
   }
 }
 
-void WbSpeaker::playSound(SoundPlayData& playData) {
+void WbSpeaker::playSound(SoundPlayData &playData) {
   QString filename(playData.file());
   QString key(filename);
   if (playData.side() == -1)
@@ -227,8 +227,8 @@ void WbSpeaker::playSound(SoundPlayData& playData) {
     // Use controller streamed sound data if available.
     QBuffer *device = NULL;
     if (cachedSoundData) {
-       device = new QBuffer(cachedSoundData);
-       device->open(QBuffer::ReadOnly);
+      device = new QBuffer(cachedSoundData);
+      device->open(QBuffer::ReadOnly);
     }
 
     const WbSoundClip *soundClip = WbSoundEngine::sound(path, extension, device, playData.balance(), playData.side());
