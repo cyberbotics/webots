@@ -41,7 +41,7 @@ struct Sound {
   bool need_stop;
   bool is_playing;
   unsigned char *upload_data;  // sound data for uploading to webots
-  int upload_size;             // size of streaming date
+  int upload_size;             // size of sound data
   struct Sound *next;
 };
 
