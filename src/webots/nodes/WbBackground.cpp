@@ -150,7 +150,7 @@ WbBackground::~WbBackground() {
   }
 
   if (!WbWorld::instance()->isCleaning())
-    emit WbWrenRenderingContext::instance()->backgroundColorChanged();
+    emit WbWrenRenderingContext::instance() -> backgroundColorChanged();
 
   wr_scene_set_hdr_clear_quad(wr_scene_get_instance(), NULL);
   // Delete skybox
@@ -318,7 +318,7 @@ void WbBackground::updateColor() {
   if (mUrlCount == 0)
     applySkyBoxToWren();
 
-  emit WbWrenRenderingContext::instance()->backgroundColorChanged();
+  emit WbWrenRenderingContext::instance() -> backgroundColorChanged();
 }
 
 void WbBackground::updateCubemap() {
@@ -387,7 +387,7 @@ void WbBackground::updateCubemap() {
       if (destroy) {
         destroySkyBox();
         applyColorToWren(skyColor());
-        emit WbWrenRenderingContext::instance()->backgroundColorChanged();
+        emit WbWrenRenderingContext::instance() -> backgroundColorChanged();
       } else if (hasCompleteBackground || mUrlCount == 0)
         applySkyBoxToWren();
     }

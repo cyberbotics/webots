@@ -70,7 +70,7 @@ public:
   explicit Robot(const char *name);
 
   // destructor
-  virtual ~Robot(){};
+  virtual ~Robot() {};
 
   void initCamera();
   const char *getName() const { return _name; }

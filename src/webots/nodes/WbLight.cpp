@@ -80,7 +80,7 @@ void WbLight::postFinalize() {
   connect(mCastShadows, &WbSFBool::changed, this, &WbLight::updateCastShadows);
 
   if (!WbWorld::instance()->isLoading())
-    emit WbWrenRenderingContext::instance()->numberOfOnLightsChanged();
+    emit WbWrenRenderingContext::instance() -> numberOfOnLightsChanged();
 }
 
 WbLight::~WbLight() {
@@ -89,7 +89,7 @@ WbLight::~WbLight() {
   if (areWrenObjectsInitialized()) {
     applySceneAmbientColorToWren();
     if (!WbWorld::instance()->isCleaning())
-      emit WbWrenRenderingContext::instance()->numberOfOnLightsChanged();
+      emit WbWrenRenderingContext::instance() -> numberOfOnLightsChanged();
   }
 }
 
@@ -175,7 +175,7 @@ void WbLight::updateOn() {
     applyLightVisibilityToWren();
 
     if (!WbWorld::instance()->isLoading())
-      emit WbWrenRenderingContext::instance()->numberOfOnLightsChanged();
+      emit WbWrenRenderingContext::instance() -> numberOfOnLightsChanged();
   }
 
   emit isOnChanged();
@@ -196,7 +196,7 @@ void WbLight::updateCastShadows() {
     applyLightShadowsToWren();
 
   if (!WbWorld::instance()->isLoading() && numberOfLightsCastingShadows() < 2)
-    emit WbWrenRenderingContext::instance()->shadowsStateChanged();
+    emit WbWrenRenderingContext::instance() -> shadowsStateChanged();
 }
 
 void WbLight::applySceneAmbientColorToWren() {

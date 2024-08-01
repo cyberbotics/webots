@@ -191,13 +191,13 @@ void WbLog::appendStderr(const QString &message, Filter filter) {
 void WbLog::appendStdout(const QString &message, const QString &name) {
   if (gStdoutRedirect)
     std::cout << message.toUtf8().constData() << std::flush;
-  emit instance()->logEmitted(STDOUT, message, false, name);
+  emit instance() -> logEmitted(STDOUT, message, false, name);
 }
 
 void WbLog::appendStderr(const QString &message, const QString &name) {
   if (gStderrRedirect)
     std::cerr << message.toUtf8().constData() << std::flush;
-  emit instance()->logEmitted(STDERR, message, false, name);
+  emit instance() -> logEmitted(STDERR, message, false, name);
 }
 
 void WbLog::javascriptLogToConsole(const QString &message, int lineNumber, const QString &sourceUrl) {
@@ -250,7 +250,7 @@ void WbLog::showPostponedPopUpMessages() {
 
 void WbLog::showPendingConsoleMessages() {
   foreach (const PostponedMessage &msg, instance()->mPendingConsoleMessages)
-    emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
+    emit instance() -> logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
 }
 

@@ -39,7 +39,7 @@ public:
     int start;
     int length;
     QTextCharFormat format;
-    HighlightedSection(int start, int length, QTextCharFormat format) : start(start), length(length), format(format){};
+    HighlightedSection(int start, int length, QTextCharFormat format) : start(start), length(length), format(format) {};
   };
 
 public slots:

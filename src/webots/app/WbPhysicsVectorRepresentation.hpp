@@ -51,7 +51,7 @@ protected:
     mTailMesh(NULL),
     mArrowMesh(NULL),
     mHeadTransform(NULL),
-    mTailTransform(NULL){};
+    mTailTransform(NULL) {};
 
   WrMaterial *mMaterial;
 

@@ -44,7 +44,7 @@ namespace {
   //       VRML comments to comment templates
   QString gOpeningToken("%{");  // default: "#{"
   QString gClosingToken("}%");  // default: "}#"
-};                              // namespace
+};  // namespace
 
 void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
   QDir luaModulesPath(modulePath);

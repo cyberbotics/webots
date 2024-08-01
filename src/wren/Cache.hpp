@@ -105,11 +105,17 @@ namespace wren {
 namespace std {
 
   // Overloaded methods for std::hash
-  template<> struct hash<wren::cache::Key> { size_t operator()(const wren::cache::Key &key) const; };
+  template<> struct hash<wren::cache::Key> {
+    size_t operator()(const wren::cache::Key &key) const;
+  };
 
-  template<> struct hash<glm::vec3> { size_t operator()(const glm::vec3 &key) const; };
+  template<> struct hash<glm::vec3> {
+    size_t operator()(const glm::vec3 &key) const;
+  };
 
-  template<> struct hash<std::pair<size_t, size_t>> { size_t operator()(const std::pair<size_t, size_t> &key) const; };
+  template<> struct hash<std::pair<size_t, size_t>> {
+    size_t operator()(const std::pair<size_t, size_t> &key) const;
+  };
 
 }  // namespace std
 

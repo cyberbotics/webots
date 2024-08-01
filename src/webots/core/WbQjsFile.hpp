@@ -21,8 +21,8 @@ class WbQjsFile : public QObject {
   Q_OBJECT
 
 public:
-  Q_INVOKABLE WbQjsFile(){};
-  ~WbQjsFile(){};
+  Q_INVOKABLE WbQjsFile() {};
+  ~WbQjsFile() {};
 
   Q_INVOKABLE bool fileExists(const QString &filePath);
   Q_INVOKABLE QString readTextFile(const QString &filePath);

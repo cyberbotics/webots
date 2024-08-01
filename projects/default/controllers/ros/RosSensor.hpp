@@ -38,7 +38,7 @@ protected:
 
   virtual ros::Publisher createPublisher() = 0;
   virtual void publishValue(ros::Publisher publisher) = 0;
-  virtual void publishAuxiliaryValue(){};
+  virtual void publishAuxiliaryValue() {};
   virtual void rosEnable(int samplingPeriod) = 0;
   virtual void rosDisable() = 0;
   virtual int rosSamplingPeriod() = 0;

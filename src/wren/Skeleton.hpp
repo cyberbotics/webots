@@ -51,7 +51,7 @@ namespace wren {
     float *computeBoundingSphere(int &meshCount);
 
   private:
-    Skeleton(){};
+    Skeleton() {};
     virtual ~Skeleton() override;
 
     std::vector<SkeletonBone *> mBones;

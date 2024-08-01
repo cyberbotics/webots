@@ -60,7 +60,7 @@ public slots:
   void rayTracingEnabled();
   void updateNumberOfThreads();
   void checkNeedForBoundingMaterialUpdate();
-  virtual void triggerStepFromTimer(){};
+  virtual void triggerStepFromTimer() {};
 
 signals:
   void physicsStepStarted();

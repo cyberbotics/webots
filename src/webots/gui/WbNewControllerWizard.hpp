@@ -92,9 +92,7 @@ public:
 #endif
       return WbNewControllerWizard::NAME;
   }
-  void setButtonGroup(const QButtonGroup *buttonGroup) {
-    mButtonGroup = buttonGroup;
-  }
+  void setButtonGroup(const QButtonGroup *buttonGroup) { mButtonGroup = buttonGroup; }
 
 private:
   const QButtonGroup *mButtonGroup;

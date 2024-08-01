@@ -28,7 +28,7 @@ class WbDragOverlayEvent : public WbDragEvent {
 public:
   enum DragOverlayType { TRANSLATE = 0, RESIZE };
   WbDragOverlayEvent(const QPoint &initialMousePosition, WbRenderingDevice *renderingDevice);
-  virtual ~WbDragOverlayEvent() override{};
+  virtual ~WbDragOverlayEvent() override {};
   virtual DragOverlayType type() = 0;
   void apply(const QPoint &currentMousePosition) override = 0;
 
@@ -42,7 +42,7 @@ protected:
 class WbDragTranslateOverlayEvent : public WbDragOverlayEvent {
 public:
   WbDragTranslateOverlayEvent(const QPoint &initialMousePosition, const QPoint &windowSize, WbRenderingDevice *renderingDevice);
-  virtual ~WbDragTranslateOverlayEvent() override{};
+  virtual ~WbDragTranslateOverlayEvent() override {};
   DragOverlayType type() override { return TRANSLATE; }
   void apply(const QPoint &currentMousePosition) override;
 

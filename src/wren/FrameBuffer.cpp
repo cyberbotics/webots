@@ -171,8 +171,9 @@ namespace wren {
     const Texture::GlFormatParams &params = drawBufferFormat(index);
 
 #ifdef __EMSCRIPTEN__
-    EM_ASM_({ Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
-            params.mPixelSize * mWidth * mHeight, 0);
+    EM_ASM_(
+      { Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
+      params.mPixelSize * mWidth * mHeight, 0);
 #else
     glGetBufferSubData(GL_PIXEL_PACK_BUFFER, 0, params.mPixelSize * mWidth * mHeight, data);
 #endif
@@ -192,8 +193,9 @@ namespace wren {
 
 #ifdef __EMSCRIPTEN__
     int offset = params.mPixelSize * (rowIndex * mWidth + x);
-    EM_ASM_({ Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data,
-            params.mPixelSize, offset);
+    EM_ASM_(
+      { Module.ctx.getBufferSubData(Module.ctx.PIXEL_PACK_BUFFER, $2, HEAPU8.subarray($0, $0 + $1)); }, data, params.mPixelSize,
+      offset);
 #else
     glGetBufferSubData(GL_PIXEL_PACK_BUFFER, params.mPixelSize * (rowIndex * mWidth + x), params.mPixelSize, data);
 #endif

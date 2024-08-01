@@ -203,7 +203,7 @@ private:
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 
-  virtual void storeLastSaveTime(){};
+  virtual void storeLastSaveTime() {};
 
   static bool cW3dStreaming;
   static bool cPrintExternUrls;

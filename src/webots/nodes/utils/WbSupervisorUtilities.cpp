@@ -390,7 +390,7 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
 
 void WbSupervisorUtilities::postPhysicsStep() {
   if (mLoadWorldRequested) {
-    emit WbApplication::instance()->worldLoadRequested(mWorldToLoad);
+    emit WbApplication::instance() -> worldLoadRequested(mWorldToLoad);
     mLoadWorldRequested = false;
   }
   if (mShouldRemoveNode) {

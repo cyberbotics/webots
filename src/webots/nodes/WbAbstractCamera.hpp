@@ -88,7 +88,7 @@ signals:
 
 protected:
   void setup() override;
-  virtual void render(){};
+  virtual void render() {};
   virtual bool needToRender() const;
 
   // user accessible fields

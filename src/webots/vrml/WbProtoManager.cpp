@@ -217,7 +217,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   if (!modelPath.isEmpty() && QFileInfo(modelDiskPath).exists()) {
     WbProtoModel *model = readModel(modelPath, worldPath, prefix, baseTypeList);
-    if (model == NULL)  // can occur if the PROTO contains errors
+    if (model == NULL)  //  can occur if the PROTO contains errors
       return NULL;
     mModels << model;
     model->ref();

@@ -463,7 +463,7 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
     mNewControllers.clear();
   }
   if (!needToWait())
-    emit WbSimulationState::instance()->controllerReadRequestsCompleted();
+    emit WbSimulationState::instance() -> controllerReadRequestsCompleted();
 
   mIsExecutingStep = false;
   processWaitingStep();

@@ -58,7 +58,7 @@ WbFog::~WbFog() {
     fog->updateAndConnectIfNeeded();
 
   if (!WbWorld::instance()->isCleaning())
-    emit WbWrenRenderingContext::instance()->fogNodeDeleted();
+    emit WbWrenRenderingContext::instance() -> fogNodeDeleted();
 }
 
 void WbFog::preFinalize() {
@@ -72,7 +72,7 @@ void WbFog::preFinalize() {
     updateVisibilityRange();
 
     if (!WbWorld::instance()->isLoading())
-      emit WbWrenRenderingContext::instance()->fogNodeAdded();
+      emit WbWrenRenderingContext::instance() -> fogNodeAdded();
   } else
     parsingWarn(tr("Only one Fog node is allowed. Only the first Fog node will be taken into account."));
 }

@@ -31,7 +31,7 @@ using namespace webots;
 class RosSkin : public RosDevice {
 public:
   RosSkin(Skin *skin, Ros *ros);
-  virtual ~RosSkin(){};
+  virtual ~RosSkin() {};
 
   bool setBoneOrientationCallback(webots_ros::skin_set_bone_orientation::Request &req,
                                   webots_ros::skin_set_bone_orientation::Response &res);

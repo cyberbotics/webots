@@ -26,7 +26,7 @@ WbMultimediaStreamingLimiter::WbMultimediaStreamingLimiter(const QSize &resoluti
   mUpdateTimeStep(updateTimeStep),
   mLevel(-1),
   mIncreasingSteps(1),
-  mIsStopped(false){};
+  mIsStopped(false) {};
 
 void WbMultimediaStreamingLimiter::resetResolution(const QSize &newSize) {
   mResolution = newSize;
