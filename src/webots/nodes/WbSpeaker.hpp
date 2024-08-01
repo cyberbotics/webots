@@ -45,15 +45,15 @@ private:
   // Data from wb_speaker_play_sound() API
   class SoundPlayData {
   public:
-    SoundPlayData(QDataStream &);
+    explicit SoundPlayData(QDataStream &);
 
-    const QString &file() { return mFile; }
-    double volume() { return mVolume; }
-    double pitch() { return mPitch; }
-    double balance() { return mBalance; }
-    bool loop() { return mLoop; }
-    short side() { return mSide; }
-    int rawLength() { return mRawLength; }
+    const QString &file() const { return mFile; }
+    double volume() const { return mVolume; }
+    double pitch() const { return mPitch; }
+    double balance() const { return mBalance; }
+    bool loop() const { return mLoop; }
+    short side() const { return mSide; }
+    int rawLength() const { return mRawLength; }
     QByteArray &rawData() { return mRawData; }
 
   private:

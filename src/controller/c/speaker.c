@@ -312,14 +312,8 @@ static void speaker_toggle_remote(WbDevice *d, WbRequest *r) {
   // nothing to do.
 }
 
-/* Try to read sound file contents and stream it to webots.
- * This is done to support extern controllers that runs as a
- * different process or machine. Fall back to provide only 
- * the filename to webots if it cannot be found by the controller
- * process.
- */
+/* Try to read sound file contents if it is found by given path. */
 static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_name) {
-  long file_size = 0L;
   FILE *fp;
 
   sound->upload_data = NULL;
@@ -327,7 +321,7 @@ static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_na
 
   if (NULL != (fp = fopen(sound_file_name, "rb"))) {
     if (0 == fseek(fp, 0L, SEEK_END)) {
-      file_size = ftell(fp);
+      long file_size = ftell(fp);
       if (-1 != file_size) {
         if (0 == fseek(fp, 0L, SEEK_SET)) {
           size_t consumed = 0U;

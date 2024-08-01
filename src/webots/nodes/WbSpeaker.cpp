@@ -293,7 +293,7 @@ void WbSpeaker::updateSoundSource(WbSoundSource *source) {
 
 WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData() {
   short size;
-  unsigned char loop;
+  unsigned char loopByte;
   stream >> size;
   char soundFile[size];
   stream.readRawData(soundFile, size);
@@ -303,8 +303,8 @@ WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData
   stream >> mPitch;
   stream >> mBalance;
   stream >> mSide;
-  stream >> loop;
-  mLoop = (bool)loop;
+  stream >> loopByte;
+  mLoop = (bool)loopByte;
   stream >> mRawLength;
   if (mRawLength) {
     mRawData.resize(mRawLength);
