@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 
 class WbNodeModel;
+class WbNodeProtoInfo;
 class WbProtoModel;
 class WbField;
 class WbFieldModel;
@@ -166,6 +167,7 @@ public:
 
   bool isProtoInstance() const { return mProto != NULL; }
   WbProtoModel *proto() const { return mProto; }
+  const WbNodeProtoInfo *protoInfo() const { return mProtoInfo; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
@@ -359,6 +361,7 @@ private:
 
   // for proto instances only
   WbProtoModel *mProto;
+  WbNodeProtoInfo *mProtoInfo;
   QList<WbField *> mParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
