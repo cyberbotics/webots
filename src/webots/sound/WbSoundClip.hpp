@@ -45,7 +45,7 @@ protected:
 
 private:
   WbSoundClip(const WbSoundClip &other);
-  WbSoundClip& operator=(const WbSoundClip &other);
+  WbSoundClip &operator=(const WbSoundClip &other);
 };
 
 #endif
