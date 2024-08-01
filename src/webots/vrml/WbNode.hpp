@@ -166,7 +166,7 @@ public:
                                                    const QString &worldPath, int uniqueId = -1);
 
   bool isProtoInstance() const { return mProto != NULL; }
-  const WbProto *proto() const { return mProto; }
+  const WbNodeProtoInfo *proto() const { return mProto; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
@@ -357,7 +357,7 @@ private:
   bool mHasUseAncestor;
 
   // for proto instances only
-  WbProto *mProto;
+  WbNodeProtoInfo *mProto;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 

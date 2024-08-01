@@ -17,7 +17,7 @@
 #include "WbField.hpp"
 #include "WbMFNode.hpp"
 #include "WbNode.hpp"
-#include "WbProto.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbSFNode.hpp"
 #include "WbTokenizer.hpp"
 #include "WbWriter.hpp"
@@ -185,7 +185,7 @@ WbField *WbVrmlNodeUtilities::findFieldParent(const WbField *target, bool intern
 WbProtoModel *WbVrmlNodeUtilities::findContainingProto(const WbNode *node) {
   const WbNode *n = node;
   do {
-    const WbProto *proto = n->proto();
+    const WbNodeProtoInfo *proto = n->proto();
     if (proto)
       return proto->model();
     else {
@@ -252,7 +252,7 @@ const WbField *WbVrmlNodeUtilities::findClosestParameterInProto(const WbField *f
 WbNode *WbVrmlNodeUtilities::findRootProtoNode(WbNode *const node) {
   WbNode *n = node;
   do {
-    const WbProto *proto = n->proto();
+    const WbNodeProtoInfo *proto = n->proto();
     if (proto)
       return n;
     n = n->parentNode();

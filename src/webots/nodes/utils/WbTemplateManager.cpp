@@ -25,9 +25,9 @@
 #include "WbMFNode.hpp"
 #include "WbNode.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
-#include "WbProto.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbShape.hpp"
@@ -228,7 +228,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   // 1. get stuff
   WbNode *parent = node->parentNode();
-  WbProto *proto = node->proto();
+  WbNodeProtoInfo *proto = node->proto();
   assert(parent && proto);
   if (!parent || !proto)
     return;

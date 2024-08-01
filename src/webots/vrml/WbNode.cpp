@@ -29,10 +29,10 @@
 #include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
-#include "WbProto.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFBool.hpp"
@@ -1000,7 +1000,7 @@ QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
 const WbNode *WbNode::containingProto(bool skipThis) const {
   const WbNode *n = this;
   while (n) {
-    const WbProto *p = n->proto();
+    const WbNodeProtoInfo *p = n->proto();
     if (p && (!skipThis || n != this))
       return n;
     else {

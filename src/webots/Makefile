@@ -524,6 +524,7 @@ OTHER_SOURCES = \
   WbMultimediaStreamingLimiter.cpp \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
+  WbNodeProtoInfo.cpp \
   WbNodeModel.cpp \
   WbNodeUtilities.cpp \
   WbObjectDetection.cpp \
@@ -535,7 +536,6 @@ OTHER_SOURCES = \
   WbPicoTextToSpeech.cpp \
   WbPolygon.cpp \
   WbPrecision.cpp \
-  WbProto.cpp \
   WbRandom.cpp \
   WbRay.cpp \
   WbResetCommand.cpp \

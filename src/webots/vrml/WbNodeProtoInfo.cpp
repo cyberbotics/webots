@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbProto.hpp"
+#include "WbNodeProtoInfo.hpp"
 
 #include "WbField.hpp"
 #include "WbProtoModel.hpp"
 
-WbProto::WbProto(WbProto *other, WbNode *node) : mNode(node) {
+WbNodeProtoInfo::WbNodeProtoInfo(WbNodeProtoInfo *other, WbNode *node) : mNode(node) {
   mParentProto = other->mParentProto;
   mModel = other->mModel;
   mModel->ref();
@@ -27,7 +27,7 @@ WbProto::WbProto(WbProto *other, WbNode *node) : mNode(node) {
   }
 }
 
-WbProto::~WbProto() {
+WbNodeProtoInfo::~WbNodeProtoInfo() {
   // Delete parameters backwards to always delete USE nodes before DEF nodes
   int n = mParameters.size() - 1;
   for (int i = n; i >= 0; --i)
@@ -35,11 +35,11 @@ WbProto::~WbProto() {
   mModel->unref();
 }
 
-const QString &WbProto::name() const {
+const QString &WbNodeProtoInfo::name() const {
   return mModel->name();
 }
 
-int WbProto::parameterIndex(const WbField *field) const {
+int WbNodeProtoInfo::parameterIndex(const WbField *field) const {
   const QList<WbField *> &parameterList = parameters();
   return parameterList.indexOf(const_cast<WbField *>(field));
 }

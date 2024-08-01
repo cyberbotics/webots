@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_PROTO_HPP
-#define WB_PROTO_HPP
+#ifndef WB_NODE_PROTO_INFO_HPP
+#define WB_NODE_PROTO_INFO_HPP
 
 //
 // Description: class containing proto-specific information about a VRML node
@@ -27,18 +27,19 @@ class WbField;
 class WbNode;
 class WbProtoModel;
 
-class WbProto {
+class WbNodeProtoInfo {
 
 public:
-	WbProto(WbProtoModel *model, WbNode *node) : mModel(model), mNode(node) {}
-	WbProto(WbProto *other, WbNode *node);
+	WbNodeProtoInfo(WbProtoModel *model, WbNode *node) : mModel(model), mNode(node) {}
+	WbNodeProtoInfo(WbNodeProtoInfo *other, WbNode *node);
+  virtual ~WbNodeProtoInfo();
 
 	const QString &name() const;
   WbNode *node() const { return mNode; }
 	WbProtoModel *model() const { return mModel; }
 
-  WbProto *parent() const { return mParentProto; }
-	void setParentProto(WbProto *parentProto) { mParentProto = parentProto; }
+  WbNodeProtoInfo *parent() const { return mParentProto; }
+	void setParentProto(WbNodeProtoInfo *parentProto) { mParentProto = parentProto; }
 
 	QList<WbField *> &parameters() { return mParameters; }
 	const QList<WbField *> &parameters() const { return mParameters; }
@@ -46,7 +47,7 @@ public:
 
 private:
   WbNode *mNode;
-	WbProto *mParentProto;
+	WbNodeProtoInfo *mParentProto;
 	WbProtoModel *mModel;
 	QList<WbField *> mParameters;
 
