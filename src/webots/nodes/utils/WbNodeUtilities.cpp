@@ -41,7 +41,6 @@
 #include "WbLogicalDevice.hpp"
 #include "WbMFNode.hpp"
 #include "WbNodeOperations.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbPen.hpp"
 #include "WbPlane.hpp"
@@ -919,10 +918,10 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // We don't want to apply the fix if the node is already >R2021b
   if (!node)
     return;
-  if (node->proto() && node->proto()->model()->fileVersion() > WbVersion(2021, 1, 1))
+  if (node->proto() && node->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
   const WbNode *const protoAncestor = WbVrmlNodeUtilities::findRootProtoNode(node);
-  if (!node->proto() && protoAncestor && protoAncestor->proto()->model()->fileVersion() > WbVersion(2021, 1, 1))
+  if (!node->proto() && protoAncestor && protoAncestor->proto()->fileVersion() > WbVersion(2021, 1, 1))
     return;
   if (node->isWorldRoot() && WbTokenizer::worldFileVersion() > WbVersion(2021, 1, 1))
     return;
@@ -1055,7 +1054,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
   // Convert sub-protos.
   for (WbNode *subProto : subProtos) {
     if (subProto->proto() &&
-        (subProto->proto()->model()->path().contains(WbStandardPaths::webotsHomePath()) ||
+        (subProto->proto()->path().contains(WbStandardPaths::webotsHomePath()) ||
          subProto->proto()->name() == "Bc21bCameraProto") &&
         dynamic_cast<WbPose *>(subProto)) {
       // Since we rotated almost all Webots PROTOs we need to rotate them back.

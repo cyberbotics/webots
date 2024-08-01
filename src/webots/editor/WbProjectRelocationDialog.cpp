@@ -20,7 +20,6 @@
 #include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
@@ -409,11 +408,11 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &fileN
       WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::resourcesPath())) {
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (const WbRobot *robot, robots) {
-      const WbNodeProtoInfo *proto = robot->proto();
+      const WbProtoModel *proto = robot->proto();
       if (!proto)
         continue;
 
-      QDir protoProjectDir(proto->model()->projectPath());
+      QDir protoProjectDir(proto->projectPath());
       if (WbFileUtil::isLocatedInDirectory(fileName, protoProjectDir.absolutePath())) {
         mExternalProtoProjectPath = protoProjectDir.absolutePath() + '/';
         break;

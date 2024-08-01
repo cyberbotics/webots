@@ -524,7 +524,6 @@ OTHER_SOURCES = \
   WbMultimediaStreamingLimiter.cpp \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
-  WbNodeProtoInfo.cpp \
   WbNodeModel.cpp \
   WbNodeUtilities.cpp \
   WbObjectDetection.cpp \

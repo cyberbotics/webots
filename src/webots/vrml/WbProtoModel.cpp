@@ -21,7 +21,6 @@
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProtoManager.hpp"
@@ -494,10 +493,9 @@ void WbProtoModel::setIsTemplate(bool value) {
 void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
                                       bool &ok) const {
   QVector<WbField *> fields;
-  if (searchInParameters) {
-    assert(node->isProtoInstance());
-    fields = node->proto()->parameters();
-  } else
+  if (searchInParameters)
+    fields = node->parameters();
+  else
     fields = node->fields();
 
   // search self

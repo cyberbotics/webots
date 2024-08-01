@@ -29,7 +29,6 @@
 #include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
@@ -199,7 +198,8 @@ WbNode::WbNode(const WbNode &other) :
 
   // copy mProto reference
   if (other.mProto) {
-    mProto = new WbProto(other.mProto, this);
+    mProto = other.mProto;
+    mProto->ref();
   }
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
@@ -213,13 +213,17 @@ WbNode::WbNode(const WbNode &other) :
     connect(copy, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
   }
 
-  // forward parameters
-  if (mProto) {
-    foreach (WbField *parameter, mProto->parameters()) {
-      connect(parameter, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
-      // connect fields to PROTO parameters
-      redirectAliasedFields(parameter, this);
+  // copy parameters
+  if (other.mProto) {
+    foreach (const WbField *parameter, other.parameters()) {
+      WbField *copy = new WbField(*parameter, this);
+      mParameters.append(copy);
+      connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }
+
+    // connect fields to PROTO parameters
+    foreach (WbField *parameter, mParameters)
+      redirectAliasedFields(parameter, this);
   }
 
   gParent = parentNode();
@@ -233,7 +237,13 @@ WbNode::~WbNode() {
   for (int i = n; i >= 0; --i)
     delete mFields[i];
 
-  delete mProto;
+  if (mProto) {
+    // Delete parameters backwards to always delete USE nodes before DEF nodes
+    n = mParameters.size() - 1;
+    for (int i = n; i >= 0; --i)
+      delete mParameters[i];
+    mProto->unref();
+  }
 
   foreach (WbNode *instance, mProtoParameterNodeInstances) {
     assert(instance->mProtoParameterNode == this);
@@ -267,7 +277,7 @@ const QString &WbNode::modelName() const {
 }
 
 const QString &WbNode::info() const {
-  return mProto ? mProto->model()->info() : mModel->info();
+  return mProto ? mProto->info() : mModel->info();
 }
 
 void WbNode::setDefName(const QString &defName, bool recurse) {
@@ -479,6 +489,12 @@ int WbNode::findFieldId(const QString &fieldName, bool internal) const {
 int WbNode::fieldIndex(const WbField *field) const {
   const QList<WbField *> &list = fieldsOrParameters();
   return list.indexOf(const_cast<WbField *>(field));
+}
+
+// For PROTOs
+int WbNode::parameterIndex(const WbField *field) const {
+  const QList<WbField *> &parameterList = parameters();
+  return parameterList.indexOf(const_cast<WbField *>(field));
 }
 
 // Retrieves the field in which this node sits and returns the index of the node within this field
@@ -873,9 +889,7 @@ QList<std::pair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
 }
 
 void WbNode::writeParameters(WbWriter &writer) const {
-  if(!isProtoInstance())
-    return;
-  foreach (const WbField *parameter, mProto->parameters())
+  foreach (const WbField *parameter, parameters())
     parameter->write(writer);
 }
 
@@ -984,7 +998,7 @@ QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
       const WbNode *p = protoAncestor();
       QString protoPath;
       if (p)
-        protoPath = p->proto()->model()->path();
+        protoPath = p->proto()->path();
       WbMFString *mfstring = dynamic_cast<WbMFString *>(f->value());
       for (int i = 0; i < mfstring->size(); i++) {
         const QString &textureFile = mfstring->item(i);
@@ -1000,8 +1014,8 @@ QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
 const WbNode *WbNode::containingProto(bool skipThis) const {
   const WbNode *n = this;
   while (n) {
-    const WbNodeProtoInfo *p = n->proto();
-    if (p && (!skipThis || n != this))
+    const WbProtoModel *protoModel = n->proto();
+    if (protoModel && (!skipThis || n != this))
       return n;
     else {
       const WbNode *ppn = n->protoParameterNode();
@@ -1133,7 +1147,7 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
     }
   }
 
-  addExternProtoFromFile(mProto->model(), writer);
+  addExternProtoFromFile(mProto, writer);
 }
 
 void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const {
@@ -1208,7 +1222,7 @@ void WbNode::writeExport(WbWriter &writer) const {
 
 bool WbNode::operator==(const WbNode &other) const {
   if (mModel != other.mModel || isProtoInstance() != other.isProtoInstance() ||
-      (mProto && mProto->model()->url() != other.mProto->model()->url()) || mDefName != other.mDefName)
+      (mProto && mProto->url() != other.mProto->url()) || mDefName != other.mDefName)
     return false;
 
   if (this == &other)
@@ -1240,10 +1254,6 @@ bool WbNode::isDefault() const {
   return true;
 }
 
-const QList<WbField *> &WbNode::fieldsOrParameters() const {
-  return isProtoInstance() ? mProto->parameters() : mFields;
-}
-
 // recursively search for matching IS fields/parameters and redirect them to the PROTO parameter
 // the search does not look up inside fields of other PROTO instances or PROTO parameter node instances
 // because the scope of a PROTO parameter must be local to a PROTO instance
@@ -1255,7 +1265,7 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
     // search for matching IS fields in subPROTO declaration
     // and redirect them to the upper PROTO parameter
     if (this != protoInstance && isProtoInstance())
-      fieldsList = mProto->parameters();
+      fieldsList = mParameters;
   } else
     fieldsList = mFields;
 
@@ -1358,8 +1368,7 @@ void WbNode::redirectInternalFields(WbField *param, bool finalize) {
   if (mIsRedirectedToParameterNode)
     return;
   mIsRedirectedToParameterNode = true;
-  assert(isProtoInstance());
-  const QList<WbField *> parametersList = param ? QList<WbField *>() << param : mProto->parameters();
+  const QList<WbField *> parametersList = param ? QList<WbField *>() << param : mParameters;
   foreach (WbField *parameter, parametersList) {
     QList<WbField *> internalFields = parameter->internalFields();
     while (!internalFields.isEmpty()) {
@@ -1626,13 +1635,13 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
                                        // generating procedural PROTO nodes
   delete newNode;
 
-  instance->mProto = new WbProto(proto, instance);
+  instance->mProto = proto;
   if (id >= 0)
     instance->setUniqueId(id);
 
   QList<WbField *> notAssociatedDerivedParameters;  // populated for derived PROTO only
   if (proto->isDerived()) {
-    QMutableVectorIterator<WbField *> paramIt(instance->mProto->parameters());
+    QMutableVectorIterator<WbField *> paramIt(instance->mParameters);
     while (paramIt.hasNext()) {
       WbField *param = paramIt.next();
 
@@ -1649,7 +1658,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
             const bool paramTemplate = param->isTemplateRegenerator();
             aliasParam->setTemplateRegenerator(paramTemplate);
             if (paramTemplate)
-              instance->mProto->model()->setIsTemplate(true);
+              instance->mProto->setIsTemplate(true);
           }
 
           WbNode *tmpParent = gParent;
@@ -1669,9 +1678,11 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
         }
       }
 
-      if (remove)
+      if (remove) {
         paramIt.remove();
-      else if (aliasNotFound)
+        param->clearInternalFields();
+        delete param;
+      } else if (aliasNotFound)
         // base PROTO parameter not overwritten by derived PROTO parameter
         // copy values from base PROTO default parameter
         instance->redirectAliasedFields(param, instance, false, true);
@@ -1680,7 +1691,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
 
   foreach (WbField *parameter, parameters) {
     // remove first the parameters in case of direct nested PROTOs
-    QMutableVectorIterator<WbField *> it(instance->mProto->parameters());
+    QMutableVectorIterator<WbField *> it(instance->mParameters);
     while (it.hasNext()) {
       WbField *f = it.next();
       if (f->name() == parameter->name() && f->type() == parameter->type()) {
@@ -1692,7 +1703,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
     if (parameter->parentNode())
       disconnect(parameter, &WbField::valueChanged, parameter->parentNode(), &WbNode::notifyParameterChanged);
     parameter->setParentNode(instance);
-    instance->mProto->parameters().append(parameter);
+    instance->mParameters.append(parameter);
     connect(parameter, &WbField::valueChanged, instance, &WbNode::notifyParameterChanged);
 
     // set the parent of the parameter nodes
@@ -1723,7 +1734,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   }
 
   // remove the fake parameters introduced in case of direct nested PROTOs
-  QMutableVectorIterator<WbField *> fieldIt(instance->mProto->parameters());
+  QMutableVectorIterator<WbField *> fieldIt(instance->mParameters);
   while (fieldIt.hasNext()) {
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
@@ -1735,7 +1746,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
 
   instance->updateNestedProtoFlag();
   if (!instance->mIsNestedProtoNode) {
-    QMutableVectorIterator<WbField *> it(instance->mProto->parameters());
+    QMutableVectorIterator<WbField *> it(instance->mParameters);
     while (it.hasNext()) {
       WbField *parameter = it.next();
       if (parameter->isHiddenParameter()) {
@@ -1757,9 +1768,7 @@ void WbNode::updateNestedProtoFlag(bool hasAProtoAncestorFlag) {
   if (newValue && mIsNestedProtoNode)
     return;  // flag already set
   mIsNestedProtoNode = newValue;
-  QList<WbField *> fieldList = fields();
-  if(isProtoInstance())
-    fieldList += mProto->parameters();
+  const QList<WbField *> fieldList = fields() + parameters();
   foreach (const WbField *f, fieldList) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(f->value());
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(f->value());
@@ -1786,7 +1795,7 @@ void WbNode::setCreationCompleted() {
 
 void WbNode::reset(const QString &id) {
   mCurrentStateId = id;
-  if (isTemplate() && !mProto->model()->isDeterministic())
+  if (isTemplate() && !mProto->isDeterministic())
     // nonDeterministic procedural PROTO must be regenerated on reset
     setRegenerationRequired(true);
 }
@@ -1798,7 +1807,7 @@ bool WbNode::isProtoParameterChild(const WbNode *node) const {
   if (node->mProtoParameterParentNode)
     return node->mProtoParameterParentNode == this;
 
-  foreach (const WbField *const p, mProto->parameters()) {
+  foreach (const WbField *const p, parameters()) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(p->value());
     if (sfnode && sfnode->value() == node) {
       node->mProtoParameterParentNode = this;
@@ -1841,8 +1850,8 @@ QList<WbNode *> WbNode::subNodes(bool recurse, bool searchInFields, bool searchI
   QList<WbNode *> result;
   QList<WbField *> fieldsList;
   // first add the parameters and then the fields
-  if (searchInParameters && isProtoInstance())
-    fieldsList += mProto->parameters();
+  if (searchInParameters)
+    fieldsList += mParameters;
   if (searchInFields)
     fieldsList += mFields;
   if (!searchInFields && !searchInParameters)
@@ -1882,7 +1891,7 @@ QList<WbNode *> WbNode::subNodes(const WbField *field, bool recurse, bool search
 
 bool WbNode::isTemplate() const {
   if (mProto)
-    return mProto->model()->isTemplate();
+    return mProto->isTemplate();
   return false;
 }
 
@@ -2098,9 +2107,7 @@ void WbNode::setFieldsParentNode() {
   QList<WbNode *> nodes(subNodes(true, true, true));
   nodes.prepend(this);
   foreach (WbNode *n, nodes) {
-    QList<WbField *> fieldsList = n->mFields;
-    if (n->isProtoInstance())
-      fieldsList += n->mProto->parameters();
+    QList<WbField *> fieldsList = n->mFields + n->mParameters;
     foreach (WbField *f, fieldsList)
       f->setParentNode(n);
   }
@@ -2108,7 +2115,7 @@ void WbNode::setFieldsParentNode() {
 
 QStringList WbNode::documentationBookAndPage(bool isRobot) const {
   if (isProtoInstance()) {
-    QStringList bookAndPage(mProto->model()->documentationBookAndPage(isRobot, false));
+    QStringList bookAndPage(mProto->documentationBookAndPage(isRobot, false));
     if (!bookAndPage.isEmpty())
       return bookAndPage;
   }

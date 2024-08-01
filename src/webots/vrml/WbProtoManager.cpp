@@ -21,7 +21,6 @@
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -810,8 +809,8 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   // for example for default PROTO parameter nodes
   if (node->proto()) {
     if (formatted)
-      return formatExternProtoPath(node->proto()->model()->url());
-    return node->proto()->model()->url();
+      return formatExternProtoPath(node->proto()->url());
+    return node->proto()->url();
   }
 
   assert(false);
@@ -832,7 +831,7 @@ void WbProtoManager::saveToExternProtoClipboardBuffer(const QList<const WbNode *
     if (!node->proto())
       continue;
 
-    saveToExternProtoClipboardBuffer(node->proto()->model()->url());
+    saveToExternProtoClipboardBuffer(node->proto()->url());
   }
 }
 

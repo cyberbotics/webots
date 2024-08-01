@@ -21,7 +21,6 @@
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeProtoInfo.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
@@ -94,13 +93,13 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     if (protoNode) {
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
-      if (protoNode->proto()->model()->isDerived()) {
+      if (protoNode->proto()->isDerived()) {
         if (WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
           parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
         else
           parentUrl = f->scope();
       } else
-        parentUrl = protoNode->proto()->model()->url();
+        parentUrl = protoNode->proto()->url();
     } else
       parentUrl = gWorldFileName;
 
