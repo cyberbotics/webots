@@ -79,6 +79,9 @@ class TestTextures(unittest.TestCase):
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
                 for fileName in fnmatch.filter(fileNames, '*.jpg'):
+                    # Ignore thumbnails
+                    if fileName.startswith('.'):
+                        continue
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
         # 2. filter-out the images which are not textures
