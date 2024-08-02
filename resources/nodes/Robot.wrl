@@ -1,4 +1,5 @@
 # The Robot node is a generic type of robot.
+# parent: Solid
 
 Robot {
   #fields that inherit from the Solid node:
