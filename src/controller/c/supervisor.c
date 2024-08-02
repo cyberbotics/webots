@@ -542,6 +542,7 @@ static const double *add_force_offset = NULL;
 static WbNodeRef set_joint_node_ref = NULL;
 static double set_joint_position = 0.0;
 static int set_joint_index = 0;
+static bool node_get_proto = false;
 static bool virtual_reality_headset_is_used_request = false;
 static bool virtual_reality_headset_is_used = false;
 static bool virtual_reality_headset_position_request = false;
@@ -659,6 +660,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, pose_change_tracking.enable);
     if (pose_change_tracking.enable)
       request_write_int32(r, pose_change_tracking.sampling_period);
+  } else if (node_get_proto) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_PROTO);
+    request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
   } else if (field_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
     request_write_int32(r, field_change_tracking.field->node_unique_id);
@@ -1025,6 +1030,24 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto, proto_ancestor_id);
         node_id = uid;
       }
+    } break;
+    case C_SUPERVISOR_NODE_GET_PROTO: {
+      const int id = request_read_int32(r);
+      const bool is_derived = request_read_uchar(r) == 1;
+      const int num_parameters = request_read_int32(r);
+      const char *type_name = request_read_string(r);
+      const char *def_name = request_read_string(r);
+      if (id < 0)
+        break;
+      WbProtoInfoStruct *p = malloc(sizeof(WbProtoInfoStruct));
+      p->type_name = type_name;
+      p->is_derived = is_derived;
+      p->node_unique_id = node_ref;
+      p->id = id;
+      p->num_parameters = num_parameters;
+
+      p->next = proto_list;
+      proto_list = p;
     } break;
     case C_SUPERVISOR_FIELD_GET_FROM_INDEX:
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
@@ -2903,7 +2926,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
     // if we don't know the proto info yet, we need to talk to Webots
     WbProtoRef proto_list_before = proto_list;
     node_ref = proto->node_unique_id;
-    proto_ref = proto->id;
+    proto_ref = -1;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (proto_list != proto_list_before)
       proto->parent = proto_list;
@@ -3880,7 +3903,8 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
     return NULL;
-  }
+  } else if (index >= proto->number_of_parameters)
+    return NULL;
 
   robot_mutex_lock();
   // search if field is already present in field_list

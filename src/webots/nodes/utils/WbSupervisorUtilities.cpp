@@ -34,6 +34,7 @@
 #include "WbMFVector3.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbProject.hpp"
 #include "WbRgb.hpp"
 #include "WbRobot.hpp"
@@ -306,6 +307,10 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundNodeIsProtoInternal = false;
   mFoundNodeProtoAncestorId = -1;
   mNodeFieldCount = -1;
+  mFoundProtoId = -2;
+  mFoundProtoTypeName.clear();
+  mFoundProtoIsDerived = false;
+  mFoundProtoParameterCount = 0;
   mFoundFieldIndex = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
@@ -1195,6 +1200,32 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mNodeFieldCount = -1;
       return;
     }
+    case C_SUPERVISOR_NODE_GET_PROTO: {
+      int nodeId, parentProtoId;
+      stream >> nodeId;
+      stream >> parentProtoId;
+
+      mFoundProtoId = -1;
+      mFoundProtoTypeName = "";
+      mFoundProtoIsDerived = false;
+      mFoundProtoParameterCount = 0;
+
+      const WbNode *const node = WbNode::findNode(nodeId);
+      if (node && node->isProtoInstance()) {
+        if(parentProtoId < 0)
+          mFoundProtoId = 0;
+        else if (parentProtoId < node->protoParents().size() - 1)
+          mFoundProtoId = parentProtoId + 1;
+        else
+          return;
+
+        const WbNodeProtoInfo *protoInfo = node->protoParents().at(mFoundProtoId);
+        mFoundProtoTypeName = protoInfo->modelName();
+        mFoundProtoIsDerived = node->protoParents().size() > parentProtoId + 1;
+        mFoundProtoParameterCount = protoInfo->parameters().size();
+      }
+      return;
+    }
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       int id;
       unsigned char allowSearchInProto;
@@ -1943,6 +1974,16 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     const QByteArray s = mFoundNodeModelName.toUtf8();
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
+  }
+  if (mFoundProtoId != -2) {  // enabled, -1 means not found
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_NODE_GET_PROTO;
+    stream << (int)mFoundProtoId;
+    stream << (unsigned char)mFoundProtoIsDerived;
+    stream << (int)mFoundProtoParameterCount;
+    const QByteArray ba = mFoundProtoTypeName.toUtf8();
+    stream.writeRawData(ba.constData(), ba.size() + 1);
+    mFoundProtoId = -2;
   }
   if (mFoundFieldIndex != -2) {  // enabled, -1 means not found
     stream << (short unsigned int)0;
