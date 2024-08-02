@@ -2440,7 +2440,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
       result = field_list;
     else
       result = find_field_by_id(node->id, index, false);
-    if (result && node->is_proto_internal)
+    if (result)
       result->is_read_only = true;
     allow_search_in_proto = false;
   }
@@ -2477,7 +2477,7 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
       result = field_list;
     else
       result = find_field_by_id(node->id, index, true);
-    if (result)
+    if (result && node->is_proto_internal)
       result->is_read_only = true;
   }
   robot_mutex_unlock();
@@ -2511,7 +2511,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
-      if (result && node->is_proto_internal)
+      if (result)
         result->is_read_only = true;
     }
     allow_search_in_proto = false;
@@ -2599,7 +2599,7 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
-      if (result)
+      if (result && node->is_proto_internal)
         result->is_read_only = true;
     }
   }
@@ -3881,6 +3881,8 @@ WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *param
     if (requested_field_name) {
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
+      if (result)
+        result->is_read_only = true;
     }
   }
 
@@ -3922,6 +3924,8 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
       result = field_list;
     else
       result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
+    if (result)
+      result->is_read_only = true;
     allow_search_in_proto = false;
   }
 
