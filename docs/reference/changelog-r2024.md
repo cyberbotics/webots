@@ -18,3 +18,4 @@ Released on December **th, 2023.
     - Fixed `Brake`s added to the second axis of a `Hinge2Joint` being applied to the non-transformed axis ([#6584](https://github.com/cyberbotics/webots/pull/6584)).
     - Fixed invalid absolute sound file path resulted in crash ([#6593](https://github.com/cyberbotics/webots/pull/6593))
     - Fixed Speaker relative sound file path not working with external controller ([#6605](https://github.com/cyberbotics/webots/pull/6605)).
+    - Fixed the bug that when the language is Python, getTargets() cannot correctly obtain the multi-target data detected by the radar ([#6606](https://github.com/cyberbotics/webots/pull/6606))
