@@ -2927,9 +2927,11 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
     WbProtoRef proto_list_before = proto_list;
     node_ref = proto->node_unique_id;
     proto_ref = -1;
+    node_get_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (proto_list != proto_list_before)
       proto->parent = proto_list;
+    node_get_proto = false;
   }
 
   wb_robot_mutex_unlock();
