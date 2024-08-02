@@ -98,13 +98,14 @@ WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, const int index);
 int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index);
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node);
+WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_parameters(WbNodeRef node);
 void wb_supervisor_node_remove(WbNodeRef node);
 void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index);
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node);
 
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 const char *wb_supervisor_node_get_type_name(WbNodeRef node);
@@ -199,6 +200,12 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
 void wb_supervisor_field_remove_sf(WbFieldRef field);
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
+
+const char* wb_supervisor_proto_get_type_name(WbProtoRef proto);
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
+WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef node, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef node, int index);
+int wb_supervisor_proto_get_number_of_parameters(WbProtoRef node);
 
 bool wb_supervisor_virtual_reality_headset_is_used();
 const double *wb_supervisor_virtual_reality_headset_get_position();

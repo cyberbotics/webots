@@ -115,6 +115,7 @@ typedef struct WbNodeStructPrivate {
   bool is_proto;
   bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
   int proto_ancestor_id;
+  WbProtoRef proto_info;
 
   WbNodeRef parent_proto;
   int tag;
@@ -122,6 +123,18 @@ typedef struct WbNodeStructPrivate {
 } WbNodeStruct;
 
 static WbNodeStruct *node_list = NULL;
+
+typedef struct WbProtoInfoStructPrivate {
+  char *type_name;
+  bool is_derived;
+  int node_unique_id;
+  int id;
+  int number_of_parameters;
+  WbProtoRef parent;
+  WbProtoRef next;
+} WbProtoInfoStruct;
+
+static WbProtoInfoStruct *proto_list = NULL;
 
 typedef struct WbFieldChangeTrackingPrivate {
   WbFieldStruct *field;
@@ -245,6 +258,19 @@ static bool is_node_ref_valid(const WbNodeRef n) {
   return false;
 }
 
+static bool is_proto_ref_valid(const WbProtoRef p) {
+  if (!p)
+    return false;
+
+  WbProtoRef proto = proto_list;
+  while (proto) {
+    if (proto == p)
+      return true;
+    proto = proto->next;
+  }
+  return false;
+}
+
 static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
@@ -257,6 +283,11 @@ static void delete_node(WbNodeRef node) {
   free(node->contact_points[1].points);
   free(node->solid_velocity);
   free(node);
+}
+
+static void delete_proto(WbProtoInfoStruct *proto) {
+  free(proto->type_name);
+  free(proto);
 }
 
 static void remove_node_from_list(int uid) {
@@ -285,6 +316,34 @@ static void remove_node_from_list(int uid) {
       n->parent_id = -1;
     n = n->next;
   }
+
+  WbProtoRef p = proto_list;
+  while (p) {
+    if (p->node_unique_id == uid)
+      remove_proto_from_list(p);
+    p = p->next;
+  }
+}
+
+static void remove_proto_from_list(WbProtoRef proto) {
+  if (!proto)
+    return;
+
+  // look for the previous proto in the list
+  if (proto_list == proto)  // the proto is the first of the list
+    proto_list = proto->next;
+  else {
+    WbProtoRef previous_proto_in_list = node_list;
+    while (previous_proto_in_list) {
+      if (previous_proto_in_list->next && previous_proto_in_list->next == proto) {
+        // connect previous and next node in the list
+        previous_proto_in_list->next = proto->next;
+        break;
+      }
+      previous_proto_in_list = previous_proto_in_list->next;
+    }
+  }
+  delete_proto(proto);
 }
 
 // extract node DEF name from dot expression
@@ -344,6 +403,12 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
       previous_field = field;
       field = field->next;
     }
+  }
+
+  while (proto_list) {
+    WbProtoInfoStruct *p = proto_list->next;
+    delete_proto(proto_list);
+    proto_list = p;
   }
 }
 
@@ -447,6 +512,7 @@ static int node_number_of_fields = -1;
 static int requested_field_index = -1;
 static bool node_get_selected = false;
 static int node_ref = 0;
+static int proto_ref = -1;
 static WbNodeRef root_ref = NULL;
 static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
@@ -520,6 +586,11 @@ static void supervisor_cleanup(WbDevice *d) {
     WbNodeStruct *n = node_list->next;
     delete_node(node_list);
     node_list = n;
+  }
+  while (proto_list) {
+    WbProtoInfoStruct *p = proto_list->next;
+    delete_proto(proto_list);
+    proto_list = p;
   }
 
   free(export_image_filename);
@@ -2352,7 +2423,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   return result;
 }
 
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index) {
+WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2446,7 +2517,7 @@ int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   return -1;
 }
 
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
+int wb_supervisor_node_get_number_of_parameters(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2470,7 +2541,7 @@ int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   return -1;
 }
 
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
+WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *parameter_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2486,8 +2557,8 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
     return NULL;
   }
 
-  if (!field_name || !field_name[0]) {
-    fprintf(stderr, "Error: %s() called with NULL or empty 'field_name' argument.\n", __FUNCTION__);
+  if (!parameter_name || !parameter_name[0]) {
+    fprintf(stderr, "Error: %s() called with NULL or empty 'parameter_name' argument.\n", __FUNCTION__);
     return NULL;
   }
 
@@ -2497,7 +2568,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   WbFieldRef result = find_field_by_name(field_name, node->id, true);
   if (!result) {
     // otherwise: need to talk to Webots
-    requested_field_name = field_name;
+    requested_field_name = parameter_name;
     node_ref = node->id;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
@@ -2811,6 +2882,36 @@ void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int 
   wb_robot_flush_unlocked(__FUNCTION__);
   set_joint_node_ref = NULL;
   robot_mutex_unlock();
+}
+
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto)
+    return NULL;
+
+  wb_robot_mutex_lock();
+
+  if (!node->proto_info) {
+    // if we don't know the proto info yet, we need to talk to Webots
+    WbProtoRef proto_list_before = proto_list;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    if (proto_list != proto_list_before)
+      proto->parent = proto_list;
+  }
+
+  wb_robot_mutex_unlock();
+
+  return node->proto_info;
 }
 
 bool wb_supervisor_virtual_reality_headset_is_used() {
@@ -3694,4 +3795,117 @@ const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
     default:
       return "";
   }
+}
+
+const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
+  return proto->type_name;
+}
+
+WbProtoRef wb_supervisor_get_proto_parent(WbProtoRef proto) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!proto->is_derived)
+    return NULL;
+
+  wb_robot_mutex_lock();
+
+  if (!proto->parent) {
+    // if we don't know the parent yet, we need to talk to Webots
+    WbProtoRef proto_list_before = proto_list;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    if (proto_list != proto_list_before)
+      proto->parent = proto_list;
+  }
+
+  wb_robot_mutex_unlock();
+
+  return proto->parent;
+}
+
+WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *parameter_name) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if(!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!parameter_name || !parameter_name[0]) {
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'parameter_name' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock();
+
+  WbFieldRef result = find_field_by_name(parameter_name, proto->node_unique_id, proto->id, true);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    requested_field_name = parameter_name;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    if (requested_field_name) {
+      requested_field_name = NULL;
+      result = field_list;  // was just inserted at list head
+    }
+  }
+
+  robot_mutex_unlock();
+
+  return result;
+}
+
+WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int index) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if(!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (index < 0) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
+    return NULL;
+  }
+
+  robot_mutex_lock();
+  // search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    WbFieldRef field_list_before = field_list;
+    requested_field_index = index;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    requested_field_index = -1;
+    if (field_list != field_list_before)
+      result = field_list;
+    else
+      result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
+    allow_search_in_proto = false;
+  }
+
+  robot_mutex_unlock();
+
+  return result;
+}
+
+int wb_supervisor_proto_get_number_of_parameters(WbProtoRef proto) {
+  return proto->number_of_parameters;
 }
