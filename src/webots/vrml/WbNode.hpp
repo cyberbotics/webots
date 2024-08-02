@@ -167,7 +167,7 @@ public:
 
   bool isProtoInstance() const { return mProto != NULL; }
   WbProtoModel *proto() const { return mProto; }
-  const WbNodeProtoInfo *protoInfo() const { return mProtoInfo; }
+  const QList<WbNodeProtoInfo *> &protoParents() const { return mProtoParents; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
@@ -361,7 +361,7 @@ private:
 
   // for proto instances only
   WbProtoModel *mProto;
-  WbNodeProtoInfo *mProtoInfo;
+  QList<WbNodeProtoInfo *> mProtoParents;
   QList<WbField *> mParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;

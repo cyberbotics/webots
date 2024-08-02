@@ -156,7 +156,6 @@ void WbNode::init() {
   mIsCreationCompleted = false;
   mInsertionCompleted = false;
   mProto = NULL;
-  mProtoInfo = NULL;
   mCurrentStateId = "__init__";
   mProtoParameterParentNode = NULL;
   mIsProtoParameterNode = NULL;
@@ -202,7 +201,8 @@ WbNode::WbNode(const WbNode &other) :
   if (other.mProto) {
     mProto = other.mProto;
     mProto->ref();
-    mProtoInfo = new WbNodeProtoInfo(*other.mProtoInfo);
+    foreach (const WbNodeProtoInfo *protoInfo, other.mProtoParents)
+      mProtoParents << new WbNodeProtoInfo(*protoInfo);
   }
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
@@ -224,7 +224,8 @@ WbNode::WbNode(const WbNode &other) :
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
 
       // Redirect field references in proto info
-      mProtoInfo->redirectFields(parameter, copy);
+      foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+        protoInfo->redirectFields(parameter, copy);
     }
 
     // connect fields to PROTO parameters
@@ -1642,7 +1643,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   delete newNode;
 
   instance->mProto = proto;
-  instance->mProtoInfo = new WbNodeProtoInfo(proto->name(), parameters, instance->mProtoInfo);
+  instance->mProtoParents.prepend(new WbNodeProtoInfo(proto->name(), parameters));
   if (id >= 0)
     instance->setUniqueId(id);
 
@@ -1676,7 +1677,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
           }
           gParent = tmpParent;
 
-          instance->mProtoInfo->redirectFields(param, aliasParam);
+          foreach (WbNodeProtoInfo *protoInfo, instance->mProtoParents)
+            protoInfo->redirectFields(param, aliasParam);
 
           aliasNotFound = false;
           remove = true;

@@ -31,12 +31,10 @@ struct WbFieldReference {
 
 class WbNodeProtoInfo {
 public:
-	WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters, WbNodeProtoInfo *parentProto = NULL);
+	WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters);
 	explicit WbNodeProtoInfo(const WbNodeProtoInfo &other);
-  virtual ~WbNodeProtoInfo();
 
 	const QString &modelName() const { return mModelName; }
-	const WbNodeProtoInfo *parentProto() const { return mParentProto; }
 	const QList<WbFieldReference> &parameters() const { return mParameters; }
 
 	void redirectFields(const WbField *oldField, WbField *newField);
@@ -45,7 +43,6 @@ private:
   WbNodeProtoInfo &operator=(const WbNodeProtoInfo &);  // non copyable
 
 	QString mModelName;
-	WbNodeProtoInfo *mParentProto;
 	QList<WbFieldReference> mParameters;
 
 };

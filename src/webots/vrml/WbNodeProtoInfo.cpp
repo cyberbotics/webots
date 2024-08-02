@@ -16,7 +16,7 @@
 
 #include "WbField.hpp"
 
-WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters, WbNodeProtoInfo *parentProto) : mModelName(modelName), mParentProto(parentProto) {
+WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters) : mModelName(modelName) {
   foreach (WbField *field, parameters) {
     WbFieldReference ref;
     ref.name = field->name();
@@ -25,18 +25,10 @@ WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *
   }
 }
 
-WbNodeProtoInfo::WbNodeProtoInfo(const WbNodeProtoInfo &other) : mModelName(other.mModelName), mParameters(other.mParameters), mParentProto(other.mParentProto) {
-}
-
-WbNodeProtoInfo::~WbNodeProtoInfo() {
-  if (mParentProto)
-    delete mParentProto;
+WbNodeProtoInfo::WbNodeProtoInfo(const WbNodeProtoInfo &other) : mModelName(other.mModelName), mParameters(other.mParameters) {
 }
 
 void WbNodeProtoInfo::redirectFields(const WbField *oldField, WbField *newField) {
-  if (mParentProto)
-    mParentProto->redirectFields(oldField, newField);
-
   for (WbFieldReference &ref: mParameters)
     if (ref.actualField == oldField)
       ref.actualField = newField;
