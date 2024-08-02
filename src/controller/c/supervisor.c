@@ -2410,6 +2410,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
+    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
@@ -2418,6 +2419,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
       result = find_field_by_id(node->id, index, false);
     if (result && node->is_proto_internal)
       result->is_read_only = true;
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2446,7 +2448,6 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
-    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
@@ -2455,7 +2456,6 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
       result = find_field_by_id(node->id, index, true);
     if (result)
       result->is_read_only = true;
-    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2483,6 +2483,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
+    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
@@ -2490,6 +2491,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
       if (result && node->is_proto_internal)
         result->is_read_only = true;
     }
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2570,7 +2572,6 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
     // otherwise: need to talk to Webots
     requested_field_name = parameter_name;
     node_ref = node->id;
-    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
@@ -2578,7 +2579,6 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
       if (result)
         result->is_read_only = true;
     }
-    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
