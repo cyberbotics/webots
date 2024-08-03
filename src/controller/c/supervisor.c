@@ -2940,7 +2940,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
     node_get_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (proto_list != proto_list_before)
-      proto->parent = proto_list;
+      node->proto_info = proto_list;
     node_get_proto = false;
   }
 
