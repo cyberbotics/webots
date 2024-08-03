@@ -92,7 +92,6 @@ WbNodeRef wb_supervisor_node_get_from_device(WbDeviceTag tag);
 WbNodeRef wb_supervisor_node_get_from_def(const char *def);
 WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
-WbNodeRef wb_supervisor_node_get_proto_ancestor(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_selected();
 WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
