@@ -287,7 +287,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // "%{ a = \"fields.model->name().value.y\" }%"  => false
         // "%{= \"fields.model->name().value.y\" }%"  => false
         // "%{= fields.model->name().value.y }%"  => true
-        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
+        // "%{= \"fields\" }%"  => false
+        // "%{= fields }%"  => true
+        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields(?:\\.%3\\.value|(?!\\.))(?:(?!%4|\").)*%5")
                                                         .arg(open)
                                                         .arg(close)
                                                         .arg(QRegularExpression::escape(model->name()))
