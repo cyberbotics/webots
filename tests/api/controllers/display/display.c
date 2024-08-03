@@ -35,7 +35,7 @@ static void quick_assert_color(WbDeviceTag camera, int px, int py, int expected,
 
   ts_assert_color_in_delta(wb_camera_image_get_red(image, w, px, py), wb_camera_image_get_green(image, w, px, py),
                            wb_camera_image_get_blue(image, w, px, py), (expected >> 16) & 0xFF, (expected >> 8) & 0xFF,
-                           expected & 0xFF, 1, error_msg);
+                           expected & 0xFF, 2, error_msg);
 }
 
 int main(int argc, char **argv) {

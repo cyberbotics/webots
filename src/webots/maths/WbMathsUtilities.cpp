@@ -107,7 +107,13 @@ int WbMathsUtilities::convexHull(const QVector<WbVector2> &points, QVector<int> 
       iMin = i;
   }
 
+  // Ignore false positive warning produced by some versions of GCC.
+#pragma GCC diagnostic push
+#if __GNUC__ >= 7
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
   QVector<int> index(size);
+#pragma GCC diagnostic pop
   for (i = 0; i < size; ++i)
     index[i] = i;
 
