@@ -95,6 +95,7 @@ struct WbFieldGetRequest {
   WbField *field;
   int fieldId;
   int nodeId;
+  int protoId;
   int index;  // for MF fields only
 };
 
@@ -1537,6 +1538,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFieldGetRequest->index = index;
       mFieldGetRequest->fieldId = fieldId;
       mFieldGetRequest->nodeId = uniqueId;
+      mFieldGetRequest->protoId = protoId;
       return;
     }
     case C_SUPERVISOR_FIELD_SET_VALUE: {
@@ -2139,6 +2141,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
       stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
       stream << (int)field.field->type();
       stream << (int)field.nodeId;
+      stream << (int)-1; // TODO: Impl
       stream << (int)field.fieldId;
       pushSingleFieldContentToStream(stream, field.field);
       field.lastUpdate = time;
@@ -2157,6 +2160,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     }
     stream << (int)field->type();
     stream << (int)mFieldGetRequest->nodeId;
+    stream << (int)mFieldGetRequest->protoId;
     stream << (int)mFieldGetRequest->fieldId;
     switch (field->type()) {
       case WB_MF_BOOL: {
