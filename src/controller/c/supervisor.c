@@ -2543,8 +2543,10 @@ int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   requested_node_number_of_fields = true;
   node_ref = node->id;
   node_number_of_fields = -1;
+  allow_search_in_proto = true;
   wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
+  allow_search_in_proto = false;
   robot_mutex_unlock();
   if (node_number_of_fields > 0)
     return node_number_of_fields;
@@ -2565,10 +2567,8 @@ int wb_supervisor_node_get_number_of_parameters(WbNodeRef node) {
   requested_node_number_of_fields = true;
   node_ref = node->id;
   node_number_of_fields = -1;
-  allow_search_in_proto = true;
   wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
-  allow_search_in_proto = false;
   robot_mutex_unlock();
   if (node_number_of_fields > 0)
     return node_number_of_fields;
