@@ -3836,7 +3836,7 @@ const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
   return proto->type_name;
 }
 
-WbProtoRef wb_supervisor_get_proto_parent(WbProtoRef proto) {
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
