@@ -1508,10 +1508,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_FIELD_GET_VALUE: {
       unsigned int uniqueId, fieldId;
-      int index = -1;
+      int protoId, index = -1;
       unsigned char internal = false;
 
       stream >> uniqueId;
+      stream >> protoId;
       stream >> fieldId;
       stream >> internal;
 
@@ -1519,7 +1520,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbField *field = NULL;
 
       if (node) {
-        field = node->field(fieldId, internal == 1);
+        if (protoId < 0) {
+          field = node->field(fieldId, internal == 1);
+        } else if (protoId < node->protoParents().size()) {
+          const WbNodeProtoInfo *protoInfo = node->protoParents().at(protoId);
+          field = protoInfo->findFieldByIndex(fieldId).actualField;
+        }
+
         if (field && field->isMultiple())
           stream >> index;
       }

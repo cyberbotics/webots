@@ -59,6 +59,7 @@ typedef struct WbFieldStructPrivate {
   int count;         // used in MF fields only
   int node_unique_id;
   int id;                        // attributed by Webots
+  int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
   union WbFieldData data;
@@ -125,7 +126,7 @@ typedef struct WbNodeStructPrivate {
 static WbNodeStruct *node_list = NULL;
 
 typedef struct WbProtoInfoStructPrivate {
-  char *type_name;
+  const char *type_name;
   bool is_derived;
   int node_unique_id;
   int id;
@@ -195,18 +196,18 @@ static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bo
   WbFieldStruct *field = field_list;
   while (field) {
     if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 &&
-        field->is_proto_internal_field == is_proto_internal_field)
+        field->is_proto_internal_field == is_proto_internal_field && field->proto_id == -1)
       return field;
     field = field->next;
   }
   return NULL;
 }
 
-static WbFieldStruct *find_field_by_id(int node_id, int field_id, bool is_proto_internal_field) {
+static WbFieldStruct *find_field_by_id(int node_id, int proto_id, int field_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && field->id == field_id && field->is_proto_internal_field == is_proto_internal_field)
+    if (field->node_unique_id == node_id && field->proto_id == proto_id && field->id == field_id && field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -290,6 +291,27 @@ static void delete_proto(WbProtoInfoStruct *proto) {
   free(proto);
 }
 
+static void remove_proto_from_list(WbProtoRef proto) {
+  if (!proto)
+    return;
+
+  // look for the previous proto in the list
+  if (proto_list == proto)  // the proto is the first of the list
+    proto_list = proto->next;
+  else {
+    WbProtoRef previous_proto_in_list = proto_list;
+    while (previous_proto_in_list) {
+      if (previous_proto_in_list->next && previous_proto_in_list->next == proto) {
+        // connect previous and next node in the list
+        previous_proto_in_list->next = proto->next;
+        break;
+      }
+      previous_proto_in_list = previous_proto_in_list->next;
+    }
+  }
+  delete_proto(proto);
+}
+
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
@@ -323,27 +345,6 @@ static void remove_node_from_list(int uid) {
       remove_proto_from_list(p);
     p = p->next;
   }
-}
-
-static void remove_proto_from_list(WbProtoRef proto) {
-  if (!proto)
-    return;
-
-  // look for the previous proto in the list
-  if (proto_list == proto)  // the proto is the first of the list
-    proto_list = proto->next;
-  else {
-    WbProtoRef previous_proto_in_list = node_list;
-    while (previous_proto_in_list) {
-      if (previous_proto_in_list->next && previous_proto_in_list->next == proto) {
-        // connect previous and next node in the list
-        previous_proto_in_list->next = proto->next;
-        break;
-      }
-      previous_proto_in_list = previous_proto_in_list->next;
-    }
-  }
-  delete_proto(proto);
 }
 
 // extract node DEF name from dot expression
@@ -689,6 +690,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
       if (request->type == GET) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_GET_VALUE);
         request_write_uint32(r, f->node_unique_id);
+        request_write_int32(r, f->proto_id);
         request_write_uint32(r, f->id);
         request_write_uchar(r, f->is_proto_internal_field ? 1 : 0);
         if (request->index != -1)
@@ -1046,7 +1048,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       p->is_derived = is_derived;
       p->node_unique_id = node_ref;
       p->id = id;
-      p->num_parameters = num_parameters;
+      p->number_of_parameters = num_parameters;
 
       p->next = proto_list;
       proto_list = p;
@@ -1069,6 +1071,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->count = field_count;
       f->node_unique_id = node_ref;
       f->name = name;
+      f->proto_id = proto_ref;
       f->is_proto_internal_field = is_proto_internal_field;
       f->is_read_only = is_proto_internal_field;
       f->last_update = -DBL_MAX;
@@ -1081,9 +1084,11 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       // field_type == 0 if node was deleted
       if (field_type != 0) {
         const int field_node_id = request_read_int32(r);
+        const int field_proto_id = request_read_int32(r);
         const int field_id = request_read_int32(r);
         const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
                                           sent_field_get_request->field->node_unique_id == field_node_id &&
+                                          sent_field_get_request->field->proto_id == field_proto_id &&
                                           sent_field_get_request->field->id == field_id;
         WbFieldStruct *f =
           (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id, false);
@@ -2429,7 +2434,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, index, false);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, false);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
@@ -2442,7 +2447,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, index, false);
+      result = find_field_by_id(node->id, -1, index, false);
     if (result)
       result->is_read_only = true;
     allow_search_in_proto = false;
@@ -2468,7 +2473,7 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, index, true);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, true);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
@@ -2480,7 +2485,7 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, index, true);
+      result = find_field_by_id(node->id, -1, index, true);
     if (result && node->is_proto_internal)
       result->is_read_only = true;
   }
@@ -2595,7 +2600,7 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
   robot_mutex_lock();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_name(field_name, node->id, true);
+  WbFieldRef result = find_field_by_name(parameter_name, node->id, true);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = parameter_name;
@@ -2926,7 +2931,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
   if (!node->is_proto)
     return NULL;
 
-  wb_robot_mutex_lock();
+  robot_mutex_lock();
 
   if (!node->proto_info) {
     // if we don't know the proto info yet, we need to talk to Webots
@@ -2940,7 +2945,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
     node_get_proto = false;
   }
 
-  wb_robot_mutex_unlock();
+  robot_mutex_unlock();
 
   return node->proto_info;
 }
@@ -3845,7 +3850,7 @@ WbProtoRef wb_supervisor_get_proto_parent(WbProtoRef proto) {
   if (!proto->is_derived)
     return NULL;
 
-  wb_robot_mutex_lock();
+  robot_mutex_lock();
 
   if (!proto->parent) {
     // if we don't know the parent yet, we need to talk to Webots
@@ -3857,7 +3862,7 @@ WbProtoRef wb_supervisor_get_proto_parent(WbProtoRef proto) {
       proto->parent = proto_list;
   }
 
-  wb_robot_mutex_unlock();
+  robot_mutex_unlock();
 
   return proto->parent;
 }
