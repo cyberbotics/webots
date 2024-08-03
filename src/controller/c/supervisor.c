@@ -115,10 +115,7 @@ typedef struct WbNodeStructPrivate {
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
   bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
-  int proto_ancestor_id;
   WbProtoRef proto_info;
-
-  WbNodeRef parent_proto;
   int tag;
   WbNodeRef next;
 } WbNodeStruct;
@@ -414,7 +411,7 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
 }
 
 static void add_node_to_list(int uid, WbNodeType type, const char *model_name, const char *def_name, int tag, int parent_id,
-                             bool is_proto, int proto_ancestor_id) {
+                             bool is_proto) {
   WbNodeRef nodeInList = find_node_by_id(uid);
   if (nodeInList) {
     // already in the list, update DEF name if needed
@@ -451,7 +448,6 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->is_proto = is_proto;
   n->is_proto_internal = false;
   n->parent_proto = NULL;
-  n->proto_ancestor_id = proto_ancestor_id;
   n->tag = tag;
   n->next = node_list;
   node_list = n;
@@ -998,10 +994,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
       const bool is_proto_internal = request_read_uchar(r) == 1;
-      const int proto_ancestor_id = request_read_int32(r);
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, parent_uid, is_proto, proto_ancestor_id);  // add self node
+      add_node_to_list(self_uid, WB_NODE_ROBOT, model_name, def_name, 0, parent_uid, is_proto);  // add self node
       self_node_ref = node_list;
       self_node_ref->is_proto_internal = is_proto_internal;
     } break;
@@ -1011,10 +1006,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int tag = request_read_int32(r);
       const int parent_uid = request_read_uint32(r);
       const bool is_proto = request_read_uchar(r) == 1;
-      const int proto_ancestor_id = request_read_int32(r);
       const char *model_name = request_read_string(r);
       if (uid) {
-        add_node_to_list(uid, type, model_name, node_def_name, tag, parent_uid, is_proto, proto_ancestor_id);
+        add_node_to_list(uid, type, model_name, node_def_name, tag, parent_uid, is_proto);
         node_id = uid;
       }
     } break;
@@ -1029,9 +1023,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_proto_internal = request_read_uchar(r) == 1;
       const char *model_name = request_read_string(r);
       const char *def_name = request_read_string(r);
-      const int proto_ancestor_id = request_read_int32(r);
       if (uid && (!is_proto_internal || allow_search_in_proto)) {
-        add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto, proto_ancestor_id);
+        add_node_to_list(uid, type, model_name, def_name, tag, parent_uid, is_proto);
         node_id = uid;
       }
     } break;
@@ -1138,10 +1131,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
                 const int tag = request_read_int32(r);
                 const int parent_uid = request_read_uint32(r);
                 const bool is_proto = request_read_uchar(r) == 1;
-                const int proto_ancestor_id = request_read_int32(r);
                 const char *model_name = request_read_string(r);
                 const char *def_name = request_read_string(r);
-                add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, tag, parent_uid, is_proto, proto_ancestor_id);
+                add_node_to_list(f->data.sf_node_uid, type, model_name, def_name, tag, parent_uid, is_proto);
               }
               break;
             default:
@@ -1485,7 +1477,7 @@ void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;
   d->read_answer = supervisor_read_answer;
   d->cleanup = supervisor_cleanup;
-  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, 0, -1, false, -1);  // create root node
+  add_node_to_list(0, WB_NODE_GROUP, wb_node_get_name(WB_NODE_GROUP), NULL, 0, -1, false);  // create root node
   root_ref = node_list;
 }
 

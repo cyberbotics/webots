@@ -84,7 +84,6 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
-  int mFoundNodeProtoAncestorId;
   int mFoundProtoId;
   QString mFoundProtoTypeName;
   bool mFoundProtoIsDerived;

@@ -306,7 +306,6 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundNodeParentUniqueId = -1;
   mFoundNodeIsProto = false;
   mFoundNodeIsProtoInternal = false;
-  mFoundNodeProtoAncestorId = -1;
   mNodeFieldCount = -1;
   mFoundProtoId = -2;
   mFoundProtoTypeName.clear();
@@ -787,7 +786,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeIsProto = node->isProtoInstance();
         mFoundNodeIsProtoInternal =
           node->parentNode() != WbWorld::instance()->root() && !WbVrmlNodeUtilities::isVisible(node->parentField());
-        mFoundNodeProtoAncestorId = node->hasAProtoAncestor() ? node->protoAncestor()->uniqueId() : -1;
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -807,7 +805,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundNodeTag = (device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1;
       mFoundNodeModelName = baseNode ? baseNode->modelName() : QString();
       mFoundNodeIsProtoInternal = false;
-      mFoundNodeProtoAncestorId = baseNode && baseNode->hasAProtoAncestor() ? baseNode->protoAncestor()->uniqueId() : -1;
       if (baseNode) {
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
@@ -848,7 +845,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundNodeParentUniqueId = 0;
       }
       mFoundNodeIsProto = baseNode->isProtoInstance();
-      mFoundNodeProtoAncestorId = baseNode->hasAProtoAncestor() ? baseNode->protoAncestor()->uniqueId() : -1;
       connect(baseNode, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       return;
     }
@@ -864,7 +860,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeModelName = baseNode->modelName();
         mFoundNodeParentUniqueId = -1;
         mFoundNodeIsProtoInternal = false;
-        mFoundNodeProtoAncestorId = baseNode->hasAProtoAncestor() ? baseNode->protoAncestor()->uniqueId() : -1;
         if (baseNode->parentNode()) {
           if (baseNode->parentNode() != WbWorld::instance()->root())
             mFoundNodeParentUniqueId = baseNode->parentNode()->uniqueId();
@@ -1843,7 +1838,6 @@ void WbSupervisorUtilities::writeNode(WbDataStream &stream, const WbBaseNode *ba
   stream << (int)((device && mRobot->findDevice(device->tag()) == device) ? device->tag() : -1);
   stream << (int)(baseNode->parentNode() ? baseNode->parentNode()->uniqueId() : -1);
   stream << (unsigned char)baseNode->isProtoInstance();
-  stream << (int)(baseNode->hasAProtoAncestor() ? baseNode->protoAncestor()->uniqueId() : -1);
   const QByteArray &modelName = baseNode->modelName().toUtf8();
   const QByteArray &defName = baseNode->defName().toUtf8();
   stream.writeRawData(modelName.constData(), modelName.size() + 1);
@@ -1987,7 +1981,6 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
     stream << (unsigned char)mFoundNodeIsProtoInternal;
-    stream << (int)mFoundNodeProtoAncestorId;
     const QByteArray &modelName = mFoundNodeModelName.toUtf8();
     const QByteArray &defName = mCurrentDefName.toUtf8();
     stream.writeRawData(modelName.constData(), modelName.size() + 1);
@@ -2004,7 +1997,6 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     stream << (int)mFoundNodeTag;
     stream << (int)mFoundNodeParentUniqueId;
     stream << (unsigned char)mFoundNodeIsProto;
-    stream << (int)mFoundNodeProtoAncestorId;
     const QByteArray s = mFoundNodeModelName.toUtf8();
     stream.writeRawData(s.constData(), s.size() + 1);
     mFoundNodeUniqueId = -1;
@@ -2319,7 +2311,6 @@ void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
                             !WbVrmlNodeUtilities::isVisible(selfNode->parentField()));
-  stream << (int)(selfNode->hasAProtoAncestor() ? selfNode->protoAncestor()->uniqueId() : -1);
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();
