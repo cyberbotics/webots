@@ -642,11 +642,13 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   } else if (requested_field_name) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_NAME);
     request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (requested_field_index >= 0) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_INDEX);
     request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
     request_write_uint32(r, requested_field_index);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (requested_node_number_of_fields) {
@@ -2433,6 +2435,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
+    proto_ref = -1;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
@@ -2471,6 +2474,7 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
+    proto_ref = -1;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
@@ -2506,6 +2510,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
+    proto_ref = -1;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
@@ -2595,6 +2600,7 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
     // otherwise: need to talk to Webots
     requested_field_name = parameter_name;
     node_ref = node->id;
+    proto_ref = -1;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;

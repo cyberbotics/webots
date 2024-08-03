@@ -37,6 +37,9 @@ public:
 	const QString &modelName() const { return mModelName; }
 	const QList<WbFieldReference> &parameters() const { return mParameters; }
 
+	const WbFieldReference &findFieldByIndex(int index) const;
+	int findFieldIndex(const QString &name) const;
+
 	void redirectFields(const WbField *oldField, WbField *newField);
 
 private:

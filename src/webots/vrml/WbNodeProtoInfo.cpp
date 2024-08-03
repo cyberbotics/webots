@@ -28,6 +28,19 @@ WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *
 WbNodeProtoInfo::WbNodeProtoInfo(const WbNodeProtoInfo &other) : mModelName(other.mModelName), mParameters(other.mParameters) {
 }
 
+const WbFieldReference &WbNodeProtoInfo::findFieldByIndex(int index) const {
+  if (index < 0 || index >= mParameters.size())
+    return {QString(), NULL};
+  return mParameters.at(index);
+}
+
+int WbNodeProtoInfo::findFieldIndex(const QString &name) const {
+  for (int i = 0; i < mParameters.size(); ++i)
+    if (mParameters.at(i).name == name)
+      return i;
+  return -1;
+}
+
 void WbNodeProtoInfo::redirectFields(const WbField *oldField, WbField *newField) {
   for (WbFieldReference &ref: mParameters)
     if (ref.actualField == oldField)
