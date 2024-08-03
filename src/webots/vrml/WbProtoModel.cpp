@@ -214,9 +214,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 
       foreach (WbFieldModel *model, mFieldModels) {
         // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
-        // "my_awesome_modelName")
+        // "my_awesome_modelName") or (token contains fields and not a Lua identifier containing fields such as "my_fields")
         if (token->word().contains(QRegularExpression(
-              QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegularExpression::escape(model->name()))))) {
+              QString("(^|\\W)fields(?:[^\\.\\w]|\\.%1)($|\\W)").arg(QRegularExpression::escape(model->name()))))) {
           model->setTemplateRegenerator(true);
         }
       }
