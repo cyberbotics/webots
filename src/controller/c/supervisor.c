@@ -116,6 +116,7 @@ typedef struct WbNodeStructPrivate {
   bool is_proto;
   bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
   WbProtoRef proto_info;
+  WbNodeRef parent_proto;
   int tag;
   WbNodeRef next;
 } WbNodeStruct;
