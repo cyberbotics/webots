@@ -3856,7 +3856,9 @@ WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
     WbProtoRef proto_list_before = proto_list;
     node_ref = proto->node_unique_id;
     proto_ref = proto->id;
+    node_get_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
+    node_get_proto = false;
     if (proto_list != proto_list_before)
       proto->parent = proto_list;
   }
