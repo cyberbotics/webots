@@ -191,12 +191,12 @@ static char *supervisor_strdup(const char *src) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bool is_proto_internal_field) {
+static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, int proto_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
     if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 &&
-        field->is_proto_internal_field == is_proto_internal_field && field->proto_id == -1)
+        field->proto_id == proto_id && field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -287,7 +287,7 @@ static void delete_node(WbNodeRef node) {
 }
 
 static void delete_proto(WbProtoInfoStruct *proto) {
-  free(proto->type_name);
+  free((char *)proto->type_name);
   free(proto);
 }
 
@@ -1040,7 +1040,6 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const bool is_derived = request_read_uchar(r) == 1;
       const int num_parameters = request_read_int32(r);
       const char *type_name = request_read_string(r);
-      const char *def_name = request_read_string(r);
       if (id < 0)
         break;
       WbProtoInfoStruct *p = malloc(sizeof(WbProtoInfoStruct));
@@ -1091,7 +1090,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
                                           sent_field_get_request->field->proto_id == field_proto_id &&
                                           sent_field_get_request->field->id == field_id;
         WbFieldStruct *f =
-          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id, false);
+          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, -1, field_id, false); // TODO: FIX
         if (f) {
           switch (f->type) {
             case WB_SF_BOOL:
@@ -1173,9 +1172,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
       if (parent_node_id >= 0) {
-        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id, false);
+        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id, -1, false);
         if (field == NULL)
-          field = find_field_by_name(field_name, parent_node_id, true);
+          field = find_field_by_name(field_name, parent_node_id, -1, true);
         if (field)
           field->count = field_count;
       }
@@ -2510,7 +2509,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 
   robot_mutex_lock();
 
-  WbFieldRef result = find_field_by_name(field_name, node->id, false);
+  WbFieldRef result = find_field_by_name(field_name, node->id, -1, false);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
@@ -2600,7 +2599,7 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
   robot_mutex_lock();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_name(parameter_name, node->id, true);
+  WbFieldRef result = find_field_by_name(parameter_name, node->id, -1, true);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = parameter_name;
@@ -2936,7 +2935,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
   if (!node->proto_info) {
     // if we don't know the proto info yet, we need to talk to Webots
     WbProtoRef proto_list_before = proto_list;
-    node_ref = proto->node_unique_id;
+    node_ref = node->id;
     proto_ref = -1;
     node_get_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
