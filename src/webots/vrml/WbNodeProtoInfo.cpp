@@ -16,6 +16,8 @@
 
 #include "WbField.hpp"
 
+static const WbFieldReference INVALID_FIELD_REFERENCE = {QString(), NULL};
+
 WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters) : mModelName(modelName) {
   foreach (WbField *field, parameters) {
     WbFieldReference ref;
@@ -30,7 +32,7 @@ WbNodeProtoInfo::WbNodeProtoInfo(const WbNodeProtoInfo &other) : mModelName(othe
 
 const WbFieldReference &WbNodeProtoInfo::findFieldByIndex(int index) const {
   if (index < 0 || index >= mParameters.size())
-    return {QString(), NULL};
+    return INVALID_FIELD_REFERENCE;
   return mParameters.at(index);
 }
 
