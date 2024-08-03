@@ -249,6 +249,9 @@ WbNode::~WbNode() {
     n = mParameters.size() - 1;
     for (int i = n; i >= 0; --i)
       delete mParameters[i];
+    n = mInternalProtoParameters.size() - 1;
+    for (int i = n; i >= 0; --i)
+      delete mInternalProtoParameters[i];
     mProto->unref();
   }
 
@@ -1750,7 +1753,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
       fieldIt.remove();
-      delete f;
+      instance->mInternalProtoParameters << f;
     }
   }
   delete gProtoParameterList.takeLast();

@@ -363,6 +363,7 @@ private:
   WbProtoModel *mProto;
   QList<WbNodeProtoInfo *> mProtoParents;
   QList<WbField *> mParameters;
+  QList<WbField *> mInternalProtoParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 
