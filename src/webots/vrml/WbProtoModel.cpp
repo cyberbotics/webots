@@ -210,9 +210,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     previousToken = token;
     token = tokenizer->nextToken();
 
-    if (mHasIndirectFieldAccess)
+    if (mHasIndirectFieldAccess) {
       foreach (WbFieldModel *model, mFieldModels)
         model->setTemplateRegenerator(true);
+    }
 
     if (token->isTemplateStatement()) {
       mTemplate = true;
