@@ -29,7 +29,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  controller "template_template_indirect_field_access"
+  controller "template_indirect_field_access"
   controllerArgs [
     "template_indirect_field_access (lua)"
   ]
