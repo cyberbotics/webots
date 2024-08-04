@@ -126,6 +126,7 @@ private:
   QString mName;
   QString mInfo;
   bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
+  bool mHasIndirectFieldAccess; // i.e. has the 'indirectFieldAccess' tag
   QList<WbFieldModel *> mFieldModels;
 
   QString mUrl;     // how the PROTO is referenced

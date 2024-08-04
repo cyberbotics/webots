@@ -1,7 +1,8 @@
 #VRML_SIM R2024a utf8
+# tags: indirectFieldAccess
 # template language: javascript
 
-PROTO TemplateIndirectFieldReference [
+PROTO TemplateIndirectFieldAccess [
   unconnectedField SFFloat field1 1
   unconnectedField SFFloat field2 5
 ]

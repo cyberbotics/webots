@@ -1,6 +1,6 @@
 #VRML_SIM R2024a utf8
 
-EXTERNPROTO "webots://tests/protos/protos/TemplateIndirectFieldReferenceLua.proto"
+EXTERNPROTO "webots://tests/protos/protos/TemplateIndirectFieldAccess.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
@@ -24,14 +24,14 @@ Robot {
   translation 0.1 0 0.15
   rotation 0 1 0 1.5708
   children [
-    DEF PROTO_TEMPLATE_INDIRECT_FIELD_REFERENCE TemplateIndirectFieldReferenceLua {
+    DEF PROTO_template_indirect_field_access TemplateIndirectFieldReference {
 		}
     TestSuiteEmitter {
     }
   ]
-  controller "template_indirect_field_reference"
+  controller "template_indirect_field_access"
   controllerArgs [
-    "template_indirect_field_reference (lua)"
+    "template_indirect_field_access"
   ]
   supervisor TRUE
 }

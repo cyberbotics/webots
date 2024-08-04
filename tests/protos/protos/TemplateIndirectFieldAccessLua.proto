@@ -1,6 +1,7 @@
 #VRML_SIM R2024a utf8
+# tags: indirectFieldAccess
 
-PROTO TemplateIndirectFieldReferenceLua [
+PROTO TemplateIndirectFieldAccessLua [
   unconnectedField SFFloat field1 1
   unconnectedField SFFloat field2 5
 ]
