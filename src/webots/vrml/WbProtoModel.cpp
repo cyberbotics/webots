@@ -286,7 +286,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         foreach (WbFieldModel *model, mFieldModels) {
           // regex test cases:
           // "You know nothing, John Snow."  => false
-          // "%{=fields.model->name()}%"  => false
+          // "%{=fields.model->name()}%"  => true
           // "%{= fields.model->name().value.x }% %{= fields.model->name().value.y }%"  => true
           // "abc %{= fields.model->name().value.y }% def"  => true
           // "%{= 17 % fields.model->name().value.y * 88 }%"  => true
@@ -295,10 +295,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
           // "%{ a = \"fields.model->name().value.y\" }%"  => false
           // "%{= \"fields.model->name().value.y\" }%"  => false
           // "%{= fields.model->name().value.y }%"  => true
-          // "%{= \"fields\" }%"  => false
-          // "%{= fields }%"  => true
           if (token->word().contains(
-                QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3\\.value(?:(?!%4|\").)*%5")
+                QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
                                     .arg(open)
                                     .arg(close)
                                     .arg(QRegularExpression::escape(model->name()))
