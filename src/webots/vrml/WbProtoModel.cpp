@@ -289,12 +289,13 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         // "%{= fields.model->name().value.y }%"  => true
         // "%{= \"fields\" }%"  => false
         // "%{= fields }%"  => true
-        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields(?:\\.%3\\.value|(?!\\.))(?:(?!%4|\").)*%5")
-                                                        .arg(open)
-                                                        .arg(close)
-                                                        .arg(QRegularExpression::escape(model->name()))
-                                                        .arg(close)
-                                                        .arg(close))))
+        if (token->word().contains(
+              QRegularExpression(QString("%1(?:(?!%2|\").)*fields(?:\\.%3\\.value|(?!\\.))(?:(?!%4|\").)*%5")
+                                   .arg(open)
+                                   .arg(close)
+                                   .arg(QRegularExpression::escape(model->name()))
+                                   .arg(close)
+                                   .arg(close))))
           model->setTemplateRegenerator(true);
       }
     }
