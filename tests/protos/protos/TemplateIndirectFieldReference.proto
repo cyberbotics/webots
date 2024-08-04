@@ -2,16 +2,16 @@
 # template language: javascript
 
 PROTO TemplateIndirectFieldReference [
-	unconnectedField SFFloat field1 1
-	unconnectedField SFFloat field2 5
+  unconnectedField SFFloat field1 1
+  unconnectedField SFFloat field2 5
 ]
 {
   Solid {
-		%<
-			function sum(fieldsObj) {
-				return fieldsObj.field1.value + fieldsObj.field2.value;
-			}
-		>%
-		radarCrossSection %<= sum(fields) >%
+    %<
+      function sum(fieldsObj) {
+        return fieldsObj.field1.value + fieldsObj.field2.value;
+      }
+    >%
+    radarCrossSection %<= sum(fields) >%
   }
 }
