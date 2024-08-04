@@ -20,8 +20,6 @@ Background {
 DirectionalLight {
   direction 0 0.5 -1
 }
-DEF BOX InternalTemplateParent {
-}
 Robot {
   translation 0.1 0 0.15
   rotation 0 1 0 1.5708
@@ -32,6 +30,9 @@ Robot {
     }
   ]
   controller "template_indirect_field_reference"
+  controllerArgs [
+    "template_indirect_field_reference (lua)"
+  ]
   supervisor TRUE
 }
 TestSuiteSupervisor {
