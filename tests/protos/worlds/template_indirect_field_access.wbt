@@ -24,7 +24,7 @@ Robot {
   translation 0.1 0 0.15
   rotation 0 1 0 1.5708
   children [
-    DEF PROTO_template_indirect_field_access TemplateIndirectFieldReference {
+    DEF PROTO_template_indirect_field_access TemplateIndirectFieldAccess {
 		}
     TestSuiteEmitter {
     }
