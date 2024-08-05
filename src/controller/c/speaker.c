@@ -341,7 +341,7 @@ static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_na
       }
     }
 
-    if (NULL == sound->upload_data) {
+    if (sound->upload_data == NULL) {
       fprintf(stderr, "Warning: %s() failed to read sound file '%s' :", __FUNCTION__, sound_file_name);
       perror(NULL);
     }
