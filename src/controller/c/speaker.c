@@ -319,16 +319,16 @@ static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_na
   sound->upload_data = NULL;
   sound->upload_size = 0;
 
-  if (NULL != (fp = fopen(sound_file_name, "rb"))) {
-    if (0 == fseek(fp, 0L, SEEK_END)) {
-      long file_size = ftell(fp);
-      if (-1 != file_size) {
-        if (0 == fseek(fp, 0L, SEEK_SET)) {
+  if ((fp = fopen(sound_file_name, "rb")) != NULL) {
+    if (fseek(fp, 0L, SEEK_END) == 0) {
+      const long file_size = ftell(fp);
+      if (file_size != -1) {
+        if (fseek(fp, 0L, SEEK_SET) == 0) {
           size_t consumed = 0U;
           sound->upload_data = malloc(file_size);
           sound->upload_size = (int)file_size;
           while (consumed < file_size) {
-            size_t read = fread(&sound->upload_data[consumed], sizeof(unsigned char), file_size - consumed, fp);
+            const size_t read = fread(&sound->upload_data[consumed], sizeof(unsigned char), file_size - consumed, fp);
             if (ferror(fp)) {
               free(sound->upload_data);
               sound->upload_data = NULL;

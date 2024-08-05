@@ -187,7 +187,7 @@ void WbSpeaker::playText(const char *text, double volume) {
 }
 
 void WbSpeaker::playSound(SoundPlayData &playData) {
-  QString filename(playData.file());
+  const QString filename(playData.file());
   QString key(filename);
   if (playData.side() == -1)
     key += "_left";
@@ -232,6 +232,9 @@ void WbSpeaker::playSound(SoundPlayData &playData) {
     }
 
     const WbSoundClip *soundClip = WbSoundEngine::sound(path, extension, device, playData.balance(), playData.side());
+    delete device;
+    device = NULL;
+
     if (!soundClip) {
       this->warn(tr("Impossible to play '%1'. Make sure the file format is supported (8 or 16 bits, mono or stereo wave).\n")
                    .arg(filename));
