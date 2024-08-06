@@ -29,6 +29,7 @@
 #include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
@@ -200,6 +201,8 @@ WbNode::WbNode(const WbNode &other) :
   if (other.mProto) {
     mProto = other.mProto;
     mProto->ref();
+    foreach (const WbNodeProtoInfo *protoInfo, other.mProtoParents)
+      mProtoParents << new WbNodeProtoInfo(*protoInfo);
   }
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
@@ -219,6 +222,10 @@ WbNode::WbNode(const WbNode &other) :
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
+
+      // Redirect field references in proto info
+      foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+        protoInfo->redirectFields(parameter, copy);
     }
 
     // connect fields to PROTO parameters
@@ -242,6 +249,9 @@ WbNode::~WbNode() {
     n = mParameters.size() - 1;
     for (int i = n; i >= 0; --i)
       delete mParameters[i];
+    n = mInternalProtoParameters.size() - 1;
+    for (int i = n; i >= 0; --i)
+      delete mInternalProtoParameters[i];
     mProto->unref();
   }
 
@@ -1636,6 +1646,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   delete newNode;
 
   instance->mProto = proto;
+  instance->mProtoParents.prepend(new WbNodeProtoInfo(proto->name(), parameters));
   if (id >= 0)
     instance->setUniqueId(id);
 
@@ -1668,6 +1679,9 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
             internalField->setAlias(aliasParam->name());
           }
           gParent = tmpParent;
+
+          foreach (WbNodeProtoInfo *protoInfo, instance->mProtoParents)
+            protoInfo->redirectFields(param, aliasParam);
 
           aliasNotFound = false;
           remove = true;
@@ -1739,7 +1753,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
       fieldIt.remove();
-      delete f;
+      instance->mInternalProtoParameters << f;
     }
   }
   delete gProtoParameterList.takeLast();

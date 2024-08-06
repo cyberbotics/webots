@@ -84,6 +84,10 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
+  int mFoundProtoId;
+  QString mFoundProtoTypeName;
+  bool mFoundProtoIsDerived;
+  int mFoundProtoParameterCount;
   int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
