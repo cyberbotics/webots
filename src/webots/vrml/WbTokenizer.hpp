@@ -61,6 +61,9 @@ public:
   // returns the documentation URL stored as (# license url: string) comments in the file header
   const QString documentationUrl() const;
 
+  // returns the parent node type stored as (# parent: string) comments in the file header
+  const QString parent() const;
+
   // returns file version found in file header
   const WbVersion &fileVersion() const { return mFileVersion; }
 
