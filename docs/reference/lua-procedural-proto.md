@@ -24,6 +24,8 @@ The conversion between the VRML97 types and the Lua types is detailed in [this t
 This dictionary contains the following keys: "node\_name" containing the VRML97 node name and "fields" which is a dictionary containing the Lua representation of the VRML97 node fields.
 This dictionary is equal to `nil` if the VRML97 node is not defined (`NULL`).
 For example, in the SimpleStairs example below, the `fields.appearance.node_name` key contains the `'Appearance'` string.
+- By default, the parser only detects fields that are accessed directly in the template statements (i.e. `fields.appearance`).
+If you would like to access the `fields` object without referencing a specific field, you can add the following line at the beginning of the PROTO file: `# tags: indirectFieldAccess`.
 - The `context` dictionary provides contextual information about the PROTO.
 Table [this table](#content-of-the-context-dictionary) shows the available information and its corresponding keys.
 - The VRML97 comment ("#") prevails over the Lua statements.
@@ -87,6 +89,14 @@ The following standard fonts are available to write on the texture:
  - Verdana
 
 In addition to these fonts, it is possible to add other TrueType fonts file in your `PROJECT_HOME/fonts` directory.
+
+### PROTO Regeneration
+When a field used in a template statement is modified, the PROTO node is regenerated.
+This means that the template statements are re-evaluated and the PROTO node is reloaded in the world.
+For most nodes, this behavior should not affect the simulation.
+However, special care should be taken when using PROTOs that have side effects (e.g. writing to a file).
+Additionally, Robot nodes will restart their controllers when regenerated.
+Using `tags: indirectFieldAccess` in the PROTO file will cause the PROTO to be regenerated whenever any field is modified, even if it is not used in a template statement.
 
 ### Optimization
 
