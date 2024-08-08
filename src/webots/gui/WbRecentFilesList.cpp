@@ -96,7 +96,7 @@ void WbRecentFilesList::makeRecent(const QString &filename) {
 }
 
 void WbRecentFilesList::actionTriggered() {
-  QAction *action = qobject_cast<QAction *>(sender());
+  const QAction *action = qobject_cast<QAction *>(sender());
   if (!action)
     return;
 

@@ -30,7 +30,7 @@ public:
   explicit WbGroup(WbTokenizer *tokenizer = NULL);
   WbGroup(const WbGroup &other);
   explicit WbGroup(const WbNode &other);
-  virtual ~WbGroup();
+  virtual ~WbGroup() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_GROUP; }
@@ -102,7 +102,7 @@ public:
   void setMatrixNeedUpdate() override;
 
   // export
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
 
 signals:
   // called after the list of children has changed

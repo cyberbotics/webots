@@ -18,14 +18,6 @@ export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots w
 export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are allowed to modify files in the Webots home using Webots.
 
 
-############################################################################
-# These aliases are useful in combination with the Atom source code editor #
-############################################################################
-
-alias atom="PATH=/mingw64/bin:/usr/bin:/C/WINDOWS/system32 /C/Users/$USER/AppData/Local/atom/bin/atom.cmd"
-alias reset_atom="edit --clear-window-state"
-
-
 ####################################################################################################
 # These aliases / environment variables allow to easily switch between a two webots source folders #
 ####################################################################################################

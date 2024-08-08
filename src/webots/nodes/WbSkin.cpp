@@ -730,7 +730,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
   QMap<WrTransform *, WbSolid *> boneToSolidMap;
   int validBoneCount = 0;
   for (int i = 0; i < mBonesField->size(); ++i) {
-    WbSolidReference *ref = dynamic_cast<WbSolidReference *>(mBonesField->item(i));
+    const WbSolidReference *ref = dynamic_cast<WbSolidReference *>(mBonesField->item(i));
     if (ref->solid() == NULL)
       continue;
 

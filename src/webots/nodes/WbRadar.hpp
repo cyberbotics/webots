@@ -34,7 +34,7 @@ public:
   explicit WbRadar(WbTokenizer *tokenizer = NULL);
   WbRadar(const WbRadar &other);
   explicit WbRadar(const WbNode &other);
-  virtual ~WbRadar();
+  virtual ~WbRadar() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RADAR; }

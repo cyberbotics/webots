@@ -49,7 +49,7 @@ namespace wren {
 
   int Transform::computeChildCount() const {
     int count = mChildren.size();
-    for (Node *n : mChildren)
+    for (const Node *n : mChildren)
       count += n->computeChildCount();
 
     return count;

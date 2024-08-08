@@ -25,7 +25,7 @@ public:
   explicit WbFluid(WbTokenizer *tokenizer = NULL);
   WbFluid(const WbFluid &other);
   explicit WbFluid(const WbNode &other);
-  virtual ~WbFluid() {}
+  virtual ~WbFluid() override {}
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_FLUID; }

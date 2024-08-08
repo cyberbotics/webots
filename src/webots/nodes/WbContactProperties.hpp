@@ -34,7 +34,7 @@ public:
   explicit WbContactProperties(WbTokenizer *tokenizer = NULL);
   WbContactProperties(const WbContactProperties &other);
   explicit WbContactProperties(const WbNode &other);
-  virtual ~WbContactProperties();
+  virtual ~WbContactProperties() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONTACT_PROPERTIES; }

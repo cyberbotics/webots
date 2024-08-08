@@ -22,7 +22,7 @@ namespace wren {
   class UniformBuffer : public GlUser {
   public:
     UniformBuffer(unsigned int binding, int size);
-    ~UniformBuffer();
+    ~UniformBuffer() override;
 
     unsigned int glName() const { return mGlName; }
     unsigned int binding() const { return mBinding; }

@@ -67,10 +67,12 @@ GenericWindow::GenericWindow(const QStringList &hiddenDevices) : MainWindow(), m
       continue;
     WbNodeType type = wb_device_get_node_type(tag);
     if (type == WB_NODE_LINEAR_MOTOR || type == WB_NODE_ROTATIONAL_MOTOR) {
+      // cppcheck-suppress constVariablePointer
       Motor *motor = new Motor(tag);
       mDeviceList << motor;
       motorList << motor;
     } else {
+      // cppcheck-suppress constVariablePointer
       Device *device = new Device(tag);
       mDeviceList << device;
     }

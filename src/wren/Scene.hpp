@@ -91,7 +91,7 @@ namespace wren {
     int computeNodeCount() const;
     static void printSceneTree();
     void render(bool culling);
-    void renderToViewports(std::vector<Viewport *> viewports, bool culling);
+    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling);
 
     void addFrameListener(void (*listener)()) { mListeners.push_back(listener); }
     void removeFrameListener(void (*listener)());
@@ -114,12 +114,11 @@ namespace wren {
     static RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
-    static RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 
     static void sortRenderQueueByState(RenderQueueIterator first, RenderQueueIterator last);
-    void sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last);
+    void sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) const;
 
     static void renderDefault(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
     void renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadowReceiver,
@@ -129,7 +128,7 @@ namespace wren {
     static void renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last);
     static void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
                                              bool applyShadows = true);
-    void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last);
+    void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const;
     static void renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last);
     static void renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
 

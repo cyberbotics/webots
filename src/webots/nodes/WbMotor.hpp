@@ -34,7 +34,7 @@ class WbMotor : public WbJointDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbMotor();
+  virtual ~WbMotor() override;
 
   // Accessors
   bool userControl() const { return mUserControl; }

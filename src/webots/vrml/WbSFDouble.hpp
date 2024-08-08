@@ -31,7 +31,7 @@ public:
   WbSFDouble(WbTokenizer *tokenizer, const QString &worldPath) { readSFDouble(tokenizer, worldPath); }
   WbSFDouble(const WbSFDouble &other) : mValue(other.mValue) {}
   explicit WbSFDouble(double d) : mValue(d) {}
-  virtual ~WbSFDouble() {}
+  virtual ~WbSFDouble() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFDouble(tokenizer, worldPath); }
   void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);

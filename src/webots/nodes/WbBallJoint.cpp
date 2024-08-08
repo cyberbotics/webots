@@ -141,7 +141,7 @@ QVector<WbLogicalDevice *> WbBallJoint::devices() const {
 
 WbVector3 WbBallJoint::anchor() const {
   static const WbVector3 ZERO(0.0, 0.0, 0.0);
-  WbBallJointParameters *const p = ballJointParameters();
+  const WbBallJointParameters *const p = ballJointParameters();
   return p ? p->anchor() : ZERO;
 }
 

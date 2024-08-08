@@ -73,7 +73,7 @@ int EPuckCommandPacket::apply(int simulationTime) {
   // send the led commands
   mData[7] = 0;
   for (int i = 0; i < 10; i++) {
-    Led *led = DeviceManager::instance()->led(i);
+    const Led *led = DeviceManager::instance()->led(i);
     const char d = mData[7];
     const int state = led->state();
     switch (led->index()) {

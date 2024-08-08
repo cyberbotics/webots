@@ -157,7 +157,7 @@ int main() {
 
     while (nb_received != NB_ROBOTS) {
       // robot_console_printf("In the while, receiver queue length: %d\n", receiver_get_queue_length(receiver));
-      float *inbuffer;
+      const float *inbuffer;
       // get all the new messages from the robots
       while (wb_receiver_get_queue_length(receiver) > 0) {
         // robot_console_printf("Something received\n");

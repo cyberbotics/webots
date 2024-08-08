@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
   remove("animation.html");
   remove("animation.json");
-  remove("animation.x3d");
+  remove("animation.w3d");
   remove("animation.css");
 
   bool success;
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
   ts_assert_boolean_equal(file_exists("animation.html"), "animation.html not created.");
   ts_assert_boolean_equal(file_exists("animation.json"), "animation.json not created.");
-  ts_assert_boolean_equal(file_exists("animation.x3d"), "animation.x3d not created.");
+  ts_assert_boolean_equal(file_exists("animation.w3d"), "animation.w3d not created.");
   ts_assert_boolean_equal(file_exists("animation.css"), "animation.css not created.");
 
   ts_send_success();

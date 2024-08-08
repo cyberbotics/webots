@@ -273,7 +273,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   QGridLayout *layout = new QGridLayout(widget);
 
   mLanguageCombo = new QComboBox(this);
-  WbTranslator *t = WbTranslator::instance();
+  const WbTranslator *t = WbTranslator::instance();
   const QString &languageKey = WbPreferences::instance()->value("General/language").toString();
   const QStringList &languages = t->computeUserReadableLanguages();
   foreach (const QString &language, languages)

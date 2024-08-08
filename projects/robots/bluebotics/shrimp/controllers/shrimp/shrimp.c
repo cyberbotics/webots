@@ -53,7 +53,7 @@ static void print_keyboard_help() {
  * This function is simply used to display clearly the answers of the Shrimp
  * to our commands.
  */
-static void print_answer(unsigned char *answer) {
+static void print_answer(const unsigned char *answer) {
   int i;
   char answer_string[MAX_STRING_SIZE];
 
@@ -181,7 +181,7 @@ static void run_step() {
 
 int main() {
   unsigned char buffer[MAX_BUFFER_SIZE];
-  unsigned char *answer;
+  const unsigned char *answer;
   int position, in_position;
 
   wb_robot_init();

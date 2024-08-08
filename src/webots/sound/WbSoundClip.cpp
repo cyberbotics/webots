@@ -28,7 +28,7 @@
 #include <AL/al.h>
 #endif
 
-WbSoundClip::WbSoundClip() : mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
+WbSoundClip::WbSoundClip() : mBuffer(0), mSide(0), mBalance(0.0) {
 }
 
 WbSoundClip::~WbSoundClip() {
@@ -46,7 +46,6 @@ void WbSoundClip::load(const QString &filename, const QString &extension, QIODev
   mFilename = wave.filename();
   mSide = side;
   mBalance = balance;
-  mDevice = device;
   load(&wave);
 }
 

@@ -27,7 +27,7 @@ public:
   explicit WbPen(WbTokenizer *tokenizer = NULL);
   WbPen(const WbPen &other);
   explicit WbPen(const WbNode &other);
-  virtual ~WbPen();
+  virtual ~WbPen() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PEN; }

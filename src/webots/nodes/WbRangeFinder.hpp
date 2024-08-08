@@ -25,7 +25,7 @@ public:
   explicit WbRangeFinder(WbTokenizer *tokenizer = NULL);
   WbRangeFinder(const WbRangeFinder &other);
   explicit WbRangeFinder(const WbNode &other);
-  virtual ~WbRangeFinder();
+  virtual ~WbRangeFinder() override;
 
   // reimplemented public functions
   void preFinalize() override;

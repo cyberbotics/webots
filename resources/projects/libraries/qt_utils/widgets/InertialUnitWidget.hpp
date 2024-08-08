@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit InertialUnitWidget(Device *device, QWidget *parent = NULL);
-    virtual ~InertialUnitWidget() {}
+    virtual ~InertialUnitWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

@@ -26,7 +26,7 @@ class WbMouse : public QObject {
 public:
   static WbMouse *create();
   static void destroy(WbMouse *mouse);  // Note: it calls the mouse destructor
-  static QList<WbMouse *> mouses() { return mMouses; }
+  static QList<WbMouse *> &mouses() { return mMouses; }
 
   bool left() const { return mLeft; }
   bool middle() const { return mMiddle; }

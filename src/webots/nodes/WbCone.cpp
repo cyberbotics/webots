@@ -106,12 +106,6 @@ bool WbCone::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCone::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
-}
-
 bool WbCone::sanitizeFields() {
   if (isInBoundingObject())
     return false;
@@ -259,7 +253,7 @@ double WbCone::scaledBottomRadius() const {
   return fabs(mBottomRadius->value() * std::max(scale.x(), scale.z()));
 }
 
-QStringList WbCone::fieldsToSynchronizeWithX3D() const {
+QStringList WbCone::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "bottomRadius"
          << "height"
@@ -359,9 +353,9 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
       const double t2 = (-b + discriminant) / (2 * a);
       const double z1 = origin.z() + t1 * direction.z();
       const double z2 = origin.z() + t2 * direction.z();
-      if (mSide->value() && t1 > 0.0 && z1 >= -halfH && z1 <= halfH)
+      if (t1 > 0.0 && z1 >= -halfH && z1 <= halfH)
         d = t1;
-      else if (mSide->value() && t2 > 0.0 && z2 >= -halfH && z2 <= halfH)
+      else if (t2 > 0.0 && z2 >= -halfH && z2 <= halfH)
         d = t2;
     }
   }

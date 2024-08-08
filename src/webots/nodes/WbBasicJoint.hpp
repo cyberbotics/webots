@@ -36,7 +36,7 @@ class WbBasicJoint : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbBasicJoint();
+  virtual ~WbBasicJoint() override;
 
   void downloadAssets() override;
   void preFinalize() override;

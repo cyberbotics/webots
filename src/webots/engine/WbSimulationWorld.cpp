@@ -419,8 +419,8 @@ void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {
   connect(node, &QObject::destroyed, this, &WbSimulationWorld::removeNodeFromAddedNodeList);
 }
 
-void WbSimulationWorld::removeNodeFromAddedNodeList(QObject *node) {
-  WbNode *n = static_cast<WbNode *>(node);
+void WbSimulationWorld::removeNodeFromAddedNodeList(const QObject *node) {
+  const WbNode *n = static_cast<const WbNode *>(node);
   mAddedNode.removeAll(n);
 }
 

@@ -193,9 +193,9 @@ void WbPerformanceLog::writeTotalValues() {
     headers.append(s);
   }
   headers.append("<mainFPS>");
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     headers.append("<device:" + key + "(ms)>");
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     headers.append("<controller:" + key + "(ms)>");
   out << "<mode> <stepsCount> " << headers.join(" ");
 
@@ -213,9 +213,9 @@ void WbPerformanceLog::writeTotalValues() {
     out << justifiedNumber(value, headers[i].size()) << " ";
   }
   out << justifiedNumber(mAverageFPS, headers[i++].size()) << " ";
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     out << justifiedNumber(mRenderingDevicesValues.value(key)->averageValue(), headers[i++].size()) << " ";
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     out << justifiedNumber(mControllersValues.value(key)->averageValue(), headers[i++].size()) << " ";
 
   // total
@@ -229,9 +229,9 @@ void WbPerformanceLog::writeTotalValues() {
     out << justifiedNumber(value, headers[i].size()) << " ";
   }
   out << justifiedNumber(mAverageFPS, headers[i++].size()) << " ";
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     out << justifiedNumber(mRenderingDevicesValues.value(key)->totalValue(), headers[i++].size()) << " ";
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     out << justifiedNumber(mControllersValues.value(key)->totalValue(), headers[i++].size()) << " ";
   out << "\n";
   out << "\n";

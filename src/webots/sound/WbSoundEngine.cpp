@@ -49,6 +49,7 @@
 #include <ode/ode.h>
 
 #include <cassert>
+#include <cstring>
 
 static WbWorld *gWorld = NULL;
 static bool gOpenAL = false;
@@ -93,7 +94,7 @@ static void init() {
   WbLog::toggle(stderr);  // we want to disable stderr to avoid warnings in the console
   try {
     const ALCchar *defaultDeviceName = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-    if (defaultDeviceName == NULL)
+    if (defaultDeviceName == NULL || strcmp(defaultDeviceName, "Null Audio Device") == 0)
       throw QObject::tr("Cannot find OpenAL default device");
     gDefaultDevice = alcOpenDevice(defaultDeviceName);
     if (gDefaultDevice == NULL)

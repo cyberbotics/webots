@@ -21,6 +21,7 @@ namespace webots {
   class VacuumGripper : public Device {
   public:
     explicit VacuumGripper(const std::string &name) : Device(name) {}  // Use Robot::getVacuumGripper() instead
+    explicit VacuumGripper(WbDeviceTag tag) : Device(tag) {}
     virtual ~VacuumGripper() {}
     virtual void enablePresence(int samplingPeriod);
     virtual void disablePresence();

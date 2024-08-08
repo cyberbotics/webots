@@ -52,6 +52,7 @@ const char *motion_files[NUMBER_OF_MOTION_FILES + 1] = {"2HV001RC_Walk_Forward.R
                                                         "2HV024RC_Startup2.RCB",                 // 23
                                                         NULL};
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   // init
   wb_robot_init();

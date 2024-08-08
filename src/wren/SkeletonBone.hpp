@@ -52,7 +52,7 @@ namespace wren {
 
   private:
     SkeletonBone(Skeleton *skeleton, const char *name);
-    virtual ~SkeletonBone() {}
+    virtual ~SkeletonBone() override {}
 
     std::string mName;
     std::unordered_map<DynamicMesh *, std::unordered_map<unsigned int, float>> mWeights;

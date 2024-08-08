@@ -29,7 +29,7 @@ class WbSingleValue : public WbValue {
   Q_OBJECT
 
 public:
-  virtual ~WbSingleValue();
+  virtual ~WbSingleValue() override;
 
   // return generic value
   virtual WbVariant variantValue() const = 0;

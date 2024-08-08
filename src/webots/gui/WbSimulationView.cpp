@@ -124,7 +124,7 @@ WbSimulationView::WbSimulationView(QWidget *parent, const QString &toolBarAlign)
     vlayout->addWidget(mToolBar);
   vlayout->addWidget(mSplitter, 1);
 
-  WbSimulationState *state = WbSimulationState::instance();
+  const WbSimulationState *state = WbSimulationState::instance();
 
   //  show a black screen if rendering is turned off
   if (!state->isRendering())
@@ -697,7 +697,6 @@ void WbSimulationView::takeScreenshot() {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
-  static QStringList winFilters = QStringList() << tr("PNG (*.png)") << tr("JPEG (*.jpg *.jpeg)");
   static QString otherFilters = tr("Images (*.png *.jpg *.jpeg)");
   static QString dialogCaption = tr("Save as...");
 

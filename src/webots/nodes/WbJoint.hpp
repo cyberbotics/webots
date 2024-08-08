@@ -34,7 +34,7 @@ class WbJoint : public WbBasicJoint {
   Q_OBJECT
 
 public:
-  virtual ~WbJoint();
+  virtual ~WbJoint() override;
 
   void downloadAssets() override;
   void preFinalize() override;

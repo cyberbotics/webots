@@ -41,7 +41,7 @@ public:
   explicit WbCadShape(WbTokenizer *tokenizer = NULL);
   WbCadShape(const WbCadShape &other);
   explicit WbCadShape(const WbNode &other);
-  virtual ~WbCadShape();
+  virtual ~WbCadShape() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CAD_SHAPE; }
@@ -52,7 +52,7 @@ public:
 
   const WbVector3 absoluteScale() const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   void exportNodeFields(WbWriter &writer) const override;

@@ -27,7 +27,7 @@ class WbBallJoint : public WbHinge2Joint {
   Q_OBJECT
 
 public:
-  virtual ~WbBallJoint();
+  virtual ~WbBallJoint() override;
   explicit WbBallJoint(WbTokenizer *tokenizer = NULL);
   WbBallJoint(const WbBallJoint &other);
   explicit WbBallJoint(const WbNode &other);

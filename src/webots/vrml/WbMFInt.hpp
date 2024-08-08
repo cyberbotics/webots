@@ -35,7 +35,7 @@ public:
   WbMFInt() {}
   WbMFInt(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFInt(const WbMFInt &other) : mVector(other.mVector) {}
-  virtual ~WbMFInt() {}
+  virtual ~WbMFInt() override {}
   WbValue *clone() const override { return new WbMFInt(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

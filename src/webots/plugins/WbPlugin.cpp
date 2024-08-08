@@ -86,7 +86,7 @@ bool WbPlugin::load() {
 
   QStringList possibleDirPaths;
   possibleDirPaths << WbProject::current()->path() + pluginName;
-  foreach (WbProtoModel *model, WbProtoManager::instance()->models())
+  foreach (const WbProtoModel *model, WbProtoManager::instance()->models())
     possibleDirPaths << QDir(model->path() + "../" + pluginName).absolutePath() + "/";
   possibleDirPaths << WbStandardPaths::projectsPath() + "default/" + pluginName;
   possibleDirPaths << WbStandardPaths::resourcesProjectsPath() + pluginName;

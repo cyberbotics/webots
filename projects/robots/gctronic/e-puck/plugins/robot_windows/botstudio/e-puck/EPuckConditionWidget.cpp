@@ -112,7 +112,7 @@ void EPuckConditionWidget::blockSlidersSignals(bool block) {
 void EPuckConditionWidget::setSensorCondition(RobotSensorCondition *condition) {
   blockSlidersSignals(true);
   RobotConditionWidget::setSensorCondition(condition);
-  EPuckSensorCondition *esc = static_cast<EPuckSensorCondition *>(sensorCondition());
+  const EPuckSensorCondition *esc = static_cast<EPuckSensorCondition *>(sensorCondition());
 
   for (int i = 0; i < EPuckFacade::NUMBER_OF_DISTANCE_SENSORS; i++) {
     mDistanceSensorSliders[i]->setInverted(esc->distanceSensorInverted(i));
@@ -131,7 +131,7 @@ void EPuckConditionWidget::setSensorCondition(RobotSensorCondition *condition) {
 }
 
 void EPuckConditionWidget::updateSensorCondition() {
-  EPuckSlider *slider = dynamic_cast<EPuckSlider *>(sender());
+  const EPuckSlider *slider = dynamic_cast<EPuckSlider *>(sender());
   if (slider) {
     blockSlidersSignals(true);
 

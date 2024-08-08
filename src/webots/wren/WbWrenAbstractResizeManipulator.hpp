@@ -30,7 +30,7 @@ class WbWrenAbstractResizeManipulator : public WbWrenAbstractManipulator {
 public:
   enum ResizeConstraint { NO_CONSTRAINT, UNIFORM, X_EQUAL_Y };
 
-  virtual ~WbWrenAbstractResizeManipulator();
+  virtual ~WbWrenAbstractResizeManipulator() override;
 
   // Setters
   virtual void setResizeConstraint(ResizeConstraint constraint);

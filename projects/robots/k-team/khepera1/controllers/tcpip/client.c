@@ -42,7 +42,7 @@
 
 int main(int argc, char *argv[]) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   int fd, rc;
   char buffer[256];
 

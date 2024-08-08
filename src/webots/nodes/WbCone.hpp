@@ -27,7 +27,7 @@ public:
   explicit WbCone(WbTokenizer *tokenizer = NULL);
   WbCone(const WbCone &other);
   explicit WbCone(const WbNode &other);
-  virtual ~WbCone();
+  virtual ~WbCone() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONE; }
@@ -60,11 +60,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields

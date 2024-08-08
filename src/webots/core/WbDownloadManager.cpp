@@ -52,7 +52,7 @@ void WbDownloadManager::abort() {
 
 WbDownloader *WbDownloadManager::createDownloader(const QUrl &url, QObject *parent) {
   WbSimulationState::instance()->pauseSimulation();
-  WbDownloader *existingDownload = mUrlCache.value(url, NULL);
+  const WbDownloader *existingDownload = mUrlCache.value(url, NULL);
   WbDownloader *downloader = new WbDownloader(url, existingDownload, parent);
   connect(downloader, &WbDownloader::destroyed, this, &WbDownloadManager::removeDownloader);
   connect(downloader, &WbDownloader::complete, this, &WbDownloadManager::downloadCompleted);

@@ -23,8 +23,6 @@ out vec4 fragColor;
 
 uniform bool rangeCamera;
 uniform bool cylindrical;
-uniform int subCamerasResolutionX;
-uniform int subCamerasResolutionY;
 
 uniform float maxRange;
 uniform float minRange;

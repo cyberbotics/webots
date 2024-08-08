@@ -179,7 +179,7 @@ Now if the [Compass](#compass) node is in *upright* position, meaning that its z
 double get_bearing_in_degrees() {
   const double *north = wb_compass_get_values(tag);
   double rad = atan2(north[1], north[0]);
-  double bearing = (rad - 1.5708) / M_PI * 180.0;
+  double bearing = (rad / M_PI) * 180.0;
   if (bearing < 0.0)
     bearing = bearing + 360.0;
   return bearing;

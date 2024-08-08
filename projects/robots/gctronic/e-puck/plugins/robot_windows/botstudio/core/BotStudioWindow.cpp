@@ -230,7 +230,7 @@ void BotStudioWindow::openStateMachine() {
   if (dialog.exec())
     fileNames = dialog.selectedFiles();
 
-  if (fileNames.size() > 0 && !fileNames.isEmpty()) {
+  if (!fileNames.isEmpty()) {
     mFile->setFileName(fileNames[0]);
     loadStateMachine();
     updateToolBars();
@@ -295,7 +295,7 @@ void BotStudioWindow::saveAsStateMachine() {
   if (dialog.exec())
     fileNames = dialog.selectedFiles();
 
-  if (fileNames.size() > 0 && !fileNames.isEmpty())
+  if (!fileNames.isEmpty())
     mFile->setFileName(fileNames[0]);
 
   saveStateMachine();

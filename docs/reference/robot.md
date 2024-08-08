@@ -766,11 +766,12 @@ WbDeviceTag wb_robot_get_device(const char *name);
 namespace webots {
   class Robot {
     Accelerometer *getAccelerometer(const std::string &name);
-    Altimeter *getAltimeter(const std::string &name);    
+    Altimeter *getAltimeter(const std::string &name);
     Brake *getBrake(const std::string &name);
     Camera *getCamera(const std::string &name);
     Compass *getCompass(const std::string &name);
     Connector *getConnector(const std::string &name);
+    Device *getDevice(const std::string &name);
     Display *getDisplay(const std::string &name);
     DistanceSensor *getDistanceSensor(const std::string &name);
     Emitter *getEmitter(const std::string &name);
@@ -826,6 +827,7 @@ public class Robot {
   public Camera getCamera(String name);
   public Compass getCompass(String name);
   public Connector getConnector(String name);
+  public Device getDevice(String name);
   public Display getDisplay(String name);
   public DistanceSensor getDistanceSensor(String name);
   public Emitter getEmitter(String name);
@@ -874,7 +876,7 @@ Devices are available through their services.
 
 *get a unique identifier to a device*
 
-The `wb_robot_get_device` function (available in C, Python and MATLAB) returns a unique identifier for a device corresponding to a specified `name`.
+The `wb_robot_get_device` function returns a unique identifier for a device corresponding to a specified `name`.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function will return the unique identifier of that device.
 This `WbDeviceTag` identifier will be used subsequently for enabling, sending commands to, or reading data from this device.
 If the specified device is not found, the function returns 0 in C and MATLAB or `None` in Python.
@@ -884,6 +886,8 @@ These functions return a reference to an object corresponding to a specified `na
 Depending on the called function, this object can be an instance of a `Device` subclass.
 For example, if a robot contains a [DistanceSensor](distancesensor.md) node whose `name` field is "ds1", the function `getDistanceSensor` will return a reference to a [DistanceSensor](distancesensor.md) object.
 If the specified device is not found, the function returns `NULL` in C++ or `null` in Java.
+
+Note that if any two devices share the same name, `wb_robot_get_device` will return the first one it finds. In order to distinguish between devices with the same name, users should consider iterating over a robot's devices using `wb_robot_get_device_by_index` and `wb_robot_get_number_of_devices`.
 
 ---
 

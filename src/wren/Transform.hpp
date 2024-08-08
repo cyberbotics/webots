@@ -45,14 +45,14 @@ namespace wren {
     int computeChildCount() const override;
     void setMatrixDirty() const override {
       TransformNode::setMatrixDirty();
-      for (Node *n : mChildren)
+      for (const Node *n : mChildren)
         n->setMatrixDirty();
     }
 
   protected:
     Transform();
     explicit Transform(Transform *source);
-    virtual ~Transform();
+    virtual ~Transform() override;
 
   private:
     void recomputeAabb() const override {
@@ -71,7 +71,7 @@ namespace wren {
       if (mChildren.size()) {
         std::vector<primitive::Sphere> spheres;
         spheres.reserve(mChildren.size());
-        for (Node *child : mChildren)
+        for (const Node *child : mChildren)
           spheres.push_back(child->boundingSphere());
 
         mBoundingSphere = primitive::mergeBoundingSpheres(spheres);

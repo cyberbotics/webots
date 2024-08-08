@@ -26,7 +26,7 @@
 class WbSolidDevice : public WbDevice, public WbSolid {
 public:
   // destructor
-  virtual ~WbSolidDevice();
+  virtual ~WbSolidDevice() override;
   const QString &deviceName() const override { return WbSolid::name(); }
   int deviceNodeType() const override { return nodeType(); }
 

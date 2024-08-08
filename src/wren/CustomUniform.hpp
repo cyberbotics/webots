@@ -49,7 +49,7 @@ namespace wren {
   template<class T> class CustomUniform : public CustomUniformBase {
   public:
     CustomUniform(const std::string &name, const T &initialValue) : CustomUniformBase(name), mValue(initialValue) {}
-    virtual ~CustomUniform() {}
+    virtual ~CustomUniform() override {}
 
     void setValue(const char *value) override { mValue = *(reinterpret_cast<const T *>(value)); }
     void uploadValue() const override {

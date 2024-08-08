@@ -42,7 +42,7 @@ public:
   explicit WbMuscle(WbTokenizer *tokenizer = NULL);
   WbMuscle(const WbMuscle &other);
   explicit WbMuscle(const WbNode &other);
-  virtual ~WbMuscle();
+  virtual ~WbMuscle() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MUSCLE; }

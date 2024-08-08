@@ -41,7 +41,7 @@ class WbBaseNode : public WbNode {
 
 public:
   // destructor
-  virtual ~WbBaseNode();
+  virtual ~WbBaseNode() override;
 
   virtual void downloadAssets() {}
   // finalize() assumes that the whole world node/field structure is complete

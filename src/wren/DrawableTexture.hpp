@@ -28,7 +28,7 @@ namespace wren {
     static DrawableTexture *createDrawableTexture() { return new DrawableTexture(); }
 
     void setFont(Font *font) { mFont = font; }
-    void setColor(float *color) { mColor = toInt(color); }
+    void setColor(const float *color) { mColor = toInt(color); }
     void setAntialiasing(bool antialiasing) { mFontAntiAliasing = antialiasing; }
     void setUsePremultipliedAlpha(bool premultipliedAlpha) { mPremultipliedAlpha = premultipliedAlpha; }
 
@@ -43,7 +43,7 @@ namespace wren {
 
   private:
     DrawableTexture();
-    ~DrawableTexture();
+    ~DrawableTexture() override;
 
     void updateDirtyRect(int x, int y);
     void resetDirtyRect() {

@@ -28,7 +28,7 @@ class WbRenderingDevice : public WbSolidDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbRenderingDevice();
+  virtual ~WbRenderingDevice() override;
 
   // reimplemented public functions
   void preFinalize() override;
@@ -62,7 +62,7 @@ public:
 
   // static functions
   static WbRenderingDevice *fromMousePosition(int x, int y);
-  static QList<WbRenderingDevice *> renderingDevices() { return cRenderingDevices; }
+  static const QList<WbRenderingDevice *> &renderingDevices() { return cRenderingDevices; }
 
   enum TextureRole { BACKGROUND_TEXTURE = 0, MAIN_TEXTURE, MASK_TEXTURE, FOREGROUND_TEXTURE };
 

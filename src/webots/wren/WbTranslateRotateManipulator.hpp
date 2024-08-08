@@ -35,7 +35,7 @@ class WbTranslateRotateManipulator : public WbWrenAbstractManipulator {
 
 public:
   WbTranslateRotateManipulator(bool isTranslationAvailable, bool isRotationAvailable);
-  virtual ~WbTranslateRotateManipulator();
+  virtual ~WbTranslateRotateManipulator() override;
 
   // Setters
   void initializeHandlesEntities();

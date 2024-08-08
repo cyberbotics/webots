@@ -29,7 +29,7 @@ public:
   WbSFInt(WbTokenizer *tokenizer, const QString &worldPath) { readSFInt(tokenizer, worldPath); }
   WbSFInt(const WbSFInt &other);
   explicit WbSFInt(int value) : mValue(value) {}
-  virtual ~WbSFInt() {}
+  virtual ~WbSFInt() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFInt(tokenizer, worldPath); }
   void write(WbWriter &writer) const override { writer << mValue; }
   WbValue *clone() const override { return new WbSFInt(*this); }

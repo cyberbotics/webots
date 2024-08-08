@@ -247,9 +247,9 @@ int wb_emitter_send(WbDeviceTag tag, const void *data, int size) {
 int wb_emitter_get_buffer_size(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
-    Emitter *es = d->pdata;
+    const Emitter *es = d->pdata;
     result = es->buffer_size;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -260,9 +260,9 @@ int wb_emitter_get_buffer_size(WbDeviceTag tag) {
 int wb_emitter_get_channel(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
-    Emitter *es = d->pdata;
+    const Emitter *es = d->pdata;
     result = es->channel;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -307,9 +307,9 @@ void wb_emitter_set_channel(WbDeviceTag tag, int channel) {
 double wb_emitter_get_range(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  WbDevice *d = emitter_get_device(tag);
+  const WbDevice *d = emitter_get_device(tag);
   if (d) {
-    Emitter *es = d->pdata;
+    const Emitter *es = d->pdata;
     result = es->range;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

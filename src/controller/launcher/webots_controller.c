@@ -72,7 +72,7 @@ static void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-static void replace_char(char *string, char occurrence, char replace) {
+static void replace_char(const char *string, char occurrence, char replace) {
   char *current_pos = strchr(string, occurrence);
   while (current_pos) {
     *current_pos = replace;
@@ -136,7 +136,7 @@ static void replace_substring(char **string, const char *substring, const char *
 }
 
 // Inserts a string into another string at a specified index.
-static void insert_string(char **string, char *insert, int index) {
+static void insert_string(char **string, const char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
   *string = realloc(*string, new_size);
@@ -168,7 +168,7 @@ static bool get_webots_home() {
 
 // Gets and stores the path to the latest installed version of Matlab on the system.
 static bool get_matlab_path() {
-  struct dirent *directory_entry;  // Pointer for directory entry
+  const struct dirent *directory_entry;  // Pointer for directory entry
 
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
@@ -333,7 +333,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Write WEBOTS_CONTROLLER_URL in function of given options
   const char *robot_separator = robot_name ? "/" : "";
-  char *robot_name_string = robot_name ? robot_name : "";
+  const char *robot_name_string = robot_name ? robot_name : "";
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
       fprintf(stderr, "Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
@@ -564,7 +564,7 @@ static void format_ini_paths(char **string) {
 
   // Add absolute path to runtime.ini in front of all relative paths
   char *tmp = strdup(*string);
-  char *ptr = strtok(tmp, "=");
+  const char *ptr = strtok(tmp, "=");
   int offset = 0;
   while (ptr != NULL) {
     int index = ptr - tmp + offset;
@@ -695,7 +695,7 @@ static void parse_runtime_ini() {
 }
 
 // Add a single string argument to the argument 'argv' array
-static char **add_single_argument(char **argv, size_t *current_size, char *str) {
+static char **add_single_argument(char **argv, size_t *current_size, const char *str) {
   (*current_size)++;
   argv = realloc(argv, *current_size * sizeof(char *));
   if (!argv)

@@ -21,6 +21,7 @@ namespace webots {
   class Accelerometer : public Device {
   public:
     explicit Accelerometer(const std::string &name) : Device(name) {}  // Use Robot::getAccelerometer() instead
+    explicit Accelerometer(WbDeviceTag tag) : Device(tag) {}
     virtual ~Accelerometer() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

@@ -35,7 +35,7 @@ public:
   const QString &url() const { return mUrl; }
   const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
-  const QList<WbProtoTreeItem *> children() const { return mChildren; }
+  const QList<WbProtoTreeItem *> &children() const { return mChildren; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
 

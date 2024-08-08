@@ -27,7 +27,7 @@ public:
   explicit WbBox(WbTokenizer *tokenizer = NULL);
   WbBox(const WbBox &other);
   explicit WbBox(const WbNode &other);
-  virtual ~WbBox();
+  virtual ~WbBox() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_BOX; }
@@ -68,7 +68,7 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
@@ -92,7 +92,7 @@ private:
 
   // ray tracing
   // compute collision point and return distance
-  double computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const;
+  double computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const;
 
 private slots:
   void updateSize();

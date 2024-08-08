@@ -36,7 +36,7 @@ public:
   explicit WbLightSensor(WbTokenizer *tokenizer = NULL);
   WbLightSensor(const WbLightSensor &other);
   explicit WbLightSensor(const WbNode &other);
-  virtual ~WbLightSensor();
+  virtual ~WbLightSensor() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_LIGHT_SENSOR; }

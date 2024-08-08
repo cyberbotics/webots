@@ -111,14 +111,14 @@ void WbVector3Editor::apply() {
                     WbPrecision::roundValue(mSpinBoxes[2]->value(), WbPrecision::GUI_MEDIUM));
   mVector3.clamp();
   if (singleValue()) {
-    WbSFVector3 *const sfVector3 = static_cast<WbSFVector3 *>(singleValue());
+    const WbSFVector3 *const sfVector3 = static_cast<WbSFVector3 *>(singleValue());
     if (sfVector3->value() == mVector3)
       return;
 
     mPreviousValue->setVector3(sfVector3->value());
 
   } else if (multipleValue()) {
-    WbMFVector3 *const mfVector3 = static_cast<WbMFVector3 *>(multipleValue());
+    const WbMFVector3 *const mfVector3 = static_cast<WbMFVector3 *>(multipleValue());
     if (mfVector3->item(index()) == mVector3)
       return;
 

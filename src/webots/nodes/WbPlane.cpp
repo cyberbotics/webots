@@ -91,23 +91,6 @@ const WbVector2 WbPlane::scaledSize() const {
   return WbVector2(fabs(s2.x() * s1.x()), fabs(s2.y() * s1.y()));
 }
 
-void WbPlane::write(WbWriter &writer) const {
-  if (writer.isWebots())
-    WbGeometry::write(writer);
-  else
-    writeExport(writer);
-}
-
-void WbPlane::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots())
-    WbGeometry::exportNodeFields(writer);
-  else if (writer.isX3d()) {
-    writer << " size=\'";
-    mSize->write(writer);
-    writer << "\'";
-  }
-}
-
 void WbPlane::createWrenObjects() {
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
@@ -217,7 +200,7 @@ bool WbPlane::isSuitableForInsertionInBoundingObject(bool warning) const {
   return !invalidDimensions;
 }
 
-QStringList WbPlane::fieldsToSynchronizeWithX3D() const {
+QStringList WbPlane::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "size";
   return fields;
@@ -255,7 +238,7 @@ void WbPlane::updateOdePlanePosition() {
 }
 
 void WbPlane::computePlaneParams(WbVector3 &n, double &d) {
-  WbPose *pose = upperPose();
+  const WbPose *pose = upperPose();
 
   // initial values with identity matrices
   n.setXyz(0.0, 0.0, 1.0);  // plane normal

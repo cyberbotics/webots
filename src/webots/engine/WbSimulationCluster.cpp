@@ -439,7 +439,7 @@ void WbSimulationCluster::fillImmersionSurfaceParameters(const WbSolid *s, const
   surf->maxAngularVel = 1000.0;
 }
 
-static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
+static bool needCollisionDetection(const WbSolid *solid, bool isOtherRayGeom) {
   switch (solid->nodeType()) {
     case WB_NODE_TOUCH_SENSOR:
       if (isOtherRayGeom)
@@ -456,6 +456,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+// cppcheck-suppress constParameterPointer
 void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
   if (WbOdeContext::instance()->numberOfThreads() > 1) {
     QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);

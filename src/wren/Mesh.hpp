@@ -114,7 +114,7 @@ namespace wren {
 
   protected:
     Mesh() {}
-    virtual ~Mesh(){};
+    virtual ~Mesh() override{};
 
     std::vector<glm::vec3> mCoords;
     std::vector<glm::vec3> mNormals;

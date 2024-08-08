@@ -214,7 +214,7 @@ namespace wren {
           DynamicMesh *dynamicMesh = DynamicMesh::createDynamicMesh(mesh->HasNormals(), mesh->HasTextureCoords(0), false);
 
           aiMatrix4x4 transform;
-          aiNode *current = node->mParent;
+          const aiNode *current = node->mParent;
           while (current != scene->mRootNode && current != NULL) {
             transform = transform * node->mTransformation;
             current = current->mParent;
@@ -282,7 +282,7 @@ namespace wren {
 
       // Bones hierarchy
       for (SkeletonBone *bone : bones) {
-        aiNode *node = scene->mRootNode->FindNode(bone->name());
+        const aiNode *node = scene->mRootNode->FindNode(bone->name());
         assert(node != NULL);
         aiNode *current = node->mParent;
         while (current != NULL) {

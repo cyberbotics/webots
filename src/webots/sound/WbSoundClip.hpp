@@ -38,7 +38,6 @@ public:
 
 protected:
   QString mFilename;
-  QIODevice *mDevice;
   unsigned int mBuffer;
   int mSide;  // 0: both sides, -1: left only, 1: right only
   double mBalance;

@@ -41,7 +41,7 @@ public:
   WbImageTexture(const WbImageTexture &other);
   explicit WbImageTexture(const WbNode &other);
   WbImageTexture(const aiMaterial *material, aiTextureType textureType, const QString &parentPath);
-  virtual ~WbImageTexture();
+  virtual ~WbImageTexture() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_IMAGE_TEXTURE; }
@@ -72,7 +72,7 @@ public:
 
   void exportShallowNode(const WbWriter &writer) const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void changed();

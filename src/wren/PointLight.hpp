@@ -30,7 +30,7 @@ namespace wren {
 
   private:
     PointLight();
-    virtual ~PointLight();
+    virtual ~PointLight() override;
   };
 
 }  // namespace wren
