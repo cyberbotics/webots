@@ -1,214 +1,19 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "../protos/Heron.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.16182542841255412 0.05086835150351285 0.9855074538198116 2.7734415994114325
-  position 4.405020578809751 -2.567246748464675 5.889973405085289
-  follow "heron_usv"
+  orientation -0.24219658556528326 0.039505018164956274 0.9694225948884753 2.986262471610857
+  position 6.727587480647112 -2.788009572581076 8.707663910740424
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
-}
-Robot {
-  translation -8.745262743121721 2.2893012904974483 0.4607079804159899
-  rotation 9.299134448165107e-05 0.00011243356938496787 -0.9999999893556512 1.4275640952271762
-  children [
-    Transform {
-      translation -0.185 0 0
-      rotation 0 0 1 1.01503e-06
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.964706 0.827451 0.176471
-            metalness 0
-          }
-          geometry Mesh {
-            url [
-              "../obj/plain-rear-plate.stl"
-            ]
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0 -0.35 0.05
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.960784 0.760784 0.0666667
-            metalness 0
-          }
-          geometry Mesh {
-            url [
-              "../obj/right_panel.stl"
-            ]
-          }
-        }
-      ]
-    }
-    Transform {
-      translation 0 0.35 0.05
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.960784 0.760784 0.0666667
-            metalness 0
-          }
-          geometry Mesh {
-            url [
-              "../obj/left_panel.stl"
-            ]
-          }
-        }
-      ]
-    }
-    Transform {
-      translation -0.73 0.38 -0.14
-      children [
-        Propeller {
-          device RotationalMotor {
-            name "left_motor"
-            maxVelocity 30
-          }
-          fastHelix Solid {
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.368627 0.360784 0.392157
-                }
-                geometry Cylinder {
-                  height 0.1
-                  radius 0.05
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-    Transform {
-      translation -0.73 -0.38 -0.14
-      children [
-        Propeller {
-          device RotationalMotor {
-            name "right_motor"
-            maxVelocity 30
-          }
-          fastHelix Solid {
-            rotation 0 1 0 1.5708
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.368627 0.360784 0.392157
-                }
-                geometry Cylinder {
-                  height 0.1
-                  radius 0.05
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-    DEF HERON Shape {
-      appearance Appearance {
-        material Material {
-          diffuseColor 0.239216 0.219608 0.27451
-        }
-        texture ImageTexture {
-        }
-        textureTransform TextureTransform {
-        }
-      }
-      geometry Mesh {
-        url [
-          "../obj/heron_base.stl"
-        ]
-      }
-    }
-  ]
-  name "heron_usv"
-  immersionProperties [
-    ImmersionProperties {
-      fluidName "fluid"
-      dragForceCoefficients 0.01 0 0
-      dragTorqueCoefficients 0.05 0 0
-      viscousResistanceForceCoefficient 400
-      viscousResistanceTorqueCoefficient 0.1
-    }
-  ]
-  boundingObject Group {
-    children [
-      Transform {
-        translation 0 -0.134 0.35
-        children [
-          Cylinder {
-            height 0.35
-            radius 0.005
-          }
-        ]
-      }
-      Transform {
-        translation 0 0.134 0.35
-        children [
-          Cylinder {
-            height 0.35
-            radius 0.005
-          }
-        ]
-      }
-      Transform {
-        translation 0 0 0.04
-        children [
-          Box {
-            size 0.75 0.8 0.1
-          }
-        ]
-      }
-      Transform {
-        translation -1.42746e-07 -0.37 -0.14
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Capsule {
-            height 1.2
-            radius 0.1
-            subdivision 16
-          }
-        ]
-      }
-      Transform {
-        translation -1.42746e-07 0.37 -0.14
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Capsule {
-            height 1.2
-            radius 0.1
-            subdivision 16
-          }
-        ]
-      }
-    ]
-  }
-  physics Physics {
-    density 400
-    centerOfMass [
-      0 0 0
-    ]
-    damping Damping {
-      linear 0.5
-      angular 0.5
-    }
-  }
-  controller "heron_usv_controller"
-  linearVelocity 1.6719931099069372e-08 1.225696186173406e-07 1.6931370836678163e-07
-  angularVelocity 0.0003302567168229787 -5.694018807829981e-06 2.231446004378168e-08
 }
 DEF WATER Fluid {
   children [
@@ -232,11 +37,17 @@ DEF WATER Fluid {
   }
   locked TRUE
 }
+Heron {
+  hidden linearVelocity_0 7.738948701030327e-55 -4.450876199231589e-55 2.819335278757325e-06
+  hidden angularVelocity_0 -0.0010746087365596433 -0.0018872241483721332 -8.299049855187801e-20
+  translation -6.6784157308512615 -0.49028637658352825 0.46070759689397855
+  rotation 0.0001714429217129001 0.0006475645044607216 -0.9999997756337433 0.5176249841363672
+}
 OilBarrel {
-  hidden linearVelocity_0 2.573909362966855e-13 8.101483462833414e-13 1.2003110195264215e-07
-  hidden angularVelocity_0 0.00029722487068166415 -0.0011509866633606927 -2.3388211172652233e-14
-  translation -5.769041604986536 5.713736372614108 0.5595498992963539
-  rotation 0.1699718823923225 0.9046421892250012 -0.3908095043243032 -1.7519092253369184
+  hidden linearVelocity_0 4.3841001267829204e-92 1.3799131852722908e-91 2.7336586825455718e-08
+  hidden angularVelocity_0 0.00017175073340307308 -0.000665095095048527 -3.525679610207082e-19
+  translation -5.769041604986175 5.7137363726152754 0.5595498936504114
+  rotation -0.17000006110990545 -0.9047921649529347 0.3904498911030834 1.7528146915175131
   physics Physics {
     density 100
     damping Damping {
@@ -251,10 +62,10 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 -1.0608211407654344e-07 1.6589633305608436e-07 2.196064163305319e-06
-  hidden angularVelocity_0 -0.0014550157419136274 0.0002700284102669188 8.673041437585036e-08
-  translation -10.052079094555102 2.4814943703168106 0.5595500669482671
-  rotation 0.275099147140283 0.6600733935310941 -0.6990161474494234 2.843706103645247
+  hidden linearVelocity_0 -1.8068802905954023e-86 2.8256866587785812e-86 -3.103144703687781e-08
+  hidden angularVelocity_0 0.0011199040548388395 -0.00020775155666699705 -2.9874548292248897e-19
+  translation -10.052079249302796 2.4814946123187727 0.5595498875102384
+  rotation -0.2751145870612611 -0.6601107052655576 0.6989748355841717 -2.8437234726044736
   name "oil barrel(1)"
   physics Physics {
     density 100
@@ -270,10 +81,10 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 -3.0604552490579713e-09 -1.0713621031612705e-08 2.022575678460609e-06
-  hidden angularVelocity_0 -6.125146151654697e-10 -9.821803790534122e-10 5.789035930131023e-10
-  translation -9.806804320505991 -3.2705951284597123 0.5595497963857429
-  rotation 0.9914248558774157 0.04559709580005233 0.12246493376900346 1.5859460287729068
+  hidden linearVelocity_0 -5.212826231745309e-88 -1.8248345492965266e-87 5.223797835316658e-17
+  hidden angularVelocity_0 -1.0432866981083728e-88 -1.6729326937581797e-88 9.860375637312023e-89
+  translation -9.806804324970415 -3.2705951440882433 0.5595498919704249
+  rotation 0.9914248557443196 0.04559709558681102 0.12246493492588871 1.5859460279251565
   name "oil barrel(2)"
   physics Physics {
     density 100
@@ -289,10 +100,10 @@ OilBarrel {
   ]
 }
 OilBarrel {
-  hidden linearVelocity_0 1.523141856440047e-08 6.992887800620743e-07 -3.829958410866254e-05
-  hidden angularVelocity_0 -0.00027213668203701484 -0.0008587515051977977 1.1912607949198997e-07
-  translation -9.046348859380034 3.246362640433868 0.559552332830202
-  rotation 0.7377120821383204 0.14390797589864487 -0.6595994074738842 -2.4505165669246933
+  hidden linearVelocity_0 2.5943440363533626e-87 1.1910877956457172e-85 -8.529020641187841e-08
+  hidden angularVelocity_0 -0.00025822010093208856 -0.0008147286344160733 1.19113218552358e-19
+  translation -9.046348837161165 3.2463636605243056 0.5595498964941401
+  rotation 0.737839555282382 0.14393292832237511 -0.6594513650036995 -2.4506597166551938
   name "oil barrel(3)"
   physics Physics {
     density 100
