@@ -882,5 +882,18 @@ float wr_gl_state_max_texture_anisotropy() {
 }
 
 void wr_gl_state_disable_check_error() {
+  if (wren::glstate::cDisableCheck)
+    return;
+  // Display and drain any past errors before disabling.
+  wren::glstate::checkError();
   wren::glstate::cDisableCheck = true;
+}
+
+void wr_gl_state_enable_check_error() {
+  if (!wren::glstate::cDisableCheck)
+    return;
+  // Ignore and drain any past errors before re-enabling.
+  while (glGetError() != GL_NO_ERROR)
+    ;
+  wren::glstate::cDisableCheck = false;
 }
