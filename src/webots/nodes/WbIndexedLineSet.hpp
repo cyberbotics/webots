@@ -29,7 +29,7 @@ public:
   explicit WbIndexedLineSet(WbTokenizer *tokenizer = NULL);
   WbIndexedLineSet(const WbIndexedLineSet &other);
   explicit WbIndexedLineSet(const WbNode &other);
-  virtual ~WbIndexedLineSet();
+  virtual ~WbIndexedLineSet() override;
 
   // field accessors
   WbCoordinate *coord() const;
@@ -53,7 +53,7 @@ public:
   // friction
   WbVector3 computeFrictionDirection(const WbVector3 &normal) const override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   // reimplemented protected functions

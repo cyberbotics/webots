@@ -82,7 +82,7 @@ private:
   bool isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                       WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);
   // Checks whether the object and its solid children are inside the `frustumPlanes` frustum.
-  bool recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
+  bool recursivelyCheckIfWithinBounds(const WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
   void createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset);

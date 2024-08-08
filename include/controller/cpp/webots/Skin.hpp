@@ -21,6 +21,7 @@ namespace webots {
   class Skin : public Device {
   public:
     explicit Skin(const std::string &name) : Device(name) {}
+    explicit Skin(WbDeviceTag tag) : Device(tag) {}
     virtual ~Skin() {}
     void setBoneOrientation(int index, const double orientation[4], bool absolute);
     void setBonePosition(int index, const double position[3], bool absolute);

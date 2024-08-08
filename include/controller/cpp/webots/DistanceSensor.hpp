@@ -23,6 +23,7 @@ namespace webots {
     typedef enum { GENERIC = 0, INFRA_RED, SONAR, LASER } Type;
 
     explicit DistanceSensor(const std::string &name) : Device(name) {}  // Use Robot::getDistanceSensor() instead
+    explicit DistanceSensor(WbDeviceTag tag) : Device(tag) {}
     virtual ~DistanceSensor() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

@@ -45,6 +45,7 @@ In addition to the generic [Lidar](../reference/lidar.md) node, a wide range of 
 | ![Gyro.png](images/sensors/Gyro.png) | [Gyro](../reference/gyro.md) | *Simulates a gyroscope sensor which measures the relative angular velocities.* |
 | ![InertialUnit.png](images/sensors/InertialUnit.png) | [InertialUnit](../reference/inertialunit.md) | *Simulates a sensor which measures the relative roll, pitch and yaw angles.* |
 | ![Lidar.png](images/sensors/Lidar.png) | [Lidar](../reference/lidar.md) | *Simulates a laser-scanner sensor also known as lidar.* |
+| ![LightSensor.png](images/sensors/LightSensor.png) | [LightSensor](../reference/lightsensor.md) | *Simulates a photo-sensitive device which can measure the irradiance of light in a given direction.* |
 | ![PositionSensor.png](images/sensors/PositionSensor.png) | [PositionSensor](../reference/positionsensor.md) | *Simulates a sensor which can monitor a joint position, such as an encoder or a potentiometer.* |
 | ![Radar.png](images/sensors/Radar.png) | [Radar](../reference/radar.md) | *Simulates a radar sensor.* |
 | ![RangeFinder.png](images/sensors/RangeFinder.png) | [RangeFinder](../reference/rangefinder.md) | *Simulates a depth camera also known as range-finder.* |

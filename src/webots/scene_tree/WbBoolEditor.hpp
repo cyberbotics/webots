@@ -28,7 +28,7 @@ class WbBoolEditor : public WbValueEditor {
 
 public:
   explicit WbBoolEditor(QWidget *parent = NULL);
-  virtual ~WbBoolEditor();
+  virtual ~WbBoolEditor() override;
 
   void recursiveBlockSignals(bool block) override;
 

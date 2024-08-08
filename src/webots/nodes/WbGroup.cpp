@@ -167,6 +167,7 @@ void WbGroup::deleteAllSolids() {
   QList<WbSolid *> solids;
   while (it.hasNext()) {
     WbNode *const n = it.next();
+    // cppcheck-suppress constVariablePointer
     WbSolid *s = dynamic_cast<WbSolid *const>(n);
     if (s)
       solids << s;
@@ -403,7 +404,7 @@ bool WbGroup::resetHiddenKinematicParameters() {
 void WbGroup::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map, int &counter) const {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
+    const WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
     if (g)
       g->collectHiddenKinematicParameters(map, counter);
   }
@@ -481,11 +482,11 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbGroup::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
     writer << "<Group role='boundingObject'"
            << " id=\'n" << QString::number(uniqueId()) << "\'>";

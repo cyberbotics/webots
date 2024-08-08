@@ -80,6 +80,7 @@ WbProjectRelocationDialog::WbProjectRelocationDialog(WbProject *project, const Q
 }
 
 void WbProjectRelocationDialog::initCompleteRelocation() {
+  // cppcheck-suppress constVariablePointer
   QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
@@ -116,6 +117,7 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
 }
 
 void WbProjectRelocationDialog::initProtoSourceRelocation() {
+  // cppcheck-suppress constVariablePointer
   QLabel *title = new QLabel(tr("<b>Copy necessary files from source to current project directory?</b>"), this);
 
   mTargetPath = mProject->path();
@@ -220,7 +222,9 @@ void WbProjectRelocationDialog::copy() {
   mProject->setPath(dir.path());
 
   // store the accepted project directory in the preferences
-  dir.cdUp();  // store the upper level, probably the path where the directories are stored
+  // store the upper level, probably the path where the directories are stored
+  if (!dir.cdUp())
+    assert(false);
   WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + '/');
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
@@ -403,7 +407,7 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &fileN
   if (!WbFileUtil::isLocatedInDirectory(fileName, current->path()) ||
       WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::resourcesPath())) {
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-    foreach (WbRobot *robot, robots) {
+    foreach (const WbRobot *robot, robots) {
       const WbProtoModel *proto = robot->proto();
       if (!proto)
         continue;

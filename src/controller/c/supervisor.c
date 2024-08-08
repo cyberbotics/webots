@@ -2100,7 +2100,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   const int descendants = node->contact_points_include_descendants;
 
   if (t <= node->contact_points[descendants].timestamp && node->contact_points[descendants].points)
-    return (node->contact_points[descendants].points && index < node->contact_points[descendants].n) ?
+    return index < node->contact_points[descendants].n ?
              node->contact_points[descendants].points[index].point :
              invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
 

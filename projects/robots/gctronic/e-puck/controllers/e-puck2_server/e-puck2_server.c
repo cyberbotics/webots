@@ -77,7 +77,7 @@ static bool socket_set_non_blocking(int fd) {
 static int socket_accept(int server_fd) {
   int cfd;
   struct sockaddr_in client;
-  struct hostent *client_info;
+  const struct hostent *client_info;
 #ifndef _WIN32
   socklen_t asize;
 #else

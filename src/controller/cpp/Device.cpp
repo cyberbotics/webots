@@ -26,6 +26,10 @@ Device::Device(const string &deviceName) : name(deviceName) {
   tag = wb_robot_get_device(name.c_str());
 }
 
+Device::Device(WbDeviceTag deviceTag) : tag(deviceTag) {
+  name = wb_device_get_name(deviceTag);
+}
+
 int Device::getNodeType() const {
   return wb_device_get_node_type(tag);
 }

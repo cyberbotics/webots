@@ -24,6 +24,7 @@ namespace webots {
   public:
     enum { RGB = 3, RGBA, ARGB, BGRA, ABGR };
     explicit Display(const std::string &name) : Device(name) {}  // Use Robot::getDisplay() instead
+    explicit Display(WbDeviceTag tag) : Device(tag) {}
     virtual ~Display() {}
     int getWidth() const;
     int getHeight() const;

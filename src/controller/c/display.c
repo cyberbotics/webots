@@ -357,7 +357,7 @@ static void wb_display_set_property(WbDeviceTag tag, int primitive, void *data, 
 }
 
 static void display_toggle_remote(WbDevice *d, WbRequest *r) {
-  Display *display = d->pdata;
+  const Display *display = d->pdata;
   if (display->hasBeenUsed)
     request_write_uchar(r, C_DISPLAY_IMAGE_GET_ALL);
 }
@@ -386,7 +386,7 @@ void wb_display_init(WbDevice *d) {
 int wb_display_get_height(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->height;
   else
@@ -398,7 +398,7 @@ int wb_display_get_height(WbDeviceTag tag) {
 int wb_display_get_width(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->width;
   else
@@ -408,7 +408,7 @@ int wb_display_get_width(WbDeviceTag tag) {
 }
 
 void wb_display_set_color(WbDeviceTag tag, int color) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -421,7 +421,7 @@ void wb_display_set_color(WbDeviceTag tag, int color) {
 }
 
 void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -434,7 +434,7 @@ void wb_display_set_alpha(WbDeviceTag tag, double alpha) {
 }
 
 void wb_display_set_opacity(WbDeviceTag tag, double opacity) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -452,7 +452,7 @@ void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_
     return;
   }
   robot_mutex_lock();
-  Display *display = wb_display_get_struct(tag);
+  const Display *display = wb_display_get_struct(tag);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock();
@@ -465,7 +465,7 @@ void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_
 void wb_display_attach_camera(WbDeviceTag tag, WbDeviceTag camera_tag) {
   robot_mutex_lock();
   Display *display = wb_display_get_struct(tag);
-  WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
+  const WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
     robot_mutex_unlock();
@@ -507,30 +507,30 @@ void wb_display_detach_camera(WbDeviceTag tag) {
 }
 
 void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
 
-  int px[] = {x};
-  int py[] = {y};
+  const int px[] = {x};
+  const int py[] = {y};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_PIXEL, px, py, 1, false, NULL);
 }
 
 void wb_display_draw_line(WbDeviceTag tag, int x1, int y1, int x2, int y2) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x1, x2};
-  int py[] = {y1, y2};
+  const int px[] = {x1, x2};
+  const int py[] = {y1, y2};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_LINE, px, py, 2, false, NULL);
 }
 
 void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -543,13 +543,13 @@ void wb_display_draw_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
     fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x, width};
-  int py[] = {y, height};
+  const int px[] = {x, width};
+  const int py[] = {y, height};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_RECTANGLE, px, py, 2, false, NULL);
 }
 
 void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -562,13 +562,13 @@ void wb_display_draw_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
     fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {cx, a};
-  int py[] = {cy, b};
+  const int px[] = {cx, a};
+  const int py[] = {cy, b};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_OVAL, px, py, 2, false, NULL);
 }
 
 void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -581,7 +581,7 @@ void wb_display_draw_polygon(WbDeviceTag tag, const int *x, const int *y, int si
 }
 
 void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -590,13 +590,13 @@ void wb_display_draw_text(WbDeviceTag tag, const char *text, int x, int y) {
     fprintf(stderr, "Error: %s(): 'text' argument is NULL or empty.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x};
-  int py[] = {y};
+  const int px[] = {x};
+  const int py[] = {y};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_TEXT, px, py, 1, false, text);
 }
 
 void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int height) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -609,13 +609,13 @@ void wb_display_fill_rectangle(WbDeviceTag tag, int x, int y, int width, int hei
     fprintf(stderr, "Error: %s(): 'height' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {x, width};
-  int py[] = {y, height};
+  const int px[] = {x, width};
+  const int py[] = {y, height};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_RECTANGLE, px, py, 2, true, NULL);
 }
 
 void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -628,13 +628,13 @@ void wb_display_fill_oval(WbDeviceTag tag, int cx, int cy, int a, int b) {
     fprintf(stderr, "Error: %s(): 'vertical_radius' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  int px[] = {cx, a};
-  int py[] = {cy, b};
+  const int px[] = {cx, a};
+  const int py[] = {cy, b};
   wb_display_draw_primitive(tag, C_DISPLAY_DRAW_OVAL, px, py, 2, true, NULL);
 }
 
 void wb_display_fill_polygon(WbDeviceTag tag, const int *x, const int *y, int size) {
-  Display *d = wb_display_get_struct(tag);
+  const Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return;
@@ -746,7 +746,7 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
   else {  // channel == 4
     int j;
     const int s = width * height;
-    unsigned char *img = (unsigned char *)data;
+    const unsigned char *img = (unsigned char *)data;
     for (j = 0; j < s; j++)
       ((uint32_t *)i->image)[j] = img[j * 4 + 3] << 24 | img[j * 4 + 2] << 16 | img[j * 4 + 1] << 8 | img[j * 4];
   }

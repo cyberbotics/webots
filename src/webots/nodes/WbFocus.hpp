@@ -25,7 +25,7 @@ public:
   explicit WbFocus(WbTokenizer *tokenizer = NULL);
   WbFocus(const WbFocus &other);
   explicit WbFocus(const WbNode &other);
-  virtual ~WbFocus();
+  virtual ~WbFocus() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_FOCUS; }

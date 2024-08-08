@@ -38,7 +38,7 @@ public:
 
 private:
   WbConcreteNodeFactory() {}
-  virtual ~WbConcreteNodeFactory() {}
+  virtual ~WbConcreteNodeFactory() override {}
   static WbConcreteNodeFactory gFactory;
 };
 

@@ -22,10 +22,9 @@ class WbAnchorParameter : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbAnchorParameter();
+  virtual ~WbAnchorParameter() override;
 
   const WbVector3 &anchor() const { return mAnchor->value(); }
-  void preFinalize() override;
   void postFinalize() override;
 
 signals:

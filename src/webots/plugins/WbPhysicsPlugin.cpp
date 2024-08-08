@@ -281,7 +281,7 @@ QString WbPhysicsPlugin::findSourceFileForPlugin(const QString &name) {
       return path;
 
     // search in projects folder of loaded PROTOs
-    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
+    foreach (const WbProtoModel *model, WbProtoManager::instance()->models()) {
       if (!model->path().isEmpty()) {
         path = model->path() + "../" + fileName;
         if (QFile::exists(path))

@@ -29,7 +29,7 @@ public:
   explicit WbInertialUnit(WbTokenizer *tokenizer = NULL);
   WbInertialUnit(const WbInertialUnit &other);
   explicit WbInertialUnit(const WbNode &other);
-  virtual ~WbInertialUnit();
+  virtual ~WbInertialUnit() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_INERTIAL_UNIT; }

@@ -129,7 +129,7 @@ static int g_image_png_save(GImage *img, const char *filename) {
       fprintf(stderr, "Insufficient permissions to write file: %s\n", filename);
     else {
       char cwd[256];
-      char *r = getcwd(cwd, 256);
+      const char *r = getcwd(cwd, 256);
       if (r)
         fprintf(stderr, "Insufficient permissions to write file: %s%c%s\n", cwd, DIR_SEPARATOR, filename);
       else

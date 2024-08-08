@@ -52,7 +52,7 @@ namespace wren {
 
   private:
     Skeleton(){};
-    virtual ~Skeleton();
+    virtual ~Skeleton() override;
 
     std::vector<SkeletonBone *> mBones;
     std::vector<DynamicMesh *> mMeshes;

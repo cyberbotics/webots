@@ -30,7 +30,7 @@ public:
   explicit WbHingeJoint(WbTokenizer *tokenizer = NULL);
   WbHingeJoint(const WbHingeJoint &other);
   explicit WbHingeJoint(const WbNode &other);
-  virtual ~WbHingeJoint();
+  virtual ~WbHingeJoint() override;
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT; }
   void prePhysicsStep(double ms) override;

@@ -90,7 +90,7 @@ static void microphone_cleanup(WbDevice *d) {
 int wb_microphone_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Microphone *mic = microphone_get_struct(tag);
+  const Microphone *mic = microphone_get_struct(tag);
   if (mic)
     sampling_period = mic->sampling_period;
   else
@@ -145,7 +145,7 @@ void wb_microphone_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_microphone_disable(WbDeviceTag tag) {
-  Microphone *mic = microphone_get_struct(tag);
+  const Microphone *mic = microphone_get_struct(tag);
   if (mic)
     wb_microphone_enable(tag, 0);
   else
@@ -155,7 +155,7 @@ void wb_microphone_disable(WbDeviceTag tag) {
 const void *wb_microphone_get_sample_data(WbDeviceTag tag) {
   const void *result = NULL;
   robot_mutex_lock();
-  Microphone *mic = microphone_get_struct(tag);
+  const Microphone *mic = microphone_get_struct(tag);
   if (mic) {
     if (mic->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_microphone_enable().\n", __FUNCTION__);
@@ -169,7 +169,7 @@ const void *wb_microphone_get_sample_data(WbDeviceTag tag) {
 int wb_microphone_get_sample_size(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Microphone *mic = microphone_get_struct(tag);
+  const Microphone *mic = microphone_get_struct(tag);
   if (mic) {
     if (mic->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_microphone_enable().\n", __FUNCTION__);

@@ -6,7 +6,7 @@ This pull-request fixes issue #
 
 **Tasks**
 Add the list of tasks of this PR.
-  - [ ] Update the [changelog](https://github.com/cyberbotics/webots/blob/master/docs/reference/changelog-r2023.md)
+  - [ ] Update the [changelog](https://github.com/cyberbotics/webots/blob/master/docs/reference/changelog-r2024.md)
   - [ ] Update the documentation (if needed)
   - [ ] Task 1
   - [ ] Task 2

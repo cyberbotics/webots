@@ -30,7 +30,7 @@ class WbVector3Editor : public WbValueEditor {
 
 public:
   explicit WbVector3Editor(QWidget *parent = NULL);
-  virtual ~WbVector3Editor();
+  virtual ~WbVector3Editor() override;
 
   void recursiveBlockSignals(bool block) override;
 

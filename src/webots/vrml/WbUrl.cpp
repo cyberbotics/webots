@@ -207,8 +207,8 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
-  if (!isX3d)
+QString WbUrl::computeLocalAssetUrl(QString url, bool isW3d) {
+  if (!isW3d)
     return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
 
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {

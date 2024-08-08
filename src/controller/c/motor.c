@@ -261,7 +261,7 @@ void wb_motor_set_position(WbDeviceTag tag, double position) {
     return;
   }
 
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (!m)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   else {
@@ -305,7 +305,7 @@ void wb_motor_set_velocity(WbDeviceTag tag, double velocity) {
 double wb_motor_get_velocity(WbDeviceTag tag) {
   double vel = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     vel = m->velocity;
   else
@@ -317,7 +317,7 @@ double wb_motor_get_velocity(WbDeviceTag tag) {
 double wb_motor_get_max_velocity(WbDeviceTag tag) {
   double vel = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     vel = m->max_velocity;
   else
@@ -348,7 +348,7 @@ void wb_motor_set_acceleration(WbDeviceTag tag, double acceleration) {
 double wb_motor_get_acceleration(WbDeviceTag tag) {
   double acc = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     acc = m->acceleration;
   else
@@ -404,7 +404,7 @@ void wb_motor_set_available_force(WbDeviceTag tag, double force) {
 double wb_motor_get_available_force(WbDeviceTag tag) {
   double force = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     force = m->available_force;
   else
@@ -416,7 +416,7 @@ double wb_motor_get_available_force(WbDeviceTag tag) {
 double wb_motor_get_max_force(WbDeviceTag tag) {
   double force = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     force = m->max_force;
   else
@@ -470,7 +470,7 @@ void wb_motor_enable_force_feedback(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_motor_disable_force_feedback(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     wb_motor_enable_force_feedback(tag, 0);
   else
@@ -492,7 +492,7 @@ double wb_motor_get_force_feedback(WbDeviceTag tag) {
 int wb_motor_get_force_feedback_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     sampling_period = m->force_feedback_sampling_period;
   else
@@ -504,7 +504,7 @@ int wb_motor_get_force_feedback_sampling_period(WbDeviceTag tag) {
 double wb_motor_get_min_position(WbDeviceTag tag) {
   double pos = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->min_position;
   else
@@ -516,7 +516,7 @@ double wb_motor_get_min_position(WbDeviceTag tag) {
 double wb_motor_get_max_position(WbDeviceTag tag) {
   double pos = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->max_position;
   else
@@ -528,7 +528,7 @@ double wb_motor_get_max_position(WbDeviceTag tag) {
 double wb_motor_get_target_position(WbDeviceTag tag) {
   double pos = NAN;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     pos = m->position;
   else
@@ -540,7 +540,7 @@ double wb_motor_get_target_position(WbDeviceTag tag) {
 WbJointType wb_motor_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     type = m->type;
   else
@@ -559,7 +559,7 @@ void wbr_motor_set_force_feedback(WbDeviceTag t, double value) {
 
 // Aliases
 void wb_motor_set_available_torque(WbDeviceTag tag, double torque) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     wb_motor_set_available_force(tag, torque);
   else
@@ -567,7 +567,7 @@ void wb_motor_set_available_torque(WbDeviceTag tag, double torque) {
 }
 
 double wb_motor_get_available_torque(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     return wb_motor_get_available_force(tag);
 
@@ -578,7 +578,7 @@ double wb_motor_get_available_torque(WbDeviceTag tag) {
 double wb_motor_get_multiplier(WbDeviceTag tag) {
   double multiplier;
   robot_mutex_lock();
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     multiplier = m->multiplier;
   else {
@@ -590,7 +590,7 @@ double wb_motor_get_multiplier(WbDeviceTag tag) {
 }
 
 double wb_motor_get_max_torque(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     return wb_motor_get_max_force(tag);
 
@@ -599,7 +599,7 @@ double wb_motor_get_max_torque(WbDeviceTag tag) {
 }
 
 void wb_motor_set_torque(WbDeviceTag tag, double torque) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     wb_motor_set_force(tag, torque);
   else
@@ -607,7 +607,7 @@ void wb_motor_set_torque(WbDeviceTag tag, double torque) {
 }
 
 void wb_motor_enable_torque_feedback(WbDeviceTag tag, int sampling_period) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     wb_motor_enable_force_feedback(tag, sampling_period);
   else
@@ -615,7 +615,7 @@ void wb_motor_enable_torque_feedback(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_motor_disable_torque_feedback(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     wb_motor_disable_force_feedback(tag);
   else
@@ -623,7 +623,7 @@ void wb_motor_disable_torque_feedback(WbDeviceTag tag) {
 }
 
 int wb_motor_get_torque_feedback_sampling_period(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     return wb_motor_get_force_feedback_sampling_period(tag);
 
@@ -632,7 +632,7 @@ int wb_motor_get_torque_feedback_sampling_period(WbDeviceTag tag) {
 }
 
 double wb_motor_get_torque_feedback(WbDeviceTag tag) {
-  Motor *m = motor_get_struct(tag);
+  const Motor *m = motor_get_struct(tag);
   if (m)
     return wb_motor_get_force_feedback(tag);
 
@@ -641,7 +641,7 @@ double wb_motor_get_torque_feedback(WbDeviceTag tag) {
 }
 
 void wbr_motor_set_torque_feedback(WbDeviceTag t, double value) {
-  Motor *m = motor_get_struct(t);
+  const Motor *m = motor_get_struct(t);
   if (m)
     wbr_motor_set_force_feedback(t, value);
   else

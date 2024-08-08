@@ -21,6 +21,7 @@ namespace webots {
   class Altimeter : public Device {
   public:
     explicit Altimeter(const std::string &name) : Device(name) {}  // Use Robot::getAltimeter instead
+    explicit Altimeter(WbDeviceTag tag) : Device(tag) {}
     virtual ~Altimeter() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

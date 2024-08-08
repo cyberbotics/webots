@@ -36,7 +36,7 @@ namespace WbMathsUtilities {
     return ((int)(value / resolution + 0.5)) * resolution;
   }
   inline double discretize(float value, float resolution) {
-    return ((int)(value / resolution + 0.5f)) * resolution;
+    return ((int)(value / resolution + 0.5f)) * ((double)resolution);
   }
 
   // performs two Graham scan and returns the indices of points in the convex hull

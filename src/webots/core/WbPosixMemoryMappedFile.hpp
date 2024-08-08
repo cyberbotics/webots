@@ -26,7 +26,7 @@ public:
   bool create(int size);
   int size() const { return mSize; }
   void *data() const { return mData; }
-  const QString nativeKey() const { return mName; }
+  const QString &nativeKey() const { return mName; }
 
 private:
   QString mName;

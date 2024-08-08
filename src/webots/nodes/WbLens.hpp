@@ -25,7 +25,7 @@ public:
   explicit WbLens(WbTokenizer *tokenizer = NULL);
   WbLens(const WbLens &other);
   explicit WbLens(const WbNode &other);
-  virtual ~WbLens();
+  virtual ~WbLens() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_LENS; }

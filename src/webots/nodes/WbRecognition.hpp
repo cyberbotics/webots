@@ -28,7 +28,7 @@ public:
   explicit WbRecognition(WbTokenizer *tokenizer = NULL);
   WbRecognition(const WbRecognition &other);
   explicit WbRecognition(const WbNode &other);
-  virtual ~WbRecognition();
+  virtual ~WbRecognition() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RECOGNITION; }

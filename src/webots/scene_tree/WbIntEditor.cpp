@@ -82,14 +82,14 @@ void WbIntEditor::apply() {
   mInt = field()->hasRestrictedValues() ? mComboBox->currentText().toInt() : mSpinBox->value();
 
   if (singleValue()) {
-    WbSFInt *const sfInt = static_cast<WbSFInt *>(singleValue());
+    const WbSFInt *const sfInt = static_cast<WbSFInt *>(singleValue());
     if (sfInt->value() == mInt)
       return;
 
     mPreviousValue->setInt(sfInt->value());
 
   } else if (multipleValue()) {
-    WbMFInt *const mfInt = static_cast<WbMFInt *>(multipleValue());
+    const WbMFInt *const mfInt = static_cast<WbMFInt *>(multipleValue());
     if (mfInt->item(index()) == mInt)
       return;
 

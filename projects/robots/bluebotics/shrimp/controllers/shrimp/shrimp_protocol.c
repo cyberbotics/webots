@@ -264,6 +264,7 @@ static void command_01(byte *answer) {
   answer[3] = SHRIMP_PATCH_NUMBER;
 }
 
+// cppcheck-suppress constParameterPointer
 /*
  * This function allows to to set the speed and the steering angle of the
  * robot.

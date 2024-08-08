@@ -110,14 +110,14 @@ void MotionWidget::selectPoseFromModel(int index) {
 }
 
 void MotionWidget::updatePoseFromModel(int index) {
-  Pose *pose = mMotion->poses().at(index);
+  const Pose *pose = mMotion->poses().at(index);
   QListWidgetItem *i = mListWidget->item(index);
   i->setText(pose->toString());
   setItemAppearance(i, pose->status());
 }
 
 void MotionWidget::insertPoseFromModel(int index) {
-  Pose *pose = mMotion->poses().at(index);
+  const Pose *pose = mMotion->poses().at(index);
   QListWidgetItem *i = new QListWidgetItem(pose->toString());
   setItemAppearance(i, pose->status());
   mListWidget->insertItem(index, i);

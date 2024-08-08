@@ -26,7 +26,7 @@ class WbFieldLineEdit : public WbLineEdit {
 
 public:
   explicit WbFieldLineEdit(QWidget *parent = 0);
-  virtual ~WbFieldLineEdit();
+  virtual ~WbFieldLineEdit() override;
 
 signals:
   void focusLeft();

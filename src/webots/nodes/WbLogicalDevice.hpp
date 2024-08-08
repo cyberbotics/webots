@@ -23,7 +23,7 @@
 
 class WbLogicalDevice : public WbBaseNode, public WbDevice {
 public:
-  virtual ~WbLogicalDevice();
+  virtual ~WbLogicalDevice() override;
   const QString &deviceName() const override { return mDeviceName->value(); }
   int deviceNodeType() const override { return nodeType(); }
 

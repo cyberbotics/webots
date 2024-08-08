@@ -120,7 +120,7 @@ void WbVisualBoundingSphere::show(const WbBaseNode *node) {
     return;
   }
 
-  WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
+  const WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
   if (!boundingSphere) {
     if (mInitialized)
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);

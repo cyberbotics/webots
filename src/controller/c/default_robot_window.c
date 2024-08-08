@@ -228,7 +228,7 @@ static void ue_append(struct UpdateElement *ue, double update_time, const double
     ue->values[last_index][v] = value[v];
 }
 
-static int ue_number_of_values(struct UpdateElement *ue) {
+static int ue_number_of_values(const struct UpdateElement *ue) {
   return ue->n_values;
 }
 
@@ -277,7 +277,7 @@ static void ue_write_values(struct UpdateElement *ue) {
       else
         buffer_append_double(value);
     } else {
-      double *values = ue_value_at(ue, v);
+      const double *values = ue_value_at(ue, v);
       buffer_append("[");
       for (c = 0; c < ue->n_components; ++c) {
         if (c != 0)

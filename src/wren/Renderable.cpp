@@ -343,10 +343,11 @@ void wr_renderable_set_z_sorted_rendering(WrRenderable *renderable, bool z_sorte
 
 WrMaterial *wr_renderable_get_material(WrRenderable *renderable, const char *name) {
   if (!name) {
-    wren::Material *defaultMaterial = reinterpret_cast<wren::Renderable *>(renderable)->defaultMaterial();
+    const wren::Material *defaultMaterial = reinterpret_cast<wren::Renderable *>(renderable)->defaultMaterial();
     return defaultMaterial->materialStructure();
   } else {
-    wren::Material *optionalMaterial = reinterpret_cast<wren::Renderable *>(renderable)->optionalMaterial(std::string(name));
+    const wren::Material *optionalMaterial =
+      reinterpret_cast<wren::Renderable *>(renderable)->optionalMaterial(std::string(name));
     if (optionalMaterial)
       return optionalMaterial->materialStructure();
     else

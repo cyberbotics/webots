@@ -31,7 +31,7 @@ public:
   explicit WbDisplay(WbTokenizer *tokenizer = NULL);
   WbDisplay(const WbDisplay &other);
   explicit WbDisplay(const WbNode &other);
-  virtual ~WbDisplay();
+  virtual ~WbDisplay() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DISPLAY; }

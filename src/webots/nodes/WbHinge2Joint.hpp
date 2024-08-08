@@ -31,7 +31,7 @@ public:
   explicit WbHinge2Joint(WbTokenizer *tokenizer = NULL);
   WbHinge2Joint(const WbHinge2Joint &other);
   explicit WbHinge2Joint(const WbNode &other);
-  virtual ~WbHinge2Joint();
+  virtual ~WbHinge2Joint() override;
 
   void preFinalize() override;
   void postFinalize() override;

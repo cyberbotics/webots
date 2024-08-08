@@ -30,6 +30,7 @@ namespace webots {
       Device(name),
       motor(NULL),
       positionSensor(NULL) {}  // Use Robot::getBrake() instead
+    explicit Brake(WbDeviceTag tag) : Device(tag), motor(NULL), positionSensor(NULL) {}
     virtual ~Brake() {}
     Type getType() const;
     void setDampingConstant(double dampingConstant) const;

@@ -32,7 +32,7 @@ public:
   explicit WbShape(WbTokenizer *tokenizer = NULL);
   WbShape(const WbShape &other);
   explicit WbShape(const WbNode &other);
-  virtual ~WbShape();
+  virtual ~WbShape() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SHAPE; }
@@ -77,8 +77,8 @@ public:
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void wrenMaterialChanged();

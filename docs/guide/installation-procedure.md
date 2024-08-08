@@ -239,13 +239,13 @@ xvfb-run --auto-servernum webots --mode=fast --no-rendering --stdout --stderr --
 It is possible to install Webots silently from an administrator DOS console, by typing:
 
 ```bash
-webots-{{ webots.version.package }}_setup.exe /SILENT
+webots-{{ webots.version.package }}_setup.exe /SUPPRESSMSGBOXES /VERYSILENT /NOCANCEL /NORESTART /ALLUSERS
 ```
 
-Or:
+Additional setup options are available and documented from:
 
 ```bash
-webots-{{ webots.version.package }}\_setup.exe /VERYSILENT
+webots-{{ webots.version.package }}_setup.exe /?
 ```
 
 Once installed, if you observe 3D rendering anomalies or if Webots crashes, it is strongly recommend to upgrade your graphics driver.

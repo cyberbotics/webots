@@ -44,13 +44,13 @@
 
 WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
   QString nw(tokenizer->nextWord());
-  if (nw != "field" && nw != "vrmlField" && nw != "hiddenField" && nw != "hidden" && nw != "deprecatedField" &&
+  if (nw != "field" && nw != "w3dField" && nw != "hiddenField" && nw != "hidden" && nw != "deprecatedField" &&
       nw != "unconnectedField") {
     tokenizer->reportError(QObject::tr("Expected field type but found '%2'").arg(nw), tokenizer->lastToken());
     throw 0;
   }
 
-  mIsVrml = nw == "vrmlField";
+  mIsW3d = nw == "w3dField";
   mIsDeprecated = nw == "deprecatedField";
   mIsHiddenField = mIsDeprecated || nw == "hiddenField";
   mIsHiddenParameter = nw == "hidden";
@@ -100,7 +100,7 @@ WbFieldModel::WbFieldModel(WbTokenizer *tokenizer, const QString &worldPath) {
     bool defaultValueIsValid = true;
     while (!isValueAccepted(mDefaultValue, &refusedIndex)) {
       defaultValueIsValid = false;
-      WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(mDefaultValue);
+      const WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(mDefaultValue);
       if (multipleValue)
         mAcceptedValues << multipleValue->variantValue(refusedIndex);
       else {

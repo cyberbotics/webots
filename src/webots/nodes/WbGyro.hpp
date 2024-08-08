@@ -30,7 +30,7 @@ public:
   explicit WbGyro(WbTokenizer *tokenizer = NULL);
   WbGyro(const WbGyro &other);
   explicit WbGyro(const WbNode &other);
-  virtual ~WbGyro();
+  virtual ~WbGyro() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_GYRO; }

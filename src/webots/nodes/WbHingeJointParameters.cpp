@@ -58,10 +58,6 @@ WbHingeJointParameters::WbHingeJointParameters(const WbNode &other, bool fromDep
 WbHingeJointParameters::~WbHingeJointParameters() {
 }
 
-void WbHingeJointParameters::preFinalize() {
-  WbJointParameters::preFinalize();
-}
-
 void WbHingeJointParameters::postFinalize() {
   WbJointParameters::postFinalize();
 

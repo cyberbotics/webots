@@ -69,7 +69,7 @@ namespace wren {
 
   protected:
     LightNode();
-    virtual ~LightNode();
+    virtual ~LightNode() override;
 
     static std::vector<int> cActiveLightsCastingShadows;
 

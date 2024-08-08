@@ -44,7 +44,7 @@ public:
   WbAbstractCamera(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbAbstractCamera(const WbAbstractCamera &other);
   WbAbstractCamera(const WbNode &other);
-  virtual ~WbAbstractCamera();
+  virtual ~WbAbstractCamera() override;
 
   // reimplemented public functions
   void createWrenObjects() override;

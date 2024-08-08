@@ -16,7 +16,7 @@ namespace webotsQtUtils {
 
   public:
     explicit CameraWidget(Device *device, QWidget *parent = NULL);
-    virtual ~CameraWidget() {}
+    virtual ~CameraWidget() override {}
 
     void readSensors() override;
 

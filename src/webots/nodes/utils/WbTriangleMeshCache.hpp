@@ -39,9 +39,9 @@ namespace WbTriangleMeshCache {
   // Key type for an instance of WbTriangleMeshGeometry. Instances can share a WbTriangleMesh if their keys compare equal.
   struct TriangleMeshGeometryKey {
     TriangleMeshGeometryKey();
-    explicit TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry);
+    explicit TriangleMeshGeometryKey(const WbTriangleMeshGeometry *triangleMeshGeometry);
 
-    void set(WbTriangleMeshGeometry *triangleMeshGeometry);
+    void set(const WbTriangleMeshGeometry *triangleMeshGeometry);
     bool operator==(const TriangleMeshGeometryKey &rhs) const;
 
     uint64_t mHash;

@@ -39,10 +39,10 @@ ifeq ($(OSTYPE), darwin)
 release debug profile: physics.a
 
 physics-x86_64.o: physics.c $(WEBOTS_HOME_PATH)/include/plugins/physics.h
-	@gcc -target x86_64-apple-macos11 $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/ode -o $@
+	@gcc -target x86_64-apple-macos12 $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/ode -o $@
 
 physics-arm64.o: physics.c $(WEBOTS_HOME_PATH)/include/plugins/physics.h
-	@gcc -target arm64-apple-macos11 $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/ode -o $@
+	@gcc -target arm64-apple-macos12 $(CFLAGS) $(PLATFORM_FLAGS) physics.c -I$(WEBOTS_HOME_PATH)/include -I$(WEBOTS_HOME_PATH)/include/ode -o $@
 
 physics.a: physics-x86_64.o physics-arm64.o
 	@ar rcs physics-x86_64.a physics-x86_64.o

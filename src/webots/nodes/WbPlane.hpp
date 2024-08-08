@@ -25,12 +25,11 @@ public:
   explicit WbPlane(WbTokenizer *tokenizer = NULL);
   WbPlane(const WbPlane &other);
   explicit WbPlane(const WbNode &other);
-  virtual ~WbPlane();
+  virtual ~WbPlane() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PLANE; }
   void postFinalize() override;
-  void write(WbWriter &writer) const override;
   void createWrenObjects() override;
   void createResizeManipulator() override;
   void rescale(const WbVector3 &scale) override;
@@ -64,11 +63,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   // user accessible fields

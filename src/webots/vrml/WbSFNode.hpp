@@ -30,7 +30,7 @@ public:
   WbSFNode(WbTokenizer *tokenizer, const QString &worldPath);
   WbSFNode(const WbSFNode &other);
   explicit WbSFNode(WbNode *node);
-  virtual ~WbSFNode();
+  virtual ~WbSFNode() override;
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFNode(tokenizer, worldPath); }
   void write(WbWriter &writer) const override;
   WbValue *clone() const override { return new WbSFNode(*this); }

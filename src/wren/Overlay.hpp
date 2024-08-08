@@ -89,7 +89,7 @@ namespace wren {
     Overlay();
     ~Overlay();
 
-    void prepareTexture(Texture *texture, int textureUnitIndex);
+    void prepareTexture(Texture *texture, int textureUnitIndex) const;
 
     static ShaderProgram *cDefaultSizeProgram;
     static size_t cMaxOrder;

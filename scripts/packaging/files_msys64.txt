@@ -18,6 +18,7 @@
 /mingw64/bin/libpcre2-8-0.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
+/mingw64/bin/libssl-3-x64.dll
 /mingw64/bin/Qt6Core.dll
 /mingw64/bin/Qt6Gui.dll
 /mingw64/bin/Qt6Network.dll
@@ -32,7 +33,6 @@
 /mingw64/share/qt6/plugins/imageformats/qjpeg.dll
 /mingw64/bin/libjpeg-8.dll
 /mingw64/share/qt6/plugins/platforms/qwindows.dll
-/mingw64/share/qt6/plugins/styles/qwindowsvistastyle.dll
 /mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
 /mingw64/share/qt6/plugins/tls/qopensslbackend.dll
 /mingw64/share/qt6/plugins/tls/qschannelbackend.dll

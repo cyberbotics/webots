@@ -100,7 +100,7 @@ void WbVelocityViewer::requestUpdate() {
 
 void WbVelocityViewer::update() {
   if (mIsSelected && mSolid) {
-    WbSolid *solid = mSolid;
+    const WbSolid *solid = mSolid;
     if (mRelativeToComboBox->currentIndex() == 0)
       solid = NULL;
     else {

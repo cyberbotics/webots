@@ -412,7 +412,7 @@ QModelIndex WbSceneTreeModel::findModelIndexFromField(WbField *field, WbTreeItem
 /////////////////////////////////////////////
 
 int WbSceneTreeModel::itemToTreeIndex(WbTreeItem *item) const {
-  WbTreeItem *const targetItem = item;
+  const WbTreeItem *const targetItem = item;
   bool itemFound = false;
   int itemIndex = 0;
   const int n = mRootItem->childCount();

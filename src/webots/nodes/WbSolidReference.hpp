@@ -35,10 +35,9 @@ public:
   explicit WbSolidReference(WbTokenizer *tokenizer = NULL);
   WbSolidReference(const WbSolidReference &other);
   explicit WbSolidReference(const WbNode &other);
-  virtual ~WbSolidReference();
+  virtual ~WbSolidReference() override;
 
   int nodeType() const override { return WB_NODE_SOLID_REFERENCE; }
-  void preFinalize() override;
   void postFinalize() override;
 
   QPointer<WbSolid> solid() const { return mSolid; }

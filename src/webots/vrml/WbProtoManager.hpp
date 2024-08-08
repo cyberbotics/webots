@@ -70,7 +70,7 @@ public:
     mIsDirty(false) {
     // extract parameter names
     foreach (const QString &parameter, mParameters) {
-      QRegularExpression re("(?:field|vrmlField)\\s+(?:\\w+|(?:\\{[\\s\\S]*\\}))+\\s+(\\w+)\\s");
+      QRegularExpression re("(?:field|w3dField)\\s+(?:\\w+|(?:\\{[\\s\\S]*\\}))+\\s+(\\w+)\\s");
       QRegularExpressionMatch match = re.match(parameter);
       if (match.hasMatch())
         mParameterNames << match.captured(1);
@@ -150,7 +150,7 @@ public:
   void retrieveLocalProtoDependencies();
 
   // used primarily when populating the dialog windows
-  QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
+  const QMap<QString, WbProtoInfo *> &webotsProtoList() { return mWebotsProtoList; };
 
   // generates meta info from a PROTO file (license, tags, ...)
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);

@@ -30,7 +30,7 @@ public:
   explicit WbSlot(WbTokenizer *tokenizer = NULL);
   WbSlot(const WbSlot &other);
   explicit WbSlot(const WbNode &other);
-  virtual ~WbSlot();
+  virtual ~WbSlot() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SLOT; }

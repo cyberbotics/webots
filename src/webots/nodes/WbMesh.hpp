@@ -29,7 +29,7 @@ public:
   explicit WbMesh(WbTokenizer *tokenizer = NULL);
   WbMesh(const WbMesh &other);
   explicit WbMesh(const WbNode &other);
-  virtual ~WbMesh();
+  virtual ~WbMesh() override;
 
   void updateTriangleMesh(bool issueWarnings = true) override;
 
@@ -44,7 +44,7 @@ public:
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
   uint64_t computeHash() const override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   void exportNodeFields(WbWriter &writer) const override;

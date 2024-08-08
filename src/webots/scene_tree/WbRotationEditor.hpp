@@ -31,7 +31,7 @@ class WbRotationEditor : public WbValueEditor {
 
 public:
   explicit WbRotationEditor(QWidget *parent = NULL);
-  virtual ~WbRotationEditor();
+  virtual ~WbRotationEditor() override;
 
   enum RotationType { AXIS_ANGLE = 0, QUATERNIONS };
 

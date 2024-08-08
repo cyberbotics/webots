@@ -23,6 +23,7 @@ namespace webots {
     typedef enum { BUMPER = 0, FORCE, FORCE3D } Type;
 
     explicit TouchSensor(const std::string &name) : Device(name) {}  // Use Robot::getTouchSensor() instead
+    explicit TouchSensor(WbDeviceTag tag) : Device(tag) {}
     virtual ~TouchSensor() {}
 
     virtual void enable(int samplingPeriod);

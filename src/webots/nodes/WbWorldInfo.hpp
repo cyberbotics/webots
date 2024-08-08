@@ -35,7 +35,7 @@ public:
   explicit WbWorldInfo(WbTokenizer *tokenizer = NULL);
   WbWorldInfo(const WbWorldInfo &other);
   explicit WbWorldInfo(const WbNode &other);
-  virtual ~WbWorldInfo();
+  virtual ~WbWorldInfo() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_WORLD_INFO; }
@@ -101,7 +101,6 @@ signals:
 private:
   WbWorldInfo &operator=(const WbWorldInfo &);  // non copyable
   WbNode *clone() const override { return new WbWorldInfo(*this); }
-  void exportNodeFields(WbWriter &writer) const override;
   void init(const WbVersion *version = NULL);
 
   // User accessible fields

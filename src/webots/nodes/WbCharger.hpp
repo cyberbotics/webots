@@ -35,7 +35,7 @@ public:
   explicit WbCharger(WbTokenizer *tokenizer = NULL);
   WbCharger(const WbCharger &other);
   explicit WbCharger(const WbNode &other);
-  virtual ~WbCharger();
+  virtual ~WbCharger() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CHARGER; }

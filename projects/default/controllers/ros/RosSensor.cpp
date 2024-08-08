@@ -14,7 +14,7 @@
 
 #include "RosSensor.hpp"
 
-RosSensor::RosSensor(std::string deviceName, Device *device, Ros *ros, bool enableDefaultServices) :
+RosSensor::RosSensor(const std::string &deviceName, Device *device, Ros *ros, bool enableDefaultServices) :
   RosDevice(device, ros, enableDefaultServices),
   mFrameIdPrefix("") {
   std::string fixedDeviceName = Ros::fixedNameString(deviceName);

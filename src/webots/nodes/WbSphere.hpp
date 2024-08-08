@@ -28,7 +28,7 @@ public:
   explicit WbSphere(WbTokenizer *tokenizer = NULL);
   WbSphere(const WbSphere &other);
   explicit WbSphere(const WbNode &other);
-  virtual ~WbSphere();
+  virtual ~WbSphere() override;
 
   // field accessors
   double radius() const { return mRadius->value(); }
@@ -58,11 +58,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbSphere &operator=(const WbSphere &);  // non copyable

@@ -36,7 +36,7 @@ public:
   explicit WbCamera(WbTokenizer *tokenizer = NULL);
   WbCamera(const WbCamera &other);
   explicit WbCamera(const WbNode &other);
-  virtual ~WbCamera();
+  virtual ~WbCamera() override;
 
   // reimplemented public functions
   void downloadAssets() override;

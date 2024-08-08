@@ -21,6 +21,7 @@ namespace webots {
   class Compass : public Device {
   public:
     explicit Compass(const std::string &name) : Device(name) {}  // Use Robot::getCompass() instead
+    explicit Compass(WbDeviceTag tag) : Device(tag) {}
     virtual ~Compass() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

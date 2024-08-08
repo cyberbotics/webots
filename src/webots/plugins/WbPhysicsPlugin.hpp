@@ -33,7 +33,7 @@ public:
   // constructor & destructor
   // name: name of the plugin, e.g. "salamander_physics"
   explicit WbPhysicsPlugin(const QString &name);
-  virtual ~WbPhysicsPlugin();
+  virtual ~WbPhysicsPlugin() override;
 
   // reimplemented public functions
   bool load() override;

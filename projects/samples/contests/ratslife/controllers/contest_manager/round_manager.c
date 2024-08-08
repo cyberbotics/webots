@@ -128,7 +128,7 @@ static void move_viewpoint() {
 
 static void init_mode() {
   mode = COMMON;
-  char *ratslife_env_var = getenv("WEBOTS_RATSLIFE");
+  const char *ratslife_env_var = getenv("WEBOTS_RATSLIFE");
   if (ratslife_env_var) {
     if (0 == strcmp(ratslife_env_var, "CONTEST")) {
       mode = CONTEST;
