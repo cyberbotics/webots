@@ -6,9 +6,10 @@ on:
   schedule:
     - cron:  '0 23 * * *'
   push:
-    tags:
-      - nightly_*
-      - R20*
+  #  tags:
+  #    - nightly_*
+  #    - R20*
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -67,6 +68,7 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+        source /opt/ros/$ROS_DISTRO/setup.bash || true
         xvfb-run --auto-servernum make distrib -j4
     - name: Create/Update GitHub release
       if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
