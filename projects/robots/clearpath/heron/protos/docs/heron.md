@@ -21,7 +21,6 @@ Heron {
   SFString   controller      "heron_usv_controller"
   MFString   controllerArgs  []
   SFBool     synchronization TRUE
-  SFColor    color           0.8 0.5 0.1
   MFNode     bodySlot        []
 }
 ```
@@ -34,6 +33,12 @@ Heron {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/clearpath/heron/worlds]({{ url.github_tree }}/projects/robots/clearpath/heron/worlds)".
 
-#### [heron\ocean.wbt]({{ url.github_tree }}/projects/robots/clearpath/moose/worlds/heron\ocean.wbt)
+Ocean
+
+#### [heron\ocean.wbt]({{ url.github_tree }}/projects/robots/clearpath/heron/worlds/ocean.wbt)
+
+![ocean.png](images/heron/ocean.jpg) This simulation shows a basicly usv.
+
+#### [heron\swarm.wbt]({{ url.github_tree }}/projects/robots/clearpath/heron/worlds/swarm.wbt)
 
 ![swarm.png](images/heron/swarm.jpg) This simulation shows a basicly swarm robotics.
