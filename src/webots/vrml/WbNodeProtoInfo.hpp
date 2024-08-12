@@ -25,28 +25,28 @@
 class WbField;
 
 struct WbFieldReference {
-	QString name;
-	WbField *actualField;
+  QString name;
+  WbField *actualField;
 };
 
 class WbNodeProtoInfo {
 public:
-	WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters);
-	explicit WbNodeProtoInfo(const WbNodeProtoInfo &other);
+  WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters);
+  explicit WbNodeProtoInfo(const WbNodeProtoInfo &other);
 
-	const QString &modelName() const { return mModelName; }
-	const QList<WbFieldReference> &parameters() const { return mParameters; }
+  const QString &modelName() const { return mModelName; }
+  const QList<WbFieldReference> &parameters() const { return mParameters; }
 
-	const WbFieldReference &findFieldByIndex(int index) const;
-	int findFieldIndex(const QString &name) const;
+  const WbFieldReference &findFieldByIndex(int index) const;
+  int findFieldIndex(const QString &name) const;
 
-	void redirectFields(const WbField *oldField, WbField *newField);
+  void redirectFields(const WbField *oldField, WbField *newField);
 
 private:
   WbNodeProtoInfo &operator=(const WbNodeProtoInfo &);  // non copyable
 
-	QString mModelName;
-	QList<WbFieldReference> mParameters;
+  QString mModelName;
+  QList<WbFieldReference> mParameters;
 
 };
 
