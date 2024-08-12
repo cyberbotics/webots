@@ -320,8 +320,15 @@ void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, c
   // handle rolling friction
   if (rho[0] > 0 || rho[1] > 0 || rho[2] > 0) {
     contact->surface.mode = contact->surface.mode | dContactRolling;
-    if (rho[1] > 0 || rho[2] > 0)
+    if (rho[1] > 0 || rho[2] > 0) {
+      // ODE will use asymmetric sliding friction if we set dContactAxisDep (because dContactAxisDep
+      // == dContactMu2), so we need to make sure mu2 is set. If it wasn't already set above, we
+      // want symmetric sliding friction which means setting mu2 = mu (like ODE would do if
+      // dContactMu2 was not set.)
+      if (!(contact->surface.mode & dContactMu2))
+        contact->surface.mu2 = contact->surface.mu;
       contact->surface.mode = contact->surface.mode | dContactAxisDep;
+    }
 
     contact->surface.rho = rho[0];
     contact->surface.rho2 = rho[1];
