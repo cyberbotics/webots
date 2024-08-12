@@ -201,12 +201,7 @@ void WbWrenWindow::renderLater() {
 }
 
 void WbWrenWindow::renderNow(bool culling) {
-  // Note that if we are not culling, we *do* want to render even if the window is not exposed
-  // because we use a non-culling initial render to make sure all meshes/textures are actually
-  // loaded on the GPU. This also ensures that the aabb of DynamicMeshes of WbSkins with webots
-  // bones are correct. Note that whether isExposed() returns true or false for a minimized window
-  // depends on the windowing system. For example it is true under x11 but false under wayland.
-  if ((!isExposed() && culling) || !wr_gl_state_is_initialized())
+  if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
   static int first = true;

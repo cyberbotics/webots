@@ -75,7 +75,6 @@
 #include "WbVirtualRealityHeadset.hpp"
 #endif
 
-#include <QtCore/QLoggingCategory>
 #include <QtCore/QTime>
 #include <QtGui/QAction>
 #include <QtGui/QKeyEvent>
@@ -1112,19 +1111,8 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   WbWrenOpenGlContext::doneWren();
 
-  // first rendering without culling to make sure every meshes/textures are actually loaded on the
-  // GPU If the window is not yet exposed (e.g. minimized under Wayland) this can produce some GL
-  // errors and Qt warnings, so we suppress them just for this one call.
-  bool exposed = isExposed();
-  if (!exposed) {
-    wr_gl_state_disable_check_error();
-    QLoggingCategory::setFilterRules(QStringLiteral("*.warning=false"));
-  }
+  // first rendering without culling to make sure every meshes/textures are actually loaded on the GPU
   renderNow(false);
-  if (!exposed) {
-    wr_gl_state_enable_check_error();
-    QLoggingCategory::setFilterRules(QStringLiteral(""));
-  }
 }
 
 void WbView3D::restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
