@@ -134,7 +134,7 @@ bool WbWrenPicker::pick(int x, int y) {
   wr_viewport_enable_skybox(mViewport, false);
   wr_scene_enable_translucence(scene, false);
   wr_scene_enable_depth_reset(scene, false);
-  wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true);
+  wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true, false);
   wr_scene_enable_depth_reset(scene, true);
   wr_viewport_enable_skybox(mViewport, true);
   wr_scene_enable_translucence(scene, true);
