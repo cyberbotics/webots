@@ -446,15 +446,5 @@ void WbWrenWindow::feedMultimediaStreamer() {
 }
 
 void WbWrenWindow::readPixels(int width, int height, unsigned int format, void *buffer) {
-#ifdef __linux__
-  if (WbSysInfo::isVirtualMachine()) {
-    // Reading the front buffer is not supported by all OpenGL implementations (especially on Linux running in a VM).
-    // In that case, to read the front buffer, we need to swap the buffers, read the back buffer and swap the buffers again.
-    // However, doing this may cause flickering on platforms where reading the front buffer is supported (including macOS).
-    WbWrenOpenGlContext::instance()->swapBuffers(this);
-    wr_scene_get_main_buffer(wr_scene_get_instance(), width, height, format, GL_UNSIGNED_BYTE, GL_BACK, buffer);
-    WbWrenOpenGlContext::instance()->swapBuffers(this);
-  } else
-#endif
-    wr_scene_get_main_buffer(wr_scene_get_instance(), width, height, format, GL_UNSIGNED_BYTE, GL_FRONT, buffer);
+  wr_scene_get_main_buffer(width, height, format, GL_UNSIGNED_BYTE, buffer);
 }
