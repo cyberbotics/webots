@@ -140,6 +140,7 @@ const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
+WbFieldRef wb_supervisor_field_get_actual_parameter(WbFieldRef field);
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);

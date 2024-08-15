@@ -231,6 +231,18 @@ WbNode::WbNode(const WbNode &other) :
     // connect fields to PROTO parameters
     foreach (WbField *parameter, mParameters)
       redirectAliasedFields(parameter, this);
+
+    // copy internal PROTO parameters
+    foreach (const WbField *parameter, other.mInternalProtoParameters) {
+      WbField *copy = new WbField(*parameter, this);
+      mInternalProtoParameters << copy;
+
+      // No need to connect any of these, they can only be changed by regenerating the proto
+
+      // Redirect field references in proto info
+      foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+        protoInfo->redirectFields(parameter, copy);
+    }
   }
 
   gParent = parentNode();
@@ -1745,6 +1757,16 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
 
     if (!(proto->isDerived() && notAssociatedDerivedParameters.contains(parameter)))
       instance->redirectAliasedFields(parameter, instance);
+  }
+
+  // set the parent node of internal parameters
+  foreach (WbField *f, instance->mInternalProtoParameters) {
+    QList<WbField *> internalFields = f->internalFields();
+    while (!internalFields.isEmpty()) {
+      WbField *internalField = internalFields.takeFirst();
+      internalField->setParentNode(instance);
+      internalFields << internalField->internalFields();
+    }
   }
 
   // remove the fake parameters introduced in case of direct nested PROTOs
