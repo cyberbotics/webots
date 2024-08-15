@@ -97,7 +97,7 @@ public slots:
 
 protected slots:
   // cppcheck-suppress virtualCallInConstructor
-  void renderNow(bool culling = true) override;
+  void renderNow(bool culling = true, bool offScreen = false) override;
 
 protected:
   void initialize() override;

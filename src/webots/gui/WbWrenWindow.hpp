@@ -65,7 +65,7 @@ signals:
 
 protected:
   virtual void initialize();
-  virtual void renderNow(bool culling = true);
+  virtual void renderNow(bool culling = true, bool offScreen = false);
   virtual void resizeWren(int width, int height);
   bool event(QEvent *event) override;
 

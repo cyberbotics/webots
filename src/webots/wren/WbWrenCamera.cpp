@@ -452,7 +452,7 @@ void WbWrenCamera::render() {
   else if (mType == 's')
     materialName = "segmentation";
   wr_scene_enable_depth_reset(wr_scene_get_instance(), false);
-  wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender, materialName, true);
+  wr_scene_render_to_viewports(wr_scene_get_instance(), numActiveViewports, mViewportsToRender, materialName, true, false);
 
   if (!isPlanarProjection())
     applySphericalPostProcessingEffect();

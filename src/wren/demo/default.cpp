@@ -99,7 +99,7 @@ static void create_wren_scene() {
 
 // Render function.
 static void render() {
-  wr_scene_render(wr_scene_get_instance(), NULL, true);
+  wr_scene_render(wr_scene_get_instance(), NULL, true, false);
   glutSwapBuffers();
 }
 

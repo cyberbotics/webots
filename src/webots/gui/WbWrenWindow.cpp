@@ -200,8 +200,8 @@ void WbWrenWindow::renderLater() {
   }
 }
 
-void WbWrenWindow::renderNow(bool culling) {
-  if (!isExposed() || !wr_gl_state_is_initialized())
+void WbWrenWindow::renderNow(bool culling, bool offScreen) {
+  if ((!isExposed() && !offScreen) || !wr_gl_state_is_initialized())
     return;
 
   static int first = true;
@@ -225,9 +225,10 @@ void WbWrenWindow::renderNow(bool culling) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_scene_render(wr_scene_get_instance(), NULL, culling);
+  wr_scene_render(wr_scene_get_instance(), NULL, culling, offScreen);
 
-  WbWrenOpenGlContext::instance()->swapBuffers(this);
+  if (!offScreen)
+    WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
 
   if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded() && !first)

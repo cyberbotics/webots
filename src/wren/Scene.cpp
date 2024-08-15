@@ -224,7 +224,7 @@ namespace wren {
     debug::printSceneTree();
   }
 
-  void Scene::render(bool culling) {
+  void Scene::render(bool culling, bool offScreen) {
     assert(glstate::isInitialized());
 
     ++mFrameCounter;
@@ -233,10 +233,10 @@ namespace wren {
     // debug::printCacheContents();
     // debug::printSceneTree();
 
-    renderToViewports({mMainViewport}, culling);
+    renderToViewports({mMainViewport}, culling, offScreen);
   }
 
-  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling) {
+  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling, bool offScreen) {
     assert(glstate::isInitialized());
 
     DEBUG("Notify frame listeners...");
@@ -282,7 +282,7 @@ namespace wren {
         }
       } else {
         renderToViewport(culling);
-        if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
+        if (!offScreen && mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
                                                 mCurrentViewport->width() * mCurrentViewport->pixelRatio(),
@@ -909,22 +909,23 @@ void wr_scene_terminate_frame_capture(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->terminateFrameCapture();
 }
 
-void wr_scene_render(WrScene *scene, const char *material_name, bool culling) {
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling, bool offScreen) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
-  reinterpret_cast<wren::Scene *>(scene)->render(culling);
+  reinterpret_cast<wren::Scene *>(scene)->render(culling, offScreen);
 
   wren::Renderable::setUseMaterial(NULL);
 }
 
-void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling) {
+void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling,
+                                  bool offScreen) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
   wren::Viewport **start = reinterpret_cast<wren::Viewport **>(viewports);
   std::vector<wren::Viewport *> viewportsVector(start, start + count);
-  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector, culling);
+  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector, culling, offScreen);
 
   wren::Renderable::setUseMaterial(NULL);
 }
