@@ -22,3 +22,4 @@ Released on December **th, 2023.
     - Fixed the bug that when the language is Python, getTargets() cannot correctly obtain the multi-target data detected by the radar ([#6606](https://github.com/cyberbotics/webots/pull/6606))
     - Fixed incomplete loading while minimized under some windowing systems ([#6617](https://github.com/cyberbotics/webots/pull/6617)).
     - Fixed unitialized sliding friction when using asymmetric rolling friction ([#6618](https://github.com/cyberbotics/webots/pull/6618)).
+    - Fixed to use a version of Qt that is still supported ([#6623](https://github.com/cyberbotics/webots/pull/6623)).
