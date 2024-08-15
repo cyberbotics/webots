@@ -53,8 +53,7 @@ namespace wren {
     void reset();
     static void applyPendingUpdates();
 
-    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, unsigned int buffer_type,
-                              void *buffer);
+    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer);
     void initFrameCapture(int pixelBufferCount, unsigned int *pixelBufferIds, int frameSize);
     static void bindPixelBuffer(int buffer);
     void *mapPixelBuffer(unsigned int accessMode);

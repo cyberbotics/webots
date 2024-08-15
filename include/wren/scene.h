@@ -68,8 +68,7 @@ void wr_scene_enable_depth_reset(WrScene *scene, bool enable);
 void wr_scene_add_frame_listener(WrScene *scene, void (*listener)());
 void wr_scene_remove_frame_listener(WrScene *scene, void (*listener)());
 
-void wr_scene_get_main_buffer(WrScene *scene, int width, int height, unsigned int format, unsigned int data_type,
-                              unsigned int buffer_type, void *buffer);
+void wr_scene_get_main_buffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer);
 
 void wr_scene_init_frame_capture(WrScene *scene, int pixel_buffer_count, unsigned int *pixel_buffer_ids, int frame_size);
 void wr_scene_bind_pixel_buffer(WrScene *scene, int buffer);

@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: api cache other_api parser physics protos rendering with_rendering
+.PHONY: api cache other_api parser physics protos rendering
 
-release debug profile: api cache other_api parser physics protos rendering with_rendering
+release debug profile: api cache other_api parser physics protos rendering
 
 clean: api cache parser physics protos rendering
 	@-rm -rf *.txt \
@@ -56,6 +56,3 @@ protos:
 
 rendering:
 	+@make -s -C rendering $(MAKECMDGOALS)
-
-with_rendering:
-	+@make -s -C with_rendering $(MAKECMDGOALS)
