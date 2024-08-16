@@ -430,6 +430,14 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   return root;
 }
 
+QStringList WbProtoModel::parentProtoNames() const {
+  QStringList parents;
+  const WbProtoModel *parentProtoModel = this;
+  while ((parentProtoModel = parentProtoModel->ancestorProtoModel()))
+    parents << parentProtoModel->name();
+  return parents;
+}
+
 void WbProtoModel::ref(bool isFromProtoInstanceCreation) {
   mRefCount++;
   if (isFromProtoInstanceCreation)
