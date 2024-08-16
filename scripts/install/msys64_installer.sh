@@ -26,6 +26,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-ffmpeg"           # Webots movies
   "mingw-w64-x86_64-dlfcn"            # dependency of ffmpeg
   "mingw-w64-x86_64-python"           # python controllers and scripts
+  "mingw-w64-x86_64-ca-certificates"  # CA certs needed to run tests/test_suite.py 
 )
 
 declare -a OPTIONAL_PACKAGES=(
