@@ -1,5 +1,7 @@
 #VRML_SIM R2024a utf8
 
+EXTERNPROTO "webots://tests/api/protos/FieldImportBase.proto"
+
 PROTO FieldImportLua [
   field MFBool      bool      []
   field MFInt32     int       []
@@ -14,7 +16,7 @@ PROTO FieldImportLua [
   %{
     local wbcore = require('wbcore')
     local size = 0.1
-    
+
     local boolField = fields.bool.value
     if wbcore.tablelength(boolField) > 0 and boolField[1] == true then
       size = size + 0.1
@@ -55,14 +57,15 @@ PROTO FieldImportLua [
       size = size + 0.1
     end
   }%
-  Solid {
-    children [
-      DEF BOX Shape {
-        geometry Box {
-          size %{= size }% %{= size }% %{= size }%
-        }
-      }
-    ]
-    boundingObject USE BOX
+  FieldImportBase {
+    bool   IS bool
+    int    IS int
+    float  IS float
+    vec2   IS vec2
+    vec3   IS vec3
+    rot    IS rot
+    color  IS color
+    string IS string
+    size %<= size >% %<= size >% %<= size >%
   }
 }
