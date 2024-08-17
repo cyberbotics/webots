@@ -7,7 +7,6 @@ QT_VERSION=6.5.3
 DISTRIBUTION=$(lsb_release -is)
 DISTRIBUTION_VERSION=$(lsb_release -rs)
 if [ $DISTRIBUTION == "Ubuntu" -a $DISTRIBUTION_VERSION == "22.04" ]; then
-       apt install --yes qt6-base-dev qt6-declarative-dev qt6-base-dev-tools qt6-l10n-tools qt6-websockets-dev qt6-wayland qt6-translations-l10n
        QT_INSTALLATION_PATH=/
        QT_INSTALLATION_BIN_PATH=/usr/lib/qt6/bin
        QT_INSTALLATION_LIBEXEC_PATH=/usr/lib/qt6/libexec

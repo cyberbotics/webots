@@ -18,7 +18,7 @@ UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "20.04" ]]; then
        apt install --yes libzip5
 elif [[ $UBUNTU_VERSION == "22.04" ]]; then
-       apt install --yes libzip4
+       apt install --yes libzip4 qt6-base-dev qt6-declarative-dev qt6-base-dev-tools qt6-l10n-tools qt6-websockets-dev qt6-wayland qt6-translations-l10n
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
