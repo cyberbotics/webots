@@ -3910,6 +3910,12 @@ const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
 }
 
 const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
+  if(!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
   return proto->type_name;
 }
 
@@ -4038,5 +4044,11 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
 }
 
 int wb_supervisor_proto_get_number_of_parameters(WbProtoRef proto) {
+  if(!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
   return proto->number_of_parameters;
 }
