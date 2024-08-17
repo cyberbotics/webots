@@ -1242,11 +1242,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node) {
         int fieldId;
-        const WbField *field;
+        const WbField *field = NULL;
         if (protoIndex < 0) {
           fieldId = node->findFieldId(name, allowSearchInProto == 1);
           if (fieldId != -1) {
-            const WbField *field = node->field(fieldId, allowSearchInProto == 1);
+            field = node->field(fieldId, allowSearchInProto == 1);
             if (field) {
               const WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
               const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
@@ -1269,9 +1269,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           const WbNodeProtoInfo *protoInfo = node->protoParents().at(protoIndex);
           fieldId = protoInfo->findFieldIndex(name);
           if (fieldId > 0) {
-            const WbFieldReference &field = protoInfo->findFieldByIndex(fieldId);
+            const WbFieldReference &fieldRef = protoInfo->findFieldByIndex(fieldId);
+            field = fieldRef.actualField;
             mFoundFieldIsInternal = true;
-            mFoundFieldName = field.name;
+            mFoundFieldName = fieldRef.name;
           }
 
           // the supervisor will lookup the actual field for proto field reads, so there's no need send the count
