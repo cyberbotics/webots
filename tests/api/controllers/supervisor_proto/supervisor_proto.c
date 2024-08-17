@@ -25,12 +25,12 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
   int i = 0;
   while (expected_hierarchy[i]) {
     const char *actual_name = wb_supervisor_proto_get_type_name(proto);
-    ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", expected_hierarchy[i]);
-    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got %s", expected_hierarchy[i], actual_name);
+    ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name, expected_hierarchy[i]);
+    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got %s", node_name, expected_hierarchy[i], actual_name);
     proto = wb_supervisor_proto_get_parent(proto);
     i++;
   }
-  ts_assert_pointer_null(proto, "(%s) Hierarchy mismatch! Expected NULL, but got \"%s\"", wb_supervisor_proto_get_type_name(proto));
+  ts_assert_pointer_null(proto, "(%s) Hierarchy mismatch! Expected NULL, but got \"%s\"", node_name, wb_supervisor_proto_get_type_name(proto));
 }
 
 static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition **expected_fields, const char *node_name) {
