@@ -109,7 +109,9 @@ int main(int argc, char **argv) {
   };
 
   WbNodeRef hierarchy = wb_supervisor_node_get_from_def("HIERARCHY");
-  WbNodeRef internal_node = wb_supervisor_node_get_from_def("INTERNAL_HIERARCHY");
+  ts_assert_pointer_not_null(hierarchy, "Hierarchy node not found");
+  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_HIERARCHY");
+  ts_assert_pointer_not_null(internal_node, "Internal node not found");
 
   WbProtoRef hierarchy_proto = wb_supervisor_node_get_proto(hierarchy);
   WbProtoRef internal_proto = wb_supervisor_node_get_proto(internal_node);
