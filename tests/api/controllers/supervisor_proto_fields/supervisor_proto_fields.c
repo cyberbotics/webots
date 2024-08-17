@@ -184,6 +184,8 @@ int main(int argc, char **argv) {
       if (internal_fields[i][j])
         check_field(internal_fields[i][j], actual_internal_parameters[i], 0.01, true, internal_field_names[i][j], "Initial value [internal field]");
 
+  wb_robot_step(TIME_STEP);
+
   // Nothing should have changed, but just in case, re-retrieve the fields
   internal_node = wb_supervisor_node_get_from_def("INTERNAL_HIERARCHY");
   retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
@@ -212,6 +214,8 @@ int main(int argc, char **argv) {
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++)
     if (actual_internal_parameters[i])
       wb_supervisor_field_set_sf_float(actual_internal_parameters[i], i);
+
+  wb_robot_step(TIME_STEP);
 
   // The nodes may have been regenerated. Update all the relevant references
   internal_node = wb_supervisor_node_get_from_def("INTERNAL_HIERARCHY");
