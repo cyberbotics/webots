@@ -4047,7 +4047,7 @@ int wb_supervisor_proto_get_number_of_parameters(WbProtoRef proto) {
   if(!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
-    return NULL;
+    return 0;
   }
 
   return proto->number_of_parameters;
