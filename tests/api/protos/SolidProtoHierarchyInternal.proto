@@ -1,6 +1,6 @@
 #VRML_SIM R2024a utf8
 
-EXTERNPROTO "webots://tests/api/protos/tests/api/protos/SolidProtoHierarchyBase.proto"
+EXTERNPROTO "webots://tests/api/protos/SolidProtoHierarchyBase.proto"
 
 PROTO SolidProtoHierarchyInternal [
   field SFFloat translationStep  0.01
