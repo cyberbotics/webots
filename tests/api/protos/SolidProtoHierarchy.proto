@@ -16,7 +16,7 @@ PROTO SolidProtoHierarchy [
     ucField2 IS internalField1
     # Note: For the purposes of the test, SolidProtoHierarchyInternal.rotationStep,
     # SolidProtoHierarchyInternal.ucField1, and SolidProtoHierarchyInternal.ucField2 are explicitly left unconnected
-    children {
+    children [
       Group {
         children IS children
       }
@@ -25,6 +25,6 @@ PROTO SolidProtoHierarchy [
         ucField2 IS internalField2
         # See above comment about rotationStep, ucField1, and ucField2
       }
-    }
+    ]
   }
 }
