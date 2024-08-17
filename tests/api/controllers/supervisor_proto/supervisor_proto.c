@@ -84,26 +84,26 @@ int main(int argc, char **argv) {
   // terminated with a NULL pointer.
   const struct FieldDefinition **expected_fields[] = {
     (struct FieldDefinition*[]){ // SolidProtoHierarchy
-      FieldDefinition("translationStep", WB_SF_FLOAT),
-      FieldDefinition("children", WB_MF_NODE),
-      FieldDefinition("internalTranslationStep", WB_SF_FLOAT),
-      FieldDefinition("internalField1", WB_SF_FLOAT),
-      FieldDefinition("internalField2", WB_SF_FLOAT),
-      FieldDefinition("ucField1", WB_SF_FLOAT),
+      {"translationStep", WB_SF_FLOAT},
+      {"children", WB_MF_NODE},
+      {"internalTranslationStep", WB_SF_FLOAT},
+      {"internalField1", WB_SF_FLOAT},
+      {"internalField2", WB_SF_FLOAT},
+      {"ucField1", WB_SF_FLOAT},
       NULL
     },
     (struct FieldDefinition*[]){ // SolidProtoInternal
-      FieldDefinition("translationStep", WB_SF_FLOAT),
-      FieldDefinition("rotationStep", WB_SF_FLOAT),
-      FieldDefinition("children", WB_MF_NODE),
-      FieldDefinition("ucField1", WB_SF_FLOAT),
-      FieldDefinition("ucField2", WB_SF_FLOAT),
+      {"translationStep", WB_SF_FLOAT},
+      {"rotationStep", WB_SF_FLOAT},
+      {"children", WB_MF_NODE},
+      {"ucField1", WB_SF_FLOAT},
+      {"ucField2", WB_SF_FLOAT},
       NULL
     },
     (struct FieldDefinition*[]){ // SolidProtoBase
-      FieldDefinition("translationStep", WB_SF_FLOAT),
-      FieldDefinition("rotationStep", WB_SF_FLOAT),
-      FieldDefinition("children", WB_MF_NODE),
+      {"translationStep", WB_SF_FLOAT},
+      {"rotationStep", WB_SF_FLOAT},
+      {"children", WB_MF_NODE},
       NULL
     },
     NULL

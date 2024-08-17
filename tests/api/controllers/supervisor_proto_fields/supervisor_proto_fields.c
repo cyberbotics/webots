@@ -58,7 +58,7 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
   for (int i = 0; i < number_of_internal_fields; i++) {
     const char *field_name = internal_field_names[i][0];
     if (field_name) {
-      WbFieldRef field = wb_supervisor_proto_get_parameter_by_name(hierarchy_proto, field_name);
+      WbFieldRef field = wb_supervisor_proto_get_parameter(hierarchy_proto, field_name);
       ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", field_name, proto_type);
       internal_fields[i][0] = field;
     } else
@@ -73,7 +73,7 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
     for (int j = 0; j < number_of_main_fields; j++) {
       const char *name = main_field_names[j][i];
       if (name) {
-        WbFieldRef field = wb_supervisor_proto_get_parameter_by_name(hierarchy_proto, name);
+        WbFieldRef field = wb_supervisor_proto_get_parameter(hierarchy_proto, name);
         ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
         main_fields[j][i] = field;
       } else
@@ -93,7 +93,7 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
     for (int j = 0; j < number_of_internal_fields; j++) {
       const char *name = internal_field_names[j][i];
       if (name) {
-        WbFieldRef field = wb_supervisor_proto_get_parameter_by_name(internal_proto, name);
+        WbFieldRef field = wb_supervisor_proto_get_parameter(internal_proto, name);
         ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
         internal_fields[j][i] = field;
       } else
