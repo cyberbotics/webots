@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
 
   WbNodeRef hierarchy = wb_supervisor_node_get_from_def("HIERARCHY");
   ts_assert_pointer_not_null(hierarchy, "Hierarchy node not found");
-  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_HIERARCHY");
+  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
   ts_assert_pointer_not_null(internal_node, "Internal node not found");
 
   WbProtoRef hierarchy_proto = wb_supervisor_node_get_proto(hierarchy);
@@ -120,8 +120,8 @@ int main(int argc, char **argv) {
   assert_fields_correct(hierarchy_proto, expected_fields, "HIERARCHY");
   // Because the main hierarchy node and the internal node are both of type SolidProtoInternal,
   // we can just skip the first element of both arrays when validating the internal node
-  assert_hierarchy_correct(internal_proto, expected_hierarchy + 1, "INTERNAL_HIERARCHY");
-  assert_fields_correct(internal_proto, expected_fields + 1, "INTERNAL_HIERARCHY");
+  assert_hierarchy_correct(internal_proto, expected_hierarchy + 1, "INTERNAL_NODE");
+  assert_fields_correct(internal_proto, expected_fields + 1, "INTERNAL_NODE");
 
   ts_send_success();
   return EXIT_SUCCESS;
