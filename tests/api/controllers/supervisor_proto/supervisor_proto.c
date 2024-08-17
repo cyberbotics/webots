@@ -33,13 +33,13 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
   ts_assert_pointer_null(proto, "Hierarchy mismatch! Expected NULL, but got \"%s\"", wb_supervisor_proto_get_type_name(proto));
 }
 
-static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition ***expected_fields) {
+static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition **expected_fields) {
   int i = 0;
   while (expected_fields[i]) {
     ts_assert_pointer_not_null(proto, "Expected more fields, but proto is null. The test should've failed when checking the hierarchy. This likely means that the expected hierarchy is incorrectly configured.");
 
     int number_of_fields = 0;
-    while (expected_fields[i][number_of_fields])
+    while (expected_fields[i][number_of_fields].type != WB_NO_FIELD)
       number_of_fields++;
 
     const char *proto_name = wb_supervisor_proto_get_type_name(proto);
@@ -48,8 +48,8 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
     ts_assert_int_equal(actual_number_of_fields, number_of_fields, "Wrong number of fields in proto \"%s\". Expected %d, but got %d", proto_name, number_of_fields, actual_number_of_fields);
 
     for (int j = 0; j < number_of_fields; j++) {
-      const char *expected_name = expected_fields[i][j]->name;
-      const WbFieldType expected_type = expected_fields[i][j]->type;
+      const char *expected_name = expected_fields[i][j].name;
+      const WbFieldType expected_type = expected_fields[i][j].type;
 
       WbFieldRef field = wb_supervisor_proto_get_parameter_by_index(proto, j);
       ts_assert_pointer_not_null(field, "Field \"%d\" not found in proto \"%s\" despite the reported number of parameters being correct", j, proto_name);
@@ -73,38 +73,38 @@ int main(int argc, char **argv) {
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
   ts_assert_int_equal(wb_supervisor_proto_get_number_of_parameters(NULL), 0, "wb_supervisor_proto_get_number_of_parameters(NULL) should return 0");
   ts_assert_pointer_null(wb_supervisor_proto_get_parameter_by_index(NULL, 0), "wb_supervisor_proto_get_parameter_by_index(NULL, 0) should return NULL");
-  ts_assert_pointer_null(wb_supervisor_proto_get_parameter_by_name(NULL, "name"), "wb_supervisor_proto_get_parameter_by_name(NULL, \"name\") should return NULL");
+  ts_assert_pointer_null(wb_supervisor_proto_get_parameter(NULL, "name"), "wb_supervisor_proto_get_parameter(NULL, \"name\") should return NULL");
 
   // This array keeps track of the names of the proto types we expect at each level of the hierarchy,
   // starting with the proto type of the main hierarchy node, and ending with NULL.
   const char *expected_hierarchy[] = {"SolidProtoHierarchy", "SolidProtoInternal", "SolidProtoBase", NULL};
   // This array keeps track of the fields we expect at each level of the hierarchy.
-  // Each element in this array is an array that represents a single proto type/
+  // Each element in this array is an array that represents a single proto type
   // Each of these arrays contains the fields we expect to find in that type, in the order we expect them,
-  // terminated with a NULL pointer.
-  const struct FieldDefinition **expected_fields[] = {
-    (struct FieldDefinition*[]){ // SolidProtoHierarchy
+  // terminated with a field of type WB_NO_FIELD.
+  const struct FieldDefinition *expected_fields[] = {
+    (const struct FieldDefinition[]){ // SolidProtoHierarchy
       {"translationStep", WB_SF_FLOAT},
       {"children", WB_MF_NODE},
       {"internalTranslationStep", WB_SF_FLOAT},
       {"internalField1", WB_SF_FLOAT},
       {"internalField2", WB_SF_FLOAT},
       {"ucField1", WB_SF_FLOAT},
-      NULL
+      {"terminator", WB_NO_FIELD}
     },
-    (struct FieldDefinition*[]){ // SolidProtoInternal
+    (const struct FieldDefinition[]){ // SolidProtoInternal
       {"translationStep", WB_SF_FLOAT},
       {"rotationStep", WB_SF_FLOAT},
       {"children", WB_MF_NODE},
       {"ucField1", WB_SF_FLOAT},
       {"ucField2", WB_SF_FLOAT},
-      NULL
+      {"terminator", WB_NO_FIELD}
     },
-    (struct FieldDefinition*[]){ // SolidProtoBase
+    (const struct FieldDefinition[]){ // SolidProtoBase
       {"translationStep", WB_SF_FLOAT},
       {"rotationStep", WB_SF_FLOAT},
       {"children", WB_MF_NODE},
-      NULL
+      {"terminator", WB_NO_FIELD}
     },
     NULL
   };
