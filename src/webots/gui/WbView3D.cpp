@@ -1111,8 +1111,9 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   WbWrenOpenGlContext::doneWren();
 
-  // first rendering without culling to make sure every meshes/textures are actually loaded on the GPU
-  renderNow(false);
+  // first rendering is offscreen without culling to make sure every meshes/textures are actually
+  // loaded on the GPU
+  renderNow(false, true);
 }
 
 void WbView3D::restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
@@ -1441,7 +1442,7 @@ void WbView3D::resizeWren(int width, int height) {
   emit resized();
 }
 
-void WbView3D::renderNow(bool culling) {
+void WbView3D::renderNow(bool culling, bool offScreen) {
   if (!wr_gl_state_is_initialized())
     initialize();
 
@@ -1461,7 +1462,7 @@ void WbView3D::renderNow(bool culling) {
       WbWrenOpenGlContext::doneWren();
     } else
 #endif
-      WbWrenWindow::renderNow(culling);
+      WbWrenWindow::renderNow(culling, offScreen);
     mLastRefreshTimer.start();
     emit mainRenderingEnded(mPhysicsRefresh);
 

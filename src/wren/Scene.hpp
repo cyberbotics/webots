@@ -90,8 +90,8 @@ namespace wren {
 
     int computeNodeCount() const;
     static void printSceneTree();
-    void render(bool culling);
-    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling);
+    void render(bool culling, bool offScreen = false);
+    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling, bool offScreen = false);
 
     void addFrameListener(void (*listener)()) { mListeners.push_back(listener); }
     void removeFrameListener(void (*listener)());

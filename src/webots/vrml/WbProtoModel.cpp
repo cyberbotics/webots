@@ -69,6 +69,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mDocumentationUrl = tokenizer->documentationUrl();
   mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
+  mHasIndirectFieldAccess = mTags.contains("indirectFieldAccess");
 
   WbParser parser(tokenizer);
   while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
@@ -209,15 +210,23 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     previousToken = token;
     token = tokenizer->nextToken();
 
+    if (mHasIndirectFieldAccess) {
+      foreach (WbFieldModel *model, mFieldModels)
+        model->setTemplateRegenerator(true);
+    }
+
     if (token->isTemplateStatement()) {
       mTemplate = true;
 
-      foreach (WbFieldModel *model, mFieldModels) {
-        // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
-        // "my_awesome_modelName")
-        if (token->word().contains(QRegularExpression(
-              QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegularExpression::escape(model->name()))))) {
-          model->setTemplateRegenerator(true);
+      if (!mHasIndirectFieldAccess) {  // If the proto has indirect field access, we've already set the fields as template
+                                       // regenerators
+        foreach (WbFieldModel *model, mFieldModels) {
+          // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
+          // "my_awesome_modelName") or (token contains fields and not a Lua identifier containing fields such as "my_fields")
+          if (token->word().contains(
+                QRegularExpression(QString("(^|\\W)fields\\.%1($|\\W)").arg(QRegularExpression::escape(model->name()))))) {
+            model->setTemplateRegenerator(true);
+          }
         }
       }
     } else if (readBaseType) {
@@ -274,26 +283,29 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         throw 0;
       }
     } else if (token->isString()) {
-      // check which parameter need to regenerate the template instance from inside a string
-      foreach (WbFieldModel *model, mFieldModels) {
-        // regex test cases:
-        // "You know nothing, John Snow."  => false
-        // "%{=fields.model->name()}%"  => false
-        // "%{= fields.model->name().value.x }% %{= fields.model->name().value.y }%"  => true
-        // "abc %{= fields.model->name().value.y }% def"  => true
-        // "%{= 17 % fields.model->name().value.y * 88 }%"  => true
-        // "fields.model->name().value.y"  => false
-        // "%{}% fields.model->name().value.y %{}%"  => false
-        // "%{ a = \"fields.model->name().value.y\" }%"  => false
-        // "%{= \"fields.model->name().value.y\" }%"  => false
-        // "%{= fields.model->name().value.y }%"  => true
-        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
-                                                        .arg(open)
-                                                        .arg(close)
-                                                        .arg(QRegularExpression::escape(model->name()))
-                                                        .arg(close)
-                                                        .arg(close))))
-          model->setTemplateRegenerator(true);
+      if (!mHasIndirectFieldAccess) {  // If the proto has indirect field access, we've already set the fields as template
+                                       // regenerators
+        // check which parameter need to regenerate the template instance from inside a string
+        foreach (WbFieldModel *model, mFieldModels) {
+          // regex test cases:
+          // "You know nothing, John Snow."  => false
+          // "%{=fields.model->name()}%"  => true
+          // "%{= fields.model->name().value.x }% %{= fields.model->name().value.y }%"  => true
+          // "abc %{= fields.model->name().value.y }% def"  => true
+          // "%{= 17 % fields.model->name().value.y * 88 }%"  => true
+          // "fields.model->name().value.y"  => false
+          // "%{}% fields.model->name().value.y %{}%"  => false
+          // "%{ a = \"fields.model->name().value.y\" }%"  => false
+          // "%{= \"fields.model->name().value.y\" }%"  => false
+          // "%{= fields.model->name().value.y }%"  => true
+          if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
+                                                          .arg(open)
+                                                          .arg(close)
+                                                          .arg(QRegularExpression::escape(model->name()))
+                                                          .arg(close)
+                                                          .arg(close))))
+            model->setTemplateRegenerator(true);
+        }
       }
     }
 
