@@ -85,7 +85,6 @@ int main(int argc, char **argv) {
   const struct FieldDefinition *expected_fields[] = {
     (const struct FieldDefinition[]){ // SolidProtoHierarchy
       {"translationStep", WB_SF_FLOAT},
-      {"children", WB_MF_NODE},
       {"internalTranslationStep", WB_SF_FLOAT},
       {"internalField1", WB_SF_FLOAT},
       {"internalField2", WB_SF_FLOAT},
