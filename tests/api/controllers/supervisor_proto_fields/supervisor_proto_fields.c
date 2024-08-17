@@ -14,13 +14,18 @@
 
 #define TIME_STEP 32
 
+#define NUMBER_OF_MAIN_FIELDS 7
+#define NUMBER_OF_INTERNAL_FIELDS 6
+#define NUMBER_OF_HIERARCHY_LEVELS 4
+
 // Field/Proto references may become invalid if any nodes are regenerated. This function provides an easy way to re-retrieve them.
-static void retrieve_fields(const char ***main_field_names, const char ***internal_field_names,
-    const int number_of_main_fields, const int number_of_internal_fields,
-    const int number_of_hierarchy_levels, WbNodeRef hierarchy, WbNodeRef internal_node,
-    WbFieldRef *actual_main_parameters, WbFieldRef *actual_internal_parameters,
-    WbFieldRef **main_fields, WbFieldRef **internal_fields) {
-  for (int i = 0; i < number_of_main_fields; i++) {
+static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
+    const char *internal_field_names[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
+    WbNodeRef hierarchy, WbNodeRef internal_node, WbFieldRef actual_main_parameters[NUMBER_OF_MAIN_FIELDS],
+    WbFieldRef actual_internal_parameters[NUMBER_OF_INTERNAL_FIELDS],
+    WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
+    WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS]) {
+  for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
     const char *name = main_field_names[i][0];
 
     if(!name) {
@@ -34,7 +39,7 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
     actual_main_parameters[i] = wb_supervisor_field_get_actual_parameter(field);
   }
 
-  for (int i = 0; i < number_of_internal_fields; i++) {
+  for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
     const char *name = internal_field_names[i][0];
 
     if(!name) {
@@ -55,7 +60,7 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
   // The first level of the internal hierarchy is the same as the main hierarchy
   // We handle it here, before we start messing with hierarchy_proto
   const char *proto_type = wb_supervisor_proto_get_type_name(hierarchy_proto);
-  for (int i = 0; i < number_of_internal_fields; i++) {
+  for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
     const char *field_name = internal_field_names[i][0];
     if (field_name) {
       WbFieldRef field = wb_supervisor_proto_get_parameter(hierarchy_proto, field_name);
@@ -67,10 +72,10 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
   }
 
   // Fetch all the internal fields in the main hierarchy
-  for (int i = 0; i < number_of_hierarchy_levels; i++) {
+  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS; i++) {
     ts_assert_pointer_not_null(hierarchy_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(hierarchy_proto);
-    for (int j = 0; j < number_of_main_fields; j++) {
+    for (int j = 0; j < NUMBER_OF_MAIN_FIELDS; j++) {
       const char *name = main_field_names[j][i];
       if (name) {
         WbFieldRef field = wb_supervisor_proto_get_parameter(hierarchy_proto, name);
@@ -87,10 +92,10 @@ static void retrieve_fields(const char ***main_field_names, const char ***intern
   ts_assert_pointer_not_null(hierarchy_proto, "Internal node proto not found");
 
   // Fetch all the internal fields in the internal node hierarchy
-  for (int i = 0; i < number_of_hierarchy_levels; i++) {
+  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS; i++) {
     ts_assert_pointer_not_null(internal_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(internal_proto);
-    for (int j = 0; j < number_of_internal_fields; j++) {
+    for (int j = 0; j < NUMBER_OF_INTERNAL_FIELDS; j++) {
       const char *name = internal_field_names[j][i];
       if (name) {
         WbFieldRef field = wb_supervisor_proto_get_parameter(internal_proto, name);
@@ -122,10 +127,6 @@ static void check_field(WbFieldRef field, WbFieldRef actual_field, double expect
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
-
-  const int NUMBER_OF_MAIN_FIELDS = 7;
-  const int NUMBER_OF_INTERNAL_FIELDS = 6;
-  const int NUMBER_OF_HIERARCHY_LEVELS = 4;
 
   // This array keeps track of the names of the fields we want to test at each level of the main node hierarchy.
   // Each element in this array is an array that represents a single field, which may exist at many levels of the hierarchy.
@@ -160,11 +161,8 @@ int main(int argc, char **argv) {
   WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
   WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
 
-  retrieve_fields(main_field_names, internal_field_names,
-                  NUMBER_OF_MAIN_FIELDS, NUMBER_OF_INTERNAL_FIELDS,
-                  NUMBER_OF_HIERARCHY_LEVELS, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters,
-                  main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
+                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
 
   // Check that all the wb_supervisor_field_get_actual_parameter returns its input if the field is already in the scene tree
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++)
@@ -188,11 +186,8 @@ int main(int argc, char **argv) {
 
   // Nothing should have changed, but just in case, re-retrieve the fields
   internal_node = wb_supervisor_node_get_from_def("INTERNAL_HIERARCHY");
-  retrieve_fields(main_field_names, internal_field_names,
-                  NUMBER_OF_MAIN_FIELDS, NUMBER_OF_INTERNAL_FIELDS,
-                  NUMBER_OF_HIERARCHY_LEVELS, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters,
-                  main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
+                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
 
   // Check that no fields were modified
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
@@ -210,7 +205,7 @@ int main(int argc, char **argv) {
   }
 
   // Update the fields
-  for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
+  for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++)
     if (actual_main_parameters[i])
       wb_supervisor_field_set_sf_float(actual_main_parameters[i], i);
 
@@ -220,11 +215,8 @@ int main(int argc, char **argv) {
 
   // The nodes may have been regenerated. Update all the relevant references
   internal_node = wb_supervisor_node_get_from_def("INTERNAL_HIERARCHY");
-  retrieve_fields(main_field_names, internal_field_names,
-                  NUMBER_OF_MAIN_FIELDS, NUMBER_OF_INTERNAL_FIELDS,
-                  NUMBER_OF_HIERARCHY_LEVELS, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters,
-                  main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
+                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
 
   // Check that the fields were updated correctly
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
