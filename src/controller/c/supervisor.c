@@ -3986,7 +3986,7 @@ WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *param
   robot_mutex_unlock();
 
   if (result && result->actual_parameter_index != -1) {
-    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(actual_parameter);
+    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(result);
     assert(actual_parameter);
     result->lookup_parameter = actual_parameter;
   }
@@ -4035,7 +4035,7 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
   robot_mutex_unlock();
 
   if (result && result->actual_parameter_index != -1) {
-    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(actual_parameter);
+    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(result);
     assert(actual_parameter);
     result->lookup_parameter = actual_parameter;
   }
