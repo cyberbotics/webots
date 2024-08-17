@@ -264,6 +264,8 @@ WbNode::~WbNode() {
     n = mInternalProtoParameters.size() - 1;
     for (int i = n; i >= 0; --i)
       delete mInternalProtoParameters[i];
+    foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+      delete protoInfo;
     mProto->unref();
   }
 
