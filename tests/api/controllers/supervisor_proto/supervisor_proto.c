@@ -26,7 +26,7 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
   while (expected_hierarchy[i]) {
     const char *actual_name = wb_supervisor_proto_get_type_name(proto);
     ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name, expected_hierarchy[i]);
-    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got %s", node_name, expected_hierarchy[i], actual_name);
+    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got \"%s\"", node_name, expected_hierarchy[i], actual_name);
     proto = wb_supervisor_proto_get_parent(proto);
     i++;
   }
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 
   // This array keeps track of the names of the proto types we expect at each level of the hierarchy,
   // starting with the proto type of the main hierarchy node, and ending with NULL.
-  const char *expected_hierarchy[] = {"SolidProtoHierarchy", "SolidProtoInternal", "SolidProtoBase", NULL};
+  const char *expected_hierarchy[] = {"SolidProtoHierarchy", "SolidProtoHierarchyInternal", "SolidProtoHierarchyBase", NULL};
   // This array keeps track of the fields we expect at each level of the hierarchy.
   // Each element in this array is an array that represents a single proto type
   // Each of these arrays contains the fields we expect to find in that type, in the order we expect them,
