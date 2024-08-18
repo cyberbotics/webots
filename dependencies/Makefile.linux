@@ -157,7 +157,7 @@ $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0:
 	@if [ "$$(sha256sum $(OPENSSL_SRC_PACKAGE) | awk '{print $$1;}')" != "eeca035d4dd4e84fc25846d952da6297484afa0650a6f84c682e39df3a4123ca" ]; then echo "SHA256 checksum failed for $(OPENSSL_SRC_PACKAGE)"; exit 1; fi
 	@echo "# uncompressing $(OPENSSL_SRC_PACKAGE)"
 	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_SRC_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@pushd $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION) && ./Configure shared --prefix=/usr --openssldir=/usr/lib/ssl --libdir=lib/x86_64-linux-gnu no-idea no-mdc2 no-rc5 no-zlib no-ssl3 enable-unit-test no-ssl3-method enable-rfc3779 enable-cms no-capieng enable-ec_nistp_64_gcc_128 && $(MAKE) -j4 && popd
+	@cd $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION) && ./Configure shared --prefix=/usr --openssldir=/usr/lib/ssl --libdir=lib/x86_64-linux-gnu no-idea no-mdc2 no-rc5 no-zlib no-ssl3 enable-unit-test no-ssl3-method enable-rfc3779 enable-cms no-capieng enable-ec_nistp_64_gcc_128 && $(MAKE) -j4
 	@mkdir $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
 	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION)/libcrypto.so* $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
 	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION)/libssl.so* $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
