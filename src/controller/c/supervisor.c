@@ -3971,7 +3971,7 @@ WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *param
 
   robot_mutex_lock();
 
-  WbFieldRef result = find_field_by_name(parameter_name, proto->node_unique_id, proto->id, false);
+  WbFieldRef result = find_field_by_name(parameter_name, proto->node_unique_id, proto->id, true);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = parameter_name;
@@ -4016,7 +4016,7 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(proto->node_unique_id, proto->id, index, false);
+  WbFieldRef result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
@@ -4029,7 +4029,7 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(proto->node_unique_id, proto->id, index, false);
+      result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
     if (result)
       result->is_read_only = true;
     allow_search_in_proto = false;
