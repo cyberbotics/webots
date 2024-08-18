@@ -68,6 +68,12 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
+      if: ${{ failure() }}
+      with:
+        ## If no one connects after 5 minutes, shut down server.
+        wait-timeout-minutes: 5
     - name: Create/Update GitHub release
       if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
