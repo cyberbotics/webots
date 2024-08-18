@@ -1283,18 +1283,16 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundFieldIndex = fieldId;
           mFoundFieldType = field->type();
 
-          if (WbVrmlNodeUtilities::isVisible(field)) {
-            mFoundFieldActualParameterNodeId = nodeId;
-            mFoundFieldActualParameterIndex = fieldId;
-          } else if (field->parameter()) {
-            const WbField *actualParameter = WbVrmlNodeUtilities::findClosestParameterInProto(field, node);
-            if (WbVrmlNodeUtilities::isVisible(actualParameter)) {
-              const WbNode *rootProto = actualParameter->parentNode();
-              assert(rootProto);
-              mFoundFieldActualParameterNodeId = rootProto->uniqueId();
-              mFoundFieldActualParameterIndex = rootProto->fieldsOrParameters().indexOf(actualParameter);
-              assert(mFoundFieldActualParameterIndex >= 0);
-            }
+          if(WbVrmlNodeUtilities::isVisible(field)) {
+            // This only tells us that there is a corresponding parameter in the scene tree.
+            // Not that this specific field is the actual parameter. We still have to find it.
+            const WbField *actualParameter = field;
+            while (actualParameter->parameter())
+              actualParameter = actualParameter->parameter();
+
+            mFoundFieldActualParameterNodeId = actualParameter->parentNode()->uniqueId();
+            mFoundFieldActualParameterIndex = actualParameter->parentNode()->fieldsOrParameters().indexOf(actualParameter);
+            assert(mFoundFieldActualParameterIndex >= 0);
           }
         }
       }
@@ -1354,18 +1352,16 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundFieldIndex = fieldIndex;
           mFoundFieldType = field->type();
 
-          if (WbVrmlNodeUtilities::isVisible(field)) {
-            mFoundFieldActualParameterNodeId = nodeId;
-            mFoundFieldActualParameterIndex = fieldIndex;
-          } else if (field->parameter()) {
-            const WbField *actualParameter = WbVrmlNodeUtilities::findClosestParameterInProto(field, node);
-            if (WbVrmlNodeUtilities::isVisible(actualParameter)) {
-              const WbNode *rootProto = actualParameter->parentNode();
-              assert(rootProto);
-              mFoundFieldActualParameterNodeId = rootProto->uniqueId();
-              mFoundFieldActualParameterIndex = rootProto->fieldsOrParameters().indexOf(actualParameter);
-              assert(mFoundFieldActualParameterIndex >= 0);
-            }
+          if(WbVrmlNodeUtilities::isVisible(field)) {
+            // This only tells us that there is a corresponding parameter in the scene tree.
+            // Not that this specific field is the actual parameter. We still have to find it.
+            const WbField *actualParameter = field;
+            while (actualParameter->parameter())
+              actualParameter = actualParameter->parameter();
+
+            mFoundFieldActualParameterNodeId = actualParameter->parentNode()->uniqueId();
+            mFoundFieldActualParameterIndex = actualParameter->parentNode()->fieldsOrParameters().indexOf(actualParameter);
+            assert(mFoundFieldActualParameterIndex >= 0);
           }
         }
       }
