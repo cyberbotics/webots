@@ -1268,7 +1268,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         } else if (protoIndex < node->protoParents().size()) {
           const WbNodeProtoInfo *protoInfo = node->protoParents().at(protoIndex);
           fieldId = protoInfo->findFieldIndex(name);
-          if (fieldId > 0) {
+          if (fieldId >= 0) {
             const WbFieldReference &fieldRef = protoInfo->findFieldByIndex(fieldId);
             field = fieldRef.actualField;
             mFoundFieldIsInternal = true;
