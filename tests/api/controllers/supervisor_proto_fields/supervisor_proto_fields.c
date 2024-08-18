@@ -93,7 +93,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
     const char *name = main_field_names[i][NUMBER_OF_HIERARCHY_LEVELS - 1];
     if (name) {
       WbFieldRef field = wb_supervisor_node_get_field(hierarchy, name);
-      ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
+      ts_assert_pointer_not_null(field, "Field \"%s\" not found in base hierarchy node", name);
       main_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = field;
     } else
       // The field does not exist at this level of the hierarchy
@@ -127,7 +127,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
     const char *name = internal_field_names[i][NUMBER_OF_HIERARCHY_LEVELS - 1];
     if (name) {
       WbFieldRef field = wb_supervisor_node_get_field(internal_node, name);
-      ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
+      ts_assert_pointer_not_null(field, "Field \"%s\" not found in base internal node", name);
       internal_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = field;
     } else
       // The field does not exist at this level of the hierarchy
