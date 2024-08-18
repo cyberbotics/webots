@@ -1047,6 +1047,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       p->node_unique_id = node_ref;
       p->id = id;
       p->number_of_parameters = num_parameters;
+      p->parent = NULL;
 
       p->next = proto_list;
       proto_list = p;
@@ -1078,6 +1079,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->data.sf_string = NULL;
       f->actual_parameter_node_id = actual_parameter_node_id;
       f->actual_parameter_index = actual_parameter_index;
+      f->lookup_parameter = NULL;
       field_list = f;
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
