@@ -25,9 +25,6 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
     WbFieldRef actual_internal_parameters[NUMBER_OF_INTERNAL_FIELDS],
     WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
     WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS]) {
-  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
-  ts_assert_pointer_not_null(internal_node, "Internal node not found");
-
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
     const char *name = main_field_names[i][0];
 
@@ -103,8 +100,10 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
       main_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = NULL;
   }
 
+  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
+  ts_assert_pointer_not_null(internal_node, "Internal node not found");
   WbProtoRef internal_proto = wb_supervisor_node_get_proto(internal_node);
-  ts_assert_pointer_not_null(hierarchy_proto, "Internal node proto not found");
+  ts_assert_pointer_not_null(internal_proto, "Internal node proto not found");
 
   // Fetch all the internal fields in the internal node hierarchy
   for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
