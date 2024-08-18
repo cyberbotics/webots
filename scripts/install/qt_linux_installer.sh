@@ -4,27 +4,15 @@
 set -e
 
 QT_VERSION=6.5.3
-DISTRIBUTION=$(lsb_release -is)
-DISTRIBUTION_VERSION=$(lsb_release -rs)
-if [ $DISTRIBUTION == "Ubuntu" -a $DISTRIBUTION_VERSION == "22.04" ]; then
-       QT_INSTALLATION_PATH=/
-       QT_INSTALLATION_BIN_PATH=/usr/lib/qt6/bin
-       QT_INSTALLATION_LIBEXEC_PATH=/usr/lib/qt6/libexec
-       QT_INSTALLATION_LIB_PATH=/usr/lib/x86_64-linux-gnu
-       QT_INSTALLATION_INCLUDE_PATH=/usr/include/x86_64-linux-gnu/qt6
-       QT_INSTALLATION_PLUGINS_PATH=/usr/lib/x86_64-linux-gnu/qt6/plugins
-       QT_INSTALLATION_TRANSLATIONS_PATH=/usr/share/qt6/translations
-else
-       pip install --no-input aqtinstall
-       aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
-       QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
-       QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
-       QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
-       QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
-       QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
-       QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
-       QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
-fi
+pip install --no-input aqtinstall
+aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
+QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
+QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
+QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
+QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
+QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
+QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
+QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
 
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
 
