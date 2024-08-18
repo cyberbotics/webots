@@ -16,7 +16,7 @@ apt install --yes git lsb-release cmake swig libglu1-mesa-dev libglib2.0-dev lib
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes libzip5
+       apt install --yes libzip5 perl libtext-template-perl
 elif [[ $UBUNTU_VERSION == "22.04" ]]; then
        apt install --yes libzip4
 else
