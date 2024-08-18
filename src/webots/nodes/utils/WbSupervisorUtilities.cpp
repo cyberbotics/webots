@@ -1315,7 +1315,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node) {
-        const WbField *field;
+        const WbField *field = NULL;
         if (protoIndex < 0) {
           field = node->field(fieldIndex, allowSearchInProto == 1);
           if (field) {
