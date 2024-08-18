@@ -34,7 +34,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
       continue;
     }
 
-    WbFieldRef field = wb_supervisor_node_get_field(hierarchy, name);
+    WbFieldRef field = wb_supervisor_node_get_parameter(hierarchy, name);
     ts_assert_pointer_not_null(field, "Parameter \"%s\" not found", name);
     actual_main_parameters[i] = wb_supervisor_field_get_actual_parameter(field);
   }
@@ -49,7 +49,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
     }
 
     // All of the actual parameters are part of the hierarchy node in the scene tree
-    WbFieldRef field = wb_supervisor_node_get_field(hierarchy, name);
+    WbFieldRef field = wb_supervisor_node_get_parameter(hierarchy, name);
     ts_assert_pointer_not_null(field, "Parameter \"%s\" not found", name);
     actual_internal_parameters[i] = wb_supervisor_field_get_actual_parameter(field);
   }
