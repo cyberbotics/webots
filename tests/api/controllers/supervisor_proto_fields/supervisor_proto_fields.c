@@ -21,10 +21,13 @@
 // Field/Proto references may become invalid if any nodes are regenerated. This function provides an easy way to re-retrieve them.
 static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
     const char *internal_field_names[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
-    WbNodeRef hierarchy, WbNodeRef internal_node, WbFieldRef actual_main_parameters[NUMBER_OF_MAIN_FIELDS],
+    WbNodeRef hierarchy, WbFieldRef actual_main_parameters[NUMBER_OF_MAIN_FIELDS],
     WbFieldRef actual_internal_parameters[NUMBER_OF_INTERNAL_FIELDS],
     WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
     WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS]) {
+  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
+  ts_assert_pointer_not_null(internal_node, "Internal node not found");
+
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
     const char *name = main_field_names[i][0];
 
@@ -179,16 +182,14 @@ int main(int argc, char **argv) {
 
   WbNodeRef hierarchy = wb_supervisor_node_get_from_def("HIERARCHY");
   ts_assert_pointer_not_null(hierarchy, "Hierarchy node not found");
-  WbNodeRef internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
-  ts_assert_pointer_not_null(internal_node, "Internal node not found");
 
   WbFieldRef actual_main_parameters[NUMBER_OF_MAIN_FIELDS];
   WbFieldRef actual_internal_parameters[NUMBER_OF_INTERNAL_FIELDS];
   WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
   WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
 
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_parameters,
+                  actual_internal_parameters, main_fields, internal_fields);
 
   // Check that all the wb_supervisor_field_get_actual_parameter returns its input if the field is already in the scene tree
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++)
@@ -213,10 +214,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // Nothing should have changed, but just in case, re-retrieve the fields
-  internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
-  ts_assert_pointer_not_null(internal_node, "Internal node not found after first step");
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_parameters,
+                  actual_internal_parameters, main_fields, internal_fields);
 
   // Check that no fields were modified
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
@@ -245,10 +244,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // The nodes may have been regenerated. Update all the relevant references
-  internal_node = wb_supervisor_node_get_from_proto_def(hierarchy, "INTERNAL_NODE");
-  ts_assert_pointer_not_null(internal_node, "Internal node not found after second step");
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, internal_node,
-                  actual_main_parameters, actual_internal_parameters, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_parameters,
+                  actual_internal_parameters, main_fields, internal_fields);
 
   // Check that the fields were updated correctly
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
