@@ -62,6 +62,7 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
     }
 
     proto = wb_supervisor_proto_get_parent(proto);
+    i++;
   }
 }
 
