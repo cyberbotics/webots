@@ -456,6 +456,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
   n->is_proto_internal = false;
+  n->proto_info = NULL;
   n->parent_proto = NULL;
   n->tag = tag;
   n->next = node_list;
