@@ -88,8 +88,8 @@ int main(int argc, char **argv) {
       {"internalTranslationStep", WB_SF_FLOAT},
       {"internalField1", WB_SF_FLOAT},
       {"internalField2", WB_SF_FLOAT},
-      {"ucField1", WB_SF_FLOAT},
-      {"terminator", WB_NO_FIELD}
+      {"ucField4", WB_SF_FLOAT},
+      {NULL, WB_NO_FIELD}
     },
     (const struct FieldDefinition[]){ // SolidProtoInternal
       {"translationStep", WB_SF_FLOAT},
@@ -97,13 +97,15 @@ int main(int argc, char **argv) {
       {"children", WB_MF_NODE},
       {"ucField1", WB_SF_FLOAT},
       {"ucField2", WB_SF_FLOAT},
-      {"terminator", WB_NO_FIELD}
+      {"ucField3", WB_SF_FLOAT},
+      {NULL, WB_NO_FIELD}
     },
     (const struct FieldDefinition[]){ // SolidProtoBase
       {"translationStep", WB_SF_FLOAT},
       {"rotationStep", WB_SF_FLOAT},
       {"children", WB_MF_NODE},
-      {"terminator", WB_NO_FIELD}
+      {"ucField1", WB_SF_FLOAT},
+      {NULL, WB_NO_FIELD}
     },
     NULL
   };
