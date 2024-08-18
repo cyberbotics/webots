@@ -72,7 +72,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
   }
 
   // Fetch all the internal fields in the main hierarchy
-  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS; i++) {
+  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
     ts_assert_pointer_not_null(hierarchy_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(hierarchy_proto);
     for (int j = 0; j < NUMBER_OF_MAIN_FIELDS; j++) {
@@ -88,11 +88,23 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
     hierarchy_proto = wb_supervisor_proto_get_parent(hierarchy_proto);
   }
 
+  // The last hierarchy level refers to the base node
+  for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
+    const char *name = main_field_names[i][NUMBER_OF_HIERARCHY_LEVELS - 1];
+    if (name) {
+      WbFieldRef field = wb_supervisor_node_get_field(hierarchy, name);
+      ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
+      main_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = field;
+    } else
+      // The field does not exist at this level of the hierarchy
+      main_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = NULL;
+  }
+
   WbProtoRef internal_proto = wb_supervisor_node_get_proto(internal_node);
   ts_assert_pointer_not_null(hierarchy_proto, "Internal node proto not found");
 
   // Fetch all the internal fields in the internal node hierarchy
-  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS; i++) {
+  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
     ts_assert_pointer_not_null(internal_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(internal_proto);
     for (int j = 0; j < NUMBER_OF_INTERNAL_FIELDS; j++) {
@@ -106,6 +118,18 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
         internal_fields[j][i] = NULL;
     }
     internal_proto = wb_supervisor_proto_get_parent(internal_proto);
+  }
+
+  // The last hierarchy level refers to the base node
+  for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
+    const char *name = internal_field_names[i][NUMBER_OF_HIERARCHY_LEVELS - 1];
+    if (name) {
+      WbFieldRef field = wb_supervisor_node_get_field(internal_node, name);
+      ts_assert_pointer_not_null(field, "Field \"%s\" not found in proto of type \"%s\"", name, proto_type);
+      internal_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = field;
+    } else
+      // The field does not exist at this level of the hierarchy
+      internal_fields[i][NUMBER_OF_HIERARCHY_LEVELS - 1] = NULL;
   }
 }
 
