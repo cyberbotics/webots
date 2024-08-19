@@ -70,8 +70,8 @@ std::string Field::getName() const {
 }
 
 Field *Field::getActualParameter() const {
-  WbFieldRef fieldRef = wb_supervisor_field_get_actual_parameter(fieldRef);
-  return Field::findField(fieldRef);
+  WbFieldRef actualFieldRef = wb_supervisor_field_get_actual_parameter(fieldRef);
+  return Field::findField(actualFieldRef);
 }
 
 int Field::getCount() const {
