@@ -17,16 +17,16 @@
 
 #define WB_USING_CPP_API
 #include <string>
+#include <webots/Field.hpp>
 #include "../../c/webots/types.h"
 
 namespace webots {
-  class Field;
   class Proto {
   public:
     std::string getTypeName() const;
     const bool isDerived() const;
     Proto *getProtoParent() const;
-    Field *getParameter(const std::string &name) const;
+    Field *getParameter(const std::string &parameterName) const;
     Field *getParameterByIndex(const int index) const;
     const int getNumberOfParameters() const;
 

@@ -14,7 +14,6 @@
 
 #define WB_ALLOW_MIXING_C_AND_CPP_API
 #include <webots/supervisor.h>
-#include <webots/Field.hpp>
 #include <webots/Proto.hpp>
 
 #include <stdio.h>
@@ -61,8 +60,8 @@ Proto *Proto::getProtoParent() const {
   return findProto(wb_supervisor_proto_get_parent(protoRef));
 }
 
-Field *Proto::getParameter(const string &name) const {
-  return Field::findField(wb_supervisor_proto_get_parameter(protoRef, name.c_str()));
+Field *Proto::getParameter(const string &parameterName) const {
+  return Field::findField(wb_supervisor_proto_get_parameter(protoRef, parameterName.c_str()));
 }
 
 Field *Proto::getParameterByIndex(const int index) const {

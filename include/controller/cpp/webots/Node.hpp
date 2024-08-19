@@ -18,6 +18,7 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
+#include <webots/Proto.hpp>
 #include "../../c/webots/contact_point.h"
 #include "../../c/webots/types.h"
 
@@ -133,6 +134,7 @@ namespace webots {
     std::string getBaseTypeName() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Proto *getProto() const;
     Node *getFromProtoDef(const std::string &name) const;
     int getNumberOfFields() const;
     int getNumberOfParameters() const;
