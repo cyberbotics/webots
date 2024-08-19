@@ -148,7 +148,11 @@ int main(int argc, char *argv[]) {
     );
 
   // load qt warning filters from file
+#if defined(__APPLE__)
+  QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/Contents/Resources/qt_warning_filters.conf");
+#else
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
+#endif
   QFile qtFiltersFile(qtFiltersFilePath);
   if (qtFiltersFile.open(QIODevice::ReadOnly)) {
     QTextStream in(&qtFiltersFile);
