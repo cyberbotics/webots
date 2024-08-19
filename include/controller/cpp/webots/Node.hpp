@@ -135,11 +135,11 @@ namespace webots {
     bool isProto() const;
     Node *getFromProtoDef(const std::string &name) const;
     int getNumberOfFields() const;
-    int getProtoNumberOfFields() const;
+    int getNumberOfParameters() const;
     Field *getField(const std::string &fieldName) const;
-    Field *getProtoField(const std::string &fieldName) const;
+    Field *getParameter(const std::string &parameterName) const;
     Field *getFieldByIndex(const int index) const;
-    Field *getProtoFieldByIndex(const int index) const;
+    Field *getParameterByIndex(const int index) const;
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getPose() const;
