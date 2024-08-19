@@ -44,7 +44,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libxcb-icccm.so.4",
         "libxcb-randr.so.0",
         "libxcb-render-util.so.0",
-        "libxcb-xinerama.so.0"
+        "libxcb-xinerama.so.0",
+        "libxcb-cursor.so.0"
     ]
     USR_LIB_X68_64_20_04 = [
         "libHalf.so.24",
@@ -194,7 +195,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
                 "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
-                "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\n"
+                "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0, libxcb-cursor0\n"
                 "Conflicts: webots-for-nao\n"
                 "Maintainer: Olivier Michel <Olivier.Michel@cyberbotics.com>\n"
                 "Description: Mobile robot simulation software\n"
