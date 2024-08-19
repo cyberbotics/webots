@@ -89,7 +89,7 @@ jobs:
       with:
         python-version: 3.11
     - name: Test
-      run:
+      run: |
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=/Applications/Webots.app
         python tests/test_suite.py
