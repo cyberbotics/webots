@@ -47,6 +47,7 @@
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
+#include <webots/Proto.hpp>
 #include <webots/radar_target.h>
 #include <webots/Radar.hpp>
 #include <webots/RangeFinder.hpp>
@@ -436,12 +437,20 @@ namespace webots {
 %ignore webots::Field::findField(WbFieldRef ref);
 %ignore webots::Field::cleanup();
 
+%rename("getActualParameterPrivate") getActualParameter() const;
+%javamethodmodifiers getActualParameter() const "private"
+
 %rename("getSFNodePrivate") getSFNode() const;
 %rename("getMFNodePrivate") getMFNode(int index) const;
 %javamethodmodifiers getSFNode() const "private"
 %javamethodmodifiers getMFNode(int index) const "private"
 
 %typemap(javacode) webots::Field %{
+  public Field getActualParameter() {
+    long cPtr = wrapperJNI.Field_getActualParameterPrivate(swigCPtr, this);
+    return Field.findField(cPtr);
+  }
+
   public Node getSFNode() {
     long cPtr = wrapperJNI.Field_getSFNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -632,6 +641,9 @@ namespace webots {
 %rename("getParentNodePrivate") getParentNode() const;
 %javamethodmodifiers getParentNode() const "private"
 
+%rename("getProtoPrivate") getProto() const;
+%javamethodmodifiers getProto() const "private"
+
 %rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
 %javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 
@@ -670,6 +682,11 @@ namespace webots {
   public Node getParentNode() {
     long cPtr = wrapperJNI.Node_getParentNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
+  }
+
+  public Proto getProto() {
+    long cPtr = wrapperJNI.Node_getProtoPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
   }
 
   public Node getFromProtoDef(String name) {
@@ -732,6 +749,56 @@ namespace webots {
   }
 %}
 %include <webots/PositionSensor.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Proto
+//----------------------------------------------------------------------------------------------
+
+%ignore webots::Proto::findProto(WbProtoRef ref);
+%ignore webots::Proto::cleanup();
+
+%rename("getProtoParentPrivate") getProtoParent() const;
+%javamethodmodifiers getProtoParent() const "private"
+%rename("getParameterPrivate") getParameter(const std::string &parameterName) const;
+%javamethodmodifiers getParameter(const std::string &parameterName) const "private"
+%rename("getParameterByIndexPrivate") getParameterByIndex(const int index) const;
+%javamethodmodifiers getParameterByIndex(const int index) const "private"
+
+%typemap(javacode) webots::Proto %{
+// ----- begin hand written section ----
+  public Proto getProtoParent() {
+    long cPtr = wrapperJNI.Proto_getProtoParentPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
+  }
+
+  public Field getParameter(String parameterName) {
+    long cPtr = wrapperJNI.Proto_getParameterPrivate(swigCPtr, this, parameterName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getParameterByIndex(int index) {
+    long cPtr = wrapperJNI.Proto_getParameterByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  private static java.util.HashMap<Long,Proto> protos = new java.util.HashMap<Long,Proto>();
+
+  // DO NOT USE THIS FUNCTION: IT IS RESERVED FOR INTERNAL USE !
+  public static Proto findProto(long cPtr) {
+    if (cPtr == 0)
+      return null;
+
+    Proto proto = protos.get(new Long(cPtr));
+    if (proto != null)
+      return proto;
+
+    proto = new Proto(cPtr, false);
+    protos.put(new Long(cPtr), proto);
+    return proto;
+  }
+%}
+
+%include <webots/Proto.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Radar
