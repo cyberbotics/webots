@@ -43,6 +43,9 @@ class Proto:
     def getNumberOfParameters(self) -> int:
         return self.number_of_parameters
 
+    def isDerived(self) -> bool:
+        return self.is_derived
+
     @property
     def type_name(self) -> str:
         return wb.wb_supervisor_proto_get_type_name(self._ref).decode()
@@ -50,3 +53,7 @@ class Proto:
     @property
     def number_of_parameters(self) -> int:
         return wb.wb_supervisor_proto_get_number_of_parameters(self._ref)
+
+    @property
+    def is_derived(self) -> bool:
+        return wb.wb_supervisor_proto_is_derived(self._ref)

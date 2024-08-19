@@ -337,6 +337,7 @@ wb_supervisor_proto_get_parameter.m
 wb_supervisor_proto_get_parameter_by_index.m
 wb_supervisor_proto_get_proto_parent.m
 wb_supervisor_proto_get_type_name.m
+wb_supervisor_proto_is_derived.m
 wb_supervisor_simulation_get_mode.m
 wb_supervisor_simulation_quit.m
 wb_supervisor_simulation_reset.m

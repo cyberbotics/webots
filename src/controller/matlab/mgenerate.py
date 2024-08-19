@@ -562,6 +562,7 @@ def main(args=None):
     generator.gen(FUNC, "wb_supervisor_proto_get_parameter_by_index(protoref, parameterindex)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_get_proto_parent(protoref)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_get_type_name(protoref)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_is_derived(protoref)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_save_world(filename)", "supervisor"); # DEPRECATED
     # generator.gen(PROC, "wb_supervisor_set_label()", "supervisor")
     generator.gen(FUNC, "wb_supervisor_simulation_get_mode()", "supervisor")
