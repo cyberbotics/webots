@@ -25,22 +25,22 @@ class Proto:
     def __init__(self, ref: ctypes.c_void_p):
         self._ref = ref
 
-    def get_type_name(self) -> str:
+    def getTypeName(self) -> str:
         return self.type_name
 
-    def get_proto_parent(self) -> 'Proto':
+    def getProtoParent(self) -> 'Proto':
         proto = wb.wb_supervisor_proto_get_proto_parent(self._ref)
         return Proto(wb.wb_supervisor_proto_get_proto_parent(self._ref)) if proto else None
 
-    def get_parameter(self, name: str) -> Field:
+    def getParameter(self, name: str) -> Field:
         field = wb.wb_supervisor_proto_get_parameter(self._ref, str.encode(name))
         return Field(field) if field else None
 
-    def get_parameter_by_index(self, index: int) -> Field:
+    def getParameterByIndex(self, index: int) -> Field:
         field = wb.wb_supervisor_proto_get_parameter_by_index(self._ref, index)
         return Field(field) if field else None
 
-    def get_proto_number_of_parameters(self) -> int:
+    def getNumberOfParameters(self) -> int:
         return self.number_of_parameters
 
     @property
