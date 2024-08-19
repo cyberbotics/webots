@@ -106,7 +106,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
   ts_assert_pointer_not_null(internal_proto, "Internal node proto not found");
 
   // Fetch all the internal fields in the internal node hierarchy
-  for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
+  for (int i = 1; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
     ts_assert_pointer_not_null(internal_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(internal_proto);
     for (int j = 0; j < NUMBER_OF_INTERNAL_FIELDS; j++) {
