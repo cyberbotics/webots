@@ -97,7 +97,6 @@ jobs:
         export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
         export BRANCH_HASH=$(git log -1 --format='%H')
         python tests/test_suite.py
-    - uses: actions/checkout@v2
     - name: Setup upterm session
       uses: lhotari/action-upterm@v1
       if: ${{ failure() }}
