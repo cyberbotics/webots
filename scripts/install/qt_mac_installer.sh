@@ -8,7 +8,9 @@ if [[ -z "${WEBOTS_HOME}" ]]; then
   exit 1
 fi
 
-QT_VERSION=6.4.3
+QT_VERSION=6.5.3
+pip install --no-input aqtinstall
+aqt install-qt --outputdir $HOME/Qt mac desktop ${QT_VERSION} clang_64 -m qtwebsockets
 
 # prepare Webots
 cd $WEBOTS_HOME
@@ -37,6 +39,7 @@ declare -a qtFrameworks=( \
   "QtXml" \
 )
 
+mkdir -p $WEBOTS_HOME/Contents/Frameworks
 for f in "${qtFrameworks[@]}"
 do
   cp -R lib/$f.framework $WEBOTS_HOME/Contents/Frameworks
