@@ -97,6 +97,13 @@ jobs:
         export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
         export BRANCH_HASH=$(git log -1 --format='%H')
         python tests/test_suite.py
+    - uses: actions/checkout@v2
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
+      if: ${{ failure() }}
+      with:
+        ## If no one connects after 5 minutes, shut down server.
+        wait-timeout-minutes: 5
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
