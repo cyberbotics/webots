@@ -12,5 +12,6 @@ PROTO SolidProtoHierarchyBase [
     translationStep IS translationStep
     rotationStep IS rotationStep
     children IS children
+    radarCrossSection 0.01
   }
 }
