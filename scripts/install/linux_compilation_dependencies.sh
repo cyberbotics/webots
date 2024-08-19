@@ -18,7 +18,7 @@ UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "20.04" ]]; then
        apt install --yes libzip5 perl libtext-template-perl
 elif [[ $UBUNTU_VERSION == "22.04" ]]; then
-       apt install --yes libzip4
+       apt install --yes libzip4 openssl
 else
        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 fi
