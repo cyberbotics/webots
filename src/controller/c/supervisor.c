@@ -3922,6 +3922,16 @@ const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
   return proto->type_name;
 }
 
+bool wb_supervisor_proto_is_derived(WbProtoRef proto) {
+  if(!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return false;
+  }
+
+  return proto->is_derived;
+}
+
 WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;

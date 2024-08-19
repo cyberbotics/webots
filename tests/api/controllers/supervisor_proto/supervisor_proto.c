@@ -27,6 +27,12 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
     const char *actual_name = wb_supervisor_proto_get_type_name(proto);
     ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name, expected_hierarchy[i]);
     ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got \"%s\"", node_name, expected_hierarchy[i], actual_name);
+
+    if(expected_hierarchy[i+1])
+      ts_assert_boolean_equal(wb_supervisor_proto_is_derived(proto), "(%s) wb_supervisor_proto_is_derived() should return true for \"%s\"", node_name, actual_name);
+    else
+      ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(proto), "(%s) wb_supervisor_proto_is_derived() should return false for \"%s\"", node_name, actual_name);
+
     proto = wb_supervisor_proto_get_parent(proto);
     i++;
   }
@@ -70,7 +76,9 @@ int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
   // Check null values
+  ts_assert_pointer_null(wb_supervisor_node_get_proto(NULL), "wb_supervisor_node_get_proto(NULL) should return NULL");
   ts_assert_pointer_null(wb_supervisor_proto_get_type_name(NULL), "wb_supervisor_proto_get_type_name(NULL) should return NULL");
+  ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(NULL), "wb_supervisor_proto_is_derived(NULL) should return false");
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
   ts_assert_int_equal(wb_supervisor_proto_get_number_of_parameters(NULL), 0, "wb_supervisor_proto_get_number_of_parameters(NULL) should return 0");
   ts_assert_pointer_null(wb_supervisor_proto_get_parameter_by_index(NULL, 0), "wb_supervisor_proto_get_parameter_by_index(NULL, 0) should return NULL");
