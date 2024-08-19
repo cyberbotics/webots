@@ -218,14 +218,16 @@ int main(int argc, char **argv) {
 
   // Check that no fields were modified
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
-    check_field(actual_main_parameters[i], actual_main_parameters[i], 0.01, false, main_field_names[i][0], "Update read-only field [main parameter]");
+    if (actual_main_parameters[i])
+      check_field(actual_main_parameters[i], actual_main_parameters[i], 0.01, false, main_field_names[i][0], "Update read-only field [main parameter]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (main_field_names[i][j])
         check_field(main_fields[i][j], actual_main_parameters[i], 0.01, false, main_field_names[i][j], "Update read-only field [main field]");
   }
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
-    check_field(actual_internal_parameters[i], actual_internal_parameters[i], 0.01, false, internal_field_names[i][0], "Update read-only field [internal parameter]");
+    if (actual_internal_parameters[i])
+      check_field(actual_internal_parameters[i], actual_internal_parameters[i], 0.01, false, internal_field_names[i][0], "Update read-only field [internal parameter]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (main_field_names[i][j])
         check_field(internal_fields[i][j], actual_internal_parameters[i], 0.01, false, internal_field_names[i][j], "Update read-only field [internal field]");
