@@ -1219,7 +1219,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
         const WbNodeProtoInfo *protoInfo = node->protoParents().at(mFoundProtoId);
         mFoundProtoTypeName = protoInfo->modelName();
-        mFoundProtoIsDerived = node->protoParents().size() > parentProtoId + 1;
+        mFoundProtoIsDerived = node->protoParents().size() > mFoundProtoId + 1;
         mFoundProtoParameterCount = protoInfo->parameters().size();
       }
       return;
