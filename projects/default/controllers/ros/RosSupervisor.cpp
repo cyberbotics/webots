@@ -584,8 +584,8 @@ bool RosSupervisor::nodeGetProtoCallback(webots_ros::node_get_proto::Request &re
   assert(this);
   if (!req.node)
     return false;
-  Node *node = reinterpret_cast<Node *>(req.value);
-  res.value = reinterpret_cast<uint64_t>(node->getProto());
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.proto = reinterpret_cast<uint64_t>(node->getProto());
   return true;
 }
 
@@ -1006,7 +1006,7 @@ bool RosSupervisor::fieldGetActualFieldCallback(webots_ros::field_get_actual_fie
   if (!req.field)
     return false;
   Field *field = reinterpret_cast<Field *>(req.field);
-  res.actualField = reinterpret_cast<uint64_t>(field->getActualField());
+  res.field = reinterpret_cast<uint64_t>(field->getActualField());
   return true;
 }
 
