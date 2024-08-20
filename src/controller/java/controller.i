@@ -778,8 +778,8 @@ namespace webots {
 %ignore webots::Proto::findProto(WbProtoRef ref);
 %ignore webots::Proto::cleanup();
 
-%rename("getProtoParentPrivate") getProtoParent() const;
-%javamethodmodifiers getProtoParent() const "private"
+%rename("getParentPrivate") getParent() const;
+%javamethodmodifiers getParent() const "private"
 
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
 %rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
@@ -788,8 +788,8 @@ namespace webots {
 
 %typemap(javacode) webots::Proto %{
 // ----- begin hand written section ----
-  public Proto getProtoParent() {
-    long cPtr = wrapperJNI.Proto_getProtoParentPrivate(swigCPtr, this);
+  public Proto getParent() {
+    long cPtr = wrapperJNI.Proto_getParentPrivate(swigCPtr, this);
     return Proto.findProto(cPtr);
   }
 

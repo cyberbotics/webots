@@ -56,7 +56,7 @@ const bool Proto::isDerived() const {
   return wb_supervisor_proto_is_derived(protoRef);
 }
 
-Proto *Proto::getProtoParent() const {
+Proto *Proto::getParent() const {
   return findProto(wb_supervisor_proto_get_parent(protoRef));
 }
 

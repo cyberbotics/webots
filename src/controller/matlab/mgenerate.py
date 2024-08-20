@@ -560,7 +560,7 @@ def main(args=None):
     generator.gen(FUNC, "wb_supervisor_proto_get_field(protoref, fieldname)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_get_field_by_index(protoref, fieldindex)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_get_number_of_fields(protoref)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_proto_get_proto_parent(protoref)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_parent(protoref)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_get_type_name(protoref)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_proto_is_derived(protoref)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_save_world(filename)", "supervisor"); # DEPRECATED

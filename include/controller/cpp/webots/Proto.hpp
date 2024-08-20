@@ -26,7 +26,7 @@ namespace webots {
   public:
     std::string getTypeName() const;
     const bool isDerived() const;
-    Proto *getProtoParent() const;
+    Proto *getParent() const;
     Field *getField(const std::string &fieldName) const;
     Field *getFieldByIndex(const int index) const;
     const int getNumberOfFields() const;

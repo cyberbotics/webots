@@ -312,8 +312,8 @@ wb_supervisor_node_get_from_device.m
 wb_supervisor_node_get_from_id.m
 wb_supervisor_node_get_from_proto_def.m
 wb_supervisor_node_get_id.m
-wb_supervisor_node_get_number_of_contact_points.m
 wb_supervisor_node_get_number_of_base_node_fields.m
+wb_supervisor_node_get_number_of_contact_points.m
 wb_supervisor_node_get_number_of_fields.m
 wb_supervisor_node_get_parent_node.m
 wb_supervisor_node_get_root.m
@@ -335,7 +335,7 @@ wb_supervisor_node_set_visibility.m
 wb_supervisor_proto_get_field.m
 wb_supervisor_proto_get_field_by_index.m
 wb_supervisor_proto_get_number_of_fields.m
-wb_supervisor_proto_get_proto_parent.m
+wb_supervisor_proto_get_parent.m
 wb_supervisor_proto_get_type_name.m
 wb_supervisor_proto_is_derived.m
 wb_supervisor_simulation_get_mode.m

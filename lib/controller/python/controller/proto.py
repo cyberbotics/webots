@@ -18,7 +18,7 @@ from .field import Field
 
 class Proto:
     wb.wb_supervisor_proto_get_type_name.restype = ctypes.c_char_p
-    wb.wb_supervisor_proto_get_proto_parent.restype = ctypes.c_void_p
+    wb.wb_supervisor_proto_get_parent.restype = ctypes.c_void_p
     wb.wb_supervisor_proto_get_field.restype = ctypes.c_void_p
     wb.wb_supervisor_proto_get_field_by_index.restype = ctypes.c_void_p
 
@@ -28,9 +28,9 @@ class Proto:
     def getTypeName(self) -> str:
         return self.type_name
 
-    def getProtoParent(self) -> 'Proto':
-        proto = wb.wb_supervisor_proto_get_proto_parent(self._ref)
-        return Proto(wb.wb_supervisor_proto_get_proto_parent(self._ref)) if proto else None
+    def getParent(self) -> 'Proto':
+        proto = wb.wb_supervisor_proto_get_parent(self._ref)
+        return Proto(wb.wb_supervisor_proto_get_parent(self._ref)) if proto else None
 
     def getParameter(self, name: str) -> Field:
         field = wb.wb_supervisor_proto_get_field(self._ref, str.encode(name))
