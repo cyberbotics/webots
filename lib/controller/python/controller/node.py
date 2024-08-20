@@ -44,8 +44,8 @@ class Node:
     wb.wb_supervisor_node_get_proto.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_field_by_index.restype = ctypes.c_void_p
-    wb.wb_supervisor_node_get_parameter.restype = ctypes.c_void_p
-    wb.wb_supervisor_node_get_parameter_by_index.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_base_node_field.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_base_node_field_by_index.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_self.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_device.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_id.restype = ctypes.c_void_p
@@ -130,16 +130,16 @@ class Node:
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
-    def getParameter(self, parameterName: str) -> Field:
-        field = wb.wb_supervisor_node_get_parameter(self._ref, str.encode(parameterName))
+    def getBaseNodeField(self, fieldName: str) -> Field:
+        field = wb.wb_supervisor_node_get_base_node_field(self._ref, str.encode(fieldName))
         return Field(field) if field else None
 
-    def getProtoFieldByIndex(self, index: int) -> Field:
-        field = wb.wb_supervisor_node_get_parameter_by_index(self._ref, index)
+    def getBaseNodeFieldByIndex(self, index: int) -> Field:
+        field = wb.wb_supervisor_node_get_base_node_field_by_index(self._ref, index)
         return Field(field) if field else None
 
-    def getNumberOfParameters(self) -> int:
-        return self.number_of_parameters
+    def getNumberOfBaseNodeFields(self) -> int:
+        return self.number_of_base_node_fields
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
@@ -249,8 +249,8 @@ class Node:
         return wb.wb_supervisor_node_get_number_of_fields(self._ref)
 
     @property
-    def number_of_parameters(self) -> int:
-        return wb.wb_supervisor_node_get_number_of_parameters(self._ref)
+    def number_of_base_node_fields(self) -> int:
+        return wb.wb_supervisor_node_get_wb_supervisor_node_get_base_node_fields(self._ref)
 
 Node.NO_NODE = constant('NODE_NO_NODE')
 Node.APPEARANCE = constant('NODE_APPEARANCE')

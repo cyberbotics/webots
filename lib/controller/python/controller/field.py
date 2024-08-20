@@ -41,7 +41,7 @@ class Field:
 
     wb.wb_supervisor_field_get_name.restype = ctypes.c_char_p
     wb.wb_supervisor_field_get_type_name.restype = ctypes.c_char_p
-    wb.wb_supervisor_field_get_actual_parameter.restype = ctypes.c_void_p
+    wb.wb_supervisor_field_get_actual_field.restype = ctypes.c_void_p
     wb.wb_supervisor_field_get_sf_float.restype = ctypes.c_double
     wb.wb_supervisor_field_get_sf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
@@ -81,8 +81,8 @@ class Field:
     def getCount(self) -> int:
         return self.count
 
-    def getActualParameter(self) -> 'Field':
-        field = wb.wb_supervisor_field_get_actual_parameter(self._ref)
+    def getActualField(self) -> 'Field':
+        field = wb.wb_supervisor_field_get_actual_field(self._ref)
         return Field(field) if field else None
 
     def enableSFTracking(self, samplingPeriod: int):

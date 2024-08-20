@@ -50,15 +50,15 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
 
     const char *proto_name = wb_supervisor_proto_get_type_name(proto);
 
-    const int actual_number_of_fields = wb_supervisor_proto_get_number_of_parameters(proto);
+    const int actual_number_of_fields = wb_supervisor_proto_get_number_of_fields(proto);
     ts_assert_int_equal(actual_number_of_fields, number_of_fields, "(%s) Wrong number of fields in proto \"%s\". Expected %d, but got %d", node_name, proto_name, number_of_fields, actual_number_of_fields);
 
     for (int j = 0; j < number_of_fields; j++) {
       const char *expected_name = expected_fields[i][j].name;
       const WbFieldType expected_type = expected_fields[i][j].type;
 
-      WbFieldRef field = wb_supervisor_proto_get_parameter_by_index(proto, j);
-      ts_assert_pointer_not_null(field, "(%s) Field \"%d\" not found in proto \"%s\" despite the reported number of parameters being correct", node_name, j, proto_name);
+      WbFieldRef field = wb_supervisor_proto_get_field_by_index(proto, j);
+      ts_assert_pointer_not_null(field, "(%s) Field \"%d\" not found in proto \"%s\" despite the reported number of fields being correct", node_name, j, proto_name);
 
       const char *actual_name = wb_supervisor_field_get_name(field);
       ts_assert_string_equal(actual_name, expected_name, "(%s) Field mismatch in proto \"%s\"! Expected \"%s\", but got \"%s\"", node_name, proto_name, expected_name, actual_name);
@@ -80,9 +80,9 @@ int main(int argc, char **argv) {
   ts_assert_pointer_null(wb_supervisor_proto_get_type_name(NULL), "wb_supervisor_proto_get_type_name(NULL) should return NULL");
   ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(NULL), "wb_supervisor_proto_is_derived(NULL) should return false");
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
-  ts_assert_int_equal(wb_supervisor_proto_get_number_of_parameters(NULL), 0, "wb_supervisor_proto_get_number_of_parameters(NULL) should return 0");
-  ts_assert_pointer_null(wb_supervisor_proto_get_parameter_by_index(NULL, 0), "wb_supervisor_proto_get_parameter_by_index(NULL, 0) should return NULL");
-  ts_assert_pointer_null(wb_supervisor_proto_get_parameter(NULL, "name"), "wb_supervisor_proto_get_parameter(NULL, \"name\") should return NULL");
+  ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), 0, "wb_supervisor_proto_get_number_of_fields(NULL) should return 0");
+  ts_assert_pointer_null(wb_supervisor_proto_get_field_by_index(NULL, 0), "wb_supervisor_proto_get_field_by_index(NULL, 0) should return NULL");
+  ts_assert_pointer_null(wb_supervisor_proto_get_field(NULL, "name"), "wb_supervisor_proto_get_field(NULL, \"name\") should return NULL");
 
   // This array keeps track of the names of the proto types we expect at each level of the hierarchy,
   // starting with the proto type of the main hierarchy node, and ending with NULL.

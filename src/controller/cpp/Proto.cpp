@@ -60,14 +60,14 @@ Proto *Proto::getProtoParent() const {
   return findProto(wb_supervisor_proto_get_parent(protoRef));
 }
 
-Field *Proto::getParameter(const string &parameterName) const {
-  return Field::findField(wb_supervisor_proto_get_parameter(protoRef, parameterName.c_str()));
+Field *Proto::getField(const string &fieldName) const {
+  return Field::findField(wb_supervisor_proto_get_field(protoRef, fieldName.c_str()));
 }
 
-Field *Proto::getParameterByIndex(const int index) const {
-  return Field::findField(wb_supervisor_proto_get_parameter_by_index(protoRef, index));
+Field *Proto::getFieldByIndex(const int index) const {
+  return Field::findField(wb_supervisor_proto_get_field_by_index(protoRef, index));
 }
 
-const int Proto::getNumberOfParameters() const {
-  return wb_supervisor_proto_get_number_of_parameters(protoRef);
+const int Proto::getNumberOfFields() const {
+  return wb_supervisor_proto_get_number_of_fields(protoRef);
 }

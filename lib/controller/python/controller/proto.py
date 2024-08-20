@@ -19,8 +19,8 @@ from .field import Field
 class Proto:
     wb.wb_supervisor_proto_get_type_name.restype = ctypes.c_char_p
     wb.wb_supervisor_proto_get_proto_parent.restype = ctypes.c_void_p
-    wb.wb_supervisor_proto_get_parameter.restype = ctypes.c_void_p
-    wb.wb_supervisor_proto_get_parameter_by_index.restype = ctypes.c_void_p
+    wb.wb_supervisor_proto_get_field.restype = ctypes.c_void_p
+    wb.wb_supervisor_proto_get_field_by_index.restype = ctypes.c_void_p
 
     def __init__(self, ref: ctypes.c_void_p):
         self._ref = ref
@@ -33,15 +33,15 @@ class Proto:
         return Proto(wb.wb_supervisor_proto_get_proto_parent(self._ref)) if proto else None
 
     def getParameter(self, name: str) -> Field:
-        field = wb.wb_supervisor_proto_get_parameter(self._ref, str.encode(name))
+        field = wb.wb_supervisor_proto_get_field(self._ref, str.encode(name))
         return Field(field) if field else None
 
     def getParameterByIndex(self, index: int) -> Field:
-        field = wb.wb_supervisor_proto_get_parameter_by_index(self._ref, index)
+        field = wb.wb_supervisor_proto_get_field_by_index(self._ref, index)
         return Field(field) if field else None
 
-    def getNumberOfParameters(self) -> int:
-        return self.number_of_parameters
+    def getNumberOfFields(self) -> int:
+        return self.number_of_fields
 
     def isDerived(self) -> bool:
         return self.is_derived
@@ -51,8 +51,8 @@ class Proto:
         return wb.wb_supervisor_proto_get_type_name(self._ref).decode()
 
     @property
-    def number_of_parameters(self) -> int:
-        return wb.wb_supervisor_proto_get_number_of_parameters(self._ref)
+    def number_of_fields(self) -> int:
+        return wb.wb_supervisor_proto_get_number_of_fields(self._ref)
 
     @property
     def is_derived(self) -> bool:

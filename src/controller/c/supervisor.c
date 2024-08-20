@@ -62,11 +62,11 @@ typedef struct WbFieldStructPrivate {
   int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
-  int actual_parameter_node_id;
-  int actual_parameter_index;
-  // the lookup_parameter field will only be populated when we want to override the default value lookup behavior
+  int actual_field_node_id;
+  int actual_field_index;
+  // the lookup_field field will only be populated when we want to override the default value lookup behavior
   // (for internal proto fields)
-  WbFieldRef lookup_parameter;
+  WbFieldRef lookup_field;
   union WbFieldData data;
   WbFieldRef next;
   double last_update;
@@ -133,7 +133,7 @@ typedef struct WbProtoInfoStructPrivate {
   bool is_derived;
   int node_unique_id;
   int id;
-  int number_of_parameters;
+  int number_of_fields;
   WbProtoRef parent;
   WbProtoRef next;
 } WbProtoInfoStruct;
@@ -1038,7 +1038,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_SUPERVISOR_NODE_GET_PROTO: {
       const int id = request_read_int32(r);
       const bool is_derived = request_read_uchar(r) == 1;
-      const int num_parameters = request_read_int32(r);
+      const int num_fields = request_read_int32(r);
       const char *type_name = request_read_string(r);
       if (id < 0)
         break;
@@ -1047,7 +1047,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       p->is_derived = is_derived;
       p->node_unique_id = node_ref;
       p->id = id;
-      p->number_of_parameters = num_parameters;
+      p->number_of_fields = num_fields;
       p->parent = NULL;
 
       p->next = proto_list;
@@ -1059,8 +1059,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const WbFieldType field_type = request_read_int32(r);
       const bool is_proto_internal_field = request_read_uchar(r) == 1;
       const int field_count = request_read_int32(r);
-      const int actual_parameter_node_id = request_read_int32(r);
-      const int actual_parameter_index = request_read_int32(r);
+      const int actual_field_node_id = request_read_int32(r);
+      const int actual_field_index = request_read_int32(r);
       const char *name = request_read_string(r);
       if (field_ref == -1) {
         requested_field_name = NULL;
@@ -1078,9 +1078,9 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->is_read_only = is_proto_internal_field;
       f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
-      f->actual_parameter_node_id = actual_parameter_node_id;
-      f->actual_parameter_index = actual_parameter_index;
-      f->lookup_parameter = NULL;
+      f->actual_field_node_id = actual_field_node_id;
+      f->actual_field_index = actual_field_index;
+      f->lookup_field = NULL;
       field_list = f;
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
@@ -2422,20 +2422,19 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, -1, index, true);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, false);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
     proto_ref = -1;
-    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, -1, index, true);
+      result = find_field_by_id(node->id, -1, index, false);
     if (result)
       result->is_read_only = true;
     allow_search_in_proto = false;
@@ -2444,7 +2443,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   return result;
 }
 
-WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) {
+WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int index) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2461,19 +2460,20 @@ WbFieldRef wb_supervisor_node_get_parameter_by_index(WbNodeRef node, int index) 
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, -1, index, false);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, true);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
     proto_ref = -1;
+    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, -1, index, false);
+      result = find_field_by_id(node->id, -1, index, true);
     if (result && node->is_proto_internal)
       result->is_read_only = true;
   }
@@ -2498,13 +2498,12 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 
   robot_mutex_lock();
 
-  WbFieldRef result = find_field_by_name(field_name, node->id, -1, true);
+  WbFieldRef result = find_field_by_name(field_name, node->id, -1, false);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
     proto_ref = -1;
-    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
@@ -2532,17 +2531,15 @@ int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   requested_node_number_of_fields = true;
   node_ref = node->id;
   node_number_of_fields = -1;
-  allow_search_in_proto = true;
   wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
-  allow_search_in_proto = false;
   robot_mutex_unlock();
   if (node_number_of_fields > 0)
     return node_number_of_fields;
   return -1;
 }
 
-int wb_supervisor_node_get_number_of_parameters(WbNodeRef node) {
+int wb_supervisor_node_get_number_of_base_node_fields(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2556,15 +2553,17 @@ int wb_supervisor_node_get_number_of_parameters(WbNodeRef node) {
   requested_node_number_of_fields = true;
   node_ref = node->id;
   node_number_of_fields = -1;
+  allow_search_in_proto = true;
   wb_robot_flush_unlocked(__FUNCTION__);
   requested_node_number_of_fields = false;
+  allow_search_in_proto = false;
   robot_mutex_unlock();
   if (node_number_of_fields > 0)
     return node_number_of_fields;
   return -1;
 }
 
-WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *parameter_name) {
+WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *field_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2580,20 +2579,21 @@ WbFieldRef wb_supervisor_node_get_parameter(WbNodeRef node, const char *paramete
     return NULL;
   }
 
-  if (!parameter_name || !parameter_name[0]) {
-    fprintf(stderr, "Error: %s() called with NULL or empty 'parameter_name' argument.\n", __FUNCTION__);
+  if (!field_name || !field_name[0]) {
+    fprintf(stderr, "Error: %s() called with NULL or empty 'field_name' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   robot_mutex_lock();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_name(parameter_name, node->id, -1, false);
+  WbFieldRef result = find_field_by_name(field_name, node->id, -1, true);
   if (!result) {
     // otherwise: need to talk to Webots
-    requested_field_name = parameter_name;
+    requested_field_name = field_name;
     node_ref = node->id;
     proto_ref = -1;
+    allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
@@ -2990,8 +2990,8 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return -1;
@@ -3002,7 +3002,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
-WbFieldRef wb_supervisor_field_get_actual_parameter(WbFieldRef field) {
+WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -3012,15 +3012,15 @@ WbFieldRef wb_supervisor_field_get_actual_parameter(WbFieldRef field) {
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return NULL;
 
-  if (field->lookup_parameter)
-    return field->lookup_parameter;
+  if (field->lookup_field)
+    return field->lookup_field;
 
-  if (field->actual_parameter_node_id != -1 && field->actual_parameter_index != -1) {
-    WbNodeRef node = node_get_from_id(field->actual_parameter_node_id, __FUNCTION__);
+  if (field->actual_field_node_id != -1 && field->actual_field_index != -1) {
+    WbNodeRef node = node_get_from_id(field->actual_field_node_id, __FUNCTION__);
     if (node) {
-      WbFieldRef actual_parameter = wb_supervisor_node_get_parameter_by_index(node, field->actual_parameter_index);
-      assert(!actual_parameter || !actual_parameter->is_read_only);
-      return actual_parameter;
+      WbFieldRef actual_field = wb_supervisor_node_get_field_by_index(node, field->actual_field_index);
+      assert(!actual_field || !actual_field->is_read_only);
+      return actual_field;
     }
   }
 
@@ -3098,8 +3098,8 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return;
@@ -3120,8 +3120,8 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 }
 
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return;
@@ -3212,8 +3212,8 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, false))
     return false;
@@ -3223,8 +3223,8 @@ bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false, false))
     return 0;
@@ -3234,8 +3234,8 @@ int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
 }
 
 double wb_supervisor_field_get_sf_float(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false, false))
     return 0.0;
@@ -3245,8 +3245,8 @@ double wb_supervisor_field_get_sf_float(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false, false))
     return NULL;
@@ -3256,8 +3256,8 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
     return NULL;
@@ -3267,8 +3267,8 @@ const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false, false))
     return NULL;
@@ -3278,8 +3278,8 @@ const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false, false))
     return NULL;
@@ -3289,8 +3289,8 @@ const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
 }
 
 const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false, false))
     return "";
@@ -3300,8 +3300,8 @@ const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
 }
 
 WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false, false))
     return NULL;
@@ -3317,8 +3317,8 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false, false))
     return 0;
@@ -3328,8 +3328,8 @@ bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
 }
 
 int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false, false))
     return 0;
@@ -3339,8 +3339,8 @@ int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
 }
 
 double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false, false))
     return 0.0;
@@ -3350,8 +3350,8 @@ double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false, false))
     return NULL;
@@ -3361,8 +3361,8 @@ const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false, false))
     return NULL;
@@ -3372,8 +3372,8 @@ const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false, false))
     return NULL;
@@ -3383,8 +3383,8 @@ const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false, false))
     return NULL;
@@ -3394,8 +3394,8 @@ const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
 }
 
 const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false, false))
     return "";
@@ -3405,8 +3405,8 @@ const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
 }
 
 WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_NODE, true, &index, false, false))
     return NULL;
@@ -3419,8 +3419,8 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
-  if (field->lookup_parameter)
-    field = field->lookup_parameter;
+  if (field->lookup_field)
+    field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, true))
     return;
@@ -3964,7 +3964,7 @@ WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
   return proto->parent;
 }
 
-WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *parameter_name) {
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -3974,17 +3974,17 @@ WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *param
     return NULL;
   }
 
-  if (!parameter_name || !parameter_name[0]) {
-    fprintf(stderr, "Error: %s() called with a NULL or empty 'parameter_name' argument.\n", __FUNCTION__);
+  if (!field_name || !field_name[0]) {
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'field_name' argument.\n", __FUNCTION__);
     return NULL;
   }
 
   robot_mutex_lock();
 
-  WbFieldRef result = find_field_by_name(parameter_name, proto->node_unique_id, proto->id, true);
+  WbFieldRef result = find_field_by_name(field_name, proto->node_unique_id, proto->id, true);
   if (!result) {
     // otherwise: need to talk to Webots
-    requested_field_name = parameter_name;
+    requested_field_name = field_name;
     node_ref = proto->node_unique_id;
     proto_ref = proto->id;
     wb_robot_flush_unlocked(__FUNCTION__);
@@ -3998,16 +3998,16 @@ WbFieldRef wb_supervisor_proto_get_parameter(WbProtoRef proto, const char *param
 
   robot_mutex_unlock();
 
-  if (result && result->actual_parameter_index != -1) {
-    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(result);
-    assert(actual_parameter);
-    result->lookup_parameter = actual_parameter;
+  if (result && result->actual_field_index != -1) {
+    WbFieldRef actual_field = wb_supervisor_field_get_actual_field(result);
+    assert(actual_field);
+    result->lookup_field = actual_field;
   }
 
   return result;
 }
 
-WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int index) {
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -4021,7 +4021,7 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
     return NULL;
-  } else if (index >= proto->number_of_parameters)
+  } else if (index >= proto->number_of_fields)
     return NULL;
 
   robot_mutex_lock();
@@ -4047,21 +4047,21 @@ WbFieldRef wb_supervisor_proto_get_parameter_by_index(WbProtoRef proto, int inde
 
   robot_mutex_unlock();
 
-  if (result && result->actual_parameter_index != -1) {
-    WbFieldRef actual_parameter = wb_supervisor_field_get_actual_parameter(result);
-    assert(actual_parameter);
-    result->lookup_parameter = actual_parameter;
+  if (result && result->actual_field_index != -1) {
+    WbFieldRef actual_field = wb_supervisor_field_get_actual_field(result);
+    assert(actual_field);
+    result->lookup_field = actual_field;
   }
 
   return result;
 }
 
-int wb_supervisor_proto_get_number_of_parameters(WbProtoRef proto) {
+int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto) {
   if(!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return 0;
   }
 
-  return proto->number_of_parameters;
+  return proto->number_of_fields;
 }

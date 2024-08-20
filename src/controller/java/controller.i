@@ -437,8 +437,8 @@ namespace webots {
 %ignore webots::Field::findField(WbFieldRef ref);
 %ignore webots::Field::cleanup();
 
-%rename("getActualParameterPrivate") getActualParameter() const;
-%javamethodmodifiers getActualParameter() const "private"
+%rename("getActualFieldPrivate") getActualField() const;
+%javamethodmodifiers getActualField() const "private"
 
 %rename("getSFNodePrivate") getSFNode() const;
 %rename("getMFNodePrivate") getMFNode(int index) const;
@@ -446,8 +446,8 @@ namespace webots {
 %javamethodmodifiers getMFNode(int index) const "private"
 
 %typemap(javacode) webots::Field %{
-  public Field getActualParameter() {
-    long cPtr = wrapperJNI.Field_getActualParameterPrivate(swigCPtr, this);
+  public Field getActualField() {
+    long cPtr = wrapperJNI.Field_getActualFieldPrivate(swigCPtr, this);
     return Field.findField(cPtr);
   }
 
@@ -648,7 +648,13 @@ namespace webots {
 %javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%rename("getBaseNodeFieldPrivate") getBaseNodeField(const std::string &fieldName) const;
+%rename("getBaseNodeFieldByIndexPrivate") getBaseNodeFieldByIndex(const int index) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
+%javamethodmodifiers getBaseNodeField(const std::string &fieldName) const "private"
+%javamethodmodifiers getBaseNodeFieldByIndex(const int index) const "private"
 
 %apply int *OUTPUT { int *size };
 %rename(getContactPointsPrivate) getContactPoints;
@@ -696,6 +702,21 @@ namespace webots {
 
   public Field getField(String fieldName) {
     long cPtr = wrapperJNI.Node_getFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getFieldByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeField(String fieldName) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldByIndexPrivate(swigCPtr, this, index);
     return Field.findField(cPtr);
   }
 
@@ -759,10 +780,11 @@ namespace webots {
 
 %rename("getProtoParentPrivate") getProtoParent() const;
 %javamethodmodifiers getProtoParent() const "private"
-%rename("getParameterPrivate") getParameter(const std::string &parameterName) const;
-%javamethodmodifiers getParameter(const std::string &parameterName) const "private"
-%rename("getParameterByIndexPrivate") getParameterByIndex(const int index) const;
-%javamethodmodifiers getParameterByIndex(const int index) const "private"
+
+%rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
 
 %typemap(javacode) webots::Proto %{
 // ----- begin hand written section ----
@@ -771,13 +793,13 @@ namespace webots {
     return Proto.findProto(cPtr);
   }
 
-  public Field getParameter(String parameterName) {
-    long cPtr = wrapperJNI.Proto_getParameterPrivate(swigCPtr, this, parameterName);
+  public Field getField(String fieldName) {
+    long cPtr = wrapperJNI.Proto_getFieldPrivate(swigCPtr, this, fieldName);
     return Field.findField(cPtr);
   }
 
-  public Field getParameterByIndex(int index) {
-    long cPtr = wrapperJNI.Proto_getParameterByIndexPrivate(swigCPtr, this, index);
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Proto_getFieldByIndexPrivate(swigCPtr, this, index);
     return Field.findField(cPtr);
   }
 

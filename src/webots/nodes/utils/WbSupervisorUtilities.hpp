@@ -93,8 +93,8 @@ private:
   int mFoundFieldCount;
   QString mFoundFieldName;
   bool mFoundFieldIsInternal;
-  int mFoundFieldActualParameterNodeId;
-  int mFoundFieldActualParameterIndex;
+  int mFoundFieldActualFieldNodeId;
+  int mFoundFieldActualFieldIndex;
   int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;

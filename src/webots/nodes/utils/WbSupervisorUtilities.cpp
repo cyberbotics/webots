@@ -316,8 +316,8 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundFieldCount = -1;
   mFoundFieldIsInternal = false;
   mFoundFieldName.clear();
-  mFoundFieldActualParameterNodeId = -1;
-  mFoundFieldActualParameterIndex = -1;
+  mFoundFieldActualFieldNodeId = -1;
+  mFoundFieldActualFieldIndex = -1;
   mGetNodeRequest = 0;
   mNodeGetPosition = NULL;
   mNodeGetOrientation = NULL;
@@ -1236,8 +1236,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundFieldType = 0;
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
-      mFoundFieldActualParameterNodeId = -1;
-      mFoundFieldActualParameterIndex = -1;
+      mFoundFieldActualFieldNodeId = -1;
+      mFoundFieldActualFieldIndex = -1;
 
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node) {
@@ -1285,14 +1285,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
           if(WbVrmlNodeUtilities::isVisible(field)) {
             // This only tells us that there is a corresponding parameter in the scene tree.
-            // Not that this specific field is the actual parameter. We still have to find it.
-            const WbField *actualParameter = field;
-            while (actualParameter->parameter())
-              actualParameter = actualParameter->parameter();
+            // Not that this specific field is the actual field. We still have to find it.
+            const WbField *actualField = field;
+            while (actualField->parameter())
+              actualField = actualField->parameter();
 
-            mFoundFieldActualParameterNodeId = actualParameter->parentNode()->uniqueId();
-            mFoundFieldActualParameterIndex = actualParameter->parentNode()->fieldsOrParameters().indexOf(actualParameter);
-            assert(mFoundFieldActualParameterIndex >= 0);
+            mFoundFieldActualFieldNodeId = actualField->parentNode()->uniqueId();
+            mFoundFieldActualFieldIndex = actualField->parentNode()->fieldsOrParameters().indexOf(actualField);
+            assert(mFoundFieldActualFieldIndex >= 0);
           }
         }
       }
@@ -1310,8 +1310,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundFieldType = 0;
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
-      mFoundFieldActualParameterNodeId = -1;
-      mFoundFieldActualParameterIndex = -1;
+      mFoundFieldActualFieldNodeId = -1;
+      mFoundFieldActualFieldIndex = -1;
 
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node) {
@@ -1354,14 +1354,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
           if(WbVrmlNodeUtilities::isVisible(field)) {
             // This only tells us that there is a corresponding parameter in the scene tree.
-            // Not that this specific field is the actual parameter. We still have to find it.
-            const WbField *actualParameter = field;
-            while (actualParameter->parameter())
-              actualParameter = actualParameter->parameter();
+            // Not that this specific field is the actual field. We still have to find it.
+            const WbField *actualField = field;
+            while (actualField->parameter())
+              actualField = actualField->parameter();
 
-            mFoundFieldActualParameterNodeId = actualParameter->parentNode()->uniqueId();
-            mFoundFieldActualParameterIndex = actualParameter->parentNode()->fieldsOrParameters().indexOf(actualParameter);
-            assert(mFoundFieldActualParameterIndex >= 0);
+            mFoundFieldActualFieldNodeId = actualField->parentNode()->uniqueId();
+            mFoundFieldActualFieldIndex = actualField->parentNode()->fieldsOrParameters().indexOf(actualField);
+            assert(mFoundFieldActualFieldIndex >= 0);
           }
         }
       }
@@ -2064,8 +2064,8 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     stream << (int)mFoundFieldType;
     stream << (unsigned char)mFoundFieldIsInternal;
     stream << (int)mFoundFieldCount;
-    stream << (int)mFoundFieldActualParameterNodeId;
-    stream << (int)mFoundFieldActualParameterIndex;
+    stream << (int)mFoundFieldActualFieldNodeId;
+    stream << (int)mFoundFieldActualFieldIndex;
     const QByteArray ba = mFoundFieldName.toUtf8();
     stream.writeRawData(ba.constData(), ba.size() + 1);
     mFoundFieldIndex = -2;
