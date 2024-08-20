@@ -24,4 +24,5 @@ Released on December **th, 2023.
     - Fixed incomplete loading while minimized under some windowing systems ([#6617](https://github.com/cyberbotics/webots/pull/6617)).
     - Fixed unitialized sliding friction when using asymmetric rolling friction ([#6618](https://github.com/cyberbotics/webots/pull/6618)).
     - Made `supervisor_export_image` work even if using the `--minimize --no-rendering` options ([#6622](https://github.com/cyberbotics/webots/pull/6622)).
+    - Fixed to use a version of Qt that is still supported ([#6623](https://github.com/cyberbotics/webots/pull/6623)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
