@@ -21,6 +21,7 @@
 #include "../../c/webots/types.h"
 
 namespace webots {
+  class Field;
   class Proto {
   public:
     std::string getTypeName() const;
