@@ -2437,7 +2437,6 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
       result = find_field_by_id(node->id, -1, index, false);
     if (result)
       result->is_read_only = true;
-    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2476,6 +2475,7 @@ WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int i
       result = find_field_by_id(node->id, -1, index, true);
     if (result && node->is_proto_internal)
       result->is_read_only = true;
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2511,7 +2511,6 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
       if (result)
         result->is_read_only = true;
     }
-    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
@@ -2601,6 +2600,7 @@ WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *fi
       if (result && node->is_proto_internal)
         result->is_read_only = true;
     }
+    allow_search_in_proto = false;
   }
   robot_mutex_unlock();
   return result;
