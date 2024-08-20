@@ -1762,7 +1762,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   }
 
   // set the parent node of internal parameters
-  foreach (WbField *f, instance->mInternalProtoParameters) {
+  foreach (const WbField *f, instance->mInternalProtoParameters) {
     QList<WbField *> internalFields = f->internalFields();
     while (!internalFields.isEmpty()) {
       WbField *internalField = internalFields.takeFirst();
@@ -1774,6 +1774,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   // remove the fake parameters introduced in case of direct nested PROTOs
   QMutableVectorIterator<WbField *> fieldIt(instance->mParameters);
   while (fieldIt.hasNext()) {
+    // cppcheck-suppress constVariablePointer
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
       fieldIt.remove();

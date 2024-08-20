@@ -204,9 +204,9 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
 const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
 bool wb_supervisor_proto_is_derived(WbProtoRef proto);
 WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
-WbFieldRef wb_supervisor_proto_get_field(WbProtoRef node, const char *field_name);
-WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef node, int index);
-int wb_supervisor_proto_get_number_of_fields(WbProtoRef node);
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index);
+int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto);
 
 bool wb_supervisor_virtual_reality_headset_is_used();
 const double *wb_supervisor_virtual_reality_headset_get_position();
