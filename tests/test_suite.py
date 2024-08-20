@@ -365,7 +365,11 @@ with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as so
             retries += 1
             time.sleep(1)
     if retries == 10:
-        raise error
+        if sys.platform == 'darwin':
+            appendToOutputFile(
+                '\nWarning: Ignoring error trying to connect to background webots on MacOS because it can take a long time for Webots to start on MacOS there.')
+        else:
+            raise error
 
 for groupName in testGroups:
     if groupName == 'cache':
