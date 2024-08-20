@@ -28,6 +28,7 @@ namespace webots {
   typedef WbContactPoint ContactPoint;
 
   class Field;
+  class Proto;
   class Node {
   public:
     typedef enum {
