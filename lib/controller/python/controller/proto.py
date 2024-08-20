@@ -16,6 +16,7 @@ import ctypes
 from .wb import wb
 from .field import Field
 
+
 class Proto:
     wb.wb_supervisor_proto_get_type_name.restype = ctypes.c_char_p
     wb.wb_supervisor_proto_get_parent.restype = ctypes.c_void_p

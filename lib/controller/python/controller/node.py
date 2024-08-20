@@ -252,6 +252,7 @@ class Node:
     def number_of_base_node_fields(self) -> int:
         return wb.wb_supervisor_node_get_wb_supervisor_node_get_base_node_fields(self._ref)
 
+
 Node.NO_NODE = constant('NODE_NO_NODE')
 Node.APPEARANCE = constant('NODE_APPEARANCE')
 Node.BACKGROUND = constant('NODE_BACKGROUND')
