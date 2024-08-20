@@ -9,7 +9,10 @@ if [[ -z "${WEBOTS_HOME}" ]]; then
 fi
 
 QT_VERSION=6.5.3
-pip install --no-input aqtinstall
+PYTHON_USER_BASE=`python3 -m site --user-base`
+export PATH="${PATH}:${PYTHON_USER_BASE}/bin"
+python3 -m pip install --user --upgrade pip
+python3 -m pip install --user --no-input aqtinstall
 aqt install-qt --outputdir $HOME/Qt mac desktop ${QT_VERSION} clang_64 -m qtwebsockets
 
 # prepare Webots
