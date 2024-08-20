@@ -29,11 +29,13 @@ ProtoRestrictedFieldValues {
   rotation 0 1 0 1.5708
   translation 0 0 0
   extensionSlot [
-    Group {
-    }
-    Transform {
+    DerivedPoseProto {
     }
     Solid {
+    }
+  ]
+  extensionSlot2 [
+    Pose {
     }
   ]
 }

@@ -97,6 +97,8 @@ public:
 
   const QString &slotType() const { return mSlotType; }
 
+  QStringList parentProtoNames() const;
+
   QStringList parameterNames() const;
 
   void setIsTemplate(bool value);
