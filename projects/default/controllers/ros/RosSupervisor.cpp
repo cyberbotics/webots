@@ -580,7 +580,7 @@ bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req,
   return true;
 }
 
-bool RosSupervisor::nodeGetProtoCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res) {
+bool RosSupervisor::nodeGetProtoCallback(webots_ros::node_get_proto::Request &req, webots_ros::node_get_proto::Response &res) {
   assert(this);
   if (!req.node)
     return false;
@@ -1486,16 +1486,6 @@ bool RosSupervisor::protoGetNumberOfFieldsCallback(webots_ros::proto_get_number_
   return true;
 }
 
-bool RosSupervisor::protoGetNumberOfFieldsCallback(webots_ros::proto_get_number_of_fields::Request &req,
-                                                   webots_ros::proto_get_number_of_fields::Response &res) {
-  assert(this);
-  if (!req.proto)
-    return false;
-  Proto *proto = reinterpret_cast<Proto *>(req.proto);
-  res.value = proto->getNumberOfFields();
-  return true;
-}
-
 bool RosSupervisor::protoGetParentCallback(webots_ros::proto_get_parent::Request &req,
                                            webots_ros::proto_get_parent::Response &res) {
   assert(this);
@@ -1522,6 +1512,6 @@ bool RosSupervisor::protoIsDerivedCallback(webots_ros::proto_is_derived::Request
   if (!req.proto)
     return false;
   Proto *proto = reinterpret_cast<Proto *>(req.proto);
-  res.value = proto->isDerived(req.typeName);
+  res.value = proto->isDerived();
   return true;
 }
