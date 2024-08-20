@@ -46,7 +46,7 @@ int WbNodeProtoInfo::findFieldIndex(const QString &name) const {
 }
 
 void WbNodeProtoInfo::redirectFields(const WbField *oldField, WbField *newField) {
-  for (WbFieldReference &ref: mParameters)
+  for (WbFieldReference &ref : mParameters)
     if (ref.actualField == oldField)
       ref.actualField = newField;
 }

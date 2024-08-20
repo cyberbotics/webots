@@ -146,8 +146,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService("supervisor/field/get_type_name", &RosSupervisor::fieldGetTypeNameCallback, this);
   mFieldGetCountServer =
     mRos->nodeHandle()->advertiseService("supervisor/field/get_count", &RosSupervisor::fieldGetCountCallback, this);
-  mFieldGetActualFieldServer =
-    mRos->nodeHandle()->advertiseService("supervisor/field/get_actual_field", &RosSupervisor::fieldGetActualFieldCallback, this);
+  mFieldGetActualFieldServer = mRos->nodeHandle()->advertiseService("supervisor/field/get_actual_field",
+                                                                    &RosSupervisor::fieldGetActualFieldCallback, this);
   mFieldGetBoolServer =
     mRos->nodeHandle()->advertiseService("supervisor/field/get_bool", &RosSupervisor::fieldGetBoolCallback, this);
   mFieldGetInt32Server =
@@ -213,11 +213,11 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mProtoGetFieldServer =
     mRos->nodeHandle()->advertiseService("supervisor/proto/get_field", &RosSupervisor::protoGetFieldCallback, this);
   mProtoGetFieldByIndexServer = mRos->nodeHandle()->advertiseService("supervisor/proto/get_field_by_index",
-                                                                    &RosSupervisor::protoGetFieldByIndexCallback, this);
+                                                                     &RosSupervisor::protoGetFieldByIndexCallback, this);
   mProtoGetNumberOfFieldsServer = mRos->nodeHandle()->advertiseService("supervisor/proto/get_number_of_fields",
-                                                                      &RosSupervisor::protoGetNumberOfFieldsCallback, this);
-  mProtoGetParentServer = mRos->nodeHandle()->advertiseService("supervisor/proto/get_parent",
-                                                               &RosSupervisor::protoGetParentCallback, this);
+                                                                       &RosSupervisor::protoGetNumberOfFieldsCallback, this);
+  mProtoGetParentServer =
+    mRos->nodeHandle()->advertiseService("supervisor/proto/get_parent", &RosSupervisor::protoGetParentCallback, this);
   mProtoGetTypeNameServer =
     mRos->nodeHandle()->advertiseService("supervisor/proto/get_type_name", &RosSupervisor::protoGetTypeNameCallback, this);
   mProtoIsDerivedServer =
@@ -582,7 +582,7 @@ bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req,
 
 bool RosSupervisor::nodeGetProtoCallback(webots_ros::get_uint64::Request &req, webots_ros::get_uint64::Response &res) {
   assert(this);
-  if(!req.node)
+  if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.value);
   res.value = reinterpret_cast<uint64_t>(node->getProto());

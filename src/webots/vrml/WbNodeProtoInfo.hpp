@@ -47,7 +47,6 @@ private:
 
   QString mModelName;
   QList<WbFieldReference> mParameters;
-
 };
 
 #endif

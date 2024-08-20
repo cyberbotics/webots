@@ -58,7 +58,7 @@ typedef struct WbFieldStructPrivate {
   WbFieldType type;  // WB_SF_* or WB_MF_* as defined in supervisor.h
   int count;         // used in MF fields only
   int node_unique_id;
-  int id;                        // attributed by Webots
+  int id;  // attributed by Webots
   int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
@@ -198,8 +198,8 @@ static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, in
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 &&
-        field->proto_id == proto_id && field->is_proto_internal_field == is_proto_internal_field)
+    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 && field->proto_id == proto_id &&
+        field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -210,7 +210,8 @@ static WbFieldStruct *find_field_by_id(int node_id, int proto_id, int field_id, 
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && field->proto_id == proto_id && field->id == field_id && field->is_proto_internal_field == is_proto_internal_field)
+    if (field->node_unique_id == node_id && field->proto_id == proto_id && field->id == field_id &&
+        field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -1095,8 +1096,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
                                           sent_field_get_request->field->node_unique_id == field_node_id &&
                                           sent_field_get_request->field->proto_id == field_proto_id &&
                                           sent_field_get_request->field->id == field_id;
-        WbFieldStruct *f =
-          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, -1, field_id, false); // TODO: FIX
+        WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field :
+                                                    find_field_by_id(field_node_id, -1, field_id, false);  // TODO: FIX
         if (f) {
           switch (f->type) {
             case WB_SF_BOOL:
@@ -3912,8 +3913,8 @@ const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
   }
 }
 
-const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
-  if(!is_proto_ref_valid(proto)) {
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto) {
+  if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return NULL;
@@ -3923,7 +3924,7 @@ const char* wb_supervisor_proto_get_type_name(WbProtoRef proto) {
 }
 
 bool wb_supervisor_proto_is_derived(WbProtoRef proto) {
-  if(!is_proto_ref_valid(proto)) {
+  if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return false;
@@ -3968,7 +3969,7 @@ WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_nam
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
-  if(!is_proto_ref_valid(proto)) {
+  if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return NULL;
@@ -4011,7 +4012,7 @@ WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
-  if(!is_proto_ref_valid(proto)) {
+  if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return NULL;
@@ -4057,7 +4058,7 @@ WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index) {
 }
 
 int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto) {
-  if(!is_proto_ref_valid(proto)) {
+  if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
     return 0;

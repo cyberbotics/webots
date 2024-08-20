@@ -18,17 +18,18 @@
 #define NUMBER_OF_INTERNAL_FIELDS 6
 #define NUMBER_OF_HIERARCHY_LEVELS 4
 
-// Field/Proto references may become invalid if any nodes are regenerated. This function provides an easy way to re-retrieve them.
+// Field/Proto references may become invalid if any nodes are regenerated. This function provides an easy way to re-retrieve
+// them.
 static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
-    const char *internal_field_names[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
-    WbNodeRef hierarchy, WbFieldRef actual_main_fields[NUMBER_OF_MAIN_FIELDS],
-    WbFieldRef actual_internal_fields[NUMBER_OF_INTERNAL_FIELDS],
-    WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
-    WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS]) {
+                            const char *internal_field_names[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
+                            WbNodeRef hierarchy, WbFieldRef actual_main_fields[NUMBER_OF_MAIN_FIELDS],
+                            WbFieldRef actual_internal_fields[NUMBER_OF_INTERNAL_FIELDS],
+                            WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS],
+                            WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS]) {
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
     const char *name = main_field_names[i][0];
 
-    if(!name) {
+    if (!name) {
       // No top-level field exists
       actual_main_fields[i] = NULL;
       continue;
@@ -42,7 +43,7 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
     const char *name = internal_field_names[i][0];
 
-    if(!name) {
+    if (!name) {
       // No top-level field exists
       actual_internal_fields[i] = NULL;
       continue;
@@ -73,7 +74,8 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
 
   // Fetch all the internal fields in the main hierarchy
   for (int i = 0; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
-    ts_assert_pointer_not_null(hierarchy_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
+    ts_assert_pointer_not_null(
+      hierarchy_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(hierarchy_proto);
     for (int j = 0; j < NUMBER_OF_MAIN_FIELDS; j++) {
       const char *name = main_field_names[j][i];
@@ -107,7 +109,8 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
 
   // Fetch all the internal fields in the internal node hierarchy
   for (int i = 1; i < NUMBER_OF_HIERARCHY_LEVELS - 1; i++) {
-    ts_assert_pointer_not_null(internal_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
+    ts_assert_pointer_not_null(
+      internal_proto, "Hierarchy level %d does not exist. Try running the supervisor_proto test for more information.", i);
     proto_type = wb_supervisor_proto_get_type_name(internal_proto);
     for (int j = 0; j < NUMBER_OF_INTERNAL_FIELDS; j++) {
       const char *name = internal_field_names[j][i];
@@ -137,13 +140,17 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
 
 // Checks that a field has the expected type, actual field, and value
 // If try_set is true, it will also attempt to set the field to a different value (which should have no effect)
-static void check_field(WbFieldRef field, WbFieldRef actual_field, double expected_value, bool try_set, const char *name, const char *check_name) {
+static void check_field(WbFieldRef field, WbFieldRef actual_field, double expected_value, bool try_set, const char *name,
+                        const char *check_name) {
   ts_assert_pointer_not_null(field, "(%s) Field \"%s\" not found", check_name, name);
   const int field_type = wb_supervisor_field_get_type(field);
-  ts_assert_int_equal(field_type, WB_SF_FLOAT, "(%s) Field \"%s\" is not an SFFloat. Got type: %d", check_name, name, field_type);
-  ts_assert_boolean_equal(wb_supervisor_field_get_actual_field(field) == actual_field, "(%s) Field \"%s\" actual field mismatch", check_name, name);
+  ts_assert_int_equal(field_type, WB_SF_FLOAT, "(%s) Field \"%s\" is not an SFFloat. Got type: %d", check_name, name,
+                      field_type);
+  ts_assert_boolean_equal(wb_supervisor_field_get_actual_field(field) == actual_field,
+                          "(%s) Field \"%s\" actual field mismatch", check_name, name);
   const double actual_value = wb_supervisor_field_get_sf_float(field);
-  ts_assert_double_equal(actual_value, expected_value, "(%s) Field \"%s\" value mismatch! Expected %f, but got %f", check_name, name, expected_value, actual_value);
+  ts_assert_double_equal(actual_value, expected_value, "(%s) Field \"%s\" value mismatch! Expected %f, but got %f", check_name,
+                         name, expected_value, actual_value);
 
   if (try_set) {
     // The field should be read-only, so setting it should have no effect
@@ -187,19 +194,22 @@ int main(int argc, char **argv) {
   WbFieldRef main_fields[NUMBER_OF_MAIN_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
   WbFieldRef internal_fields[NUMBER_OF_INTERNAL_FIELDS][NUMBER_OF_HIERARCHY_LEVELS];
 
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields,
-                  actual_internal_fields, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields, actual_internal_fields, main_fields,
+                  internal_fields);
 
   // Check that all the wb_supervisor_field_get_actual_field returns its input if the field is already in the scene tree
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++)
     if (actual_main_fields[i])
-      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, false, main_field_names[i][0], "Initial value [main field]");
+      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, false, main_field_names[i][0],
+                  "Initial value [main field]");
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++)
     if (actual_internal_fields[i])
-      check_field(actual_internal_fields[i], actual_internal_fields[i], 0.01, false, internal_field_names[i][0], "Initial value [internal field]");
+      check_field(actual_internal_fields[i], actual_internal_fields[i], 0.01, false, internal_field_names[i][0],
+                  "Initial value [internal field]");
 
-  // Check that wb_supervisor_field_get_actual_field returns the correct field (or NULL) in all other cases, and that internal fields are read-only
+  // Check that wb_supervisor_field_get_actual_field returns the correct field (or NULL) in all other cases, and that internal
+  // fields are read-only
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++)
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (main_fields[i][j])
@@ -208,29 +218,34 @@ int main(int argc, char **argv) {
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++)
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (internal_fields[i][j])
-        check_field(internal_fields[i][j], actual_internal_fields[i], 0.01, true, internal_field_names[i][j], "Initial value [internal field]");
+        check_field(internal_fields[i][j], actual_internal_fields[i], 0.01, true, internal_field_names[i][j],
+                    "Initial value [internal field]");
 
   wb_robot_step(TIME_STEP);
 
   // Nothing should have changed, but just in case, re-retrieve the fields
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields,
-                  actual_internal_fields, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields, actual_internal_fields, main_fields,
+                  internal_fields);
 
   // Check that no fields were modified
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
     if (actual_main_fields[i])
-      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, false, main_field_names[i][0], "Update read-only field [main field]");
+      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, false, main_field_names[i][0],
+                  "Update read-only field [main field]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (main_fields[i][j])
-        check_field(main_fields[i][j], actual_main_fields[i], 0.01, false, main_field_names[i][j], "Update read-only field [main field]");
+        check_field(main_fields[i][j], actual_main_fields[i], 0.01, false, main_field_names[i][j],
+                    "Update read-only field [main field]");
   }
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
     if (actual_internal_fields[i])
-      check_field(actual_internal_fields[i], actual_internal_fields[i], 0.01, false, internal_field_names[i][0], "Update read-only field [internal field]");
+      check_field(actual_internal_fields[i], actual_internal_fields[i], 0.01, false, internal_field_names[i][0],
+                  "Update read-only field [internal field]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (internal_fields[i][j])
-        check_field(internal_fields[i][j], actual_internal_fields[i], 0.01, false, internal_field_names[i][j], "Update read-only field [internal field]");
+        check_field(internal_fields[i][j], actual_internal_fields[i], 0.01, false, internal_field_names[i][j],
+                    "Update read-only field [internal field]");
   }
 
   // Update the fields
@@ -245,8 +260,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // The nodes may have been regenerated. Update all the relevant references
-  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields,
-                  actual_internal_fields, main_fields, internal_fields);
+  retrieve_fields(main_field_names, internal_field_names, hierarchy, actual_main_fields, actual_internal_fields, main_fields,
+                  internal_fields);
 
   // Check that the fields were updated correctly
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; i++) {
@@ -254,15 +269,18 @@ int main(int argc, char **argv) {
       check_field(actual_main_fields[i], actual_main_fields[i], i, false, main_field_names[i][0], "Update field [main field]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (main_fields[i][j])
-        check_field(main_fields[i][j], actual_main_fields[i], actual_main_fields[i] ? i : 0.01, false, main_field_names[i][j], "Update field [main field]");
+        check_field(main_fields[i][j], actual_main_fields[i], actual_main_fields[i] ? i : 0.01, false, main_field_names[i][j],
+                    "Update field [main field]");
   }
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; i++) {
     if (actual_internal_fields[i])
-      check_field(actual_internal_fields[i], actual_internal_fields[i], i, false, internal_field_names[i][0], "Update field [internal field]");
+      check_field(actual_internal_fields[i], actual_internal_fields[i], i, false, internal_field_names[i][0],
+                  "Update field [internal field]");
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; j++)
       if (internal_fields[i][j])
-        check_field(internal_fields[i][j], actual_internal_fields[i], actual_internal_fields[i] ? i : 0.01, false, internal_field_names[i][j], "Update field [internal field]");
+        check_field(internal_fields[i][j], actual_internal_fields[i], actual_internal_fields[i] ? i : 0.01, false,
+                    internal_field_names[i][j], "Update field [internal field]");
   }
 
   ts_send_success();

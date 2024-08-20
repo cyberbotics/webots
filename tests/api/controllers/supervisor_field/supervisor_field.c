@@ -464,12 +464,10 @@ int main(int argc, char **argv) {
   ts_assert_int_equal(proto_fields_count, 17, "Number of base node fields of MF_FIELDS node is wrong");
   field0 = wb_supervisor_node_get_base_node_field_by_index(mfTest, 0);
   ts_assert_string_equal(wb_supervisor_field_get_name(field0), "translation",
-                         "Name of first base node field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"",
-                         field0);
+                         "Name of first base node field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"", field0);
   field2 = wb_supervisor_node_get_base_node_field_by_index(mfTest, 2);
   ts_assert_string_equal(wb_supervisor_field_get_name(field2), "children",
-                         "Name of third base node field of MF_FIELDS node is wrong: \"%s\" should be \"children\"",
-                         field2);
+                         "Name of third base node field of MF_FIELDS node is wrong: \"%s\" should be \"children\"", field2);
   field8 = wb_supervisor_node_get_base_node_field_by_index(mfTest, fields_count - 1);
   ts_assert_string_equal(wb_supervisor_field_get_name(field8), "boundingObject",
                          "Name of ninth base node field of MF_FIELDS node is wrong: \"%s\" should be \"boundingObject\"",
@@ -477,8 +475,7 @@ int main(int argc, char **argv) {
   fieldInvalid = wb_supervisor_node_get_base_node_field_by_index(mfTest, -5);
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a base node field using a negative index");
   fieldInvalid = wb_supervisor_node_get_base_node_field_by_index(mfTest, proto_fields_count);
-  ts_assert_pointer_null(fieldInvalid,
-                         "It should not be possible to retrieve a base node field using an out of range index");
+  ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a base node field using an out of range index");
 
   wb_robot_step(TIME_STEP);
 

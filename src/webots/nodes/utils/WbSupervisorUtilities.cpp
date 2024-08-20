@@ -33,8 +33,8 @@
 #include "WbMFVector2.hpp"
 #include "WbMFVector3.hpp"
 #include "WbNodeOperations.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbNodeProtoInfo.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
 #include "WbRgb.hpp"
 #include "WbRobot.hpp"
@@ -1210,7 +1210,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node && node->isProtoInstance()) {
-        if(parentProtoId < 0)
+        if (parentProtoId < 0)
           mFoundProtoId = 0;
         else if (parentProtoId < node->protoParents().size() - 1)
           mFoundProtoId = parentProtoId + 1;
@@ -1261,7 +1261,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
               if (mv || sfNode) {
                 mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
                 field->listenToValueSizeChanges();
-                connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
+                connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate,
+                        Qt::UniqueConnection);
               }
             }
           }
@@ -1283,7 +1284,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundFieldIndex = fieldId;
           mFoundFieldType = field->type();
 
-          if(WbVrmlNodeUtilities::isVisible(field)) {
+          if (WbVrmlNodeUtilities::isVisible(field)) {
             // This only tells us that there is a corresponding parameter in the scene tree.
             // Not that this specific field is the actual field. We still have to find it.
             const WbField *actualField = field;
@@ -1352,7 +1353,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundFieldIndex = fieldIndex;
           mFoundFieldType = field->type();
 
-          if(WbVrmlNodeUtilities::isVisible(field)) {
+          if (WbVrmlNodeUtilities::isVisible(field)) {
             // This only tells us that there is a corresponding parameter in the scene tree.
             // Not that this specific field is the actual field. We still have to find it.
             const WbField *actualField = field;
@@ -2181,7 +2182,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
       stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
       stream << (int)field.field->type();
       stream << (int)field.nodeId;
-      stream << (int)-1; // TODO: Impl
+      stream << (int)-1;  // TODO: Impl
       stream << (int)field.fieldId;
       pushSingleFieldContentToStream(stream, field.field);
       field.lastUpdate = time;

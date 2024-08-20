@@ -37,8 +37,8 @@ int main(int argc, char **argv) {
     const int count = wb_supervisor_field_get_count(mfField[i]);
     mfFieldCount[i] = count;
     const int protoCount = wb_supervisor_field_get_count(mfProtoFields[i]);
-    ts_assert_int_equal(protoCount, count,
-                        "Size of proto field %d not correctly initialized: found %d, expected %d", i, count, count);
+    ts_assert_int_equal(protoCount, count, "Size of proto field %d not correctly initialized: found %d, expected %d", i, count,
+                        count);
   }
 
   wb_robot_step(3 * TIME_STEP);
@@ -65,8 +65,8 @@ int main(int argc, char **argv) {
                         mfFieldCount[i] + increment);
     const int protoCount = wb_supervisor_field_get_count(mfProtoFields[i]);
     ts_assert_int_equal(protoCount, mfFieldCount[i] + increment,
-                        "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i,
-                        protoCount, mfFieldCount[i] + increment);
+                        "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i, protoCount,
+                        mfFieldCount[i] + increment);
   }
 
   ts_send_success();

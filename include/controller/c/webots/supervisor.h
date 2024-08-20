@@ -201,7 +201,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
 void wb_supervisor_field_remove_sf(WbFieldRef field);
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
 
-const char* wb_supervisor_proto_get_type_name(WbProtoRef proto);
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
 bool wb_supervisor_proto_is_derived(WbProtoRef proto);
 WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
 WbFieldRef wb_supervisor_proto_get_field(WbProtoRef node, const char *field_name);

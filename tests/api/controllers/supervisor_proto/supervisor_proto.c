@@ -25,24 +25,33 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
   int i = 0;
   while (expected_hierarchy[i]) {
     const char *actual_name = wb_supervisor_proto_get_type_name(proto);
-    ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name, expected_hierarchy[i]);
-    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got \"%s\"", node_name, expected_hierarchy[i], actual_name);
+    ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name,
+                               expected_hierarchy[i]);
+    ts_assert_string_equal(actual_name, expected_hierarchy[i], "(%s) Hierarchy mismatch! Expected \"%s\", but got \"%s\"",
+                           node_name, expected_hierarchy[i], actual_name);
 
-    if(expected_hierarchy[i+1])
-      ts_assert_boolean_equal(wb_supervisor_proto_is_derived(proto), "(%s) wb_supervisor_proto_is_derived() should return true for \"%s\"", node_name, actual_name);
+    if (expected_hierarchy[i + 1])
+      ts_assert_boolean_equal(wb_supervisor_proto_is_derived(proto),
+                              "(%s) wb_supervisor_proto_is_derived() should return true for \"%s\"", node_name, actual_name);
     else
-      ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(proto), "(%s) wb_supervisor_proto_is_derived() should return false for \"%s\"", node_name, actual_name);
+      ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(proto),
+                                  "(%s) wb_supervisor_proto_is_derived() should return false for \"%s\"", node_name,
+                                  actual_name);
 
     proto = wb_supervisor_proto_get_parent(proto);
     i++;
   }
-  ts_assert_pointer_null(proto, "(%s) Hierarchy mismatch! Expected NULL, but got \"%s\"", node_name, wb_supervisor_proto_get_type_name(proto));
+  ts_assert_pointer_null(proto, "(%s) Hierarchy mismatch! Expected NULL, but got \"%s\"", node_name,
+                         wb_supervisor_proto_get_type_name(proto));
 }
 
 static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition **expected_fields, const char *node_name) {
   int i = 0;
   while (expected_fields[i]) {
-    ts_assert_pointer_not_null(proto, "(%s) Expected more fields, but proto is null. The test should've failed when checking the hierarchy. This likely means that the expected hierarchy is incorrectly configured.", node_name);
+    ts_assert_pointer_not_null(proto,
+                               "(%s) Expected more fields, but proto is null. The test should've failed when checking the "
+                               "hierarchy. This likely means that the expected hierarchy is incorrectly configured.",
+                               node_name);
 
     int number_of_fields = 0;
     while (expected_fields[i][number_of_fields].type != WB_NO_FIELD)
@@ -51,20 +60,27 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
     const char *proto_name = wb_supervisor_proto_get_type_name(proto);
 
     const int actual_number_of_fields = wb_supervisor_proto_get_number_of_fields(proto);
-    ts_assert_int_equal(actual_number_of_fields, number_of_fields, "(%s) Wrong number of fields in proto \"%s\". Expected %d, but got %d", node_name, proto_name, number_of_fields, actual_number_of_fields);
+    ts_assert_int_equal(actual_number_of_fields, number_of_fields,
+                        "(%s) Wrong number of fields in proto \"%s\". Expected %d, but got %d", node_name, proto_name,
+                        number_of_fields, actual_number_of_fields);
 
     for (int j = 0; j < number_of_fields; j++) {
       const char *expected_name = expected_fields[i][j].name;
       const WbFieldType expected_type = expected_fields[i][j].type;
 
       WbFieldRef field = wb_supervisor_proto_get_field_by_index(proto, j);
-      ts_assert_pointer_not_null(field, "(%s) Field \"%d\" not found in proto \"%s\" despite the reported number of fields being correct", node_name, j, proto_name);
+      ts_assert_pointer_not_null(
+        field, "(%s) Field \"%d\" not found in proto \"%s\" despite the reported number of fields being correct", node_name, j,
+        proto_name);
 
       const char *actual_name = wb_supervisor_field_get_name(field);
-      ts_assert_string_equal(actual_name, expected_name, "(%s) Field mismatch in proto \"%s\"! Expected \"%s\", but got \"%s\"", node_name, proto_name, expected_name, actual_name);
+      ts_assert_string_equal(actual_name, expected_name, "(%s) Field mismatch in proto \"%s\"! Expected \"%s\", but got \"%s\"",
+                             node_name, proto_name, expected_name, actual_name);
 
       const WbFieldType actual_type = wb_supervisor_field_get_type(field);
-      ts_assert_int_equal(actual_type, expected_type, "(%s) Field \"%s\" in proto \"%s\" has wrong type! Expected %d, but got %d", node_name, expected_name, proto_name, expected_type, actual_type);
+      ts_assert_int_equal(actual_type, expected_type,
+                          "(%s) Field \"%s\" in proto \"%s\" has wrong type! Expected %d, but got %d", node_name, expected_name,
+                          proto_name, expected_type, actual_type);
     }
 
     proto = wb_supervisor_proto_get_parent(proto);
@@ -80,9 +96,12 @@ int main(int argc, char **argv) {
   ts_assert_pointer_null(wb_supervisor_proto_get_type_name(NULL), "wb_supervisor_proto_get_type_name(NULL) should return NULL");
   ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(NULL), "wb_supervisor_proto_is_derived(NULL) should return false");
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
-  ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), 0, "wb_supervisor_proto_get_number_of_fields(NULL) should return 0");
-  ts_assert_pointer_null(wb_supervisor_proto_get_field_by_index(NULL, 0), "wb_supervisor_proto_get_field_by_index(NULL, 0) should return NULL");
-  ts_assert_pointer_null(wb_supervisor_proto_get_field(NULL, "name"), "wb_supervisor_proto_get_field(NULL, \"name\") should return NULL");
+  ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), 0,
+                      "wb_supervisor_proto_get_number_of_fields(NULL) should return 0");
+  ts_assert_pointer_null(wb_supervisor_proto_get_field_by_index(NULL, 0),
+                         "wb_supervisor_proto_get_field_by_index(NULL, 0) should return NULL");
+  ts_assert_pointer_null(wb_supervisor_proto_get_field(NULL, "name"),
+                         "wb_supervisor_proto_get_field(NULL, \"name\") should return NULL");
 
   // This array keeps track of the names of the proto types we expect at each level of the hierarchy,
   // starting with the proto type of the main hierarchy node, and ending with NULL.
@@ -91,33 +110,28 @@ int main(int argc, char **argv) {
   // Each element in this array is an array that represents a single proto type
   // Each of these arrays contains the fields we expect to find in that type, in the order we expect them,
   // terminated with a field of type WB_NO_FIELD.
-  const struct FieldDefinition *expected_fields[] = {
-    (const struct FieldDefinition[]){ // SolidProtoHierarchy
-      {"translationStep", WB_SF_FLOAT},
-      {"internalTranslationStep", WB_SF_FLOAT},
-      {"internalField1", WB_SF_FLOAT},
-      {"internalField2", WB_SF_FLOAT},
-      {"ucField4", WB_SF_FLOAT},
-      {NULL, WB_NO_FIELD}
-    },
-    (const struct FieldDefinition[]){ // SolidProtoInternal
-      {"translationStep", WB_SF_FLOAT},
-      {"rotationStep", WB_SF_FLOAT},
-      {"children", WB_MF_NODE},
-      {"ucField1", WB_SF_FLOAT},
-      {"ucField2", WB_SF_FLOAT},
-      {"ucField3", WB_SF_FLOAT},
-      {NULL, WB_NO_FIELD}
-    },
-    (const struct FieldDefinition[]){ // SolidProtoBase
-      {"translationStep", WB_SF_FLOAT},
-      {"rotationStep", WB_SF_FLOAT},
-      {"children", WB_MF_NODE},
-      {"ucField1", WB_SF_FLOAT},
-      {NULL, WB_NO_FIELD}
-    },
-    NULL
-  };
+  const struct FieldDefinition *expected_fields[] = {(const struct FieldDefinition[]){// SolidProtoHierarchy
+                                                                                      {"translationStep", WB_SF_FLOAT},
+                                                                                      {"internalTranslationStep", WB_SF_FLOAT},
+                                                                                      {"internalField1", WB_SF_FLOAT},
+                                                                                      {"internalField2", WB_SF_FLOAT},
+                                                                                      {"ucField4", WB_SF_FLOAT},
+                                                                                      {NULL, WB_NO_FIELD}},
+                                                     (const struct FieldDefinition[]){// SolidProtoInternal
+                                                                                      {"translationStep", WB_SF_FLOAT},
+                                                                                      {"rotationStep", WB_SF_FLOAT},
+                                                                                      {"children", WB_MF_NODE},
+                                                                                      {"ucField1", WB_SF_FLOAT},
+                                                                                      {"ucField2", WB_SF_FLOAT},
+                                                                                      {"ucField3", WB_SF_FLOAT},
+                                                                                      {NULL, WB_NO_FIELD}},
+                                                     (const struct FieldDefinition[]){// SolidProtoBase
+                                                                                      {"translationStep", WB_SF_FLOAT},
+                                                                                      {"rotationStep", WB_SF_FLOAT},
+                                                                                      {"children", WB_MF_NODE},
+                                                                                      {"ucField1", WB_SF_FLOAT},
+                                                                                      {NULL, WB_NO_FIELD}},
+                                                     NULL};
 
   WbNodeRef hierarchy = wb_supervisor_node_get_from_def("HIERARCHY");
   ts_assert_pointer_not_null(hierarchy, "Hierarchy node not found");
