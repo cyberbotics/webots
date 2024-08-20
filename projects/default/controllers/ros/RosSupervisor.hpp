@@ -198,7 +198,8 @@ public:
   bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
   bool fieldGetTypeNameCallback(webots_ros::field_get_name::Request &req, webots_ros::field_get_name::Response &res);
   bool fieldGetCountCallback(webots_ros::field_get_count::Request &req, webots_ros::field_get_count::Response &res);
-  bool fieldGetActualFieldCallback(webots_ros::field_get_actual_field::Request &req, webots_ros::field_get_actual_field::Response &res);
+  bool fieldGetActualFieldCallback(webots_ros::field_get_actual_field::Request &req,
+                                   webots_ros::field_get_actual_field::Response &res);
   bool fieldGetBoolCallback(webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res);
   bool fieldGetInt32Callback(webots_ros::field_get_int32::Request &req, webots_ros::field_get_int32::Response &res);
   bool fieldGetFloatCallback(webots_ros::field_get_float::Request &req, webots_ros::field_get_float::Response &res);
