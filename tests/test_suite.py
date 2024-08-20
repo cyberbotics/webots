@@ -246,7 +246,11 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=10 * 60)  # 10 minutes
+    timeoutMinutes = 10
+    if sys.platform == "darwin":
+        # Longer timeout on MacOS because Webots takes longer to start there during CI.
+        timeoutMinutes = 60
+    command.runTest(timeout=timeoutMinutes * 60)  # 10 minutes
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
