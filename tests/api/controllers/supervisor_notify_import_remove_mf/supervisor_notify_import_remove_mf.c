@@ -52,7 +52,8 @@ int main(int argc, char **argv) {
                         mfFieldCount[i] + increment);
 
     // The proto node should have been regenerated, so all the references should be invalidated
-    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(baseProto), "Proto node should have been regenerated after field insertion.");
+    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(baseProto),
+                           "Proto node should have been regenerated after field insertion.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mfProtoFields[i]), -1,
                         "Proto field %d should have been invalidated after field insertion.", i);
     baseProto = wb_supervisor_proto_get_parent(wb_supervisor_node_get_proto(node));
@@ -74,7 +75,8 @@ int main(int argc, char **argv) {
                         mfFieldCount[i] + increment);
 
     // The proto node should have been regenerated, so all the references should be invalidated
-    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(baseProto), "Proto node should have been regenerated after field removal.");
+    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(baseProto),
+                           "Proto node should have been regenerated after field removal.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mfProtoFields[i]), -1,
                         "Proto field %d should have been invalidated after field removal.", i);
     baseProto = wb_supervisor_proto_get_parent(wb_supervisor_node_get_proto(node));
