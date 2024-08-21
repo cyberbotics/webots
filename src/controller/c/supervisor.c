@@ -2991,7 +2991,7 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
@@ -3099,7 +3099,7 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
@@ -3121,7 +3121,7 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 }
 
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
@@ -3213,7 +3213,7 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, false))
@@ -3224,7 +3224,7 @@ bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false, false))
@@ -3235,7 +3235,7 @@ int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
 }
 
 double wb_supervisor_field_get_sf_float(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false, false))
@@ -3246,7 +3246,7 @@ double wb_supervisor_field_get_sf_float(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false, false))
@@ -3257,7 +3257,7 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
@@ -3268,7 +3268,7 @@ const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false, false))
@@ -3279,7 +3279,7 @@ const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false, false))
@@ -3290,7 +3290,7 @@ const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
 }
 
 const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false, false))
@@ -3301,7 +3301,7 @@ const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
 }
 
 WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false, false))
@@ -3318,7 +3318,7 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false, false))
@@ -3329,7 +3329,7 @@ bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
 }
 
 int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false, false))
@@ -3340,7 +3340,7 @@ int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
 }
 
 double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false, false))
@@ -3351,7 +3351,7 @@ double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false, false))
@@ -3362,7 +3362,7 @@ const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false, false))
@@ -3373,7 +3373,7 @@ const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false, false))
@@ -3384,7 +3384,7 @@ const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false, false))
@@ -3395,7 +3395,7 @@ const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
 }
 
 const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false, false))
@@ -3406,7 +3406,7 @@ const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
 }
 
 WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_MF_NODE, true, &index, false, false))
@@ -3420,7 +3420,7 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
-  if (field->lookup_field)
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
     field = field->lookup_field;
 
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, true))
