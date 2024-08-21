@@ -66,6 +66,6 @@ PROTO FieldImportLua [
     rot    IS rot
     color  IS color
     string IS string
-    size %<= size >% %<= size >% %<= size >%
+    size %{= size }% %{= size }% %{= size }%
   }
 }
