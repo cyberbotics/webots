@@ -1,6 +1,7 @@
 # The InertialUnit node simulates an Inertial Measurement Unit (IMU).
 # The InertialUnit node computes and returns the roll, pitch and yaw angles of the
 # robot with respect to the global coordinate system defined in the WorldInfo node.
+# parent: Solid
 
 InertialUnit {
   #fields that inherit from the Solid node:
