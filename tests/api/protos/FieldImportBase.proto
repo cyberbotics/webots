@@ -1,14 +1,14 @@
 #VRML_SIM R2024a utf8
 
 PROTO FieldImportBase [
-  field MFBool      bool      []
-  field MFInt32     int       []
-  field MFFloat     float     []
-  field MFVec2f     vec2      []
-  field MFVec3f     vec3      []
-  field MFRotation  rot       []
-  field MFColor     color     []
-  field MFString    string    []
+  unconnectedField MFBool      bool      []
+  unconnectedField MFInt32     int       []
+  unconnectedField MFFloat     float     []
+  unconnectedField MFVec2f     vec2      []
+  unconnectedField MFVec3f     vec3      []
+  unconnectedField MFRotation  rot       []
+  unconnectedField MFColor     color     []
+  unconnectedField MFString    string    []
   field SFVec3f     size      0.1 0.1 0.1
 ]
 {
