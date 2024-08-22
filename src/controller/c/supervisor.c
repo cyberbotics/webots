@@ -2922,7 +2922,7 @@ WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
 
   robot_mutex_lock();
 
-  if (!node->proto_info) {
+  if (!is_proto_ref_valid(node->proto_info)) {
     // if we don't know the proto info yet, we need to talk to Webots
     WbProtoRef proto_list_before = proto_list;
     node_ref = node->id;
