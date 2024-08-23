@@ -1088,14 +1088,27 @@ static char *encode_robot_name(const char *robot_name) {
   char *encoded_name = percent_encode(robot_name);
   int length = strlen(encoded_name);
   // the robot name is used to connect to the libController and in this process there are indirect
-  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
-  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
-  if (length > 70) {  // note: this threshold should be the same as in WbRobot.cpp
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names 
+  // on some platforms.
+  // Since the server name also contains the tmp path and that includes the user's username and,
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded 
+  // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
+  // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
+  // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
+  // chance of a name collision 1/65536.
+  // Note: It is critical that the same logic is used in WbRobot.cpp
+  const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
+  int max_name_length = 91 - (strlen(WEBOTS_INSTANCE_PATH) + strlen("ipc//extern"));
+  if (max_name_length < 4)
+    max_name_length = 4;
+  // Round down to the next multiple of 2 because it makes the code easier.
+  max_name_length = max_name_length / 2 * 2;
+  if (length > max_name_length) {
     char hash[21];
-    char *output = malloc(41);
+    char *output = malloc(max_name_length + 1);
     SHA1(hash, encoded_name, length);
     free(encoded_name);
-    for (size_t i = 0; i < 20; i++)
+    for (size_t i = 0; i < max_name_length / 2 && i < 20; i++)
       sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
     return output;
   }
@@ -1462,11 +1475,11 @@ int wb_robot_init() {  // API initialization
         retry -= 5;
         fprintf(stderr, "%s, pending until loading is done...\n", error_message);
       } else if (socket_filename) {
-        free(socket_filename);
         fprintf(
           stderr,
-          "The specified robot is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
-          50 - retry);
+          "The specified robot (at %s) is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
+          socket_filename, 50 - retry);
+        free(socket_filename);
       } else
         fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
     }
