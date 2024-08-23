@@ -1475,10 +1475,9 @@ int wb_robot_init() {  // API initialization
         retry -= 5;
         fprintf(stderr, "%s, pending until loading is done...\n", error_message);
       } else if (socket_filename) {
-        fprintf(
-          stderr,
-          "The specified robot (at %s) is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
-          socket_filename, 50 - retry);
+        fprintf(stderr,
+                "The specified robot (at %s) is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
+                socket_filename, 50 - retry);
         free(socket_filename);
       } else
         fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
