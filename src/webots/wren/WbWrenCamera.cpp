@@ -664,10 +664,13 @@ void WbWrenCamera::cleanup() {
   }
 
   WrTextureRtt *renderingTexture = wr_frame_buffer_get_output_texture(mResultFrameBuffer, 0);
-  WrTextureRtt *outputTexture = wr_frame_buffer_get_output_texture(mResultFrameBuffer, 1);
-  wr_frame_buffer_delete(mResultFrameBuffer);
   wr_texture_delete(WR_TEXTURE(renderingTexture));
+  // For some reason, deleting the outputTexture when cleaning the world causes crash on macos when closing the app.
+#ifndef __APPLE__  
+  WrTextureRtt *outputTexture = wr_frame_buffer_get_output_texture(mResultFrameBuffer, 1);
   wr_texture_delete(WR_TEXTURE(outputTexture));
+#endif
+  wr_frame_buffer_delete(mResultFrameBuffer);
 
   wr_texture_delete(WR_TEXTURE(mNoiseMaskTexture));
   mNoiseMaskTexture = NULL;
