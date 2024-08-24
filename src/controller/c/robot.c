@@ -1081,7 +1081,7 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static char *encode_robot_name(const char *robot_name) {
+static char *encode_robot_name(const char *robot_name, int chars_used) {
   if (!robot_name)
     return NULL;
 
@@ -1097,8 +1097,7 @@ static char *encode_robot_name(const char *robot_name) {
   // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
   // chance of a name collision 1/65536.
   // Note: It is critical that the same logic is used in WbRobot.cpp
-  const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
-  int max_name_length = 91 - (strlen(WEBOTS_INSTANCE_PATH) + strlen("ipc//extern"));
+  int max_name_length = 91 - chars_used;
   if (max_name_length < 4)
     max_name_length = 4;
   // Round down to the next multiple of 2 because it makes the code easier.
@@ -1117,10 +1116,12 @@ static char *encode_robot_name(const char *robot_name) {
 }
 
 static char *compute_socket_filename(char *error_buffer) {
-  char *robot_name = encode_robot_name(wbu_system_getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
+  char *robot_name = NULL;
+  const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
   char *socket_filename;
-  if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
+    robot_name = encode_robot_name(WEBOTS_ROBOT_NAME, strlen(WEBOTS_INSTANCE_PATH) + strlen("ipc//intern"));
 #ifndef _WIN32
     const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
@@ -1280,7 +1281,7 @@ static char *compute_socket_filename(char *error_buffer) {
 
   free(robot_name);
   const char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
-  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL, strlen(ipc_folder) + strlen("//extern"));
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
@@ -1383,7 +1384,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
-  *robot_name = rn != NULL ? encode_robot_name(rn + 1) : NULL;
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1, 0) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
