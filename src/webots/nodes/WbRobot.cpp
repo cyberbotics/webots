@@ -59,8 +59,8 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
-#include <limits>
 #include <algorithm>
+#include <limits>
 
 static QHash<int, int> createSpecialKeys() {
   QHash<int, int> map;
@@ -1096,10 +1096,10 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
 QString WbRobot::encodedName() const {
   QString encodedName = QUrl::toPercentEncoding(name());
   // the robot name is used to connect to the libController and in this process there are indirect
-  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names 
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names
   // on some platforms.
   // Since the server name also contains the tmp path and that includes the user's username and,
-  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded 
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded
   // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
   // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
   // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
