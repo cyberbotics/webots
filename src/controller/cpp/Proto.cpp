@@ -52,7 +52,7 @@ string Proto::getTypeName() const {
   return wb_supervisor_proto_get_type_name(protoRef);
 }
 
-const bool Proto::isDerived() const {
+bool Proto::isDerived() const {
   return wb_supervisor_proto_is_derived(protoRef);
 }
 
@@ -68,6 +68,6 @@ Field *Proto::getFieldByIndex(const int index) const {
   return Field::findField(wb_supervisor_proto_get_field_by_index(protoRef, index));
 }
 
-const int Proto::getNumberOfFields() const {
+int Proto::getNumberOfFields() const {
   return wb_supervisor_proto_get_number_of_fields(protoRef);
 }

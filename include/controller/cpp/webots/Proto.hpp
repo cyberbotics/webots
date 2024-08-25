@@ -25,11 +25,11 @@ namespace webots {
   class Proto {
   public:
     std::string getTypeName() const;
-    const bool isDerived() const;
+    bool isDerived() const;
     Proto *getParent() const;
     Field *getField(const std::string &fieldName) const;
     Field *getFieldByIndex(const int index) const;
-    const int getNumberOfFields() const;
+    int getNumberOfFields() const;
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Proto *findProto(WbProtoRef ref);
