@@ -3917,7 +3917,7 @@ const char *wb_supervisor_proto_get_type_name(WbProtoRef proto) {
   if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
-    return NULL;
+    return "";
   }
 
   return proto->type_name;

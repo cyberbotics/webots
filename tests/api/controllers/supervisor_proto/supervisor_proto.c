@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
 
   // Check null values
   ts_assert_pointer_null(wb_supervisor_node_get_proto(NULL), "wb_supervisor_node_get_proto(NULL) should return NULL");
-  ts_assert_pointer_null(wb_supervisor_proto_get_type_name(NULL), "wb_supervisor_proto_get_type_name(NULL) should return NULL");
+  ts_assert_string_equal(wb_supervisor_proto_get_type_name(NULL), "", "wb_supervisor_proto_get_type_name(NULL) should return NULL");
   ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(NULL), "wb_supervisor_proto_is_derived(NULL) should return false");
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
   ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), 0,
