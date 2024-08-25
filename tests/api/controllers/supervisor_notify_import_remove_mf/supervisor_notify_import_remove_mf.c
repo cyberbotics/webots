@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
     ts_assert_int_equal(protoCount, mfFieldCount[i] + increment,
                         "Size of proto field %d not correctly updated after item inserted: found %d, expected %d", i,
                         protoCount, mfFieldCount[i] + increment);
+    wb_robot_step(TIME_STEP);
   }
 
   for (i = FIELD_COUNT - 1; i >= 0; --i) {
@@ -87,6 +88,7 @@ int main(int argc, char **argv) {
     ts_assert_int_equal(protoCount, mfFieldCount[i] + increment,
                         "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i, protoCount,
                         mfFieldCount[i] + increment);
+    wb_robot_step(TIME_STEP);
   }
 
   ts_send_success();
