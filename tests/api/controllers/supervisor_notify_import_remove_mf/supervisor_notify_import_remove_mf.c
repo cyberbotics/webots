@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
                         mf_field_count[i] + increment);
 
     // The proto node should have been regenerated, so all the references should be invalidated
-    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(base_proto),
+    ts_assert_string_equal(wb_supervisor_proto_get_type_name(base_proto), "",
                            "Proto node should have been regenerated after field insertion.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field insertion.", i);
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
                         mf_field_count[i] + increment);
 
     // The proto node should have been regenerated, so all the references should be invalidated
-    ts_assert_pointer_null(wb_supervisor_proto_get_type_name(base_proto),
+    ts_assert_string_equal(wb_supervisor_proto_get_type_name(base_proto), "",
                            "Proto node should have been regenerated after field removal.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field removal.", i);
