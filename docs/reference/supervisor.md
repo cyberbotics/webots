@@ -864,7 +864,7 @@ Valid `index` values should be positive and lower than the number of fields retu
 If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` returns -1.
 To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field_by_index` and `wb_supervisor_node_get_number_of_base_node_fields` should be used instead.
 
-> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+> **Note**: fields retrieved with the `wb_supervisor_node_get_base_node_field` and `wb_supervisor_node_get_base_node_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
 
 
