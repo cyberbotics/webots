@@ -23,6 +23,7 @@ using namespace webots;
 Supervisor::~Supervisor() {
   Field::cleanup();
   Node::cleanup();
+  Proto::cleanup();
 }
 
 Supervisor *Supervisor::getSupervisorInstance() {
