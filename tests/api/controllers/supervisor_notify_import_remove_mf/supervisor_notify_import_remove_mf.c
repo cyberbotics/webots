@@ -86,8 +86,8 @@ int main(int argc, char **argv) {
 
     const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
     ts_assert_int_equal(proto_count, mf_field_count[i] + increment,
-                        "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i, proto_count,
-                        mf_field_count[i] + increment);
+                        "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i,
+                        proto_count, mf_field_count[i] + increment);
     wb_robot_step(TIME_STEP);
   }
 
