@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 
   int i = 0;
   WbNodeRef node = wb_supervisor_node_get_from_def("NODE");
-  WbProtoRef base_proto = wb_supervisor_proto_get_parent(wb_supervisor_node_get_proto(node));
+  WbProtoRef base_proto = wb_supervisor_node_get_proto(node);
   const int FIELD_COUNT = 8;
   WbFieldRef mf_field[FIELD_COUNT];
   mf_field[0] = wb_supervisor_node_get_field(node, "bool");
@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
                            "Proto node should have been regenerated after field insertion.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field insertion.", i);
-    base_proto = wb_supervisor_proto_get_parent(wb_supervisor_node_get_proto(node));
+    base_proto = wb_supervisor_node_get_proto(node);
     // Note: this assumes that the fields are defined in the same order in the proto as they are in this test
     mf_proto_fields[i] = wb_supervisor_proto_get_field_by_index(base_proto, i);
 
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
                            "Proto node should have been regenerated after field removal.");
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field removal.", i);
-    base_proto = wb_supervisor_proto_get_parent(wb_supervisor_node_get_proto(node));
+    base_proto = wb_supervisor_node_get_proto(node);
     // Note: this assumes that the fields are defined in the same order in the proto as they are in this test
     mf_proto_fields[i] = wb_supervisor_proto_get_field_by_index(base_proto, i);
 
