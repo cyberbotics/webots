@@ -6,6 +6,7 @@ Released on December **th, 2023.
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
     - Removed support for macOS 11 "Big Sur" and added support for macOS 14 "Sonoma" ([#6580](https://github.com/cyberbotics/webots/pull/6580)).
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
+    - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
   - Cleanup
@@ -25,6 +26,10 @@ Released on December **th, 2023.
     - Made `supervisor_export_image` work even if using the `--minimize --no-rendering` options ([#6622](https://github.com/cyberbotics/webots/pull/6622)).
     - Fixed CA certificates needed by `test_suite.py` missing in Windows development environment ([#6628](https://github.com/cyberbotics/webots/pull/6628)).
     - Fixed to use a version of Qt that is still supported ([#6623](https://github.com/cyberbotics/webots/pull/6623)).
+
     - Fixed connection errors when using long robot names in some environments ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed crash on macos when closing Webots under some circumstances ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
+
+    - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
+

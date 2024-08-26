@@ -1,6 +1,7 @@
 # A LightSensor node can be used to model a phototransistor, a photodiode or any type
 # of device that measures the irradiance of light on its surface.
 # A LightSensor node detects the light emitted by PointLight, SpotLight and DirectionalLight nodes.
+# parent: Solid
 
 LightSensor {
   # fields inherited from the Solid node:

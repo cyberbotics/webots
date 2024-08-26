@@ -1,9 +1,9 @@
 #VRML_SIM R2024a utf8
 
+EXTERNPROTO "webots://tests/manual_tests/protos/DerivedPoseProto.proto"
 EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/parser/protos/ProtoRestrictedFieldValues.proto"
-EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 WorldInfo {
 }
@@ -28,17 +28,15 @@ Floor {
 }
 ProtoRestrictedFieldValues {
   rotation 0 1 0 1.5708
-  translation 0 1 0
+  translation 0 0 0
   extensionSlot [
-    Solid {
-      children [
-        Solid {
-          name "solid(0)"
-        }
-      ]
+    DerivedPoseProto {
     }
-    SolidBox {
-      translation 0 0 2.2799999999999985
+    Solid {
+    }
+  ],
+  extensionSlot3 [
+    Solid {
     }
   ]
 }

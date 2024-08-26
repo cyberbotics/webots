@@ -56,6 +56,7 @@ public:
   struct WbClipboardNodeInfo {
     QString modelName;
     QString nodeModelName;
+    QStringList protoParentList;
     QString slotType;
     bool hasADeviceDescendant;
     bool hasAConnectorDescendant;

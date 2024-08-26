@@ -1,5 +1,6 @@
 # VacuumGripper nodes are used to simulate vacuum suction systems.
 # The physical connection with a Solid can be created and destroyed at run time by the robot controller program.
+# parent: Solid
 
 VacuumGripper {
   #fields that inherit from the Solid node:
