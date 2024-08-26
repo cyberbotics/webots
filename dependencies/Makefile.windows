@@ -7,7 +7,12 @@ DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/windows
 
 ASSIMP_PACKAGE = assimp-5.2.3.zip
 OPEN_VR_PACKAGE = openvr-1.0.7.zip
-LUA_PACKAGE = lua-5.2.3.tar.gz
+LUA_MAJOR_VERSION=5
+LUA_MINOR_VERSION=4
+LUA_RELEASE=7
+LUA_VERSION=$(LUA_MAJOR).$(LUA_MINOR).$(LUA_RELEASE)
+LUA_DLL=lua$(LUA_MAJOR)$(LUA_MINOR).dll
+LUA_PACKAGE = lua-$(LUA_VERSION).tar.gz
 OIS_PACKAGE = libOIS.zip
 PICO_PACKAGE = libpico-1.0.zip
 LUA_GD_PACKAGE = lua-gd-windows.zip
@@ -100,16 +105,16 @@ $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
 lua-clean:
-	@rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
+	@rm -rf $(TARGET_PATH)/$(LUA_DLL) "$(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)"
 
-lua: $(TARGET_PATH)/lua52.dll
+lua: $(TARGET_PATH)/$(LUA_DLL)
 
-$(TARGET_PATH)/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll
+$(TARGET_PATH)/$(LUA_DLL): $(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)/src/$(LUA_DLL)
 	@echo "# copying lua dll"
 	@mkdir -p $(TARGET_PATH)
-	@cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
+	@cp "$(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)/src/$(LUA_DLL)" "$(TARGET_PATH)/"
 
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
+$(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION):
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 	@echo "# downloading $(LUA_PACKAGE)"
 	@wget -qq "https://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
@@ -118,10 +123,10 @@ $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
 	@cd "$(WEBOTS_DEPENDENCY_PATH)"; tar xfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
 
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	@sed -i '/AR= ar rcu/c\AR= ar rc' lua-5.2.3/src/Makefile
+$(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)/src/$(LUA_DLL): $(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)
+	@sed -i '/AR= ar rcu/c\AR= ar rc' lua-$(LUA_VERSION)/src/Makefile
 	@echo "# compiling lua"
-	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
+	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-$(LUA_VERSION)" mingw
 
 ois-clean:
 	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
