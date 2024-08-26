@@ -59,6 +59,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
+#include <algorithm>
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
@@ -1093,12 +1094,25 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
 }
 
 QString WbRobot::encodedName() const {
-  const QString encodedName = QUrl::toPercentEncoding(name());
+  QString encodedName = QUrl::toPercentEncoding(name());
   // the robot name is used to connect to the libController and in this process there are indirect
-  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
-  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
-  if (encodedName.length() > 70)  // note: this threshold should be the same as in robot.c
-    return QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names
+  // on some platforms.
+  // Since the server name also contains the tmp path and that includes the user's username and,
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded
+  // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
+  // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
+  // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
+  // chance of a name collision 1/65536.
+  // Note: It is critical that the same logic is used in robot.c
+  const QString &tmpPath = WbStandardPaths::webotsTmpPath();
+  qsizetype maxNameLength = std::max((qsizetype)4, 91 - (tmpPath.length() + (qsizetype)strlen("ipc//extern")));
+  // Round down to the next multiple of 2 because it makes the code in robot.c easier.
+  maxNameLength = maxNameLength / 2 * 2;
+  if (encodedName.length() > maxNameLength) {
+    encodedName = QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+    encodedName.truncate(maxNameLength);
+  }
   return encodedName;
 }
 

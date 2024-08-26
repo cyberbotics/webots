@@ -303,7 +303,7 @@ void WbRenderingDeviceWindow::renderNow() {
 
   if (!mContext) {
     mContext = new QOpenGLContext(this);
-    mContext->setFormat(requestedFormat());
+    mContext->setFormat(cMainOpenGLContext->format());
     mContext->setShareContext(cMainOpenGLContext);
     mContext->create();
   }
