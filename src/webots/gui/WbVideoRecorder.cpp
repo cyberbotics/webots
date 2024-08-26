@@ -346,7 +346,7 @@ void WbVideoRecorder::stopRecording(bool canceled) {
 void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
   FrameWriterThread *thread =
-    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
+    new FrameWriterThread(frame, fileName, mVideoResolution, 1, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -481,7 +481,7 @@ void WbVideoRecorder::createMpeg() {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
     long long int bitrate = (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() /
-                            256 / (mScreenPixelRatio * mScreenPixelRatio);
+                            256;
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32
