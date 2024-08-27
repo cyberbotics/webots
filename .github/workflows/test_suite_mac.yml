@@ -90,6 +90,7 @@ jobs:
         python-version: 3.11
     - name: Test
       run: |
+        brew install urdfdom
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=/Applications/Webots.app
