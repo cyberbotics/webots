@@ -459,7 +459,7 @@ QString WbVideoRecorder::nextFileName() {
 
 void WbVideoRecorder::createMpeg() {
 #ifdef __linux__
-  static const QString ffmpeg("ffmpeg");
+  static const QString ffmpeg("LD_LIBRARY_PATH=\"$WEBOTS_ORIG_LD_LIBRARY_PATH\" ffmpeg");
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
