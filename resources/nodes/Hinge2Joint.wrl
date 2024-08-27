@@ -1,6 +1,7 @@
 # A Hinge2Joint can be used to simulate a combination of two rotating motions along axes which intersect.
 # It is equivalent to two HingeJoint nodes but it spares the creation of an intermediate solid and is therefore more stable.
 # Spring and damping behavior can be specified.
+# parent: HingeJoint
 
 Hinge2Joint {
   field SFNode jointParameters  NULL  # HingeJointParameters specifying anchor, axis, spring and damper constants, minStop, maxStop, suspension

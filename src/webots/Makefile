@@ -289,6 +289,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbFieldIntSpinBox.cpp \
   WbFieldLineEdit.cpp \
   WbFindReplaceDialog.cpp \
+  WbFieldValueRestriction.cpp \
   WbFluid.cpp \
   WbFocus.cpp \
   WbFog.cpp \
