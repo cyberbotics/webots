@@ -313,12 +313,11 @@ QImage WbWrenWindow::grabWindowBufferNow() {
     mSnapshotBufferHeight = destinationHeight;
     mSnapshotBuffer = new unsigned char[4 * destinationWidth * destinationHeight];
   }
-  const qreal ratio = devicePixelRatio();
-  const int sourceWidth = destinationWidth * ratio;
-  const int sourceHeight = destinationHeight * ratio;
+  const int sourceWidth = destinationWidth;
+  const int sourceHeight = destinationHeight;
   unsigned char *temp = new unsigned char[4 * sourceWidth * sourceHeight];
   readPixels(sourceWidth, sourceHeight, GL_BGRA, temp);
-  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, ratio);
+  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, 1.0);
   delete[] temp;
   WbWrenOpenGlContext::doneWren();
 
@@ -328,9 +327,8 @@ QImage WbWrenWindow::grabWindowBufferNow() {
 void WbWrenWindow::initVideoPBO() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const int ratio = (int)devicePixelRatio();
-  mVideoWidth = width() * ratio;
-  mVideoHeight = height() * ratio;
+  mVideoWidth = width();
+  mVideoHeight = height();
   const int size = 4 * mVideoWidth * mVideoHeight;
   wr_scene_init_frame_capture(wr_scene_get_instance(), PBO_COUNT, mVideoPBOIds, size);
   mVideoPBOIndex = -1;
