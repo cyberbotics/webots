@@ -469,6 +469,7 @@ const QStringList WbTokenizer::tags() const {
   return QStringList();
 }
 
+// cppcheck-suppress functionStatic
 const QString WbTokenizer::templateLanguage() const {
   return QString("javascript");
 }

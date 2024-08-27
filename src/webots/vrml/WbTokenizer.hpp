@@ -50,6 +50,7 @@ public:
   const QStringList tags() const;
 
   // returns the scripting language used in procedural PROTOs stored as (# templateEngine: string)
+  // cppcheck-suppress functionStatic
   const QString templateLanguage() const;
 
   // returns the license stored as (# license: string) comments in the file header
