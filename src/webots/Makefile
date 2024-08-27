@@ -44,7 +44,7 @@ WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Ieng
 WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE) -Iapp -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
 WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(ASSIMP_INCLUDE) -isystem external/siphash -Iapp -Icore -Ieditor -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml -Iwidgets
-WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
+WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
 WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_OPENGL_WIDGETS_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
 
@@ -104,7 +104,6 @@ CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
-OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 ASSIMP_INCLUDE     = -I$(WEBOTS_PATH)/include/libassimp/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
@@ -182,7 +181,7 @@ CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
 WREN_INCLUDE      += -Iwren
-INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
+INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)
 CFLAGS += -ggdb
