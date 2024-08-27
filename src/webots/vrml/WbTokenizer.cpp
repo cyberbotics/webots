@@ -469,11 +469,6 @@ const QStringList WbTokenizer::tags() const {
   return QStringList();
 }
 
-// cppcheck-suppress functionStatic
-const QString WbTokenizer::templateLanguage() const {
-  return QString("javascript");
-}
-
 const QString WbTokenizer::license() const {
   const QStringList lines = mInfo.split("\n");
   foreach (QString line, lines) {

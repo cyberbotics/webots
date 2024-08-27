@@ -42,8 +42,7 @@ WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : W
 }
 
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
-                                     const QString &protoPath, const QString &worldPath, int id,
-                                     const QString &templateLanguage) {
+                                     const QString &protoPath, const QString &worldPath, int id) {
   // generate the final script file from the template script file
   QHash<QString, QString> tags;
 
@@ -82,7 +81,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] +=
     QString("webots_version: {major: '%1', revision: '%2'}").arg(version.toString(false)).arg(version.revisionNumber());
 
-  return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
+  return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
 void WbProtoTemplateEngine::setCoordinateSystem(const QString &coordinateSystem) {

@@ -82,9 +82,7 @@ QString WbTemplateEngine::escapeString(const QString &string) {
   return escaped.replace("\\", "\\\\").replace("\n", "\\n").replace("'", "\\'").toUtf8();
 }
 
-bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
-  assert(templateLanguage == "javascript");
-
+bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
   bool output;
 
   static bool firstJavaScriptCall = true;

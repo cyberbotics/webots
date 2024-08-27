@@ -34,7 +34,7 @@ public:
   explicit WbTemplateEngine(const QString &templateContent);
   virtual ~WbTemplateEngine() {}
 
-  bool generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage);
+  bool generate(QHash<QString, QString> tags, const QString &logHeaderName);
 
   const QByteArray &result() { return mResult; }
 
