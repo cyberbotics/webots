@@ -82,11 +82,6 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] +=
     QString("webots_version: {major: '%1', revision: '%2'}").arg(version.toString(false)).arg(version.revisionNumber());
 
-  if (templateLanguage == "lua") {
-    tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
-    tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-  }
-
   return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
 }
 
@@ -218,16 +213,4 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
       assert(false);
       return "";
   }
-}
-
-QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
-  // begin by converting MF entries (javascript array [...] to Lua table {...})
-  statement = statement.replace("[", "{").replace("]", "}");
-
-  statement = statement.replace("value: undefined", "value = nil");
-  statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
-  statement = statement.replace(": ", " = ");
-  statement = statement.replace("'", "\"");
-
-  return statement;
 }

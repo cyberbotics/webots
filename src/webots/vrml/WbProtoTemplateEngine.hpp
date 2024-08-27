@@ -39,7 +39,6 @@ public:
   static QString convertFieldValueToJavaScriptStatement(const WbField *field);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
-  static QString convertStatementFromJavaScriptToLua(QString &statement);
 
 private:
   static QString convertFieldDefaultValueToJavaScriptStatement(const WbField *field);
