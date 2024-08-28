@@ -13,8 +13,8 @@ int main(int argc, char **argv) {
   int i = 0;
   WbNodeRef node = wb_supervisor_node_get_from_def("NODE");
   WbProtoRef proto = wb_supervisor_node_get_proto(node);
-  const int FIELD_COUNT = 8;
-  const char *field_names[FIELD_COUNT] = {"bool", "int", "float", "vec2", "vec3", "rot", "color", "string"};
+  const char *field_names[] = {"bool", "int", "float", "vec2", "vec3", "rot", "color", "string"};
+  const int FIELD_COUNT = sizeof(field_names) / sizeof(field_names[0]);
   WbFieldRef mf_field[FIELD_COUNT];
   WbFieldRef mf_proto_fields[FIELD_COUNT];
   for (i = 0; i < FIELD_COUNT; ++i) {
