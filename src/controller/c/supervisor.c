@@ -62,7 +62,7 @@ typedef struct WbFieldStructPrivate {
   int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
-  int actual_field_node_id; // the node and field id of the corresponding field in the scene tree (if it exists)
+  int actual_field_node_id;      // the node and field id of the corresponding field in the scene tree (if it exists)
   int actual_field_index;
   // the lookup_field field will only be populated when we want to override the default value lookup behavior
   // (for internal proto fields)

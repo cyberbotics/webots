@@ -141,7 +141,8 @@ static void retrieve_fields(const char *main_field_names[NUMBER_OF_MAIN_FIELDS][
 }
 
 // Checks that a field has the expected type, actual field, and value
-static void check_field(WbFieldRef field, WbFieldRef actual_field, double expected_value, const char *name, const char *check_name) {
+static void check_field(WbFieldRef field, WbFieldRef actual_field, double expected_value, const char *name,
+                        const char *check_name) {
   ts_assert_pointer_not_null(field, "(%s) Field \"%s\" not found", check_name, name);
   const int field_type = wb_supervisor_field_get_type(field);
   ts_assert_int_equal(field_type, WB_SF_FLOAT, "(%s) Field \"%s\" is not an SFFloat. Got type: %d", check_name, name,
@@ -195,8 +196,7 @@ int main(int argc, char **argv) {
   // Check that all the wb_supervisor_field_get_actual_field returns its input if the field is already in the scene tree
   for (int i = 0; i < NUMBER_OF_MAIN_FIELDS; ++i)
     if (actual_main_fields[i])
-      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, main_field_names[i][0],
-                  "Initial value [main field]");
+      check_field(actual_main_fields[i], actual_main_fields[i], 0.01, main_field_names[i][0], "Initial value [main field]");
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; ++i)
     if (actual_internal_fields[i])
@@ -209,7 +209,7 @@ int main(int argc, char **argv) {
     for (int j = 0; j < NUMBER_OF_HIERARCHY_LEVELS; ++j)
       if (main_fields[i][j]) {
         check_field(main_fields[i][j], actual_main_fields[i], 0.01, main_field_names[i][j], "Initial value [main field]");
-        wb_supervisor_field_set_sf_float(main_fields[i][j], 1.01); // Should have no effect
+        wb_supervisor_field_set_sf_float(main_fields[i][j], 1.01);  // Should have no effect
       }
 
   for (int i = 0; i < NUMBER_OF_INTERNAL_FIELDS; ++i)
@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
       if (internal_fields[i][j]) {
         check_field(internal_fields[i][j], actual_internal_fields[i], 0.01, internal_field_names[i][j],
                     "Initial value [internal field]");
-        wb_supervisor_field_set_sf_float(internal_fields[i][j], 1.01); // Should have no effect
+        wb_supervisor_field_set_sf_float(internal_fields[i][j], 1.01);  // Should have no effect
       }
 
   wb_robot_step(TIME_STEP);
