@@ -112,9 +112,8 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
   mUpdateRequested(true),
   mShowOverlayOnClose(true) {
   setSurfaceType(QWindow::OpenGLSurface);
-  QSurfaceFormat surfaceFormat = format();
-  surfaceFormat.setMajorVersion(3);
-  surfaceFormat.setMinorVersion(3);
+  assert(cMainOpenGLContext);
+  QSurfaceFormat surfaceFormat = cMainOpenGLContext->format();
   setFormat(surfaceFormat);
 
   mAbstractCamera = dynamic_cast<WbAbstractCamera *>(mDevice);

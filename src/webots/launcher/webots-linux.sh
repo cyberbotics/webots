@@ -69,6 +69,7 @@ export TMPDIR=$WEBOTS_TMPDIR
 export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
+export WEBOTS_ORIGINAL_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
 # Fix for i3 window manager not working with Qt6
