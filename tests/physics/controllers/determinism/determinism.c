@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
           exit(EXIT_FAILURE);
         }
       } else {
-        move_file(ode_dif, ode_tmp_dif);
+        ts_assert_boolean_equal(move_file(ode_dif, ode_tmp_dif), "Cannot move ODF dif file to ODE tmp dif file");
         wb_supervisor_world_reload();
         wb_robot_cleanup();
         exit(EXIT_SUCCESS);
