@@ -62,7 +62,7 @@ typedef struct WbFieldStructPrivate {
   int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
-  int actual_field_node_id;
+  int actual_field_node_id; // the node and field id of the corresponding field in the scene tree (if it exists)
   int actual_field_index;
   // the lookup_field field will only be populated when we want to override the default value lookup behavior
   // (for internal proto fields)
@@ -352,9 +352,10 @@ static void remove_node_from_list(int uid) {
 
   WbProtoRef p = proto_list;
   while (p) {
-    if (p->node_unique_id == uid)
-      remove_proto_from_list(p);
+    WbProtoRef proto = p;
     p = p->next;
+    if (proto->node_unique_id == uid)
+      remove_proto_from_list(proto);
   }
 }
 
@@ -1177,6 +1178,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int parent_node_id = request_read_int32(r);
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
+      // Proto fields do not receive count change events
+      // They will just defer to the lookup_field
       if (parent_node_id >= 0) {
         WbFieldStruct *field = find_field_by_name(field_name, parent_node_id, -1, false);
         if (field == NULL)
@@ -3007,11 +3010,11 @@ WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
-  if (!field->is_read_only)
-    return field;
-
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return NULL;
+
+  if (!field->is_read_only)
+    return field;
 
   if (field->lookup_field)
     return field->lookup_field;
@@ -4061,7 +4064,7 @@ int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto) {
   if (!is_proto_ref_valid(proto)) {
     if (!robot_is_quitting())
       fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
-    return 0;
+    return -1;
   }
 
   return proto->number_of_fields;

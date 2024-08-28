@@ -20,8 +20,6 @@ static const WbFieldReference INVALID_FIELD_REFERENCE = {QString(), NULL};
 
 WbNodeProtoInfo::WbNodeProtoInfo(const QString &modelName, const QList<WbField *> &parameters) : mModelName(modelName) {
   foreach (WbField *field, parameters) {
-    if (field->isHiddenParameter())
-      continue;
     WbFieldReference ref;
     ref.name = field->name();
     ref.actualField = field;

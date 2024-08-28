@@ -98,7 +98,7 @@ class Node:
 
     def getProto(self) -> Proto:
         proto = wb.wb_supervisor_node_get_proto(self._ref)
-        return Proto(ref=proto) if proto else None
+        return Proto(proto) if proto else None
 
     def getFromProtoDef(self, DEF: str) -> Node:
         node = wb.wb_supervisor_node_get_from_proto_def(self._ref, str.encode(DEF))
@@ -250,7 +250,7 @@ class Node:
 
     @property
     def number_of_base_node_fields(self) -> int:
-        return wb.wb_supervisor_node_get_wb_supervisor_node_get_base_node_fields(self._ref)
+        return wb.wb_supervisor_node_get_number_of_base_node_fields(self._ref)
 
 
 Node.NO_NODE = constant('NODE_NO_NODE')

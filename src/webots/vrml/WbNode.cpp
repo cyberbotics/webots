@@ -237,7 +237,7 @@ WbNode::WbNode(const WbNode &other) :
       WbField *copy = new WbField(*parameter, this);
       mInternalProtoParameters << copy;
 
-      // No need to connect any of these, they can only be changed by regenerating the proto
+      // No need to connect any of these. They can only be changed by regenerating the proto
 
       // Redirect field references in proto info
       foreach (WbNodeProtoInfo *protoInfo, mProtoParents)

@@ -22,8 +22,7 @@ struct FieldDefinition {
 };
 
 static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hierarchy, const char *node_name) {
-  int i = 0;
-  while (expected_hierarchy[i]) {
+  for (int i = 0; expected_hierarchy[i]; ++i) {
     const char *actual_name = wb_supervisor_proto_get_type_name(proto);
     ts_assert_pointer_not_null(actual_name, "(%s) Hierarchy mismatch! Expected \"%s\", but got NULL", node_name,
                                expected_hierarchy[i]);
@@ -39,23 +38,21 @@ static void assert_hierarchy_correct(WbProtoRef proto, const char **expected_hie
                                   actual_name);
 
     proto = wb_supervisor_proto_get_parent(proto);
-    i++;
   }
   ts_assert_pointer_null(proto, "(%s) Hierarchy mismatch! Expected NULL, but got \"%s\"", node_name,
                          wb_supervisor_proto_get_type_name(proto));
 }
 
 static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition **expected_fields, const char *node_name) {
-  int i = 0;
-  while (expected_fields[i]) {
+  for (int i = 0; expected_fields[i]; ++i) {
     ts_assert_pointer_not_null(proto,
                                "(%s) Expected more fields, but proto is null. The test should've failed when checking the "
-                               "hierarchy. This likely means that the expected hierarchy is incorrectly configured.",
+                               "hierarchy. This likely means that the expected values are incorrectly configured.",
                                node_name);
 
     int number_of_fields = 0;
     while (expected_fields[i][number_of_fields].type != WB_NO_FIELD)
-      number_of_fields++;
+      ++number_of_fields;
 
     const char *proto_name = wb_supervisor_proto_get_type_name(proto);
 
@@ -64,7 +61,7 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
                         "(%s) Wrong number of fields in proto \"%s\". Expected %d, but got %d", node_name, proto_name,
                         number_of_fields, actual_number_of_fields);
 
-    for (int j = 0; j < number_of_fields; j++) {
+    for (int j = 0; j < number_of_fields; ++j) {
       const char *expected_name = expected_fields[i][j].name;
       const WbFieldType expected_type = expected_fields[i][j].type;
 
@@ -84,7 +81,6 @@ static void assert_fields_correct(WbProtoRef proto, const struct FieldDefinition
     }
 
     proto = wb_supervisor_proto_get_parent(proto);
-    i++;
   }
 }
 
@@ -97,8 +93,8 @@ int main(int argc, char **argv) {
                          "wb_supervisor_proto_get_type_name(NULL) should return NULL");
   ts_assert_boolean_not_equal(wb_supervisor_proto_is_derived(NULL), "wb_supervisor_proto_is_derived(NULL) should return false");
   ts_assert_pointer_null(wb_supervisor_proto_get_parent(NULL), "wb_supervisor_proto_get_parent(NULL) should return NULL");
-  ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), 0,
-                      "wb_supervisor_proto_get_number_of_fields(NULL) should return 0");
+  ts_assert_int_equal(wb_supervisor_proto_get_number_of_fields(NULL), -1,
+                      "wb_supervisor_proto_get_number_of_fields(NULL) should return -1");
   ts_assert_pointer_null(wb_supervisor_proto_get_field_by_index(NULL, 0),
                          "wb_supervisor_proto_get_field_by_index(NULL, 0) should return NULL");
   ts_assert_pointer_null(wb_supervisor_proto_get_field(NULL, "name"),

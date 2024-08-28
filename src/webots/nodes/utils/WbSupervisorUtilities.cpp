@@ -310,7 +310,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mFoundProtoId = -2;
   mFoundProtoTypeName.clear();
   mFoundProtoIsDerived = false;
-  mFoundProtoParameterCount = 0;
+  mFoundProtoParameterCount = -1;
   mFoundFieldIndex = -2;
   mFoundFieldType = 0;
   mFoundFieldCount = -1;
@@ -1206,7 +1206,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundProtoId = -1;
       mFoundProtoTypeName = "";
       mFoundProtoIsDerived = false;
-      mFoundProtoParameterCount = 0;
+      mFoundProtoParameterCount = -1;
 
       const WbNode *const node = WbNode::findNode(nodeId);
       if (node && node->isProtoInstance()) {
@@ -2182,7 +2182,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
       stream << (unsigned char)C_SUPERVISOR_FIELD_GET_VALUE;
       stream << (int)field.field->type();
       stream << (int)field.nodeId;
-      stream << (int)-1;  // TODO: Impl
+      stream << (int)-1;  // Proto fields cannot be tracked
       stream << (int)field.fieldId;
       pushSingleFieldContentToStream(stream, field.field);
       field.lastUpdate = time;

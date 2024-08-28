@@ -31,13 +31,13 @@ class Proto:
 
     def getParent(self) -> 'Proto':
         proto = wb.wb_supervisor_proto_get_parent(self._ref)
-        return Proto(wb.wb_supervisor_proto_get_parent(self._ref)) if proto else None
+        return Proto(proto) if proto else None
 
-    def getParameter(self, name: str) -> Field:
+    def getField(self, name: str) -> Field:
         field = wb.wb_supervisor_proto_get_field(self._ref, str.encode(name))
         return Field(field) if field else None
 
-    def getParameterByIndex(self, index: int) -> Field:
+    def getFieldByIndex(self, index: int) -> Field:
         field = wb.wb_supervisor_proto_get_field_by_index(self._ref, index)
         return Field(field) if field else None
 
@@ -57,4 +57,4 @@ class Proto:
 
     @property
     def is_derived(self) -> bool:
-        return wb.wb_supervisor_proto_is_derived(self._ref)
+        return wb.wb_supervisor_proto_is_derived(self._ref) != 0

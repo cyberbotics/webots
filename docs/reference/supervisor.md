@@ -862,7 +862,7 @@ If a field is defined for the base (Webots) type of a node but does not appear i
 Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` function where the field is specified by its `index` and the the `node` it belongs to.
 Valid `index` values should be positive and lower than the number of fields returned by `wb_supervisor_node_get_number_of_fields`.
 If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` returns -1.
-To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field_by_index` and `wb_supervisor_node_get_number_of_base_node_fields` should be used instead.
+To retrieve an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field_by_index` and `wb_supervisor_node_get_number_of_base_node_fields` should be used instead.
 
 > **Note**: fields retrieved with the `wb_supervisor_node_get_base_node_field` and `wb_supervisor_node_get_base_node_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
@@ -4062,7 +4062,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Node
+from controller import Proto
 
 class Proto:
     def getTypeName(self):
@@ -4076,7 +4076,7 @@ class Proto:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Node;
+import com.cyberbotics.webots.controller.Proto;
 
 public class Proto {
   public String getTypeName();
@@ -4103,7 +4103,7 @@ parent = wb_supervisor_proto_get_parent(proto)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/proto_get_type_name` | `service` | `webots_ros::proto_get_type_name` | `uint64 proto`<br/>`---`<br/>`string value` |
-| `/supervisor/proto_is_derived` | `service` | `webots_ros::proto_is_derived` | `uint64 proto`<br/>`---`<br/>`int32 value` |
+| `/supervisor/proto_is_derived` | `service` | `webots_ros::proto_is_derived` | `uint64 proto`<br/>`---`<br/>`bool value` |
 | `/supervisor/proto_get_parent` | `service` | `webots_ros::proto_get_parent` | `uint64 proto`<br/>`---`<br/>`uint64 proto` |
 
 %tab-end
@@ -4119,7 +4119,7 @@ If the argument is NULL, the function returns the empty string.
 
 The `wb_supervisor_proto_is_derived` function returns true if the proto instance is derived from another proto type.
 
-The `wb_supervisor_proto_get_parent` function returns the instance of the parent proto type corresponding the given proto instance.
+The `wb_supervisor_proto_get_parent` function returns the instance of the parent proto type corresponding to the given proto instance.
 
 ---
 
@@ -4161,7 +4161,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Node
+from controller import Proto
 
 class Proto:
     def getField(self, fieldName):
@@ -4175,7 +4175,7 @@ class Proto:
 %tab "Java"
 
 ```java
-import com.cyberbotics.webots.controller.Node;
+import com.cyberbotics.webots.controller.Proto;
 
 public class Proto {
   public Field getField(String fieldName);
