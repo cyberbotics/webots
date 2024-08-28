@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field insertion.", i);
     proto = wb_supervisor_node_get_proto(node);
-    mf_proto_fields[i] = wb_supervisor_proto_get_field_by_index(proto, i);
+    mf_proto_fields[i] = wb_supervisor_proto_get_field(proto, field_names[i]);
 
     const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
     ts_assert_int_equal(proto_count, mf_field_count[i] + increment,
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
                         "Proto field %d should have been invalidated after field removal.", i);
     proto = wb_supervisor_node_get_proto(node);
-    mf_proto_fields[i] = wb_supervisor_proto_get_field_by_index(proto, i);
+    mf_proto_fields[i] = wb_supervisor_proto_get_field(proto, field_names[i]);
 
     const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
     ts_assert_int_equal(proto_count, mf_field_count[i] + increment,
