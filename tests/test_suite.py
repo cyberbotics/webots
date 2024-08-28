@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(description='Test-suite command line options')
 parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
 parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
-                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering'])
 parser.add_argument('--performance-log', '-p', type=str, dest='performance_log', default="",
                     help='The name of the performance log file to use if you want to log performance.')
 parser.add_argument('worlds', nargs='*', default=[])
@@ -236,11 +236,9 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     #  command.run(silent = False)
 
     webotsArguments = [webotsFullPath, firstSimulation]
-    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch']
+    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch', '--no-rendering', '--minimize']
     if args.performance_log:
         webotsArguments += [f'--log-performance={args.performance_log}']
-    if groupName != 'with_rendering':
-        webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':
         webotsArguments += ['--clear-cache']
     command = Command(webotsArguments)
@@ -332,7 +330,7 @@ for file in args.worlds:
 if args.group:
     testGroups = [str(args.group)]
 else:
-    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering']
 
 if sys.platform == 'win32' and 'parser' in testGroups:
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -352,20 +350,20 @@ backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rende
                                     webotsEmptyWorldPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 # Wait until we can actually connect to it, trying 10 times.
-with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-    retries = 0
-    error = None
-    while retries < 10:
-        try:
+retries = 0
+error = None
+while retries < 10:
+    try:
+        with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
             sock.settimeout(1)
             sock.connect(("127.0.0.1", 1234))
             break
-        except socket.error as e:
-            error = e
-            retries += 1
-            time.sleep(1)
-    if retries == 10:
-        raise error
+    except socket.error as e:
+        error = e
+        retries += 1
+        time.sleep(1)
+if retries == 10:
+    raise error
 
 for groupName in testGroups:
     if groupName == 'cache':

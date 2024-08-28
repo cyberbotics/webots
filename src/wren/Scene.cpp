@@ -101,11 +101,10 @@ namespace wren {
     assert(!Texture2d::cachedItemCount());
   }
 
-  void Scene::getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, unsigned int buffer_type,
-                            void *buffer) {
-    assert(buffer_type == GL_FRONT || buffer_type == GL_BACK);
-    glstate::bindFrameBuffer(0);
-    glReadBuffer(buffer_type);
+  void Scene::getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer) {
+    glstate::bindFrameBuffer(instance()->mMainViewport->frameBuffer()->glName());
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+    glFinish();
     glReadPixels(0, 0, width, height, format, data_type, buffer);
   }
 
@@ -884,9 +883,8 @@ void wr_scene_apply_pending_updates(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->applyPendingUpdates();
 }
 
-void wr_scene_get_main_buffer(WrScene *scene, int width, int height, unsigned int format, unsigned int data_type,
-                              unsigned int buffer_type, void *buffer) {
-  reinterpret_cast<wren::Scene *>(scene)->getMainBuffer(width, height, format, data_type, buffer_type, buffer);
+void wr_scene_get_main_buffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer) {
+  wren::Scene::getMainBuffer(width, height, format, data_type, buffer);
 }
 
 void wr_scene_init_frame_capture(WrScene *scene, int pixel_buffer_count, unsigned int *pixel_buffer_ids, int frame_size) {

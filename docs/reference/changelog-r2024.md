@@ -13,6 +13,7 @@ Released on December **th, 2023.
       - Added the `WbProtoRef` type to the supervisor API.
       - Added the ability to query the internal structure and fields of a proto node.
       - Added the ability to query the field in the scene tree that corresponds to a proto internal field.
+    - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
   - Cleanup
@@ -29,4 +30,10 @@ Released on December **th, 2023.
     - Fixed the bug that when the language is Python, getTargets() cannot correctly obtain the multi-target data detected by the radar ([#6606](https://github.com/cyberbotics/webots/pull/6606))
     - Fixed incomplete loading while minimized under some windowing systems ([#6617](https://github.com/cyberbotics/webots/pull/6617)).
     - Fixed unitialized sliding friction when using asymmetric rolling friction ([#6618](https://github.com/cyberbotics/webots/pull/6618)).
+    - Made `supervisor_export_image` work even if using the `--minimize --no-rendering` options ([#6622](https://github.com/cyberbotics/webots/pull/6622)).
+    - Fixed CA certificates needed by `test_suite.py` missing in Windows development environment ([#6628](https://github.com/cyberbotics/webots/pull/6628)).
+    - Fixed to use a version of Qt that is still supported ([#6623](https://github.com/cyberbotics/webots/pull/6623)).
+    - Fixed connection errors when using long robot names in some environments ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
+    - Fixed crash on macos when closing Webots under some circumstances ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
+    - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
