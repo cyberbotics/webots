@@ -252,7 +252,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     if sys.platform == "darwin":
         # Longer timeout on MacOS because Webots takes longer to start there during CI.
         timeoutMinutes = 60
-    command.runTest(timeout=timeoutMinutes * 60)  # 10 minutes
+    command.runTest(timeout=timeoutMinutes * 60)
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
