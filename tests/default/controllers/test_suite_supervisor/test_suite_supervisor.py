@@ -242,7 +242,7 @@ class TestSuite (Supervisor):
         delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
         if sys.platform == "darwin":
             # Longer timeout on MacOS because Webots takes longer to start there during CI.
-            delay = delay * 10
+            delay *= 10
         timeout = time.time() + delay
 
         running_controllers_pid = []
