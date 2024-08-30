@@ -67,7 +67,7 @@ jobs:
           distribution/*.dmg
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite mac') }}
     strategy:
       matrix:
         os: [macos-13]
