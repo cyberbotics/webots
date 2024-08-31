@@ -113,7 +113,7 @@ jobs:
     - name: Extract Webots
       run: |
         ls artifact
-        ./artifact/webots-2024a_setup.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
+        ./artifact/webots-*.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
