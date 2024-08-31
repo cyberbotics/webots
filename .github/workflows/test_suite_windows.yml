@@ -95,7 +95,7 @@ jobs:
         path: |
           distribution/*.exe
   test-suite:
-    needs: build
+    # needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
