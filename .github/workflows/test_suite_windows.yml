@@ -109,13 +109,7 @@ jobs:
         path: artifact
     - name: Extract Webots
       run: |
-        artifact/webots-*.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
-      if: ${{ failure() }}
-      with:
-        ## If no one connects after 5 minutes, shut down server.
-        wait-timeout-minutes: 5
+        artifact/webots-*_setup.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
