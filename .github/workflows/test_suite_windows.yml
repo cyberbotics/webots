@@ -107,8 +107,12 @@ jobs:
       with:
         name: build-${{ matrix.os }}
         path: artifact
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
     - name: Extract Webots
       run: |
+        ls artifact
         ./artifact/webots-2024a_setup.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
@@ -124,7 +128,8 @@ jobs:
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+#    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    if: ${{ false && always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2019]
