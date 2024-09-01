@@ -99,7 +99,7 @@ protected:
   int mCommentStartDelimiterLength;
 };
 
-// a highlighter specialized C, C++ and Java
+// a highlighter specialized C, C++, Java, and Javascript
 class WbCHighlighter : public WbMultiLineCommentHighlighter {
 public:
   WbCHighlighter(const WbLanguage *language, QTextDocument *parent);
@@ -118,7 +118,7 @@ public:
 };
 
 // a highlighter specialized for PROTO files
-class WbProtoHighlighter : public WbLuaHighlighter {
+class WbProtoHighlighter : public WbCHighlighter {
 public:
   WbProtoHighlighter(const WbLanguage *language, QTextDocument *parent);
 
