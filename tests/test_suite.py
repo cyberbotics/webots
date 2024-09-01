@@ -86,6 +86,8 @@ def setupWebots():
 
     if sys.platform == 'win32':
         webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'mingw64', 'bin', 'webots.exe')
+    elif sys.platform == 'darwin':
+        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'Contents', 'MacOS', 'webots')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
@@ -198,12 +200,14 @@ def generateWorldsList(groupName):
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
             # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
+            # billboard test not working in macos GitHub Action environment
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
-                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
+                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
+                        (filename.endswith('billboard.wbt') and sys.platform == 'darwin')
                     ))):
                 worldsList.append(filename)
 
@@ -244,7 +248,11 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=10 * 60)  # 10 minutes
+    timeoutMinutes = 10
+    if sys.platform == "darwin":
+        # Longer timeout on MacOS because Webots takes longer to start there during CI.
+        timeoutMinutes = 60
+    command.runTest(timeout=timeoutMinutes * 60)
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
