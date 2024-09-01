@@ -25,6 +25,13 @@ int main(int argc, char **argv) {
   int i;
   double d;
 
+  ts_assert_string_equal(wb_supervisor_field_get_name(NULL), "",
+                         "wb_supervisor_field_get_name(NULL) should return the empty string");
+  ts_assert_int_equal(wb_supervisor_field_get_type(NULL), 0, "wb_supervisor_field_get_type(NULL) should return 0");
+  ts_assert_string_equal(wb_supervisor_field_get_type_name(NULL), "",
+                         "wb_supervisor_field_get_type_name(NULL) should return the empty string");
+  ts_assert_int_equal(wb_supervisor_field_get_count(NULL), -1, "wb_supervisor_field_get_count(NULL) should return -1");
+
   root = wb_supervisor_node_get_root();
   ts_assert_pointer_not_null(root, "Root node is not found");
 
