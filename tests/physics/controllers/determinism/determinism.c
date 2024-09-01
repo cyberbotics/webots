@@ -28,8 +28,8 @@ int main(int argc, char **argv) {
 
   if (file_exists(ode_tmp_dif)) {
     double delta = difftime(now, file_get_creation_time(ode_tmp_dif));
-    // printf("delta time = %f\n", delta);
-    if (delta > 2.0) {
+    // printf("%s is %f seconds old.\n", ode_tmp_dif, delta);
+    if (delta > 20.0) {
       ts_assert_boolean_equal(remove_file(ode_tmp_dif), "Cannot remove ODE tmp dif file");
       ts_assert_boolean_not_equal(file_exists(ode_tmp_dif), "Cannot remove ODE tmp dif file");
     }
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
           exit(EXIT_FAILURE);
         }
       } else {
-        move_file(ode_dif, ode_tmp_dif);
+        ts_assert_boolean_equal(move_file(ode_dif, ode_tmp_dif), "Cannot move ODF dif file to ODE tmp dif file");
         wb_supervisor_world_reload();
         wb_robot_cleanup();
         exit(EXIT_SUCCESS);
