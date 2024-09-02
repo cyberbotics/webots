@@ -116,7 +116,7 @@ def setupWebots():
     command = Command([webotsFullPath, '--sysinfo'])
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots information of the system')
+        raise RuntimeError('Error when getting the Webots information of the system: ' + command.output)
     webotsSysInfo = command.output.split('\n')
 
     return webotsFullPath, webotsVersion, webotsSysInfo, webotsEmptyWorldPath
