@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   wb_robot_step(2 * TIME_STEP);
 
   // import robot object
-  FILE *fd = fopen("MyBot.txt", "rb");
+  FILE *fd = fopen("MyBot.txt", "r");
   char contents[4096];
   const int n = fread(contents, 1, sizeof(contents), fd);
   fclose(fd);
