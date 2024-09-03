@@ -223,28 +223,40 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << tr("OpenAL device: %1").arg(WbSoundEngine::device()).toUtf8().constData() << endl;
 
   // create simply an OpenGL context
+  cout << "Creating QMainWindow" << endl;
   QMainWindow mainWindow;
+  cout << "Creating QOpenGLWidget" << endl;
   QOpenGLWidget openGlWidget(&mainWindow);
+  cout << "Calling setCentralWidget()" << endl;
   mainWindow.setCentralWidget(&openGlWidget);
+  cout << "Calling show()" << endl;
   mainWindow.show();
 
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.
   // The format is QSurfaceFormat::defaultFormat() => OpenGL 3.3 defined in main.cpp.
+  cout << "Creating QOpenGLContext" << endl;
   QOpenGLContext *context = new QOpenGLContext();
+  cout << "Calling create()" << endl;
   context->create();
+  cout << "Getting functions()" << endl;
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
 
 #ifdef _WIN32
+  cout << "Getting gpuVendorId()" << endl;
   const quint32 vendorId = WbSysInfo::gpuVendorId(gl);
+  cout << "Getting gpuDeviceId()" << endl;
   const quint32 rendererId = WbSysInfo::gpuDeviceId(gl);
 #else
   const quint32 vendorId = 0;
   const quint32 rendererId = 0;
 #endif
 
+  cout << "Getting GL_VENDOR" << endl;
   const char *vendor = reinterpret_cast<const char *>(gl->glGetString(GL_VENDOR));
+  cout << "Getting GL_RENDERER" << endl;
   const char *renderer = reinterpret_cast<const char *>(gl->glGetString(GL_RENDERER));
+  cout << "Done gatherering GL vendor/renderer info" << endl;
   // cppcheck-suppress knownConditionTrueFalse
   if (vendorId == 0)
     cout << tr("OpenGL vendor: %1").arg(vendor).toUtf8().constData() << endl;
