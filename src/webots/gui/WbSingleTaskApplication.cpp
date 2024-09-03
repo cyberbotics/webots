@@ -237,10 +237,12 @@ void WbSingleTaskApplication::showSysInfo() const {
   cout << "Creating QOpenGLContext" << endl;
   QOpenGLContext *context = new QOpenGLContext();
   cout << "Calling create()" << endl;
-  context->create();
+  bool contextCreated = context->create();
+  cout << "returned" << contextCreated << endl; 
   cout << "Getting functions()" << endl;
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
+  cout << "gl ?= NULL: " << (gl == NULL) << endl;
 
 #ifdef _WIN32
   cout << "Getting gpuVendorId()" << endl;
