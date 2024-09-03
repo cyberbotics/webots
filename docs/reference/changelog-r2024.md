@@ -36,4 +36,5 @@ Released on December **th, 2023.
     - Fixed connection errors when using long robot names in some environments ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed crash on macos when closing Webots under some circumstances ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
+    - Fixed crash when `wb_supervisor_field_get_name` was called with NULL ([#6647](https://github.com/cyberbotics/webots/pull/6647)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
