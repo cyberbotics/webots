@@ -133,6 +133,10 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
+    - name: Install Software Renderer
+      uses: ssciwr/setup-mesa-dist-win@v2
+      version: '24.2.1'
+      build-type: 'release-mingw'
     - name: Test
       run: |
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
