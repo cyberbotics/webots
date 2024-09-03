@@ -147,6 +147,10 @@ jobs:
         export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
         export BRANCH_HASH=$(git log -1 --format='%H')
         python tests/test_suite.py
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
