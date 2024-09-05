@@ -1778,6 +1778,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
       fieldIt.remove();
+      // The field can still be accessed through the proto info, so don't delete it
       instance->mInternalProtoParameters << f;
     }
   }
