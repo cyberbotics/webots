@@ -1,5 +1,6 @@
 # A Pen node can be used to model a pen attached to a mobile robot.
 # It can draw the trajectory of the robot on a textured ground.
+# parent: Solid
 
 Pen {
   #fields that inherit from the Solid node:
