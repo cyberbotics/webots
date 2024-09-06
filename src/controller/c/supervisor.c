@@ -1098,7 +1098,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
                                           sent_field_get_request->field->proto_id == field_proto_id &&
                                           sent_field_get_request->field->id == field_id;
         WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field :
-                                                    find_field_by_id(field_node_id, -1, field_id, false);  // TODO: FIX
+                                                    find_field_by_id(field_node_id, field_proto_id, field_id, false);
         if (f) {
           switch (f->type) {
             case WB_SF_BOOL:
