@@ -2831,6 +2831,9 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
 }
 
 const char *wb_supervisor_field_get_name(WbFieldRef field) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return "";
+
   return field->name;
 }
 

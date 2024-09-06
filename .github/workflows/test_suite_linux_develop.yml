@@ -70,14 +70,14 @@ jobs:
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -98,7 +98,7 @@ jobs:
       with:
          ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-ubuntu-20.04
         path: artifact
@@ -137,7 +137,7 @@ jobs:
          submodules: true
          ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -164,7 +164,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-ubuntu-20.04
         path: artifact
