@@ -231,7 +231,8 @@ void WbSingleTaskApplication::showSysInfo() const {
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.
   // The format is QSurfaceFormat::defaultFormat() => OpenGL 3.3 defined in main.cpp.
   QOpenGLContext *context = new QOpenGLContext();
-  assert(context->create());
+  if (!context->create())
+    assert(false);
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
   assert(gl);
