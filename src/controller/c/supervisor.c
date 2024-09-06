@@ -3954,7 +3954,7 @@ WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
 
   robot_mutex_lock();
 
-  if (!proto->parent) {
+  if (!is_proto_ref_valid(proto->parent)) {
     // if we don't know the parent yet, we need to talk to Webots
     WbProtoRef proto_list_before = proto_list;
     node_ref = proto->node_unique_id;
