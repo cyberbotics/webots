@@ -32,9 +32,9 @@ Proto *Proto::findProto(WbProtoRef ref) {
   if (iter != protoMap.end())
     return iter->second;
 
-  Proto *field = new Proto(ref);
-  protoMap.insert(pair<WbProtoRef, Proto *>(ref, field));
-  return field;
+  Proto *proto = new Proto(ref);
+  protoMap.insert(pair<WbProtoRef, Proto *>(ref, proto));
+  return proto;
 }
 
 void Proto::cleanup() {
