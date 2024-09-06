@@ -74,14 +74,14 @@ jobs:
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v4.4.0
+    - uses: actions/upload-artifact@v4
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v4.4.0
+    - uses: actions/upload-artifact@v4
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -121,7 +121,7 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
-    - uses: actions/upload-artifact@v4.4.0
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: test-results-${{ matrix.os }}
