@@ -147,6 +147,8 @@ jobs:
         export PATH="${WEBOTS_HOME}/msys64/mingw64/bin:$PATH"
         export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
         export BRANCH_HASH=$(git log -1 --format='%H')
+        export MESA_GL_VERSION_OVERRIDE=3.3
+        export LIBGL_ALWAYS_SOFTWARE=true
         python tests/test_suite.py
     - name: Setup tmate session
       if: ${{ failure() }}
