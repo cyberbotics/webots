@@ -316,6 +316,7 @@ wb_supervisor_node_get_number_of_base_node_fields.m
 wb_supervisor_node_get_number_of_contact_points.m
 wb_supervisor_node_get_number_of_fields.m
 wb_supervisor_node_get_parent_node.m
+wb_supervisor_node_get_proto.m
 wb_supervisor_node_get_root.m
 wb_supervisor_node_get_selected.m
 wb_supervisor_node_get_self.m

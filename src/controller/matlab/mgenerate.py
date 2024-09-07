@@ -538,6 +538,7 @@ def main(args=None):
     generator.gen(FUNC, "wb_supervisor_node_get_number_of_fields(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_orientation(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_parent_node(noderef)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_proto(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_pose(noderef, noderef_from)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_root()", "supervisor")

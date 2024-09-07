@@ -167,6 +167,7 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
 #### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_proto`
 #### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
@@ -180,6 +181,7 @@ const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
@@ -196,6 +198,7 @@ namespace webots {
     std::string getDef() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Proto *getProto() const;
     Node *getFromProtoDef(const std::string &name);
     // ...
   }
@@ -214,6 +217,7 @@ class Node:
     def getDef(self):
     def getParentNode(self):
     def isProto(self):
+    def getProto(self):
     def getFromProtoDef(self, name):
     # ...
 ```
@@ -230,6 +234,7 @@ public class Node {
   public String getDef();
   public Node getParentNode();
   public boolean isProto();
+  public Proto getProto();
   public Node getFromProtoDef(String name);
   // ...
 }
@@ -244,6 +249,7 @@ id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
 b = wb_supervisor_node_is_proto(node)
+proto = wb_supervisor_node_get_proto(node)
 node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
@@ -257,6 +263,7 @@ node = wb_supervisor_node_get_from_proto_def(node, 'def')
 | `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
 | `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
+| `/supervisor/node/get_proto` | `service` | `webots_ros::node_get_proto` | `uint64 node`<br/>`---`<br/>`uint64 proto` |
 | `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
@@ -273,6 +280,9 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_get_proto` function the instance of the proto type corresponding to the given node.
+If the node is not a PROTO node, the function returns NULL.
 
 The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
 
