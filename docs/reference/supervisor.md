@@ -4112,9 +4112,9 @@ parent = wb_supervisor_proto_get_parent(proto)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/proto_get_type_name` | `service` | `webots_ros::proto_get_type_name` | `uint64 proto`<br/>`---`<br/>`string value` |
-| `/supervisor/proto_is_derived` | `service` | `webots_ros::proto_is_derived` | `uint64 proto`<br/>`---`<br/>`bool value` |
-| `/supervisor/proto_get_parent` | `service` | `webots_ros::proto_get_parent` | `uint64 proto`<br/>`---`<br/>`uint64 proto` |
+| `/supervisor/proto/get_type_name` | `service` | `webots_ros::proto_get_type_name` | `uint64 proto`<br/>`---`<br/>`string value` |
+| `/supervisor/proto/is_derived` | `service` | `webots_ros::proto_is_derived` | `uint64 proto`<br/>`---`<br/>`bool value` |
+| `/supervisor/proto/get_parent` | `service` | `webots_ros::proto_get_parent` | `uint64 proto`<br/>`---`<br/>`uint64 proto` |
 
 %tab-end
 
@@ -4211,9 +4211,9 @@ number_of_fields = wb_supervisor_proto_get_number_of_fields(proto)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/proto_get_field` | `service` | `webots_ros::proto_get_field` | `uint64 proto`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/proto_get_field_by_index` | `service` | `webots_ros::proto_get_field_by_index` | `uint64 proto`<br/>`int32 index`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/proto_get_number_of_fields` | `service` | `webots_ros::proto_get_number_of_fields` | `uint64 proto`<br/>`---`<br/>`int32 value` |
+| `/supervisor/proto/get_field` | `service` | `webots_ros::proto_get_field` | `uint64 proto`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/proto/get_field_by_index` | `service` | `webots_ros::proto_get_field_by_index` | `uint64 proto`<br/>`int32 index`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/proto/get_number_of_fields` | `service` | `webots_ros::proto_get_number_of_fields` | `uint64 proto`<br/>`---`<br/>`int32 value` |
 
 %tab-end
 
