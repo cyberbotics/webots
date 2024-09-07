@@ -1,8 +1,8 @@
 #VRML_SIM R2024a utf8
 
 EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
-EXTERNPROTO "webots://tests/parser/protos/TemplateTransformSlotLua.proto"
-EXTERNPROTO "webots://tests/parser/protos/TemplateHingeJointLua.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/parser/protos/ProtoRestrictedFieldValues.proto"
 
 WorldInfo {
 }
@@ -22,17 +22,20 @@ DirectionalLight {
   direction -0.33 -1 -0.5
   castShadows TRUE
 }
-TemplateTransformSlotLua {
-  slot [
-    Group {
-      children [
-        TemplateTransformSlotLua {
-          slot [
-            TemplateHingeJointLua {
-            }
-          ]
-        }
-      ]
+Floor {
+  rotation 1 0 0 -1.5708
+}
+ProtoRestrictedFieldValues {
+  rotation 0 1 0 1.5708
+  translation 0 0 0
+  extensionSlot [
+    DerivedPoseProto {
+    }
+    Solid {
+    }
+  ]
+  extensionSlot2 [
+    Pose {
     }
   ]
 }
