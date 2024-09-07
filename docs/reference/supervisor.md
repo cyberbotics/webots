@@ -4035,9 +4035,9 @@ rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my
 ```c
 #include <webots/supervisor.h>
 
-const char *wb_supervisor_proto_get_type_name(WbNodeRef proto);
-bool wb_supervisor_proto_is_derived(WbNodeRef proto, const char *type_name);
-WbNodeRef wb_supervisor_proto_get_parent(WbNodeRef proto);
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
+bool wb_supervisor_proto_is_derived(WbProtoRef proto, const char *type_name);
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
 ```
 
 %tab-end
@@ -4134,9 +4134,9 @@ The `wb_supervisor_proto_get_parent` function returns the instance of the parent
 ```c
 #include <webots/supervisor.h>
 
-WbFieldRef wb_supervisor_proto_get_field(WbNodeRef proto, const char *field_name);
-WbFieldRef wb_supervisor_proto_get_field_by_index(WbNodeRef proto, int index);
-int        wb_supervisor_proto_get_number_of_fields(WbNodeRef proto);
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index);
+int        wb_supervisor_proto_get_number_of_fields(WbProtoRef proto);
 ```
 
 %tab-end
