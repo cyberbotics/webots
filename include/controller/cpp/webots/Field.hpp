@@ -55,6 +55,7 @@ namespace webots {
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
+    Field *getActualField() const;
 
     void enableSFTracking(int samplingPeriod);
     void disableSFTracking();

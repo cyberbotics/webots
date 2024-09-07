@@ -524,6 +524,7 @@ OTHER_SOURCES = \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \
+  WbNodeProtoInfo.cpp \
   WbNodeUtilities.cpp \
   WbObjectDetection.cpp \
   WbOdeDebugger.cpp \
