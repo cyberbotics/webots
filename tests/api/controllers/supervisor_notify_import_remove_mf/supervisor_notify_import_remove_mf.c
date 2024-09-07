@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     const int count = wb_supervisor_field_get_count(mf_field[i]);
     mf_field_count[i] = count;
     const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
-    ts_assert_int_equal(proto_count, count, "Size of proto field %d not correctly initialized: found %d, expected %d", i, count,
+    ts_assert_int_equal(proto_count, count, "Size of proto field %d not correctly initialized: found %d, expected %d", i, proto_count,
                         count);
   }
 
