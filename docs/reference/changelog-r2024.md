@@ -13,6 +13,7 @@ Released on December **th, 2023.
       - Added the `WbProtoRef` type to the supervisor API.
       - Added the ability to query the internal structure and fields of a proto node.
       - Added the ability to query the field in the scene tree that corresponds to a proto internal field.
+      - Fixed the method signature of `wb_supervisor_node_get_number_of_fields` in MATLAB.
     - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
