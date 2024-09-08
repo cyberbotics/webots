@@ -181,7 +181,7 @@ def generateWorldsList(groupName):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if f'/tests/{groupName}/' in file:
+            if (os.sep + 'tests' + os.sep + groupName + os.sep) in file:
                 worldsList.append(file)
 
     # generate the list from 'ls worlds/*.wbt'
