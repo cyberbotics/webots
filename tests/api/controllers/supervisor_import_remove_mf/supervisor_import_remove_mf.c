@@ -38,49 +38,55 @@ int main(int argc, char **argv) {
   // Import
 
   wb_robot_step(TIME_STEP);
-
   wb_supervisor_field_insert_mf_bool(bool_field, 0, true);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFBool incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_int32(int_field, -1, 17);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFInt32 incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_float(float_field, 0, 0.54);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFFloat incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_vec2f(vec2_field, -1, vec2_value);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFVec2f incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_vec3f(vec3_field, 0, vec3_value);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFVec3f incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_rotation(rotation_field, -1, rotation_value);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFRotation incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_color(color_field, 0, color_value);
   reference_distance -= 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after insertion of MFColor incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_insert_mf_string(string_field, -1, "Hello World!");
   const char *expected_string = "Second string";
   wb_supervisor_field_insert_mf_string(string_field, 1, expected_string);
@@ -93,48 +99,56 @@ int main(int argc, char **argv) {
 
   // Remove
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(string_field, 0);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFString incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(color_field, -1);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFColor incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(rotation_field, -1);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFRotation incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(vec3_field, 0);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFVec3f incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(vec2_field, 0);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFVec2f incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(float_field, -1);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFFloat incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(int_field, 0);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
   ts_assert_double_in_delta(wb_distance_sensor_get_value(distance_sensor), reference_distance, 0.0001,
                             "Distance after removing MFInt32 incorrect.");
 
+  wb_robot_step(TIME_STEP);
   wb_supervisor_field_remove_mf(bool_field, -1);
   reference_distance += 0.05;
   wb_robot_step(TIME_STEP);
