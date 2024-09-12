@@ -116,7 +116,7 @@ def setupWebots():
     command = Command([webotsFullPath, '--sysinfo'])
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots information of the system')
+        raise RuntimeError('Error when getting the Webots information of the system: ' + command.output)
     webotsSysInfo = command.output.split('\n')
 
     return webotsFullPath, webotsVersion, webotsSysInfo, webotsEmptyWorldPath
@@ -181,7 +181,7 @@ def generateWorldsList(groupName):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if f'/tests/{groupName}/' in file:
+            if (os.sep + 'tests' + os.sep + groupName + os.sep) in file:
                 worldsList.append(file)
 
     # generate the list from 'ls worlds/*.wbt'
@@ -201,13 +201,16 @@ def generateWorldsList(groupName):
             # speaker test not working on github action because of missing sound drivers
             # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
             # billboard test not working in macos GitHub Action environment
+            # billboard and robot window not working on windows GitHub Action environment.
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
-                        (filename.endswith('billboard.wbt') and sys.platform == 'darwin')
+                        (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
+                        (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
                     ))):
                 worldsList.append(filename)
 
