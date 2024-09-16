@@ -24,6 +24,7 @@ class WbWrenVertexArrayFrameListener {
 public:
   static WbWrenVertexArrayFrameListener *instance();
   static void clear();
+  static void resetLastUpdateTime();
 
   void subscribeTrack(WbTrack *track);
   void unsubscribeTrack(WbTrack *track);
