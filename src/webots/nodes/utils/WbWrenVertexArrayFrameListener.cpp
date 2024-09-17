@@ -21,9 +21,13 @@
 #include <wren/scene.h>
 
 WbWrenVertexArrayFrameListener *WbWrenVertexArrayFrameListener::cInstance = NULL;
+static double lastUpdateTime = -1.0;
+
+void WbWrenVertexArrayFrameListener::resetLastUpdateTime() {
+  lastUpdateTime = -1.0;
+}
 
 static void processEvent() {
-  static double lastUpdateTime = -1.0;
   const double currentTime = WbSimulationState::instance()->time();
   if (currentTime == lastUpdateTime)
     return;
