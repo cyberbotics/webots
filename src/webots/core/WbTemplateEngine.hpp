@@ -29,26 +29,21 @@ public:
   static const QString &openingToken();
   static const QString &closingToken();
 
-  static void setOpeningToken(const QString &token);
-  static void setClosingToken(const QString &token);
   static QString escapeString(const QString &string);
 
   explicit WbTemplateEngine(const QString &templateContent);
   virtual ~WbTemplateEngine() {}
 
-  bool generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage);
+  bool generate(QHash<QString, QString> tags, const QString &logHeaderName);
 
   const QByteArray &result() { return mResult; }
 
   const QString &error() const { return mError; }
 
 private:
-  static void initializeLua();
   static void initializeJavaScript();
-  static void copyModuleToTemporaryFile(QString modulePath);
 
   bool generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName);
-  bool generateLua(QHash<QString, QString> tags, const QString &logHeaderName);
 
   QString mTemplateContent;
   QString mError;
