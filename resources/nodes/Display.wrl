@@ -4,6 +4,7 @@
 # It can model an embedded screen or it can display any graphical
 # information such as graphs, text, robot trajectory, filtered camera
 # images and so on.
+# parent: Solid
 
 Display {
   #fields that inherit from the Solid node:

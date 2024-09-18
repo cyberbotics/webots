@@ -1,4 +1,5 @@
 # Experimental Radio node.
+# parent: Solid
 
 Radio {
   #fields that inherit from the Solid node:

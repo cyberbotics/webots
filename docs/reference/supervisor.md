@@ -167,6 +167,7 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
 #### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_proto`
 #### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
@@ -180,6 +181,7 @@ const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
@@ -196,6 +198,7 @@ namespace webots {
     std::string getDef() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Proto *getProto() const;
     Node *getFromProtoDef(const std::string &name);
     // ...
   }
@@ -214,6 +217,7 @@ class Node:
     def getDef(self):
     def getParentNode(self):
     def isProto(self):
+    def getProto(self):
     def getFromProtoDef(self, name):
     # ...
 ```
@@ -230,6 +234,7 @@ public class Node {
   public String getDef();
   public Node getParentNode();
   public boolean isProto();
+  public Proto getProto();
   public Node getFromProtoDef(String name);
   // ...
 }
@@ -244,6 +249,7 @@ id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
 b = wb_supervisor_node_is_proto(node)
+proto = wb_supervisor_node_get_proto(node)
 node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
 
@@ -257,6 +263,7 @@ node = wb_supervisor_node_get_from_proto_def(node, 'def')
 | `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
 | `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
 | `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
+| `/supervisor/node/get_proto` | `service` | `webots_ros::node_get_proto` | `uint64 node`<br/>`---`<br/>`uint64 proto` |
 | `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
@@ -273,6 +280,9 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_get_proto` function the instance of the proto type corresponding to the given node.
+If the node is not a PROTO node, the function returns NULL.
 
 The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
 
@@ -744,9 +754,9 @@ A file with the equivalent content can be produced in the Webots user interface 
 #### `wb_supervisor_node_get_field`
 #### `wb_supervisor_node_get_field_by_index`
 #### `wb_supervisor_node_get_number_of_fields`
-#### `wb_supervisor_node_get_proto_field`
-#### `wb_supervisor_node_get_proto_field_by_index`
-#### `wb_supervisor_node_get_proto_number_of_fields`
+#### `wb_supervisor_node_get_base_node_field`
+#### `wb_supervisor_node_get_base_node_field_by_index`
+#### `wb_supervisor_node_get_number_of_base_node_fields`
 
 %tab-component "language"
 
@@ -758,9 +768,9 @@ A file with the equivalent content can be produced in the Webots user interface 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, const char *field_name);
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node, int index);
+WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_base_node_fields(WbNodeRef node);
 ```
 
 %tab-end
@@ -775,9 +785,9 @@ namespace webots {
     Field *getField(const std::string &fieldName) const;
     Field *getFieldByIndex(int index) const;
     int getNumberOfFields() const;
-    Field *getProtoField(const std::string &fieldName) const;
-    Field *getProtoFieldByIndex(int index) const;
-    int getProtoNumberOfFields() const;
+    Field *getBaseNodeField(const std::string &fieldName) const;
+    Field *getBaseNodeFieldByIndex(int index) const;
+    int getNumberOfBaseNodeFields() const;
     // ...
   }
 }
@@ -793,10 +803,10 @@ from controller import Node
 class Node:
     def getField(self, fieldName):
     def getFieldByIndex(self, index):
-    def getNumberOfFields():
-    def getProtoField(self, fieldName):
-    def getProtoFieldByIndex(self, index):
-    def getProtoNumberOfFields():
+    def getNumberOfFields(self):
+    def getBaseNodeField(self, fieldName):
+    def getBaseNodeFieldByIndex(self, index):
+    def getNumberOfBaseNodeFields(self):
     # ...
 ```
 
@@ -811,9 +821,9 @@ public class Node {
   public Field getField(String fieldName);
   public Field getFieldByIndex(int index);
   public int getNumberOfFields();
-  public Field getProtoField(String fieldName);
-  public Field getProtoFieldByIndex(int index);
-  public int getProtoNumberOfFields();
+  public Field getBaseNodeField(String fieldName);
+  public Field getBaseNodeFieldByIndex(int index);
+  public int getNumberOfBaseNodeFields();
   // ...
 }
 ```
@@ -826,9 +836,9 @@ public class Node {
 field = wb_supervisor_node_get_field(node, 'field_name')
 field = wb_supervisor_node_get_field_by_index(node, index)
 size = wb_supervisor_node_get_number_of_fields(node)
-field = wb_supervisor_node_get_proto_field(node, 'field_name')
-field = wb_supervisor_node_get_proto_field_by_index(node, index)
-size = wb_supervisor_node_get_proto_number_of_fields(node)
+field = wb_supervisor_node_get_base_node_field(node, 'field_name')
+field = wb_supervisor_node_get_base_node_field_by_index(node, index)
+size = wb_supervisor_node_get_number_of_base_node_fields(node)
 ```
 
 %tab-end
@@ -837,9 +847,9 @@ size = wb_supervisor_node_get_proto_number_of_fields(node)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto`<br/>`---`<br/>`uint32 value` |
+| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool queryBaseNode`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool queryBaseNode`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool queryBaseNode`<br/>`---`<br/>`uint32 value` |
 
 %tab-end
 
@@ -849,22 +859,22 @@ size = wb_supervisor_node_get_proto_number_of_fields(node)
 
 *get a field reference from a node*
 
-The `wb_supervisor_node_get_field` function retrieves a handler to a node field.
+The `wb_supervisor_node_get_field` function retrieves a handler to a node field in the scene tree.
 The field is specified by its name in `field_name` and the `node` it belongs to.
 It can be a single field (SF) or a multiple field (MF).
-If no such field name exists for the specified node or the field is an internal field of a PROTO, the return value is NULL.
+If no such field name exists for the specified node in the scene tree, the return value is NULL.
 Otherwise, it returns a handler to a field.
 
 > **Note**: The `wb_supervisor_node_get_field` function will return a valid field handler if the field corresponding to the field name is an hidden field.
 
-If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
+If a field is defined for the base (Webots) type of a node but does not appear in the scene tree due to being an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field` function can be used instead.
 
 Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` function where the field is specified by its `index` and the the `node` it belongs to.
 Valid `index` values should be positive and lower than the number of fields returned by `wb_supervisor_node_get_number_of_fields`.
-If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
-To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
+If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` returns -1.
+To retrieve an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field_by_index` and `wb_supervisor_node_get_number_of_base_node_fields` should be used instead.
 
-> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+> **Note**: fields retrieved with the `wb_supervisor_node_get_base_node_field` and `wb_supervisor_node_get_base_node_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
 
 
@@ -3123,6 +3133,7 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 #### `wb_supervisor_field_get_type`
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
+#### `wb_supervisor_field_get_actual_field`
 #### `wb_supervisor_field_enable_sf_tracking`
 #### `wb_supervisor_field_disable_sf_tracking`
 
@@ -3143,6 +3154,7 @@ const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
+WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field);
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
 ```
@@ -3166,6 +3178,7 @@ namespace webots {
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
+    WbFieldRef getActualField() const;
     void enableSFTracking(int samplingPeriod);
     void disableSFTracking();
     // ...
@@ -3189,6 +3202,7 @@ class Field:
     def getType(self):
     def getTypeName(self):
     def getCount(self):
+    def getActualField(self):
     def enableSFTracking(self, samplingPeriod):
     def disableSFTracking(self):
     # ...
@@ -3210,6 +3224,7 @@ public class Field {
   public int getType();
   public String getTypeName();
   public int getCount();
+  public Field getActualField();
   public void enableSFTracking(int samplingPeriod);
   public void disableSFTracking();
   // ...
@@ -3229,6 +3244,7 @@ name = wb_supervisor_field_get_name(field)
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
 count = wb_supervisor_field_get_count(field)
+actual_field = wb_supervisor_field_get_actual_field(field)
 wb_supervisor_field_enable_sf_tracking(field, sampling_period)
 wb_supervisor_field_disable_sf_tracking(field)
 ```
@@ -3243,6 +3259,7 @@ wb_supervisor_field_disable_sf_tracking(field)
 | `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
 | `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
 | `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
+| `/supervisor/field/get_actual_field` | `service` | `webots_ros::field_get_actual_field` | `uint64 field`<br/>`---`<br/>`uint64 field` |
 | `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`int32 sampling_period`<br/>`---`<br/>`int8 sampling_period` |
 | `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
 
@@ -3269,6 +3286,11 @@ If the argument is NULL, the function returns the empty string.
 The `wb_supervisor_field_get_count` function returns the number of items of a multiple field (MF) passed as an argument to this function.
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
+
+The `wb_supervisor_field_get_actual_field` function returns the field in the scene tree that is associated with the given field.
+This allows you to retrieve a modifiable field reference from an internal field reference. (e.g., a field reference returned by [`wb_supervisor_node_get_base_node_field`](#wb_supervisor_node_get_base_node_field) or [`wb_supervisor_proto_get_field`](#wb_supervisor_proto_get_field)).
+If the argument is invalid or doesn't have an associated field in the tree, the function returns NULL.
+If the function does not return NULL, the returned field is guaranteed to be modifiable.
 
 The `wb_supervisor_field_enable_sf_tracking` function forces Webots to stream field data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
@@ -4009,6 +4031,206 @@ rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my
 %end
 
 > **Note**: To remove a node use the `wb_supervisor_field_remove_mf` function.
+
+---
+
+#### `wb_supervisor_proto_get_type_name`
+#### `wb_supervisor_proto_is_derived`
+#### `wb_supervisor_proto_get_parent`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
+bool wb_supervisor_proto_is_derived(WbProtoRef proto, const char *type_name);
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Proto.hpp>
+
+namespace webots {
+  class Proto {
+    std::string getTypeName();
+    bool isDerived();
+    Node getParent();
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Proto
+
+class Proto:
+    def getTypeName(self):
+    def isDerived(self):
+    def getParent(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Proto;
+
+public class Proto {
+  public String getTypeName();
+  public boolean isDerived();
+  public Node getParent();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+type_name = wb_supervisor_proto_get_type_name(proto)
+is_derived = wb_supervisor_proto_is_derived(proto)
+parent = wb_supervisor_proto_get_parent(proto)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/proto/get_type_name` | `service` | `webots_ros::proto_get_type_name` | `uint64 proto`<br/>`---`<br/>`string value` |
+| `/supervisor/proto/is_derived` | `service` | `webots_ros::proto_is_derived` | `uint64 proto`<br/>`---`<br/>`bool value` |
+| `/supervisor/proto/get_parent` | `service` | `webots_ros::proto_get_parent` | `uint64 proto`<br/>`---`<br/>`uint64 proto` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*get information about a proto instance*
+
+The `wb_supervisor_proto_get_type` function returns the type name of a proto instance as defined in the PROTO file.
+If the argument is NULL, the function returns the empty string.
+
+The `wb_supervisor_proto_is_derived` function returns true if the proto instance is derived from another proto type.
+
+The `wb_supervisor_proto_get_parent` function returns the instance of the parent proto type corresponding to the given proto instance.
+
+---
+
+#### `wb_supervisor_proto_get_field`
+#### `wb_supervisor_proto_get_field_by_index`
+#### `wb_supervisor_proto_get_number_of_fields`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index);
+int        wb_supervisor_proto_get_number_of_fields(WbProtoRef proto);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Proto.hpp>
+
+namespace webots {
+  class Proto {
+    Field getField(const std::string &fieldName);
+    Field getFieldByIndex(int index);
+    int getNumberOfFields();
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Proto
+
+class Proto:
+    def getField(self, fieldName):
+    def getFieldByIndex(self, index):
+    def getNumberOfFields(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Proto;
+
+public class Proto {
+  public Field getField(String fieldName);
+  public Field getFieldByIndex(int index);
+  public int getNumberOfFields();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+field = wb_supervisor_proto_get_field(proto, 'field_name')
+field = wb_supervisor_proto_get_field_by_index(proto, index)
+number_of_fields = wb_supervisor_proto_get_number_of_fields(proto)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/supervisor/proto/get_field` | `service` | `webots_ros::proto_get_field` | `uint64 proto`<br/>`string fieldName`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/proto/get_field_by_index` | `service` | `webots_ros::proto_get_field_by_index` | `uint64 proto`<br/>`int32 index`<br/>`---`<br/>`uint64 field` |
+| `/supervisor/proto/get_number_of_fields` | `service` | `webots_ros::proto_get_number_of_fields` | `uint64 proto`<br/>`---`<br/>`int32 value` |
+
+%tab-end
+
+%end
+
+##### Description
+
+*get information about a proto instance's fields*
+
+The `wb_supervisor_proto_get_field` function returns the field of a proto instance corresponding to the given field name.
+If the field does not exist or the provided proto is invalid, the function returns NULL.
+
+The `wb_supervisor_proto_get_field_by_index` function returns the field of a proto instance corresponding to the given index.
+If the field does not exist or the provided proto is invalid, the function returns NULL.
+
+The `wb_supervisor_proto_get_number_of_fields` function returns the number of fields of a proto instance.
+If the provided proto is invalid, the function returns -1.
 
 ---
 

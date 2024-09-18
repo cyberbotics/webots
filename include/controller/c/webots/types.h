@@ -36,6 +36,7 @@ typedef unsigned short WbDeviceTag;  // identifier of a device
 typedef struct WbImageStructPrivate *WbImageRef;
 typedef struct WbMotionStructPrivate *WbMotionRef;
 typedef struct WbNodeStructPrivate *WbNodeRef;
+typedef struct WbProtoInfoStructPrivate *WbProtoRef;
 typedef struct WbFieldStructPrivate *WbFieldRef;
 
 // define "bool" type for C controllers
