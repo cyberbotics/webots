@@ -1,6 +1,7 @@
 # The Emitter node is used to model a radio, or infra-red emitter.
 # It can be used to send data packets to Receiver nodes (onboard other robots).
 # An Emitter cannot receive data: bidirectional communication requires two Emitter/Receiver pairs.
+# parent: Solid
 
 Emitter {
   #fields that inherit from the Solid node:
