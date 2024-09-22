@@ -66,6 +66,7 @@ CPPSRC = Accelerometer.cpp \
          Node.cpp \
          Pen.cpp \
          PositionSensor.cpp \
+         Proto.cpp \
          Radar.cpp \
          RangeFinder.cpp \
          Receiver.cpp \

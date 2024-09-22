@@ -51,6 +51,7 @@
 #include <webots_ros/node_get_parent_node.h>
 #include <webots_ros/node_get_pose.h>
 #include <webots_ros/node_get_position.h>
+#include <webots_ros/node_get_proto.h>
 #include <webots_ros/node_get_static_balance.h>
 #include <webots_ros/node_get_status.h>
 #include <webots_ros/node_get_string.h>
@@ -67,6 +68,7 @@
 
 #include <webots_ros/field_disable_sf_tracking.h>
 #include <webots_ros/field_enable_sf_tracking.h>
+#include <webots_ros/field_get_actual_field.h>
 #include <webots_ros/field_get_bool.h>
 #include <webots_ros/field_get_color.h>
 #include <webots_ros/field_get_count.h>
@@ -90,6 +92,13 @@
 #include <webots_ros/field_set_string.h>
 #include <webots_ros/field_set_vec2f.h>
 #include <webots_ros/field_set_vec3f.h>
+
+#include <webots_ros/proto_get_field.h>
+#include <webots_ros/proto_get_field_by_index.h>
+#include <webots_ros/proto_get_number_of_fields.h>
+#include <webots_ros/proto_get_parent.h>
+#include <webots_ros/proto_get_type_name.h>
+#include <webots_ros/proto_is_derived.h>
 
 using namespace webots;
 
@@ -140,6 +149,7 @@ public:
   bool nodeGetParentNodeCallback(webots_ros::node_get_parent_node::Request &req,
                                  webots_ros::node_get_parent_node::Response &res);
   bool nodeIsProtoCallback(webots_ros::node_is_proto::Request &req, webots_ros::node_is_proto::Response &res);
+  bool nodeGetProtoCallback(webots_ros::node_get_proto::Request &req, webots_ros::node_get_proto::Response &res);
   bool nodeGetPositionCallback(webots_ros::node_get_position::Request &req, webots_ros::node_get_position::Response &res);
   bool nodeGetOrientationCallback(webots_ros::node_get_orientation::Request &req,
                                   webots_ros::node_get_orientation::Response &res);
@@ -188,6 +198,8 @@ public:
   bool fieldGetTypeCallback(webots_ros::field_get_type::Request &req, webots_ros::field_get_type::Response &res);
   bool fieldGetTypeNameCallback(webots_ros::field_get_name::Request &req, webots_ros::field_get_name::Response &res);
   bool fieldGetCountCallback(webots_ros::field_get_count::Request &req, webots_ros::field_get_count::Response &res);
+  bool fieldGetActualFieldCallback(webots_ros::field_get_actual_field::Request &req,
+                                   webots_ros::field_get_actual_field::Response &res);
   bool fieldGetBoolCallback(webots_ros::field_get_bool::Request &req, webots_ros::field_get_bool::Response &res);
   bool fieldGetInt32Callback(webots_ros::field_get_int32::Request &req, webots_ros::field_get_int32::Response &res);
   bool fieldGetFloatCallback(webots_ros::field_get_float::Request &req, webots_ros::field_get_float::Response &res);
@@ -221,6 +233,15 @@ public:
                                      webots_ros::field_enable_sf_tracking::Response &res);
   bool fieldDisableSFTrackingCallback(webots_ros::field_disable_sf_tracking::Request &req,
                                       webots_ros::field_disable_sf_tracking::Response &res);
+
+  bool protoGetFieldCallback(webots_ros::proto_get_field::Request &req, webots_ros::proto_get_field::Response &res);
+  bool protoGetFieldByIndexCallback(webots_ros::proto_get_field_by_index::Request &req,
+                                    webots_ros::proto_get_field_by_index::Response &res);
+  bool protoGetNumberOfFieldsCallback(webots_ros::proto_get_number_of_fields::Request &req,
+                                      webots_ros::proto_get_number_of_fields::Response &res);
+  bool protoGetParentCallback(webots_ros::proto_get_parent::Request &req, webots_ros::proto_get_parent::Response &res);
+  bool protoGetTypeNameCallback(webots_ros::proto_get_type_name::Request &req, webots_ros::proto_get_type_name::Response &res);
+  bool protoIsDerivedCallback(webots_ros::proto_is_derived::Request &req, webots_ros::proto_is_derived::Response &res);
 
 private:
   Supervisor *mSupervisor;
@@ -259,6 +280,7 @@ private:
   ros::ServiceServer mNodeGetBaseTypeNameServer;
   ros::ServiceServer mNodeGetParentNodeServer;
   ros::ServiceServer mNodeIsProtoServer;
+  ros::ServiceServer mNodeGetProtoServer;
   ros::ServiceServer mNodeGetPositionServer;
   ros::ServiceServer mNodeGetOrientationServer;
   ros::ServiceServer mNodeGetPoseServer;
@@ -291,6 +313,7 @@ private:
   ros::ServiceServer mFieldGetTypeServer;
   ros::ServiceServer mFieldGetTypeNameServer;
   ros::ServiceServer mFieldGetCountServer;
+  ros::ServiceServer mFieldGetActualFieldServer;
   ros::ServiceServer mFieldGetBoolServer;
   ros::ServiceServer mFieldGetInt32Server;
   ros::ServiceServer mFieldGetFloatServer;
@@ -321,6 +344,13 @@ private:
   ros::ServiceServer mFieldRemoveNodeServer;
   ros::ServiceServer mFieldEnableSFTrackingServer;
   ros::ServiceServer mFieldDisableSFTrackingServer;
+
+  ros::ServiceServer mProtoGetFieldServer;
+  ros::ServiceServer mProtoGetFieldByIndexServer;
+  ros::ServiceServer mProtoGetNumberOfFieldsServer;
+  ros::ServiceServer mProtoGetParentServer;
+  ros::ServiceServer mProtoGetTypeNameServer;
+  ros::ServiceServer mProtoIsDerivedServer;
 };
 
 #endif  // ROS_SUPERVISOR_HPP

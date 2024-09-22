@@ -97,6 +97,8 @@ public:
 
   const QString &slotType() const { return mSlotType; }
 
+  QStringList parentProtoNames() const;
+
   QStringList parameterNames() const;
 
   void setIsTemplate(bool value);
@@ -144,7 +146,6 @@ private:
   QString mLicenseUrl;
   QString mDocumentationUrl;
   QStringList mTags;
-  QString mTemplateLanguage;
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;
