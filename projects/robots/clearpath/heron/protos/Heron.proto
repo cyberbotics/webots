@@ -158,57 +158,15 @@ PROTO Heron [
       viscousResistanceTorqueCoefficient 0.1
     }
   ]
-  boundingObject Group {
-    children [
-      Transform {
-        translation 0 -0.134 0.35
-        children [
-          Cylinder {
-            height 0.35
-            radius 0.005
-          }
-        ]
-      }
-      Transform {
-        translation 0 0.134 0.35
-        children [
-          Cylinder {
-            height 0.35
-            radius 0.005
-          }
-        ]
-      }
-      Transform {
-        translation 0 0 0.04
-        children [
-          Box {
-            size 0.75 0.8 0.1
-          }
-        ]
-      }
-      Transform {
-        translation -1.42746e-07 -0.37 -0.14
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Capsule {
-            height 1.2
-            radius 0.1
-            subdivision 16
-          }
-        ]
-      }
-      Transform {
-        translation -1.42746e-07 0.37 -0.14
-        rotation 0 1 0 -1.5707953071795862
-        children [
-          Capsule {
-            height 1.2
-            radius 0.1
-            subdivision 16
-          }
-        ]
-      }
-    ]
+  boundingObject Transform {
+      scale 0.1 0.1 0.1
+      children [
+        Mesh {
+          url [
+            "../obj/heron_collision.stl"
+          ]
+        }
+      ]
   }
   physics Physics {
     density 400
