@@ -87,14 +87,76 @@ jobs:
       run: |
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v3
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
+    - uses: actions/upload-artifact@v4
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.exe
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-${{ matrix.os }}
+        path: artifact
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: false
+    - name: Install Visual Studio 10 and OpenJDK 18
+      shell: powershell
+      run: |
+        choco install -y openjdk --version=18.0.2
+        choco install -y visualcpp-build-tools
+    - name: Install Webots Compilation Dependencies
+      run: |
+        export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python
+        export PYTHON_HOME=$PYTHON_INSTALLATION_FOLDER/3.11.`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.11\.[0-9]\+$' | cut -c6- | sort -n | tail -n1`/x64
+        echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
+        echo 'export PYTHON_HOME='$PYTHON_HOME >> ~/.bash_profile
+        echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017"' >> ~/.bash_profile
+        echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON_HOME:$PYTHON_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        export WEBOTS_HOME=$GITHUB_WORKSPACE
+        ./scripts/install/msys64_installer.sh --all
+    - name: Extract Webots
+      run: |
+        ./artifact/webots-*.exe //SUPPRESSMSGBOXES //VERYSILENT //NOCANCEL //NORESTART //ALLUSERS
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: Install Software Renderer
+      uses: ssciwr/setup-mesa-dist-win@v2
+      with:
+        version: '24.2.1'
+        build-type: 'release-mingw'
+    - name: Test
+      run: |
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        export TESTS_HOME=$PWD # required by cache group in the test suite
+        export WEBOTS_HOME="/c/Program Files/Webots"
+        export PATH="${WEBOTS_HOME}/msys64/mingw64/bin:$PATH"
+        export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
+        export BRANCH_HASH=$(git log -1 --format='%H')
+        export MESA_GL_VERSION_OVERRIDE=3.3
+        export LIBGL_ALWAYS_SOFTWARE=true
+        python tests/test_suite.py
+    - name: Setup tmate session
+      if: ${{ failure() }}
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
   delete-artifacts:
-    needs: [build]
+    needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:

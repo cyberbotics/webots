@@ -53,8 +53,7 @@ namespace wren {
     void reset();
     static void applyPendingUpdates();
 
-    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, unsigned int buffer_type,
-                              void *buffer);
+    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer);
     void initFrameCapture(int pixelBufferCount, unsigned int *pixelBufferIds, int frameSize);
     static void bindPixelBuffer(int buffer);
     void *mapPixelBuffer(unsigned int accessMode);
@@ -90,8 +89,8 @@ namespace wren {
 
     int computeNodeCount() const;
     static void printSceneTree();
-    void render(bool culling);
-    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling);
+    void render(bool culling, bool offScreen = false);
+    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling, bool offScreen = false);
 
     void addFrameListener(void (*listener)()) { mListeners.push_back(listener); }
     void removeFrameListener(void (*listener)());
