@@ -21,10 +21,10 @@
 #include <vector>
 #include <map>
 
-#include "ros/types.h"
-#include "ros/serialization.h"
-#include "ros/builtin_message_traits.h"
-#include "ros/message_operations.h"
+#include <ros/types.h>
+#include <ros/serialization.h>
+#include <ros/builtin_message_traits.h>
+#include <ros/message_operations.h>
 
 %addedheaders%
 
