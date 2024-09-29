@@ -2,8 +2,8 @@ The [clearpath's Heron USV](https://robots.ros.org/clearpath-heron-usv/) is a US
 
 ### Motors
 
-There are 2 motor, motor name ```left_motor```and ```right_motor```.
-You can add new Camera, GPS or other sensors you want under ```body_slot```.
+There are 2 motor, motor name `left_motor`and `right_motor`.
+You can add new Camera, GPS or other sensors you want under `body_slot`.
 
 ### Movie Presentation
 
