@@ -13,7 +13,7 @@ You can add new Camera, GPS or other sensors you want under `body_slot`.
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
-```
+```js
 Heron {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 1 0 1.5708
