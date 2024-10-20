@@ -29,3 +29,4 @@ Released on December **th, 2023.
     - Fixed crash on macos when closing Webots under some circumstances ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed crash when `wb_supervisor_field_get_name` was called with NULL ([#6647](https://github.com/cyberbotics/webots/pull/6647)).
+    - Fixed bug where the wrong y coordinate was used for one corner of the box drawn to represent a box-plane collision ([#6669](https://github.com/cyberbotics/webots/pull/6669)).
