@@ -184,9 +184,9 @@ void WbContactPointsRepresentation::updateRendering() {
                   odeContacts[cg0 + 3].contactGeom().pos[2]);
         addVertex(mContactMesh, index++, odeContacts[cg0 + 3].contactGeom().pos[0], odeContacts[cg0 + 3].contactGeom().pos[1],
                   odeContacts[cg0 + 3].contactGeom().pos[2]);
-        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 1].contactGeom().pos[1],
+        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 2].contactGeom().pos[1],
                   odeContacts[cg0 + 2].contactGeom().pos[2]);
-        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 1].contactGeom().pos[1],
+        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 2].contactGeom().pos[1],
                   odeContacts[cg0 + 2].contactGeom().pos[2]);
         addVertex(mContactMesh, index++, odeContacts[cg0].contactGeom().pos[0], odeContacts[cg0].contactGeom().pos[1],
                   odeContacts[cg0].contactGeom().pos[2]);
