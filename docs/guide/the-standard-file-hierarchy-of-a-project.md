@@ -13,7 +13,7 @@ The link between the world files and this directory is done through the *control
 More information about this directory in the following subsections.
 - "protos": this directory contains the PROTO files available for all the world files of the current project.
 - "plugins": this directory contains the plugins available in the current project.
-The link between the world files and this directory is done through the *physics* field of the [WordInfo](../reference/worldinfo.md) node.
+The link between the world files and this directory is done through the *physics* field of the [WorldInfo](../reference/worldinfo.md) node.
 - "worlds": this directory contains the world files, the project files (see below) and the textures (typically in a subdirectory called "textures").
 
 > **Note**: Note that the directories can be created by using the [**File / New / New Project Directory...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
