@@ -20,6 +20,8 @@
 //
 
 #include "WbValueEditor.hpp"
+#include "WbWorld.hpp"
+#include "WbSimulationState.hpp"
 
 class WbFieldLineEdit;
 class WbNode;
@@ -47,10 +49,15 @@ public:
 
 signals:
   void dictionaryUpdateRequested();
+  void defNameChanged(bool changed);
+  void resetModifiedFromSceneTree();
 
 public slots:
   void apply() override;
   void cleanValue() override;
+  void resetDefNamesToInitial();
+  void switchInitialCurrentDef();
+  void startTimer();
 
 protected:
   enum PaneType { DEF_PANE, EMPTY_PANE };
@@ -63,6 +70,11 @@ private:
   QLabel *mNbTriangles;
   QStackedWidget *mStackedWidget;
   bool mMessageBox;
+  QMap<WbNode *, QPair<QString, QString>> mInitialCurrentDefMap;
+  QTimer *worldCheckTimer;
+  const WbWorld *world = nullptr;
+  WbWorld *oldWorld = nullptr;
+  WbSimulationState *state = nullptr;
 
   // actions buttons
   QLabel *mShowResizeHandlesLabel;
@@ -71,6 +83,8 @@ private:
   void setTransformActionVisibile(bool visible);
   void takeKeyboardFocus() override {}
   void printUrl();
+  void tryConnectToWorld();
+  void compareInitialCurrentDef();
 };
 
 #endif
