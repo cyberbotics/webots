@@ -50,7 +50,7 @@ public:
   bool operator==(const WbVariant &other) const;
   bool operator!=(const WbVariant &other) const;
 
-  virtual ~WbVariant();
+  virtual ~WbVariant() override;
 
   int type() const { return mType; }
   bool isEmpty() const { return mType == -1; }

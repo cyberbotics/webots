@@ -145,8 +145,6 @@ void WbContactPointsRepresentation::updateRendering() {
   const double L = 0.2 * world->worldInfo()->lineScale();
   for (int i = 0; i < contactSize; ++i) {
     const dContactGeom &cg = odeContacts[i].contactGeom();
-    if (boxVersusPlane(cg.g1, cg.g2))
-      continue;
     const dReal H[3] = {cg.normal[0] * L, cg.normal[1] * L, cg.normal[2] * L};
     const dReal *const pos = cg.pos;
     addVertex(mContactMesh, index++, pos[0] - H[0], pos[1] - H[1], pos[2] - H[2]);

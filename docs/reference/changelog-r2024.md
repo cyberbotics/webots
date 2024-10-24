@@ -6,8 +6,18 @@ Released on December **th, 2023.
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
     - Removed support for macOS 11 "Big Sur" and added support for macOS 14 "Sonoma" ([#6580](https://github.com/cyberbotics/webots/pull/6580)).
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
+    - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
+    - Improved the node field query api ([#6613](https://github.com/cyberbotics/webots/issues/6613)).
+      - **Renamed the `wb_supervisor_node_get_proto_*` methods to `wb_supervisor_node_get_base_node_*`**
+      - **Renamed the `proto` field in the `supervisor_node_get_field_*` ROS services to `queryBaseNode`**
+      - Added the `WbProtoRef` type to the supervisor API.
+      - Added the ability to query the internal structure and fields of a proto node.
+      - Added the ability to query the field in the scene tree that corresponds to a proto internal field.
+      - Fixed the method signature of `wb_supervisor_node_get_number_of_fields` in MATLAB.
+    - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
+    - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
   - Bug Fixes
@@ -30,3 +40,4 @@ Released on December **th, 2023.
     - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed crash when `wb_supervisor_field_get_name` was called with NULL ([#6647](https://github.com/cyberbotics/webots/pull/6647)).
     - Fixed bug where the wrong y coordinate was used for one corner of the box drawn to represent a box-plane collision ([#6677](https://github.com/cyberbotics/webots/pull/6677)).
+    - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).

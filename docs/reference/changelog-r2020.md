@@ -22,15 +22,15 @@ Released on September 1st, 2020.
     - Remove scaling factor in matrix returned by [`wb_supervisor_node_get_orientation`](supervisor.md#wb_supervisor_node_get_orientation) ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed conversion of identity matrix to quaternion in ROS API ([#2112](https://github.com/cyberbotics/webots/pull/2112)).
     - Fixed header stamps of the topics published by the ROS controller ([#2127](https://github.com/cyberbotics/webots/pull/2127)).
-    - Fixed the [`camera/recognition_objects`](camera.md#wb_camera_recognition_get_objects) ROS topic not published when the [`camera/image`](camera.md#wb_camera_recognition_get_objects) topic has no subscriber ([#2115](https://github.com/cyberbotics/webots/pull/2115)).    
-    - **macOS: Removed the `ros` controller**, the [custom Python ROS controller](https://www.cyberbotics.com/doc/guide/using-ros#custom-ros-controller) should be used instead ([#2053](https://github.com/cyberbotics/webots/pull/2053)).    
+    - Fixed the [`camera/recognition_objects`](camera.md#wb_camera_recognition_get_objects) ROS topic not published when the [`camera/image`](camera.md#wb_camera_recognition_get_objects) topic has no subscriber ([#2115](https://github.com/cyberbotics/webots/pull/2115)).
+    - **macOS: Removed the `ros` controller**, the [custom Python ROS controller](https://www.cyberbotics.com/doc/guide/using-ros#custom-ros-controller) should be used instead ([#2053](https://github.com/cyberbotics/webots/pull/2053)).
     - Fixed DEF node not found if defined in PROTO default parameter value ([#2107](https://github.com/cyberbotics/webots/pull/2107)).
     - Fixed crash occurring with some PROTO nodes when modifying fields from the scene tree that trigger the PROTO model regeneration ([#2100](https://github.com/cyberbotics/webots/pull/2100)).
     - Fixed field changes not applied in case of nested [PROTO](proto.md) nodes ([#2063](https://github.com/cyberbotics/webots/pull/2063)).
     - Windows: Fixed generation of procedural PROTO nodes using the `gd` module ([#2070](https://github.com/cyberbotics/webots/pull/2070)).
     - Fixed the [vision](../guide/samples-howto.md#vision-wbt) sample simulation ([#2143](https://github.com/cyberbotics/webots/pull/2143)).
     - Fixed bugs in streaming server protocol and added support for X3D/MJPEG mode selection in simulation server ([#2077](https://github.com/cyberbotics/webots/pull/2077)).
-    - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).    
+    - Linux: Fixed the execution of robot controllers with firejail ([#2071](https://github.com/cyberbotics/webots/pull/2071)).
     - Fixed the `roadBorderWidth` field of the `HelicoidalRoadSegment` PROTO node ([#2099](https://github.com/cyberbotics/webots/pull/2099)).
     - Fixed the `near` field of the `Robotino3Webcam` [Camera](camera.md) ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
     - Fixed orientation of the [Lights](light.md) in the `robotino3` world ([#2051](https://github.com/cyberbotics/webots/pull/2051)).
@@ -51,7 +51,7 @@ Released on July 29th, 2020.
   - New Features
     - Added a [Mesh](mesh.md) node allowing to use external 3D file in Webots ([#1419](https://github.com/cyberbotics/webots/pull/1419)).
     - Added the possibility to import [3D Studio mesh](https://wiki.fileformat.com/3d/3ds), [Blender](https://www.blender.org/), [Biovision Hierarchy](https://en.wikipedia.org/wiki/Biovision_Hierarchy), [Collada](https://en.wikipedia.org/wiki/COLLADA), [Filmbox](https://wiki.fileformat.com/3d/fbx/), [STL](https://en.wikipedia.org/wiki/STL_(file_format)), [Wavefront](https://wiki.fileformat.com/3d/obj), [X3D](https://www.web3d.org/getting-started-x3d) files in Webots ([#1463](https://github.com/cyberbotics/webots/pull/1463)).
-    - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_proto_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
+    - Added two new functions to get internal PROTO node fields: [`wb_supervisor_node_get_from_proto_def`](supervisor.md#wb_supervisor_node_get_from_proto_def) and [`wb_supervisor_node_get_proto_field`](supervisor.md#wb_supervisor_node_get_base_node_field) ([#1331](https://github.com/cyberbotics/webots/pull/1331)).
     - Added the `mjpeg` web streaming mode ([#1352](https://github.com/cyberbotics/webots/pull/1352)).
     - Exposed global texture maximum filtering as a parameter in the Webots preferences ([#1851](https://github.com/cyberbotics/webots/pull/1851)).
     - Added a [`wb_robot_get_urdf`](robot.md#wb_robot_get_urdf) function to the [Robot](robot.md) node which allows URDF export ([#1706](https://github.com/cyberbotics/webots/pull/1706)).
@@ -105,7 +105,7 @@ Released on July 29th, 2020.
     - Fixed crash when setting an invalid value to a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash when converting a PROTO node to Base node(s) if contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
     - Fixed crash when deleting a node contained in a field that triggers the parent PROTO regeneration ([#1868](https://github.com/cyberbotics/webots/pull/1868)).
-    - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).    
+    - Fixed crash occurring when reloading or resetting a simulation containing a [Display](display.md) device ([#1865](https://github.com/cyberbotics/webots/pull/1865)).
     - Fixed crash with Python [`RangeFinder.rangeImageGetDepth`](rangefinder.md#wb_range_finder_image_get_depth) function ([#1858](https://github.com/cyberbotics/webots/pull/1858)).
     - Fixed mismatch between the bounding object and visual shape of the [UnevenTerrain](https://www.cyberbotics.com/doc/guide/object-floors#uneventerrain), **and removed the `textureScale` field** ([#1792](https://github.com/cyberbotics/webots/pull/1792)).
     - Fixed crash when using a [Normal](normal.md) node in a PROTO node ([#1813](https://github.com/cyberbotics/webots/pull/1813)).
