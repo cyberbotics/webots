@@ -226,7 +226,7 @@ bool WbWorld::needSaving() const {
 
 void WbWorld::setModifiedFromSceneTree() {
   mIsModifiedFromSceneTree = true;
-s
+
   if (isModifiedFromSceneTreeRestarted) {
     mIsModifiedFromSceneTree = false;
     isModifiedFromSceneTreeRestarted = false;
