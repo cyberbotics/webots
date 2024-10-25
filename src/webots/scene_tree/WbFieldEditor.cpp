@@ -74,27 +74,36 @@ private:
 
 static QSize gMinimumSizeOffset = QSize(0, 0);
 
-WbFieldEditor::WbFieldEditor(QWidget *parent) :
-  QWidget(parent),
-  mNode(NULL),
-  mField(NULL),
-  mItem(-1),
-  mNodeItem(NULL),
-  mIsValidItemIndex(false) {
+WbFieldEditor::WbFieldEditor(QWidget *parent)
+    : QWidget(parent), mNode(NULL), mField(NULL), mItem(-1), mNodeItem(NULL),
+      mIsValidItemIndex(false) {
   setObjectName("fieldEditorGroupBox");
 
   WbExtendedStringEditor *const stringEditor = new WbExtendedStringEditor(this);
-  connect(stringEditor, &WbExtendedStringEditor::editRequested, this, &WbFieldEditor::editRequested);
+  connect(stringEditor, &WbExtendedStringEditor::editRequested, this,
+          &WbFieldEditor::editRequested);
 
   WbNodePane *const nodePane = new WbNodePane(this);
   const WbNodeEditor *nodeEditor = nodePane->nodeEditor();
-  connect(nodeEditor, &WbNodeEditor::dictionaryUpdateRequested, this, &WbFieldEditor::dictionaryUpdateRequested);
-  connect(nodeEditor, &WbNodeEditor::defNameChanged, WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled, nodeEditor, &WbNodeEditor::resetDefNamesToInitial);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS), &QAction::setEnabled, nodeEditor, &WbNodeEditor::resetDefNamesToInitial);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered, nodeEditor, &WbNodeEditor::switchInitialCurrentDef);
-  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS), &QAction::triggered, nodeEditor, &WbNodeEditor::switchInitialCurrentDef);
-  connect(WbActionManager::instance()->action(WbAction::RELOAD_WORLD), &QAction::triggered, nodeEditor, &WbNodeEditor::startTimer);
+  connect(nodeEditor, &WbNodeEditor::dictionaryUpdateRequested, this,
+          &WbFieldEditor::dictionaryUpdateRequested);
+  connect(nodeEditor, &WbNodeEditor::defNameChanged,
+          WbActionManager::instance()->action(WbAction::SAVE_WORLD),
+          &QAction::setEnabled);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD),
+          &QAction::setEnabled, nodeEditor,
+          &WbNodeEditor::resetDefNamesToInitial);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS),
+          &QAction::setEnabled, nodeEditor,
+          &WbNodeEditor::resetDefNamesToInitial);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD),
+          &QAction::triggered, nodeEditor,
+          &WbNodeEditor::switchInitialCurrentDef);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS),
+          &QAction::triggered, nodeEditor,
+          &WbNodeEditor::switchInitialCurrentDef);
+  connect(WbActionManager::instance()->action(WbAction::RELOAD_WORLD),
+          &QAction::triggered, nodeEditor, &WbNodeEditor::startTimer);
   // create editors
   mEditors.insert(WB_NO_FIELD, new WbEmptyEditor(this));
   mEditors.insert(WB_SF_BOOL, new WbBoolEditor(this));
@@ -116,11 +125,14 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   foreach (WbValueEditor *editor, mEditors) {
     mStackedLayout->addWidget(editor);
     // trigger 3D view update after field value change
-    connect(editor, &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
+    connect(editor, &WbValueEditor::valueChanged, this,
+            &WbFieldEditor::valueChanged);
   }
   mStackedLayout->addWidget(mExternProtoEditor);
-  connect(nodePane->nodeEditor(), &WbValueEditor::valueChanged, this, &WbFieldEditor::valueChanged);
-  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbFieldEditor::refreshExternProtoEditor);
+  connect(nodePane->nodeEditor(), &WbValueEditor::valueChanged, this,
+          &WbFieldEditor::valueChanged);
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this,
+          &WbFieldEditor::refreshExternProtoEditor);
 
   mTitleLabel = new QLabel(this);
   mTitleLabel->setObjectName("titleLabel");
@@ -140,15 +152,15 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   setCurrentWidget(0);
 }
 
-WbFieldEditor::~WbFieldEditor() {
-}
+WbFieldEditor::~WbFieldEditor() {}
 
 WbValueEditor *WbFieldEditor::currentEditor() const {
   return static_cast<WbValueEditor *>(mStackedLayout->currentWidget());
 }
 
 void WbFieldEditor::refreshExternProtoEditor() {
-  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  WbExternProtoEditor *editor =
+      dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
   if (currentEditor() == editor)
     editor->updateContents();
 }
@@ -182,9 +194,11 @@ void WbFieldEditor::updateTitle() {
   if (mField->type() == WB_MF_NODE && mItem != -1)
     title = nodeAsTitle(static_cast<WbMFNode *>(value)->item(mItem));
   else if (mField->type() == WB_SF_NODE)
-    title = mField->name() + " " + nodeAsTitle(static_cast<WbSFNode *>(value)->value());
+    title = mField->name() + " " +
+            nodeAsTitle(static_cast<WbSFNode *>(value)->value());
   else {
-    const WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
+    const WbMultipleValue *multipleValue =
+        dynamic_cast<WbMultipleValue *>(value);
     if (multipleValue) {
       if (mItem == -1) {
         int size = multipleValue->size();
@@ -194,7 +208,10 @@ void WbFieldEditor::updateTitle() {
 
         title = QString("%1 (%2 %3)").arg(mField->name()).arg(size).arg(type);
       } else
-        title = QString("%1 (%3 #%2)").arg(mField->name()).arg(mItem + 1).arg(WbValue::typeToShortName(value->singleType()));
+        title = QString("%1 (%3 #%2)")
+                    .arg(mField->name())
+                    .arg(mItem + 1)
+                    .arg(WbValue::typeToShortName(value->singleType()));
     } else
       title = QString("%1 (%2)").arg(mField->name(), value->shortTypeName());
   }
@@ -208,10 +225,12 @@ void WbFieldEditor::editExternProto() {
   WbValueEditor *current = currentEditor();
   current->applyIfNeeded();
   current->stopEditing();
-  disconnect(current, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
+  disconnect(current, &WbValueEditor::valueInvalidated, this,
+             &WbFieldEditor::invalidateValue);
 
   // enable extern proto
-  WbExternProtoEditor *editor = dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
+  WbExternProtoEditor *editor =
+      dynamic_cast<WbExternProtoEditor *>(mExternProtoEditor);
   if (editor) {
     editor->updateContents();
     setCurrentWidget(mExternProtoEditor);
@@ -219,7 +238,8 @@ void WbFieldEditor::editExternProto() {
 }
 
 void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
-  disconnect(this, &WbFieldEditor::valueChanged, this, &WbFieldEditor::updateResetButton);
+  disconnect(this, &WbFieldEditor::valueChanged, this,
+             &WbFieldEditor::updateResetButton);
   if (node == mNode && field == mField && item == mItem) {
     if (field || node)
       updateValue(false);
@@ -236,11 +256,14 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
   WbValueEditor *editor = currentEditor();
   editor->applyIfNeeded();
   editor->stopEditing();
-  disconnect(editor, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
+  disconnect(editor, &WbValueEditor::valueInvalidated, this,
+             &WbFieldEditor::invalidateValue);
 
   if (field == NULL && node == NULL) {
     invalidateValue();
-    WbActionManager::instance()->action(WbAction::RESET_VALUE)->setEnabled(false);
+    WbActionManager::instance()
+        ->action(WbAction::RESET_VALUE)
+        ->setEnabled(false);
     return;
   }
 
@@ -250,8 +273,9 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
 
   assert(field);
   WbActionManager::instance()
-    ->action(WbAction::RESET_VALUE)
-    ->setEnabled(!((field->isMultiple() && mIsValidItemIndex) || mField->isDefault()));
+      ->action(WbAction::RESET_VALUE)
+      ->setEnabled(
+          !((field->isMultiple() && mIsValidItemIndex) || mField->isDefault()));
 
   if (field->isMultiple() && !mIsValidItemIndex) {
     setCurrentWidget(0);
@@ -259,7 +283,8 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
   }
 
   // check if the selected item is a Solid node
-  const QList<WbValueEditor *> &v = mEditors.values(field->value()->singleType());
+  const QList<WbValueEditor *> &v =
+      mEditors.values(field->value()->singleType());
   const bool editingSolid = dynamic_cast<WbSolid *>(mNodeItem) != NULL;
   if (v.size() == 1)
     editor = v.at(0);
@@ -268,8 +293,10 @@ void WbFieldEditor::editField(WbNode *node, WbField *field, int item) {
 
   editor->edit(node, field, item);
   setCurrentWidget(editor);
-  connect(editor, &WbValueEditor::valueInvalidated, this, &WbFieldEditor::invalidateValue);
-  connect(this, &WbFieldEditor::valueChanged, this, &WbFieldEditor::updateResetButton);
+  connect(editor, &WbValueEditor::valueInvalidated, this,
+          &WbFieldEditor::invalidateValue);
+  connect(this, &WbFieldEditor::valueChanged, this,
+          &WbFieldEditor::updateResetButton);
 }
 
 void WbFieldEditor::invalidateValue() {
@@ -285,9 +312,14 @@ void WbFieldEditor::resetFocus() {
 }
 
 void WbFieldEditor::updateResetButton() {
-  const WbMultipleValue *const multipleValue = dynamic_cast<WbMultipleValue *>(mField->value());
-  bool enabled = !((multipleValue && (mItem >= 0) && (mItem < multipleValue->size())) || mField->isDefault());
-  WbActionManager::instance()->action(WbAction::RESET_VALUE)->setEnabled(enabled);
+  const WbMultipleValue *const multipleValue =
+      dynamic_cast<WbMultipleValue *>(mField->value());
+  bool enabled =
+      !((multipleValue && (mItem >= 0) && (mItem < multipleValue->size())) ||
+        mField->isDefault());
+  WbActionManager::instance()
+      ->action(WbAction::RESET_VALUE)
+      ->setEnabled(enabled);
 }
 
 void WbFieldEditor::updateValue(bool copyOriginalValue) {
