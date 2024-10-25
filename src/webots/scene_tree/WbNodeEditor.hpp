@@ -19,9 +19,9 @@
 // Description: editor for editing a WbSFNode or a WbMFNode item
 //
 
+#include "WbSimulationState.hpp"
 #include "WbValueEditor.hpp"
 #include "WbWorld.hpp"
-#include "WbSimulationState.hpp"
 
 class WbFieldLineEdit;
 class WbNode;
