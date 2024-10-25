@@ -351,10 +351,10 @@ void WbNodeEditor::switchInitialCurrentDef() {
   // Iterate through the map and switch the initial DEF to the current one
   for (auto it = mInitialCurrentDefMap.begin(); it != mInitialCurrentDefMap.end(); ++it) {
     const WbNode *node = it.key();
-    QString &initialDef = it.value().first;  // Reference to initial DEF name
 
     // Switch the initial DEF to the current DEF
     if (node) {
+      QString &initialDef = it.value().first;  // Reference to initial DEF name
       const QString &currentDef = node->defName();  // Get the current DEF name of the node
       initialDef = currentDef;  // Update the initial DEF with the current one
     }
