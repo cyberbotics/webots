@@ -356,8 +356,7 @@ void WbNodeEditor::switchInitialCurrentDef() {
     // Switch the initial DEF to the current DEF
     if (node) {
       const QString &currentDef = node->defName();  // Get the current DEF name of the node
-      if (initialDef != currentDef)
-        initialDef = currentDef;  // Update the initial DEF with the current one
+      initialDef = currentDef;  // Update the initial DEF with the current one
     }
   }
 
