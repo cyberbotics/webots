@@ -105,7 +105,7 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   mEditors.insert(WB_NO_FIELD, new WbEmptyEditor(this));
   mEditors.insert(WB_SF_BOOL, new WbBoolEditor(this));
   mEditors.insert(WB_SF_STRING, stringEditor);
-  mEditors.insert(WB_SF_INT32, new WbIntEditor(this));c
+  mEditors.insert(WB_SF_INT32, new WbIntEditor(this));
   mEditors.insert(WB_SF_FLOAT, new WbDoubleEditor(this));
   mEditors.insert(WB_SF_VEC2F, new WbVector2Editor(this));
   mEditors.insert(WB_SF_VEC3F, new WbVector3Editor(this));
