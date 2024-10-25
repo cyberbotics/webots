@@ -224,7 +224,6 @@ void WbNodeEditor::apply() {
   QString newDef = mDefEdit->text();
   const QString &previousDef = mNode->defName();
 
-  QString initialDef = mInitialCurrentDefMap.value(mNode).first;  // Access the first QString (initial DEF)
   mInitialCurrentDefMap[mNode].second = newDef; 
 
   bool hasStarted = state->hasStarted();
@@ -351,13 +350,15 @@ void WbNodeEditor::switchInitialCurrentDef() {
 
   // Iterate through the map and switch the initial DEF to the current one
   for (auto it = mInitialCurrentDefMap.begin(); it != mInitialCurrentDefMap.end(); ++it) {
-    WbNode *node = it.key();
+    const WbNode *node = it.key();
     QString &initialDef = it.value().first;  // Reference to initial DEF name
-    const QString &currentDef = node->defName();  // Get the current DEF name of the node
 
     // Switch the initial DEF to the current DEF
-    if (node && initialDef != currentDef)
-      initialDef = currentDef;  // Update the initial DEF with the current one
+    if (node) {
+      const QString &currentDef = node->defName();  // Get the current DEF name of the node
+      if (initialDef != currentDef)
+        initialDef = currentDef;  // Update the initial DEF with the current one
+    }
   }
 
   update();
