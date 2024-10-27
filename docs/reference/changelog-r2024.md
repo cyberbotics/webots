@@ -18,6 +18,7 @@ Released on December **th, 2023.
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
+    - Improved the speed and accuracy of box-plane collisions ([#6687](https://github.com/cyberbotics/webots/pull/6687)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
   - Bug Fixes

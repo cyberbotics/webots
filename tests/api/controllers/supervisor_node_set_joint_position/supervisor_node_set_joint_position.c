@@ -44,14 +44,17 @@ int main(int argc, char **argv) {
 
   // Check joints position is applied correctly
   double slider_value = wb_distance_sensor_get_value(slider_sensor);
-  ts_assert_double_in_delta(slider_value, 305.0, 2.0, "Slider joint position is not set correctly.");
+  printf("slider_value=%f\n", slider_value);
   const double hinge_value = wb_distance_sensor_get_value(hinge_sensor);
-  printf("value %f\n", hinge_value);
-  ts_assert_double_in_delta(hinge_value, 432.0, 2.0, "Hinge joint position is not set correctly.");
+  printf("hinge_value=%f\n", hinge_value);
   const double hinge2_value = wb_distance_sensor_get_value(hinge2_sensor);
-  ts_assert_double_in_delta(hinge2_value, 150.0, 2.0, "Hinge2 joint position is not set correctly.");
+  printf("hinge2_value=%f\n", hinge2_value);
   const double ball_value = wb_distance_sensor_get_value(ball_joint_sensor);
-  ts_assert_double_in_delta(ball_value, 205.0, 2.0, "Ball joint position is not set correctly.");
+  printf("ball_value=%f\n", ball_value);
+  ts_assert_double_in_delta(slider_value, 305.0, 2.0, "Slider joint position is not set correctly.");
+  ts_assert_double_in_delta(hinge_value, 530.0, 2.0, "Hinge joint position is not set correctly.");
+  ts_assert_double_in_delta(hinge2_value, 156.0, 2.0, "Hinge2 joint position is not set correctly.");
+  ts_assert_double_in_delta(ball_value, 211.0, 2.0, "Ball joint position is not set correctly.");
 
   // Test invalid indices
   wb_supervisor_node_set_joint_position(slider_joint_node, 0, 2);
