@@ -46,6 +46,14 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 
+WbNodeEditor *WbNodeEditor::cInstance = nullptr;
+
+WbNodeEditor *WbNodeEditor::instance(QWidget *parent) {
+  if (!cInstance)
+    cInstance = new WbNodeEditor(parent);
+  return cInstance;
+}
+
 WbNodeEditor::WbNodeEditor(QWidget *parent) :
   WbValueEditor(parent),
   mNode(NULL),
@@ -55,7 +63,6 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   mNbTriangles(new QLabel(this)),
   mStackedWidget(new QStackedWidget(this)),
   mMessageBox(false),
-  worldCheckTimer(new QTimer(this)),
   mShowResizeHandlesLabel(new QLabel(tr("3D tools:"), this)),
   mShowResizeHandlesCheckBox(new QCheckBox(tr("show resize handles"), this)) {
   mShowResizeHandlesCheckBox->setChecked(false);
@@ -91,25 +98,14 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   connect(mPrintUrl, &QPushButton::pressed, this, &WbNodeEditor::printUrl);
   connect(mShowResizeHandlesCheckBox, &QAbstractButton::toggled, WbSelection::instance(),
           &WbSelection::showResizeManipulatorFromSceneTree, Qt::UniqueConnection);
-  connect(worldCheckTimer, &QTimer::timeout, this, &WbNodeEditor::tryConnectToWorld);
-  worldCheckTimer->start(500);
+  state = WbSimulationState::instance();
 }
 
 void WbNodeEditor::tryConnectToWorld() {
   world = WbWorld::instance();
-  state = WbSimulationState::instance();
-  if (oldWorld != world) {
-    connect(world, &WbWorld::checkDefDiff, this, &WbNodeEditor::resetDefNamesToInitial);
-    connect(this, &WbNodeEditor::resetModifiedFromSceneTree, world, &WbWorld::resetModifiedFromSceneTree);
-    oldWorld = const_cast<WbWorld *>(world);
-    mInitialCurrentDefMap.clear();
-    worldCheckTimer->stop();
-  }
-}
-
-void WbNodeEditor::startTimer() {
-  disconnect(world, &WbWorld::checkDefDiff, this, &WbNodeEditor::resetDefNamesToInitial);
-  worldCheckTimer->start(500);
+  connect(world, &WbWorld::checkDefDiff, this, &WbNodeEditor::resetDefNamesToInitial);
+  connect(this, &WbNodeEditor::resetModifiedFromSceneTree, world, &WbWorld::resetModifiedFromSceneTree);
+  mInitialCurrentDefMap.clear();
 }
 
 void WbNodeEditor::printUrl() {

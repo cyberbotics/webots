@@ -35,7 +35,7 @@ class WbNodeEditor : public WbValueEditor {
   Q_OBJECT
 
 public:
-  explicit WbNodeEditor(QWidget *parent = NULL);
+  static WbNodeEditor *instance(QWidget *parent = nullptr);
 
   void recursiveBlockSignals(bool block) override;
 
@@ -57,7 +57,7 @@ public slots:
   void cleanValue() override;
   void resetDefNamesToInitial();
   void switchInitialCurrentDef();
-  void startTimer();
+  void tryConnectToWorld();
 
 protected:
   enum PaneType { DEF_PANE, EMPTY_PANE };
@@ -71,19 +71,18 @@ private:
   QStackedWidget *mStackedWidget;
   bool mMessageBox;
   QMap<WbNode *, QPair<QString, QString>> mInitialCurrentDefMap;
-  QTimer *worldCheckTimer;
   const WbWorld *world = nullptr;
-  WbWorld *oldWorld = nullptr;
   WbSimulationState *state = nullptr;
+  static WbNodeEditor *cInstance;
 
   // actions buttons
   QLabel *mShowResizeHandlesLabel;
   QCheckBox *mShowResizeHandlesCheckBox;
 
+  explicit WbNodeEditor(QWidget *parent = nullptr);
   void setTransformActionVisibile(bool visible);
   void takeKeyboardFocus() override {}
   void printUrl();
-  void tryConnectToWorld();
   void compareInitialCurrentDef();
 };
 
