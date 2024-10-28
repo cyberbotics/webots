@@ -158,14 +158,12 @@ signals:
   void robotAdded(WbRobot *robot);
   void robotRemoved(WbRobot *robot);
   void resetRequested(bool restartControllers);
-  void checkDefDiff();
 
 public slots:
   void awake();
   void updateVideoRecordingStatus(int status) {
     mIsVideoRecording = (status == WB_SUPERVISOR_MOVIE_RECORDING || status == WB_SUPERVISOR_MOVIE_SAVING);
   }
-  void resetModifiedFromSceneTree();
 
 protected:
   // collecting contact and immersion geometries
@@ -201,7 +199,6 @@ private:
   bool mIsLoading;
   bool mIsCleaning;
   bool mIsVideoRecording;
-  bool isModifiedFromSceneTreeRestarted = false;
 
   void checkPresenceOfMandatoryNodes();
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;

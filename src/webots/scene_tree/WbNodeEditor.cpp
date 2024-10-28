@@ -33,8 +33,6 @@
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
-#include "WbWorld.hpp"
-#include "WbActionManager.hpp"
 
 #include <QtCore/QDir>
 #include <QtWidgets/QCheckBox>
@@ -44,7 +42,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
-#include <QtCore/QTimer>
 
 WbNodeEditor::WbNodeEditor(QWidget *parent) :
   WbValueEditor(parent),
@@ -55,7 +52,6 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   mNbTriangles(new QLabel(this)),
   mStackedWidget(new QStackedWidget(this)),
   mMessageBox(false),
-  worldCheckTimer(new QTimer(this)),
   mShowResizeHandlesLabel(new QLabel(tr("3D tools:"), this)),
   mShowResizeHandlesCheckBox(new QCheckBox(tr("show resize handles"), this)) {
   mShowResizeHandlesCheckBox->setChecked(false);
@@ -91,25 +87,6 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   connect(mPrintUrl, &QPushButton::pressed, this, &WbNodeEditor::printUrl);
   connect(mShowResizeHandlesCheckBox, &QAbstractButton::toggled, WbSelection::instance(),
           &WbSelection::showResizeManipulatorFromSceneTree, Qt::UniqueConnection);
-  connect(worldCheckTimer, &QTimer::timeout, this, &WbNodeEditor::tryConnectToWorld);
-  worldCheckTimer->start(500);
-}
-
-void WbNodeEditor::tryConnectToWorld() {
-  world = WbWorld::instance();
-  state = WbSimulationState::instance();
-  if (oldWorld != world) {
-    connect(world, &WbWorld::checkDefDiff, this, &WbNodeEditor::resetDefNamesToInitial);
-    connect(this, &WbNodeEditor::resetModifiedFromSceneTree, world, &WbWorld::resetModifiedFromSceneTree);
-    oldWorld = const_cast<WbWorld*>(world);
-    mInitialCurrentDefMap.clear();
-    worldCheckTimer->stop();
-  }
-}
-
-void WbNodeEditor::startTimer(){
-  disconnect(world, &WbWorld::checkDefDiff, this, &WbNodeEditor::resetDefNamesToInitial);
-  worldCheckTimer->start(500);
 }
 
 void WbNodeEditor::printUrl() {
@@ -154,9 +131,6 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
           mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
       }
     }
-
-    if (mNode && !mInitialCurrentDefMap.contains(mNode))
-      mInitialCurrentDefMap[mNode] = QPair<QString, QString>(mNode->defName(), QString());
   }
 
   update();
@@ -224,13 +198,6 @@ void WbNodeEditor::apply() {
   QString newDef = mDefEdit->text();
   const QString &previousDef = mNode->defName();
 
-  QString initialDef = mInitialCurrentDefMap.value(mNode).first;  // Access the first QString (initial DEF)
-  mInitialCurrentDefMap[mNode].second = newDef; 
-
-  bool hasStarted = state->hasStarted();
-  if (!hasStarted)
-    this->compareInitialCurrentDef();
-
   if (newDef == previousDef)
     return;
 
@@ -291,76 +258,4 @@ void WbNodeEditor::apply() {
 
   if (dictionaryUpdateRequest)
     emit dictionaryUpdateRequested();
-}
-
-void WbNodeEditor::compareInitialCurrentDef() {
-  if (!mInitialCurrentDefMap.isEmpty()) {
-    bool foundDifference = false;
-    // Iterate through the QMap
-    for (auto it = mInitialCurrentDefMap.constBegin(); it != mInitialCurrentDefMap.constEnd(); ++it) {
-      const QString &initialDef = it.value().first;  // First QString (initial)
-      const QString &currentDef = it.value().second; // Second QString (current)
-
-      // Compare the two QStrings
-      if (initialDef != currentDef) {
-        foundDifference = true;  // Mark that a difference is found
-        break;
-      }
-    }
-    if (foundDifference)
-      emit defNameChanged(true);  // Emit true if any difference is found
-    else
-    {
-      emit resetModifiedFromSceneTree();
-      emit defNameChanged(false);  // Emit false if no differences were found
-    }
-  }
-  else
-    emit defNameChanged(false); // If all QStrings are the same, return false
-}
-
-void WbNodeEditor::resetDefNamesToInitial() {
-  // Check if the map is empty
-  if (mInitialCurrentDefMap.isEmpty()) {
-    emit defNameChanged(false);
-    return;
-  }
-
-  // Iterate through the map and reset each node's DEF name to its initial value
-  for (auto it = mInitialCurrentDefMap.begin(); it != mInitialCurrentDefMap.end(); ++it) {
-    WbNode *node = it.key();
-    const QString &initialDef = it.value().first;  // Access initial DEF name
-
-    // Only reset if node exists and the current DEF differs from the initial one
-    if (node && node->defName() != initialDef)
-      node->setDefName(initialDef);  // Set the DEF name back to the initial one
-  }
-
-  update();
-
-  emit defNameChanged(false);
-  emit resetModifiedFromSceneTree();
-}
-
-void WbNodeEditor::switchInitialCurrentDef() {
-  // Check if the map is empty
-  if (mInitialCurrentDefMap.isEmpty()) {
-    emit defNameChanged(false);
-    return;
-  }
-
-  // Iterate through the map and switch the initial DEF to the current one
-  for (auto it = mInitialCurrentDefMap.begin(); it != mInitialCurrentDefMap.end(); ++it) {
-    WbNode *node = it.key();
-    QString &initialDef = it.value().first;  // Reference to initial DEF name
-    const QString &currentDef = node->defName();  // Get the current DEF name of the node
-
-    // Switch the initial DEF to the current DEF
-    if (node && initialDef != currentDef)
-      initialDef = currentDef;  // Update the initial DEF with the current one
-  }
-
-  update();
-
-  emit defNameChanged(false);
 }

@@ -227,20 +227,15 @@ bool WbWorld::needSaving() const {
 void WbWorld::setModifiedFromSceneTree() {
   if (!mIsModifiedFromSceneTree) {
     mIsModifiedFromSceneTree = true;
+    setModified();
   }
-  if (isModifiedFromSceneTreeRestarted) {
-    mIsModifiedFromSceneTree = false;
-    isModifiedFromSceneTreeRestarted = false;
-  }
-}
-
-void WbWorld::resetModifiedFromSceneTree() {
-  mIsModifiedFromSceneTree = false;
-  isModifiedFromSceneTreeRestarted = true;
 }
 
 void WbWorld::setModified(bool isModified) {
-  emit checkDefDiff();
+  if (mIsModified != isModified) {
+    mIsModified = isModified;
+    emit modificationChanged(isModified);
+  }
 }
 
 bool WbWorld::saveAs(const QString &fileName) {
