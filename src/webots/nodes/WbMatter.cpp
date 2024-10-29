@@ -377,7 +377,7 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
     if (eg)
       connect(eg, &WbElevationGrid::validElevationGridInserted, shape, &WbShape::geometryInShapeInserted, Qt::UniqueConnection);
 
-    insertedGeom = createOdeGeomFromGeometry(upperSpace(), geometry);
+    insertedGeom = createOdeGeomFromGeometry(upperSpace(), geometry, false);
     if (insertedGeom == NULL) {
       assert(ifs || eg);
       return;
