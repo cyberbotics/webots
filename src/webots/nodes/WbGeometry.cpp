@@ -466,7 +466,7 @@ void WbGeometry::setOdeMass(const dMass *mass) {
 }
 
 void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
-  assert(geom && matterAncestor);
+  assert(geom && geom != mOdeGeom && matterAncestor);
 
   if (!areOdeObjectsCreated())
     createOdeObjects();
