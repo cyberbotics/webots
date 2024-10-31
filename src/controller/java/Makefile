@@ -70,6 +70,7 @@ JAVA_FILES      = Accelerometer.java \
                   Pen.java \
                   PositionSensor.java \
                   Propeller.java \
+                  Proto.java \
                   Radar.java \
                   RadarTarget.java \
                   RangeFinder.java \

@@ -39,7 +39,8 @@ WbToken::WbToken(const QString &word, int line, int column) : mLine(line), mColu
     bool ok;
     // cppcheck-suppress ignoredReturnValue
     word.toDouble(&ok);
-    mType = ok ? NUMERIC : INVALID;
+    // "+" on its own is a punctuation mark
+    mType = ok ? NUMERIC : word == "+" ? PUNCTUATION : INVALID;
   } else if (isKeyword(word))
     mType = KEYWORD;
   else if (isValidIdentifier(word))
