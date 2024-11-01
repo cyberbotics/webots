@@ -183,9 +183,9 @@ If you want to use the C++ API follow these instructions:
     The C++ wrappers are .cpp files that implement the interface between the C++ API and the C API.
     You can proceed like this:
 
-    - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources Files` folder, then select `Add / New Folder`.
-    This should create a `NewFolder` subfolder in your `Sources Files` folder.
-    Then select the `NewFolder` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
+    - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources Files` folder, then select `Add / New Filter`.
+    This should create a `NewFilter` subfolder in your `Sources Files` folder.
+    Then select the `NewFilter` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
     In the file dialog, go to the "C:\Program Files\Webots\src\controller\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
     This should add the "Accelerometer.cpp, Camera.cpp, Compass.cpp", etc. source files to your project.
 
