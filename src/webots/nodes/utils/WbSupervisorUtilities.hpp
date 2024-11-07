@@ -84,11 +84,17 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
+  int mFoundProtoId;
+  QString mFoundProtoTypeName;
+  bool mFoundProtoIsDerived;
+  int mFoundProtoParameterCount;
   int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
   QString mFoundFieldName;
   bool mFoundFieldIsInternal;
+  int mFoundFieldActualFieldNodeId;
+  int mFoundFieldActualFieldIndex;
   int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;

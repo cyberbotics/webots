@@ -88,6 +88,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService("supervisor/node/get_parent_node", &RosSupervisor::nodeGetParentNodeCallback, this);
   mNodeIsProtoServer =
     mRos->nodeHandle()->advertiseService("supervisor/node/is_proto", &RosSupervisor::nodeIsProtoCallback, this);
+  mNodeGetProtoServer =
+    mRos->nodeHandle()->advertiseService("supervisor/node/get_proto", &RosSupervisor::nodeGetProtoCallback, this);
   mNodeGetPositionServer =
     mRos->nodeHandle()->advertiseService("supervisor/node/get_position", &RosSupervisor::nodeGetPositionCallback, this);
   mNodeGetOrientationServer =
@@ -144,6 +146,8 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
     mRos->nodeHandle()->advertiseService("supervisor/field/get_type_name", &RosSupervisor::fieldGetTypeNameCallback, this);
   mFieldGetCountServer =
     mRos->nodeHandle()->advertiseService("supervisor/field/get_count", &RosSupervisor::fieldGetCountCallback, this);
+  mFieldGetActualFieldServer = mRos->nodeHandle()->advertiseService("supervisor/field/get_actual_field",
+                                                                    &RosSupervisor::fieldGetActualFieldCallback, this);
   mFieldGetBoolServer =
     mRos->nodeHandle()->advertiseService("supervisor/field/get_bool", &RosSupervisor::fieldGetBoolCallback, this);
   mFieldGetInt32Server =
@@ -205,6 +209,19 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
                                                                       &RosSupervisor::fieldEnableSFTrackingCallback, this);
   mFieldDisableSFTrackingServer = mRos->nodeHandle()->advertiseService("supervisor/field/disable_sf_tracking",
                                                                        &RosSupervisor::fieldDisableSFTrackingCallback, this);
+
+  mProtoGetFieldServer =
+    mRos->nodeHandle()->advertiseService("supervisor/proto/get_field", &RosSupervisor::protoGetFieldCallback, this);
+  mProtoGetFieldByIndexServer = mRos->nodeHandle()->advertiseService("supervisor/proto/get_field_by_index",
+                                                                     &RosSupervisor::protoGetFieldByIndexCallback, this);
+  mProtoGetNumberOfFieldsServer = mRos->nodeHandle()->advertiseService("supervisor/proto/get_number_of_fields",
+                                                                       &RosSupervisor::protoGetNumberOfFieldsCallback, this);
+  mProtoGetParentServer =
+    mRos->nodeHandle()->advertiseService("supervisor/proto/get_parent", &RosSupervisor::protoGetParentCallback, this);
+  mProtoGetTypeNameServer =
+    mRos->nodeHandle()->advertiseService("supervisor/proto/get_type_name", &RosSupervisor::protoGetTypeNameCallback, this);
+  mProtoIsDerivedServer =
+    mRos->nodeHandle()->advertiseService("supervisor/proto/is_derived", &RosSupervisor::protoIsDerivedCallback, this);
 }
 
 RosSupervisor::~RosSupervisor() {
@@ -563,6 +580,15 @@ bool RosSupervisor::nodeIsProtoCallback(webots_ros::node_is_proto::Request &req,
   return true;
 }
 
+bool RosSupervisor::nodeGetProtoCallback(webots_ros::node_get_proto::Request &req, webots_ros::node_get_proto::Response &res) {
+  assert(this);
+  if (!req.node)
+    return false;
+  Node *node = reinterpret_cast<Node *>(req.node);
+  res.proto = reinterpret_cast<uint64_t>(node->getProto());
+  return true;
+}
+
 // cppcheck-suppress constParameter
 bool RosSupervisor::nodeGetPositionCallback(webots_ros::node_get_position::Request &req,
                                             webots_ros::node_get_position::Response &res) {
@@ -767,8 +793,8 @@ bool RosSupervisor::nodeGetFieldCallback(webots_ros::node_get_field::Request &re
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  if (req.proto)
-    res.field = reinterpret_cast<uint64_t>(node->getProtoField(req.fieldName));
+  if (req.queryBaseNode)
+    res.field = reinterpret_cast<uint64_t>(node->getBaseNodeField(req.fieldName));
   else
     res.field = reinterpret_cast<uint64_t>(node->getField(req.fieldName));
   return true;
@@ -780,8 +806,8 @@ bool RosSupervisor::nodeGetFieldByIndexCallback(webots_ros::node_get_field_by_in
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  if (req.proto)
-    res.field = reinterpret_cast<uint64_t>(node->getProtoFieldByIndex(req.index));
+  if (req.queryBaseNode)
+    res.field = reinterpret_cast<uint64_t>(node->getBaseNodeFieldByIndex(req.index));
   else
     res.field = reinterpret_cast<uint64_t>(node->getFieldByIndex(req.index));
   return true;
@@ -793,7 +819,7 @@ bool RosSupervisor::nodeGetNumberOfFieldsCallback(webots_ros::node_get_number_of
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  res.value = req.proto ? node->getProtoNumberOfFields() : node->getNumberOfFields();
+  res.value = req.queryBaseNode ? node->getNumberOfBaseNodeFields() : node->getNumberOfFields();
   return true;
 }
 
@@ -971,6 +997,16 @@ bool RosSupervisor::fieldGetCountCallback(webots_ros::field_get_count::Request &
     return false;
   Field *field = reinterpret_cast<Field *>(req.field);
   res.count = field->getCount();
+  return true;
+}
+
+bool RosSupervisor::fieldGetActualFieldCallback(webots_ros::field_get_actual_field::Request &req,
+                                                webots_ros::field_get_actual_field::Response &res) {
+  assert(this);
+  if (!req.field)
+    return false;
+  Field *field = reinterpret_cast<Field *>(req.field);
+  res.field = reinterpret_cast<uint64_t>(field->getActualField());
   return true;
 }
 
@@ -1417,5 +1453,65 @@ bool RosSupervisor::fieldDisableSFTrackingCallback(webots_ros::field_disable_sf_
   res.success = 1;
   field->disableSFTracking();
 
+  return true;
+}
+
+bool RosSupervisor::protoGetFieldCallback(webots_ros::proto_get_field::Request &req,
+                                          webots_ros::proto_get_field::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.field = reinterpret_cast<uint64_t>(proto->getField(req.fieldName));
+  return true;
+}
+
+bool RosSupervisor::protoGetFieldByIndexCallback(webots_ros::proto_get_field_by_index::Request &req,
+                                                 webots_ros::proto_get_field_by_index::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.field = reinterpret_cast<uint64_t>(proto->getFieldByIndex(req.index));
+  return true;
+}
+
+bool RosSupervisor::protoGetNumberOfFieldsCallback(webots_ros::proto_get_number_of_fields::Request &req,
+                                                   webots_ros::proto_get_number_of_fields::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.value = proto->getNumberOfFields();
+  return true;
+}
+
+bool RosSupervisor::protoGetParentCallback(webots_ros::proto_get_parent::Request &req,
+                                           webots_ros::proto_get_parent::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.proto = reinterpret_cast<uint64_t>(proto->getParent());
+  return true;
+}
+
+bool RosSupervisor::protoGetTypeNameCallback(webots_ros::proto_get_type_name::Request &req,
+                                             webots_ros::proto_get_type_name::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.value = proto->getTypeName();
+  return true;
+}
+
+bool RosSupervisor::protoIsDerivedCallback(webots_ros::proto_is_derived::Request &req,
+                                           webots_ros::proto_is_derived::Response &res) {
+  assert(this);
+  if (!req.proto)
+    return false;
+  Proto *proto = reinterpret_cast<Proto *>(req.proto);
+  res.value = proto->isDerived();
   return true;
 }
