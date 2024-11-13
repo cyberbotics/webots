@@ -299,4 +299,3 @@ class LinuxWebotsPackage(WebotsPackage):
                 return os.path.join(os.path.dirname(path), basename)
             return path
         return ""
-
