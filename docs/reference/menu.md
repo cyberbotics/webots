@@ -127,7 +127,6 @@
     - [Nodes and Keywords](nodes-and-keywords.md)
     - [DEF and USE](def-and-use.md)
 - [Other APIs](other-apis.md)
-    - [ROS API](ros-api.md)
     - [C String API](c-string-api.md)
 - [Changelog](changelog.md)
     - [Webots R2024](changelog-r2024.md)

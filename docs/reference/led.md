@@ -102,15 +102,6 @@ value = wb_led_get(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_led` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) |
-| `/<device_name>/get_led` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description

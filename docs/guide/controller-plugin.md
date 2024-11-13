@@ -88,7 +88,7 @@ Therefore, the robot window in this case can be reused in different simulations.
 
 <br />
 
-The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java, MATLAB and ROS.
+The HTML robot windows can communicate with controller programs written using any of the supported programming languages, i.e. C, C++, Python, Java and MATLAB.
 If a [Robot](../reference/robot.md)'s controller is changed or restarted during the simulation run, the robot window associated to the same [Robot](../reference/robot.md) node will be restarted as well.
 
 ### Remote-Control Plugin
