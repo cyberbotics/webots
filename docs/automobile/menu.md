@@ -6,7 +6,6 @@
     - [Driver Library](driver-library.md)
     - [Car Library](car-library.md)
     - [C++, Java and Python Wrappers of the Automobile Libraries](cpp-java-and-python-wrappers-of-the-automobile-libraries.md)
-    - [ROS Support](ros-support.md)
 - [Robot-window](robot-window.md)
     - [Overview Tab](overview-tab.md)
 - [Tools](tools.md)

@@ -121,14 +121,6 @@ wb_pen_write(tag, write)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/write` | `service` | [`webots_ros::set_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -199,14 +191,6 @@ public class Pen extends Device {
 ```MATLAB
 wb_pen_set_ink_color(tag, [r g b], density)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_ink_color` | `service` | `webots_ros::pen_set_ink_color` | `int32 color`<br/>`float64 density`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 

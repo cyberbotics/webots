@@ -106,19 +106,6 @@ node = wb_supervisor_node_get_selected()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_from_device` | `service` | `webots_ros::supervisor_get_from_string` | `string value`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -149,7 +136,6 @@ It is recommended to use this function only when knowing formerly the identifier
 For example, when exporting an W3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
-Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
 Like any [Group](group.md) node, the root node has a MFNode field called "children" which can be parsed to read each node in the scene tree.
@@ -246,18 +232,6 @@ node = wb_supervisor_node_get_parent_node(node)
 b = wb_supervisor_node_is_proto(node)
 node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_id` | `service` | `webots_ros::node_get_id` | `uint64 node`<br/>`---`<br/>`int32 id` |
-| `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-| `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -544,16 +518,6 @@ name = wb_supervisor_node_get_base_type_name(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_type` | `service` | `webots_ros::node_get_type` | `uint64 node`<br/>`---`<br/>`int32 type` |
-| `/supervisor/node/get_type_name` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-| `/supervisor/node/get_base_type_name` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -640,14 +604,6 @@ wb_supervisor_node_remove(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -718,14 +674,6 @@ public class Node {
 ```MATLAB
 node_string = wb_supervisor_node_export_string(node)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
 
 %tab-end
 
@@ -830,16 +778,6 @@ field = wb_supervisor_node_get_proto_field(node, 'field_name')
 field = wb_supervisor_node_get_proto_field_by_index(node, index)
 size = wb_supervisor_node_get_proto_number_of_fields(node)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto`<br/>`---`<br/>`uint32 value` |
 
 %tab-end
 
@@ -954,18 +892,6 @@ pose = wb_supervisor_node_get_pose(node, from_node)
 wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)
 wb_supervisor_node_disable_pose_tracking(node, from_node)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_position` | `service` | `webots_ros::node_get_position` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/node/get_orientation` | `service` | `webots_ros::node_get_orientation` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
-| `/supervisor/node/enable_pose_tracking` | `service` | `webots_ros::node_enable_pose_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/disable_pose_tracking` | `service` | `webots_ros::node_disable_pose_tracking` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1096,14 +1022,6 @@ com = wb_supervisor_node_get_center_of_mass(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_center_of_mass` | `service` | `webots_ros::node_get_center_of_mass` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) centerOfMass |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1196,16 +1114,6 @@ wb_supervisor_node_disable_contact_points_tracking():
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
-| `/supervisor/node/enable_contact_points_tracking` | `service` | `webots_ros::enable_contact_points_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1291,14 +1199,6 @@ balance = wb_supervisor_node_get_static_balance(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_static_balance` | `service` | `webots_ros::node_get_static_balance` | `uint64 node`<br/>`---`<br/>`uint8 balance` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1378,15 +1278,6 @@ public class Node {
 velocity = wb_supervisor_node_get_velocity(node)
 wb_supervisor_node_set_velocity(node, velocity)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_velocity` | `service` | `webots_ros::node_get_velocity` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html) velocity |
-| `/supervisor/node/set_velocity` | `service` | `webots_ros::node_set_velocity` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html) `velocity`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1484,16 +1375,6 @@ wb_supervisor_node_reset_physics(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/save_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/load_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/reset_physics` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1577,14 +1458,6 @@ public class Node {
 ```MATLAB
 wb_supervisor_node_set_joint_position(node, position, index)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/set_joint_position` | `service` | `webots_ros::node_set_joint_position` | `uint64 node`<br/>`float position`<br/>`int32 index`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1675,14 +1548,6 @@ wb_supervisor_node_restart_controller(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/restart_controller` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1758,14 +1623,6 @@ wb_supervisor_node_move_viewpoint(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/move_viewpoint` | `service` | `webots_ros::node_move_viewpoint` | `uint64 node`<br/>---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1836,14 +1693,6 @@ public class Node {
 ```MATLAB
 wb_supervisor_node_set_visibility(node, from, visible)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/set_visibility` | `service` | `webots_ros::node_hide_from_camera` | `uint64 node`<br/>`uint64 from`<br/>`uint8 visible`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1941,16 +1790,6 @@ void wb_supervisor_node_add_torque(node, torque, relative)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/add_force` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_force_with_offset` | `service` | `webots_ros::node_add_force_with_offset` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) offset<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_torque` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2024,14 +1863,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency, font)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/set_label` | `service` | `webots_ros::supervisor_set_label` | `int32 id`<br/>`string label`<br/>`float64 xpos`<br/>`float64 ypos`<br/>`float64 size`<br/>`int32 color`<br/>`float64 transparency`<br/>`string font`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -2156,14 +1987,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_simulation_quit(status)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_quit` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2320,15 +2143,6 @@ wb_supervisor_simulation_set_mode(mode)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/supervisor_simulation_get_mode` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/supervisor/supervisor_simulation_set_mode` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2417,14 +2231,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_simulation_reset()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_reset` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2680,14 +2486,6 @@ wb_supervisor_simulation_reset_physics()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_reset_physics` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2779,16 +2577,6 @@ wb_supervisor_world_reload()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/world_load` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/world_save` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/world_reload` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2875,14 +2663,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_export_image('filename', quality)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/export_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -2982,17 +2762,6 @@ status = wb_supervisor_movie_failed()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/movie_start_recording` | `service` | `webots_ros::supervisor_movie_start_recording` | `string filename`<br/>`int32 width`<br/>`int32 height`<br/>`int32 codec`<br/>`int32 quality`<br/>`int32 acceleration`<br/>`uint8 caption`<br/>`---`<br/>`int8 success` |
-| `/supervisor/movie_stop_recording` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-| `/supervisor/movie_is_ready` | `service` | `webots_ros::node_get_status` | `uint8 ask`<br/>`---`<br/>`uint8 status` |
-| `/supervisor/movie_failed` | `service` | `webots_ros::node_get_status` | `uint8 ask`<br/>`---`<br/>`uint8 status` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3089,15 +2858,6 @@ public class Supervisor extends Robot {
 success = wb_supervisor_animation_start_recording('filename')
 success = wb_supervisor_animation_stop_recording()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/animation_start_recording` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/animation_stop_recording` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -3232,19 +2992,6 @@ count = wb_supervisor_field_get_count(field)
 wb_supervisor_field_enable_sf_tracking(field, sampling_period)
 wb_supervisor_field_disable_sf_tracking(field)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/get_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
-| `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
-| `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
-| `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`int32 sampling_period`<br/>`---`<br/>`int8 sampling_period` |
-| `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -3447,22 +3194,6 @@ node = wb_supervisor_field_get_mf_node(field, index)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/get_bool` | `service` | `webots_ros::field_get_bool` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`uint8 value` |
-| `/supervisor/field/get_int32` | `service` | `webots_ros::field_get_int32` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`int32 value` |
-| `/supervisor/field/get_float` | `service` | `webots_ros::field_get_float` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`float64 value` |
-| `/supervisor/field/get_vec2f` | `service` | `webots_ros::field_get_vec2f` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/><br/>Note: the 'z' coordinate should be ignored. |
-| `/supervisor/field/get_vec3f` | `service` | `webots_ros::field_get_vec3f` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) value |
-| `/supervisor/field/get_rotation` | `service` | `webots_ros::field_get_rotation` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) value |
-| `/supervisor/field/get_color` | `service` | `webots_ros::field_get_color` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) value |
-| `/supervisor/field/get_string` | `service` | `webots_ros::field_get_string` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`string value` |
-| `/supervisor/field/get_node` | `service` | `webots_ros::field_get_node` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`uint64 node` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3638,21 +3369,6 @@ wb_supervisor_field_set_mf_string(field, index, 'value')
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/set_bool` | `service` | `webots_ros::field_set_bool` | `uint64 field`<br/>`int32 index`<br/>`uint8 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_int32` | `service` | `webots_ros::field_set_int32` | `uint64 field`<br/>`int32 index`<br/>`int32 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_float` | `service` | `webots_ros::field_set_float` | `uint64 field`<br/>`int32 index`<br/>`float64 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_vec2f` | `service` | `webots_ros::field_set_vec2f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'z' coordinate is ignored. |
-| `/supervisor/field/set_vec3f` | `service` | `webots_ros::field_set_vec3f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_rotation` | `service` | `webots_ros::field_set_rotation` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_color` | `service` | `webots_ros::field_set_color` | `uint64 field`<br/>`int32 index`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'a' component is ignored. |
-| `/supervisor/field/set_string` | `service` | `webots_ros::field_set_string` | `uint64 field`<br/>`int32 index`<br/>`string value`<br/>`---`<br/>`int32 success`<br/> |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3821,22 +3537,6 @@ wb_supervisor_field_remove_sf(field)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/insert_bool` | `service` | `webots_ros::field_set_bool` | `uint64 field`<br/>`int32 index`<br/>`uint8 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_int32` | `service` | `webots_ros::field_set_int32` | `uint64 field`<br/>`int32 index`<br/>`int32 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_float` | `service` | `webots_ros::field_set_float` | `uint64 field`<br/>`int32 index`<br/>`float64 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_vec2f` | `service` | `webots_ros::field_set_vec2f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'z' coordinate is ignored. |
-| `/supervisor/field/insert_vec3f` | `service` | `webots_ros::field_set_vec3f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_rotation` | `service` | `webots_ros::field_set_rotation` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_color` | `service` | `webots_ros::field_set_color` | `uint64 field`<br/>`int32 index`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'a' component is ignored. |
-| `/supervisor/field/insert_string` | `service` | `webots_ros::field_set_string` | `uint64 field`<br/>`int32 index`<br/>`string value`<br/>`---`<br/>`int32 success`<br/> |
-| `/supervisor/field/remove` | `service` | `webots_ros::field_remove` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3926,14 +3626,6 @@ public class Field {
 wb_supervisor_field_import_mf_node_from_string(field, position, 'node_string')
 wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/import_node_from_string` | `service` | `webots_ros::field_import_node_from_string` | `uint64 field`<br/>`int32 position`<br/>`string nodeString`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -4086,16 +3778,6 @@ orientation = wb_supervisor_virtual_reality_headset_get_orientation()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/virtual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/virtual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/virtual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -4185,15 +3867,6 @@ structs.WbContactPoint.members = struct(
   'node_id', 'int32',
 );
 ```
-
-%tab-end
-
-%tab "ROS"
-
-<br/>
-[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
-`int32` node_id
-<br/>
 
 %tab-end
 
