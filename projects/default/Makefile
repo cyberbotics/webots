@@ -20,10 +20,6 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile
 
-ifeq ($(OSTYPE),linux)
-TARGETS += controllers/ros.Makefile
-endif
-
 release debug profile: $(TARGETS)
 ifneq ($(MESSAGE),)
 	+@echo -e $(MESSAGE)
