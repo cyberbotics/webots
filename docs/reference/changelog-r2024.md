@@ -21,6 +21,7 @@ Released on December **th, 2023.
     - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
+    - Remove ROS1 support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
   - Bug Fixes
     - Fixed error message on Windows when `libssl-3-x64.dll` was added to `PATH` ([#6553](https://github.com/cyberbotics/webots/pull/6553)).
     - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
