@@ -2244,4 +2244,4 @@ while ((message = wb_robot_wwi_receive_text())) {
 ```
 The reading head will be reset to the beginning of the buffer of received messages each time a time step is performed.
 
-> **note** [Java, Python, MATLAB]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python or MATLAB API.
+> **note** [Java, Python, MATLAB]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, or MATLAB API.
