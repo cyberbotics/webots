@@ -118,8 +118,6 @@ class LinuxWebotsPackage(WebotsPackage):
             self.copy_file(file)
 
         if self.tarball_enabled or self.deb_enabled:
-            self.add_ros_dependencies(self.package_webots_path, 'DEB')
-
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
@@ -256,7 +254,6 @@ class LinuxWebotsPackage(WebotsPackage):
         self.snap_script.write("cp /usr/include/zipconf.h $DESTDIR/usr/share/webots/include/libzip/\n")
         self.snap_script.write("cp $WEBOTS_HOME/scripts/packaging/webots_snap.desktop "
                                "$DESTDIR/usr/share/webots/resources/webots.desktop\n")
-        self.add_ros_dependencies("$DESTDIR/usr/share/webots", 'SNAP')
         self.snap_script.close()
         self.set_execution_rights(self.snap_script_path)
 
@@ -302,45 +299,3 @@ class LinuxWebotsPackage(WebotsPackage):
                 return os.path.join(os.path.dirname(path), basename)
             return path
         return ""
-
-    def add_ros_dependencies(self, path, mode):
-        if sys.platform != 'linux' or distro.version() != '20.04':
-            return
-        noetic_libs = ['libcontroller_manager.so',
-                       'libclass_loader.so',
-                       'libroscpp.so',
-                       'librosconsole.so',
-                       'libroscpp_serialization.so',
-                       'libroslib.so',
-                       'librostime.so',
-                       'libxmlrpcpp.so',
-                       'libcpp_common.so',
-                       'librosconsole_log4cxx.so',
-                       'librosconsole_backend_interface.so',
-                       'librosconsole_backend_interface.so']
-        system_libs = ['libboost_thread.so.1.71.0',
-                       'libboost_chrono.so.1.71.0',
-                       'libboost_filesystem.so.1.71.0',
-                       'liblog4cxx.so.10',
-                       'libboost_regex.so.1.71.0',
-                       'libconsole_bridge.so.0.4',
-                       'libapr-1.so.0',
-                       'libaprutil-1.so.0',
-                       'libboost_program_options.so.1.71.0',
-                       'libpython3.8.so.1.0']
-
-        ros_lib_path = os.path.join(path, 'projects', 'default', 'controllers', 'ros', 'lib', 'ros')
-        if mode == 'SNAP':
-            # add instructions to copy ros libraries to snap script
-            self.snap_script.write(f"mkdir -p {ros_lib_path}\n")
-            for lib in noetic_libs:
-                self.snap_script.write(f"cp /opt/ros/noetic/lib/{lib} {ros_lib_path}\n")
-            for lib in system_libs:
-                self.snap_script.write(f"cp /usr/lib/x86_64-linux-gnu/{lib} {ros_lib_path}\n")
-        else:
-            # copy ros libraries in distribution folder
-            os.makedirs(ros_lib_path)
-            for lib in noetic_libs:
-                shutil.copy(f"/opt/ros/noetic/lib/{lib}", ros_lib_path)
-            for lib in system_libs:
-                shutil.copy(f"/usr/lib/x86_64-linux-gnu/{lib}", ros_lib_path)

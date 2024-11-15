@@ -75,14 +75,6 @@ model = wb_device_get_model(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_model` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -159,14 +151,6 @@ name = wb_device_get_name(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -240,14 +224,6 @@ public class Device {
 ```MATLAB
 type = wb_device_get_node_type(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_node_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
 
 %tab-end
 
