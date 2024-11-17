@@ -175,12 +175,14 @@ jobs:
       with:
         name: build-ubuntu-20.04
         path: artifact
+    - run: ls -l artifact
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
         cp -R artifact/ untouched-artifact/
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
+    - run: ls -l artifact
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
