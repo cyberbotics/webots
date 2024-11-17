@@ -183,11 +183,11 @@ jobs:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
+        wget https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        sudo apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
+        sudo apt install -y wget && wget https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
         xvfb-run --auto-servernum python3 test_worlds.py
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
