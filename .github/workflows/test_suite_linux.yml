@@ -175,9 +175,6 @@ jobs:
       with:
         name: build-ubuntu-20.04
         path: artifact
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v7.0.7
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -188,14 +185,20 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.9
+    - name: Download Scripts
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          scripts/install/linux_runtime_dependencies.sh
+          tests/test_worlds.py
+        sparse-checkout-cone-mode: false
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        wget https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
+        sudo bash scripts/install/linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        wget https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
-        xvfb-run --auto-servernum python3 test_worlds.py
+        xvfb-run --auto-servernum python3 tests/test_worlds.py
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, test-worlds]
