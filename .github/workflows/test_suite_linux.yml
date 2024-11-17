@@ -197,6 +197,10 @@ jobs:
           scripts/install/linux_runtime_dependencies.sh
           tests/test_worlds.py
         sparse-checkout-cone-mode: false
+    - run: |
+        ls -l artifact
+        echo $PWD
+        ls -l /home/runner/work/webots/webots/artifact/webots
     - name: Update World, Check Warnings and Validate Cache
       run: |
         sudo bash scripts/install/linux_runtime_dependencies.sh
