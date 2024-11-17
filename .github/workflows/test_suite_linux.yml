@@ -182,25 +182,16 @@ jobs:
       with:
         name: build-ubuntu-20.04
         path: artifact
-    - run: ls -l artifact
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
         cp -R artifact/ untouched-artifact/
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
-    - run: |
-        ls -l artifact
-        echo $PWD
-        ls -l /home/runner/work/webots/webots/artifact/webots
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
         python-version: 3.9
-    - run: |
-        ls -l artifact
-        echo $PWD
-        ls -l /home/runner/work/webots/webots/artifact/webots
     - name: Update World, Check Warnings and Validate Cache
       run: |
         sudo bash scripts/install/linux_runtime_dependencies.sh
