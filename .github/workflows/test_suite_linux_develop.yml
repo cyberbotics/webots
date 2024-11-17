@@ -181,6 +181,7 @@ jobs:
     - name: Download Scripts
       uses: actions/checkout@v4
       with:
+        clean: false
         sparse-checkout: |
           scripts/install/linux_runtime_dependencies.sh
           tests/test_worlds.py
