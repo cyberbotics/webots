@@ -163,6 +163,13 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
     runs-on: ubuntu-20.04
     steps:
+    - name: Download Scripts
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          scripts/install/linux_runtime_dependencies.sh
+          tests/test_worlds.py
+        sparse-checkout-cone-mode: false
     - name: Download Artifacts
       uses: actions/download-artifact@v4.1.7
       with:
@@ -178,14 +185,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Download Scripts
-      uses: actions/checkout@v4
-      with:
-        clean: false
-        sparse-checkout: |
-          scripts/install/linux_runtime_dependencies.sh
-          tests/test_worlds.py
-        sparse-checkout-cone-mode: false
     - name: Update World, Check Warnings and Validate Cache
       run: |
         sudo bash scripts/install/linux_runtime_dependencies.sh
