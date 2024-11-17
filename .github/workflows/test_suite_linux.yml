@@ -9,7 +9,6 @@ on:
     tags:
       - nightly_*
       - R20*
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
