@@ -1266,7 +1266,7 @@ static char *compute_socket_filename(char *error_buffer) {
   closedir(dr);
   // check if Webots is currently loading
   char *loading_file_path = malloc(strlen(webots_instance_folder) + 9);  // webots_instance_folder + '/loading'
-  snprintf(loading_file_path, strlen(webots_instance_folder) + 9, "%s/loading", webots_instance_folder);
+  snprintf(loading_file_path, sizeof(loading_file_path), "%s/loading", webots_instance_folder);
   FILE *loading_file = fopen(loading_file_path, "r");
   if (loading_file) {
     fclose(loading_file);
