@@ -18,10 +18,12 @@ apt update
 apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
 
 UBUNTU_VERSION=$(lsb_release -rs)
-if [[ $UBUNTU_VERSION == "24.04" || $UBUNTU_VERSION == "22.04" ]]; then
-       apt install --yes openjdk-18-jdk
+if [[ $UBUNTU_VERSION == "22.04" ]]; then
+    apt install --yes openjdk-18-jdk
+elif [[ $UBUNTU_VERSION == "24.04" ]]; then
+    apt install --yes openjdk-21-jdk
 else
-       echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+    echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS versions are supported."
 fi
 
 script_full_path=$(dirname "$0")
