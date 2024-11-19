@@ -46,6 +46,9 @@ public class Slave extends Robot {
   }
 
   public Slave() {
+  }
+
+  public void initialize() {
     camera = getCamera("camera");
     camera.enable(4*timeStep);
     receiver = getReceiver("receiver");
@@ -106,6 +109,7 @@ public class Slave extends Robot {
 
   public static void main(String[] args) {
     Slave controller = new Slave();
+    controller.initialize();
     controller.run();
   }
 }
