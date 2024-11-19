@@ -103,8 +103,6 @@ class LinuxWebotsPackage(WebotsPackage):
                                         f"{self.application_name_lowercase_and_dashes}-{self.package_version}_*.deb")):
             remove_force(f)
         os.makedirs(self.package_webots_path)
-        print("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-        print("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 
     def create_webots_bundle(self, include_commit_file):
         super().create_webots_bundle(include_commit_file)
@@ -169,11 +167,11 @@ class LinuxWebotsPackage(WebotsPackage):
         symlink_force(f"/usr/local/{self.application_name_lowercase_and_dashes}/webots",
                       os.path.join(self.distribution_path, 'debian', 'usr', 'local', 'bin', 'webots'))
 
-        # add conflicting library not available in Ubuntu 22.04
+        # add conflicting library not available in Ubuntu 22.04 / Ubuntu 24.04
         # so that the Robotis OP2 robot window works out of the box
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-        if distro.version() == '22.04' or distro.version() == '24.04':
+        if distro.version() == '22.04':
             shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
         else:
             shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
@@ -214,10 +212,10 @@ class LinuxWebotsPackage(WebotsPackage):
         print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
               .format(self.distribution_path, self.application_name_lowercase_and_dashes, self.package_version))
 
-        # add specific libraries needed for tarball package
+        # add specific libraries needed for tarball package (Ubuntu 24.04)
         usr_lib_x68_64 = self.USR_LIB_X68_64
         usr_lib_x68_64.append('libjpeg.so.8')
-        if distro.version() == '22.04' or distro.version() == '24.04':
+        if distro.version() == '22.04':
             usr_lib_x68_64 += self.USR_LIB_X68_64_22_04
             usr_lib_x68_64.append('libraw.so.20')
         else:
