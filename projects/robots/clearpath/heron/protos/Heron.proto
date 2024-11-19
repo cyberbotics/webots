@@ -178,7 +178,5 @@ PROTO Heron [
         angular 0.5
       }
     }
-    linearVelocity 0.0 0.0 0.0
-    angularVelocity 0.0 0.0 0.0
   }
 }
