@@ -89,14 +89,14 @@ static inline void robotbenchmark_record(const char *answer, const char *benchma
   int l = 1024 + strlen(user) + strlen(benchmark);
   char *command = malloc(l);
   int written = snprintf(command, l,
-                       "wget -qO- "
-                       "--post-data=\"%s&record=%f&benchmark=%s&key=%s\" "
-                       "%s/record.php",
-                       user, record, benchmark, key, host);
+                         "wget -qO- "
+                         "--post-data=\"%s&record=%f&benchmark=%s&key=%s\" "
+                         "%s/record.php",
+                         user, record, benchmark, key, host);
   if (written < 0 || (size_t)written >= l) {
-      fprintf(stderr, "Error: Command construction failed or truncated.\n");
-      free(command);
-      return;
+    fprintf(stderr, "Error: Command construction failed or truncated.\n");
+    free(command);
+    return;
   }
   free(user);
   file = popen(command, "r");
