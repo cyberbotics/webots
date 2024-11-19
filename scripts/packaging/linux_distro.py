@@ -58,12 +58,12 @@ class LinuxWebotsPackage(WebotsPackage):
         "libx264.so.155"
     ]
     USR_LIB_X68_64_22_04 = [
-        "libHalf-2_5.so.25",
-        "libIex-2_5.so.25",
-        "libIexMath-2_5.so.25",
-        "libIlmThread-2_5.so.25",
-        "libIlmImf-2_5.so.25",
-        "libwebp.so.7",
+        "libHalf-2_6.so.26",
+        "libIex-2_6.so.26",
+        "libIexMath-2_6.so.26",
+        "libIlmThread-2_6.so.26",
+        "libIlmImf-2_6.so.26",
+        "libwebp.so.8",
         "libzip.so.4",  # needed by Robotis OP2
         "libx264.so.163"
     ]
@@ -103,6 +103,8 @@ class LinuxWebotsPackage(WebotsPackage):
                                         f"{self.application_name_lowercase_and_dashes}-{self.package_version}_*.deb")):
             remove_force(f)
         os.makedirs(self.package_webots_path)
+        print("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        print("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 
     def create_webots_bundle(self, include_commit_file):
         super().create_webots_bundle(include_commit_file)
