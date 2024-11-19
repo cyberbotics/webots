@@ -130,7 +130,7 @@ class LinuxWebotsPackage(WebotsPackage):
                             os.path.join(package_webots_lib, 'libssl.so.3'))
                 shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so'),
                             os.path.join(package_webots_lib, 'libssl.so'))
-            else:  # Ubuntu 22.04 and 24.04
+            elif distro.version() == '22.04':  # Ubuntu 22.04 and 24.04
                 openssl_libs = ['libcrypto.so.3', 'libcrypto.so', 'libssl.so.3', 'libssl.so']
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
@@ -173,8 +173,6 @@ class LinuxWebotsPackage(WebotsPackage):
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
         if distro.version() == '22.04':
             shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
-        else:
-            shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
 
         # write 'DEBIAN/control' file required to create debian package
         os.makedirs(os.path.join(self.distribution_path, 'debian', 'DEBIAN'))
@@ -218,9 +216,6 @@ class LinuxWebotsPackage(WebotsPackage):
         if distro.version() == '22.04':
             usr_lib_x68_64 += self.USR_LIB_X68_64_22_04
             usr_lib_x68_64.append('libraw.so.20')
-        else:
-            usr_lib_x68_64 += self.USR_LIB_X68_64_20_04
-            usr_lib_x68_64.append('libraw.so.19')
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
         for lib in usr_lib_x68_64:
