@@ -61,10 +61,7 @@ class LinuxWebotsPackage(WebotsPackage):
         "libIlmThread-3_1.so.30",
         "libwebp.so.7",
         "libx264.so.164",
-        "libzip.so.4",
-        "libHalf-3_1.so.30",
-        "libIexMath-3_1.so.30",
-        "libIlmImf-3_1.so.30"
+        "libzip.so.4"
     ]
 
     def __init__(self, package_name):
@@ -119,7 +116,7 @@ class LinuxWebotsPackage(WebotsPackage):
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-            if distro.version() == '22.04':  # Ubuntu 22.04 and 24.04
+            if distro.version() == '22.04' or distro.version() == '24.04':  # Ubuntu 22.04 and 24.04
                 openssl_libs = ['libcrypto.so.3', 'libcrypto.so', 'libssl.so.3', 'libssl.so']
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
