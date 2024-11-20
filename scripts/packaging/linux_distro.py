@@ -16,11 +16,12 @@
 
 """Generate Linux Webots tarball, Debian and snap packages."""
 
-from generic_distro import WebotsPackage, remove_force, print_error_message_and_exit
+from generic_distro import WebotsPackage, remove_force, symlink_force, print_error_message_and_exit
 import distro  # needed to retrieve the Ubuntu version
 import glob
 import os
 import shutil
+import subprocess
 import sys
 import tarfile
 
@@ -71,6 +72,7 @@ class LinuxWebotsPackage(WebotsPackage):
         self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap')
 
         self.tarball_enabled = True
+        self.deb_enabled = distro.version() == '22.04'
         self.snap_enabled = True
         if self.snap_enabled:
             # open snap script file and write header
@@ -112,7 +114,7 @@ class LinuxWebotsPackage(WebotsPackage):
         for file in self.package_files:
             self.copy_file(file)
 
-        if self.tarball_enabled:
+        if self.tarball_enabled or self.deb_enabled:
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
@@ -121,6 +123,8 @@ class LinuxWebotsPackage(WebotsPackage):
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
 
+        if self.deb_enabled:
+            self.create_debian_bundle()
         if self.tarball_enabled:
             self.create_tarball_bundle()
         if self.snap_enabled:
@@ -128,6 +132,69 @@ class LinuxWebotsPackage(WebotsPackage):
 
         remove_force(os.path.join(self.distribution_path, 'debian'))
         print('\nDone.\n')
+    
+    def create_debian_bundle(self):
+        print("\ncreating the debian package")
+
+        # copy webots application files needed by the debian package
+        packaging_files = [['webots.mime', 'mime-info'],
+                           ['webots.keys', 'mime-info'],
+                           ['webots.png', 'pixmaps'],
+                           ['webots_doc.png', 'pixmaps'],
+                           ['webots.applications', 'application-registry'],
+                           ['webots.desktop', 'applications'],
+                           ['webots.desktop', 'app-install/desktop']]
+        for pair in packaging_files:
+            dst = os.path.join(self.distribution_path, 'debian', 'usr', 'share', pair[1])
+            if not os.path.isdir(dst):
+                os.makedirs(dst)
+            shutil.copy(os.path.join(self.packaging_path, pair[0]), dst)
+
+        # create symlink to webots binary needed by debian package
+        os.makedirs(os.path.join(self.distribution_path, 'debian', 'usr', 'local', 'bin'))
+        symlink_force(f"/usr/local/{self.application_name_lowercase_and_dashes}/webots",
+                      os.path.join(self.distribution_path, 'debian', 'usr', 'local', 'bin', 'webots'))
+
+        # add conflicting library not available in Ubuntu 22.04
+        # so that the Robotis OP2 robot window works out of the box
+        system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
+        package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
+        if distro.version() == '22.04':
+            shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
+        else:
+            shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
+
+        # write 'DEBIAN/control' file required to create debian package
+        os.makedirs(os.path.join(self.distribution_path, 'debian', 'DEBIAN'))
+        # compute package size
+        size_result = subprocess.run(["du", "-sx", os.path.join(self.distribution_path, 'debian')], stdout=subprocess.PIPE)
+        with open(os.path.join(self.distribution_path, 'debian', 'DEBIAN', 'control'), 'w') as f:
+            f.write(
+                f"Package: {self.application_name_lowercase_and_dashes}\n"
+                "Version: " + self.package_version[1:] + "\n"  # remove initial R from version not supported
+                "Section: science\n"
+                "Priority: optional\n"
+                "Architecture: amd64\n"
+                f"Installed-Size: {size_result.stdout.decode().split()[0]}\n"
+                "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), "
+                "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
+                "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
+                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
+                "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
+                "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0, libxcb-cursor0\n"
+                "Conflicts: webots-for-nao\n"
+                "Maintainer: Olivier Michel <Olivier.Michel@cyberbotics.com>\n"
+                "Description: Mobile robot simulation software\n"
+                " Webots is a fast prototyping and simulation software\n"
+                " which allows you to model, program and simulate any mobile\n"
+                " robot, including wheeled, legged, swimming and flying robots.\n"
+                " Transfer facilities allows you to transfer the robot\n"
+                " controller from the simulation onto a real robot.\n"
+            )
+
+        os.chdir(self.distribution_path)
+        subprocess.run(["fakeroot", "dpkg-deb", "-Zgzip", "--build", 'debian', self.distribution_path])
+        os.chdir(self.packaging_path)
 
     def create_tarball_bundle(self):
         print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
@@ -177,7 +244,7 @@ class LinuxWebotsPackage(WebotsPackage):
         self.set_execution_rights(self.snap_script_path)
 
     def make_dir(self, directory):
-        if self.tarball_enabled:
+        if self.tarball_enabled or self.deb_enabled:
             # create folder in distribution path
             rel_dir_path = os.path.join('usr', 'local', self.application_name_lowercase_and_dashes, directory)
             dst_dir = os.path.join(self.distribution_path, 'debian', rel_dir_path)
@@ -195,7 +262,7 @@ class LinuxWebotsPackage(WebotsPackage):
         dir_path = os.path.dirname(path)
         file_name = os.path.basename(path)
 
-        if self.tarball_enabled:
+        if self.tarball_enabled or self.deb_enabled:
             # copy in distribution folder
             dst_dir = os.path.join(self.package_webots_path, dir_path)
             shutil.copy(os.path.join(self.webots_home, path), dst_dir)
