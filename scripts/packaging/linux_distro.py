@@ -159,10 +159,8 @@ class LinuxWebotsPackage(WebotsPackage):
         # so that the Robotis OP2 robot window works out of the box
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-        if distro.version() == '22.04':
+        if distro.version() == '22.04' or distro.version() == '24.04':
             shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
-        else:
-            shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
 
         # write 'DEBIAN/control' file required to create debian package
         os.makedirs(os.path.join(self.distribution_path, 'debian', 'DEBIAN'))
