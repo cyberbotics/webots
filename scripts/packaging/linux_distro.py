@@ -57,10 +57,14 @@ class LinuxWebotsPackage(WebotsPackage):
         "libx264.so.163"
     ]
     USR_LIB_X68_64_24_04 = [
-        "libIex-3_1.so.30.5.1",
-        "libIlmThread-3_1.so.30.5.1",
+        "libIex-3_1.so.30",
+        "libIlmThread-3_1.so.30",
         "libwebp.so.7",
-        "libx264.so.164"
+        "libx264.so.164",
+        "libzip.so.4",
+        "libHalf-3_1.so.30",
+        "libIexMath-3_1.so.30",
+        "libIlmImf-3_1.so.30"
     ]
 
     def __init__(self, package_name):
