@@ -117,7 +117,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
   assert(mfnode || sfnode);
   // index value is assumed to be in range [0, mfnode->size()]
-  // user input checked in wb_supervisor_field_import_mf_node or WbSceneTree
+  // user input checked in wb_supervisor_field_import_mf_node_from_string or WbSceneTree
   assert(!mfnode || (itemIndex >= 0 && itemIndex <= mfnode->size()));
 #endif
 
