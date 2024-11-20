@@ -23,10 +23,6 @@ TARGETS = autonomous_vehicle.Makefile \
 	racing_wheel.Makefile \
 	VehicleDriver.Makefile
 
-ifeq ($(OSTYPE),linux)
-TARGETS += ros_automobile.Makefile
-endif
-
 .PHONY: release debug profile clean
 
 release debug profile clean: $(TARGETS)

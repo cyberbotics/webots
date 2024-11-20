@@ -33,7 +33,6 @@ IGNORED_WORLDS = [
 ]
 
 SKIPPED_DIRECTORIES = [
-    'webots_ros',
     'dependencies',
     'distribution',
     '.git'
