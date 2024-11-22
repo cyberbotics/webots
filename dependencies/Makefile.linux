@@ -17,6 +17,10 @@ OPENSSL_SRC_PACKAGE=openssl-$(OPENSSL_VERSION).tar.gz
 PACKAGES = qt open-al ois pico assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
+ifeq ($(UBUNTU_VERSION), 20.04)
+	PACKAGES += open-ssl
+endif
+
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
 release debug distrib profile: ../.clang-format $(PACKAGES)
@@ -28,7 +32,7 @@ cleanse: $(PACKAGES_CLEAN)
 	@echo "# copying clang-format configuration file"
 ifeq ($(UBUNTU_VERSION), 22.04)
 	@cp .clang-format-9 $@
-else ifeq ($(UBUNTU_VERSION), 24.04)
+else ifeq ($(UBUNTU_VERSION), 20.04)
 	@cp .clang-format-9 $@
 else
 	@cp .clang-format-6 $@
