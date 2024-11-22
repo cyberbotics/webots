@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-24.04, macos-14, windows-2019]
-        python: [3.9]
+        python: [3.12]
         include:
           - os: ubuntu-24.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install cppcheck"
@@ -43,7 +43,7 @@ jobs:
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
     - name: OS check
-      if: (matrix.os == 'ubuntu-24.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
+      if: (matrix.os == 'ubuntu-24.04' && matrix.python == '3.12') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
         echo "job_needed=true" >> "$GITHUB_OUTPUT"
       id: os_check
