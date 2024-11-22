@@ -31,10 +31,10 @@ using namespace std;
 
 GeneralInformationWidget::GeneralInformationWidget(QWidget *parent) : QWidget(parent) {
   mEnableCheckBox = new QCheckBox("Disabled", this);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::apply);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &GeneralInformationWidget::updateEnableCheckBoxText);
 #else
-  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::apply);
+  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &GeneralInformationWidget::updateEnableCheckBoxText);
 #endif
 
   // define drawing position

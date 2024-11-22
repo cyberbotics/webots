@@ -22,10 +22,10 @@ AbstractWidget::AbstractWidget(QWidget *parent) : QWidget(parent) {
   mLayout = new QGridLayout(this);
 
   mEnableCheckBox = new QCheckBox("Disabled", this);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::apply);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
 #else
-  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::apply);
+  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
 #endif
   mLayout->addWidget(mEnableCheckBox, 0, 0);
 
