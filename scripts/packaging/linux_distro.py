@@ -61,8 +61,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libIex-3_1.so.30",
         "libIlmThread-3_1.so.30",
         "libwebp.so.7",
-        "libx264.so.164",
-        "libzip.so.4"
+        "libzip.so.4",
+        "libx264.so.164"
     ]
 
     def __init__(self, package_name):
@@ -132,7 +132,7 @@ class LinuxWebotsPackage(WebotsPackage):
 
         remove_force(os.path.join(self.distribution_path, 'debian'))
         print('\nDone.\n')
-    
+
     def create_debian_bundle(self):
         print("\ncreating the debian package")
 
