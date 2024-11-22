@@ -25,7 +25,7 @@
 #include <stdlib.h>
 
 #define BENCHMARK_DURATION 60
-//#define ALLOW_LABELS true // uncomment to enable labels
+// #define ALLOW_LABELS true // uncomment to enable labels
 
 static WallFollowingMetric *generate_metric_from_proto(const double *robot_starting_position) {
   WallFollowingMetric *metric = NULL;
