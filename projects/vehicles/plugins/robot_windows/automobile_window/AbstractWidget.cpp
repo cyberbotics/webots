@@ -22,7 +22,7 @@ AbstractWidget::AbstractWidget(QWidget *parent) : QWidget(parent) {
   mLayout = new QGridLayout(this);
 
   mEnableCheckBox = new QCheckBox("Disabled", this);
-  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
   mLayout->addWidget(mEnableCheckBox, 0, 0);
 
   mValueLabel = new QLabel("", this);

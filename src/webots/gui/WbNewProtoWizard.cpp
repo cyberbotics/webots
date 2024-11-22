@@ -515,7 +515,7 @@ void WbNewProtoWizard::updateBaseNode() {
     selectAll->setText(tr("select all"));
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
-    connect(selectAll, &QCheckBox::stateChanged, this, &WbNewProtoWizard::updateCheckBox);
+    connect(selectAll, &QCheckBox::checkStateChanged, this, &WbNewProtoWizard::updateCheckBox);
 
     foreach (const QString &name, fieldNames) {
       mExposedFieldCheckBoxes.push_back(new QCheckBox(name));
