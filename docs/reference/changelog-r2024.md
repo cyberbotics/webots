@@ -43,4 +43,5 @@ Released on December **th, 2023.
     - Fixed crash when `wb_supervisor_field_get_name` was called with NULL ([#6647](https://github.com/cyberbotics/webots/pull/6647)).
     - Fixed bug where the wrong y coordinate was used for one corner of the box drawn to represent a box-plane collision ([#6677](https://github.com/cyberbotics/webots/pull/6677)).
     - Fixed a bug where Webots would crash if a geometry was inserted into a `Shape` node used a bounding box ([#6691](https://github.com/cyberbotics/webots/pull/6691)).
+    - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
