@@ -515,7 +515,11 @@ void WbNewProtoWizard::updateBaseNode() {
     selectAll->setText(tr("select all"));
     mExposedFieldCheckBoxes.push_back(selectAll);
     layout->addWidget(selectAll);
-    connect(selectAll, &QCheckBox::checkStateChanged, this, &WbNewProtoWizard::updateCheckBox);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::apply);
+#else
+  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::apply);
+#endif
 
     foreach (const QString &name, fieldNames) {
       mExposedFieldCheckBoxes.push_back(new QCheckBox(name));

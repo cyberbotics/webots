@@ -31,7 +31,11 @@ using namespace std;
 
 GeneralInformationWidget::GeneralInformationWidget(QWidget *parent) : QWidget(parent) {
   mEnableCheckBox = new QCheckBox("Disabled", this);
-  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &GeneralInformationWidget::updateEnableCheckBoxText);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::apply);
+#else
+  connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::apply);
+#endif
 
   // define drawing position
   int height = parent->height();
