@@ -6,10 +6,22 @@ Released on December **th, 2023.
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
     - Removed support for macOS 11 "Big Sur" and added support for macOS 14 "Sonoma" ([#6580](https://github.com/cyberbotics/webots/pull/6580)).
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
+    - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
+    - Improved the node field query api ([#6613](https://github.com/cyberbotics/webots/issues/6613)).
+      - **Renamed the `wb_supervisor_node_get_proto_*` methods to `wb_supervisor_node_get_base_node_*`**
+      - **Renamed the `proto` field in the `supervisor_node_get_field_*` ROS services to `queryBaseNode`**
+      - Added the `WbProtoRef` type to the supervisor API.
+      - Added the ability to query the internal structure and fields of a proto node.
+      - Added the ability to query the field in the scene tree that corresponds to a proto internal field.
+      - Fixed the method signature of `wb_supervisor_node_get_number_of_fields` in MATLAB.
+    - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
+    - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
+    - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
+    - Remove ROS (1) support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
   - Bug Fixes
     - Fixed error message on Windows when `libssl-3-x64.dll` was added to `PATH` ([#6553](https://github.com/cyberbotics/webots/pull/6553)).
     - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
@@ -32,3 +44,4 @@ Released on December **th, 2023.
     - Fixed bug where the wrong y coordinate was used for one corner of the box drawn to represent a box-plane collision ([#6677](https://github.com/cyberbotics/webots/pull/6677)).
     - Fixed a bug where Webots would crash if a geometry was inserted into a `Shape` node used a bounding box ([#6691](https://github.com/cyberbotics/webots/pull/6691)).
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
+    - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).

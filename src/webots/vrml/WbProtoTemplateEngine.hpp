@@ -35,11 +35,10 @@ public:
   virtual ~WbProtoTemplateEngine() override {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
-                const QString &worldPath, int id, const QString &templateLanguage);
+                const QString &worldPath, int id);
   static QString convertFieldValueToJavaScriptStatement(const WbField *field);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
-  static QString convertStatementFromJavaScriptToLua(QString &statement);
 
 private:
   static QString convertFieldDefaultValueToJavaScriptStatement(const WbField *field);

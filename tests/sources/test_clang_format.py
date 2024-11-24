@@ -66,7 +66,6 @@ class TestClangFormat(unittest.TestCase):
             'src/wren'
         ]
         skippedPaths = [
-            'projects/default/controllers/ros/include',
             'projects/robots/gctronic/e-puck/transfer',
             'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
             'projects/robots/mobsya/thymio/libraries/dashel',
@@ -75,7 +74,6 @@ class TestClangFormat(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/libzip',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include',
             'src/webots/external'
         ]
         skippedFiles = [

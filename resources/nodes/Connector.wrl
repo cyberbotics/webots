@@ -1,6 +1,7 @@
 # Connector nodes are used to simulate mechanical docking systems, or any other type of device that
 # can dynamically create a rigid link with a similar device.
 # The physical connection between two Connectors can be created and destroyed at run time by the robot controller program.
+# parent: Solid
 
 Connector {
   #fields that inherit from the Solid node:
