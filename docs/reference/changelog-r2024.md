@@ -4,6 +4,7 @@
 Released on December **th, 2023.
   - New Features
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
+    - Removed support for Ubuntu 20.04 "Focal Fossa" and added support for Ubuntu 24.04 "Noble Numbat"([#6704](https://github.com/cyberbotics/webots/pull/6704)).
     - Removed support for macOS 11 "Big Sur" and added support for macOS 14 "Sonoma" ([#6580](https://github.com/cyberbotics/webots/pull/6580)).
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
     - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
