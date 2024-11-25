@@ -59,7 +59,7 @@ ifeq ($(OSTYPE),linux)
   endif
   ifeq ($(OSTYPE),linux)
     ifeq ($(SNAP_NAME), webots)
-      UBUNTU_VERSION=20.04
+      UBUNTU_VERSION=22.04
     else
       ifneq (, $(shell which lsb_release))
         UBUNTU_VERSION:=$(shell lsb_release -sr)

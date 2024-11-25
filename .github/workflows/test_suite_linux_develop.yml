@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -37,12 +37,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         include:
-          - os: ubuntu-24.04
-            JAVA_VERSION: "21"
           - os: ubuntu-22.04
             JAVA_VERSION: "18"
+          - os: ubuntu-24.04
+            JAVA_VERSION: "21"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -63,7 +63,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make distrib -j4
     - name: Create/Update GitHub release
-      if: ${{ matrix.os == 'ubuntu-24.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
+      if: ${{ matrix.os == 'ubuntu-22.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
@@ -89,7 +89,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -98,7 +98,7 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v4.1.7
       with:
-        name: build-ubuntu-24.04
+        name: build-ubuntu-22.04
         path: artifact
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -120,7 +120,7 @@ jobs:
   test-worlds:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
     - name: Download Scripts
       uses: actions/checkout@v4
@@ -132,7 +132,7 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v4.1.7
       with:
-        name: build-ubuntu-24.04
+        name: build-ubuntu-22.04
         path: artifact
     - name: Extract Webots and Cache
       run: |
@@ -157,7 +157,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [ubuntu-24.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

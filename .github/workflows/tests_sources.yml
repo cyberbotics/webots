@@ -72,4 +72,3 @@ jobs:
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
         python -m unittest discover -s tests/sources -v
-        
