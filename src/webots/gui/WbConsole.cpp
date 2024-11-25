@@ -336,14 +336,14 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
     const QString error = QString::vasprintf(msg, ap);
-    emit WbLog::instance() -> logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false,
-                                         WbLog::filterName(WbLog::ODE));
+    emit WbLog::instance()->logEmitted(WbLog::ERROR, QString("ODE Error %1: ").arg(errnum) + error, false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeDebugFunc(int errnum, const char *msg, va_list ap) {
     const QString debug = QString::vasprintf(msg, ap);
-    emit WbLog::instance() -> logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false,
-                                         WbLog::filterName(WbLog::ODE));
+    emit WbLog::instance()->logEmitted(WbLog::DEBUG, QString("ODE INTERNAL ERROR %1: ").arg(errnum) + debug, false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   void odeMessageFunc(int errnum, const char *msg, va_list ap) {
@@ -354,11 +354,10 @@ namespace {
                         "your bounding object(s), reducing the number of joints, or reducing "
                         "WorldInfo.basicTimeStep.");
 
-      emit WbLog::instance() -> logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false,
-                                           WbLog::filterName(WbLog::ODE));
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("WARNING: ") + message, false, WbLog::filterName(WbLog::ODE));
     } else
-      emit WbLog::instance() -> logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false,
-                                           WbLog::filterName(WbLog::ODE));
+      emit WbLog::instance()->logEmitted(WbLog::WARNING, QString("ODE Message %1: ").arg(errnum) + message, false,
+                                         WbLog::filterName(WbLog::ODE));
   }
 }  // namespace
 

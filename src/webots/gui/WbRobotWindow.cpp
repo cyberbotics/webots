@@ -71,7 +71,9 @@ bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program,
     return WbDesktopServices::openUrl(url);
 
   systemProgram = "cmd";
-  arguments << "/Q" << "/C" << "start" << program;
+  arguments << "/Q"
+            << "/C"
+            << "start" << program;
 #elif __linux__
   if (program.isEmpty())
     return WbDesktopServices::openUrl(url);

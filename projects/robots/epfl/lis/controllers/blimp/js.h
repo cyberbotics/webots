@@ -467,25 +467,53 @@ public:
 #endif
   }
 
-  ~jsJoystick() { close(); }
+  ~jsJoystick() {
+    close();
+  }
 
-  int getNumAxes() const { return num_axes; }
-  int notWorking() const { return error; }
-  void setError() { error = JS_TRUE; }
+  int getNumAxes() const {
+    return num_axes;
+  }
+  int notWorking() const {
+    return error;
+  }
+  void setError() {
+    error = JS_TRUE;
+  }
 
-  float getDeadBand(int axis) const { return dead_band[axis]; }
-  void setDeadBand(int axis, float db) { dead_band[axis] = db; }
+  float getDeadBand(int axis) const {
+    return dead_band[axis];
+  }
+  void setDeadBand(int axis, float db) {
+    dead_band[axis] = db;
+  }
 
-  float getSaturation(int axis) const { return saturate[axis]; }
-  void setSaturation(int axis, float st) { saturate[axis] = st; }
+  float getSaturation(int axis) const {
+    return saturate[axis];
+  }
+  void setSaturation(int axis, float st) {
+    saturate[axis] = st;
+  }
 
-  void setMinRange(const float *axes) { memcpy(min, axes, num_axes * sizeof(float)); }
-  void setMaxRange(const float *axes) { memcpy(max, axes, num_axes * sizeof(float)); }
-  void setCenter(const float *axes) { memcpy(center, axes, num_axes * sizeof(float)); }
+  void setMinRange(const float *axes) {
+    memcpy(min, axes, num_axes * sizeof(float));
+  }
+  void setMaxRange(const float *axes) {
+    memcpy(max, axes, num_axes * sizeof(float));
+  }
+  void setCenter(const float *axes) {
+    memcpy(center, axes, num_axes * sizeof(float));
+  }
 
-  void getMinRange(float *axes) { memcpy(axes, min, num_axes * sizeof(float)); }
-  void getMaxRange(float *axes) { memcpy(axes, max, num_axes * sizeof(float)); }
-  void getCenter(float *axes) { memcpy(axes, center, num_axes * sizeof(float)); }
+  void getMinRange(float *axes) {
+    memcpy(axes, min, num_axes * sizeof(float));
+  }
+  void getMaxRange(float *axes) {
+    memcpy(axes, max, num_axes * sizeof(float));
+  }
+  void getCenter(float *axes) {
+    memcpy(axes, center, num_axes * sizeof(float));
+  }
 
   void read(int *buttons, float *axes) {
     if (error) {

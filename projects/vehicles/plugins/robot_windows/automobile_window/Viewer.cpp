@@ -26,14 +26,33 @@
 
 using namespace webotsQtUtils;
 
-QStringList hiddenDevices =
-  (QStringList() << "left_steer" << "right_steer" << "right_steer_sensor" << "left_steer_sensor" << "left_front_wheel"
-                 << "right_front_wheel" << "left_rear_wheel" << "right_rear_wheel" << "left_front_sensor"
-                 << "right_front_sensor" << "left_rear_sensor" << "right_rear_sensor" << "left_wiper_motor"
-                 << "right_wiper_motor" << "wiper_sensor" << "left_wing_yaw_mirror_motor" << "left_wing_pitch_mirror_motor"
-                 << "right_wing_yaw_mirror_motor" << "right_wing_pitch_mirror_motor" << "rear_yaw_mirror_motor"
-                 << "rear_pitch_mirror_motor" << "rear_yaw_mirror_frame_motor" << "rear_pitch_mirror_frame_motor"
-                 << "steering_wheel_motor" << "speed_needle_motor" << "indicator_lever_motor" << "rpm_needle_motor");
+QStringList hiddenDevices = (QStringList() << "left_steer"
+                                           << "right_steer"
+                                           << "right_steer_sensor"
+                                           << "left_steer_sensor"
+                                           << "left_front_wheel"
+                                           << "right_front_wheel"
+                                           << "left_rear_wheel"
+                                           << "right_rear_wheel"
+                                           << "left_front_sensor"
+                                           << "right_front_sensor"
+                                           << "left_rear_sensor"
+                                           << "right_rear_sensor"
+                                           << "left_wiper_motor"
+                                           << "right_wiper_motor"
+                                           << "wiper_sensor"
+                                           << "left_wing_yaw_mirror_motor"
+                                           << "left_wing_pitch_mirror_motor"
+                                           << "right_wing_yaw_mirror_motor"
+                                           << "right_wing_pitch_mirror_motor"
+                                           << "rear_yaw_mirror_motor"
+                                           << "rear_pitch_mirror_motor"
+                                           << "rear_yaw_mirror_frame_motor"
+                                           << "rear_pitch_mirror_frame_motor"
+                                           << "steering_wheel_motor"
+                                           << "speed_needle_motor"
+                                           << "indicator_lever_motor"
+                                           << "rpm_needle_motor");
 
 Viewer::Viewer() : GenericWindow(hiddenDevices) {
   mGeneralInformationWidget = new GeneralInformationWidget(this);
