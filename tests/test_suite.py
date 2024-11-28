@@ -37,12 +37,9 @@ from cache.cache_environment import update_cache_urls
 
 if sys.platform == 'linux':
     result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
-    ubuntu_version = result.stdout.decode().strip()
-    is_ubuntu_22_04 = ubuntu_version == '22.04'
-    is_ubuntu_24_04 = ubuntu_version == '24.04'
+    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
 else:
     is_ubuntu_22_04 = False
-    is_ubuntu_24_04 = False
 
 # monitor failures
 failures = 0
@@ -209,8 +206,8 @@ def generateWorldsList(groupName):
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and (is_ubuntu_22_04 or is_ubuntu_24_04)) or
-                        (filename.endswith('supervisor_start_stop_movie.wbt') and (is_ubuntu_22_04 or is_ubuntu_24_04)) or
+                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
+                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
                         (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
                         (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
