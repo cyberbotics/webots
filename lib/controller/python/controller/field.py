@@ -63,7 +63,7 @@ class Field:
     wb.wb_supervisor_virtual_reality_headset_get_orientation = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, ref: ctypes.c_void_p):
-        self._ref = ref
+        self._ref = ctypes.c_void_p(ref)
         if self._ref:
             self.type = wb.wb_supervisor_field_get_type(self._ref)
         else:
