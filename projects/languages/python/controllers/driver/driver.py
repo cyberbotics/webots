@@ -29,7 +29,7 @@ class Driver (Supervisor):
     translation = [x, y, 0]
 
     def __init__(self):
-        super(Driver, self).__init__() # First commit
+        super(Driver, self).__init__()
         self.emitter = self.getDevice('emitter')
         robot = self.getFromDef('ROBOT1')
         self.translationField = robot.getField('translation')
