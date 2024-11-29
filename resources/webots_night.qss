@@ -932,3 +932,12 @@ QProgressBar::chunk {
   background: #9b93ff;
   border-radius: 3px;
 }
+
+QToolTip {
+  background-color: #22222a;
+  color: #fff;
+  border: 1px solid #a98dff;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}

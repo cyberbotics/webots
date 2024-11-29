@@ -16,6 +16,7 @@ Released on December **th, 2023.
       - Added the ability to query the field in the scene tree that corresponds to a proto internal field.
       - Fixed the method signature of `wb_supervisor_node_get_number_of_fields` in MATLAB.
     - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
+    - Adapt QtToolTip text box for every Webots mode ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
@@ -46,3 +47,4 @@ Released on December **th, 2023.
     - Fixed a bug where Webots would crash if a geometry was inserted into a `Shape` node used a bounding box ([#6691](https://github.com/cyberbotics/webots/pull/6691)).
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
+    - Fixed the QtToolTip bug, where the text in the text box is not being displayed ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
