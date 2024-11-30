@@ -33,8 +33,7 @@ skippedDirectories = [
     '.git',
     'dependencies',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-    'projects/robots/robotis/darwin-op/libraries/python',
-    'resources/webots_ros/'
+    'projects/robots/robotis/darwin-op/libraries/python'
 ]
 skippedDirectoriesFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path)) for path in skippedDirectories]
 

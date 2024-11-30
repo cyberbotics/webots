@@ -86,15 +86,6 @@ period = wb_joystick_get_sampling_period()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/joystick/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -175,14 +166,6 @@ connected = wb_joystick_is_connected()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/is_connected` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -252,14 +235,6 @@ public class Joystick {
 ```MATLAB
 model = wb_joystick_get_model()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/get_model` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -343,15 +318,6 @@ axis_value = wb_joystick_get_axis_value(axis)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/get_number_of_axes` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/joystick/axis<X>` | `topic` | webots_ros::Int32Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -432,15 +398,6 @@ pov_value = wb_joystick_get_pov_value(pov)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/pov<X>` | `topic` | `webots_ros::Int32Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
-| `/joystick/get_number_of_povs` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -512,14 +469,6 @@ public class Joystick {
 ```MATLAB
 button = wb_joystick_get_pressed_button()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/pressed_button` | `topic` | webots_ros::Int32Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
 
 %tab-end
 
@@ -622,18 +571,6 @@ wb_joystick_set_auto_centering_gain(gain)
 wb_joystick_set_resistance_gain(gain)
 wb_joystick_set_force_axis(axis)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/joystick/set_constant_force` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/joystick/set_constant_force_duration` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/joystick/set_auto_centering_gain` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/joystick/set_resistance_gain` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/joystick/set_force_axis` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 
 %tab-end
 

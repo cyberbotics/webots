@@ -1,5 +1,6 @@
 # The RangeFinder node is used to model an on-board range finder.
 # A range finder is used to measure the distance to obstacles.
+# parent: Solid
 
 RangeFinder {
   #fields that inherit from the Solid node:

@@ -67,12 +67,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-> In ROS, car library initialization and cleanup are implicit.
-
-%tab-end
-
 %end
 
 ##### Description
@@ -141,15 +135,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/set_steering_angle` | `service` | `webots_ros::set_float` | |
 
 %tab-end
 
@@ -233,15 +218,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_cruising_speed` | `service` | `webots_ros::set_float` | |
-| `/automobile/get_cruising_speed` | `service` | `webots_ros::get_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -307,14 +283,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/current_speed` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -389,15 +357,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_throttle` | `service` | `webots_ros::set_float` | |
-| `/automobile/throttle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -468,15 +427,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_brake_intensity` | `service` | `webots_ros::set_float` | |
-| `/automobile/brake_intensity` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -574,17 +524,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_indicator` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_indicator` | `service` | `webots_ros::get_bool` | |
-| `/automobile/set_hazard_flashers` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_hazard_flashers` | `service` | `webots_ros::get_bool` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -678,17 +617,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_dipped_beam` | `service` | `webots_ros::set_bool` | |
-| `/automobile/set_antifog_light` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_antifog_light` | `service` | `webots_ros::get_bool` | |
-| `/automobile/get_dipped_beam` | `service` | `webots_ros::get_bool` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -752,14 +680,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/rpm` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -836,16 +756,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_gear` | `service` | `webots_ros::set_int` | |
-| `/automobile/get_gear` | `service` | `webots_ros::get_int` | |
-| `/automobile/get_gear_number` | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
@@ -928,14 +838,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_control_mode` | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
@@ -1027,15 +929,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_wiper_mode` | `service` | `webots_ros::set_int` | |
-| `/automobile/get_wiper_mode` | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
