@@ -36,6 +36,9 @@ public class Driver extends Supervisor {
   private double[] translation = {x, y, 0};
 
   public Driver() {
+  }
+
+  public void initialize() {
     emitter = getEmitter("emitter");
     Node robot = getFromDef("ROBOT1");
     if (robot == null)
@@ -111,6 +114,7 @@ public class Driver extends Supervisor {
 
   public static void main(String[] args) {
     Driver controller = new Driver();
+    controller.initialize();
     controller.run();
   }
 }

@@ -47,16 +47,6 @@ class LinuxWebotsPackage(WebotsPackage):
         "libxcb-xinerama.so.0",
         "libxcb-cursor.so.0"
     ]
-    USR_LIB_X68_64_20_04 = [
-        "libHalf.so.24",
-        "libIex-2_3.so.24",
-        "libIexMath-2_3.so.24",
-        "libIlmThread-2_3.so.24",
-        "libIlmImf-2_3.so.24",
-        "libwebp.so.6",
-        "libzip.so.5",  # needed by Robotis OP2
-        "libx264.so.155"
-    ]
     USR_LIB_X68_64_22_04 = [
         "libHalf-2_5.so.25",
         "libIex-2_5.so.25",
@@ -67,6 +57,13 @@ class LinuxWebotsPackage(WebotsPackage):
         "libzip.so.4",  # needed by Robotis OP2
         "libx264.so.163"
     ]
+    USR_LIB_X68_64_24_04 = [
+        "libIex-3_1.so.30",
+        "libIlmThread-3_1.so.30",
+        "libwebp.so.7",
+        "libzip.so.4",
+        "libx264.so.164"
+    ]
 
     def __init__(self, package_name):
         super().__init__(package_name)
@@ -75,7 +72,7 @@ class LinuxWebotsPackage(WebotsPackage):
         self.snap_script_path = os.path.join(self.packaging_path,  self.application_name_lowercase_and_dashes + '.snap')
 
         self.tarball_enabled = True
-        self.deb_enabled = distro.version() == '20.04'
+        self.deb_enabled = distro.version() == '22.04'
         self.snap_enabled = True
         if self.snap_enabled:
             # open snap script file and write header
@@ -121,16 +118,7 @@ class LinuxWebotsPackage(WebotsPackage):
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-            if distro.version() == '20.04':
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so.3'),
-                            os.path.join(package_webots_lib, 'libcrypto.so.3'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so'),
-                            os.path.join(package_webots_lib, 'libcrypto.so'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so.3'),
-                            os.path.join(package_webots_lib, 'libssl.so.3'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so'),
-                            os.path.join(package_webots_lib, 'libssl.so'))
-            else:  # Ubuntu 22.04
+            if distro.version() == '22.04' or distro.version() == '24.04':  # Ubuntu 22.04 and 24.04
                 openssl_libs = ['libcrypto.so.3', 'libcrypto.so', 'libssl.so.3', 'libssl.so']
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
@@ -171,10 +159,8 @@ class LinuxWebotsPackage(WebotsPackage):
         # so that the Robotis OP2 robot window works out of the box
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-        if distro.version() == '22.04':
+        if distro.version() == '22.04' or distro.version() == '24.04':
             shutil.copy(os.path.join(system_lib_path, 'libzip.so.4'), package_webots_lib)
-        else:
-            shutil.copy(os.path.join(system_lib_path, 'libzip.so.5'), package_webots_lib)
 
         # write 'DEBIAN/control' file required to create debian package
         os.makedirs(os.path.join(self.distribution_path, 'debian', 'DEBIAN'))
@@ -212,15 +198,15 @@ class LinuxWebotsPackage(WebotsPackage):
         print("\ncreating the {}/{}-{}-x86-64.tar.bz2 tarball"
               .format(self.distribution_path, self.application_name_lowercase_and_dashes, self.package_version))
 
-        # add specific libraries needed for tarball package
+        # add specific libraries needed for tarball package (Ubuntu 24.04)
         usr_lib_x68_64 = self.USR_LIB_X68_64
         usr_lib_x68_64.append('libjpeg.so.8')
         if distro.version() == '22.04':
             usr_lib_x68_64 += self.USR_LIB_X68_64_22_04
             usr_lib_x68_64.append('libraw.so.20')
-        else:
-            usr_lib_x68_64 += self.USR_LIB_X68_64_20_04
-            usr_lib_x68_64.append('libraw.so.19')
+        if distro.version() == '24.04':
+            usr_lib_x68_64 += self.USR_LIB_X68_64_24_04
+            usr_lib_x68_64.append('libraw.so.23')
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
         for lib in usr_lib_x68_64:
@@ -242,8 +228,6 @@ class LinuxWebotsPackage(WebotsPackage):
                                     "libPocoFoundation.so.62",
                                     "libcanberra-gtk-module",
                                     "libcanberra-gtk3-module"]
-
-        usr_lib_x68_64_linux_gnu += self.USR_LIB_X68_64 + self.USR_LIB_X68_64_20_04
 
         for lib in usr_lib_x68_64_linux_gnu:
             self.snap_script.write("cp /usr/lib/x86_64-linux-gnu/{} $DESTDIR/usr/lib/x86_64-linux-gnu/\n".format(lib))

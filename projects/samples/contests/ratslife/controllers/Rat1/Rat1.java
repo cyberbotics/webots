@@ -38,6 +38,10 @@ public class Rat1 extends Robot {
   protected LED[] leds = new LED[10];
 
   public Rat1() {
+    
+  }
+
+  public void initialize() {
     accelerometer = getAccelerometer("accelerometer");
     camera = getCamera("camera");
     camera.enable(8*timeStep);
@@ -161,6 +165,7 @@ public class Rat1 extends Robot {
 
   public static void main(String[] args) {
     Rat1 rat1 = new Rat1();
+    rat1.initialize();
     rat1.run();
   }
 }

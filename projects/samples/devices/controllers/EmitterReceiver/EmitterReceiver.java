@@ -36,6 +36,9 @@ public class EmitterReceiver extends Robot {
   }
 
   public EmitterReceiver() {
+  }
+
+  public void initialize() {
 
     // As we are using the same controller for the emitter and the
     // receiver, we need to distinguish them.
@@ -140,6 +143,7 @@ public class EmitterReceiver extends Robot {
 
   public static void main(String[] args) {
     EmitterReceiver robot = new EmitterReceiver();
+    robot.initialize();
     robot.run();
   }
 }
