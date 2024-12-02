@@ -5654,7 +5654,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please adapt your project to R2023b following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
+        <source>Please adapt your project to R2025a following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
