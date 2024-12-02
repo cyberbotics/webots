@@ -150,7 +150,7 @@ export default class ProtoManager {
     appearance.setAttribute('baseColor', '0.8 0.8 0.8');
     const imageTexture = xml.createElement('ImageTexture');
     imageTexture.setAttribute('id', getAnId());
-    imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/grid.png');
+    imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/grid.png');
     imageTexture.setAttribute('role', 'baseColorMap');
     appearance.appendChild(imageTexture);
     const textureTransform = xml.createElement('TextureTransform');
