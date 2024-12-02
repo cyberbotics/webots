@@ -6960,15 +6960,15 @@ Do you want to save it before closing?</source>
         <translation type="unfinished">閉じる</translation>
     </message>
     <message>
-        <source>Welcome to Webots R2024a</source>
+        <source>Welcome to Webots R2025a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Thank you for using Webots R2024a.&lt;/b&gt;</source>
+        <source>&lt;b&gt;Thank you for using Webots R2025a.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2024a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2025a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
