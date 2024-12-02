@@ -1,0 +1,231 @@
+# Webots R2019b Changelog
+
+## Webots R2019b Revision 1
+Released on October 3rd, 2019.
+
+  - New Robots
+    - Added a DJI Mavic 2 PRO quadcopter drone model.
+  - Removed robots
+    - Removed the Telemax PRO robot model, following a request from Telerob.
+  - New Features
+    - Added a new `fastHelixThreshold` field to the [Propeller](propeller.md) node to define when the helix representation is switched from `slowHelix` to` fastHelix`.
+    - Added several appearances: `BlanketFabric`, `BrushedSteel`, `CementTiles`, `Grass`, `LedStrip`, `MarbleTiles`, `PorcelainChevronTiles`, `ReflectiveSurface`, `Sand`, `SlatePavement` and `Soil`.
+    - Added new appearance types for: `CarpetFibers` and `StonePavement`.
+    - Added several bathroom objects and lights: `BathroomSink`, `Bathtube`, `Toilet`, `WashingMachine`, `CeilingSpotLight` and `ConstructionLamp`.
+    - Added a C3dViewer PROTO to visualize C3D files in Webots.
+    - Added a new HDR background: `noon_cloudy_countryside`.
+  - New Samples
+    - Added new samples about the [Accelerometer](../guide/samples-devices.md#accelerometer-wbt) and [Brake](../guide/samples-devices.md#brake-wbt) devices.
+    - Added a `village_center` world.
+  - Dependency Updates
+    - macOS: Support the Catalina SDK.
+    - Linux: Upgraded to Qt 5.13.1.
+    - Windows: Upgraded to Qt 5.12.4.
+  - Enhancements
+    - Improved hyperlinks of the Help menu.
+    - Improved the intensity and color of the bus, truck and car vehicle lights.
+    - macOS and Linux: Use POSIX shared memory segments to fix the limit problems on macOS and allow for snap packaging with strict confinement on Linux.
+    - Improved management of the life cycle of the Webots temporary folder.
+  - Bug fixes
+    - Webots online 3D viewer (`webots.min.js`)
+      - Fixed [Fog](fog.md) type.
+      - Fixed [ElevationGrid](elevationgrid.md) normals.
+      - Fixed [Background](background.md) default color.
+      - Fixed [Cone](cone.md) and [Cylinder](cylinder.md) default radius and height.
+      - Fixed bugs on `webots.alert`, `webots.confirm`, and editor reset dialogs.
+      - Fixed rendering issues with [IndexedFaceSet](indexedfaceset.md) having default texture mapping.
+      - Enabled console button in broadcast streaming mode.
+      - Windows 10 / Firefox: Fixed context menu.
+      - macOS: Dealt the `Ctrl + left click` event as a `right click` event.
+    - Fixed `realistic_village.wbt` materials.
+    - Fixed the insertion of a PROTO containing a [BallJoint](balljoint.md).
+    - Fixed ros controller not publishing the `/connector/presence` topic.
+    - Fixed crash when using an `infra-red` [DistanceSensors](distancesensor.md) pointing to a texture without repetition.
+    - Fixed extern controllers, now when a controller exits, the simulation keeps running and it is possible to re-start another extern controller.
+    - Webots now reads the Python shebang of controller programs to determine which version of Python to execute.
+    - Extern controllers now wait if started before Webots.
+    - Fixed warnings printed in the terminal if a [Solid](solid.md).name field contains characters with special meaning in regular expressions.
+    - Fixed invalid node references in controllers after deleting nodes from Webots or from the [Supervisor](supervisor.md) API (thanks to @chilaire).
+    - Fixed rendering issues if multiple texture coordinates of a face are equal.
+    - Linux: Fixed missing Python3.7 controller API.
+    - Windows: Fixed possible DLL conflict with libssl-1\_1-x64.dll and libcrypto-1\_1-x64.dll.
+
+## [Webots R2019b](../blog/Webots-2019-b-release.md)
+Released on June 25th, 2019.
+
+  - New Robots
+    - Added an ABB IRB 4600/40 arm model.
+    - Added Universal Robots UR3e, UR5e and UR10e models.
+    - Added a ROBOTIQ 3-Finger gripper model.
+    - Added a Clearpath Moose model.
+    - Added a Telerob Telemax PRO model.
+  - New Features
+    - Windows: Webots can now be installed without administrator privileges.
+    - Improved the Webots online 3D viewer: `webots.min.js`
+      - Switched from `X3DOM` to `three.js`.
+      - Used ES6, Babel and minifyjs to provide `webots.min.js` as a single and minified file.
+      - Reduced the rendering difference between Webots and `webots.min.js`.
+      - Added support for PBR appearances and HDR textured background.
+      - Improved loading time and rendering speed.
+      - Extended the Webots websocket server to an HTTP server serving the texture images too.
+    - Added an `ico` field to the Sphere node to select the tessellation method between uv-sphere and icosphere.
+    - Bloom and Ambient Occlusion are now also available as effects for color cameras.
+    - BallJoint nodes can now be controlled using RotationalMotor and Brake nodes and their angles can be measured using PositionSensor nodes.
+    - Extern robot controllers can be launched from outside of Webots.
+    - Added the following PROTO objects: `IntermodalContainer`, `IntermodalOfficeContainer`, `Radiator`, `WallPlug`, `FireExtinguisher`, `CapScrew`, `ElectricalPlug`, `EyeScrew`, `ScrewHole`, `Washer`, `DoubleFluorescentLamp` and `OfficeTelephone`.
+    - Added the following PROTO appearances: `CorrodedMetal`, `CorrugatedMetal`, `DamascusSteel`, `DarkParquetry`, `ElectricConduit`, `FlexibleAluminiumDuct`, `GalvanizedMetal`, `HammeredCopper`, `OldPlywood`, `OsbWood`, `Plaster`, `RustyMetal`, `ScrewThread` and `WireFence`.
+    - Added a `PipeBoundingObject` and a `TorusBoundingObject` PROTO nodes to simplify the creation of complex bounding objects.
+    - Added a factory hall environment sample.
+    - Added support for normal definition (by face or by vertex) in IndexedFaceSet nodes.
+    - Added two examples called `motor2` and `motor3` in `samples/devices` to showcase controlled Hinge2Joint and BallJoint.
+  - Enhancements
+    - **Improved the Sphere texture mapping that now applies UV mapping.**
+    - **Encourage the use of realistic quadratic attenuation for PointLight and SpotLight nodes by displaying a warning in case the `attenuation` field is not quadratic.**
+    - Added an `appearance` field to the `Wrench`, `LJoint`, `PipeSection` and `TJoint` PROTO nodes.
+    - Added a `stringerWidth` field to the `StraightStairs` PROTO node.
+    - Added the possibility to define the appearance, radius and length of the `Bolt` and `Nut` PROTO nodes.
+    - Connector nodes can now be inserted in Solid nodes.
+    - Connector nodes can now be part of the static environment.
+    - Improved the infra-red DistanceSensor model by taking into account the roughness and occlusion of the surface.
+    - Improved the default SpotLight.beamWidth value.
+    - Converted many PNG textures to JPEG to save disk space and network bandwidth.
+    - Improved boundingObject representation of Capsule and Cylinder geometries by setting a minimum subdivision value.
+    - Tinkerbots: Used Slot gender mechanism.
+    - Improved animation JSON file to list only nodes that changed during the animation recording and store their initial status.
+    - Replaced the `maxRadius` field of Muscle node by a `volume` field.
+    - Added support for Muscle node insertion in RotationalMotors of Hinge2Joints.
+  - Bug fix
+    - Fixed --minimize starting option not working on Ubuntu 18.04.
+    - Renamed some PROTO appearances (`MatteCarPaint` -> `MattePaint`, `GlossyCarPaint` -> `GlossyPaint`, `CarLeather` -> `Leather`).
+    - Fixed DoorLever `name` field not connected when its `canTurn` field is set to TRUE.
+    - Fixed mirrored texture in Floor PROTO.
+    - Fixed animation player not working correctly when loading previous poses.
+    - Fixed VRML import and export of Webots Sphere geometries (icospheres).
+    - Fixed invalid `webots_ros::RecognitionObject::colors` value published by the Camera `recognition_objects` ROS topic.
+    - Fixed missing OpenCV dependencies on Windows preventing the vision controller to run and to compile.
+    - Fixed PNG images with a useless alpha layer that were falsly considered as transparent by Webots causing alpha sorting problems.
+    - Fixed controller builds using a custom Java Makefile.
+    - Fixed Fog node not disabled when visibility range is 0.
+    - Fixed reading of available GPU memory on some AMD graphics cards.
+    - Fixed value of the `WB_KEYBOARD_NUMPAD_LEFT` enumeration in the C API.
+    - Fixed crash when adding a geometry node in the `animatedGeometry` field of the Track node.
+    - Fixed calibration of the Khepera4 robot ground sensors (thanks to Jeremy and Cyrill).
+    - Fixed crash when copy-pasting some procedural nodes.
+    - Fixed crash pasting a node in a non-empty field of a procedural PROTO node.
+    - Fixed availability of Muscle node in case of an Hinge2Joint ancestor (thanks to Florin).
+    - Fixed crash in streaming mode if a client connects while a world is loading.
+    - Fixed crash when deleting the Background node if the simulation contains a Track node.
+    - Fixed crash when using an `infra-red` DistanceSensor node on a painted surface.
+    - Fixed geometry not created on world loading if invalid geometry fields are written in the file.
+    - Fixed mismatch between boundingObject outline and graphical representation of a Cylinder if the subdivision field is set to an odd value.
+    - Fixed `getRangeImageArray` function in the Python API returning always None.
+    - Fixed runtime changes of kinematic solid bounding objects not taken into account when colliding with sleeping dynamic solids.
+    - Fixed insertion of USE PROTO node into a PROTO field from the Add Node dialog.
+    - Fixed native robot windows and physics plugins recompilation on Windows by upgrading from gcc 7.4.0 to gcc 9.1.0.
+    - Fixed link to documentation page for PROTO nodes contained in a folder with underscore symbols in the name.
+  - Cleanup
+    - Deprecated the Python 2.7 API.
+    - Removed the `environmentMap` field of the PBRAppearance node.
+    - Removed broken `colorPerVertex` and `color` fields of the ElevationGrid node.
+
+## Webots R2019a Revision 1
+Released on February 14th, 2019.
+
+  - Dependency Updates
+    - Windows: upgraded to Qt 5.12.1.
+  - Enhancements
+    - Added a StripBuilding PROTO.
+    - Improved the SUMO exporter to support more cases.
+    - Improved rendering speed on Retina displays.
+    - Added a controller emulating the e-puck2 Wi-Fi protocol and a simple LabVIEW VI communicating with it.
+    - Added a safe mode.
+  - Bug fixes
+    - Fixed possible communication hangs with a Wi-Fi remote controlled e-puck2 robot.
+    - Fixed the LEDs of the e-puck robot which were turned on wrongly when the `led0` LED was turned on.
+    - Windows: fixed flush of stdout and stderr for robot controllers.
+    - Fixed crash with the Python API when getting a Camera, Lidar or RangeFinder image at first step (thanks to Farinaz).
+    - Fixed crash when exporting some worlds to VRML97.
+    - Fixed crash at startup when using a low-end GPU.
+    - Fixed OpenStreetMap importer not working when launched from another directory because of missing configuration file.
+    - Fixed TextureTransform field changes applied only at revert.
+    - Fixed crash while recording a movie with some low-end GPU.
+    - Fixed MATLAB controllers causing MATLAB crashes at startup on Windows.
+    - Fixed e-puck light sensors calibration in worlds using PBR.
+
+## [Webots R2019a](../blog/Webots-2019-a-release.md)
+Released on December 17th, 2018.
+
+  - New Features
+    - Graphics Improvements
+      - Webots now features an advanced High Dynamic Range (HDR) rendering pipeline with adjustable exposure.
+      - All worlds, robots, devices, objects and PROTO files have now been updated to use the PBR rendering system exclusively.
+      - PBRAppearance nodes now can make use of an emissive color or an emissive color texture to mimic light emission.
+      - Global Illumination can be simulated using Ground-Truth Ambient Occlusion (GTAO).
+      - Added a Bloom effect to simulate glaring from bright lights, emissive surfaces & reflections.
+      - Added a library of appearance PROTO nodes for a suite of high-quality useful materials.
+    - Added the Tinkerbots robotics kit.
+    - Added Wi-Fi remote control for the e-puck2 robot.
+    - Added a ConveyorBelt PROTO.
+    - Added a `noise` field to the PositionSensor node.
+    - Added a model of the Tesla model 3 compatilble with the SUMO interface.
+    - Added a `wb_supervisor_node_move_viewpoint` Supervisor function.
+    - Added two new functions to the Speaker API called `wb_speaker_is_sound_playing` and `wb_speaker_is_speaking` to check whether a specific sound is currently been played or if the speaker is performing text-to-speech.
+    - Added a model of `Fanatec CSL Elite Racing Wheel` steering wheel to be used in the `steeringWheel` field of some vehicles.
+    - Added a ROBOTIS OP3 model.
+    - Added three model of Velodyne lidars: `Puck`, `Puck Hi-Res` and `Puck LITE`.
+  - Dependency Updates
+    - Windows: upgraded to Qt 5.12.0.
+    - macOS: upgraded to Qt 5.11.2.
+    - **macOS: Added support for macOS 10.14. Dropped support of the obsolete libstdc++ and the i386 architecture from libController and derivated libraries.**
+    - **macOS, Windows: upgraded Python 3 precompiled packages to Python 3.7**
+  - Enhancements
+    - Improved support of macOS Mojave and Retina displays.
+    - Improved support of the VMWare virtual machines.
+    - Improved the conversion from PROTO nodes into base nodes by preserving the DEF-USE definitions.
+    - Improved the message dialog displayed when a controller is built to propose by default to reset the world.
+    - Improved DEF/USE error messages for nodes defined in PROTO model bodies.
+    - Improved real-time computation (displayed in the speedometer) for simulations with a time step smaller than 32ms.
+    - Exposed global texture quality as a parameter in the Webots preferences.
+  - Bug fixes
+    - Fixed Lidar sensors which were returning NaN on some AMD graphics cards.
+    - Fixed incorrect gamma correction for PBR rendering with shadows.
+    - Fixed incorrect gamma-space representation of color fields with PBR.
+    - Fixed material issues on some virtual machines.
+    - Fixed e-puck remote-control issues in BotStudio (thanks to Andrew).
+    - Fixed nodes proposed in the Add Node dialog in case of DEF and USE nodes used in different contexts (bounding object and not).
+    - Fixed DEF nodes proposed in the Add Node dialog in case of multiple occurrences of the same DEF name.
+    - Fixed insertion of a Slot PROTO node from Add Node dialog or paste action without a parent Slot node.
+    - Fixed world opened when selecting a section item in the Webots guided tour.
+    - Fixed simulation freeze reloading or loading a new world while a movie is recorded from a Supervisor controller.
+    - Fixed movie icon status when recording a movie from a Supervisor controller.
+    - Fixed returned position on camera image of WbCameraRecognitionObject (thanks to Tommaso).
+    - Fixed non-working motor control if the parent of the joint is a Slot node.
+    - Fixed crash when a node in the `appearance` or `geometry` field of a Shape node or `endPoint` field of a Slot or Joint node is regenerated.
+    - Fixed issue with wrong sensor refresh rate with the ROS controller when the world time step is not equal to 32.
+    - Fixed performance issue when using Camera, Lidar or RangeFinder devices with the ROS controller (thanks to Omar).
+    - Fixed guided tour opened in batch mode.
+    - Fixed enabling of InertialUnit devices from the generic robot-windows.
+  - Cleanup
+      - The Supervisor node is now deprecated, instead a normal robot should be used and its `supervisor` field should be set to TRUE.
+      - The Supervisor API remains unchanged and will not be deprecated.
+      - Added a `wb_robot_get_supervisor` function to get the state of the `supervisor` field of the Robot node.
+      - Added a new `supervisor` field to all the robot and vehicle PROTO nodes.
+      - Improved the C++, Java and Python versions of the vehicle library to base the `Driver` class on the `Supervisor` class instead of the `Robot` one.
+      - Removed the possibility to retrieve the super node in Lua in order to speed up node initialization.
+  - Breaking Changes
+    - **Deprecated the Supervisor node.**
+    - **Removed deprecated ROS DifferentialWheels API.**
+    - **Roads**
+      - Refactored and improved various road PROTO nodes in order to improve graphical fidelity and increase modularity without requiring the creation of a specific texture (especially for road lines).
+      - The `texture` and `textureScale` fields have been replaced by the `appearance` field.
+      - The `pavementTexture` field has been replaced by the `pavementAppearance` field.
+      - The `dashedLine` field has been replaced by the `lines` field.
+    - **Many PROTO files no longer use `texture` style MFString field(s), instead using new `appearance` SFNode field(s). These are:**
+      - UnevenTerrain
+      - Floor
+      - CircleArena
+      - RectangleArena
+      - All Road PROTOs
+      - Door
+      - Ceiling
+      - Cabinet

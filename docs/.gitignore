@@ -1,0 +1,6 @@
+index.html
+list.txt
+dependencies
+
+*.pyc
+.DS_Store

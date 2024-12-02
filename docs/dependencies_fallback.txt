@@ -1,0 +1,23 @@
+# dependencies.txt fallback for doc < R2018a.rev2.
+# Target: https://www.cyberbotics.com/files/repository/www/wwi/R2018a/dependencies_fallback.txt
+
+# highlight
+
+highlight/9.5.0/highlight.min.js
+highlight/9.5.0/highlight_style.min.css
+
+# showdown
+
+showdown/1.3.0/showdown.js
+showdown/1.3.0/showdown.min.js
+showdown/1.3.0/showdown-youtube.min.js
+showdown/1.3.0/showdown.js.map
+showdown/1.3.0/showdown.min.js.map
+
+# mermaid
+
+mermaid/7.0.0/mermaidAPI.min.js
+
+# wwi
+
+wwi/R2018a/request_methods.js

@@ -1,0 +1,14 @@
+# highlight
+
+https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js
+https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css
+
+# showdown
+
+https://cdnjs.cloudflare.com/ajax/libs/showdown/1.3.0/showdown.js
+https://cdnjs.cloudflare.com/ajax/libs/showdown/1.3.0/showdown.min.js
+https://cyberbotics.com/showdown/1.3.0/showdown-youtube.min.js
+
+# mermaid
+
+https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.0.0/mermaidAPI.min.js

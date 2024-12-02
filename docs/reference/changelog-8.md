@@ -1,0 +1,961 @@
+# Webots 8 Changelog
+
+
+## Webots 8.6.2
+Released on October 4th, 2017.
+
+  - Enhancements
+    - Made re-compiling Python libraries for different Python versions easier.
+    - Improved sound slider behavior to reflect mute status.
+    - The current project name (if any) is now displayed in the title bar.
+    - Improved the Thymio II `thymio2_aseba` controller to work with the `thymio2` HTML robot window.
+    - Removed the Thymio II `thymio2_window` Qt-based robot window that is now fully replaced by the `thymio2` HTML robot window.
+  - Upgrade
+    - Added support for macOS High Sierra.
+  - Bug fix
+    - Fixed wrong custom PROTO robot position after saving the world multiple times.
+    - Fixed crash when quitting Webots while a client is connected to the streaming server.
+    - Fixed crash when starting a single step controller while the simulation is running.
+    - Fixed crash when a nested and procedural PROTO node is regenerated from the scene tree.
+    - Fixed shaky robots in HTML5 animations and web streaming.
+
+## Webots 8.6.1
+Released on September 12th, 2017.
+
+  - Enhancements
+    - Double-clicking or pressing the `Enter` key on a NULL SFNode or empty MF field in the Scene Tree now directly opens the `Add a Node` dialog.
+    - Double-clicking or pressing the `Enter` key on a single field or multiple field item in the scene tree moves keyboard focus directly to the field editor panel. Focus can be returned to the scene tree using the TAB key.
+    - Optimized the Fence PROTO so that it uses one unique IndexedFaceSet for all the poles instead of one Cylinder per pole.
+    - Improved the tree view selection when a Supervisor modifies the tree state.
+    - Improved default e-puck camera resolution warnings: they are now printed in the console only when remote control is started.
+    - Improved various vehicle shapes (visually and performance wise).
+  - Bug fix
+    - macOS: Fixed the deprecated Qt-based robot windows when the controller is written in Python, Java or Matlab.
+    - Fixed execution of first controller step if the controller program is changed after the simulation started.
+    - Fixed robotstadium Supervisor controller.
+    - Fixed synchronization bug of main 3D view (it was sometimes necessary to resize it to refresh it, for example in case a LED color had just changed).
+    - Fixed `wb_keyboard_get_key` function not always correctly returning -1 if no keys were pressed.
+    - Fixed crash occuring when deleting multiple robot devices.
+    - Fixed wrong `translation` and `rotation` values for BallJoint's endPoint Solid nodes after copying and pasting the node or saving the world.
+    - Fixed memory leak when internet is disabled (Thanks to Luc).
+    - Fixed `wb_supervisor_simulation_revert` not immediately reverting a simulation. (Thanks to Erkan).
+    - Fixed negative velocity values set from the Motor API exceeding the maximum velocity: negative velocity values are now clamped the same way as positive values.
+    - Fixed rotation and translation handles not working when using the Mouse API.
+    - Fixed `Show Lidar Rays Paths` optional rendering representation.
+    - Prevented Supervisor Python API from crashing a controller when comparing a Node object with None.
+    - Fixed a bug where users could not immediately save a world after successfully importing VRML97 files.
+    - Fixed the virtual reality headset track position feature if the Viewpoint orientation is not the default one.
+    - Fixed wrong Viewpoint aspect ratio after disabling the virtual reality headset.
+    - Fixed a bug where the speedometer would not show the current simulation time if a controller was blocking (Thanks to Erkan).
+    - Fixed `Hide All Camera Overlays` item not visible in the `Robot` menu when the world contains more than one robot and none of them is selected.
+    - Fixed a bug where the Viewpoint would slide backwards when repeatedly switching between perspective and orthographic projections.
+    - Windows: fixed crash of the `ros` controller.
+    - Fixed Lidar and RangeFinder node output when looking at an ElevationGrid node with a Color node in the `color ` field (Thanks to Liam).
+    - Fixed an issue where blank lines would be shown on the simulation toolbar expansion menu.
+    - Fixed an issue where window maximization was not preserved going in and out of full-screen mode.
+    - Fixed strange Capsule bounding object scaling when modifying WorldInfo.lineScale.
+    - Fixed `wb_supervisor_field_get_sf_node` function returning the root node when called with an empty SFNode field argument.
+
+## [Webots 8.6.0](../blog/Webots-8-6-0-release.md)
+Released on July 24th, 2017.
+
+  - New Features
+    - Added Microsoft SAPI 5 as an optional text-to-speech engine on Windows.
+    - **Use the SSML standard instead of Pico XML to specify text-to-speech attributes (prosody, etc.).**
+    - Robot nodes can now contain other Robot nodes as descendants in the scene tree.
+    - Added new Robot API functions to get the computer mouse state.
+    - Added a Supervisor function called `wb_supervisor_node_get_selected` to retrieve the currently selected node.
+    - Added `isPickable` field to Shape node, to specify which objects can be detected when clicking in the 3D scene.
+    - Added a fire hydrant to the Webots objects library.
+    - Added models of Lincoln MKZ 2017 and RangeRover Sport SVR 2015 (autonomous vehicles supported in SUMO).
+    - Added a new Muscle node to graphically represent the contraction of an artificial muscle implemented using a LinearMotor or RotationalMotor node.
+    - Added a Python converter script in `bin/ogre` directory to generate Webots Appearance nodes from Ogre material file.
+    - Added new experimental nodes for creating advanced appearances based on custom shaders and multitexturing: ComposedShader, ShaderPart, MultiTexture, and Uniform.
+    - Added a `Move viewpoint to object` button which translates the viewpoint to center on the currently-selected object.
+    - Added model of Saeon Altino.
+    - Robotis OP2 Motion and Gait manager APIs are now available for use in Python controllers.
+    - Added a new node `Recognition` which can be inserted in the `recognition` field of any camera to add object recognition to the camera.
+    - Expanded Webots factory objects collection with turnable locking valves and a variety of physically accurate tools.
+    - Added a new Building PROTO with configurable appearance.
+    - Added Supervisor API functions to insert and remove items in MF fields.
+    - Virtual reality headset
+      - Added support for virtual reality headsets on Windows.
+      - Added three new functions `wb_supervisor_virtual_reality_headset_is_used`, `wb_supervisor_virtual_reality_headset_get_position` and `wb_supervisor_virtual_reality_headset_get_orientation` to the Supervisor API.
+    - OSM importer
+      - Refactored the OSM importer to have a better support of roads, lanes and crossroads.
+      - Added a SUMO exporter to create SUMO networks from Webots simulations imported from the OSM importer.
+      - Parking lots are now supported.
+    - Lens flares
+      - Added a new LensFlare node to simulate a lens flare effect in the viewpoint and in camera images.
+      - Added a `castLensFlares` field to the DirectionalLight, PointLight and SpotLight nodes.
+      - Added a `lensFlare` field to the Camera and Viewpoint nodes.
+  - Enhancements
+    - Optimized Pico text-to-speech synthesis to run faster.
+    - Improved `wb_display_image_save()` so that if the WbImageRef argument is NULL the current display image is saved.
+    - Improved simulation speed while recording a video.
+    - Improved existing mesh quality for car PROTOs by reducing the number of nodes and vertices (thanks to Rémi).
+    - Enabled resize handles for PROTO nodes if the fields involved in the resizing or scaling are not used in procedural statements.
+    - Added left and right keyboard arrow actions to ease navigation in the scene tree.
+    - Added `name` field in Appearance node.
+    - Added ability to save 32-bit floating-point range finder depth images using the TIFF format.
+    - Fixed spotlight falloff to comply with the documented behavior.
+    - Added option to use multisample anti-aliasing (MSAA) to improve graphical fidelity in the main 3D view. 2x MSAA is enabled by default.
+    - Re-designed speedometer for greater clarity.
+    - Enhanced texture filtering control. **The `filtering` field in the ImageTexture node now takes integer values to reflect this finer control.**
+    - Removed physics debug info optional rendering.
+    - Extended Supervisor API to get the DEF name of a node.
+    - Extended Supervisor API to restart a Robot's controller.
+    - Improved Display device to receive shadows if not using transparency.
+    - Improved procedural PROTO nodes to load faster and generate fewer temporary files.
+    - Improved BmwX5, CitroenCZero, BusStop and PublicToilet PROTO nodes by moving the meshes in dedicated hidden PROTO files in order to reduce generation time.
+    - Added optional windshield wipers on BmwX5 PROTO along with three different wiper modes and the corresponding automobile library functions: `wbu_driver_set_wipers_mode` and `wbu_driver_get_wipers_mode`.
+    - Removed the intermediate `indoor` and `outdoor` sections in the PROTO library hierarchy.
+    - **Renamed the GenericBuilding PROTO to SimpleBuilding.**
+    - **Renamed the `wbu_driver_set_brake` and `wbu_driver_get_brake` functions of the automobile library into `wbu_driver_set_brake_intensity` and `wbu_driver_get_brake_intensity`.**
+    - **Renamed the `wb_supervisor_field_remove_mf_node` function into `wb_supervisor_field_remove_mf`.**
+    - **Visual Studio .lib files are now copied to the same location as the generated .dll file, instead of the global library directory.**
+    - **Introduced new generic ROS service types and used them for many existing services.**
+    - Mouse Navigation
+      - Viewpoint translation and zoom speed are now scaled to match the distance to the object hovered over by the mouse.
+      - The Viewpoint rotation pivot is set to the Viewpoint position if no object is picked, e.g., when clicking on the background.
+    - Improved the Radar node:
+      - The target center is no longer the origin of the Solid but is now computed using its bounding objects.
+      - Children of the Solid target are now taken into account to compute the object's dimensions.
+      - Improved target detection when occlusion is enabled.
+      - Targets that are partially in the field of view are now correctly taken into account.
+    - Linux: enabled automatic undocking dock widgets in the main application window by drag and drop.
+  - Upgrade
+    - Windows: Upgraded to Qt 5.9.1.
+    - Linux and macOS: Upgraded to Qt 5.9.0.
+    - Upgraded to SUMO 0.30.
+  - Bug fix
+    - Fixed controller crash occurring when immediately opening the robot window of a robot inserted after the simulation is started.
+    - Fixed controller crash occurring when using an e-puck robot equiped with a display device in remote-control mode.
+    - Fixed robot window staying open after deleting the corresponding Robot node: now it is automatically closed and deleted.
+    - Fixed Robot menu not correctly filled if a non Transform derived node that is part of a robot model is selected.
+    - Fixed typo in the startRoadsLength field of the Roundabout and the RoadIntersection PROTOs.
+    - Fixed BMW rear lights.
+    - Fixed `wb_display_image_copy()` so that it also copies the attached camera background image if any.
+    - **Fixed HingeJoint and Hinge2Joint rotation direction in case of motor torque control and if the parent and endPoint Solid nodes have a Physics node.**
+    - Prevented changing a vehicle's color from triggering an undesired PROTO re-evaluation.
+    - Prevented Supervisor Python API from crashing a controller on incorrectly-called functions that return strings.
+    - Fixed wrong value returned by `wb_robot_get_time` before first call to `wb_robot_step`.
+    - Fixed crash when adding an empty IndexedLineSet to an existing Shape node.
+    - Fixed crash when adding coords and indices to an empty IndexedLineSet.
+    - Fixed wrong value returned by `wb_supervisor_field_get_count` when called on a field in which an invalid node or more than one node was imported.
+    - **Geometries are no longer allowed to have negative size parameters, such as radius or height. As a consequence, the deprecated skydome PROTOs have been removed.**
+    - Fixed a bug where a Supervisor's controller could still hold on to cached versions of nodes that have been deleted.
+    - Fixed status of OK button in `Open Sample World` dialog if the list has focus but no world is selected.
+    - Fixed inversion of `axisDevicesRearRight` and `axisDevicesRearLeft` in the AckermannVehicle PROTO.
+    - Removed custom resolution video recording that was causing crashes on all platforms.
+    - Fixed ODE joint settings after artificially moving an ancestor Transform or derived node.
+    - Fixed external links in the embedded doc.
+    - Fixed WBO exporting of an object containing USE nodes.
+    - Fixed pasting a node containing USE nodes before the corresponding DEF node or in a different world.
+    - Fixed copy and paste actions on the scene tree just after loading the world.
+    - Fixed selection of Solid nodes with a Transform or Group top node previously selected at second click only.
+    - Fixed redirection of stdout and stderr messages printed before the robot initialization.
+    - Fixed memory corruption in Supervisor setters.
+    - Linux: fixed UUID mismatch causing the transfer of licenses to local computer to fail.
+    - Fixed `wb_display_attach_camera()` so that it is no longer required to manually draw a rectangle with alpha equals to 0.
+    - Fixed broken `wb_display_fill_rectangle()` and `wb_display_fill_polygon()` functions if alpha was set to 0.0.
+    - Fixed crash caused by using a distance sensor on a texture image whose size is not a power of two.
+    - Display a warning when using texture image with a size that is not a power of two.
+    - Fixed crash when resetting a PROTO's template regenerator SFBool field.
+    - Fixed crash when deleting a DEF node if a previous node with the same DEF name but a not matching type exists.
+    - Fixed crash of e-puck botstudio and firebird 6 controllers caused by faulty reading of the computer COM ports (thanks to Justin).
+    - Fixed `wb_distance_sensor_get_max_range()` and `wb_distance_sensor_get_min_range()` not returning the correct value.
+    - Fixed calls to `wb_supervisor_node_reset_physics()` not correctly being applied to motors.
+    - Fixed switching to orthographic perspective resulting in the scene not being rendered correctly under certain conditions.
+    - Fixed SUMO interface not working if the name of the configuration file is not `sumo.sumocfg` (thanks to Antonino).
+    - Improved controller build messages to better describe build process.
+    - Fixed Viewpoint and WorldInfo regeneration during simulation.
+    - Fixed non-reproducible crash on Windows due to already existing `TmpCamera`.
+    - Fixed `Transform to` and `export` options sometimes not visible in the node editor.
+    - Fixed depth fighting in the BungalowStyleHouse PROTO.
+    - Fixed PROTO instances in SFNode fields having wrong color in the scene tree.
+    - Fixed field/node focus wrongly changed when importing/removing node using a Supervisor.
+    - Fixed the OSM importer on Windows.
+    - Improved controller error messages when calling API functions with invalid device tags.
+    - Fixed tangential distortion of the lens distortion model (thanks to Andrew).
+    - Fixed inability to hide physics-based optional rendering after a solid's physics node is deleted.
+    - Fixed type of the set/get gear ROS service of the `ros_automobile` controller (thanks to Qiang).
+    - Fixed wrong distances returned for the bottom layers of the Lidar device.
+    - Fixed wrong distances returned for rotating Lidar if the controller step is not equal to the world step.
+    - Enabled spherical projection for the VelodyneHDL-32E and VelodyneHDL-64E.
+    - Fixed a subtle bug that caused normals to be slightly incorrectly interpolated on IndexedFaceSet geometries, causing visual glitches.
+    - Fixed execution of Java controllers located in a directory with non-ASCII characters.
+    - Overlays
+      - Improved cursor change behavior when interacting with overlays.
+      - Fix several bugs with overlay resize and translation causing inconsistent behavior.
+      - Fixed double-clicking overlay close buttons causing pop-out behavior instead of hiding the overlay.
+
+## Webots 8.5.4
+Released on March 10th, 2017.
+
+  - Enhancements
+    - Optimized the `wb_supervisor_field_set_*()` functions so that they run significantly faster than before (thanks to Kevin).
+    - Added e-puck's ground sensors representation in the `e-puck` robot window.
+    - Disabled modified world warning dialog on world close for modifications applied from the Supervisor controller if the preferences option `Display save warning only for scene tree edit` is checked.
+    - The computer UUID is now displayed in the about box.
+    - The local license duration (if any) is now displayed in the splash screen and about box.
+    - Improved behavior on Background node delete: use the next defined Background node if it exists.
+    - Improved error message printed when calling `wb_supervisor_field_remove_mf_node` for an empty field.
+    - Improved OpenGL vendor and renderer information printed with `--sysinfo` starting option.
+    - Moved updated Nao Python demo controller in `projects/robots/aldebaran/controllers/` directory.
+    - Added ability to rotate objects around world vertical axis by holding SHIFT, right clicking, and dragging horizontally.
+  - Upgrade
+    - Upgraded to SUMO 0.28.0.
+    - Windows: Upgraded to Qt 5.8.0.
+  - Bug fix
+    - Fixed the display of e-puck camera images in the robot window for multi-robot simulations and remote-control (thanks to Julien).
+    - Fixed logout functionality not asking for the new password at next Webots launch.
+    - Fixed bug preventing to detach two locked Connector devices by applying a force greater than the tensil and shear strength (thanks to Kevin).
+    - Fixed crash transforming a Robot or derived node with Motor devices into a Solid, Transform, or Group node.
+    - Fixed issues with licenses and preferences if Webots was previously started as root user.
+    - Mac: Fixed RPATH in the Python automobile library.
+    - Linux: Fixed crash when using the actions from the Edit menu on the text editor, the console or the documentation.
+    - Linux: Fixed detection of OpenGL vendor and renderer ids.
+    - Linux: Fixed application name available from the terminal after installing Webots.
+    - Fixed transform node functionality for nodes in Joint and Slot `endPoint` field.
+    - Fixed background color reset after copying a Background node.
+    - Fixed controller crash when calling `wb_supervisor_field_remove_mf_node` with NULL `field` argument.
+    - Fixed crash when importing invalid nodes.
+    - Fixed crash when importing DEF nodes if an ancestor DEF node has any linked USE instances.
+    - Fixed invalid speed values being displayed in speedometer when running a simulation in step-by-step mode.
+    - Fixed an issue with multiple GPS devices leading to incorrect speed calculations.
+    - Fixed issues with relative speed computation in Radar devices.
+
+## Webots 8.5.3
+Released on December 21st, 2016.
+
+  - Enhancements
+    - Mac: linked the Python controller library with the system Python.
+    - Added preferences persistence between maintenance versions and added login restoration when upgrading Webots.
+    - Pedestrian: do not start a controller if not required.
+    - Windows: added a clear warning in case the wrong version or architecture of Python is used (thanks to Heidi).
+    - Mac: set `RPATH=WEBOTS_HOME` as installation name for each executable (including controllers), shared library and framework.
+    - Improved internal settings of the textures anisotropic filter.
+    - Added warning message if the argument of `wb_motor_set_[force/torque]` function exceeds the available motor force/torque.
+    - Added warning message if a Hinge2Joint is invalid because linked to the static environment.
+  - Upgrade
+    - Upgraded e-puck library to e-puck svn r117: Misc bug fixes.
+  - Bug fix
+    - Retina display: Fixed regression about the overlays drag.
+    - Fixed miscellaneous issues in the `wb_display_draw_text()` function (set a better default font, fixed the space width, added support for monospaced fonts and fixed the last character clamp).
+    - Fixed record HTML5 animation icon continuing to blink after recording is stopped by a revert.
+    - Fixed position of boundingObject ODE geometries after inserting them from the scene tree and before saving the world.
+    - Fixed crash inserting a geometry node in a non-uniform scaled boundingObject Transform node.
+    - Fixed Robot node and Robot OO APIs documentation adding the missing functions to get the device instances.
+    - Fixed crash running a simulation containing a Hinge2Joint linked to the static environment.
+    - Fixed various issues with PROTO fields after copy and paste.
+    - Fixed USE nodes listed in Add Node dialog when inserting a top level node.
+    - Fixed crash with HingeJoint and Hinge2Joint nodes whose `endPoint` is a SolidReference node referencing the static environment.
+
+## Webots 8.5.2
+Released on November 22nd, 2016.
+
+  - Enhancements
+    - Set a useful anisotropic filtering level as a compromise between image quality and performance to render distant textures without aliasing and minimal blur.
+    - BmwX5: added a customizable clipping plane for the mirrors rendering.
+    - When making a movie, propose more video resolutions and fullscreen option.
+  - Upgrade
+    - Mac: increased the minimum supported SDK from 10.7 to 10.9.
+    - Mac: built Webots with libc++ rather than with deprecated libstdc++.
+  - Bug fix
+    - Fixed ROBOTIS OP2 remote-compilation and remote-control path configuration.
+
+## Webots 8.5.1
+Released on November 14th, 2016.
+
+  - Enhancements
+    - Improved the Webots guided tour by allowing the user to quickly navigate across the featured simulations.
+    - Added a `Devices tour` to the Webots guided tour, showing use cases for every device included in Webots.
+    - Don't include systematically a Background node when creating a new world file (the Background node had to be deleted before importing a VRML97 file containing a Background node).
+  - Upgrade
+    - Added support for macOS Sierra.
+    - Upgraded to Qt 5.6.2.
+    - Linux: ROS default version upgraded to Kinetic Kame on Ubuntu 16.04 packages.
+  - Bug fix
+    - Fixed crash occurring when all the TrackWheel nodes of a Track device are located at the same position.
+    - Fixed Track node X3D export.
+    - Fixed crash occurring when adding a device to a robot while the simulation is running.
+    - Atlas: improved the mass distribution.
+    - Fixed crash occurring when drawing a rectangle outside of the bounds of a Display.
+    - Fixed bad handling of UTF-8 characters in proto files.
+    - Fixed crash occurring with external rendering device windows on world revert or during procedural PROTO regeneration.
+    - Fixed position of rendering device overlay and external windows after world revert and procedural PROTO regeneration.
+    - Fixed crash occuring when selecting a Transform node in the scene tree, pressing the shift key and either using the mouse wheel or dragging it in the 3D view.
+    - Pressing the `Ctrl` key, while the focus is on the 3D view and an object is selected, now displays properly the scale handles of that object.
+    - Linux: removed `-D_GLIBCXX_USE_CXX11_ABI=0` flag during controller compilation. Two different tarball packages compiled with GCC4 and GCC5 are distributed.
+    - Linux: added missing libraries in the tarball package to run on Ubuntu 16.10.
+    - Linux: fixed open file dialogs so that textures with upper case extension are accepted.
+    - Fixed license right problem with DARwIn-OP and ROBOTIS OP2 robots.
+    - Fix e-puck controllers and BotStudio robot window if no COM ports are available on the system.
+    - Report PROTO with a forbidden name: names from base nodes (e.g. Cone, Box, etc.) cannot be used.
+
+## Webots 8.5.0
+Released on October 12th, 2016.
+
+  - New Features
+    - Added support (remote compilation and remote control) for ROBOTIS OP2:
+      - Updated many DARwIn-OP simulations to use ROBOTIS OP2 robot.
+      - **DARwIn-OP and ROBOTIS OP2 simulations moved in robots/robotis directory.**
+    - Model of K-Team Khepera IV robot
+    - Windows: Python robot controllers use the standard Python 2.7 (64 bit) from www.python.org.
+    - Added a new Radar node.
+    - Added Java and Python wrappers for the automobile library.
+    - Exposed motor sound in the RotationalMotor and LinearMotor nodes.
+    - Exposed bump, roll and slide sounds in the ContactProperties node.
+    - Added a new Joystick API.
+    - Added a new Speaker node allowing to play sounds and to perform text-to-speech.
+    - Added the Webots documentation (user guide, reference manual, ROBOTIS OP2/DARwIn-OP and automobiles) as a dock widget window.
+  - Enhancements
+    - Improved the support of Visual Studio and Webots libraries.
+    - **Renamed node fields: Robot.robotWindow → Robot.window and Robot.showRobotWindow → Robot.showWindow.**
+    - **Improved sensors behavior: the first measurement is no longer available during the step immediately after the enabling but only after the first sampling period elapsed.**
+    - Improved step by step behavior: when clicking the first time on the step button, not only the initialization but also the first step is now executed.
+    - Added representation of `minRange` when the Lidar Rays Paths optional rendering is enabled.
+    - Added warning if an object is controlled in kinematics mode but some Solid descendant nodes have physics.
+    - Added a preferences option to display the save warning dialog only if the world was modified from the scene tree.
+    - Removed an obsolete preferences option to display license warning messages.
+    - Improved completer in text editor to show suggested completions independently of characters after the cursor.
+    - Improved motion editor open and save dialog windows style.
+    - Improved rendering performance of Track's animated geometries.
+    - Added a new tab in the node editor which shows the absolute/relative velocity of the selected Solid node.
+    - Added a new command line option (--fullscreen) to start Webots in fullscreen.
+    - Added a new command line option (--batch) to prevent Webots from creating blocking pop-up windows.
+    - Moved the Keyboard API in a dedicated module.
+    - Renamed WbLidarPoint into LidarPoint in C++, Java and Python.
+    - Added a new `near` field to the Lidar and RangeFinder nodes.
+    - Added a new `followOrientation` field to the Viewpoint node.
+    - Disabled the step button while the simulation step is executing.
+    - Improved the world loading time.
+    - Improved the OpenStreetMap importer.
+    - Support negative `index` argument in the `wb_supervisor_field_get/set_*` functions.
+    - Added two new functions `wb_display_attach_camera` and `wb_display_detach_camera` to the Display API.
+    - **Added a new `blend` argument to the `wb_display_image_paste` Display function.**
+    - **Used `Arial` font by default to draw on Display device.**
+    - **Added a new `font` argument to the `wb_supervisor_set_label` Supervisor function.**
+    - Added a new function `wb_display_set_font` to the Display API to use TrueType fonts with the `wb_display_draw_text` function.
+    - Added a new function `wb_supervisor_node_set_visibility` to the Supervisor API.
+    - Added the possibility to generate texture images in procedural PROTO nodes (using lua-gd).
+    - Improved the various traffic signs PROTO models. **The `signImage` field has been replaced by the `signBoards` field.**
+    - Improved the GenericBuilding PROTO model. **The texture name values supported by the `wallType` field changed.**
+    - Used the Universal Transverse Mercator (UTM) projection by default in the OpenStreetMap importer.
+    - Added engine sound simulation to the automobile library.
+    - Added the full car interior for the BMW-X5 along with rear and wing mirrors.
+    - Added a `castShadows` field to the various road PROTO nodes.
+    - Added a new `far` field to the Camera and Viewpoint nodes to improve the 3D rendering performance.
+    - Improved ROS services data types:
+      - **`supervisor/field/get_rotation`: request `value` field expects now a quaternion rotation instead of an axis-angle rotation.**
+      - **`supervisor/field/set_rotation`: response `value` field contains now a quaternion rotation instead of an axis-angle rotation.**
+      - **`supervisor/node/get_center_of_mass`: response `centerOfMass` field type changed from `geometry_msgs/PointStamped` to `geometry_msgs/Point`.**
+      - **`supervisor/node/get_contact_point`: response `point` field type changed from `geometry_msgs/PointStamped` to `geometry_msgs/Point`.**
+      - **`supervisor/node/get_orientation`: response `orientation` field type changed from matrix `float64[]` to `geometry_msgs/Quaternion`.**
+      - **`supervisor/node/get_position`: response `position` field type changed from `geometry_msgs/PointStamped` to `geometry_msgs/Point`.**
+      - **`supervisor/node/get_velocity`: response `velocity` field type changed from `geometry_msgs/TwistStamped` to `geometry_msgs/Twist`.**
+    - Enabled the Add button (main toolbar) even if no node is selected.
+  - Upgrade
+    - Supported macOS 10.12 SDK.
+    - Upgraded to Qt 5.6.1.
+    - Upgraded to the Oracle Java 8 SDK (Java 8 is now required to compile Java controllers).
+    - Upgraded the SUMO interface to SUMO 0.27.1.
+    - Upgraded to ROS Kinetic Kame.
+    - Upgraded the Aseba and Dashel repositories to their latest versions. Upgrading to Aseba Suite 1.5 is required.
+    - Mac: Upgraded to libjpeg 9b.
+  - Bug fix
+    - Fixed `wb_supervisor_field_get_sf_node` API function making the controller program crashing (thanks to Inbae).
+    - Fixed `wb_supervisor_field_set_mf_bool` API function setting the wrong item.
+    - Fixed loading of camera and timer icons in BotStudio e-puck viewer widget.
+    - Added an error message when using a WbImageRef object with a different Display device than the one that created it.
+    - Fixed selection update in the 3D view when selecting a Transform in the scene tree.
+    - Fixed crash when moving the depracated Servo node using the translation or rotation handles.
+    - Fix behavior when moving a scaled Solid object using the translation handles.
+    - Support the `#` characters in the SFString and MFString fields defined inside a procedural PROTO node.
+    - Fixed automatic change of field editor selected tab after modifying a node field value.
+    - Fixed endPoint Solid `translation` and `rotation` update when changing the joint `axis` and `anchor` fields.
+    - Fixed size of coordinate system frame appearing in the 3D view when a node is selected but the translation handles are disabled.
+    - Improved support of the Fog node.
+    - Fixed screenshots and movies creation on Retina displays (thanks to Manuel).
+    - Fixed seldom crashes due to mishandling of template PROTO field names in lua comments.
+    - Increased the precision of the floating point values when storing .wbt file (thanks to Manuel).
+    - Fixed wrong error message printed in some special cases when pasting a valid boundingObject value.
+    - Windows: Fix display bug of some stderr or stdout messages in the Webots console.
+    - **Fixed regularity of sensors measurement period in case the controller step corresponds to multiple world basic time steps.**
+    - **Fixed sensors measurements of DistanceSensor, LightSensor, and Receiver: previously the measured value was partially based on one step old scene status.**
+    - Fixed e-puck ground sensors names in cross-compilation mode.
+    - Fixed the `wb_supervisor_field_get_count()` function after the deletion of a node.
+    - Fixed encoder value returned by ROS DifferentialWheels
+    - Fixed ROS Receiver
+    - Fixed spring and damping force direction if the joint parent solid is attached to the static environment.
+    - Fixed damping in `passive_dynamic_walker.wbt`.
+    - Fixed the copy of the current robot controller folder in the project relocation dialog.
+    - OSM importer: Fixed shearing effect on the longitude axis for areas with a large meridian value.
+    - Fixed the centers of mass of the Atlas robot.
+    - Improved support of Retina displays, and multiple monitors.
+    - Fixed crash when modifying the Camera `near` field at time step 0 if the Camera frustum optional rendering is enabled.
+    - Fixed crash when modifying the RangeFinder `minRange` field at time step 0 if the RangeFinder frustum optional rendering is enabled.
+    - Fixed various issues with PROTO nodes.
+    - Fixed template regeneration of internal template PROTO node when a field is redirected using IS keyword to a parent PROTO field.
+    - Fixed wrong physics behavior appearing in rare cases due to singularities in transform matrix conversion (thanks to Sudarshan).
+    - Fixed SUMO launch on Mac.
+    - Fixed controller crash pressing the motion editor play button when no pose is selected.
+    - Improved the way to start the Java commands: runtime.ini is taken into account to setup the `CLASSPATH` or the `JAVA_LIBRARY_PATH` environment variables.
+    - Fixed crash when loading files with `.u` and `.ini` file extensions in the text editor.
+    - Mac OS X: Fixed the potential saturation of the processes running a robot window.
+    - Fixed crash setting high values for Capsule `subdivision` field.
+    - Fixed ElevationGrid appearance update when modifying `colorPerVertex` field.
+    - Fixed painting with Pen device on ElevationGrid geometry whose `color` field is defined.
+    - Fixed search and replace text in text editor Replace dialog after pressing the `Replace` button.
+    - Fixed text editor selection after unindenting.
+    - Fixed measured value of scaled DistanceSensor nodes.
+    - Fixed crash when changing the field of view of Camera or RangeFinder node before simulation starts if frustum is visible.
+    - Fixed the Java and Python `getPointCloud` and `getLayerPointCloud` and the Matlab `wb_lidar_get_layer_point_cloud`, `wb_lidar_get_layer_range_image`, `wb_lidar_get_point_cloud`, and `wb_lidar_get_range_image` functions from the Lidar APIs.
+    - Added the following missing functions to the Matlab API: `wb_accelerometer_get_sampling_period`, `wb_camera_get_sampling_period`, `wb_compass_get_sampling_period`, `wb_differential_wheels_get_encoders_sampling_period`, `wb_distance_sensor_get_sampling_period`, `wb_gps_get_sampling_period`, `wb_gyro_get_sampling_period`, `wb_inertial_unit_get_sampling_period`, `wb_light_sensor_get_sampling_period`, `wb_motor_get_force_feedback_sampling_period`, `wb_motor_get_torque_feedback_sampling_period`, `wb_position_sensor_get_sampling_period`, `wb_range_finder_get_range_image`, `wb_range_finder_get_range_image`, `wb_receiver_get_sampling_period`, `wb_robot_battery_sensor_get_sampling_period`, `wb_supervisor_field_get_mf_rotation`, `wb_supervisor_field_set_mf_rotation`, and `wb_touch_sensor_get_sampling_period`.
+    - Fixed wrong image returned by Camera, Lidar and RangeFinder nodes with a large width/height ratio.
+    - Fixed cross-compilation of controllers using the DARwInOPMotionManager of the DaRwIn-OP robot.
+    - Fixed artifacts in the Rangefinder and Lidar image due to transparent objects.
+    - Fixed missing `OSM import` tab of the automobile robot-window.
+    - Fixed scale of the Bus and BusStop PROTO models.
+    - Fixed volume change not applied until viewpoint position is changed.
+    - Fixed crash when changing the position of a DifferentialWheels robot with physics if a wheel has no Physics node.
+    - Fixed update of bounding object color after a solid collided or was idle.
+    - Windows: Fixed cross-compilation for the DARwIn-OP robot (thanks to Daniel).
+    - Fixed values returned by the GPS if the WorldInfo.gpsCoordinateSystem field is equal to `WGS84` and the WorldInfo.northDirection field has been changed (non default value)
+    - Fixed crash when using the `wb_supervisor_field_remove_mf_node` function with a `position` argument equal to -1.
+    - Fixed wrong speed returned by the `wb_gps_get_speed` function.
+    - Fixed wrong WbNodeRef returned by the `wb_supervisor_node_get_from_def` function when the node is in a PROTO extension slot.
+    - Fixed plugins not found if located in a parent PROTO project.
+    - Fixed size of the array returned by the `getVelocity` Java and Python function (thanks to Erkan).
+    - Fixed crash when resetting MF field used in a procedural PROTO.
+    - Fixed problem with texture not found if more than one url field of the Background node use the same texture.
+    - Fixed problem with devices not visible in the Robot menu if they are in the `endPoint` field of a Joint or Slot node.
+  - Documentation
+    - Introduced a new documentation system at
+    - Added a glossary in the reference manual.
+
+## Webots 8.4.0
+Released on March 9th, 2016.
+
+  - New Features
+    - Added supervisor functions to get and set the simulation mode (play, pause, etc.): `wb_supervisor_simulation_get_mode()` and `wb_supervisor_simulation_set_mode()`
+    - Added new `castShadows` field in Shape node.
+    - Added semi-transparent image in Camera and RangeFinder frustum if corresponding optional rendering is enabled.
+    - Added new `noiseMaskUrl` field in Camera node.
+    - Added a new RangeFinder node.
+    - Added a new Lidar node.
+    - Added new DistanceSensor functions to get sensor features:
+    `wb_distance_sensor_get_max_range`, `wb_distance_sensor_get_min_range`, `wb_distance_sensor_get_aperture` and `wb_distance_sensor_get_type`.
+    - Added a new Connector function called `wb_connector_get_presence_sampling_period`.
+  - Enhancements
+    - Improved follow solid behavior when moving artificially the Solid node from the scene tree or the 3D window.
+    - **Deprecate `wb_supervisor_movie_get_status`.** It is now replaced by the new functions `wb_supervisor_movie_is_ready` and `wb_supervisor_movie_failed`.
+    - Enabled the insertion of Solid nodes in Group or Transform without any Solid ancestor.
+    - Improved the proposed directories when creating new Webots files.
+    - Replaced the `$(HOME)/webotsOgre.log` file by an option of the Webots executable (`--ogre-log`).
+    - Improved 3D rendering speed.
+    - Renamed the `colorNoise` field of the Camera node into `noise`.
+    - Renamed the `lensDistortion` field of the Camera node into `lens`.
+    - Renamed the `CameraFocus` node into `Focus`.
+    - Renamed the `CameraLensDistortion` node into `Lens`.
+    - Renamed the `CameraZoom` node into `Zoom`.
+    - Removed the `type` field of the Camera node (Camera node is exclusively used for color camera from now, for range-finder camera use the RangeFinder node instead).
+    - Invalidated the use of Joint without a Solid ancestor.
+    - Added node hierarchy validation when inserting nodes using the add node dialog.
+    - Improved motion load and execution in motion editor.
+    - Improved highlighting of search results in the text editor and in the console.
+    - Added search functionality in the console.
+    - Added warning when using template regenerator PROTO fields to set the main position and orientation of the object.
+    - Paused simulation while choosing the just recorded movie file name.
+    - Ask for opening the animation, the HTML5 model and the screenshot just after the creation if triggered from the GUI.
+    - GPS
+      - Added two new fields called `gpsCoordinateSystem` and `gpsReference` to the WorldInfo node allowing the user to set the GPS coordinate system and reference.
+      - Added three new functions to the GPS node: `wb_gps_get_speed`, `wb_gps_get_coordinate_system` and `wb_gps_convert_to_degrees_minutes_seconds`.
+      - Added two new fields called `speedNoise` and `speedResolution` to the GPS node allowing the user to set the GPS speed noise and resolution.
+  - Bug fix
+    - Fixed `dWebotsGetBodyFromDEF` function so that it returns a valid ODE body for any Solid nodes.
+    - Fixed applied field of view of Camera device in case of large aspect ratio.
+    - Fixed `wb_supervisor_node_get_from_def` to not return internal nodes of a PROTO definition.
+    - Fixed Emitter and Receiver in remote-control mode, in order to transit through Webots.
+    - Fixed build clean menu shortcuts and rearranged optional rendering menu shortcuts.
+    - Linux: fixed compose key input.
+    - Fixed crash adding a Solid with physics to a joint node without Solid ancestor.
+    - Fixed Viewpoint node's followed solid option in case of procedural PROTO and multiple solid instances with the same name.
+    - Fixed copy of WBPROJ project file during project relocation.
+    - Fixed Ogre exception about resource name already used when adding and deleting nodes from the scene tree after saving the world.
+    - Fixed non-systematic bug occuring when launching several Matlab controllers (thanks to Ramya).
+    - Fixed a rare fatal error occuring when the Webots PID matches with a previously crashed Webots instance (thanks to Florin).
+    - Fixed the splash screen in order to don't hide the warning dialogs.
+    - Fixed Webots temporary directory life cycle.
+    - Fixed the default damping which was not taken into account.
+    - Fixed replacement of regular expressions in text editor's replace dialog.
+    - Fixed update of Solid procedural PROTO nodes when internally modifying the `translation`, `rotation` or `position` template regenerator fields.
+    - Fixed proposed screenshot file name after switching world.
+    - Fixed crash appearing sometimes when the first axis of a Hinge2Joint node is along the y-axis.
+  - Documentation
+    - Fixed documentation of the Node class.
+
+## Webots 8.3.2
+Released on December 16th, 2015.
+
+  - Enhancements
+    - Improved proposed file name for HTML5 Model and Animation export to match the world name.
+  - Bug fix
+    - Fixed several bugs related with non ASCII UTF-8 characters in paths.
+    - Added highlighting of missing Webots nodes names in text editor.
+
+## Webots 8.3.1
+Released on December 4th, 2015.
+
+  - Enhancements
+    - Changed Robot's menu items from `Show All Camera Overlays` and `Show All Display Overlays` to `Hide All Camera Overlays` and `Hide All Display Overlays`.
+    - Disabled pixel picker for Camera and Display overlay while simulation is running.
+    - Added icons for all the nodes who didn't had one.
+  - Upgrade
+    - Upgraded to Qt 5.5.1.
+  - Bug fix
+    - Fixed VRML97 and HTML5 model export of TrackWheel and Track nodes (not animated).
+    - Fixed animation export window shown behind main window.
+    - Fixed problems and improved behavior of overlays items in Robot menu.
+    - Fixed occasional crash occuring when copying and pasting an object with bounding object USE nodes.
+    - Fixed crash in cameras occuring when the shared memory is full.
+    - Fixed remote-control plugins (regression added in Webots 8.3.0)
+    - Fixed problems with robot window and camera device causing hang of controller and wrong error messages in the console.
+    - Fixed link to the reference manual when pressing the `Open documentation` button of the field editor.
+    - Fixed occasional crash occuring after logging in and pressing the `enter` key in the license information dialog.
+    - Fixed PROTO specific libraries not found for PROTO nodes not directly inheriting from Robot.
+    - X3DOM: Removed shadows casting on semi-transparent objects.
+    - Fixed dependency of springConstant and dampingConstant on global axes for BallJoint.
+    - Linux: fixed compilation of C++ controller using GCC 5 (libCppController and controllers are compiled with the `-D_GLIBCXX_USE_CXX11_ABI=0` flag).
+    - Fixed problem of non-closed and non-deleted procedural PROTO temporary files.
+    - Streaming server
+      - Added a `disableStandardStreamsRedirection` option to avoid the controller standard streams redirection through the streaming server.
+      - Restored and improved the `streaming_viewer/index.html` page to display the streaming server output into a web browser.
+
+## Webots 8.3.0
+Released on October 7th, 2015.
+
+  - New Features
+    - Support for Windows 64-bit: Webots now runs natively on Windows 64-bit operating systems.
+    As a consequence, the support for Windows 32-bit was dropped.
+    Matlab users should use Matlab 64-bit instead of Matlab 32-bit.
+    - Support for Mac OS 10.11, El Capitan.
+    - Added new functionality for showing the Camera or Display overlay in an external window.
+    - Streaming server player: displayed the collision outline when an object is selected.
+    - Added new field called `motionBlur` to the Camera node.
+    - Added a new node called `CameraFocus` which can be added in the `focus` field of the Camera device in order to simulate a focusing mechanism.
+    - Added new field called `compositor` to the Camera node, which can be used to add a compositor to the camera image.
+    - Added a new node called `CameraLensDistortion` which can be added in the `lensDistortion` field of the Camera device in order to simulate camera image distortion.
+    - Added new Motor functions to retrieve field values and values set from the controller:
+    `wb_motor_get_velocity`, `wb_motor_get_max_velocity`, `wb_motor_get_acceleration`, `wb_motor_get_available_force`, `wb_motor_get_max_force`, `wb_motor_get_available_torque`, and `wb_motor_get_max_torque`.
+    - Added a new field called `noiseCorrelation` to the GPS node which set the noise to follow a gaussian correlated ditribution.
+    - Added a new Robot function `wb_robot_window_custom_function` to communicate with the robot window plugin.
+    - Supervisor API improvements
+      - Added a new Supervisor function to save the current simulation: `wb_supervisor_save_world`
+      - Created Supervisor API to create animations.
+      - Renamed Supervisor API to create movies: `wb_supervisor_start_movie` to `wb_supervisor_movie_start_recording` `wb_supervisor_stop_movie` to `wb_supervisor_movie_stop_recording` `wb_supervisor_get_movie_status` to `wb_supervisor_movie_get_status`. The old functions are deprecated.
+      - Added a new Supervisor function to retrieve a node reference from a given id: `wb_supervisor_node_get_from_id`.
+      - Added a new Supervisor function to retrieve the unique id from a node reference: `wb_supervisor_node_get_id`.
+      - Added a new Supervisor function to retrieve the parent of a given node: `wb_supervisor_node_get_parent_node`.
+      - Added a new Supervisor function to remove a given node from the scene tree: `wb_supervisor_node_remove`.
+      - Removed the wb_supervisor_animation_set_local_resources() function.
+      - Improved Supervisor function `wb_supervisor_node_get_type_name` to return the model name in case of PROTO nodes.
+      - Added Supervisor function `wb_supervisor_node_get_base_type_name` that returns the base type nodes.
+      - Added Device function `wb_device_get_model` that returns the device model string.
+    - Webots Web Interface
+      - Removed the web resources (JavaScript libraries, CSS files, etc.) from the Webots package. Only the online resources are maintained from now.
+      - Improved the URLs of the online resources.
+      - Renamed `webots_player.js` to `webots.js`, and internally renamed the `WebotsPlayer` class to the `webots.View` class. Refactored the API of the `webots.View` class.
+      - Refactored the HTML5 scene and animations export in order to use the `webots.View` class of the `webots.js` file.
+    - Added `--log-performance` starting option.
+  - Enhancements
+    - Improved the streaming server to support adding/removing nodes.
+    - Improved the streaming server and the animation recorder to support Transform modifications (rather than only Solids with Physics).
+    - Improved camera computation, all the computations (depth computation, spherical correction, noise, etc.) are now performed on the GPU.
+    - Added resize and close button to Camera and Device overlay in order to set the position and the size of the overlay directly from the 3D view: **`pixelSize` and `windowPosition` fields are deprecated.**
+    - Added a mechanism to copy the camera image into the shared memory only when required (i.e. after a call to `wb_camera_get_image` or `wb_camera_get_range_image`).
+    - Renamed and moved `Show Camera Overlays` and `Show Display Overlays` items in Robot menu.
+    - Added `Camera Devices` and `Display Devices` submenus in Robot menu to allow the user to show or hide single overlays.
+    - Changed GPS noise to follow a gaussian distribution.
+    - Added warning if preferences file cannot be read due to insufficient access rights.
+    - Added `Clear Console` action in the context menu of the console.
+    - Added position information in field editor for Transform nodes.
+    - Hid mass tab in field editor when a Solid without physics properties is selected.
+  - Upgrade
+    - Upgraded to Qt 5.5.0.
+    - OpenGL 2.1 (or newer version) is now required to use Webots.
+  - Cleanup
+    - Dropped the sound plugins.
+    - Dropped `both` camera type.
+  - Bug fix
+    - Fixed controllers starting time for robots imported during the simulation execution so that they are configured in the next time step.
+    - Fixed the Webots temporary directory which was not cleaned in some cases.
+    - Fixed the radius field of the PointLight and of the SpotLight.
+    - Fixed delayed update of camera overlay in step-by-step mode.
+    - Fixed crash when Webots is closed while the streaming server is running.
+    - Improved the streaming server in order to not send empty updates.
+    - Improved the rendering of the X3D scene in web browsers using x3dom.css.
+    - Fixed change from the scene tree not propagated to the controller after simulation has started.
+    - Fixed crash using a kinematic DifferentialWheels whose left or right wheel is not defined.
+    - Fixed saving world files and exporting in VRML97 format when containing UTF-8 characters.
+    - Fixed documentation page opened using the `Help` field editor item.
+    - Fixed sound mute/unmute behavior.
+    - Fixed invalid license issue when using Door PROTO with a license different than EDU or PRO.
+    - Fixed crash moving boundingObject geometries with Transform and Shape parent nodes (thanks to François).
+    - Fixed overlays and outlines rendering.
+    - Fixed X3D export when WorldInfo is containing HTML characters.
+    - Fixed selection of solid node on revert.
+    - Fixed problem of texture not found in some PROTO models.
+
+## Webots 8.2.1
+Released on June 29th, 2015.
+
+  - Bug fix
+    - Fixed error using a USE TrackWheel node in PROTO files (thanks to Kevin).
+
+## Webots 8.2.0
+Released on June 25th, 2015.
+
+  - New Features
+    - Implemented the VRML97 Background's URL fields in order to create sky boxes.
+    - Added PositionSensor and Brake functionalities for Track node: **motor SFNode field replaced by device MFNode field in Track node.**
+    - Added a TrackWheel node to define the auto-rotating wheels of the track system.
+    - Added new function called `wb_supervisor_load_world` to the Supervisor API to change the current world.
+    - Added new function called `wb_supervisor_field_import_mf_node_from_string` to the Supervisor API to add a node to the simulation based on a string.
+    - Added new function called `wb_supervisor_field_remove_mf_node` to the Supervisor API to remove a node from the simulation.
+  - Enhancements
+    - Support `MFBool` and `MFRotation` VRML97 field types.
+    - Added item in View > Optional Rendering menu to hide/show the pen painting direction. **Optional Rendering shortcuts have changed.**
+    - Added warning message if `northDirection` value of WorldInfo is not valid.
+    - Restore global center of mass, center of buoyancy and support polygon optional rendering at load or revert.
+    - Updated representation of global center of mass, support polygon and center of buoyancy when simulation is not started or paused.
+    - Enabled insertion of a Group or Transform node in the animatedGeometry field of a Track node.
+    - Enabled insertion of a Solid node in the children field of a Group or Transform node if the top level node is a Solid node.
+    - Encapsulated the Webots Online Player into a JavaScript library.
+    - Removed the maintenance version from the [Cyberbotics web resources](http://www.cyberbotics.com/web/8.1/).
+    - Removed the deprecated `fast2d` field of the `WorldInfo` node from the scene tree.
+  - Cleanup
+    - Removed support of the deprecated `gaussianNoise` field of the `Camera` node.
+  - Upgrade
+    - Upgraded to jQuery 1.11.3
+    - Upgraded to jQuery UI 1.11.4
+  - Bug fix
+    - Fixed update of bounding object color when solid is idle.
+    - Fixed timing bug caused by calling `wb_console_print()` before the first call to `wb_robot_step()`.
+    - Fixed wrong warning using nested USE nodes of a PROTO DEF node.
+    - Fixed copy and paste of Track nodes from the scene tree.
+    - Fixed update of animated geometries shapes of Track node from the scene tree.
+    - Fixed use of proxy for HTTPS networking: now the system proxy is automatically used if defined (thanks to Frédéric).
+    - Fixed incorrect warning popping-up about wrong password caused by accented characters in the user name (thanks to Frédéric).
+    - Fixed streaming server dialog (fixed the hyperlink and started it after the streaming server creation)
+    - Fixed appearance of IndexedFaceSet geometries inserted in a Shape node from the scene tree.
+    - Fixed crash occurring when a boundingObject cylinder and a boundingObject capsule are located at the same position and their axes are aligned.
+    - Fixed crash with invalid geometries in boundingObject field.
+    - Fixed visible hidden fields in the scene tree of PROTO nodes that are not in the top level of the hierarchy.
+    - Fixed bug in parsing of runtime.ini files (thanks to Rajesh).
+    - Fixed problem of Hinge2Joint position slowly drifting when used in complex structure.
+    - Fixed the loading world window displayed even when Webots is started in minimized mode.
+
+## Webots 8.1.0
+Released on May 12th, 2015.
+
+  - New Features
+    - Added new Track node to model tank robots and conveyor belts.
+    - Added items in View > Optional Rendering menu to hide/show camera and display overlays. **Optional Rendering shortcuts have changed.**
+    - Added a tool to export animations of the simulations in HTML/X3D format.
+    - Added a tool to stream a simulation to an Internet page (using HTML5, WebSockets and X3DOM). This feature is restricted to the PRO version.
+    - Added a supplementary level in the lua fields dictionary, it is now possible to access either the current value or the default value of a field.
+    - Added a new lua dictionary called `context` in the template PROTO to retrieve contextual information (project path, modules folder, Webots version, etc.).
+    - Added new Camera API functions `wb_camera_get_min_fov` and `wb_camera_get_min_fov` to get the valid zoom range.
+    - Added new Supervisor API functions `wb_supervisor_node_set_velocity` and `wb_supervisor_node_get_velocity` to set/get the linear and angular velocities of a Solid node.
+    - Added a new Robot API function `wb_robot_get_world_path` to retrieve the curent opened world.
+  - Enhancements
+    - Support Slot node in endPoint field of any Joint node.
+    - Improved collision managment in kinematic mode.
+    - Improved the Supervisor function `wb_supervisor_node_get_from_def()`, it is now possible to look for a specific node path in the node hierarchy.
+    - Added a new field called `optimalThreadCount` to the WorldInfo node. Using this field it is now possible to specifiy independently for each world how many threads to use for the physics computation (ODE).
+    - Improved support of large worlds. If a world takes more than 2 seconds to load, a window displaying the load progress and allowing the user to cancel is displayed and Webots does not freeze anymore.
+    - Improved support of extrusion geometry by using a procedural PROTO instead of a built-in node.
+    - Disabled paste button from scene tree if a the selected field already contains the maximum number of allowed items.
+    - Improved mass checker message to better identify which solid nodes could cause instabilities.
+    - Sped up simulation of LED devices containing lights when they are switched off.
+    - Sped up simulation of range-finder camera (particularly in the case of spherical camera).
+    - Added several settings to the `New Project Directory` wizard to customize the generated world.
+  - Upgrade
+    - Upgraded to Qt 5.4.1.
+    - Upgraded to OpenSSL 1.0.2.
+    - **Dropped Linux 32 bit support.**
+  - Bug fix
+    - Linux: disabled automatic undocking of Text Editor and Console widgets by drag and drop to fix a Qt bug. Instead the floating button has to be used first and then the window can be moved by drag and drop.
+    - Fixed behavior of `wb_camera_set_fov` function not storing invalid values.
+    - Windows: Improved linking with the ODE shared library.
+    - Removed all the deprecated references to the old fast2d plugin system.
+    - Fixed CPP API to return errors if any device include is missing.
+    - Fixed some crashes due to ODE internal errors.
+    - Fixed bug in the export of image textures to VRML97 and X3D.
+    - Fixed wrong warning message displayed when inserting a USE Appearance node in a boundingObject field.
+    - Fixed crash occurring with Transform nodes in boundingObject field containing a USE geometry node.
+    - Fixed crash occurring when switching to multiple threads from the Preferences dialog while the simulation is running.
+    - Added warning message if the up-to-date controller executable can not be executed due to zombie instances.
+    - Fixed crash in worlds containing a SolidReference node that refers to the static environment (thanks to Sébastien).
+    - Fixed screenshot and movie creation on high DPI displays (such as Apple's retina)
+    - Windows: Fixed rare case where Matlab was failing to load Controller.dll.
+    - Windows: Fixed `WEBOTS_MODULES_PATH` format.
+    - Windows: Fixed ignored command line options passed to webots.bat.
+    - Windows: Fixed UTF-8 support in the `WEBOTS_MODULES_PATH` environment variable.
+    - Improved precision of the Cylinder shader (the enlightment of the CircleArena floor is improved accordingly)
+    - Fixed insertion of RotationalMotor in the device field of Propeller from the add node dialog.
+    - Fixed value returned by `wb_robot_keyboard_get_key` function when releasing key shortcuts containing special keys.
+    - Fixed problem occurring with several sensors where the field `resolution` was ignored if the field `xAxis` was set to false.
+    - Fixed crashes arising when trying to import VRML97 file of unsupported format.
+    - Fixed sound not playing at startup of Webots.
+  - Documentation
+    - Documented the algorithm used to search the texture paths in the ImageTexture node.
+
+## Webots 8.0.5
+Released on February 2nd, 2015.
+
+  - New Features
+    - Supported textures which do not have a valid OpenGL dimension (e.g. 512x1024) by upscaling them automatically.
+  - Bug fix
+    - Fixed regression preventing users from using local licenses while being offline.
+    - Fixed crash with non PRO/EDU licenses while relocating a sample project in a user directory.
+    - Supported modules path containing UTF-8.
+    - Supported textures paths containing UTF-8.
+
+## Webots 8.0.4
+Released on January 22th, 2015.
+
+  - New Features
+    - Added a new tab in the node editor which shows the absolute/relative position and orientation of the node.
+    - Defaults to NVIDIA graphics on Optimus architectures.
+  - Enhancements
+    - Added possibility to select the values shown in `Mass` and `Position` tabs of Solid field editor.
+    - Improved simulation speed when changing frequently the translation and/or rotation fields of Solid nodes.
+  - Bug fix
+    - Windows: Fixed the warning when a texture path is containing UTF-8 characters.
+    - Windows: Fixed modules installation on Windows accounts containing UTF-8 characters.
+    - Fixed download and installation of module updates. It now occurs before opening the world file to avoid possibly overwriting files in use. Moreover, errors, if any, are properly reported.
+    - Fixed rendering issues when adding some lights from the add node dialog.
+    - Fixed line endings in clipboard text copied from text editor.
+    - Matlab: Added `wb_console_print()` function to display messages in the Webots console.
+    - Linux: Added libjpeg8 library in tarball package to solve conflicts.
+    - Fixed copy of libraries and PROTO's controller during project relocation.
+    - Fixed issues with textures URL path not exported correctly when exporting the world in X3DOM.
+    - Improved robustness and error messages when importing invalid WBO and VRML97 files.
+    - Sped up the `Open Sample World` and `Add a node` dialogs.
+    - Fixed WBO export (thanks to Boxing).
+    - Linux: fixed Qt platform plugin conflict arising when starting webots from outside its home folder (thanks to Stefano).
+    - Mac OS X: Reintroduced support for Mac OS X Mountain Lion.
+    - Fixed wrong `endPoint` solid rotation when changing the position field of a joint from the scene tree.
+    - Fixed seldom block of field editor update on item selection change after aborting a transform or a reset action.
+    - Fixed range of motor and joint position limits `minStop`, `maxStop`, `minPosition`, and `maxPosition` when initial joint position is different from zero.
+    - Fixed regression bug blocking the application of force and torque from the 3d window on Solid nodes embedded in PROTO definitions.
+    - Fixed crash when selecting objects containing a closed mechanical loop where a joint endPoint Solid node refers to an ancestor Solid node.
+    - Fixed problem of the wheels of DifferentialWheels drifting when moving it with a Supervisor.
+
+## Webots 8.0.3
+Released on December 5th, 2014.
+
+  - Bug fix
+    - Fixed `Connection refused` error occuring while downloading module updates in some network configurations (thanks to Jessica).
+    - Mac OS X and Windows: Fixed computation of uuid to avoid problem with downloaded licenses used in a different network configuration (thanks to Norhidayah).
+
+## Webots 8.0.2
+Released on December 3rd, 2014.
+
+  - Upgrade
+    - Upgraded to Ogre 1.9.0.
+  - Enhancements
+    - Display a warning message with explanations and quit if the user has no license rights.
+    - Improved function updating vertical and horizontal scroll position in the scene tree.
+    - Significantly improved simulation speed for simulation in kinematic mode with more than one DifferentialWheels robots.
+    - Added option in View menu to disable Solid node selection from 3d view.
+    - Added a new option (--uuid) to the Webots binary in order to display the UUID of the computer.
+  - Bug fix
+    - Ubuntu 12.04: Fixed the OpenAL dependencies causing issues at the Webots startup.
+    - Fixed crash when loading worlds mixing DEF/USE definitions and PROTO nodes.
+    - Fixed update of values in field editor after paste and undo/redo commands.
+    - Fixed crash and memory leaks in fluid dynamics physics.
+    - Fixed crash when using LightSensors in a world containing SpotLights.
+    - Fixed modification of the license warnings preference from the Preferences window.
+    - Linux: Removed warning on Webots startup about webots.desktop file.
+    - Linux: Support import and export of various files with case insensitive file name extension (e.g., `*.wrl` or `*.WRL`).
+    - Linux: Fixed export webots object dialog not displayed on top of the main application window.
+    - Mac/Linux: Fixed the controller behavior when a debugger (lldb/gdb) is attaching the controller process.
+    - Windows: Fixed missing cat.exe and sed.exe msys commands causing several Makefiles to fail.
+
+## Webots 8.0.1
+Released on November 18th, 2014.
+
+  - New Features
+    - Inform the user when a new version of Webots is released.
+    - Don't show PROTO nodes marked as deprecated or hidden in the add node dialog.
+  - Bug fix
+    - Fixed crash pasting a PROTO node in a DEF node references by at least one USE node.
+    - Fixed crash when selecting a USE PROTO node in the add node dialog.
+    - Mac: Fixed crash on startup.
+    - Fixed crash inserting or removing Physics nodes.
+    - Improved moving a Solid node in the 3D view by disabling physics updates.
+    - Improved project relocation dialog when modifying a PROTO definition: copy PROTO files, plugins and associated controller by default.
+    - Linux: Fixed the sound rendering. OpenAL is now compiling with the ALSA and PulseAudio sound frameworks.
+    - Fixed write permissions of files while updating modules.
+    - Fixed write permission of worlds created by the Project relocation window.
+  - Upgrade
+    - Upgraded to OpenAL 1.16.0.
+  - Enhancements
+    - Improved modules update dialog: display it only once at startup.
+    - Added an option in the preferences dialog to enable or disable the modules update dialog.
+    - Extended project relocation dialog to copy sources related to module PROTO models in user projects if the license allows it.
+    - Added a confirmation window if the current world has been changed before to revert or load another world.
+  - Documentation
+    - Improved documentation about the e-puck bluetooth setup.
+    - Updated the tutorial.
+
+## Webots 8.0.0
+Released on October 30th, 2014.
+
+  - New Features
+    - **Added new modular licensing system that replace the licensing system used in Webots 7.**
+    - Fluid dynamics simulation: the computation of Archimedes's thrust and drag forces is automated by means the new nodes Fluid and ImmersionProperties.
+    - Graphical representation of buoyancy centers and immersion outlines.
+    - Sound (experimental): Motors, collision, rolling and sliding sounds can be optionnaly listened from the computer loud speakers.
+    - Added new Supervisor API function `wb_supervisor_node_get_self` to retrieve the Supervisor node itself.
+    - Added new Supervisor API function `wb_supervisor_get_movie_status` to check the status of the video creation.
+    - Asymmetric friction
+      - Modified the type of the `coulombFriction` and `forceDependentSlip` fields of the ContactProperties node from SFFloat to MFFloat allowing the user to set different coefficients for different directions.
+      - Added a new field named `frictionRotation` to the ContactProperties to set the friction directions.
+      - Only the Box, Plane and Cylinder primitives support asymmetric friction for now.
+      - Added duplicate pose functionality in motion editor.
+    - Objects library
+      - Improved the prototypes set used to create indoor environment (Door, Window, Wall) in order to create more complex apartments with less objects.
+      - Improved the Table prototype to render it customizable (size, feet size, feet gap, etc.).
+      - Removed the SmallTable, DoubleWindow, SingleDoorCommon, SingleDoorEntree, WallGap, WallWithDoubleWindowFrame and WallWithSingleDoorFrame prototypes.
+    - Hinge suspension
+      - Added new fields named `suspensionSpringConstant`, `suspensionDampingConstant` and  `suspensionAxis` to the HingeJointParameters, allowing the user to set suspension along a choosen axis.
+      - **Removed Hinge2JointParameters node, the standard HingeJointParameters should be used instead.**
+    - Joint device
+      - Changed the field `device` of the nodes Joint (and `device2` in the case of Hinge2Joint) into an MFNode that accepts several devices (one of each type).
+      - **It is not possible anymore to get the position of the joint with a Motor device (a PositionSensor device need to be added in addition to the Motor).**
+      - Added a new node called Brake that can be added in the `device` field of a Joint node in order to be able to change the dampingConstant coefficient of the joint from the controller.
+    - Added a new node named `Slot` in order to define what can be inserted in an extension field of a PROTO.
+    - Added the new environments for the RoCKIn@Home and RoCKIn@Work benchmark.
+  - Upgrade
+    - **Official support for Ubuntu 14.04 LTS and 14.10 (and Ubuntu 12.04 LTS if using the tarball package), the support of Ubuntu 13.10 is dropped (but may still work).**
+    - Official support of Mac OS X Yosemite
+    - Official support of Windows 8.1
+    - Upgraded to Qt 5.3.2
+    - Windows: upgraded to MingGW 4.8.2
+    - Updated Nao challenge to v1.11
+  - Enhancements
+    - **Renamed Motor::getTargetposition() to Motor::getTargetPosition() in the C++, Python and Java APIs.**
+    - Enabled translation and rotation handles for any Transform nodes.
+    - Improved synchronization between scene tree selection and 3D view selection.
+    - **Moved `translationStep` and `rotationStep` fields from Solid to Transform node.**
+    - Removed automatic physics reset when changing a solid translation or rotation from a supervisor controller.
+    - Added new supervisor function `wb_supervisor_node_reset_physics(WbNodeRef)` that stops the inertia of a single solid.
+    - **`wb_supervisor_simulation_physics_reset()` function has been deprecated and replaced by `wb_supervisor_simulation_reset_physics()`.**
+    - Improved PROTO cache files: use hash value instead of modification date to detect if PROTO file has been modified.
+    - Removed the limitation of 1024 bytes of the Physics Plugin communication buffer.
+    - Modified the default value of the `bufferSize` fields of Emitter and Receiver to -1 for unlimited communication buffer size.
+    - Added a new field named `data` to the Robot node, and functions to get and set its content.
+    - Added syntax highlighting for Lua code in the text editor.
+    - Added a multi-threaded version of the Java's Slave example.
+    - Improved appearance of 3D vector displaying applied force and torque.
+    - Improved the support of Intel GPUs by applying a better setup of the OpenGL preferences.
+    - Moved the `Simple Rendering` menu item to the `Disable shaders` preferences item.
+    - Renamed the `High Quality` menu item to `Plain Rendering`.
+    - Added warning when the mass ratio in a simulation is too high.
+    - Added more explicit warnings about min/maxPosition and min/maxStop fields.
+    - Added wrist and gripper slots to the IPR models.
+    - Added a new option (--sysinfo) to the Webots binary in order to display information about the system.
+    - Added support for PROTO derived from another PROTO node.
+    - Added support for resetting not-NULL default values of SFNode and MFNode fields.
+    - Added and improve warning messages when loading unsupported node structures.
+    - Improved the add node dialog in order to hide the deprecated prototypes.
+    - Improved procedural nodes. A supplementary dictionary layer has been introduced in the Lua representation of nodes. **This may break the compatibility of your procedural PROTO nodes.**
+    - Opened and uniformized the resolution fields of the lidar devices (Hokuyo, Sick)
+    - Improved appearance of resize handles that can be activated for geometries, transform and solid nodes from the node field editor.
+    - Added warning if DEF node referred by a USE node is deleted when resetting a field value.
+    - Improved performance of the simulation of spherical cameras in case of non-square cameras (dramatic increase of the simulation speed in case of high resolution laser-scanner).
+  - Robots library
+    - Fixed Pioneer3DX caster wheel
+  - NAO
+    - Upgraded to naoqi 2.1.
+    - Added the NAO challenge 2014-2015 environment.
+    - Moved nao main directory to projects/robots/aldebaran
+    - Added a controller resolving the NAO Challenge (2013-2014 edition) using naoqi 2.1.
+    - Added a controller for the `nao_robocup` world so that NAO now tries to score goals by default.
+    - Improved the model of the jersey (previously waistband), and added 5 red and 5 blue numbered jersey textures.
+  - DARwIn-OP
+    - Improved the soccer controller so that the robot now tries to score goal.
+    - Added a supervisor to randomize or reset the starting position of the ball and DARwIn-OP in the soccer world.
+    - Improved the model of the jersey (previously waistband), and added 5 red and 5 blue numbered jersey textures.
+  - Robotstadium
+    - Updated the supervisor of the robotstadium worlds to apply the rules from the 2014 RoboCup SPL Rule Book.
+    - Added a vision module inside the robotstadium controller folder which can be easily used by any robot to detect the ball and the goals in a robotstadium field.
+    - Improved the default behavior of the DARwIn-OP team 1.
+  - e-puck
+    - Upgraded e-puck firmware 1.4.4 to 1.5.1.
+    - Upgraded e-puck library to e-puck svn r112: Support of the new e-puck models.
+    - Upgraded e-puck tool chain to Microchip's xc16 compiler v1.23.
+    - Improved robustness of the firmware upload.
+  - Deprecation
+    - **The Pioneer3 PROTO nodes have been renamed without the backward compatibility support. Please update your simulation files accordingly (rename `Pioneer3AT` to `Pioneer3at`, and `Pioneer3DX` to `Pioneer3dx`)**
+    - Physics plugin: Removed the obsolete arguments of the `wb_physics_init()` function.
+    - Removed deprecated functions (C API): `wb_camera_range_image_get_value()` and `wb_camera_move_window()`
+    - Removed deprecated functions (OO API): `Camera::rangeImageGetValue()` and `Supervisor::rangeImageGetValue()`
+    - Removed Cyber Savannah contest from the projects library distributed with PRO and EDU licenses.
+  - Bug fixes
+    - Linux: fixed mouse position issues on the Webots window after starting in minimized mode.
+    - Fixed object mass update after deleting nodes from the boundingObject field.
+    - Fixed wrong values returned sometimes (especially at high speed) by PositionSensor devices attached to HingeJoints and Hinge2Joints.
+    - Fixed opening of the User Guide and Reference Manual (PDF version) from the Help menu on Linux.
+    - Removed the limitation that was limiting to 8 the number of lights that can light simultaneously the same object.
+    - **Fixed the Shape rendering in case of empty Appearance or Material to match with the VRML97 specifications. In this case, the object is unlit (white rendering).**
+    - **Fixed default UV-mapping of the IndexedFaceSet primitive to match with the VRML97 specifications.**
+    - Fixed return value of getDeviceByIndex() Robot function in Python and Java APIs so that returns an instance of the derived class instead of the base Device class.
+    - **Fixed overrided function Device::getType() by renaming it to Device::getNodeType() in C++, Java, and Python APIs.**
+    - **`wb_device_get_type(WbDeviceTag tag)` function has been deprecated and replaced by `wb_device_get_node_type(WbDeviceTag tag)` in C and Matlab APIs.**
+    - Fixed inclusion of Device functions `wb_device_get_node_type()` and `wb_device_get_name()` in Matlab API.
+    - Removed invalid constants `WB_NODE_MOTOR` and `WB_NODE_SPOTLIGHT` from Matlab API.
+    - Fixed insertion of ElevationGrid into boundingObject when nested in a Transform node.
+    - Fixed ROS example `panoramic_view_recorder`.
+    - Fixed the pattern recognition of the curriculum (thanks to Gautam Ponnappa)
+    - Fixed insertion constraints for Robot nodes.
+    - Fixed several bugs related with ODE geom update in runtime.
+    - Fixed load of `device` library in the Matlab API.
+    - Fixed DEF-USE update when setting the DEF name of a node to a value already used by another node defined before the referring USE node.
+    - Fixed DEF-USE mechanism with BallJointParameters nodes that should not be allowed.
+    - Fixed 3D view update when pausing a simulation.
+    - Fixed pasting nodes in `boundingObject` field.
+    - Fixed valid range of Emitter aperture so that it includes the lower bound value 0.
+    - Fixed functionality of Robot > Edit Controller menu item that was not working before the simulation started.
+    - Fixed appearance of painted area by avoiding to set a value bigger than 1.0 to the pen's ink density field.
+    - Fixed crash when modifying the center of mass of a solid node with undefined `boundingObject` field.
+    - Fixed crash when deleting first the physics and then the boundingObject node of a solid node.
+    - Fixed compilation failure caused by system environment variables (thanks to Neil).
+    - Fixed crash on Windows when starting Webots with the `--minimize` option.
+    - Taken into account the emissive color in case of textured shapes (bug introduced in Webots 7.4.0).
+    - Fixed the value measured by an infra-red distance in case of a textured shape (its diffuse color is no more taken into account).
+    - Improved the Webots termination through unix signals SIGTERM (e.g. process termination from a script) and SIGINT (e.g. Ctrl+C from a terminal)
+    - Improved floor appearance in apartment.wbt to fix the behavior of the Create robot (thanks to Greg).
+    - Fixed motion editor pause icon.
+    - Fixed motion editor warnings about joint position out of valid range when no position limits are defined.
+    - Fixed insertion from the Add Node dialog of PROTO nodes derived from another PROTO.
+    - Fixed crash when opening the Add Node dialog if invalid PROTO nodes are defined in the project.
+    - Improved robustness of PROTO nodes.
+    - Improved robustness of loading invalid PROTO files.
+    - Fixed import and load functionalities by avoiding the insertion of devices into nodes that are not part of a Robot.
+    - Improved speed of `Save World As` and `Open World` actions for worlds not located in a valid project folder.
+    - Fixed loading worlds using PROTO files located in a subfolder of the `protos` folder.
+    - Fixed springConstant and dampingConstant along second axis of a Hinge2Joint.
+    - Fixed dependency of springConstant and dampingConstant on global axes for HingeJoint and Hinge2Joint.
+    - Fixed crash occuring in the multithreaded version of ODE when changing the value of springConstant and dampingConstant while Webots is running.
+    - Fixed restoring initial selection after indent and unindent in the text editor.
+    - Fixed syntax highlighting of C/C++ comments in the text editor.
+    - Fixed color of item representing PROTO nodes in the scene tree so that correctly show if their fields have default values.
+  - Documentation
+    - Documented the Webots preferences.
+    - Renamed `Add New` button as `Add` button in the user guide.
