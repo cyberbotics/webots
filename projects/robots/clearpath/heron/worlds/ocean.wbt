@@ -1,6 +1,6 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "webots:///projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
 EXTERNPROTO "../protos/Heron.proto"
