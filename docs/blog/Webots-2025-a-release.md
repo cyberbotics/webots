@@ -10,6 +10,11 @@ This new version is packed with some new features, improvements and, of course, 
 
 Here we are going to present some of the main new features, but for a comprehensive list of changes please refer to the [Change Log](../reference/changelog-r2025.md).
 
+## New Robot
+
+A new robot model has been added to the Webots library.
+
+
 ## Introducing the W3D Format
 
 Webots 2025a introduces the new `w3d` format, replacing the outdated `x3d` format to simplify simulation workflows.
