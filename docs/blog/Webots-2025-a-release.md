@@ -1,7 +1,7 @@
 # Version R2025a Released
 
 <p id="publish-data">By Name Surname - Day Month Year</p>
-
+<!--  -->
 ---
 
 It is that time of the year again!
@@ -13,7 +13,15 @@ Here we are going to present some of the main new features, but for a comprehens
 ## New Robot
 
 A new robot model has been added to the Webots library.
+The Heron USV robot from [Clearpath Robotics](https://clearpathrobotics.com/) is now included in Webots.
 
+%figure "Heron USV"
+![Added Robots](images/heron_usv.thumbnail.png)
+%end
+
+You can discover this new robot in its demo world under `File > Open Sample World > ocean.wbt`.
+
+---
 
 ## Introducing the W3D Format
 
