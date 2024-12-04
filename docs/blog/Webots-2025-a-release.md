@@ -19,7 +19,7 @@ The Heron USV robot from [Clearpath Robotics](https://clearpathrobotics.com/) is
 ![Added Robots](images/heron_usv.thumbnail.png)
 %end
 
-You can discover this new robot in its demo world under `File > Open Sample World > ocean.wbt`.
+You can discover this new robot in its demo world under `File > Open Sample World > ocean.wbt/swarm.wbt`.
 
 ---
 
