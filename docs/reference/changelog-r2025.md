@@ -49,4 +49,3 @@ Released on December **th, 2023.
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
     - Fixed the QtToolTip bug, where the text in the text box is not being displayed ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
-    
