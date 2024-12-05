@@ -65,9 +65,9 @@ If you prefer to [compile Webots from source](https://github.com/cyberbotics/web
 
 Webots was originally designed at [EPFL](https://epfl.ch) in 1996 and then further developed and commercialized by [Cyberbotics](https://cyberbotics.com) since 1998. Originally it was meant to be used as a research tool for mobile robotics. In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
 
-![image](https://github.com/Remingtonewing/webots/assets/92884659/d1c41397-2945-496d-8c2d-dd717bf59ec2)
+![image](docs/guide/images/sensors/lidar_simulation.png?raw=true)
 [caption](Real Time Sensor Visualization)
-![image](https://github.com/Remingtonewing/webots/assets/92884659/7abd2e19-4625-40b8-847f-7a66c182ff93)
-[caption](Fluid Simulation for Marine Robots and Research)
+![image](docs/reference/images/camera_recognition.png?raw=true)
+[caption](Camera Object Recognition)
 
 [Contact us](mailto:info@cyberbotics.com) to discuss your custom robot simulation projects and any additional comments, concerns, or developments you may have for our project!
