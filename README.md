@@ -13,6 +13,8 @@
 
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
+![Real Time Sensor Visualization](docs/guide/images/sensors/lidar_simulation.png?raw=true)
+![Camera Object Recognition](docs/reference/images/camera_recognition.png?raw=true)
 
 Webots provides a complete development environment to model, program, and simulate robots, vehicles, and mechanical systems.
 It is a beginner friendly software that is meant to introduce newcomers to the world of robotics.
@@ -63,11 +65,5 @@ If you prefer to compile Webots from source, read the [wiki](https://github.com/
 ### About us
 
 Webots was originally designed at [EPFL](https://epfl.ch) in 1996 as a research tool for mobile robotics. In 1998, it began being further developed and commercialized by [Cyberbotics](https://cyberbotics.com). In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
-
-![Real Time Sensor Visualization](docs/guide/images/sensors/lidar_simulation.png?raw=true)
-*Real Time Sensor Visualization*
-
-![Camera Object Recognition](docs/reference/images/camera_recognition.png?raw=true)
-*Camera Object Recognition*
 
 [Contact us](mailto:info@cyberbotics.com) to discuss your custom robot simulation projects and any additional comments, concerns, or developments you may have for our project!
