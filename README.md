@@ -14,7 +14,8 @@
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
-Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems. We are an beginner friendly software that is meant to introduce newcomers to the amazing world of fluid robotics.
+Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems.
+It is a  beginner friendly software that is meant to introduce newcomers to the world of robotics.
 
 
 - See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
@@ -30,17 +31,16 @@ Check out installation instructions and FAQ's:
 [![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
 [![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
 
-### Tutorials 
+### Tutorials
 
-For those unfamiliar with Webots or robotic simulations at all, in-depth beginning tutorials can be found at [https://cyberbotics.com/doc/guide/tutorials]
-These tutorials are beginner friendly and has a precise educational objective explained in the first paragraph. We want to make robotic simulations accessible and fun for all. 
-These tutorials are an excellent resource to use for any questions or usage of our software
+For those unfamiliar with Webots or robotics simulations at all, in-depth beginning tutorials can be found at [https://cyberbotics.com/doc/guide/tutorials].
+These tutorials are beginner friendly and have a precise educational objective explained in the first paragraph. They try to make robotics simulations accessible and fun for all.
+These tutorials are an excellent resource to use for any questions or usage of the Webots software.
 
 ### Bugs
-We host an incredibly wide variety of different software implementations and know of certain bugs that are found within the application. An exhaustive list of bugs can be found here: 
+Webots hosts a large variety of different use cases and know we of certain bugs that are found within the application. An exhaustive list of bugs can be found here:
 [https://cyberbotics.com/doc/guide/known-bugs]
-Additionally, this link may be used to address any new bugs found which can then be added to the list to be dealt with accordingly.
-Because of high volumes, many of our bugs also have steps for workarounds listed alongside them on this page. 
+If you happen  to find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
 
 ### Updating Software
 
@@ -63,7 +63,7 @@ If you prefer to [compile Webots from source](https://github.com/cyberbotics/web
 
 ### About us
 
-Webots was originally designed at [EPFL](https://epfl.ch) in 1996 and then further developed and commercialized by [Cyberbotics](https://cyberbotics.com) since 1998. Originally it was meant to be used as a research tool to investigate various control algorithms in mobile robotics. In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects. We specialize in the development, rendering, and representation of robotic, mechanical, and vehicle systems through our application. Our many different uses include sensor-equiped autonomous vehicles, real-time image segmentation, fluid simulations for marine research, and much much more! 
+Webots was originally designed at [EPFL](https://epfl.ch) in 1996 and then further developed and commercialized by [Cyberbotics](https://cyberbotics.com) since 1998. Originally it was meant to be used as a research tool for mobile robotics. In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
 
 ![image](https://github.com/Remingtonewing/webots/assets/92884659/d1c41397-2945-496d-8c2d-dd717bf59ec2)
 [caption](Real Time Sensor Visualization)
