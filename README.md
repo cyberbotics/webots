@@ -35,7 +35,7 @@ Check out installation instructions and FAQ's:
 
 ### Tutorials
 
-For those unfamiliar with Webots or robotics simulations, in-depth tutorials can be found at [https://cyberbotics.com/doc/guide/tutorials].
+For those unfamiliar with Webots or robotics simulations, in-depth tutorials can be found [here](https://cyberbotics.com/doc/guide/tutorials).
 These tutorials are beginner friendly and are each focused towards a precise educational objective.
 They try to make robotics simulations accessible and fun for all and are an excellent resource to use for any questions or usage of Webots.
 
@@ -45,7 +45,7 @@ If you find a new bug, please report it [here](https://github.com/cyberbotics/we
 
 ### Updating Webots
 
-Information about how to update pre-installed versions of Webots can be found at [https://cyberbotics.com/doc/guide/upgrading-webots].
+Information about how to update pre-installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
 
 ### Building from Source
 
