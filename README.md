@@ -33,23 +33,6 @@ Check out installation instructions and FAQ's:
 [![Windows](https://img.shields.io/badge/Windows-0f80c0?logo=windows&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-windows)
 [![macOS](https://img.shields.io/badge/macOS-0f80c0?logo=apple&logoColor=white)](https://cyberbotics.com/doc/guide/installation-procedure#installation-on-macos)
 
-### Tutorials
-
-For those unfamiliar with Webots or robotics simulations, in-depth tutorials can be found [here](https://cyberbotics.com/doc/guide/tutorials).
-These tutorials are beginner friendly and are each focused towards a precise educational objective.
-They try to make robotics simulations accessible and fun for all and are an excellent resource to use for any questions or usage of Webots.
-
-### Bugs
-
-Webots supports a large variety of different use cases, and we cannot address every bug within the application.
-A list of known bugs and workarounds that will not be fixed in the short-term can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
-An exhaustive list of all known bugs can be found [on GitHub](https://github.com/cyberbotics/webots/issues).
-If you find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
-
-### Updating Webots
-
-Information about how to update installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
-
 ### Building from Source
 
 If you prefer to compile Webots from source, read the [wiki](https://github.com/cyberbotics/webots/wiki) and [contributing guidelines](CONTRIBUTING.md).
@@ -64,6 +47,23 @@ If you prefer to compile Webots from source, read the [wiki](https://github.com/
 [![Linux build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_linux_develop.yml?query=event%3Aschedule)
 [![Windows build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_windows_develop.yml?query=event%3Aschedule)
 [![macOS build (develop)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml/badge.svg?event=schedule)](https://github.com/cyberbotics/webots/actions/workflows/test_suite_mac_develop.yml?query=event%3Aschedule)
+
+### Updating Webots
+
+Information about how to update installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
+
+### Tutorials
+
+For those unfamiliar with Webots or robotics simulations, in-depth tutorials can be found [here](https://cyberbotics.com/doc/guide/tutorials).
+These tutorials are beginner friendly and are each focused towards a precise educational objective.
+They try to make robotics simulations accessible and fun for all and are an excellent resource to use for any questions or usage of Webots.
+
+### Bugs
+
+Webots supports a large variety of different use cases, and we cannot address every bug within the application.
+A list of known bugs and workarounds that will not be fixed in the short-term can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
+An exhaustive list of all known bugs can be found [on GitHub](https://github.com/cyberbotics/webots/issues).
+If you find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
 
 ### About us
 
