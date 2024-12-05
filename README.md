@@ -35,7 +35,7 @@ Check out installation instructions and FAQ's:
 
 ### Building from Source
 
-If you prefer to compile Webots from source, read the [wiki](https://github.com/cyberbotics/webots/wiki) and [contributing guidelines](CONTRIBUTING.md).
+If you prefer to compile Webots from source, instructions can be found in the [wiki](https://github.com/cyberbotics/webots/wiki) and [contributing guidelines](CONTRIBUTING.md).
 
 ### Continuous Integration Nightly Tests
 
