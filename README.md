@@ -50,7 +50,7 @@ If you prefer to compile Webots from source, read the [wiki](https://github.com/
 
 ### Updating Webots
 
-Information about how to update installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
+Information about how to update installed versions of Webots can be found [here](https://cyberbotics.com/doc/guide/upgrading-webots).
 
 ### Tutorials
 
@@ -68,8 +68,8 @@ If you find a new bug, please report it [here](https://github.com/cyberbotics/we
 ### About us
 
 Webots was originally designed at [EPFL](https://epfl.ch) in 1996 as a research tool for mobile robotics.
-In 1998, it began being further developed and commercialized by [Cyberbotics](https://cyberbotics.com).
+In 1998, it began being developed and commercialized by [Cyberbotics](https://cyberbotics.com).
 In December 2018, Webots was open sourced.
-Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
+Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, and consulting for industry and academic research projects.
 
 [Contact us](mailto:info@cyberbotics.com) to discuss your custom robot simulation projects and any additional comments, concerns, or developments you may have for our project!
