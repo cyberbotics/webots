@@ -1264,9 +1264,15 @@ static char *compute_socket_filename(char *error_buffer) {
     return NULL;
   }
   closedir(dr);
+  size_t path_length = strlen(webots_instance_folder) + 9;
   // check if Webots is currently loading
   char *loading_file_path = malloc(strlen(webots_instance_folder) + 9);  // webots_instance_folder + '/loading'
-  snprintf(loading_file_path, strlen(webots_instance_folder) + 9, "%s/loading", webots_instance_folder);
+  int written = snprintf(loading_file_path, path_length, "%s/loading", webots_instance_folder);
+  if (written < 0 || (size_t)written >= path_length) {
+    fprintf(stderr, "Error: Constructing loading_file_path failed or truncated.\n");
+    free(loading_file_path);
+    exit(EXIT_FAILURE);
+  }
   FILE *loading_file = fopen(loading_file_path, "r");
   if (loading_file) {
     fclose(loading_file);
