@@ -40,12 +40,13 @@ These tutorials are beginner friendly and are each focused towards a precise edu
 They try to make robotics simulations accessible and fun for all and are an excellent resource to use for any questions or usage of Webots.
 
 ### Bugs
-Webots supports a large variety of different use cases and we know of certain bugs that have been found within the application. An exhaustive list can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
+
+A list of known bugs can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
 If you find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
 
 ### Updating Webots
 
-Information about how to update pre-installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
+Information about how to update installed versions of Webots can be found at [here](https://cyberbotics.com/doc/guide/upgrading-webots).
 
 ### Building from Source
 
