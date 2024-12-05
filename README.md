@@ -14,8 +14,8 @@
 
 ![Webots Screenshot](docs/guide/images/main_window.png?raw=true "Webots Screenshot")
 
-Webots provides a complete development environment to model, program and simulate robots, vehicles and mechanical systems.
-It is a  beginner friendly software that is meant to introduce newcomers to the world of robotics.
+Webots provides a complete development environment to model, program, and simulate robots, vehicles, and mechanical systems.
+It is a beginner friendly software that is meant to introduce newcomers to the world of robotics.
 
 
 - See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
@@ -33,22 +33,21 @@ Check out installation instructions and FAQ's:
 
 ### Tutorials
 
-For those unfamiliar with Webots or robotics simulations at all, in-depth beginning tutorials can be found at [https://cyberbotics.com/doc/guide/tutorials].
-These tutorials are beginner friendly and have a precise educational objective explained in the first paragraph. They try to make robotics simulations accessible and fun for all.
-These tutorials are an excellent resource to use for any questions or usage of the Webots software.
+For those unfamiliar with Webots or robotics simulations, in-depth tutorials can be found at [https://cyberbotics.com/doc/guide/tutorials].
+These tutorials are beginner friendly and are each focused towards a precise educational objective.
+They try to make robotics simulations accessible and fun for all and are an excellent resource to use for any questions or usage of Webots.
 
 ### Bugs
-Webots hosts a large variety of different use cases and know we of certain bugs that are found within the application. An exhaustive list of bugs can be found here:
-[https://cyberbotics.com/doc/guide/known-bugs]
-If you happen  to find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
+Webots supports a large variety of different use cases and we know of certain bugs that have been found within the application. An exhaustive list can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
+If you find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
 
-### Updating Software
+### Updating Webots
 
-Information about how to update pre-installed versions of Webot can be found at [https://cyberbotics.com/doc/guide/upgrading-webots]
+Information about how to update pre-installed versions of Webots can be found at [https://cyberbotics.com/doc/guide/upgrading-webots].
 
-### Build from Source
+### Building from Source
 
-If you prefer to [compile Webots from source](https://github.com/cyberbotics/webots/wiki), read the [contributing guidelines](CONTRIBUTING.md).
+If you prefer to compile Webots from source, read the [wiki](https://github.com/cyberbotics/webots/wiki) and [contributing guidelines](CONTRIBUTING.md).
 
 ### Continuous Integration Nightly Tests
 
@@ -63,7 +62,7 @@ If you prefer to [compile Webots from source](https://github.com/cyberbotics/web
 
 ### About us
 
-Webots was originally designed at [EPFL](https://epfl.ch) in 1996 and then further developed and commercialized by [Cyberbotics](https://cyberbotics.com) since 1998. Originally it was meant to be used as a research tool for mobile robotics. In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
+Webots was originally designed at [EPFL](https://epfl.ch) in 1996 as a research tool for mobile robotics. In 1998, it began being further developed and commercialized by [Cyberbotics](https://cyberbotics.com). In December 2018, Webots was open sourced. Since then, [Cyberbotics](https://cyberbotics.com) continues to develop Webots thanks to paid customer support, training, consulting for industry and academic research projects.
 
 ![image](docs/guide/images/sensors/lidar_simulation.png?raw=true)
 [caption](Real Time Sensor Visualization)
