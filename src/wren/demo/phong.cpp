@@ -166,7 +166,7 @@ static void render() {
   static int i = 0;
   printf("\33[2K\rrendering iteration %d", i++);
   fflush(stdout);
-  wr_scene_render(wr_scene_get_instance(), NULL, true);
+  wr_scene_render(wr_scene_get_instance(), NULL, true, false);
   glutSwapBuffers();
 }
 

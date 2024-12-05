@@ -44,7 +44,8 @@ class LinuxWebotsPackage(WebotsPackage):
         "libxcb-icccm.so.4",
         "libxcb-randr.so.0",
         "libxcb-render-util.so.0",
-        "libxcb-xinerama.so.0"
+        "libxcb-xinerama.so.0",
+        "libxcb-cursor.so.0"
     ]
     USR_LIB_X68_64_20_04 = [
         "libHalf.so.24",
@@ -122,17 +123,17 @@ class LinuxWebotsPackage(WebotsPackage):
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-            if distro.version() == '22.04':
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so.1.1'),
-                            os.path.join(package_webots_lib, 'libcrypto.so.1.1'))
+            if distro.version() == '20.04':
+                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so.3'),
+                            os.path.join(package_webots_lib, 'libcrypto.so.3'))
                 shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so'),
                             os.path.join(package_webots_lib, 'libcrypto.so'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so.1.1'),
-                            os.path.join(package_webots_lib, 'libssl.so.1.1'))
+                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so.3'),
+                            os.path.join(package_webots_lib, 'libssl.so.3'))
                 shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so'),
                             os.path.join(package_webots_lib, 'libssl.so'))
-            else:  # Ubuntu 20.04
-                openssl_libs = ['libcrypto.so.1.1', 'libcrypto.so', 'libssl.so.1.1', 'libssl.so']
+            else:  # Ubuntu 22.04
+                openssl_libs = ['libcrypto.so.3', 'libcrypto.so', 'libssl.so.3', 'libssl.so']
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
 
@@ -194,7 +195,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
                 "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
-                "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0\n"
+                "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0, libxcb-cursor0\n"
                 "Conflicts: webots-for-nao\n"
                 "Maintainer: Olivier Michel <Olivier.Michel@cyberbotics.com>\n"
                 "Description: Mobile robot simulation software\n"

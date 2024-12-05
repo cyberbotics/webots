@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DIRECTORIES=$(subst test_suite_supervisor,,$(subst Makefile,,$(shell ls)))
+DIRECTORIES=$(dir $(wildcard */Makefile))
 TARGETS = $(DIRECTORIES:=.Makefile)
 
 .PHONY: release debug profile clean

@@ -384,7 +384,8 @@ void Serial::updatePorts() {
     printf("IOServiceMatching failed.\n");
 
   CFDictionarySetValue(classesToMatch, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDRS232Type));
-  kernResult = IOServiceGetMatchingServices(kIOMainPortDefault, classesToMatch, &serialPortIterator);
+  // NULL is equivalent to kIOMainPortDefault or kIOMasterPortDefault but works across SDK versions
+  kernResult = IOServiceGetMatchingServices((mach_port_t)NULL, classesToMatch, &serialPortIterator);
   if (kernResult != KERN_SUCCESS)
     printf("IOServiceGetMatchingServices failed: %d\n", kernResult);
   io_object_t service;

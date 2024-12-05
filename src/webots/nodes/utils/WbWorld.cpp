@@ -57,6 +57,7 @@
 #include "WbWorldInfo.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenVertexArrayFrameListener.hpp"
 #include "WbWriter.hpp"
 
 #include <wren/scene.h>
@@ -92,6 +93,7 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
   mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
+  WbWrenVertexArrayFrameListener::resetLastUpdateTime();
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);

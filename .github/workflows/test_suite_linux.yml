@@ -74,14 +74,14 @@ jobs:
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -100,7 +100,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-ubuntu-20.04
         path: artifact
@@ -121,7 +121,7 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: test-results-${{ matrix.os }}
@@ -144,7 +144,7 @@ jobs:
       with:
          submodules: true
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -170,14 +170,18 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
     runs-on: ubuntu-20.04
     steps:
+    - name: Download Scripts
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          scripts/install/linux_runtime_dependencies.sh
+          tests/test_worlds.py
+        sparse-checkout-cone-mode: false
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-ubuntu-20.04
         path: artifact
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v7.0.7
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -190,12 +194,11 @@ jobs:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
+        sudo bash scripts/install/linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
-        xvfb-run --auto-servernum python3 test_worlds.py
+        xvfb-run --auto-servernum python3 tests/test_worlds.py
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, test-worlds]

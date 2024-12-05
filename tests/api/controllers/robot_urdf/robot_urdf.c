@@ -60,7 +60,9 @@ int main(int argc, char **argv) {
       break;
     usleep(100000);  // sleep for 100 ms
   };
-  ts_assert_int_not_equal(file_size, 0, "check_urdf command is missing");
+  ts_assert_int_not_equal(file_size, 0,
+                          "check_urdf command is missing. "
+                          "Install with 'apt install liburdfdom-tools' on Ubuntu or 'brew install urdfdom' on MacOS.");
   if ((urdf_check_status >> 8) != 127 && file_size > 0) {
     // `check_urdf` command is available
     // Verify output from `check_urdf`

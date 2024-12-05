@@ -101,11 +101,10 @@ namespace wren {
     assert(!Texture2d::cachedItemCount());
   }
 
-  void Scene::getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, unsigned int buffer_type,
-                            void *buffer) {
-    assert(buffer_type == GL_FRONT || buffer_type == GL_BACK);
-    glstate::bindFrameBuffer(0);
-    glReadBuffer(buffer_type);
+  void Scene::getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer) {
+    glstate::bindFrameBuffer(instance()->mMainViewport->frameBuffer()->glName());
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+    glFinish();
     glReadPixels(0, 0, width, height, format, data_type, buffer);
   }
 
@@ -224,7 +223,7 @@ namespace wren {
     debug::printSceneTree();
   }
 
-  void Scene::render(bool culling) {
+  void Scene::render(bool culling, bool offScreen) {
     assert(glstate::isInitialized());
 
     ++mFrameCounter;
@@ -233,10 +232,10 @@ namespace wren {
     // debug::printCacheContents();
     // debug::printSceneTree();
 
-    renderToViewports({mMainViewport}, culling);
+    renderToViewports({mMainViewport}, culling, offScreen);
   }
 
-  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling) {
+  void Scene::renderToViewports(const std::vector<Viewport *> &viewports, bool culling, bool offScreen) {
     assert(glstate::isInitialized());
 
     DEBUG("Notify frame listeners...");
@@ -282,7 +281,7 @@ namespace wren {
         }
       } else {
         renderToViewport(culling);
-        if (mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
+        if (!offScreen && mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
                                                 mCurrentViewport->width() * mCurrentViewport->pixelRatio(),
@@ -884,9 +883,8 @@ void wr_scene_apply_pending_updates(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->applyPendingUpdates();
 }
 
-void wr_scene_get_main_buffer(WrScene *scene, int width, int height, unsigned int format, unsigned int data_type,
-                              unsigned int buffer_type, void *buffer) {
-  reinterpret_cast<wren::Scene *>(scene)->getMainBuffer(width, height, format, data_type, buffer_type, buffer);
+void wr_scene_get_main_buffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer) {
+  wren::Scene::getMainBuffer(width, height, format, data_type, buffer);
 }
 
 void wr_scene_init_frame_capture(WrScene *scene, int pixel_buffer_count, unsigned int *pixel_buffer_ids, int frame_size) {
@@ -909,22 +907,23 @@ void wr_scene_terminate_frame_capture(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->terminateFrameCapture();
 }
 
-void wr_scene_render(WrScene *scene, const char *material_name, bool culling) {
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling, bool offScreen) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
-  reinterpret_cast<wren::Scene *>(scene)->render(culling);
+  reinterpret_cast<wren::Scene *>(scene)->render(culling, offScreen);
 
   wren::Renderable::setUseMaterial(NULL);
 }
 
-void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling) {
+void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling,
+                                  bool offScreen) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
   wren::Viewport **start = reinterpret_cast<wren::Viewport **>(viewports);
   std::vector<wren::Viewport *> viewportsVector(start, start + count);
-  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector, culling);
+  reinterpret_cast<wren::Scene *>(scene)->renderToViewports(viewportsVector, culling, offScreen);
 
   wren::Renderable::setUseMaterial(NULL);
 }
