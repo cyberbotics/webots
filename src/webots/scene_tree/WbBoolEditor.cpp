@@ -24,7 +24,11 @@
 
 WbBoolEditor::WbBoolEditor(QWidget *parent) : WbValueEditor(parent), mCheckBox(new QCheckBox(this)) {
   mCheckBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  connect(mCheckBox, &QCheckBox::checkStateChanged, this, &WbBoolEditor::apply);
+#else
   connect(mCheckBox, &QCheckBox::stateChanged, this, &WbBoolEditor::apply);
+#endif
   mLayout->addWidget(mCheckBox, 1, 1);
 }
 
