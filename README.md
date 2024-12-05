@@ -41,7 +41,8 @@ They try to make robotics simulations accessible and fun for all and are an exce
 
 ### Bugs
 
-A list of known bugs can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
+Webots supports a large variety of different use cases, and we cannot address every bug within the application. A list of known bugs and workarounds that will not be fixed in the short-term can be found [here](https://cyberbotics.com/doc/guide/known-bugs).
+An exhaustive list of all known bugs can be found [on GitHub](https://github.com/cyberbotics/webots/issues).
 If you find a new bug, please report it [here](https://github.com/cyberbotics/webots/issues/new/choose).
 
 ### Updating Webots
