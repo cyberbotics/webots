@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -87,12 +87,17 @@ bool Node::isProto() const {
   return wb_supervisor_node_is_proto(nodeRef);
 }
 
+Proto *Node::getProto() const {
+  WbProtoRef protoRef = wb_supervisor_node_get_proto(nodeRef);
+  return Proto::findProto(protoRef);
+}
+
 int Node::getNumberOfFields() const {
   return wb_supervisor_node_get_number_of_fields(nodeRef);
 }
 
-int Node::getProtoNumberOfFields() const {
-  return wb_supervisor_node_get_proto_number_of_fields(nodeRef);
+int Node::getNumberOfBaseNodeFields() const {
+  return wb_supervisor_node_get_number_of_base_node_fields(nodeRef);
 }
 
 Field *Node::getField(const std::string &fieldName) const {
@@ -105,13 +110,13 @@ Field *Node::getFieldByIndex(const int index) const {
   return Field::findField(fieldRef);
 }
 
-Field *Node::getProtoField(const std::string &fieldName) const {
-  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field(nodeRef, fieldName.c_str());
+Field *Node::getBaseNodeField(const std::string &fieldName) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_base_node_field(nodeRef, fieldName.c_str());
   return Field::findField(fieldRef);
 }
 
-Field *Node::getProtoFieldByIndex(const int index) const {
-  WbFieldRef fieldRef = wb_supervisor_node_get_proto_field_by_index(nodeRef, index);
+Field *Node::getBaseNodeFieldByIndex(const int index) const {
+  WbFieldRef fieldRef = wb_supervisor_node_get_base_node_field_by_index(nodeRef, index);
   return Field::findField(fieldRef);
 }
 

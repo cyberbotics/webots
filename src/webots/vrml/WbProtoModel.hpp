@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -97,6 +97,8 @@ public:
 
   const QString &slotType() const { return mSlotType; }
 
+  QStringList parentProtoNames() const;
+
   QStringList parameterNames() const;
 
   void setIsTemplate(bool value);
@@ -144,7 +146,6 @@ private:
   QString mLicenseUrl;
   QString mDocumentationUrl;
   QStringList mTags;
-  QString mTemplateLanguage;
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;

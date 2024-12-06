@@ -15,7 +15,6 @@ Therefore the class and method names, as well as the number of parameters and th
 graph BT
   Java[SWIG generated Java API] --> CPP[C++ API]
   Python[SWIG generated Python API] --> CPP
-  Ros[ROS API] --> CPP
     CPP --> C["C API (implemented in libcontroller)"]
     MATLAB[MATLAB API] --> C
       C --> Webots["Webots (binary interface)"]

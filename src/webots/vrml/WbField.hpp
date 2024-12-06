@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public:
 
   // accepted values
   bool hasRestrictedValues() const { return mModel->hasRestrictedValues(); }
-  const QList<WbVariant> acceptedValues() const { return mModel->acceptedValues(); }
+  const QList<WbFieldValueRestriction> acceptedValues() const { return mModel->acceptedValues(); }
 
   // enable forwarding signals when the size of MF fields changes
   void listenToValueSizeChanges() const;

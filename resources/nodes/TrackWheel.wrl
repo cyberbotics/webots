@@ -1,4 +1,5 @@
 # A TrackWheel node can be used to simulate a wheel that it is part of a track system.
+# parent: Group
 
 TrackWheel {
 #fields specific to the TrackWheel node:
