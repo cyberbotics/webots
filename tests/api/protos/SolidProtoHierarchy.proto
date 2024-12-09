@@ -1,0 +1,26 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/api/protos/SolidProtoHierarchyInternal.proto"
+
+PROTO SolidProtoHierarchy [
+  field SFFloat translationStep         0.01
+  field SFFloat internalTranslationStep 0.01
+  field SFFloat internalField1          0.01
+  field SFFloat internalField2          0.01
+  unconnectedField SFFloat ucField4     0.01
+]
+{
+  SolidProtoHierarchyInternal {
+    translationStep IS translationStep
+    ucField2 IS internalField1
+    # Note: For the purposes of the test, SolidProtoHierarchyInternal.rotationStep,
+    # SolidProtoHierarchyInternal.ucField1, and SolidProtoHierarchyInternal.ucField2 are explicitly left unconnected
+    children [
+      DEF INTERNAL_NODE SolidProtoHierarchyInternal {
+        translationStep IS internalTranslationStep
+        ucField2 IS internalField2
+        # See above comment about rotationStep, ucField1, and ucField2
+      }
+    ]
+  }
+}

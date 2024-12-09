@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,10 +61,10 @@ void WbValueEditor::edit(WbNode *node, WbField *field, int index) {
   mComboBox->clear();
   if (mField->singleType() != WB_SF_NODE && mField->hasRestrictedValues()) {
     if (mField->singleType() != WB_SF_STRING) {
-      foreach (const WbVariant acceptedVariant, mField->acceptedValues())
+      foreach (const WbFieldValueRestriction acceptedVariant, mField->acceptedValues())
         mComboBox->addItem(acceptedVariant.toSimplifiedStringRepresentation());
     } else {  // In case of MF/SF_STRING we don't want to display the starting and ending '"'
-      foreach (const WbVariant acceptedVariant, mField->acceptedValues())
+      foreach (const WbFieldValueRestriction acceptedVariant, mField->acceptedValues())
         mComboBox->addItem(acceptedVariant.toSimplifiedStringRepresentation().chopped(1).remove(0, 1));
     }
     connect(mComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(apply()), Qt::UniqueConnection);

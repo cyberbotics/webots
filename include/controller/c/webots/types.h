@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ typedef unsigned short WbDeviceTag;  // identifier of a device
 typedef struct WbImageStructPrivate *WbImageRef;
 typedef struct WbMotionStructPrivate *WbMotionRef;
 typedef struct WbNodeStructPrivate *WbNodeRef;
+typedef struct WbProtoInfoStructPrivate *WbProtoRef;
 typedef struct WbFieldStructPrivate *WbFieldRef;
 
 // define "bool" type for C controllers

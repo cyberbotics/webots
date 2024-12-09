@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #define WB_USING_CPP_API
 #include <string>
 #include <webots/Field.hpp>
+#include <webots/Proto.hpp>
 #include "../../c/webots/contact_point.h"
 #include "../../c/webots/types.h"
 
@@ -27,6 +28,7 @@ namespace webots {
   typedef WbContactPoint ContactPoint;
 
   class Field;
+  class Proto;
   class Node {
   public:
     typedef enum {
@@ -133,13 +135,14 @@ namespace webots {
     std::string getBaseTypeName() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Proto *getProto() const;
     Node *getFromProtoDef(const std::string &name) const;
     int getNumberOfFields() const;
-    int getProtoNumberOfFields() const;
+    int getNumberOfBaseNodeFields() const;
     Field *getField(const std::string &fieldName) const;
-    Field *getProtoField(const std::string &fieldName) const;
+    Field *getBaseNodeField(const std::string &fieldName) const;
     Field *getFieldByIndex(const int index) const;
-    Field *getProtoFieldByIndex(const int index) const;
+    Field *getBaseNodeFieldByIndex(const int index) const;
     const double *getPosition() const;
     const double *getOrientation() const;
     const double *getPose() const;

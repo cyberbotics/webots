@@ -123,17 +123,6 @@ type = wb_position_sensor_get_type(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -227,15 +216,6 @@ public class PositionSensor extends Device {
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_motor(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_brake_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_motor_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 

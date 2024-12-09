@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -182,9 +182,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   foreach (WbNode *node, nodes) {
     childNode = static_cast<WbBaseNode *>(node);
     QString errorMessage;
-    if (WbNodeUtilities::isAllowedToInsert(field, childNode->nodeModelName(), parentNode, errorMessage, nodeUse,
-                                           WbNodeUtilities::slotType(childNode),
-                                           QStringList() << childNode->nodeModelName() << childNode->modelName(), false)) {
+    if (WbNodeUtilities::isAllowedToInsert(field, parentNode, errorMessage, nodeUse, WbNodeUtilities::slotType(childNode),
+                                           childNode, false)) {
       if (avoidIntersections)
         tryToAvoidIntersections(childNode);
       const OperationResult result = initNewNode(childNode, parentNode, field, nodeIndex, true);

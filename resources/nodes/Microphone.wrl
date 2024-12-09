@@ -1,3 +1,4 @@
+# parent: Solid
 Microphone {
   # fields that inherit from the Solid node:
   w3dField SFVec3f    translation         0 0 0
