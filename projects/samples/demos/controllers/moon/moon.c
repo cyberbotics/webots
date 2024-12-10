@@ -37,7 +37,7 @@ int main() {
   double sensor_value[16];
   double kUnit = 8.24;
   const double matrix[2][16] = {{3, -18, -15, -15, -5, -5, 4, 4, 6, 6, 4, 4, 4, 4, 3, -18},
-                                {-18, 3, 4, 4, 4, 4, 6, 6, 4, 4, -5, -5, -15, -15, -18, 3}};
+                              {-18, 3, 4, 4, 4, 4, 6, 6, 4, 4, -5, -5, -15, -15, -18, 3}};
 
   wb_robot_init();
   robot_name = wb_robot_get_name();
