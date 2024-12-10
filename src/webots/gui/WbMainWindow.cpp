@@ -196,7 +196,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
   connect(mAnimationRecordingTimer, &QTimer::timeout, this, &WbMainWindow::toggleAnimationIcon);
   toggleAnimationAction(false);
 
-  WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
+  const WbAnimationRecorder *recorder = WbAnimationRecorder::instance();
   connect(recorder, &WbAnimationRecorder::initalizedFromStreamingServer, this, &WbMainWindow::disableAnimationAction);
   connect(recorder, &WbAnimationRecorder::cleanedUpFromStreamingServer, this, &WbMainWindow::enableAnimationAction);
   connect(recorder, &WbAnimationRecorder::requestOpenUrl, this,

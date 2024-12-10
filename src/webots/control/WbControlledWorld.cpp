@@ -145,7 +145,7 @@ void WbControlledWorld::retryStepLater() {
     emit stepBlocked(true);
   }
   // call the step() function again when a WbController received some data from the libController
-  foreach (WbController *const controller, mControllers)
+  foreach (const WbController *const controller, mControllers)
     connect(controller, &WbController::requestReceived, this, &WbControlledWorld::step, Qt::UniqueConnection);
 }
 

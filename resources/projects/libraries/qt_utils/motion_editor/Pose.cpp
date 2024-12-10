@@ -17,7 +17,7 @@ Pose::Pose(const Pose &other) : mName(other.mName), mTime(other.mTime), mIsValid
   int size = other.mStates.size();
   mStates.reserve(size);
   foreach (const MotorTargetState *item, other.mStates) {
-    MotorTargetState *const state = new MotorTargetState(*item);
+    const MotorTargetState *state = new MotorTargetState(*item);
     mStates.append(state);
     connect(state, SIGNAL(updated()), this, SLOT(propagateStateUpdate()));
     connect(state, SIGNAL(validChanged()), this, SLOT(updateIsValid()));

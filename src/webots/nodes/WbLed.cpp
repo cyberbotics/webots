@@ -107,7 +107,7 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
     WbBaseNode *const n = group->child(i);
     // cppcheck-suppress constVariablePointer
     WbLight *lightChild = dynamic_cast<WbLight *>(n);
-    WbGroup *const groupChild = dynamic_cast<WbGroup *>(n);
+    const WbGroup *groupChild = dynamic_cast<WbGroup *>(n);
 
     if (n->nodeType() == WB_NODE_SHAPE) {
       const WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
@@ -120,7 +120,7 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
         connect(appearance, &WbAppearance::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
         connect(appearance->parentNode(), &WbShape::fieldChanged, this, &WbLed::updateIfNeeded, Qt::UniqueConnection);
       } else {
-        WbPbrAppearance *const pbrAppearance = dynamic_cast<WbShape *>(n)->pbrAppearance();
+        const WbPbrAppearance *pbrAppearance = dynamic_cast<WbShape *>(n)->pbrAppearance();
         if (pbrAppearance) {
           mPbrAppearances.append(pbrAppearance);
 

@@ -208,7 +208,7 @@ WbNode::WbNode(const WbNode &other) :
 
   // copy fields
   foreach (const WbField *f, other.fields()) {
-    WbField *const copy = new WbField(*f, this);
+    const WbField *copy = new WbField(*f, this);
     mFields.append(copy);
     connect(copy, &WbField::valueChanged, this, &WbNode::notifyFieldChanged);
   }
@@ -216,7 +216,7 @@ WbNode::WbNode(const WbNode &other) :
   // copy parameters
   if (other.mProto) {
     foreach (const WbField *parameter, other.parameters()) {
-      WbField *const copy = new WbField(*parameter, this);
+      const WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
     }

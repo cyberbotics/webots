@@ -1575,7 +1575,7 @@ void WbSolid::updateChildren() {
   mPropellerChildren.clear();
   collectSolidChildren(this, true, mSolidChildren, mJointChildren, mPropellerChildren);
 
-  foreach (WbSolid *const solid, mSolidChildren) {
+  foreach (const WbSolid *const solid, mSolidChildren) {
     connect(solid, &WbSolid::destroyed, this, &WbSolid::updateChildren, Qt::UniqueConnection);
     connect(solid, &WbSolid::destroyed, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);
     connect(solid, &WbSolid::physicsPropertiesChanged, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);

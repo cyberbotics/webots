@@ -1226,7 +1226,8 @@ dBodyID WbNodeUtilities::findBodyMerger(const WbNode *node) {
     const WbSolid *s = dynamic_cast<const WbSolid *>(n);
     if (s && s->bodyMerger())
       return s->bodyMerger();
-    if (dynamic_cast<const WbBasicJoint *>(n))
+    const WbBasicJoint *joint = dynamic_cast<const WbBasicJoint *>(n);
+    if (joint)
       break;
     n = n->parentNode();
   }
@@ -1726,8 +1727,10 @@ bool WbNodeUtilities::hasASolidDescendant(const WbNode *node) {
   // cppcheck-suppress knownConditionTrueFalse
   if (slot) {
     WbNode *endPoint = slot->endPoint();
-    if (endPoint)
-      return dynamic_cast<WbSolid *>(endPoint) || hasASolidDescendant(endPoint);
+    if (endPoint) {
+      const WbSolid *solid = dynamic_cast<WbSolid *>(endPoint);
+      return solid || hasASolidDescendant(endPoint);
+    }
     return false;
   }
 

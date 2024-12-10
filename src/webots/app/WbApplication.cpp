@@ -122,7 +122,7 @@ WbApplication::~WbApplication() {
 }
 
 void WbApplication::setup() {
-  WbNodeOperations *const nodeOperations = WbNodeOperations::instance();
+  const WbNodeOperations *nodeOperations = WbNodeOperations::instance();
 
   // create and connect WbAnimationRecorder
   WbAnimationRecorder *recorder = WbAnimationRecorder::instance();

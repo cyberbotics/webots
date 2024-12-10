@@ -309,8 +309,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   setFromSupervisor(fromSupervisor);
 
-  if (dynamic_cast<WbSolid *>(node))
-    WbWorld::instance()->awake();
+  WbWorld::instance()->awake();
 
   const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
   WbField *parentField = node->parentField();

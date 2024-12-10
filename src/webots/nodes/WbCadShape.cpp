@@ -118,7 +118,7 @@ void WbCadShape::retrieveMaterials() {
     if (!newUrl.isEmpty()) {
       mObjMaterials.insert(material, newUrl);
       // prepare a downloader
-      WbDownloader *const downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
+      const WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
       connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
       mMaterialDownloaders.push_back(downloader);
     }

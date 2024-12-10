@@ -50,7 +50,7 @@ void WbWebotsUpdateManager::cleanup() {
 void WbWebotsUpdateManager::sendRequest() {
   QNetworkRequest request;
   request.setUrl(QUrl("https://api.github.com/repos/cyberbotics/webots/releases/latest"));
-  QNetworkReply *const reply = WbNetwork::instance()->networkAccessManager()->get(request);
+  const QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->get(request);
   connect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished, Qt::UniqueConnection);
 }
 
