@@ -777,7 +777,7 @@ namespace wren {
     }
   }
 
-  void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
+  void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, const LightNode *light,
                                            bool applyShadows) {
     glstate::setBlend(true);
     glstate::setBlendEquation(GL_FUNC_ADD);
