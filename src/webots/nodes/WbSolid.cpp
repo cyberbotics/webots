@@ -1580,7 +1580,7 @@ void WbSolid::updateChildren() {
     connect(solid, &WbSolid::destroyed, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);
     connect(solid, &WbSolid::physicsPropertiesChanged, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);
   }
-  foreach (WbBasicJoint *const jointChild, mJointChildren)
+  foreach (const WbBasicJoint *jointChild, mJointChildren)
     connect(jointChild, &WbBasicJoint::endPointChanged, this, &WbSolid::updateChildrenAfterJointEndPointChange,
             Qt::UniqueConnection);
 }

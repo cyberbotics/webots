@@ -36,7 +36,7 @@ PoseEditor::PoseEditor(Pose *pose, Pose *previousPose, Pose *nextPose, bool fixe
   formLayout->addRow(tr("&Milliseconds:"), mMilliSecondsSpinBox);
 
   QWidget *buttonsWidget = new QWidget(this);
-  QPushButton *cancelButton = new QPushButton(tr("Cancel"), buttonsWidget);
+  QPushButton *const cancelButton = new QPushButton(tr("Cancel"), buttonsWidget);
   QPushButton *okButton = new QPushButton(tr("Ok"), buttonsWidget);
   QHBoxLayout *hBoxLayout = new QHBoxLayout(buttonsWidget);
   hBoxLayout->addStretch();

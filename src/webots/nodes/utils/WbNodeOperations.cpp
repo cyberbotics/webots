@@ -112,9 +112,9 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
                                                                bool avoidIntersections) {
   setFromSupervisor(origin == FROM_SUPERVISOR);
 
-  WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
+  const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
-  WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
+  const WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
   assert(mfnode || sfnode);
   // index value is assumed to be in range [0, mfnode->size()]
   // user input checked in wb_supervisor_field_import_mf_node_from_string or WbSceneTree
@@ -309,7 +309,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   setFromSupervisor(fromSupervisor);
 
-  if (dynamic_cast<WbSolid *>(node))
+  if (node && dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
   const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);

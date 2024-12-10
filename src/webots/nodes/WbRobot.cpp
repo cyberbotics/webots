@@ -286,7 +286,7 @@ void WbRobot::addDevices(WbNode *node) {
       if (renderingDevice) {
         connect(renderingDevice, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
         mRenderingDevices.append(renderingDevice);
-        WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
+        WbAbstractCamera *const camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
         if (camera) {
           connect(camera, &WbAbstractCamera::enabled, this, &WbRobot::updateActiveCameras, Qt::UniqueConnection);
           if (camera->isEnabled())
@@ -311,7 +311,7 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbSkin *const skin = dynamic_cast<WbSkin *>(node);
+  const WbSkin *skin = dynamic_cast<WbSkin *>(node);
   if (skin) {
     mDevices.append(skin);
     connect(static_cast<WbBaseNode *>(skin), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction,
@@ -330,7 +330,7 @@ void WbRobot::addDevices(WbNode *node) {
     const WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
     if (joint) {
       const QVector<WbLogicalDevice *> &jointDevices = joint->devices();
-      foreach (WbLogicalDevice *const jointDevice, jointDevices) {
+      foreach (const WbLogicalDevice *jointDevice, jointDevices) {
         if (jointDevice == NULL)
           continue;
         mDevices.append(jointDevice);
@@ -343,9 +343,9 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbPropeller *const propeller = dynamic_cast<WbPropeller *>(node);
+  const WbPropeller *propeller = dynamic_cast<const WbPropeller *>(node);
   if (propeller) {
-    WbLogicalDevice *const propellerDevice = propeller->device();
+    const WbLogicalDevice *propellerDevice = propeller->device();
     if (propellerDevice) {
       mDevices.append(propellerDevice);
       connect(static_cast<WbBaseNode *>(propellerDevice), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction,

@@ -46,7 +46,7 @@ WbControlledWorld::WbControlledWorld(WbTokenizer *tokenizer) :
     return;
 
   mNeedToYield = false;
-  foreach (WbRobot *const robot, robots())
+  foreach (const WbRobot *robot, robots()) {
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
 }
 
@@ -195,7 +195,7 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
 
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
-    foreach (WbRobot *const robot, robots()) {
+    foreach (const WbRobot *robot, robots()) {
       if (!robot->isControllerStarted())
         startController(robot);
     }

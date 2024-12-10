@@ -1125,7 +1125,7 @@ void WbSceneTree::updateSelection() {
     // quitting Webots
     return;
 
-  WbNodeOperations *nodeOperations = WbNodeOperations::instance();
+  WbNodeOperations *const nodeOperations = WbNodeOperations::instance();
   if (nodeOperations->isFromSupervisor())
     // do not update selection if change come from supervisor
     return;

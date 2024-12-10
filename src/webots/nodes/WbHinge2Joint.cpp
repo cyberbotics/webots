@@ -582,7 +582,7 @@ void WbHinge2Joint::addDevice2(int index) {
     WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice2->item(index));
     r->descendantNodeInserted(decendant);
   }
-  WbBrake *brake = dynamic_cast<WbBrake *>(mDevice2->item(index));
+  WbBrake *const brake = dynamic_cast<WbBrake *>(mDevice2->item(index));
   if (brake)
     connect(brake, &WbBrake::brakingChanged, this, &WbHinge2Joint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }

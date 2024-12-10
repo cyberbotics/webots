@@ -1134,7 +1134,7 @@ void WbActionManager::populateActions() {
 }
 
 void WbActionManager::connectActions() {
-  WbSimulationState *state = WbSimulationState::instance();
+  WbSimulationState *const state = WbSimulationState::instance();
 
   connect(state, &WbSimulationState::enabledChanged, this, &WbActionManager::updateEnabled);
 }
