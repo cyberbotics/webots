@@ -1160,7 +1160,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveE
   perspective->setConsolesSettings(settingsList);
 
   // save rendering devices perspective
-  const QList<WbRenderingDevice *> renderingDevices = WbRenderingDevice::renderingDevices();
+  const QList<WbRenderingDevice *> &renderingDevices = WbRenderingDevice::renderingDevices();
   foreach (const WbRenderingDevice *device, renderingDevices) {
     if (device->overlay() != NULL)
       perspective->setRenderingDevicePerspective(device->computeShortUniqueName(), device->perspective());
@@ -1249,7 +1249,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
 
 void WbMainWindow::restoreRenderingDevicesPerspective() {
   const WbPerspective *perspective = WbWorld::instance()->perspective();
-  const QList<WbRenderingDevice *> devices = WbRenderingDevice::renderingDevices();
+  const QList<WbRenderingDevice *> &devices = WbRenderingDevice::renderingDevices();
   for (int i = 0; i < devices.size(); ++i) {
     WbRenderingDevice *device = devices[i];
     QStringList devicePerspective = perspective->renderingDevicePerspective(device->computeShortUniqueName());

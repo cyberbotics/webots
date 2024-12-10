@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
   // init distance sensors
   WbDeviceTag us[2];
   double us_values[2];
-  double coefficients[2][2] = {{6.0, -3.0}, {-5.0, 4.0}};
+  const double coefficients[2][2] = {{6.0, -3.0}, {-5.0, 4.0}};
   us[LEFT] = wb_robot_get_device("us0");
   us[RIGHT] = wb_robot_get_device("us1");
   for (i = 0; i < 2; i++)
