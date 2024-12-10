@@ -262,7 +262,7 @@ void WbLightSensor::setupRaysAndComputeDirectContributions(bool finalSetup) {
   const WbVector3 &sensorAxis = matrix().xAxis();       // sensor normal vector (x-axis)
   const WbVector3 &sensorPos = matrix().translation();  // sensor position (world coordinate)
 
-  QList<const WbLight *> lights = WbLight::lights();
+  const QList<const WbLight *> &lights = WbLight::lights();
   foreach (const WbLight *light, lights) {
     if (light->isOn()) {
       WbVector3 lightDirection;
