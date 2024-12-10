@@ -331,7 +331,7 @@ void WbRobot::addDevices(WbNode *node) {
     const WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
     if (joint) {
       const QVector<WbLogicalDevice *> &jointDevices = joint->devices();
-      foreach (const WbLogicalDevice *jointDevice, jointDevices) {
+      foreach (const WbLogicalDevice *const jointDevice, jointDevices) {
         if (jointDevice == NULL)
           continue;
         mDevices.append(jointDevice);
@@ -344,9 +344,9 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  const WbPropeller *propeller = dynamic_cast<const WbPropeller *>(node);
+  const WbPropeller *const propeller = dynamic_cast<const WbPropeller *>(node);
   if (propeller) {
-    const WbLogicalDevice *propellerDevice = propeller->device();
+    const WbLogicalDevice *const propellerDevice = propeller->device();
     if (propellerDevice) {
       mDevices.append(propellerDevice);
       connect(static_cast<WbBaseNode *>(propellerDevice), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction,

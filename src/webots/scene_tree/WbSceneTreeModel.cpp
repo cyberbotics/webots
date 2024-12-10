@@ -304,7 +304,7 @@ bool WbSceneTreeModel::insertRows(int row, int count, const QModelIndex &parent)
 
   const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(parentItem->field()->value());
   if (sfnode) {
-    const WbNode *node = sfnode->value();
+    const WbNode *const node = sfnode->value();
     if (node) {
       if (!node->isUseNode()) {
         const int n = node->numFields();

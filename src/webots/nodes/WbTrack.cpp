@@ -951,7 +951,7 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   // write animated geometries
   if (!writer.isW3d() && !writer.isUrdf() && !isEmpty)
     writer << "\n";
-  isEmpty |= mAnimatedObjectList.isEmpty();
+  isEmpty = isEmpty || mAnimatedObjectList.isEmpty();
 
   exportAnimatedGeometriesMesh(writer);
 
