@@ -627,242 +627,242 @@ namespace wren {
   }
 
   static bool affectedByLight(const Renderable *renderable, const LightNode *light);
-    bool visible = true;
-    // Light culling
+  bool visible = true;
+  // Light culling
+  if (light->type() != LightNode::TYPE_DIRECTIONAL) {
+    const PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
+    const primitive::Sphere &boundingSphere = renderable->boundingSphere();
+    const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
+    const float radius = positionalLight->radius() + boundingSphere.mRadius;
+    // Check if light is too far away
+    visible = (distance <= radius &&
+               (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
+                                                      // boundingSphere.mRadius, 2) can be very big in this case.
+                positionalLight->attenuationConstant() +
+                    (distance - boundingSphere.mRadius) *
+                      (positionalLight->attenuationLinear() +
+                       (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
+                  2000.0f));
+    // In the shaders, the attenuation is used as such:
+    // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
+    // color = 1/attenuationFactor * color * ...
+    // Due to this there is no well-defined upper bound for the attenuationFactor.
+    // 2000 is a trade-off value in which the remaining light is very weak but still visible. The light become really
+    // invisible around 8000.
+  }
+  return visible;
+}
+
+void Scene::renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadowReceiver,
+                                  RenderQueueIterator last) {
+  if (light->castShadows()) {
+    assert(mShadowVolumeProgram);
+    mShadowVolumeProgram->bind();
+
+    Camera *camera = mCurrentViewport->camera();
+    const primitive::Plane &farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
+
+    const primitive::Aabb &cameraAabb = camera->aabb();
+    glm::vec3 cameraToLightInv;
     if (light->type() != LightNode::TYPE_DIRECTIONAL) {
       const PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
-      const primitive::Sphere &boundingSphere = renderable->boundingSphere();
-      const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
-      const float radius = positionalLight->radius() + boundingSphere.mRadius;
-      // Check if light is too far away
-      visible = (distance <= radius &&
-                 (distance < boundingSphere.mRadius ||  // Light is inside the boundingSphere, necessary because pow(distance -
-                                                        // boundingSphere.mRadius, 2) can be very big in this case.
-                  positionalLight->attenuationConstant() +
-                      (distance - boundingSphere.mRadius) *
-                        (positionalLight->attenuationLinear() +
-                         (distance - boundingSphere.mRadius) * positionalLight->attenuationQuadratic()) <
-                    2000.0f));
-      // In the shaders, the attenuation is used as such:
-      // attenuationFactor = 1/(attenuation[0] + distanceToLight * (attenuation[1] + distanceToLight * attenuation[2])
-      // color = 1/attenuationFactor * color * ...
-      // Due to this there is no well-defined upper bound for the attenuationFactor.
-      // 2000 is a trade-off value in which the remaining light is very weak but still visible. The light become really
-      // invisible around 8000.
-    }
-    return visible;
-  }
-
-  void Scene::renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadowReceiver,
-                                    RenderQueueIterator last) {
-    if (light->castShadows()) {
-      assert(mShadowVolumeProgram);
-      mShadowVolumeProgram->bind();
-
-      Camera *camera = mCurrentViewport->camera();
-      const primitive::Plane &farPlane = camera->frustum().plane(Frustum::FRUSTUM_PLANE_FAR);
-
-      const primitive::Aabb &cameraAabb = camera->aabb();
-      glm::vec3 cameraToLightInv;
-      if (light->type() != LightNode::TYPE_DIRECTIONAL) {
-        const PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
-        cameraToLightInv = 1.0f / glm::normalize(positionalLight->position() - camera->position());
-      } else {
-        const DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
-        cameraToLightInv = 1.0f / -directionalLight->direction();
-      }
-
-      ShadowVolumeIterator firstInvisibleShadowVolume =
-        partitionShadowsByVisibility(mShadowVolumeQueue.begin(), mShadowVolumeQueue.end(), light);
-      for (ShadowVolumeIterator it = mShadowVolumeQueue.begin(); it < firstInvisibleShadowVolume; ++it) {
-        const primitive::Aabb renderableAabb = (*it)->renderable()->aabb();
-
-        // Check if the renderable is affected by current light
-        if (!affectedByLight((*it)->renderable(), light) || !primitive::isAabbAbovePlane(farPlane, renderableAabb))
-          continue;
-
-        // Use depth fail if camera stands in the shadow volume
-        if (primitive::aabbCollision(cameraAabb, (*it)->aabb(light)) ||
-            primitive::rayIntersectAabb(camera->position(), cameraToLightInv, renderableAabb, false))
-          renderStencilShadowVolumesDepthFail(*it, light);
-        else
-          renderStencilShadowVolumesDepthPass(*it, light);
-
-        if (config::showShadowAabbs()) {
-          config::drawAabb((*it)->aabb(light));
-          mShadowVolumeProgram->bind();
-        }
-      }
-
-      if (first != firstShadowReceiver)
-        renderStencilDiffuseSpecular(first, firstShadowReceiver, light, false);
-      renderStencilDiffuseSpecular(firstShadowReceiver, last, light);
-
-      glClear(GL_STENCIL_BUFFER_BIT);
-    } else
-      renderStencilDiffuseSpecular(first, last, light, false);
-  }
-
-  void Scene::renderStencilShadowVolumesDepthPass(ShadowVolumeCaster *shadowVolume, LightNode *light) {
-    glstate::setDepthClamp(true);
-    glstate::setDepthMask(false);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_LESS);
-    glstate::setStencilTest(true);
-    glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setCullFace(false);
-    glstate::setColorMask(false, false, false, false);
-
-    // Special case for cw triangles
-    if (shadowVolume->renderable()->invertFrontFace()) {
-      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+      cameraToLightInv = 1.0f / glm::normalize(positionalLight->position() - camera->position());
     } else {
-      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+      const DirectionalLight *directionalLight = static_cast<DirectionalLight *>(light);
+      cameraToLightInv = 1.0f / -directionalLight->direction();
     }
 
-    // Compute silhouette without caps
-    shadowVolume->computeSilhouette(light, false);
+    ShadowVolumeIterator firstInvisibleShadowVolume =
+      partitionShadowsByVisibility(mShadowVolumeQueue.begin(), mShadowVolumeQueue.end(), light);
+    for (ShadowVolumeIterator it = mShadowVolumeQueue.begin(); it < firstInvisibleShadowVolume; ++it) {
+      const primitive::Aabb renderableAabb = (*it)->renderable()->aabb();
 
-    glUniformMatrix4fv(mShadowVolumeProgram->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
-                       glm::value_ptr(shadowVolume->renderable()->parent()->matrix()));
-    shadowVolume->renderSides(light);
-  }
-
-  void Scene::renderStencilShadowVolumesDepthFail(ShadowVolumeCaster *shadowVolume, LightNode *light) {
-    glstate::setDepthClamp(true);
-    glstate::setDepthMask(false);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_GEQUAL);
-    glstate::setStencilTest(true);
-    glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
-    glstate::setCullFace(false);
-    glstate::setColorMask(false, false, false, false);
-
-    // Special case for cw triangles
-    if (shadowVolume->renderable()->invertFrontFace()) {
-      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-    } else {
-      glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
-      glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
-    }
-
-    // Compute silhouette with caps
-    shadowVolume->computeSilhouette(light, true);
-
-    glUniformMatrix4fv(mShadowVolumeProgram->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
-                       glm::value_ptr(shadowVolume->renderable()->parent()->matrix()));
-    shadowVolume->renderSides(light);
-
-    shadowVolume->renderCaps(light);
-  }
-
-  void Scene::renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last) {
-    glstate::setBlend(false);
-    glstate::setDepthClamp(false);
-    glstate::setDepthMask(true);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_LESS);
-    glstate::setStencilTest(false);
-    glstate::setCullFace(true);
-    glstate::setColorMask(true, true, true, true);
-
-    for (auto it = first; it < last; ++it) {
-      assert((*it)->effectiveMaterial()->stencilAmbientEmissiveProgram());
-
-      (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_STENCIL_AMBIENT_EMISSIVE);
-      (*it)->render();
-    }
-  }
-
-  void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
-                                           bool applyShadows) {
-    glstate::setBlend(true);
-    glstate::setBlendEquation(GL_FUNC_ADD);
-    glstate::setBlendFunc(GL_ONE, GL_ONE);
-    glstate::setDepthClamp(false);
-    glstate::setDepthMask(false);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_LEQUAL);
-    glstate::setCullFace(true);
-    glstate::setColorMask(true, true, true, true);
-
-    if (applyShadows) {
-      glstate::setStencilTest(true);
-      glstate::setStencilFunc(GL_EQUAL, 0, ~0);
-      glstate::setStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-    } else
-      glstate::setStencilTest(false);
-
-    for (auto it = first; it < last; ++it) {
-      if (!affectedByLight(*it, light))
+      // Check if the renderable is affected by current light
+      if (!affectedByLight((*it)->renderable(), light) || !primitive::isAabbAbovePlane(farPlane, renderableAabb))
         continue;
 
-      assert((*it)->effectiveMaterial()->stencilDiffuseSpecularProgram());
+      // Use depth fail if camera stands in the shadow volume
+      if (primitive::aabbCollision(cameraAabb, (*it)->aabb(light)) ||
+          primitive::rayIntersectAabb(camera->position(), cameraToLightInv, renderableAabb, false))
+        renderStencilShadowVolumesDepthFail(*it, light);
+      else
+        renderStencilShadowVolumesDepthPass(*it, light);
 
-      (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_STENCIL_DIFFUSE_SPECULAR);
-      (*it)->render();
+      if (config::showShadowAabbs()) {
+        config::drawAabb((*it)->aabb(light));
+        mShadowVolumeProgram->bind();
+      }
     }
+
+    if (first != firstShadowReceiver)
+      renderStencilDiffuseSpecular(first, firstShadowReceiver, light, false);
+    renderStencilDiffuseSpecular(firstShadowReceiver, last, light);
+
+    glClear(GL_STENCIL_BUFFER_BIT);
+  } else
+    renderStencilDiffuseSpecular(first, last, light, false);
+}
+
+void Scene::renderStencilShadowVolumesDepthPass(ShadowVolumeCaster *shadowVolume, LightNode *light) {
+  glstate::setDepthClamp(true);
+  glstate::setDepthMask(false);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_LESS);
+  glstate::setStencilTest(true);
+  glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
+  glstate::setCullFace(false);
+  glstate::setColorMask(false, false, false, false);
+
+  // Special case for cw triangles
+  if (shadowVolume->renderable()->invertFrontFace()) {
+    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+  } else {
+    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
   }
 
-  void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const {
-    glstate::setBlend(true);
-    glstate::setBlendEquation(GL_FUNC_ADD);
-    glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glstate::setDepthClamp(false);
-    glstate::setDepthMask(false);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_LEQUAL);
+  // Compute silhouette without caps
+  shadowVolume->computeSilhouette(light, false);
+
+  glUniformMatrix4fv(mShadowVolumeProgram->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
+                     glm::value_ptr(shadowVolume->renderable()->parent()->matrix()));
+  shadowVolume->renderSides(light);
+}
+
+void Scene::renderStencilShadowVolumesDepthFail(ShadowVolumeCaster *shadowVolume, LightNode *light) {
+  glstate::setDepthClamp(true);
+  glstate::setDepthMask(false);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_GEQUAL);
+  glstate::setStencilTest(true);
+  glstate::setStencilFunc(GL_ALWAYS, 0, ~0);
+  glstate::setCullFace(false);
+  glstate::setColorMask(false, false, false, false);
+
+  // Special case for cw triangles
+  if (shadowVolume->renderable()->invertFrontFace()) {
+    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+  } else {
+    glstate::setStencilOpFront(GL_KEEP, GL_KEEP, GL_DECR_WRAP);
+    glstate::setStencilOpBack(GL_KEEP, GL_KEEP, GL_INCR_WRAP);
+  }
+
+  // Compute silhouette with caps
+  shadowVolume->computeSilhouette(light, true);
+
+  glUniformMatrix4fv(mShadowVolumeProgram->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
+                     glm::value_ptr(shadowVolume->renderable()->parent()->matrix()));
+  shadowVolume->renderSides(light);
+
+  shadowVolume->renderCaps(light);
+}
+
+void Scene::renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last) {
+  glstate::setBlend(false);
+  glstate::setDepthClamp(false);
+  glstate::setDepthMask(true);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_LESS);
+  glstate::setStencilTest(false);
+  glstate::setCullFace(true);
+  glstate::setColorMask(true, true, true, true);
+
+  for (auto it = first; it < last; ++it) {
+    assert((*it)->effectiveMaterial()->stencilAmbientEmissiveProgram());
+
+    (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_STENCIL_AMBIENT_EMISSIVE);
+    (*it)->render();
+  }
+}
+
+void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
+                                         bool applyShadows) {
+  glstate::setBlend(true);
+  glstate::setBlendEquation(GL_FUNC_ADD);
+  glstate::setBlendFunc(GL_ONE, GL_ONE);
+  glstate::setDepthClamp(false);
+  glstate::setDepthMask(false);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_LEQUAL);
+  glstate::setCullFace(true);
+  glstate::setColorMask(true, true, true, true);
+
+  if (applyShadows) {
+    glstate::setStencilTest(true);
+    glstate::setStencilFunc(GL_EQUAL, 0, ~0);
+    glstate::setStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  } else
     glstate::setStencilTest(false);
-    glstate::setCullFace(true);
-    glstate::setColorMask(true, true, true, true);
 
-    for (auto it = first; it < last; ++it)
-      (*it)->renderWithoutMaterial(mFogProgram);
+  for (auto it = first; it < last; ++it) {
+    if (!affectedByLight(*it, light))
+      continue;
+
+    assert((*it)->effectiveMaterial()->stencilDiffuseSpecularProgram());
+
+    (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_STENCIL_DIFFUSE_SPECULAR);
+    (*it)->render();
   }
+}
 
-  void Scene::renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last) {
-    glstate::setBlend(true);
-    glstate::setBlendEquation(GL_FUNC_ADD);
-    glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glstate::setDepthClamp(false);
-    glstate::setDepthMask(true);
-    glstate::setDepthTest(true);
-    glstate::setDepthFunc(GL_LESS);
-    glstate::setStencilTest(false);
-    glstate::setCullFace(true);
-    glstate::setColorMask(true, true, true, true);
+void Scene::renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const {
+  glstate::setBlend(true);
+  glstate::setBlendEquation(GL_FUNC_ADD);
+  glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glstate::setDepthClamp(false);
+  glstate::setDepthMask(false);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_LEQUAL);
+  glstate::setStencilTest(false);
+  glstate::setCullFace(true);
+  glstate::setColorMask(true, true, true, true);
 
-    for (auto it = first; it < last; ++it) {
-      assert((*it)->effectiveMaterial());
+  for (auto it = first; it < last; ++it)
+    (*it)->renderWithoutMaterial(mFogProgram);
+}
 
-      (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
-      (*it)->render();
-    }
+void Scene::renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last) {
+  glstate::setBlend(true);
+  glstate::setBlendEquation(GL_FUNC_ADD);
+  glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glstate::setDepthClamp(false);
+  glstate::setDepthMask(true);
+  glstate::setDepthTest(true);
+  glstate::setDepthFunc(GL_LESS);
+  glstate::setStencilTest(false);
+  glstate::setCullFace(true);
+  glstate::setColorMask(true, true, true, true);
+
+  for (auto it = first; it < last; ++it) {
+    assert((*it)->effectiveMaterial());
+
+    (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
+    (*it)->render();
   }
+}
 
-  void Scene::renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest) {
-    glstate::setBlend(true);
-    glstate::setBlendEquation(GL_FUNC_ADD);
-    glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glstate::setDepthClamp(false);
-    glstate::setDepthMask(false);
-    glstate::setDepthTest(!disableDepthTest);
-    glstate::setDepthFunc(GL_LESS);
-    glstate::setStencilTest(false);
-    glstate::setCullFace(true);
-    glstate::setColorMask(true, true, true, true);
+void Scene::renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest) {
+  glstate::setBlend(true);
+  glstate::setBlendEquation(GL_FUNC_ADD);
+  glstate::setBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glstate::setDepthClamp(false);
+  glstate::setDepthMask(false);
+  glstate::setDepthTest(!disableDepthTest);
+  glstate::setDepthFunc(GL_LESS);
+  glstate::setStencilTest(false);
+  glstate::setCullFace(true);
+  glstate::setColorMask(true, true, true, true);
 
-    for (auto it = first; it < last; ++it) {
-      if (!(*it)->effectiveMaterial())
-        continue;
+  for (auto it = first; it < last; ++it) {
+    if (!(*it)->effectiveMaterial())
+      continue;
 
-      (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
-      (*it)->render();
-    }
+    (*it)->effectiveMaterial()->setEffectiveProgram(Material::MATERIAL_PROGRAM_DEFAULT);
+    (*it)->render();
   }
+}
 
 }  // namespace wren
 
