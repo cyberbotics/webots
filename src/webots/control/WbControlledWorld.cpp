@@ -46,7 +46,7 @@ WbControlledWorld::WbControlledWorld(WbTokenizer *tokenizer) :
     return;
 
   mNeedToYield = false;
-  foreach (const WbRobot *robot, robots()) {
+  foreach (const WbRobot *robot, robots())
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
 }
 
