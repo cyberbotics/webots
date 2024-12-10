@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
   double speed[2];
   double sensors_value[8];
   const double braitenberg_coefficients[8][2] = {{0.942, -0.22}, {0.63, -0.1}, {0.5, -0.06},  {-0.06, -0.06},
-                                           {-0.06, -0.06}, {-0.06, 0.5}, {-0.19, 0.63}, {-0.13, 0.942}};
+                                                 {-0.06, -0.06}, {-0.06, 0.5}, {-0.19, 0.63}, {-0.13, 0.942}};
   int time_step;
   int camera_time_step;
   /* initialize Webots */
