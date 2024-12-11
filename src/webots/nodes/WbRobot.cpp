@@ -271,7 +271,7 @@ void WbRobot::addDevices(WbNode *node) {
     return;
 
   const WbRobot *robotNode = dynamic_cast<const WbRobot *>(node);
-  if (node != this && robrobotNodeot)
+  if (node != this && robotNode)
     return;  // do not recurse through child robots, their devices are hidden
 
   WbGroup *group = dynamic_cast<WbGroup *>(node);
