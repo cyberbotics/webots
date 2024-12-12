@@ -2224,7 +2224,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
 }
 
 void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
-  WbNode *selfNode = mRobot;
+  const WbNode *selfNode = mRobot;
   while (selfNode->protoParameterNode())
     selfNode = selfNode->protoParameterNode();
   stream << (short unsigned int)0;

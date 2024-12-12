@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(right_motor, 0.0);
 
   // set empirical coefficients for collision avoidance
-  double coefficients[2][2] = {{12.0, -6.0}, {-10.0, 8.0}};
+  const double coefficients[2][2] = {{12.0, -6.0}, {-10.0, 8.0}};
   double base_speed = 6.0;
 
   // init speed values

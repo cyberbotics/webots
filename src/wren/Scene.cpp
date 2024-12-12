@@ -626,11 +626,11 @@ namespace wren {
     }
   }
 
-  static bool affectedByLight(Renderable *renderable, LightNode *light) {
+  static bool affectedByLight(const Renderable *renderable, const LightNode *light) {
     bool visible = true;
     // Light culling
     if (light->type() != LightNode::TYPE_DIRECTIONAL) {
-      PositionalLight *positionalLight = static_cast<PositionalLight *>(light);
+      const PositionalLight *positionalLight = static_cast<const PositionalLight *>(light);
       const primitive::Sphere &boundingSphere = renderable->boundingSphere();
       const float distance = glm::distance(boundingSphere.mCenter, positionalLight->position());
       const float radius = positionalLight->radius() + boundingSphere.mRadius;
@@ -777,7 +777,7 @@ namespace wren {
     }
   }
 
-  void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
+  void Scene::renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, const LightNode *light,
                                            bool applyShadows) {
     glstate::setBlend(true);
     glstate::setBlendEquation(GL_FUNC_ADD);
