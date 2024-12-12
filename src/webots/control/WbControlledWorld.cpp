@@ -76,7 +76,7 @@ void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
   connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
 }
 
-void WbControlledWorld::startController(WbRobot *robot) {
+void WbControlledWorld::startController(const WbRobot *robot) {
   if (robot->controllerName() == "<none>") {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;

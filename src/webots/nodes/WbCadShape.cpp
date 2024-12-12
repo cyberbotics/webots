@@ -126,8 +126,8 @@ void WbCadShape::retrieveMaterials() {
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
   assert(mMaterialDownloaders.size() == mObjMaterials.size());
-  foreach (WbDownloader *downloader, mMaterialDownloaders)
-    downloader->download();
+  foreach (const WbDownloader *downloader, mMaterialDownloaders)
+    const_cast<WbDownloader *>(downloader)->download();
 }
 
 void WbCadShape::materialDownloadTracker() {

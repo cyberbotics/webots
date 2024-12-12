@@ -120,7 +120,7 @@ namespace wren {
 
   protected:
     TransformNode();
-    explicit TransformNode(TransformNode *source);
+    explicit TransformNode(const TransformNode *source);
     virtual ~TransformNode() override {}
 
   private:
