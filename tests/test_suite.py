@@ -210,6 +210,7 @@ def generateWorldsList(groupName):
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and (is_ubuntu_22_04 or is_ubuntu_24_04)) or
+                        (filename.endswith('camera_recognition.wbt') and is_ubuntu_24_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
                         (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
