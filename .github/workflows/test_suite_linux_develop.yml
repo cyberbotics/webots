@@ -1,6 +1,8 @@
 name: Linux build (develop)
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 23 * * *'
 
