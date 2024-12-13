@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 23 * * *'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,28 +15,46 @@ defaults:
   run:
     shell: bash
 jobs:
+  job-skipper:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5.3.0
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
+
   webots-build:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    needs: job-skipper
+    if: needs.job-skipper.outputs.should_skip != 'true' && contains(github.event.pull_request.labels.*.name, 'test webots build')
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-      with:
-         submodules: true
-         fetch-depth: 15
-         ref: develop
-    - name: Install Webots Compilation Dependencies
-      run: |
-        sudo scripts/install/linux_compilation_dependencies.sh
-    - name: Build Webots
-      run: |
-        export LIBGL_ALWAYS_SOFTWARE=true
-        xvfb-run --auto-servernum make webots_target -j4
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 15
+          ref: develop
+      - name: Install Webots Compilation Dependencies
+        run: |
+          sudo scripts/install/linux_compilation_dependencies.sh
+      - name: Build Webots
+        run: |
+          export LIBGL_ALWAYS_SOFTWARE=true
+          xvfb-run --auto-servernum make webots_target -j4
   build:
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    needs: job-skipper
+    if: needs.job-skipper.outputs.should_skip != 'true' && 
+        (github.event_name == 'push' || 
+         github.event_name == 'schedule' || 
+         contains(github.event.pull_request.labels.*.name, 'test distribution') || 
+         contains(github.event.pull_request.labels.*.name, 'test suite') || 
+         contains(github.event.pull_request.labels.*.name, 'test worlds'))
     strategy:
       fail-fast: false
       matrix:
@@ -47,44 +66,44 @@ jobs:
             JAVA_VERSION: "21"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-      with:
-         submodules: true
-         fetch-depth: 15
-         ref: develop
-    - name: Install Webots Compilation Dependencies
-      run: |
-        sudo scripts/install/linux_optional_compilation_dependencies.sh
-    - name: Set Commit SHA in Version
-      if: ${{ github.event_name == 'schedule' }}
-      run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
-    - name: Webots Package Creation
-      run: |
-        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
-        export PATH=$JAVA_HOME/bin:$PATH
-        export LIBGL_ALWAYS_SOFTWARE=true
-        xvfb-run --auto-servernum make distrib -j4
-    - name: Create/Update GitHub release
-      if: ${{ matrix.os == 'ubuntu-22.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
-      run: |
-        sudo python -m pip install requests PyGithub
-        pip install pyopenssl --upgrade
-        scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v4
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
-      with:
-        name: build-${{ matrix.os }}
-        path: |
-          distribution/*.tar.bz2
-          distribution/*.zip
-    - uses: actions/upload-artifact@v4
-      if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
-      with:
-        name: build-${{ matrix.os }}
-        path: |
-          distribution/*.tar.bz2
-          distribution/*.deb
-          distribution/*.zip
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 15
+          ref: develop
+      - name: Install Webots Compilation Dependencies
+        run: |
+          sudo scripts/install/linux_optional_compilation_dependencies.sh
+      - name: Set Commit SHA in Version
+        if: ${{ github.event_name == 'schedule' }}
+        run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
+      - name: Webots Package Creation
+        run: |
+          export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
+          export PATH=$JAVA_HOME/bin:$PATH
+          export LIBGL_ALWAYS_SOFTWARE=true
+          xvfb-run --auto-servernum make distrib -j4
+      - name: Create/Update GitHub release
+        if: ${{ matrix.os == 'ubuntu-22.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
+        run: |
+          sudo python -m pip install requests PyGithub
+          pip install pyopenssl --upgrade
+          scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+        with:
+          name: build-${{ matrix.os }}
+          path: |
+            distribution/*.tar.bz2
+            distribution/*.zip
+      - uses: actions/upload-artifact@v4
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+        with:
+          name: build-${{ matrix.os }}
+          path: |
+            distribution/*.tar.bz2
+            distribution/*.deb
+            distribution/*.zip
   test-suite:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
@@ -94,31 +113,31 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-      with:
-         ref: develop
-    - name: Download Artifacts
-      uses: actions/download-artifact@v4.1.7
-      with:
-        name: build-ubuntu-22.04
-        path: artifact
-    - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
-    - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Test Suite
-      run: |
-        export LIBGL_ALWAYS_SOFTWARE=true
-        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
-        export WEBOTS_HOME=$PWD/artifact/webots
-        export TESTS_HOME=$PWD # required by cache group in the test suite
-        export BRANCH_HASH=$(git log -1 --format='%H')
-        xvfb-run --auto-servernum python tests/test_suite.py
+      - uses: actions/checkout@v3
+        with:
+          ref: develop
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: build-ubuntu-22.04
+          path: artifact
+      - name: Extract Webots
+        run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+      - name: Install Webots Dependencies
+        run: sudo scripts/install/linux_test_dependencies.sh
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Test Suite
+        run: |
+          export LIBGL_ALWAYS_SOFTWARE=true
+          export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+          xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+          export WEBOTS_HOME=$PWD/artifact/webots
+          export TESTS_HOME=$PWD # required by cache group in the test suite
+          export BRANCH_HASH=$(git log -1 --format='%H')
+          xvfb-run --auto-servernum python tests/test_suite.py
   test-worlds:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
