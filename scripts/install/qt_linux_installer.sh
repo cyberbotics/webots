@@ -2,9 +2,12 @@
 
 # exit when any command fails
 set -e
+set -x
 
 QT_VERSION=6.5.3
 pip install --no-input aqtinstall
+export PATH="$PATH:$HOME/.local/bin"
+echo $PATH
 aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
