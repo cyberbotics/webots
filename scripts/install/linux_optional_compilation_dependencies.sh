@@ -18,7 +18,9 @@ apt update
 apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
 
 UBUNTU_VERSION=$(lsb_release -rs)
-if [[ $UBUNTU_VERSION == "22.04" ]]; then
+if [[ $UBUNTU_VERSION == "20.04" ]]; then
+    apt install --yes openjdk-16-jdk
+elif [[ $UBUNTU_VERSION == "22.04" ]]; then
     apt install --yes openjdk-18-jdk
 elif [[ $UBUNTU_VERSION == "24.04" ]]; then
     apt install --yes openjdk-21-jdk

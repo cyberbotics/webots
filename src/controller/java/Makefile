@@ -182,7 +182,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 
 $(JAR_FILE): $(WRAPPER)
 	@echo "# compiling java sources"
-	javac --release 11 $(SWIG_OUTPUT_PATH)/*.java -d .
+	javac --release 8 $(SWIG_OUTPUT_PATH)/*.java -d .
 	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null
