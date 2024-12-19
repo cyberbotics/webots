@@ -8,6 +8,8 @@ pip install --no-input aqtinstall
 export PATH="$PATH:$HOME/.local/bin"
 sudo apt update
 sudo apt install -y lsb-release python3-distro
+sudo ln -s /usr/share/pyshared/lsb_release.py /usr/local/lib/python3.10/site-packages/lsb_release.py
+pip3 install distro
 aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
