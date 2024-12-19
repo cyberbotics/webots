@@ -4,6 +4,7 @@
 set -e
 
 QT_VERSION=6.5.3
+sudo apt install libssl-dev openssl
 pip install --no-input aqtinstall
 aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
