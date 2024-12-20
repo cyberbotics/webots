@@ -128,16 +128,7 @@ class LinuxWebotsPackage(WebotsPackage):
             # copy OpenSSL libraries from Ubuntu 20.04 system and needed on Ubuntu 22.04
             system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
             package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
-            if distro.version() == '20.04':
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so.3'),
-                            os.path.join(package_webots_lib, 'libcrypto.so.3'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libcrypto.so'),
-                            os.path.join(package_webots_lib, 'libcrypto.so'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so.3'),
-                            os.path.join(package_webots_lib, 'libssl.so.3'))
-                shutil.copy(os.path.join(self.webots_home, 'lib', 'webots', 'libssl.so'),
-                            os.path.join(package_webots_lib, 'libssl.so'))
-            elif distro.version() == '22.04' or distro.version() == '24.04':  # Ubuntu 22.04 and 24.04
+            if distro.version() == '22.04' or distro.version() == '24.04':  # Ubuntu 22.04 and 24.04
                 openssl_libs = ['libcrypto.so.3', 'libcrypto.so', 'libssl.so.3', 'libssl.so']
                 for lib in openssl_libs:
                     shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
