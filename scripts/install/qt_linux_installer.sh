@@ -96,6 +96,14 @@ cp -a $QT_INSTALLATION_LIB_PATH/libQt6Xml.so*               lib/webots/
 cp -a $QT_INSTALLATION_LIB_PATH/libicudata.so*              lib/webots/
 cp -a $QT_INSTALLATION_LIB_PATH/libicui18n.so*              lib/webots/
 cp -a $QT_INSTALLATION_LIB_PATH/libicuuc.so*                lib/webots/
+sudo cp -a /snap/core22/1722/usr/lib/x86_64-linux-gnu/libcrypto.so.3 \
+  /home/runner/work/webots-snap/webots-snap/parts/webots/build/lib/webots/
+sudo cp -a /usr/lib/x86_64-linux-gnu/libcrypto.so \
+  /home/runner/work/webots-snap/webots-snap/parts/webots/build/lib/webots/
+sudo cp -a /usr/lib/x86_64-linux-gnu/libssl.so \
+  /home/runner/work/webots-snap/webots-snap/parts/webots/build/lib/webots/
+sudo cp -a /snap/core22/1722/usr/lib/x86_64-linux-gnu/libssl.so.3 \
+  /home/runner/work/webots-snap/webots-snap/parts/webots/build/lib/webots/
 echo $'[Paths]\nPrefix = ..\n' >                                    lib/webots/qt/libexec/qt.conf
 cp -a $QT_INSTALLATION_PLUGINS_PATH/platforms/libqxcb.so               lib/webots/qt/plugins/platforms/
 cp -a $QT_INSTALLATION_PLUGINS_PATH/platforms/libqwayland-egl.so       lib/webots/qt/plugins/platforms/
