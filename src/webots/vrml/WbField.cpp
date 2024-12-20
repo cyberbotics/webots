@@ -105,7 +105,7 @@ bool WbField::isDeprecated() const {
 }
 
 // Because of unconnected fields, the only way to definitively check if a field is a parameter is to check its parent node
-// If that is not possible, fallback to the old behavior (See #6604 and #<PR PENDING>)
+// If that is not possible, fallback to the old behavior (See #6604 and #6735)
 bool WbField::isParameter() const {
   return parentNode() ? parentNode()->isProtoInstance() : !mInternalFields.isEmpty();
 }
