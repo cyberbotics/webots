@@ -131,8 +131,7 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
 void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant) {
   if (subscribedNode || subscribedDescendant) {
     if (node->isProtoInstance())
-      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromField,
-              Qt::UniqueConnection);
+      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
     else
       connect(node, &WbNode::fieldChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
   }
