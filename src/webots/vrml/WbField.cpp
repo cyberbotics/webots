@@ -104,6 +104,12 @@ bool WbField::isDeprecated() const {
   return mModel->isDeprecated();
 }
 
+// Because of unconnected fields, the only way to definitively check if a field is a parameter is to check its parent node
+// If that is not possible, fallback to the old behavior (See #6604 and #<PR PENDING>)
+bool isParameter() const {
+  return parentNode() ? parentNode()->isProtoInstance() : !mInternalFields.isEmpty();
+}
+
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
   if (mWasRead)
     tokenizer->reportError(tr("Duplicate field value: '%1'").arg(name()));

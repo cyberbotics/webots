@@ -69,9 +69,7 @@ public:
   void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
-  // Because of unconnected fields, the only way to definitively check if a field is a parameter is to check its parent node
-  // If that is not possible, fallback to the old behavior (See #6604 and #<PR PENDING>)
-  bool isParameter() const { return parentNode() ? parentNode()->isProtoInstance() : !mInternalFields.isEmpty(); }
+  bool isParameter() const;
 
   void clearInternalFields() { mInternalFields.clear(); }
 
