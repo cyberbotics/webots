@@ -395,10 +395,11 @@ endif
 ifeq ($(OSTYPE),windows)
  ifdef BUILD_SHARED_LIBRARY
   ifndef USE_CXX
-    ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
-      VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
-    endif
+   ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
+     VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
+   endif
    VS_DEF_NAME = $(NAME).def
+   DYNAMIC_LINK_FLAGS += --def $(VS_DEF_NAME)
   endif
  endif
 endif
