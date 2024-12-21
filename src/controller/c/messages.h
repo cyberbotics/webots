@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,7 @@
 #define C_SUPERVISOR_NODE_RESET_STATE 75
 #define C_SUPERVISOR_NODE_SET_JOINT_POSITION 76
 #define C_SUPERVISOR_NODE_EXPORT_STRING 77
+#define C_SUPERVISOR_NODE_GET_PROTO 78
 
 // ctr <-> sim
 #define C_ROBOT_WAIT_FOR_USER_INPUT_EVENT 80

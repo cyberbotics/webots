@@ -70,8 +70,8 @@ The machine running the session server should be able to access any port of the 
 
 If you are installing the simulation server on the same machine as the session server, you can skip steps 1 to 4.
 
-1. Install Ubuntu 20.04:
-    - Choose the desktop version of Ubuntu 20.04. Simulation servers needs a X display and 3D OpenGL hardware acceleration which is easier to setup from a desktop version.
+1. Install Ubuntu 22.04:
+    - Choose the desktop version of Ubuntu 22.04. Simulation servers needs a X display and 3D OpenGL hardware acceleration which is easier to setup from a desktop version.
     - create a user account named `cyberbotics` (or anything else).
 2. Makes that this user account has the auto-login feature enabled, so that when you boot the machine it get automatically logged in.
 3. Configure the [unattended upgrades](https://www.linuxbabe.com/ubuntu/automatic-security-update-unattended-upgrades-ubuntu) to reboot after security updates.
