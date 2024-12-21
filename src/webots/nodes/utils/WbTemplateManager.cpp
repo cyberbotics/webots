@@ -131,10 +131,9 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
 void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant) {
   if (subscribedNode || subscribedDescendant) {
     if (node->isProtoInstance())
-      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromParameterChange,
-              Qt::UniqueConnection);
+      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
     else
-      connect(node, &WbNode::fieldChanged, this, &WbTemplateManager::regenerateNodeFromFieldChange, Qt::UniqueConnection);
+      connect(node, &WbNode::fieldChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
   }
 
   // if PROTO node:
@@ -177,25 +176,15 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
   }
 }
 
-void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
-  // retrieve the right node
-  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
-  assert(templateNode);
-  if (templateNode)
-    regenerateNodeFromField(templateNode, field, false);
-}
-
-void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
-  // retrieve the right node
-  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
-  assert(templateNode);
-  if (templateNode)
-    regenerateNodeFromField(templateNode, field, true);
-}
-
 // intermediate function to determine which node should be updated
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
-void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
+void WbTemplateManager::regenerateNodeFromField(WbField *field) {
+  // retrieve the right node
+  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
+  assert(templateNode);
+  if (!templateNode)
+    return;
+
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   WbNode *upperTemplateNode = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
@@ -203,7 +192,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
     return;
 
   // 2. check it's not a parameter managed by ODE
-  if (!isParameter && dynamic_cast<const WbSolid *>(templateNode) &&
+  if (!field->isParameter() && dynamic_cast<const WbSolid *>(templateNode) &&
       ((field->name() == "translation" && field->type() == WB_SF_VEC3F) ||
        (field->name() == "rotation" && field->type() == WB_SF_ROTATION) ||
        (field->name() == "position" && field->type() == WB_SF_FLOAT)))

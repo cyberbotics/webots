@@ -450,7 +450,7 @@ void WbAddNodeDialog::buildTree() {
     static const QString INVALID_FOR_INSERTION_IN_BOUNDING_OBJECT("N");
 
     const WbField *const actualField =
-      (mField->isParameter() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
+      (!mField->internalFields().isEmpty() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
     bool boInfo = actualField->name() == "boundingObject";
     if (!boInfo)
       boInfo = nodeUse & WbNode::BOUNDING_OBJECT_USE;
