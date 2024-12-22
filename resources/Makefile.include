@@ -509,11 +509,10 @@ ifdef TARGET_LIB_DIR
 $(MAIN_TARGET): $(TARGET_LIB_DIR)/$(MAIN_TARGET)
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
-	@# if the .def file is existing.
 	@dlltool --export-all-symbols -z $(VS_DEF_NAME) $(TARGET_LIB_DIR)/$(MAIN_TARGET)
  DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(TARGET_LIB_DIR)/$(MAIN_TARGET).a
  FILES_TO_REMOVE += $(VS_DEF_NAME)
-	if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+	@if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
 		PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
 		mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 		rm -f *.exp; \
@@ -532,15 +531,15 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@rm -f $(MAIN_TARGET) > /dev/null 2>&1 && echo "# copying to" $(MAIN_TARGET_COPY) && cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
-	@# if the .def file is existing.
-	@if [ -f $(VS_DEF_NAME) ]; then \
-		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
-			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
-			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
-			rm -f *.exp; \
-		else \
-			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
-		fi \
+	@dlltool --export-all-symbols -z $(VS_DEF_NAME) $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+ DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(BUILD_GOAL_DIR)/$(MAIN_TARGET).a
+ FILES_TO_REMOVE += $(VS_DEF_NAME)
+	@if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+		PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+		mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+		rm -f *.exp; \
+	else \
+		$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 	fi
 endif
 
