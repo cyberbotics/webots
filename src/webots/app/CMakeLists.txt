@@ -11,4 +11,5 @@ target_link_libraries(app_lib
     Qt6::Network
     Qt6::OpenGL
     Qt6::QmlIntegration
+    engine_lib
 )
