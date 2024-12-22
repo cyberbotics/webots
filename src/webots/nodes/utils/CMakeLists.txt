@@ -15,6 +15,7 @@ target_include_directories(nodes_utils_lib PUBLIC
     $ENV{MINGW_PREFIX}/local/include
     /usr/include
     /usr/local/include
+    ${OIS_INCLUDE_DIRS}
 )
 
 target_link_libraries(nodes_utils_lib
