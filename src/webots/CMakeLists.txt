@@ -15,7 +15,8 @@ find_package(OpenGL REQUIRED)
 
 # Find OIS
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(OIS REQUIRED IMPORTED_TARGET OIS)
+find_package(Pkgconf REQUIRED)
+pkgconf_search_paths(OIS_PATHS REQUIRED IMPORTED_TARGET OIS)
 
 
 # Add subdirectories
