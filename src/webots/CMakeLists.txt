@@ -38,27 +38,28 @@ add_executable(webots gui/main.cpp)
 # Link main executable with all components
 target_link_libraries(webots
     PRIVATE
+    gui_lib
     app_lib
-    control_lib
-    core_lib
+    scene_tree_lib
     editor_lib
     engine_lib
-    gui_lib
-    maths_lib
+    control_lib
+    plugins_lib
     nodes_lib
     ode_lib
-    plugins_lib
-    scene_tree_lib
+    wren_lib
     sound_lib
     user_commands_lib
-    util_lib
-    vrml_lib
     widgets_lib
-    wren_lib
+    vrml_lib
+    core_lib
+    maths_lib
+    util_lib
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
     Qt6::Network
     Qt6::OpenGL
+    Qt6::QmlIntegration
     ${OPENGL_LIBRARIES}
 )
