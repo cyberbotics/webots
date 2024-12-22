@@ -17,6 +17,7 @@ target_link_libraries(default_demo
 target_link_libraries(phong_demo 
     PRIVATE 
     wren
+    glad
 )
 
 # Include directories
