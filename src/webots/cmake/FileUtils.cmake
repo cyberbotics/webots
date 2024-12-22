@@ -40,9 +40,7 @@ function(add_webots_library LIB_NAME)
         /usr/include/stb
         /usr/local/include/stb
         $ENV{MINGW_PREFIX}/include/stb
-        /usr/include/freetype2
-        /usr/local/include/freetype2
-        $ENV{MINGW_PREFIX}/include/freetype2
+        ${FREETYPE_INCLUDE_DIRS}
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
