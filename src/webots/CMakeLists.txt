@@ -19,6 +19,7 @@ pkg_check_modules(OIS REQUIRED OIS)
 
 # Set OIS include directories
 set(OIS_INCLUDE_DIRS ${OIS_INCLUDE_DIRS} 
+    /usr/include
     /usr/include/OIS
     /usr/local/include/OIS
     /opt/local/include/OIS
