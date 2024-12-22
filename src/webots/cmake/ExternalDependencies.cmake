@@ -6,6 +6,7 @@ ExternalProject_Add(
     GIT_REPOSITORY https://github.com/Kreijstal/picotts.git
     GIT_TAG master
     PREFIX ${CMAKE_BINARY_DIR}/external/picotts
+    SOURCE_SUBDIR pico
     CMAKE_ARGS 
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
     BUILD_IN_SOURCE 0
