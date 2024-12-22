@@ -15,7 +15,11 @@ find_package(OpenGL REQUIRED)
 
 # Find OIS library directly
 find_library(OIS_LIBRARY NAMES OIS REQUIRED)
-find_path(OIS_INCLUDE_DIR NAMES OIS/OIS.h REQUIRED)
+find_path(OIS_INCLUDE_DIR 
+    NAMES OIS/OIS.h
+    PATHS /usr/include
+    REQUIRED
+)
 
 # Add subdirectories
 add_subdirectory(app)
