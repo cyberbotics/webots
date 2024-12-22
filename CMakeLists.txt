@@ -12,5 +12,4 @@ find_package(Qt6 COMPONENTS Core Gui OpenGL QmlIntegration REQUIRED)
 include(src/webots/cmake/ExternalDependencies.cmake)
 
 # Add subdirectories
-add_subdirectory(src/wren)
 add_subdirectory(src)
