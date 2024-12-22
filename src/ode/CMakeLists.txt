@@ -25,6 +25,8 @@ target_sources(ode PRIVATE
     ode/src/convex.cpp
     ode/src/cylinder.cpp
     ode/src/fluid_dynamics/ode_fluid_dynamics.cpp
+    ode/src/fluid_dynamics/ode_fluid_dynamics_parameters.cpp
+    ode/src/fluid_dynamics/ode_fluid_dynamics_world.cpp
     ode/src/error.cpp
     ode/src/export-dif.cpp
     ode/src/heightfield.cpp
