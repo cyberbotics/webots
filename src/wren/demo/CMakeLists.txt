@@ -9,3 +9,25 @@ target_link_libraries(phong_demo PRIVATE wren)
 # Include directories
 target_include_directories(default_demo PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(phong_demo PRIVATE ${CMAKE_SOURCE_DIR})
+# Demo executable
+add_executable(default_demo default.cpp)
+
+# Link with wren library and other dependencies
+target_link_libraries(default_demo 
+    PRIVATE
+    wren
+    ${OPENGL_LIBRARIES}
+    Qt6::Core
+    Qt6::Gui
+    Qt6::OpenGL
+    glut
+    glad
+)
+
+# Include directories
+target_include_directories(default_demo 
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/webots/external
+    ${OPENGL_INCLUDE_DIR}
+)
