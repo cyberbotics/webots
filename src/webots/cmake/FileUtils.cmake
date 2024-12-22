@@ -10,6 +10,9 @@ function(add_webots_library LIB_NAME)
     file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
     
     add_library(${DIR_NAME}_lib ${SOURCES})
-    target_include_directories(${DIR_NAME}_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(${DIR_NAME}_lib PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/include
+    )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
