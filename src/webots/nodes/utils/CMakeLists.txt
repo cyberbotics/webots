@@ -44,10 +44,9 @@ target_include_directories(nodes_utils_lib PUBLIC
 )
 
 target_link_libraries(nodes_utils_lib
-    PUBLIC
-    PRIVATE vrml_lib
-    PRIVATE util_lib  
-    PRIVATE core_lib
+    PUBLIC vrml_lib
+    PUBLIC util_lib  
+    PUBLIC core_lib
     PUBLIC Qt6::Core
     PUBLIC Qt6::Gui
     PUBLIC Qt6::Widgets

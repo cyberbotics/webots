@@ -25,4 +25,5 @@ target_link_libraries(nodes_lib
     nodes_utils_lib
     core_lib
     vrml_lib
+    ${CMAKE_DL_LIBS}
 )
