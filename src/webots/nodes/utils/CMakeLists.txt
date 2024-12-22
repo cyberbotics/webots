@@ -45,13 +45,19 @@ target_include_directories(nodes_utils_lib PUBLIC
 
 target_link_libraries(nodes_utils_lib
     PUBLIC
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Widgets
-    vrml_lib
-    util_lib
-    core_lib
-    ${OIS_LIBRARIES}
-    PkgConfig::OIS
-    PkgConfig::ODE
+    PRIVATE vrml_lib
+    PRIVATE util_lib  
+    PRIVATE core_lib
+    PUBLIC Qt6::Core
+    PUBLIC Qt6::Gui
+    PUBLIC Qt6::Widgets
+    PUBLIC ${OIS_LIBRARIES}
+    PUBLIC PkgConfig::OIS
+    PUBLIC PkgConfig::ODE
 )
+
+# Ensure all objects in this library and its dependencies are built with -fPIC
+set_property(TARGET nodes_utils_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET vrml_lib PROPERTY POSITION_INDEPENDENT_CODE ON) 
+set_property(TARGET util_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_property(TARGET core_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
