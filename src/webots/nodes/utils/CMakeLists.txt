@@ -21,7 +21,5 @@ target_link_libraries(nodes_utils_lib
     vrml_lib
     util_lib
     core_lib
-    ${OIS_LIBRARY}
+    PkgConfig::OIS
 )
-
-target_include_directories(nodes_utils_lib PUBLIC ${OIS_INCLUDE_DIR})
