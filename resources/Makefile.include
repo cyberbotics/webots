@@ -382,6 +382,9 @@ ifdef BUILD_SHARED_LIBRARY
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -dynamiclib -compatibility_version 1.0 -current_version 1.0.0
  endif
+ ifeq ($(OSTYPE),windows)
+  DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(TARGET_LIB_DIR)/$(MAIN_TARGET).lib
+ endif
 endif
 
 ifdef BUILD_STATIC_LIBRARY
