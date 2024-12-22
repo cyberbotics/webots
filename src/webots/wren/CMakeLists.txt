@@ -16,4 +16,5 @@ target_link_libraries(wren_lib
     Qt6::OpenGL
     ${OPENGL_LIBRARIES}
     maths_lib
+    wren
 )
