@@ -18,3 +18,6 @@ set(PICOTTS_INCLUDE_DIR
     ${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/compat
 )
 set(PICOTTS_LIB_DIR ${CMAKE_BINARY_DIR}/external/picotts/lib)
+
+# Add compile definitions for PicoTTS
+add_compile_definitions(PICO_EXTERN_C)

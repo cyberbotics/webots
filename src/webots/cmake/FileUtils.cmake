@@ -51,4 +51,11 @@ function(add_webots_library LIB_NAME)
         ${FREETYPE_INCLUDE_DIRS}
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
+    
+    # Set C files to be compiled as C
+    set_source_files_properties(
+        ${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/lib/*.c
+        PROPERTIES
+        COMPILE_FLAGS "-x c"
+    )
 endfunction()
