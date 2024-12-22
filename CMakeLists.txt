@@ -5,5 +5,8 @@ project(webots)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Find Qt6
+find_package(Qt6 COMPONENTS Core Gui OpenGL REQUIRED)
+
 # Add subdirectory
 add_subdirectory(src)
