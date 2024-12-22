@@ -487,8 +487,7 @@ endif
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
 ifdef BUILD_SHARED_LIBRARY
-	VS_DEF_NAME = $(MAIN_TARGET:.dll=.def)
-	FILES_TO_REMOVE += $(VS_DEF_NAME)
+	VS_DEF_NAME = $(BUILD_GOAL_DIR)/$(MAIN_TARGET:.dll=.def)
 	DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(MAIN_TARGET_COPY).a
 endif
 endif
