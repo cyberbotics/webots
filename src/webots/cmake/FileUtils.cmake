@@ -36,6 +36,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_SOURCE_DIR}/src/webots/app
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/include/ode
+        ${CMAKE_SOURCE_DIR}/src/webots/sound
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
