@@ -44,6 +44,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_SOURCE_DIR}/src/webots/sound
         ${CMAKE_SOURCE_DIR}/src/webots/external/siphash
         ${CMAKE_SOURCE_DIR}/include/controller/c
+        ${PICOTTS_INCLUDE_DIR}
         /usr/include/stb
         /usr/local/include/stb
         $ENV{MINGW_PREFIX}/include/stb

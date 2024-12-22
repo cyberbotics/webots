@@ -8,5 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find Qt6
 find_package(Qt6 COMPONENTS Core Gui OpenGL REQUIRED)
 
+# Include external dependencies
+include(src/webots/cmake/ExternalDependencies.cmake)
+
 # Add subdirectory
 add_subdirectory(src)
