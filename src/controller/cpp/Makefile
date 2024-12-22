@@ -85,12 +85,12 @@ ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is
 endif
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a,--def CppController.def
+LDFLAGS       = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
 LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.def
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -136,7 +136,9 @@ $(BUILD_GOAL_DIR)/arm64/libCppController.dylib: $(ARM64_OBJECTS)
 	@echo "# linking" $@ "(arm64)"
 	@$(CXX) -target arm64-apple-macos12 $(LDFLAGS) $(ARM64_OBJECTS) $(SHAREDLIBS) -o "$@"
 
-else
+endif
+
+ifeq ($(OSTYPE),linux)
 
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
 	@echo "# linking" $@
@@ -146,7 +148,15 @@ endif
 
 ifeq ($(OSTYPE),windows)
 
-$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll CppController.def
+$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll:$(CPPOBJS) $(LIBCONTROLLER)
+	@echo "# linking" $@
+	@$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
+
+Controller.def: $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+	@echo "# generating "$@
+	@dlltool --export-all-symbols -z CppController.def $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+
+$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib: CppController.def
 ifeq ($(VISUAL_STUDIO_PATH),)
 	@$(ECHO) "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping CppController.lib\033[0m"
 else

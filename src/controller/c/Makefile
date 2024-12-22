@@ -61,7 +61,7 @@ endif
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0 -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
-LD_FLAGS    = -shared -mwindows --def Controller.def -lws2_32
+LD_FLAGS    = -shared -mwindows -lws2_32
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
@@ -126,12 +126,16 @@ ifeq ($(OSTYPE),windows)
 
 MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
 
-$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
+$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS)
 	@echo "# linking  "$@
 	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
 	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 
-$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
+Controller.def: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+	@echo "# generating "$@
+	@dlltool --export-all-symbols -z Controller.def $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
+
+$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
 	@$(ECHO) "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib\033[0m"
 else
@@ -195,3 +199,4 @@ $(OBJDIR)/%.d:%.c
 FILES_TO_REMOVE = $(TARGET)
 FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/libController.lib
+FILES_TO_REMOVE += Controller.def
