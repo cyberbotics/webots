@@ -1,0 +1,1 @@
+add_webots_library(maths_lib)
