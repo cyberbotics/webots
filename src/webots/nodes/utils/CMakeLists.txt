@@ -21,4 +21,5 @@ target_link_libraries(nodes_utils_lib
     vrml_lib
     util_lib
     core_lib
+    PkgConfig::OIS
 )
