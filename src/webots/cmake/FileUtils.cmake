@@ -7,9 +7,18 @@ endfunction()
 # Helper function to create a library with standard settings
 function(add_webots_library LIB_NAME)
     get_filename_component(DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-    file(GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
     
-    add_library(${DIR_NAME}_lib ${SOURCES})
+    # Get all cpp files
+    file(GLOB ALL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+    
+    # Filter out Windows-specific files on non-Windows platforms
+    if(NOT WIN32)
+        list(FILTER ALL_SOURCES EXCLUDE REGEX "WbVirtualRealityHeadset\\.cpp$")
+        list(FILTER ALL_SOURCES EXCLUDE REGEX "WbMicrosoftTextToSpeech\\.cpp$")
+        list(FILTER ALL_SOURCES EXCLUDE REGEX "WbWindowsRegistry\\.cpp$")
+    endif()
+    
+    add_library(${DIR_NAME}_lib ${ALL_SOURCES})
     target_include_directories(${DIR_NAME}_lib PUBLIC 
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/include
