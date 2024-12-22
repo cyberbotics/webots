@@ -13,6 +13,9 @@ file(GLOB WREN_HEADERS
 # Create wren library
 add_library(wren STATIC ${WREN_SOURCES} ${WREN_HEADERS})
 
+# Find Freetype package
+find_package(Freetype REQUIRED)
+
 # Include directories
 target_include_directories(wren PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -22,6 +25,7 @@ target_include_directories(wren PUBLIC
     ${Qt6Core_INCLUDE_DIRS}
     ${Qt6Gui_INCLUDE_DIRS}
     ${Qt6OpenGL_INCLUDE_DIRS}
+    ${FREETYPE_INCLUDE_DIRS}
 )
 
 # Link libraries
@@ -30,6 +34,7 @@ target_link_libraries(wren PUBLIC
     Qt6::Core
     Qt6::Gui
     Qt6::OpenGL
+    ${FREETYPE_LIBRARIES}
 )
 
 # Demo subdirectory
