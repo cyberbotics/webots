@@ -19,5 +19,7 @@ set(PICOTTS_INCLUDE_DIR
 )
 set(PICOTTS_LIB_DIR ${CMAKE_BINARY_DIR}/external/picotts/lib)
 
-# Add compile definitions for PicoTTS
+# Add compile definitions and flags for PicoTTS
 add_compile_definitions(PICO_EXTERN_C)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
