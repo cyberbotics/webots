@@ -2,6 +2,12 @@
 set(CMAKE_AUTOMOC ON)
 
 file(GLOB SOURCES "*.cpp")
+list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/WbVirtualRealityHeadset.cpp")
+
+if(WIN32)
+  list(APPEND SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/WbVirtualRealityHeadset.cpp")
+endif()
+
 add_library(nodes_utils_lib ${SOURCES})
 
 target_include_directories(nodes_utils_lib PUBLIC 
