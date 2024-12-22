@@ -400,9 +400,6 @@ ifeq ($(OSTYPE),windows)
    endif
    VS_DEF_NAME = $(NAME).def
 			FILES_TO_REMOVE += $(VS_DEF_NAME)
-			ifdef MAIN_TARGET
-				DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(MAIN_TARGET).a
-			endif
   endif
  endif
 endif
@@ -491,6 +488,9 @@ MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
 endif
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
+ifdef BUILD_SHARED_LIBRARY
+	DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(MAIN_TARGET_COPY).a
+endif
 endif
 
 ###-----------------------------------------------------------------------------
