@@ -14,4 +14,5 @@ target_link_libraries(app_lib
     engine_lib
     wren_lib
     ode
+    nodes_lib
 )
