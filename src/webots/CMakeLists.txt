@@ -12,6 +12,8 @@ include(FileUtils)
 # Find required packages
 find_package(Qt6 COMPONENTS Core Gui Widgets Network OpenGL REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(OIS REQUIRED IMPORTED_TARGET OIS)
 
 # Add subdirectories
 add_subdirectory(app)
