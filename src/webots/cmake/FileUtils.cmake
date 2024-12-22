@@ -51,10 +51,6 @@ function(add_webots_library LIB_NAME)
         /usr/include
         /usr/local/include
         $ENV{MINGW_PREFIX}/include
-        /usr/include/ois
-        /usr/local/include/ois
-        /opt/local/include/ois
-        $ENV{MINGW_PREFIX}/include/ois
         ${FREETYPE_INCLUDE_DIRS}
     )
     target_link_libraries(${DIR_NAME}_lib 
