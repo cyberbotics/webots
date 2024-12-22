@@ -15,7 +15,7 @@
 #ifndef WB_JOYSTICK_LISTENER_HPP
 #define WB_JOYSTICK_LISTENER_HPP
 
-#include <ois/OISJoyStick.h>
+#include <OISJoyStick.h>
 #include <QtCore/QObject>
 
 class WbJoystickListener : public QObject, public OIS::JoyStickListener {
