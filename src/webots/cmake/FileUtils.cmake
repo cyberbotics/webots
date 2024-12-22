@@ -13,6 +13,7 @@ function(add_webots_library LIB_NAME)
     target_include_directories(${DIR_NAME}_lib PUBLIC 
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src/webots/core
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
