@@ -90,7 +90,7 @@ LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.def
 endif
 
 ifeq ($(OSTYPE),darwin)
