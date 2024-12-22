@@ -14,6 +14,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/src/webots/core
+        ${CMAKE_SOURCE_DIR}/src/webots/vrml
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
