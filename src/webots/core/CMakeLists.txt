@@ -8,4 +8,8 @@ target_link_libraries(core_lib
     Qt6::Core
     Qt6::Network
     Qt6::QmlIntegration
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::OpenGL
+    Qt6::Concurrent
 )
