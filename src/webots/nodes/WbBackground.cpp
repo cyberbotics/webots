@@ -541,7 +541,7 @@ bool WbBackground::loadIrradianceTexture(int i) {
                                        &mIrradianceWidth, &mIrradianceHeight, &components, 0);
 
   if (data == NULL) {
-    warn(tr("Cannot load HDR texture '%1': %2.").arg(url).arg(stbi_failure_reason()));
+    warn(tr("Failed to load HDR texture '%1': %2.").arg(url).arg(stbi_failure_reason()));
     return false;
   }
 
