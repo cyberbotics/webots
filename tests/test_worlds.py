@@ -57,8 +57,7 @@ class TestWorldsWarnings(unittest.TestCase):
             for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, directory)):
                 for fileName in fnmatch.filter(fileNames, '*.wbt'):
                     world = os.path.join(rootPath, fileName)
-                    if fileName in ("ocean.wbt", "swarm.wbt"):
-                        self.worlds.append(world)
+                    self.worlds.append(world)
         self.webotsFullPath = None
         if sys.platform == 'win32':
             self.webotsFullPath = os.path.join(WEBOTS_HOME, 'msys64', 'mingw64', 'bin', 'webots.exe')
@@ -102,7 +101,6 @@ class TestWorldsWarnings(unittest.TestCase):
                 continue
             if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
                 problematicWorlds.append(self.worlds[i])
-                print(f'Errors with {self.worlds[i]}: {errors.splitlines()} ; Skipped Errors: {self.skippedMessages}')
             if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
 
