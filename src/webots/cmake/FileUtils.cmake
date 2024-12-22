@@ -29,6 +29,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_SOURCE_DIR}/src/webots/external/compilation_timestamp
         ${CMAKE_SOURCE_DIR}/src/webots/user_commands
         ${CMAKE_SOURCE_DIR}/src/webots/maths
+        ${CMAKE_SOURCE_DIR}/src/webots/nodes/utils
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
 endfunction()
