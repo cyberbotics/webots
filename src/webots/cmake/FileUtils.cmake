@@ -50,7 +50,15 @@ function(add_webots_library LIB_NAME)
         $ENV{MINGW_PREFIX}/include/stb
         ${FREETYPE_INCLUDE_DIRS}
     )
-    target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
+    target_link_libraries(${DIR_NAME}_lib 
+        PRIVATE 
+        Qt6::Core
+        Qt6::Network
+        Qt6::QmlIntegration
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::OpenGL
+    )
     
     # Set C files to be compiled as C and add needed flags
     file(GLOB PICO_C_FILES "${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/lib/*.c")
