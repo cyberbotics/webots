@@ -152,7 +152,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll:$(CPPOBJS) $(LIBCONTROLLER)
 	@echo "# linking" $@
 	@$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
 
-Controller.def: $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+CppController.def: $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 	@echo "# generating "$@
 	@dlltool --export-all-symbols -z CppController.def $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 
