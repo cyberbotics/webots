@@ -8,6 +8,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Enable PIC globally
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Enable RTTI globally
+add_compile_options(-frtti)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frtti")
+
+# Set visibility settings globally
+add_compile_options(-fvisibility=default -fno-gnu-unique)
+
 # Add cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(FileUtils)
