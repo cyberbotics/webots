@@ -21,5 +21,9 @@ include_directories(
 # Define GLM experimental features
 add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
+# Build glad as a library
+add_library(glad STATIC ${CMAKE_SOURCE_DIR}/src/glad/glad.c)
+target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/src/webots/external)
+
 # Add subdirectories
 add_subdirectory(src/wren)
