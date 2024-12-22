@@ -130,7 +130,7 @@ target_include_directories(ode
         ${CMAKE_CURRENT_SOURCE_DIR}/libccd/src
 )
 
-# Define compile definitions
+# Define compile definitions and options
 target_compile_definitions(ode 
     PUBLIC
         dDOUBLE
@@ -138,6 +138,10 @@ target_compile_definitions(ode
         CCD_DOUBLE
         dTRIMESH_ENABLED
         dTRIMESH_OPCODE
+)
+
+target_compile_options(ode PRIVATE
+    -I${CMAKE_SOURCE_DIR}/include
 )
 
 # Set properties
