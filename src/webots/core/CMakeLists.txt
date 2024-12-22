@@ -11,5 +11,4 @@ target_link_libraries(core_lib
     Qt6::Gui
     Qt6::Widgets
     Qt6::OpenGL
-    Qt6::Concurrent
 )
