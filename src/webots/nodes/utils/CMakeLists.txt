@@ -14,6 +14,7 @@ target_include_directories(nodes_utils_lib PUBLIC
     /usr/include/ois
     /usr/local/include/ois
     /opt/local/include/ois
+    $ENV{MINGW_PREFIX}/include/ois
 )
 
 target_link_libraries(nodes_utils_lib
