@@ -61,7 +61,7 @@ endif
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0 -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
-LD_FLAGS    = -shared -mwindows -lws2_32
+LD_FLAGS    = -shared -mwindows -lws2_32 -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 PLATFORM    = win32
 CC          = gcc
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
@@ -129,7 +129,7 @@ MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS)
 	@echo "# linking  "$@
 	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
-	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
+	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS)
 
 Controller.def: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 	@echo "# generating "$@
