@@ -1,7 +1,12 @@
 # Enable Qt MOC
 set(CMAKE_AUTOMOC ON)
 
-add_webots_library(nodes_utils_lib)
+file(GLOB SOURCES "*.cpp")
+add_library(nodes_utils_lib ${SOURCES})
+
+target_include_directories(nodes_utils_lib PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 target_link_libraries(nodes_utils_lib
     PUBLIC
