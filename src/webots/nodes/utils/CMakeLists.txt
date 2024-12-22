@@ -33,5 +33,5 @@ target_link_libraries(nodes_utils_lib
     core_lib
     ${OIS_LIBRARIES}
     PkgConfig::OIS
-    PkgConfig::ode
+    PkgConfig::ODE
 )
