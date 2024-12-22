@@ -13,9 +13,17 @@ include(FileUtils)
 find_package(Qt6 COMPONENTS Core Gui Widgets Network OpenGL REQUIRED)
 find_package(OpenGL REQUIRED)
 
-# Find OIS using pkg-config
+# Find OIS
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(OIS REQUIRED IMPORTED_TARGET OIS)
+pkg_check_modules(OIS REQUIRED OIS)
+
+# Set OIS include directories
+set(OIS_INCLUDE_DIRS ${OIS_INCLUDE_DIRS} 
+    /usr/include/OIS
+    /usr/local/include/OIS
+    /opt/local/include/OIS
+    $ENV{MINGW_PREFIX}/include/OIS
+)
 
 # Add subdirectories
 add_subdirectory(app)

@@ -11,10 +11,7 @@ target_include_directories(nodes_utils_lib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/webots/vrml
     ${CMAKE_SOURCE_DIR}/src/webots/util
     ${CMAKE_SOURCE_DIR}/include
-    /usr/include/ois
-    /usr/local/include/ois
-    /opt/local/include/ois
-    $ENV{MINGW_PREFIX}/include/ois
+    ${OIS_INCLUDE_DIRS}
 )
 
 target_link_libraries(nodes_utils_lib
@@ -25,5 +22,8 @@ target_link_libraries(nodes_utils_lib
     vrml_lib
     util_lib
     core_lib
-    PkgConfig::OIS
+    ${OIS_LIBRARIES}
 )
+
+target_link_directories(nodes_utils_lib PUBLIC ${OIS_LIBRARY_DIRS})
+target_compile_options(nodes_utils_lib PUBLIC ${OIS_CFLAGS_OTHER})
