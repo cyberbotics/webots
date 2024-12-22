@@ -18,4 +18,5 @@ target_link_libraries(nodes_utils_lib
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
+    vrml_lib
 )
