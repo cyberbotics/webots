@@ -1,6 +1,9 @@
 #ifndef PICO_TTS_WRAPPER_H
 #define PICO_TTS_WRAPPER_H
 
+// Rename C keyword 'this' to avoid conflicts
+#define this pico_this
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,5 +15,7 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#undef this
 
 #endif // PICO_TTS_WRAPPER_H
