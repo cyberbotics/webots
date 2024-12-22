@@ -133,10 +133,7 @@ target_include_directories(ode
 
 # Define compile definitions and options
 target_compile_definitions(ode 
-    PUBLIC
-        dDOUBLE
     PRIVATE
-        CCD_DOUBLE
         dTRIMESH_ENABLED
         dTRIMESH_OPCODE
 )
