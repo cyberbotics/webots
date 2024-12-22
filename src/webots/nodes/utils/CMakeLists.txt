@@ -6,6 +6,11 @@ add_library(nodes_utils_lib ${SOURCES})
 
 target_include_directories(nodes_utils_lib PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/src/webots/nodes
+    ${CMAKE_SOURCE_DIR}/src/webots/core
+    ${CMAKE_SOURCE_DIR}/src/webots/vrml
+    ${CMAKE_SOURCE_DIR}/src/webots/util
+    ${CMAKE_SOURCE_DIR}/include
 )
 
 target_link_libraries(nodes_utils_lib
