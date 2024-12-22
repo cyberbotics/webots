@@ -23,6 +23,7 @@ target_include_directories(wren PUBLIC
     ${CMAKE_SOURCE_DIR}/src/webots/external
     ${CMAKE_SOURCE_DIR}/src/webots/external/siphash
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/webots/core
     ${OPENGL_INCLUDE_DIR}
     ${Qt6Core_INCLUDE_DIRS}
     ${Qt6Gui_INCLUDE_DIRS}
