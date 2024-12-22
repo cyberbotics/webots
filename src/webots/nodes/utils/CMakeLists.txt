@@ -56,8 +56,5 @@ target_link_libraries(nodes_utils_lib
     PUBLIC PkgConfig::ODE
 )
 
-# Ensure all objects in this library and its dependencies are built with -fPIC
+# Ensure this library is built with -fPIC
 set_property(TARGET nodes_utils_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
-set_property(TARGET vrml_lib PROPERTY POSITION_INDEPENDENT_CODE ON) 
-set_property(TARGET util_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
-set_property(TARGET core_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
