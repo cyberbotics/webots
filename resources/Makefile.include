@@ -398,8 +398,6 @@ ifeq ($(OSTYPE),windows)
    ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
      VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
    endif
-   VS_DEF_NAME = $(NAME).def
-			FILES_TO_REMOVE += $(VS_DEF_NAME)
   endif
  endif
 endif
@@ -489,6 +487,8 @@ endif
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
 ifdef BUILD_SHARED_LIBRARY
+	VS_DEF_NAME = $(MAIN_TARGET:.dll=.def)
+	FILES_TO_REMOVE += $(VS_DEF_NAME)
 	DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(MAIN_TARGET_COPY).a
 endif
 endif
