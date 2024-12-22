@@ -10,6 +10,23 @@ endif()
 
 add_library(nodes_utils_lib ${SOURCES})
 
+# Enable RTTI and visibility to match nodes_lib
+target_compile_options(nodes_utils_lib
+    PUBLIC
+    -frtti
+    -fvisibility=default
+)
+
+# Set position independent code
+set_property(TARGET nodes_utils_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+# Ensure symbols are exported
+set_target_properties(nodes_utils_lib PROPERTIES
+    ENABLE_EXPORTS ON
+    WINDOWS_EXPORT_ALL_SYMBOLS ON
+    BUILD_SHARED_LIBS ON
+)
+
 target_include_directories(nodes_utils_lib PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src/webots/nodes
