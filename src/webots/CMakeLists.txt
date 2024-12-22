@@ -12,8 +12,10 @@ include(FileUtils)
 # Find required packages
 find_package(Qt6 COMPONENTS Core Gui Widgets Network OpenGL REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(OIS REQUIRED IMPORTED_TARGET OIS)
+
+# Find OIS library directly
+find_library(OIS_LIBRARY NAMES OIS REQUIRED)
+find_path(OIS_INCLUDE_DIR NAMES OIS/OIS.h REQUIRED)
 
 # Add subdirectories
 add_subdirectory(app)
