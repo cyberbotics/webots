@@ -13,5 +13,8 @@ ExternalProject_Add(
 )
 
 # Set variables for include and lib paths
-set(PICOTTS_INCLUDE_DIR ${CMAKE_BINARY_DIR}/external/picotts/include/picotts)
+set(PICOTTS_INCLUDE_DIR 
+    ${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/lib
+    ${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/compat
+)
 set(PICOTTS_LIB_DIR ${CMAKE_BINARY_DIR}/external/picotts/lib)
