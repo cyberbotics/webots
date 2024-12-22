@@ -37,6 +37,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_SOURCE_DIR}/src/webots/plugins
         ${CMAKE_SOURCE_DIR}/src/webots/engine
         ${CMAKE_SOURCE_DIR}/src/webots/control
+        ${CMAKE_SOURCE_DIR}/src/webots/editor
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/include/ode
         ${CMAKE_SOURCE_DIR}/src/webots/sound
