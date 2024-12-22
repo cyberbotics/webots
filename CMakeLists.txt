@@ -10,7 +10,13 @@ find_package(OpenGL REQUIRED)
 find_package(Qt6 COMPONENTS Core Gui OpenGL REQUIRED)
 
 # Add include directories globally
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/webots/external
+)
+
+# Define GLM experimental features
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
 # Add subdirectories
 add_subdirectory(src/wren)
