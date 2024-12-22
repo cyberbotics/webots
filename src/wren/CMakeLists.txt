@@ -22,6 +22,7 @@ target_include_directories(wren PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src/webots/external
     ${CMAKE_SOURCE_DIR}/src/webots/external/siphash
+    ${CMAKE_SOURCE_DIR}/include
     ${OPENGL_INCLUDE_DIR}
     ${Qt6Core_INCLUDE_DIRS}
     ${Qt6Gui_INCLUDE_DIRS}
@@ -29,6 +30,9 @@ target_include_directories(wren PUBLIC
     ${FREETYPE_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIRS}
 )
+
+# Define GLM experimental features
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
 # Link libraries
 target_link_libraries(wren PUBLIC
