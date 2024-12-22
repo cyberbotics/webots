@@ -38,8 +38,8 @@ add_executable(webots gui/main.cpp)
 # Link main executable with all components
 target_link_libraries(webots
     PRIVATE
-    gui_lib
     app_lib
+    gui_lib
     scene_tree_lib
     editor_lib
     engine_lib

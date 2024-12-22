@@ -51,7 +51,7 @@ function(add_webots_library LIB_NAME)
         ${FREETYPE_INCLUDE_DIRS}
     )
     target_link_libraries(${DIR_NAME}_lib 
-        PRIVATE 
+        PUBLIC
         Qt6::Core
         Qt6::Network
         Qt6::QmlIntegration
