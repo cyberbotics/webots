@@ -45,6 +45,7 @@ target_link_libraries(webots
     engine_lib
     control_lib
     plugins_lib
+    nodes_utils_lib
     nodes_lib
     ode_lib
     wren_lib
