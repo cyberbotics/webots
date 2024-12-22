@@ -16,6 +16,7 @@ add_library(wren STATIC ${WREN_SOURCES} ${WREN_HEADERS})
 # Include directories
 target_include_directories(wren PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/src/webots/external
     ${OPENGL_INCLUDE_DIR}
     ${Qt6Core_INCLUDE_DIRS}
     ${Qt6Gui_INCLUDE_DIRS}
