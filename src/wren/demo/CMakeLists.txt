@@ -18,6 +18,8 @@ target_link_libraries(phong_demo
     PRIVATE 
     wren
     glad
+    glut
+    ${OPENGL_LIBRARIES}
 )
 
 # Include directories
