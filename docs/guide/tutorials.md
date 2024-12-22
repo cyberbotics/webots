@@ -38,5 +38,4 @@ Meanwhile, we would really appreciate to receive your feedback regarding this ch
 - [Tutorial 6: 4-Wheels Robot (60 minutes)](tutorial-6-4-wheels-robot.md)
 - [Tutorial 7: Your First PROTO (20 minutes)](tutorial-7-your-first-proto.md)
 - [Tutorial 8: The Supervisor (30 minutes)](tutorial-8-the-supervisor.md)
-- [Tutorial 9: Using ROS (60 minutes)](tutorial-9-using-ros.md)
 - [Going Further](going-further.md)

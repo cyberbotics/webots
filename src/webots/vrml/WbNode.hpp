@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 
 class WbNodeModel;
+class WbNodeProtoInfo;
 class WbProtoModel;
 class WbField;
 class WbFieldModel;
@@ -166,6 +167,7 @@ public:
 
   bool isProtoInstance() const { return mProto != NULL; }
   WbProtoModel *proto() const { return mProto; }
+  const QList<WbNodeProtoInfo *> &protoParents() const { return mProtoParents; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
@@ -359,7 +361,9 @@ private:
 
   // for proto instances only
   WbProtoModel *mProto;
+  QList<WbNodeProtoInfo *> mProtoParents;
   QList<WbField *> mParameters;
+  QList<WbField *> mInternalProtoParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 
