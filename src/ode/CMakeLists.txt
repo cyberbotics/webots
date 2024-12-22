@@ -117,11 +117,13 @@ target_sources(ode PRIVATE
     libccd/src/vec3.c
 )
 
+# Add dependency on root include directory
+add_dependencies(ode ${CMAKE_SOURCE_DIR}/include)
+
 # Set include directories
 target_include_directories(ode
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ode/src
