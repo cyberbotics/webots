@@ -18,7 +18,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QObject>
 #include <QtCore/QVector>
-
 #include <windows.h>
 
 #include <sapi.h>
