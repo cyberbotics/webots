@@ -6,4 +6,5 @@ target_link_libraries(nodes_lib
     core_lib
     vrml_lib
     nodes_utils_lib
+    app_lib
 )
