@@ -25,6 +25,7 @@ function(add_webots_library LIB_NAME)
         ${CMAKE_SOURCE_DIR}/src/webots/core
         ${CMAKE_SOURCE_DIR}/src/webots/vrml
         ${CMAKE_SOURCE_DIR}/src/webots/util
+        ${CMAKE_SOURCE_DIR}/src/webots/widgets
         ${CMAKE_SOURCE_DIR}/src/webots/external/compilation_timestamp
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
