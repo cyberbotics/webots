@@ -129,6 +129,7 @@ target_include_directories(ode
         ${CMAKE_CURRENT_SOURCE_DIR}/OPCODE
         ${CMAKE_CURRENT_SOURCE_DIR}/OPCODE/Ice
         ${CMAKE_CURRENT_SOURCE_DIR}/libccd/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/libccd/src/custom
 )
 
 # Define compile definitions and options
