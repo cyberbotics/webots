@@ -8,13 +8,14 @@ if(WIN32)
   list(APPEND SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/WbVirtualRealityHeadset.cpp")
 endif()
 
-add_library(nodes_utils_lib ${SOURCES})
+add_library(nodes_utils_lib STATIC ${SOURCES})
 
-# Enable RTTI and visibility to match nodes_lib
+# Enable RTTI and visibility
 target_compile_options(nodes_utils_lib
     PUBLIC
     -frtti
     -fvisibility=default
+    -fno-gnu-unique
 )
 
 # Set position independent code
@@ -24,7 +25,8 @@ set_property(TARGET nodes_utils_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
 set_target_properties(nodes_utils_lib PROPERTIES
     ENABLE_EXPORTS ON
     WINDOWS_EXPORT_ALL_SYMBOLS ON
-    BUILD_SHARED_LIBS ON
+    CXX_VISIBILITY_PRESET default
+    VISIBILITY_INLINES_HIDDEN OFF
 )
 
 target_include_directories(nodes_utils_lib PUBLIC 
