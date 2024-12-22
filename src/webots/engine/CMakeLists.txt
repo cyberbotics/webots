@@ -20,4 +20,5 @@ target_link_libraries(engine_lib
     core_lib
     nodes_lib
     ode_lib
+    vrml_lib
 )
