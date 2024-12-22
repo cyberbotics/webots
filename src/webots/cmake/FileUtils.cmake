@@ -48,6 +48,9 @@ function(add_webots_library LIB_NAME)
         /usr/include/stb
         /usr/local/include/stb
         $ENV{MINGW_PREFIX}/include/stb
+        /usr/include
+        /usr/local/include
+        $ENV{MINGW_PREFIX}/include
         ${FREETYPE_INCLUDE_DIRS}
     )
     target_link_libraries(${DIR_NAME}_lib 
