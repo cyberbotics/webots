@@ -52,10 +52,12 @@ function(add_webots_library LIB_NAME)
     )
     target_link_libraries(${DIR_NAME}_lib PRIVATE Qt6::Core)
     
-    # Set C files to be compiled as C
+    # Set C files to be compiled as C and add needed flags
+    file(GLOB PICO_C_FILES "${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/lib/*.c")
     set_source_files_properties(
-        ${CMAKE_BINARY_DIR}/external/picotts/src/picotts/pico/lib/*.c
+        ${PICO_C_FILES}
         PROPERTIES
-        COMPILE_FLAGS "-x c"
+        COMPILE_FLAGS "-x c -fno-strict-aliasing"
+        LANGUAGE C
     )
 endfunction()

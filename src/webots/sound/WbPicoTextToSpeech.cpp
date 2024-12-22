@@ -20,9 +20,7 @@
 #include <QtCore/QVector>
 #include <QtXml/QDomDocument>
 
-#include <picoapi.h>
-#include <picoapid.h>
-#include <picoos.h>
+#include "PicoTTSWrapper.h"
 #include <cassert>
 
 // adaptation layer defines
