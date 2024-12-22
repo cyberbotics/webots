@@ -11,6 +11,10 @@ target_include_directories(nodes_utils_lib PUBLIC
     ${CMAKE_SOURCE_DIR}/src/webots/vrml
     ${CMAKE_SOURCE_DIR}/src/webots/util
     ${CMAKE_SOURCE_DIR}/include
+    $ENV{MINGW_PREFIX}/include
+    $ENV{MINGW_PREFIX}/local/include
+    /usr/include
+    /usr/local/include
     ${OIS_INCLUDE_DIRS}
 )
 
