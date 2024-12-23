@@ -89,7 +89,8 @@ class TestMatlabFunctions(unittest.TestCase):
                     line = line.strip()
                     if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
                             not line[3:].isupper()):
-                        function = line[:line.find(' ')]  # Remove any additional metadata
+                        # Remove any additional metadata
+                        function = line[:line.find(' ')] if ' ' in line else line
                         if function not in skippedFunctions:
                             self.functions.append(function)
 
