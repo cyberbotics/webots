@@ -79,7 +79,7 @@ class TestMatlabFunctions(unittest.TestCase):
                     if not os.path.isfile(binaryLib):
                         self.fail(f'Missing {binaryLib}. Try rebuilding Webots.')
                     command = Command(
-                        f"readelf -Ws {shlex.quote(binaryLib)} | awk '{{print $8}}' > {shlex.quote(binaryLib)}")
+                        f"readelf -Ws {shlex.quote(binaryLib)} | awk '{{print $8}}' > {shlex.quote(filename)}")
                     command.run(shell=True)
                     if command.returncode != 0:
                         self.fail(f'Failed to generate {filename}.')
