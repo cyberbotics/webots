@@ -22,6 +22,8 @@ WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 sys.path.append(os.path.join(WEBOTS_HOME, 'src', 'controller', 'matlab'))
 import mgenerate  # noqa: E402
 
+from command import Command
+
 
 class TestMatlabFunctions(unittest.TestCase):
     """Unit test for checking that all the required Matlab functions are defined."""
@@ -66,21 +68,32 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wbu_system_webots_instance_path',
             ]
             self.functions = []
+
             filename = os.path.join(WEBOTS_HOME, 'src', 'controller', 'c', 'Controller.def')
-            self.assertTrue(
-                os.path.isfile(filename),
-                msg='Missing "%s" file.' % filename
-            )
+            if not os.path.isfile(filename):
+                if sys.platform == 'win32':
+                    self.fail(f'Missing {filename}. Try rebuilding Webots.')
+                else:
+                    import shlex
+                    controllerLib = os.path.join(WEBOTS_HOME, 'lib', 'controller', 'libController.so')
+                    if not os.path.isfile(controllerLib):
+                        self.fail(f'Missing {controllerLib}. Try rebuilding Webots.')
+                    command = Command(f"readelf -Ws {shlex.quote(controllerLib)} | awk '{{print $8}}' | sort > {shlex.quote(controllerLib)}")
+                    command.run(shell=True)
+                    if command.returncode != 0:
+                        self.fail(f'Failed to generate {filename}.')
+
             with open(filename) as file:
                 for line in file:
                     line = line.strip()
                     if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
                             not line[3:].isupper()):
-                        function = line[:line.find(' ')]  # Line is of the form "symbol_name @ address"
+                        function = line[:line.find(' ')]  # Remove any additional metadata
                         if function not in skippedFunctions:
                             self.functions.append(function)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
+    @unittest.skipIf(sys.platform == 'darwin', "not supported on macOS")
     def test_matlab_function_exists(self):
         """Test that the function file exists."""
         for function in self.functions:
