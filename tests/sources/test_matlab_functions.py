@@ -34,8 +34,7 @@ class TestMatlabFunctions(unittest.TestCase):
             skippedLines = [
                 ';', 'EXPORTS', # Comments / Keywords
                 'abstract_camera',  # Abstract Camera functions should be called through their variant functions (e.g. wb_camera_get_*)
-                'microphone',  # Microphone Node is Experimental
-                'radio',  # Radio Plugin
+                'microphone', 'radio', # Experimental Node Types
                 'remote_control', 'wbr',  # Remote Control Plugin
                 'init', 'cleanup',  # These are usually called automatically
                 'robot',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
@@ -64,9 +63,9 @@ class TestMatlabFunctions(unittest.TestCase):
 
             self.functions.remove('wb_device_get_type')  # Deprecated since 8.0.0
             self.functions.remove('wb_file_get_extension')  # Part of the internal API
+            self.functions.remove('wb_node_get_name') # C API Only
 
             # Not Yet Implemented
-            self.functions.remove('wb_node_get_name')
             self.functions.remove('wbu_system_tmpdir')
             self.functions.remove('wbu_system_webots_instance_path')
 
