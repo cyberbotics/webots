@@ -61,11 +61,16 @@ class TestMatlabFunctions(unittest.TestCase):
             self.functions.remove('wb_mouse_get_state_pointer')
             self.functions.remove('wb_radar_get_target')
 
+            # These functions are part of the internal API
+            self.functions.remove('wb_file_get_extension')
+            self.functions.remove('wb_lidar_get_unique_id')
+            self.functions.remove('wb_range_finder_get_unique_id')
+
             self.functions.remove('wb_device_get_type')  # Deprecated since 8.0.0
-            self.functions.remove('wb_file_get_extension')  # Part of the internal API
             self.functions.remove('wb_node_get_name') # C API Only
 
             # Not Yet Implemented
+            self.functions.remove('wbu_system_tmpdir')
             self.functions.remove('wbu_system_tmpdir')
             self.functions.remove('wbu_system_webots_instance_path')
 
