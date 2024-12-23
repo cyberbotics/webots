@@ -453,7 +453,7 @@ void WbExtendedStringEditor::edit(bool copyOriginalValue) {
 
   if (copyOriginalValue) {
     const WbField *effectiveField = field();
-    if (effectiveField->isParameter())
+    if (!effectiveField->internalFields().isEmpty())
       effectiveField = effectiveField->internalFields().at(0);
 
     mStringType = fieldNameToStringType(effectiveField->name(), effectiveField->parentNode());
