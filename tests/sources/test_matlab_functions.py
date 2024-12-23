@@ -43,6 +43,27 @@ class TestMatlabFunctions(unittest.TestCase):
                 'get_unique_id',  # Only used internally by the C API
                 'wbu_string'  # String manipulation functions are not needed
             ]
+            skippedFunctions = [
+                # These functions are used internally by the Matlab API
+                'wb_camera_recognition_get_object',
+                'wb_lidar_get_point',
+                'wb_mouse_get_state_pointer',
+                'wb_radar_get_target',
+
+                # These functions are part of the internal API
+                'wb_file_get_extension',
+                'wb_lidar_get_unique_id',
+                'wb_range_finder_get_unique_id',
+
+                'wb_device_get_type',  # Deprecated since 8.0.0
+                'wb_node_get_name',  # C API Only
+
+                # Not Yet Implemented
+                'wb_supervisor_load_world',
+                'wb_supervisor_save_world',
+                'wbu_system_tmpdir',
+                'wbu_system_webots_instance_path',
+            ]
             self.functions = []
             filename = os.path.join(WEBOTS_HOME, 'src', 'controller', 'c', 'Controller.def')
             self.assertTrue(
@@ -51,28 +72,11 @@ class TestMatlabFunctions(unittest.TestCase):
             )
             with open(filename) as file:
                 for line in file:
-                    if line.strip().startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
-                        line = line.strip()
-                        self.functions.append(line[:line.find(' ')])  # Line is of the form "symbol_name @ address"
-
-            # These functions are used internally by the Matlab API
-            self.functions.remove('wb_camera_recognition_get_object')
-            self.functions.remove('wb_lidar_get_point')
-            self.functions.remove('wb_mouse_get_state_pointer')
-            self.functions.remove('wb_radar_get_target')
-
-            # These functions are part of the internal API
-            self.functions.remove('wb_file_get_extension')
-            self.functions.remove('wb_lidar_get_unique_id')
-            self.functions.remove('wb_range_finder_get_unique_id')
-
-            self.functions.remove('wb_device_get_type')  # Deprecated since 8.0.0
-            self.functions.remove('wb_node_get_name') # C API Only
-
-            # Not Yet Implemented
-            self.functions.remove('wbu_system_tmpdir')
-            self.functions.remove('wbu_system_tmpdir')
-            self.functions.remove('wbu_system_webots_instance_path')
+                    line = line.strip()
+                    if line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
+                        function = line[:line.find(' ')]  # Line is of the form "symbol_name @ address"
+                        if function not in skippedFunctions:
+                            self.functions.append(function)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
     def test_matlab_function_exists(self):
