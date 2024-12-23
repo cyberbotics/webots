@@ -32,9 +32,10 @@ class TestMatlabFunctions(unittest.TestCase):
             mgenerate.main()
             """Get all the required functions."""
             skippedLines = [
-                ';', 'EXPORTS', # Comments / Keywords
-                'abstract_camera',  # Abstract Camera functions should be called through their variant functions (e.g. wb_camera_get_*)
-                'microphone', 'radio', # Experimental Node Types
+                ';', 'EXPORTS',  # Comments / Keywords
+                'abstract_camera',  # Abstract Camera functions should be called through their variant functions
+                                    # (e.g. wb_camera_get_*)
+                'microphone', 'radio',  # Experimental Node Types
                 'remote_control', 'wbr',  # Remote Control Plugin
                 'init', 'cleanup',  # These are usually called automatically
                 'robot',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
@@ -73,7 +74,8 @@ class TestMatlabFunctions(unittest.TestCase):
             with open(filename) as file:
                 for line in file:
                     line = line.strip()
-                    if line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
+                    if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
+                            not line[3:].isupper()):
                         function = line[:line.find(' ')]  # Line is of the form "symbol_name @ address"
                         if function not in skippedFunctions:
                             self.functions.append(function)
