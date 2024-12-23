@@ -30,11 +30,7 @@ DEF WATER Fluid {
     }
   ]
   viscosity 0.01
-  boundingObject Transform {
-    children [
-      USE WATER_BOX
-    ]
-  }
+  boundingObject USE WATER_BOX
   locked TRUE
 }
 Heron {
