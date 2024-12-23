@@ -11,8 +11,7 @@ Webots cannot load procedural PROTO nodes directly, therefore the procedural PRO
 
 ### Programming Facts
 
-- For backwards compatibility reasons, procedural PROTO files are assumed to be Lua by default.
-In order to use JavaScript scripting it is required to add the comment `# template language: javascript` in the header of the file.
+In order to use JavaScript scripting you should add the comment `# template language: javascript` in the header of the file.
 - A template statement is encapsulated inside the `%<` and the `>%` tokens and can be written on several lines.
 - Adding an "=" just after the opening token (`%<=`) allows to evaluate a statement.
 - The use of template statements is exclusively allowed inside the content scope of the PROTO (cf. example).
@@ -72,7 +71,6 @@ Sphere {
 %end
 
 - Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
-- Lua and JavaScript Procedural PROTO nodes use two distinct tokens (`%{` and `}%` for Lua and `%<` and `>%` for JavaScript) and cannot be interchanged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
 - The `wbfile` module for file manipulation does not need to, and should not, be imported as it is added automatically to each instance of the engine.
 - Performance degradation has been observed when the number of evaluations requested (i.e expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.

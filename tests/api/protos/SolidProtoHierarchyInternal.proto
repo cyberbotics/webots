@@ -1,0 +1,20 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/api/protos/SolidProtoHierarchyBase.proto"
+
+PROTO SolidProtoHierarchyInternal [
+  field SFFloat translationStep  0.01
+  field SFFloat rotationStep     0.01
+  field MFNode  children         []
+  field SFFloat ucField1 0.01
+  unconnectedField SFFloat ucField2 0.01
+  unconnectedField SFFloat ucField3 0.01
+]
+{
+  SolidProtoHierarchyBase {
+    translationStep IS translationStep
+    rotationStep IS rotationStep
+    children IS children
+    ucField1 IS ucField1
+  }
+}

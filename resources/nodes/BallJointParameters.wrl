@@ -1,4 +1,5 @@
 # The BallJointParamaters node defines the parameters of a BallJoint node.
+# parent: JointParameters
 
 BallJointParameters {
   field SFFloat position        0      # current position (rad)

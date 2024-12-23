@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -173,14 +173,12 @@ class TestCppCheck(unittest.TestCase):
             'projects/vehicles'
         ]
         skippedDirs = [
-            'projects/default/controllers/ros/include',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include',
             'projects/robots/gctronic/e-puck/plugins/robot_windows/botstudio/build',
             'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
             'projects/vehicles/plugins/robot_windows/automobile_window/build',
