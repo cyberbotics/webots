@@ -18,10 +18,11 @@
 import unittest
 import os
 import sys
+from command import Command
+
 WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 sys.path.append(os.path.join(WEBOTS_HOME, 'src', 'controller', 'matlab'))
 import mgenerate  # noqa: E402
-from command import Command
 
 
 class TestMatlabFunctions(unittest.TestCase):
@@ -78,7 +79,7 @@ class TestMatlabFunctions(unittest.TestCase):
                     if not os.path.isfile(binaryLib):
                         self.fail(f'Missing {binaryLib}. Try rebuilding Webots.')
                     command = Command(
-                        f"readelf -Ws {shlex.quote(binaryLib)} | awk '{{print $8}}' | sort > {shlex.quote(binaryLib)}")
+                        f"readelf -Ws {shlex.quote(binaryLib)} | awk '{{print $8}}' > {shlex.quote(binaryLib)}")
                     command.run(shell=True)
                     if command.returncode != 0:
                         self.fail(f'Failed to generate {filename}.')
