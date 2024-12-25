@@ -16,6 +16,7 @@
 
 """Test that all the required Matlab functions are defined."""
 import unittest
+import glob
 import os
 import re
 import sys
@@ -77,13 +78,10 @@ class TestMatlabFunctions(unittest.TestCase):
                 # Search for webots definitions
                 'grep', '-Ehio', r'\bwb_\w+\b',
                 # In the controller headers
-                os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'),
-                os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')
+                *glob.glob(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h')),
+                *glob.glob(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h'))
                 ])
-            print("Current location: " + os.path.abspath(__file__))
-            print("Command: " + str(command.cmd))
-            print("Dir exists: " + str(os.path.exists(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots'))))
-            print("Dir contents: " + str(os.listdir(os.path.join(WEBOTS_HOME))))
+            print(command.cmd)
             command.run()
             if command.returncode != 0:
                 self.fail(f'Failed to generate function list:\n{command.output}')
