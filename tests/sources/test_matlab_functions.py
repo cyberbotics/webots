@@ -84,9 +84,6 @@ class TestMatlabFunctions(unittest.TestCase):
             command.run(shell=True)
             if command.returncode != 0:
                 self.fail(f'Failed to generate function list: {command.output}')
-            # Print the list of functions to a file
-            with open('functions.txt', 'w') as file:
-                file.write(command.output)
 
             for line in command.output.splitlines():
                 if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
