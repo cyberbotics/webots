@@ -19,11 +19,8 @@ import unittest
 import glob
 import os
 import re
+import subprocess
 import sys
-
-# Add the parent directory to the path so we can import the command module
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from command import Command  # noqa: E402
 
 WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 sys.path.append(os.path.join(WEBOTS_HOME, 'src', 'controller', 'matlab'))
@@ -74,19 +71,17 @@ class TestMatlabFunctions(unittest.TestCase):
             ]
             self.functions = []
 
-            command = Command([
+            symbolSearch = subprocess.run([
                 # Search for webots definitions
                 'grep', '-Ehio', r'\bwb_\w+\b',
                 # In the controller headers
                 *glob.glob(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h')),
                 *glob.glob(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h'))
-                ])
-            print(command.cmd)
-            command.run()
-            if command.returncode != 0:
-                self.fail(f'Failed to generate function list:\n{command.output}')
+                ], capture_output=True, text=True)
+            if symbolSearch.returncode != 0:
+                self.fail(f'Failed to generate function list:\n{symbolSearch.stdout}')
 
-            for line in command.output.splitlines():
+            for line in symbolSearch.stdout.splitlines():
                 if not any(re.match(f'^{skippedLine}$', line) for skippedLine in skippedLines) and line not in self.functions:
                     self.functions.append(line)
 
