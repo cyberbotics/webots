@@ -80,11 +80,10 @@ class TestMatlabFunctions(unittest.TestCase):
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'),
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')
                 ])
-            print("Current location: " + os.path.abspath(__file__), file=sys.stderr)
-            print("Command: " + str(command.cmd), file=sys.stderr)
-            print("Dir exists: " +
-                  str(os.path.exists(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'))),
-                  file=sys.stderr)
+            print("Current location: " + os.path.abspath(__file__))
+            print("Command: " + str(command.cmd))
+            print("Dir exists: " + str(os.path.exists(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots'))))
+            print("Dir contents: " + str(os.listdir(os.path.join(WEBOTS_HOME))))
             command.run()
             if command.returncode != 0:
                 self.fail(f'Failed to generate function list:\n{command.output}')
