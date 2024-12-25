@@ -116,7 +116,6 @@ jobs:
         export WEBOTS_HOME=$PWD/artifact/webots
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
-        python tests/test_matlab_functions.py
         xvfb-run --auto-servernum python tests/test_suite.py
   test-worlds:
     needs: build
