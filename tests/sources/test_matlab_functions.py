@@ -38,16 +38,10 @@ class TestMatlabFunctions(unittest.TestCase):
             mgenerate.main()
             """Get all the required functions."""
             skippedLines = [
-                ';', 'EXPORTS',  # Comments / Keywords
-                'abstract_camera',  # Abstract Camera functions should be called through their variant functions
-                                    # (e.g. wb_camera_get_*)
                 'microphone', 'radio',  # Experimental Node Types
                 'remote_control', 'wbr',  # Remote Control Plugin
-                'init', 'cleanup',  # These are usually called automatically
                 'robot',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
                 'lookup_table_size',  # Matlab lets you get the size of an array, so these functions are not needed
-                'no_mutex',  # "no_mutex" function variants should only be used internally
-                'get_unique_id',  # Only used internally by the C API
                 'wbu_string'  # String manipulation functions are not needed
             ]
             skippedFunctions = [
@@ -57,17 +51,17 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wb_mouse_get_state_pointer',
                 'wb_radar_get_target',
 
-                # These functions are part of the internal API
-                'wb_file_get_extension',
-                'wb_lidar_get_unique_id',
-                'wb_range_finder_get_unique_id',
-
                 'wb_device_get_type',  # Deprecated since 8.0.0
                 'wb_node_get_name',  # C API Only
 
+                # The Matlab API exposes the image data as a multidimensional array, so these functions are not needed
+                'wb_camera_image_get_red',
+                'wb_camera_image_get_green',
+                'wb_camera_image_get_blue',
+                'wb_camera_image_get_gray',
+                'wb_camera_image_get_grey',
+
                 # Not Yet Implemented
-                'wb_supervisor_load_world',
-                'wb_supervisor_save_world',
                 'wbu_system_tmpdir',
                 'wbu_system_webots_instance_path',
             ]
