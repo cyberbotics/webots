@@ -80,9 +80,12 @@ class TestMatlabFunctions(unittest.TestCase):
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'),
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')
                 ])
+            print("Current location: " + os.path.abspath(__file__))
+            print("Command: " + str(command.cmd))
+            print("Dir exists: " + str(os.path.exists(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'))))
             command.run()
             if command.returncode != 0:
-                self.fail(f'Failed to generate function list: {command.output}')
+                self.fail(f'Failed to generate function list:\n{command.output}')
 
             for line in command.output.splitlines():
                 if not any(re.match(f'^{skippedLine}$', line) for skippedLine in skippedLines) and line not in self.functions:
