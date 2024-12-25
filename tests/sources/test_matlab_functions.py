@@ -19,9 +19,10 @@ import unittest
 import os
 import re
 import sys
+
 # Add the parent directory to the path so we can import the command module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from command import Command
+from command import Command  # noqa: E402
 
 WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 sys.path.append(os.path.join(WEBOTS_HOME, 'src', 'controller', 'matlab'))
