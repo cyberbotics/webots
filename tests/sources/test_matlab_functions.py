@@ -43,7 +43,7 @@ class TestMatlabFunctions(unittest.TestCase):
                 '.*_',  # Some comments use the ..._* pattern to refer to a group of functions ;
                         # grep will filter the *, but no function should end with _
                 'wb_camera_image_get_.*',  # The Matlab API exposes the image data as a multidimensional array,
-                                            # so these functions are not needed
+                                           # so these functions are not needed
                 'wb_(microphone|radio)_.*',  # Experimental Node Types
                 'wb_remote_control_.*', 'wbr_.*',  # Remote Control Plugin
                 'wb_robot_.*',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
@@ -52,13 +52,13 @@ class TestMatlabFunctions(unittest.TestCase):
 
                 # Specific Functions
 
-                ## Non-Function Macros
+                # Non-Function Macros
                 'WB_ALLOW_MIXING_C_AND_CPP_API',
                 'WB_DEPRECATED',
                 'WB_MATLAB_LOADLIBRARY',
                 'WB_USING_C(PP)?_API',
 
-                ## These functions are used internally by the Matlab API
+                # These functions are used internally by the Matlab API
                 'wb_camera_recognition_get_object',
                 'wb_lidar_get_point',
                 'wb_mouse_get_state_pointer',
@@ -67,7 +67,7 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wb_device_get_type',  # Deprecated since 8.0.0
                 'wb_node_get_name',  # C API Only
 
-                ## Not Yet Implemented
+                # Not Yet Implemented
                 'wbu_system_tmpdir',
                 'wbu_system_webots_instance_path',
             ]
@@ -91,7 +91,8 @@ class TestMatlabFunctions(unittest.TestCase):
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
     def test_matlab_function_exists(self):
         """Test that the function file exists."""
-        expectedFiles = (os.path.join(WEBOTS_HOME, 'lib', 'controller', 'matlab', function + '.m') for function in self.functions)
+        expectedFiles = (os.path.join(WEBOTS_HOME, 'lib', 'controller', 'matlab', function + '.m')
+                         for function in self.functions)
         missingFiles = [file for file in expectedFiles if not os.path.isfile(file)]
 
         self.assertTrue(
