@@ -17,7 +17,10 @@
 """Test that all the required Matlab functions are defined."""
 import unittest
 import os
+import shlex
 import sys
+# Add the parent directory to the path so we can import the command module
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from command import Command
 
 WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
@@ -68,20 +71,30 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wbu_system_webots_instance_path',
             ]
             self.functions = []
-            filename = os.path.join(WEBOTS_HOME, 'src', 'controller', 'c', 'Controller.def')
-            self.assertTrue(
-                os.path.isfile(filename),
-                msg='Missing "%s" file.' % filename
-            )
-            with open(filename) as file:
-                for line in file:
-                    line = line.strip()
-                    if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
-                            not line[3:].isupper()):
-                        # Remove any additional metadata
-                        function = line[:line.find(' ')] if ' ' in line else line
-                        if function not in skippedFunctions:
-                            self.functions.append(function)
+
+            command = Command((
+                # Search for function definitions
+                r"grep -Eho '\b\w+[ *]+\w+\(' "
+                # In the controller headers
+                f"{os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h')} "
+                f"{os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')} | "
+                # Filter out everything besides the function name and remove duplicates
+                r"sed -En 's/\b\w+[ *]+(\w+)\(/\1/p' | sort -u"
+                ))
+            command.run(shell=True)
+            if command.returncode != 0:
+                self.fail(f'Failed to generate function list: {command.output}')
+            # Print the list of functions to a file
+            with open('functions.txt', 'w') as file:
+                file.write(command.output)
+
+            for line in command.output.splitlines():
+                if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
+                        not line[3:].isupper()):
+                    # Remove any additional metadata
+                    function = line[:line.find(' ')] if ' ' in line else line
+                    if function not in skippedFunctions:
+                        self.functions.append(function)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
     def test_matlab_function_exists(self):
