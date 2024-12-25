@@ -17,7 +17,7 @@
 """Test that all the required Matlab functions are defined."""
 import unittest
 import os
-import shlex
+import re
 import sys
 # Add the parent directory to the path so we can import the command module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -72,25 +72,23 @@ class TestMatlabFunctions(unittest.TestCase):
             ]
             self.functions = []
 
-            command = Command((
+            command = Command([
                 # Search for function definitions
-                r"grep -Eho '\b\w+[ *]+\w+\(' "
+                'grep', '-Eho', r'\b\w+[ *]+\w+\(',
                 # In the controller headers
-                f"{os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h')} "
-                f"{os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')} | "
-                # Filter out everything besides the function name and remove duplicates
-                r"sed -En 's/\b\w+[ *]+(\w+)\(/\1/p' | sort -u"
-                ))
-            command.run(shell=True)
+                os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'),
+                os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')
+                ])
+            command.run()
             if command.returncode != 0:
                 self.fail(f'Failed to generate function list: {command.output}')
 
             for line in command.output.splitlines():
-                if (line.startswith('wb') and not any(skippedLine in line for skippedLine in skippedLines) and
-                        not line[3:].isupper()):
-                    # Remove any additional metadata
-                    function = line[:line.find(' ')] if ' ' in line else line
-                    if function not in skippedFunctions:
+                # Filter out the function name
+                function = re.sub(r'\b\w+[ *]+(\w+)\(', r'\1', line.strip())
+                if (function.startswith('wb') and not any(skippedLine in function for skippedLine in skippedLines) and
+                        not function[3:].isupper()):
+                    if function not in skippedFunctions and function not in self.functions:
                         self.functions.append(function)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
