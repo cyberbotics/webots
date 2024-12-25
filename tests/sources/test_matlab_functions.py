@@ -81,8 +81,7 @@ class TestMatlabFunctions(unittest.TestCase):
             for line in command.output.splitlines():
                 # Filter out the function name
                 function = re.sub(r'\b\w+[ *]+(\w+)\(', r'\1', line.strip())
-                if (function.startswith('wb') and not any(skippedLine in function for skippedLine in skippedLines) and
-                        not function[3:].isupper()):
+                if (function.startswith('wb') and not any(skippedLine in function for skippedLine in skippedLines)):
                     if function not in skippedFunctions and function not in self.functions:
                         self.functions.append(function)
 
