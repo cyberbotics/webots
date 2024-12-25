@@ -68,22 +68,11 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wbu_system_webots_instance_path',
             ]
             self.functions = []
-
             filename = os.path.join(WEBOTS_HOME, 'src', 'controller', 'c', 'Controller.def')
-            if not os.path.isfile(filename):
-                if sys.platform == 'win32':
-                    self.fail(f'Missing {filename}. Try rebuilding Webots.')
-                else:
-                    import shlex
-                    binaryLib = os.path.join(WEBOTS_HOME, 'lib', 'controller', 'libController.so')
-                    if not os.path.isfile(binaryLib):
-                        self.fail(f'Missing {binaryLib}. Try rebuilding Webots.')
-                    command = Command(
-                        f"readelf -Ws {shlex.quote(binaryLib)} | awk '{{print $8}}' > {shlex.quote(filename)}")
-                    command.run(shell=True)
-                    if command.returncode != 0:
-                        self.fail(f'Failed to generate {filename}.')
-
+            self.assertTrue(
+                os.path.isfile(filename),
+                msg='Missing "%s" file.' % filename
+            )
             with open(filename) as file:
                 for line in file:
                     line = line.strip()
@@ -95,7 +84,6 @@ class TestMatlabFunctions(unittest.TestCase):
                             self.functions.append(function)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
-    @unittest.skipIf(sys.platform == 'darwin', "not supported on macOS")
     def test_matlab_function_exists(self):
         """Test that the function file exists."""
         for function in self.functions:
