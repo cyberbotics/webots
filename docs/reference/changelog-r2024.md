@@ -34,3 +34,4 @@ Released on December **th, 2023.
     - Fixed a bug where Webots would crash if a geometry was inserted into a `Shape` node used a bounding box ([#6691](https://github.com/cyberbotics/webots/pull/6691)).
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed a bug preventing nodes from being inserted into unconnected proto fields ([#6735](https://github.com/cyberbotics/webots/pull/6735)).
+    - Fixed crash when an invalid HDR image was set as a world background ([#6744](https://github.com/cyberbotics/webots/pull/6744)).
