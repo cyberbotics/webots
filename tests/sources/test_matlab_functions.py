@@ -38,14 +38,27 @@ class TestMatlabFunctions(unittest.TestCase):
             mgenerate.main()
             """Get all the required functions."""
             skippedLines = [
-                'microphone', 'radio',  # Experimental Node Types
-                'remote_control', 'wbr',  # Remote Control Plugin
-                'robot',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
-                'lookup_table_size',  # Matlab lets you get the size of an array, so these functions are not needed
-                'wbu_string'  # String manipulation functions are not needed
-            ]
-            skippedFunctions = [
-                # These functions are used internally by the Matlab API
+                # Patterns
+                '.*_H',  # Header Guards
+                '.*_',  # Some comments use the ..._* pattern to refer to a group of functions ;
+                        # grep will filter the *, but no function should end with _
+                'wb_camera_image_get_.*',  # The Matlab API exposes the image data as a multidimensional array,
+                                            # so these functions are not needed
+                'wb_(microphone|radio)_.*',  # Experimental Node Types
+                'wb_remote_control_.*', 'wbr_.*',  # Remote Control Plugin
+                'wb_robot_.*',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
+                '.*_lookup_table_size',  # Matlab lets you get the size of an array, so these functions are not needed
+                'wbu_string_.*',  # String manipulation functions are not needed
+
+                # Specific Functions
+
+                ## Non-Function Macros
+                'WB_ALLOW_MIXING_C_AND_CPP_API',
+                'WB_DEPRECATED',
+                'WB_MATLAB_LOADLIBRARY',
+                'WB_USING_C(PP)?_API',
+
+                ## These functions are used internally by the Matlab API
                 'wb_camera_recognition_get_object',
                 'wb_lidar_get_point',
                 'wb_mouse_get_state_pointer',
@@ -54,22 +67,15 @@ class TestMatlabFunctions(unittest.TestCase):
                 'wb_device_get_type',  # Deprecated since 8.0.0
                 'wb_node_get_name',  # C API Only
 
-                # The Matlab API exposes the image data as a multidimensional array, so these functions are not needed
-                'wb_camera_image_get_red',
-                'wb_camera_image_get_green',
-                'wb_camera_image_get_blue',
-                'wb_camera_image_get_gray',
-                'wb_camera_image_get_grey',
-
-                # Not Yet Implemented
+                ## Not Yet Implemented
                 'wbu_system_tmpdir',
                 'wbu_system_webots_instance_path',
             ]
             self.functions = []
 
             command = Command([
-                # Search for function definitions
-                'grep', '-Eho', r'\b\w+[ *]+\w+\(',
+                # Search for webots definitions
+                'grep', '-Ehio', r'\bwb_\w+\b',
                 # In the controller headers
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', '*.h'),
                 os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h')
@@ -79,21 +85,19 @@ class TestMatlabFunctions(unittest.TestCase):
                 self.fail(f'Failed to generate function list: {command.output}')
 
             for line in command.output.splitlines():
-                # Filter out the function name
-                function = re.sub(r'\b\w+[ *]+(\w+)\(', r'\1', line.strip())
-                if (function.startswith('wb') and not any(skippedLine in function for skippedLine in skippedLines)):
-                    if function not in skippedFunctions and function not in self.functions:
-                        self.functions.append(function)
+                if not any(re.match(f'^{skippedLine}$', line) for skippedLine in skippedLines) and line not in self.functions:
+                    self.functions.append(line)
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
     def test_matlab_function_exists(self):
         """Test that the function file exists."""
-        for function in self.functions:
-            filename = os.path.join(WEBOTS_HOME, 'lib', 'controller', 'matlab', function + '.m')
-            self.assertTrue(
-                os.path.isfile(filename),
-                msg='Missing "%s" file.' % filename
-            )
+        expectedFiles = (os.path.join(WEBOTS_HOME, 'lib', 'controller', 'matlab', function + '.m') for function in self.functions)
+        missingFiles = [file for file in expectedFiles if not os.path.isfile(file)]
+
+        self.assertTrue(
+            not missingFiles,
+            msg='Missing files: %s' % ', '.join(missingFiles)
+        )
 
 
 if __name__ == '__main__':
