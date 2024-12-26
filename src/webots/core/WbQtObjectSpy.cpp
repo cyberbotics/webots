@@ -45,7 +45,7 @@ void WbQtObjectSpy::endSignalSpy() {
   foreach (QSignalSpy *spy, mSignalSpies) {
     QString debugMessage;
     debugMessage += mMetaObject->className();
-    debugMessage += QString("[%1]").arg((long)mObject);
+    debugMessage += QString("[%1]").arg((quintptr)mObject);
     debugMessage += "::";
     debugMessage += spy->signal();
     debugMessage += " was emitted";
