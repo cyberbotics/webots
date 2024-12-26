@@ -47,5 +47,3 @@ target_link_libraries(wren PUBLIC
     glad
 )
 
-# Demo subdirectory
-add_subdirectory(demo)
