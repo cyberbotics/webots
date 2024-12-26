@@ -52,6 +52,7 @@ target_link_libraries(nodes_utils_lib
     PUBLIC PkgConfig::OIS
     PUBLIC ode
     wren_lib
+    nodes_lib
 )
 
 # Ensure this library is built with -fPIC

@@ -22,7 +22,6 @@ set_target_properties(nodes_lib PROPERTIES
 
 target_link_libraries(nodes_lib 
     PUBLIC 
-    nodes_utils_lib
     core_lib
     vrml_lib
     ${CMAKE_DL_LIBS}
