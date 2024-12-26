@@ -89,9 +89,9 @@ fi
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
-  primusrun "$webots_home/bin/webots-bin" "$@" &
+  env QT_QPA_PLATFORM=xcb primusrun "$webots_home/bin/webots-bin" "$@" &
 else
-  "$webots_home/bin/webots-bin" "$@" &
+  env QT_QPA_PLATFORM=xcb "$webots_home/bin/webots-bin" "$@" &
 fi
 
 # wait for termination
