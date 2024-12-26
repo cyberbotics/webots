@@ -12,6 +12,7 @@ file(GLOB WREN_HEADERS
 
 # Create wren library
 add_library(wren STATIC ${WREN_SOURCES} ${WREN_HEADERS})
+target_compile_options(wren PUBLIC -fPIC)
 
 # Find required packages
 find_package(Freetype REQUIRED)
@@ -43,6 +44,7 @@ target_link_libraries(wren PUBLIC
     Qt6::OpenGL
     ${FREETYPE_LIBRARIES}
     assimp
+    glad
 )
 
 # Demo subdirectory

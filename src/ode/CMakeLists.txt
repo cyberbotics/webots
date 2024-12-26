@@ -1,57 +1,27 @@
 # ODE (Open Dynamics Engine) CMake configuration
 
+# ODE (Open Dynamics Engine) CMake configuration
+
 # Create ODE library target
 add_library(ode STATIC)
 
-# Find all cpp files recursively
-file(GLOB_RECURSE ODE_SOURCES 
+# Find all cpp files recursively in ode/src and its subdirectories
+file(GLOB_RECURSE ODE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/ode/src/*.cpp"
 )
 
-# Add source files
-target_sources(ode PRIVATE
-    ${ODE_SOURCES}
+# Find all c files recursively in ode/src and its subdirectories
+file(GLOB_RECURSE ODE_C_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/ode/src/*.c"
 )
 
-# Add OPCODE collision detection library sources
-target_sources(ode PRIVATE
-    OPCODE/OPC_AABBCollider.cpp
-    OPCODE/OPC_AABBTree.cpp
-    OPCODE/OPC_BaseModel.cpp
-    OPCODE/OPC_Collider.cpp
-    OPCODE/OPC_Common.cpp
-    OPCODE/OPC_HybridModel.cpp
-    OPCODE/OPC_LSSCollider.cpp
-    OPCODE/OPC_MeshInterface.cpp
-    OPCODE/OPC_Model.cpp
-    OPCODE/OPC_OBBCollider.cpp
-    OPCODE/OPC_OptimizedTree.cpp
-    OPCODE/OPC_Picking.cpp
-    OPCODE/OPC_PlanesCollider.cpp
-    OPCODE/OPC_RayCollider.cpp
-    OPCODE/OPC_SphereCollider.cpp
-    OPCODE/OPC_TreeBuilders.cpp
-    OPCODE/OPC_TreeCollider.cpp
-    OPCODE/OPC_VolumeCollider.cpp
-    OPCODE/Opcode.cpp
-    OPCODE/Ice/IceAABB.cpp
-    OPCODE/Ice/IceContainer.cpp
-    OPCODE/Ice/IceHPoint.cpp
-    OPCODE/Ice/IceIndexedTriangle.cpp
-    OPCODE/Ice/IceMatrix3x3.cpp
-    OPCODE/Ice/IceMatrix4x4.cpp
-    OPCODE/Ice/IceOBB.cpp
-    OPCODE/Ice/IcePlane.cpp
-    OPCODE/Ice/IcePoint.cpp
-    OPCODE/Ice/IceRandom.cpp
-    OPCODE/Ice/IceRay.cpp
-    OPCODE/Ice/IceRevisitedRadix.cpp
-    OPCODE/Ice/IceSegment.cpp
-    OPCODE/Ice/IceTriangle.cpp
-    OPCODE/Ice/IceUtils.cpp
+# Find all OPCODE collision detection library sources
+file(GLOB_RECURSE OPCODE_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/OPCODE/*.cpp"
 )
 
-# Add libccd collision detection library sources
+
+# Find all libccd collision detection library sources
 target_sources(ode PRIVATE
     libccd/src/alloc.c
     libccd/src/ccd.c
@@ -59,6 +29,13 @@ target_sources(ode PRIVATE
     libccd/src/polytope.c
     libccd/src/support.c
     libccd/src/vec3.c
+)
+
+# Add source files
+target_sources(ode PRIVATE
+    ${ODE_SOURCES}
+    ${ODE_C_SOURCES}
+    ${OPCODE_SOURCES}
 )
 
 # Set include directories
@@ -77,7 +54,7 @@ target_include_directories(ode
 )
 
 # Define compile definitions and options
-target_compile_definitions(ode 
+target_compile_definitions(ode
     PRIVATE
         dTRIMESH_ENABLED
         dTRIMESH_OPCODE
@@ -85,6 +62,7 @@ target_compile_definitions(ode
 
 target_compile_options(ode PRIVATE
     -I${CMAKE_SOURCE_DIR}/include
+    -fPIC
 )
 
 # Set properties

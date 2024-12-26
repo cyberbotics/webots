@@ -1,5 +1,3 @@
-# Enable Qt MOC
-set(CMAKE_AUTOMOC ON)
 
 file(GLOB SOURCES "*.cpp")
 list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/WbVirtualRealityHeadset.cpp")
@@ -53,6 +51,7 @@ target_link_libraries(nodes_utils_lib
     PUBLIC ${OIS_LIBRARIES}
     PUBLIC PkgConfig::OIS
     PUBLIC PkgConfig::ODE
+    wren_lib
 )
 
 # Ensure this library is built with -fPIC

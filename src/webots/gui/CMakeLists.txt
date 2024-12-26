@@ -1,10 +1,12 @@
 add_webots_library(gui_lib)
-
 target_link_libraries(gui_lib 
     PRIVATE
     Qt6::Gui 
     Qt6::Widgets 
     Qt6::Network
     Qt6::OpenGL
+    Qt6::WebSockets
+    Qt6::OpenGLWidgets
     ${OPENGL_LIBRARIES}
+    app_lib
 )
