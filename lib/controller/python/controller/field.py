@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,10 +41,7 @@ class Field:
 
     wb.wb_supervisor_field_get_name.restype = ctypes.c_char_p
     wb.wb_supervisor_field_get_type_name.restype = ctypes.c_char_p
-    wb.wb_supervisor_node_get_proto_field.restype = ctypes.c_void_p
-    wb.wb_supervisor_node_get_proto_field_by_index.restype = ctypes.c_void_p
-    wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
-    wb.wb_supervisor_node_get_field_by_index.restype = ctypes.c_void_p
+    wb.wb_supervisor_field_get_actual_field.restype = ctypes.c_void_p
     wb.wb_supervisor_field_get_sf_float.restype = ctypes.c_double
     wb.wb_supervisor_field_get_sf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
@@ -65,17 +62,8 @@ class Field:
     wb.wb_supervisor_virtual_reality_headset_get_position = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_virtual_reality_headset_get_orientation = ctypes.POINTER(ctypes.c_double)
 
-    def __init__(self, node, name: typing.Optional[str] = None, index: typing.Optional[int] = None, proto: bool = False):
-        if proto:
-            if name is not None:
-                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_proto_field(node._ref, str.encode(name)))
-            else:
-                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_proto_field_by_index(node._ref, index))
-        else:
-            if name is not None:
-                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field(node._ref, str.encode(name)))
-            else:
-                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
+    def __init__(self, ref: ctypes.c_void_p):
+        self._ref = ctypes.c_void_p(ref)
         if self._ref:
             self.type = wb.wb_supervisor_field_get_type(self._ref)
         else:
@@ -92,6 +80,10 @@ class Field:
 
     def getCount(self) -> int:
         return self.count
+
+    def getActualField(self) -> 'Field':
+        field = wb.wb_supervisor_field_get_actual_field(self._ref)
+        return Field(field) if field else None
 
     def enableSFTracking(self, samplingPeriod: int):
         wb.wb_supervisor_field_enable_sf_tracking(self._ref, samplingPeriod)

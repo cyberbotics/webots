@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ public:
   bool operator==(const WbVariant &other) const;
   bool operator!=(const WbVariant &other) const;
 
-  virtual ~WbVariant();
+  virtual ~WbVariant() override;
 
   int type() const { return mType; }
   bool isEmpty() const { return mType == -1; }

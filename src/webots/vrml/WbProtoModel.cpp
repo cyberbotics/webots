@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,7 +67,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
-  mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
   mHasIndirectFieldAccess = mTags.contains("indirectFieldAccess");
 
@@ -170,9 +169,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
           insideTemplateStatement = false;
         else if (c == '"' && pc != '\\')
           insideDoubleQuotes = !insideDoubleQuotes;
-        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes && mTemplateLanguage == "lua")
+        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes)
           // ignore VRML comments
-          // but '#' is the lua length operator and has to be kept if found inside a template statement
           break;
         lineWithoutComments.append(c);
         pc = c;
@@ -221,8 +219,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       if (!mHasIndirectFieldAccess) {  // If the proto has indirect field access, we've already set the fields as template
                                        // regenerators
         foreach (WbFieldModel *model, mFieldModels) {
-          // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
-          // "my_awesome_modelName") or (token contains fields and not a Lua identifier containing fields such as "my_fields")
+          // condition explanation: if (token contains modelName and not an identifier containing modelName such as
+          // "my_awesome_modelName") or (token contains fields and not an identifier containing fields such as "my_fields")
           if (token->word().contains(
                 QRegularExpression(QString("(^|\\W)fields\\.%1($|\\W)").arg(QRegularExpression::escape(model->name()))))) {
             model->setTemplateRegenerator(true);
@@ -289,15 +287,15 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         foreach (WbFieldModel *model, mFieldModels) {
           // regex test cases:
           // "You know nothing, John Snow."  => false
-          // "%{=fields.model->name()}%"  => true
-          // "%{= fields.model->name().value.x }% %{= fields.model->name().value.y }%"  => true
-          // "abc %{= fields.model->name().value.y }% def"  => true
-          // "%{= 17 % fields.model->name().value.y * 88 }%"  => true
+          // "%<=fields.model->name()>%"  => true
+          // "%<= fields.model->name().value.x >% %<= fields.model->name().value.y >%"  => true
+          // "abc %<= fields.model->name().value.y >% def"  => true
+          // "%<= 17 % fields.model->name().value.y * 88 >%"  => true
           // "fields.model->name().value.y"  => false
-          // "%{}% fields.model->name().value.y %{}%"  => false
-          // "%{ a = \"fields.model->name().value.y\" }%"  => false
-          // "%{= \"fields.model->name().value.y\" }%"  => false
-          // "%{= fields.model->name().value.y }%"  => true
+          // "%<>% fields.model->name().value.y %<>%"  => false
+          // "%< a = \"fields.model->name().value.y\" >%"  => false
+          // "%<= \"fields.model->name().value.y\" >%"  => false
+          // "%<= fields.model->name().value.y >%"  => true
           if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
                                                           .arg(open)
                                                           .arg(close)
@@ -366,8 +364,6 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
       foreach (const WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
           QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
-          if (mTemplateLanguage == "lua")
-            statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
           key += statement;
         }
       }
@@ -375,7 +371,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mUrl, worldPath, rootUniqueId, mTemplateLanguage)) {
+      if (!te.generate(name() + ".proto", parameters, mUrl, worldPath, rootUniqueId)) {
         tokenizer.setReferralFile(mUrl);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
@@ -428,6 +424,14 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   }
 
   return root;
+}
+
+QStringList WbProtoModel::parentProtoNames() const {
+  QStringList parents;
+  const WbProtoModel *parentProtoModel = this;
+  while ((parentProtoModel = parentProtoModel->ancestorProtoModel()))
+    parents << parentProtoModel->name();
+  return parents;
 }
 
 void WbProtoModel::ref(bool isFromProtoInstanceCreation) {
