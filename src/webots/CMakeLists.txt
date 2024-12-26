@@ -19,14 +19,10 @@ add_compile_options(-fvisibility=default -fno-gnu-unique)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(FileUtils)
 
-# Find required packages
-find_package(Qt6 COMPONENTS Core Gui Widgets Network OpenGL REQUIRED)
-find_package(OpenGL REQUIRED)
 
-# Find OIS and ODE
+# Find OIS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(OIS REQUIRED IMPORTED_TARGET OIS)
-pkg_check_modules(ODE REQUIRED IMPORTED_TARGET ode)
 
 
 # Add subdirectories
