@@ -165,7 +165,6 @@ static struct Sequence *read_sequence(char color, char number) {
       sequence->next = new_sequence;
     sequence = new_sequence;
     sequence->next = new_sequence;
-    sequence = new_sequence;
     sequence->time = time;
     sequence->action = (char *)malloc(strlen(action) + 1);
     strcpy(sequence->action, action);
