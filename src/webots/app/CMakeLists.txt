@@ -3,13 +3,6 @@ set(CMAKE_AUTOMOC ON)
 
 add_webots_library(app_lib)
 
-# Enable RTTI and visibility
-target_compile_options(app_lib
-    PUBLIC
-    -frtti
-    -fvisibility=default
-    -fno-gnu-unique
-)
 
 # Set position independent code
 set_property(TARGET app_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
