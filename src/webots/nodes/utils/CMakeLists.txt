@@ -50,6 +50,7 @@ target_link_libraries(nodes_utils_lib
     PUBLIC Qt6::Widgets
     PUBLIC ${OIS_LIBRARIES}
     PUBLIC PkgConfig::OIS
+    PUBLIC PkgConfig::OPENVR
     PUBLIC ode
     wren_lib
     nodes_lib

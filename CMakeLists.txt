@@ -29,7 +29,7 @@ find_package(OpenGL REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(assimp REQUIRED)
-
+pkg_check_modules(OPENVR REQUIRED IMPORTED_TARGET openvr)
 
 # Include external dependencies
 include(src/webots/cmake/ExternalDependencies.cmake)

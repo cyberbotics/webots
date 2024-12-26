@@ -11,7 +11,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # Enable RTTI globally
 add_compile_options(-frtti)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frtti")
-
+if(WIN32)
+    add_definitions(-DUNICODE -D_UNICODE)
+endif()
 # Set visibility settings globally
 add_compile_options(-fvisibility=default -fno-gnu-unique)
 
