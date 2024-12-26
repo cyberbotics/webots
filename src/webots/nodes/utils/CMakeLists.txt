@@ -6,7 +6,7 @@ if(WIN32)
   list(APPEND SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/WbVirtualRealityHeadset.cpp")
 endif()
 
-add_library(nodes_utils_lib SHARED ${SOURCES})
+add_library(nodes_utils_lib STATIC ${SOURCES})
 
 # Enable RTTI and visibility
 target_compile_options(nodes_utils_lib
@@ -53,6 +53,7 @@ target_link_libraries(nodes_utils_lib
     PUBLIC ode
     wren_lib
     nodes_lib
+    app_lib
 )
 
 # Ensure this library is built with -fPIC
