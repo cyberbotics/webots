@@ -540,6 +540,11 @@ bool WbBackground::loadIrradianceTexture(int i) {
   float *data = stbi_loadf_from_memory(reinterpret_cast<const unsigned char *>(content.constData()), content.size(),
                                        &mIrradianceWidth, &mIrradianceHeight, &components, 0);
 
+  if (data == NULL) {
+    warn(tr("Failed to load HDR texture '%1': %2.").arg(url).arg(stbi_failure_reason()));
+    return false;
+  }
+
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
