@@ -18,6 +18,17 @@ trap 'handle_termination' TERM INT
 # get the location of the Webots binary, even if defined into a relative symlinks
 webots_home="$(dirname "$(readlink -f "$0")")"
 
+# get the Ubuntu version with lsb_release or /etc/os-release file
+if command -v lsb_release >/dev/null 2>&1; then
+  ubuntu_version=$(lsb_release -rs)
+else
+  if [ -f /etc/os-release ]; then
+    ubuntu_version=$(grep "^VERSION_ID" /etc/os-release | sed 's/^VERSION_ID=//' | tr -d '"')
+  else
+    ubuntu_version="Unknown Ubuntu version"
+  fi
+fi
+
 # remove wrong a desktop file if needed
 if [ -e ~/.local/share/applications/webots-bin.desktop ]; then
   rm ~/.local/share/applications/webots-bin.desktop
@@ -87,11 +98,16 @@ else
   export QT_ENABLE_HIGHDPI_SCALING=1
 fi
 
+# set the x11 server for Ubuntu 24 version
+if [[ "$ubuntu_version" == 24.* ]]; then
+  export QT_QPA_PLATFORM="xcb"
+fi
+
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
-  env QT_QPA_PLATFORM=xcb primusrun "$webots_home/bin/webots-bin" "$@" &
+  primusrun "$webots_home/bin/webots-bin" "$@" &
 else
-  env QT_QPA_PLATFORM=xcb "$webots_home/bin/webots-bin" "$@" &
+  "$webots_home/bin/webots-bin" "$@" &
 fi
 
 # wait for termination
