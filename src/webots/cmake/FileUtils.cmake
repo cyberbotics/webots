@@ -17,6 +17,9 @@ function(add_webots_library LIB_NAME)
         list(FILTER ALL_SOURCES EXCLUDE REGEX "WbMicrosoftTextToSpeech\\.cpp$")
         list(FILTER ALL_SOURCES EXCLUDE REGEX "WbWindowsRegistry\\.cpp$")
     endif()
+     if(WIN32)
+        list(FILTER ALL_SOURCES EXCLUDE REGEX "WbPosixMemoryMappedFile\\.cpp$")
+    endif()
     
     add_library(${DIR_NAME}_lib ${ALL_SOURCES})
     target_include_directories(${DIR_NAME}_lib PUBLIC 
