@@ -116,7 +116,7 @@ if (WIN32)
     endif()
 
     # Link libraries if found
-    target_link_libraries(core_lib
+    target_link_libraries(Controller
         PRIVATE
         ${winsock_LIBRARY_PATH}
     )
