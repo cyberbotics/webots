@@ -18,17 +18,6 @@ trap 'handle_termination' TERM INT
 # get the location of the Webots binary, even if defined into a relative symlinks
 webots_home="$(dirname "$(readlink -f "$0")")"
 
-# get the Ubuntu version with lsb_release or /etc/os-release file
-if command -v lsb_release >/dev/null 2>&1; then
-  ubuntu_version=$(lsb_release -rs)
-else
-  if [ -f /etc/os-release ]; then
-    ubuntu_version=$(grep "^VERSION_ID" /etc/os-release | sed 's/^VERSION_ID=//' | tr -d '"')
-  else
-    ubuntu_version="Unknown Ubuntu version"
-  fi
-fi
-
 # remove wrong a desktop file if needed
 if [ -e ~/.local/share/applications/webots-bin.desktop ]; then
   rm ~/.local/share/applications/webots-bin.desktop
@@ -83,6 +72,9 @@ export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 export WEBOTS_ORIGINAL_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
+# set the QT platform to use the X11 server for compatibility with Wayland
+export QT_QPA_PLATFORM="xcb"
+
 # Fix for i3 window manager not working with Qt6
 if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
   DPI=`xrdb -query -all | grep Xft.dpi | awk '{print $2}'`
@@ -96,11 +88,6 @@ elif [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
   export QT_ENABLE_HIGHDPI_SCALING=0
 else
   export QT_ENABLE_HIGHDPI_SCALING=1
-fi
-
-# set the x11 server for Ubuntu 24 version
-if [[ "$ubuntu_version" == 24.* ]]; then
-  export QT_QPA_PLATFORM="xcb"
 fi
 
 # execute the real Webots binary in a child process
