@@ -63,8 +63,7 @@ target_compile_definitions(${CONTROLLER_CPP_LIBRARY_NAME}
 # Link necessary libraries to the C++ controller
 target_link_libraries(${CONTROLLER_CPP_LIBRARY_NAME}
   PUBLIC
-  # glad # Assuming glad is linked to the C controller and might be needed here as well
-  # ${Freetype_LIBRARIES} # Assuming Freetype is linked to the C controller and might be needed here as well
+  Controller
 )
 
 # Set properties for the library (adjust as needed)
