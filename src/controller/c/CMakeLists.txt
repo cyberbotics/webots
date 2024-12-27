@@ -103,6 +103,25 @@ add_library(${CONTROLLER_LIBRARY_NAME} SHARED ${CONTROLLER_SOURCES} ${CONTROLLER
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/controller/c>
 )
+# Find libraries on Windows (using MSYS2)
+if (WIN32)
+    # Directly use MSYSTEM_PREFIX for library paths
+    set(winsock_LIBRARY_PATH "$ENV{MSYSTEM_PREFIX}/lib/libws2_32.a")
+
+    # Check if winsock library exists and link it
+    if (EXISTS ${winsock_LIBRARY_PATH})
+        message(STATUS "winsock library found: ${winsock_LIBRARY_PATH}")
+    else()
+        message(FATAL_ERROR "winsock library not found at ${winsock_LIBRARY_PATH}. Please ensure it is installed in your MSYS2 environment.")
+    endif()
+
+    # Link libraries if found
+    target_link_libraries(core_lib
+        PRIVATE
+        ${winsock_LIBRARY_PATH}
+    )
+endif()
+
 target_compile_definitions(${CONTROLLER_LIBRARY_NAME}
   PUBLIC
     "LIBCONTROLLER_VERSION=\"${WEBOTS_VERSION}\""
