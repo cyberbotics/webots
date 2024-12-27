@@ -10,7 +10,7 @@ if(SWIG_FOUND)
     set(SWIG_MODULE_NAME wrapper)
 
     # Set the output directory for generated Java files
-    set(SWIG_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SWIG_generated_files)
+    set(SWIG_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/SWIG_generated_files)
 
     # Set the package name for the generated Java code
     set(SWIG_PACKAGE_NAME com.cyberbotics.webots.controller)
@@ -24,11 +24,6 @@ if(SWIG_FOUND)
             ${CMAKE_SOURCE_DIR}/include/controller/c
             )
 
-    # Set source files for the wrapper
-    # Use CMAKE_CURRENT_BINARY_DIR to generate the wrap file in the build directory
-    string(REPLACE ".i" "_wrap.cpp" SWIG_WRAP_SOURCE_NAME ${SWIG_INTERFACE_FILE})
-    set(SWIG_WRAPPER_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${SWIG_WRAP_SOURCE_NAME}")
-
     # Create the output directory if it doesn't exist
     file(MAKE_DIRECTORY ${SWIG_OUTPUT_DIR})
 
@@ -36,7 +31,7 @@ if(SWIG_FOUND)
     set_source_files_properties(${SWIG_INTERFACE_FILE}
             PROPERTIES CPLUSPLUS ON)
     set_source_files_properties(${SWIG_INTERFACE_FILE}
-            PROPERTIES SWIG_FLAGS "-c++;-java;-package;${SWIG_PACKAGE_NAME};-outdir;${SWIG_OUTPUT_DIR}")
+            PROPERTIES SWIG_FLAGS "-c++;-package;${SWIG_PACKAGE_NAME};-outdir;${SWIG_OUTPUT_DIR}")
 
     # Generate the SWIG wrapper code
     swig_add_library(${SWIG_MODULE_NAME} TYPE SHARED
@@ -53,11 +48,15 @@ if(SWIG_FOUND)
             ${SWIG_INCLUDE_DIRS}
             )
 
+    # Get the SWIG generated source file name
+    get_property(SWIG_WRAPPER_SOURCE TARGET ${SWIG_MODULE_NAME} PROPERTY SWIG_GENERATED_SOURCE_NAME_JAVA)
+
     # --- Compilation of Generated Java Code ---
     # Create a list of Java source files (including generated ones)
     file(GLOB_RECURSE JAVA_SOURCES LIST_DIRECTORIES false
             "${SWIG_OUTPUT_DIR}/*.java"
             "${CMAKE_CURRENT_SOURCE_DIR}/*.java")
+
     # Remove some of the auto-generated SWIG files which are not needed
     list(FILTER JAVA_SOURCES EXCLUDE REGEX ".*(swigjni|Swig).*")
 
@@ -70,7 +69,7 @@ if(SWIG_FOUND)
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${SWIG_PACKAGE_NAME}
             COMMAND javac --release 11 ${JAVA_SOURCES} -d ${CMAKE_CURRENT_BINARY_DIR}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            DEPENDS ${SWIG_MODULE_NAME} # Added dependency on the SWIG module
+            DEPENDS ${SWIG_MODULE_NAME}
             COMMENT "Compiling Java sources"
             VERBATIM
     )
@@ -89,7 +88,6 @@ if(SWIG_FOUND)
     add_custom_target(java_controller
             DEPENDS ${JAR_OUTPUT_PATH}
             )
-
     # --- Compilation of Native Library ---
 
     # OS-specific settings
