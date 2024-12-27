@@ -22,7 +22,8 @@ find_package(Qt6 REQUIRED COMPONENTS
     Test
     Network
 )
-
+file(READ ${CMAKE_SOURCE_DIR}/resources/version.txt WEBOTS_VERSION)
+string(STRIP ${WEBOTS_VERSION} WEBOTS_VERSION) 
 # Find other required packages
 find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -30,7 +31,6 @@ find_package(PkgConfig REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(assimp REQUIRED)
 pkg_check_modules(OPENVR REQUIRED IMPORTED_TARGET openvr)
-
 # Include external dependencies
 include(src/webots/cmake/ExternalDependencies.cmake)
 
