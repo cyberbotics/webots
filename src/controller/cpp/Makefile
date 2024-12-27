@@ -90,7 +90,7 @@ LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
 CPPINCLUDES   = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include/controller/cpp
-TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+TARGET        = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -136,11 +136,35 @@ $(BUILD_GOAL_DIR)/arm64/libCppController.dylib: $(ARM64_OBJECTS)
 	@echo "# linking" $@ "(arm64)"
 	@$(CXX) -target arm64-apple-macos12 $(LDFLAGS) $(ARM64_OBJECTS) $(SHAREDLIBS) -o "$@"
 
-else
+endif
+
+ifeq ($(OSTYPE),linux)
 
 $(TARGET):$(CPPOBJS) $(LIBCONTROLLER)
 	@echo "# linking" $@
 	@$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
+
+endif
+
+ifeq ($(OSTYPE),windows)
+
+$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll:$(CPPOBJS) $(LIBCONTROLLER)
+	@echo "# linking" $@
+	@$(CXX) $(LDFLAGS) $(CPPOBJS) $(SHAREDLIBS) -o "$@"
+
+CppController.def: $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+	@echo "# generating "$@
+	@dlltool --export-all-symbols -z CppController.def $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
+
+$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib: CppController.def
+ifeq ($(VISUAL_STUDIO_PATH),)
+	@$(ECHO) "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping CppController.lib\033[0m"
+else
+	@echo "# creating "$@
+	@PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:CppController.def /out:CppController.lib > /dev/null
+	@mv CppController.lib "$(WEBOTS_CONTROLLER_LIB_PATH)"
+	@rm CppController.exp
+endif
 
 endif
 

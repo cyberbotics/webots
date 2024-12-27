@@ -395,10 +395,9 @@ endif
 ifeq ($(OSTYPE),windows)
  ifdef BUILD_SHARED_LIBRARY
   ifndef USE_CXX
-    ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
-      VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
-    endif
-   VS_DEF_NAME = $(NAME).def
+   ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
+     VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
+   endif
   endif
  endif
 endif
@@ -478,15 +477,22 @@ clean: $(EXTRA_TARGETS)
 ifdef MAIN_TARGET
 
 MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
+MAIN_TARGET_MINGW_LIB_NAME = lib$(MAIN_TARGET:.dll=.a)
 ifdef WEBOTS_LIBRARY
 MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_CONTROLLER_LIB_PATH))/$(MAIN_TARGET)"
 MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_WINDOWS_LIB)
+MAIN_TARGET_MINGW_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_MINGW_LIB_NAME)
 else
 MAIN_TARGET_COPY ?= $(MAIN_TARGET)
 MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
+MAIN_TARGET_MINGW_LIB = $(MAIN_TARGET_MINGW_LIB_NAME)
 endif
 ifeq ($(OSTYPE),windows)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
+ifdef BUILD_SHARED_LIBRARY
+	VS_DEF_NAME = $(BUILD_GOAL_DIR)/$(MAIN_TARGET:.dll=.def)
+	DYNAMIC_LINK_FLAGS += -Wl,--out-implib,$(MAIN_TARGET_MINGW_LIB)
+endif
 endif
 
 ###-----------------------------------------------------------------------------
@@ -508,15 +514,13 @@ ifdef TARGET_LIB_DIR
 $(MAIN_TARGET): $(TARGET_LIB_DIR)/$(MAIN_TARGET)
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
-	@# if the .def file is existing.
-	@if [ -f $(VS_DEF_NAME) ]; then \
-		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
-			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
-			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
-			rm -f *.exp; \
-		else \
-			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
-		fi \
+	@dlltool --export-all-symbols -z $(VS_DEF_NAME) $(TARGET_LIB_DIR)/$(MAIN_TARGET)
+	@if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+		PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+		mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+		rm -f *.exp; \
+	else \
+		$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 	fi
 endif
 
@@ -530,15 +534,13 @@ $(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
 	@rm -f $(MAIN_TARGET) > /dev/null 2>&1 && echo "# copying to" $(MAIN_TARGET_COPY) && cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
-	@# if the .def file is existing.
-	@if [ -f $(VS_DEF_NAME) ]; then \
-		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
-			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
-			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
-			rm -f *.exp; \
-		else \
-			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
-		fi \
+	@dlltool --export-all-symbols -z $(VS_DEF_NAME) $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+	@if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+		PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+		mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+		rm -f *.exp; \
+	else \
+		$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 	fi
 endif
 

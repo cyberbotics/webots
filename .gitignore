@@ -20,6 +20,7 @@ webots_catkin_ws
 *.hex
 *.pyc
 *.gch
+*.def
 
 # Packages
 *.7z
