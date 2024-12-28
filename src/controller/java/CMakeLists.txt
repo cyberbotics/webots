@@ -249,6 +249,12 @@ if(SWIG_FOUND)
 
     endif()
 
+    target_include_directories(${SWIG_MODULE_NAME}
+        PUBLIC
+        ${JAVA_INCLUDE_PATH}  # Add this line
+        ${JAVA_MD_INCLUDE_PATH} # Add this line
+        )
+
 
     # Check if Java include directories were found
     if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
