@@ -192,6 +192,7 @@ if(SWIG_FOUND)
                     "/System/Library/Frameworks/JavaVM.framework/Headers"
             )
         endif()
+
     else()
         # Linux
         set(JNI_LIBRARY_NAME libJavaController.so)
@@ -209,45 +210,59 @@ if(SWIG_FOUND)
                     PATHS
                     "$ENV{JAVA_HOME}/include/linux"
                     )
-        else()
-            # Use 'which javac' to find the Java installation
-            execute_process(
-                    COMMAND which javac
-                    OUTPUT_VARIABLE JAVAC_PATH
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
+        endif()
+    endif()
 
+    # Fallback: If JAVA_HOME is not defined or not found, use javac to find Java include paths
+    if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
+        # Use 'which javac' to find the Java installation
+        execute_process(
+                COMMAND which javac
+                OUTPUT_VARIABLE JAVAC_PATH
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+
+        if(JAVAC_PATH)
             # Extract JAVA_HOME from javac path
             get_filename_component(JAVA_BIN_DIR ${JAVAC_PATH} DIRECTORY)
-            get_filename_component(JAVA_HOME_GUESS ${JAVA_BIN_DIR} DIRECTORY)
+            get_filename_component(JAVA_HOME_GUESS ${JAVA_BIN_DIR} DIRECTORY)  # Correctly go up one level for JAVA_HOME
 
-            # Search for jni.h and jni_md.h using the guessed JAVA_HOME and common system paths
+            # Search for jni.h
             find_path(JAVA_INCLUDE_PATH jni.h
                     PATHS
                     "${JAVA_HOME_GUESS}/include"
                     "/usr/lib/jvm/*/include"        # Common Debian/Ubuntu locations
                     "/usr/java/*/include"           # Common RedHat/Fedora locations
                     "/usr/include/java"
-                    )
+            )
 
-            find_path(JAVA_MD_INCLUDE_PATH jni_md.h
-                    PATHS
-                    "${JAVA_HOME_GUESS}/include/linux"
-                    "/usr/lib/jvm/*/include/linux"
-                    "/usr/java/*/include/linux"
-                    "/usr/include/java/linux"
-                    )
-        endif()
-
-        # Check if Java include directories were found
-        if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
-            message(FATAL_ERROR "Java include directories not found. Please ensure Java is properly installed.")
+            # OS-specific search for jni_md.h
+            if(WIN32)
+                find_path(JAVA_MD_INCLUDE_PATH jni_md.h
+                        PATHS
+                        "${JAVA_HOME_GUESS}/include/win32"
+                )
+            elseif(APPLE)
+                find_path(JAVA_MD_INCLUDE_PATH jni_md.h
+                        PATHS
+                        "${JAVA_HOME_GUESS}/include/darwin"
+                        "/Library/Java/JavaVirtualMachines/*/Contents/Home/include/darwin"
+                        "/System/Library/Frameworks/JavaVM.framework/Headers"
+                )
+            else()  # Linux
+                find_path(JAVA_MD_INCLUDE_PATH jni_md.h
+                        PATHS
+                        "${JAVA_HOME_GUESS}/include/linux"
+                        "/usr/lib/jvm/*/include/linux"
+                        "/usr/java/*/include/linux"
+                        "/usr/include/java/linux"
+                )
+            endif()
         else()
-            message(STATUS "JAVA_INCLUDE_PATH: ${JAVA_INCLUDE_PATH}")
-            message(STATUS "JAVA_MD_INCLUDE_PATH: ${JAVA_MD_INCLUDE_PATH}")
+            message(WARNING "Could not find 'javac'. Java include paths may not be found.")
         endif()
-
     endif()
+ 
 
     target_include_directories(${SWIG_MODULE_NAME}
         PUBLIC

@@ -43,7 +43,6 @@ target_include_directories(ode
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/ode>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/ode/src
@@ -69,7 +68,7 @@ target_compile_options(ode PRIVATE
 set_target_properties(ode PROPERTIES
     VERSION 0.16.2
     SOVERSION 8
-    PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/include/ode/ode.h"
+    PUBLIC_HEADER "${CMAKE_SOURCE_DIR}/include/ode/ode.h"
 )
 
 # Install rules
@@ -79,26 +78,26 @@ install(TARGETS ode
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ode
+    #PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ode
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 # Export targets
-install(EXPORT odeTargets
-    FILE odeTargets.cmake
-    NAMESPACE ode::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
-)
-
-# Create and install config file
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/odeConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/odeConfig.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
-)
-
-install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/odeConfig.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
-)
+#install(EXPORT odeTargets
+#    FILE odeTargets.cmake
+#    NAMESPACE ode::
+#    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
+#)
+#
+## Create and install config file
+#include(CMakePackageConfigHelpers)
+#configure_package_config_file(
+#    ${CMAKE_CURRENT_SOURCE_DIR}/odeConfig.cmake.in
+#    ${CMAKE_CURRENT_BINARY_DIR}/odeConfig.cmake
+#    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
+#)
+#
+#install(FILES
+#    ${CMAKE_CURRENT_BINARY_DIR}/odeConfig.cmake
+#    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ode
+#)
