@@ -37,6 +37,7 @@ if(SWIG_FOUND)
     swig_add_library(${SWIG_MODULE_NAME} TYPE SHARED
             LANGUAGE java
             SOURCES ${SWIG_INTERFACE_FILE})
+    set_property(TARGET ${SWIG_MODULE_NAME} PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
     swig_link_libraries(${SWIG_MODULE_NAME}
             PRIVATE
             Controller
@@ -191,7 +192,6 @@ if(SWIG_FOUND)
                     "/System/Library/Frameworks/JavaVM.framework/Headers"
             )
         endif()
-
     else()
         # Linux
         set(JNI_LIBRARY_NAME libJavaController.so)
@@ -239,7 +239,16 @@ if(SWIG_FOUND)
                     )
         endif()
 
+        # Check if Java include directories were found
+        if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
+            message(FATAL_ERROR "Java include directories not found. Please ensure Java is properly installed.")
+        else()
+            message(STATUS "JAVA_INCLUDE_PATH: ${JAVA_INCLUDE_PATH}")
+            message(STATUS "JAVA_MD_INCLUDE_PATH: ${JAVA_MD_INCLUDE_PATH}")
+        endif()
+
     endif()
+
 
     # Check if Java include directories were found
     if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
