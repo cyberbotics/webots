@@ -5,6 +5,11 @@ set -e
 
 QT_VERSION=6.5.3
 pip install --no-input aqtinstall
+export PATH="$PATH:$HOME/.local/bin"
+sudo apt update
+sudo apt install -y lsb-release python3-distro
+sudo apt install python3-distro
+pip3 install distro
 aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
