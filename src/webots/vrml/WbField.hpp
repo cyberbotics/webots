@@ -69,7 +69,7 @@ public:
   void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
-  bool isParameter() const { return mInternalFields.size() != 0; }
+  bool isParameter() const;
 
   void clearInternalFields() { mInternalFields.clear(); }
 
