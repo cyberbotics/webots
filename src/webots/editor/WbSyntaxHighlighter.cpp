@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -313,18 +313,18 @@ WbPythonHighlighter::WbPythonHighlighter(const WbLanguage *language, QTextDocume
 }
 
 WbProtoHighlighter::WbProtoHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbLuaHighlighter(WbLanguage::findByCode(WbLanguage::LUA), parent),
+  WbCHighlighter(WbLanguage::findByCode(WbLanguage::C), parent),
   mIsTemplateBlock(false),
-  mTemplateStartPattern("%{"),
-  mTemplateEndPattern("}%") {
+  mTemplateStartPattern("%<"),
+  mTemplateEndPattern(">%") {
   setDefaultRules(language, mProtoHighlightingRules);
 
   // template start and end patterns
   HighlightingRule rule;
-  rule.pattern = QRegularExpression("%\\{");
+  rule.pattern = QRegularExpression("%\\<");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
-  rule.pattern = QRegularExpression("\\}%");
+  rule.pattern = QRegularExpression("\\>%");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
 }
@@ -349,7 +349,7 @@ void WbProtoHighlighter::highlightBlock(const QString &text) {
       break;
     else {
       if (mIsTemplateBlock)
-        WbLuaHighlighter::highlightBlockSection(currentText.left(patternIndex), blockOffset);
+        WbCHighlighter::highlightBlockSection(currentText.left(patternIndex), blockOffset);
       else
         WbLanguageHighlighter::highlightBlockSection(currentText.left(patternIndex), mProtoHighlightingRules, blockOffset);
       int offset = patternIndex + pattern.size();
@@ -361,7 +361,7 @@ void WbProtoHighlighter::highlightBlock(const QString &text) {
 
   if (!currentText.isEmpty()) {
     if (mIsTemplateBlock)
-      WbLuaHighlighter::highlightBlockSection(currentText, blockOffset);
+      WbCHighlighter::highlightBlockSection(currentText, blockOffset);
     else
       WbLanguageHighlighter::highlightBlockSection(currentText, mProtoHighlightingRules, blockOffset);
   }

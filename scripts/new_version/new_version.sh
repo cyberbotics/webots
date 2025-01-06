@@ -117,5 +117,5 @@ then
 
   echo "wwi resources on the cyberbotics FTP should be updated."
 
-  echo "webots_ros assets and tests/cache/worlds/backwards_compatibility.wbt should not be modified by this script"
+  echo "tests/cache/worlds/backwards_compatibility.wbt should not be modified by this script"
 fi

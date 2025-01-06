@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #include "WbBaseNode.hpp"
 #include "WbDictionary.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
 #include "WbRotation.hpp"
 #include "WbVector2.hpp"
@@ -151,6 +152,7 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo = new WbClipboardNodeInfo();
   mNodeInfo->modelName = n->modelName();
   mNodeInfo->nodeModelName = n->nodeModelName();
+  mNodeInfo->protoParentList = n->proto() ? n->proto()->parentProtoNames() : QStringList();
   mNodeInfo->slotType = WbNodeUtilities::slotType(n);
   mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
   mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);

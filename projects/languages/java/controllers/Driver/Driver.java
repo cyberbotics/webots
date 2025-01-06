@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,6 +36,9 @@ public class Driver extends Supervisor {
   private double[] translation = {x, y, 0};
 
   public Driver() {
+  }
+
+  public void initialize() {
     emitter = getEmitter("emitter");
     Node robot = getFromDef("ROBOT1");
     if (robot == null)
@@ -111,6 +114,7 @@ public class Driver extends Supervisor {
 
   public static void main(String[] args) {
     Driver controller = new Driver();
+    controller.initialize();
     controller.run();
   }
 }
