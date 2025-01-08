@@ -391,18 +391,6 @@ ifdef BUILD_STATIC_LIBRARY
  STATIC_LINK_FLAGS += rvs
 endif
 
-# Visual Studio
-ifeq ($(OSTYPE),windows)
- ifdef BUILD_SHARED_LIBRARY
-  ifndef USE_CXX
-    ifneq ($(wildcard /C/Program\ Files\ */Microsoft\ Visual\ Studio/2017),)
-      VISUAL_STUDIO_PATH?=/C/Program Files (x86)/Microsoft Visual Studio/2017
-    endif
-   VS_DEF_NAME = $(NAME).def
-  endif
- endif
-endif
-
 ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
   INSTALL_NAME ?= @rpath/Contents/lib/controller/$(MAIN_TARGET)
