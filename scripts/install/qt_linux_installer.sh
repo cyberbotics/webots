@@ -19,6 +19,10 @@ QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
 QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
 QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
 
+sudo apt-get update
+sudo apt-get install ffmpeg libavcodec-extra
+sudo apt-get install ubuntu-restricted-extras
+
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
 
 echo Installing Qt in Webots
