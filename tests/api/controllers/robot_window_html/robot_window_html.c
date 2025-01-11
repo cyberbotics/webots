@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
       if (strcmp(configure_message, "configure") == 0) {
         configured = true;
         wb_robot_wwi_send_text("test wwi functions from complete_test controller.");
+        break;
       } else
         ts_send_error_and_exit("Wrong configure message received from the HTML robot-window: %s", configure_message);
     }
@@ -26,9 +27,10 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     const char *test_message;
     while ((test_message = wb_robot_wwi_receive_text())) {
-      if (strcmp(test_message, "Answer: test wwi functions from complete_test controller.") == 0)
+      if (strcmp(test_message, "Answer: test wwi functions from complete_test controller.") == 0) {
         received = true;
-      else
+        break;
+      } else
         ts_send_error_and_exit("Wrong test message received from the HTML robot-window: %s", test_message);
     }
   }
