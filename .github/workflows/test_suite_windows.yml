@@ -107,10 +107,9 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: false
-    - name: Install Visual Studio 10 and OpenJDK 18
+    - name: Install OpenJDK 18
       shell: powershell
-      run: |
-        choco install -y openjdk --version=18.0.2
+      run: choco install -y openjdk --version=18.0.2
     - name: Install Webots Compilation Dependencies
       run: |
         export PYTHON_INSTALLATION_FOLDER=/C/hostedtoolcache/windows/Python
