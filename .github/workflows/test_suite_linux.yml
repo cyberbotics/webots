@@ -108,6 +108,7 @@ jobs:
       run: |
         sudo scripts/install/linux_test_dependencies.sh --exclude-ros
         # On Ubuntu 24.04, the default snap-based Firefox does not play well with headless environments
+        UBUNTU_VERSION=$(lsb_release -rs)
         if [[ $UBUNTU_VERSION == "24.04" ]]; then
           snap remove firefox
           add-apt-repository -y ppa:mozillateam/ppa
