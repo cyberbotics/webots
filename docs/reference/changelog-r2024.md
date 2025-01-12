@@ -8,6 +8,7 @@ Released on December **th, 2023.
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
+    - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
   - Bug Fixes
