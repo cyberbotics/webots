@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
   const double new_translation[3] = {1, 0, 0};
   WbFieldRef translation_field = wb_supervisor_node_get_field(wb_supervisor_node_get_from_def("SOLID"), "translation");
-  if (strcmp(argv[1], "supervisor_reset_simulation_fields_resetter")) {
+  if (strcmp(argv[1], "supervisor_reset_simulation_fields_resetter") == 0) {
     wb_robot_step(TIME_STEP);
 
     // <Other controller verifies SOLID's inital position>
