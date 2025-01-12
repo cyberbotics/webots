@@ -23,7 +23,7 @@ DirectionalLight {
   direction 0 -1 0
 }
 DEF SOLID Solid {
-  position 0 0 1
+  translation 0 0 1
 }
 TestSuiteSupervisor {
 }
