@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test that all the required Matlab functions are defined."""
+"""Test that all the required MATLAB functions are defined."""
 import unittest
 import glob
 import os
@@ -28,7 +28,7 @@ import mgenerate  # noqa: E402
 
 
 class TestMatlabFunctions(unittest.TestCase):
-    """Unit test for checking that all the required Matlab functions are defined."""
+    """Unit test for checking that all the required MATLAB functions are defined."""
 
     def setUp(self):
         if sys.version_info[0] >= 3:
@@ -40,12 +40,12 @@ class TestMatlabFunctions(unittest.TestCase):
                 '.*_H',  # Header Guards
                 '.*_',  # Some comments use the ..._* pattern to refer to a group of functions ;
                         # grep will filter the *, but no function should end with _
-                'wb_camera_image_get_.*',  # The Matlab API exposes the image data as a multidimensional array,
+                'wb_camera_image_get_.*',  # The MATLAB API exposes the image data as a multidimensional array,
                                            # so these functions are not needed
                 'wb_(microphone|radio)_.*',  # Experimental Node Types
                 'wb_remote_control_.*', 'wbr_.*',  # Remote Control Plugin
                 'wb_robot_.*',  # Many robot functions are used internally by the C API (e.x. wb_robot_mutex_*)
-                '.*_lookup_table_size',  # Matlab lets you get the size of an array, so these functions are not needed
+                '.*_lookup_table_size',  # MATLAB lets you get the size of an array, so these functions are not needed
                 'wbu_string_.*',  # String manipulation functions are not needed
 
                 # Specific Functions
@@ -56,7 +56,7 @@ class TestMatlabFunctions(unittest.TestCase):
                 'WB_MATLAB_LOADLIBRARY',
                 'WB_USING_C(PP)?_API',
 
-                # These functions are used internally by the Matlab API
+                # These functions are used internally by the MATLAB API
                 'wb_camera_recognition_get_object',
                 'wb_lidar_get_point',
                 'wb_mouse_get_state_pointer',
