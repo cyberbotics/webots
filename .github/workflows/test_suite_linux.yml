@@ -110,8 +110,8 @@ jobs:
         # On Ubuntu 24.04, the default snap-based Firefox does not play well with headless environments
         UBUNTU_VERSION=$(lsb_release -rs)
         if [[ $UBUNTU_VERSION == "24.04" ]]; then
-          snap remove firefox
-          add-apt-repository -y ppa:mozillateam/ppa
+          sudo snap remove firefox
+          sudo add-apt-repository -y ppa:mozillateam/ppa
           echo '
             Package: *
             Pin: release o=LP-PPA-mozillateam
@@ -120,9 +120,9 @@ jobs:
             Package: firefox
             Pin: version 1:1snap*
             Pin-Priority: -1
-            ' | tee /etc/apt/preferences.d/mozilla-firefox
-          apt update
-          apt install -y firefox
+            ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+          sudo apt update
+          sudo apt install -y firefox
         fi
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
