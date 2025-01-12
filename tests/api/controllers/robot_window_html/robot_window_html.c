@@ -21,8 +21,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  printf("CONFIGURED!!!!\n");
-
   const char *test_message;
   for (;;) {  // receive message sent by Webots.
     wb_robot_step(TIME_STEP);
