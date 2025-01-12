@@ -239,7 +239,7 @@ class TestSuite (Supervisor):
             receiver.enable(basicTimeStep)
 
         # 30 seconds before executing the next world, 60 seconds for the robot_window_html test
-        delay = 120 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
+        delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
         if sys.platform == "darwin":
             # Longer timeout on MacOS because Webots takes longer to start there during CI.
             delay *= 10
