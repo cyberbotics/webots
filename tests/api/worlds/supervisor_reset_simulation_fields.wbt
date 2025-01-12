@@ -36,6 +36,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "checker robot"
   supervisor TRUE
 }
 Robot {
@@ -47,5 +48,6 @@ Robot {
     TestSuiteEmitter {
     }
   ]
+  name "receiver robot"
   supervisor TRUE
 }
