@@ -9,10 +9,10 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  const char *configure_message;
   for (;;) {  // receive message sent by the robot window.
     wb_robot_step(TIME_STEP);
-    if ((configure_message = wb_robot_wwi_receive_text())) {
+    const char *configure_message = wb_robot_wwi_receive_text();
+    if (configure_message) {
       if (strcmp(configure_message, "configure") == 0) {
         wb_robot_wwi_send_text("test wwi functions from robot_window_html controller.");
         break;
@@ -21,10 +21,10 @@ int main(int argc, char **argv) {
     }
   }
 
-  const char *test_message;
   for (;;) {  // receive message sent by Webots.
     wb_robot_step(TIME_STEP);
-    if ((test_message = wb_robot_wwi_receive_text())) {
+    const char *test_message = wb_robot_wwi_receive_text();
+    if (test_message) {
       if (strcmp(test_message, "Answer: test wwi functions from robot_window_html controller.") == 0)
         break;
       else
