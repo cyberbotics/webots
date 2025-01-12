@@ -105,7 +105,7 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: |
+      run: |+
         sudo scripts/install/linux_test_dependencies.sh --exclude-ros
         # On Ubuntu 24.04, the default snap-based Firefox does not play well with headless environments
         UBUNTU_VERSION=$(lsb_release -rs)
