@@ -278,6 +278,7 @@ WbSupervisorUtilities::WbSupervisorUtilities(WbRobot *robot) : mRobot(robot) {
   //  otherwise, conflicts can occur in case of multiple controllers
   connect(this, &WbSupervisorUtilities::changeSimulationModeRequested, this, &WbSupervisorUtilities::changeSimulationMode,
           Qt::QueuedConnection);
+  connect(WbWorld::instance(), &WbWorld::resetRequested, this, &WbSupervisorUtilities::simulationReset, Qt::QueuedConnection);
 }
 
 WbSupervisorUtilities::~WbSupervisorUtilities() {
@@ -335,6 +336,7 @@ void WbSupervisorUtilities::initControllerRequests() {
   mNodesDeletedSinceLastStep.clear();
   mUpdatedFields.clear();
   mWatchedFields.clear();
+  mSimulationReset = false;
 }
 
 QString WbSupervisorUtilities::readString(QDataStream &stream) {
@@ -2221,6 +2223,11 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     }
     mVirtualRealityHeadsetOrientationRequested = false;
   }
+  if (mSimulationReset) {
+    stream << (short unsigned int)0;
+    stream << (unsigned char)C_SUPERVISOR_SIMULATION_RESET;
+    mSimulationReset = false;
+  }
 }
 
 void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
@@ -2292,4 +2299,9 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
     .arg(x)
     .arg(y)
     .arg(text.replace("\n", "\\n"));
+}
+
+void WbSupervisorUtilities::simulationReset(bool restartControllers) {
+  if (!restartControllers)
+    mSimulationReset = true;
 }
