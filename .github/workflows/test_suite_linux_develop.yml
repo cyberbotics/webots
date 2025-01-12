@@ -103,7 +103,24 @@ jobs:
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh
+      run: |
+        sudo scripts/install/linux_test_dependencies.sh
+        # On Ubuntu 24.04, the default snap-based Firefox does not play well with headless environments
+        if [[ $UBUNTU_VERSION == "24.04" ]]; then
+          snap remove firefox
+          add-apt-repository -y ppa:mozillateam/ppa
+          echo '
+            Package: *
+            Pin: release o=LP-PPA-mozillateam
+            Pin-Priority: 1001
+
+            Package: firefox
+            Pin: version 1:1snap*
+            Pin-Priority: -1
+            ' | tee /etc/apt/preferences.d/mozilla-firefox
+          apt update
+          apt install -y firefox
+        fi
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
