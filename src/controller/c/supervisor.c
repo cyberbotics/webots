@@ -1295,13 +1295,15 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_SUPERVISOR_MOVIE_STATUS:
       movie_status = request_read_uchar(r);
       break;
-    case C_SUPERVISOR_SIMULATION_RESET:
-      WbFieldRef field = field_list;
+    case C_SUPERVISOR_SIMULATION_RESET: {
+      // Clear cached field values
+      WbFieldStruct *field = field_list;
       while (field) {
         field->last_update = -DBL_MAX;
         field = field->next;
       }
       break;
+    }
     case C_SUPERVISOR_SAVE_WORLD:
       save_status = request_read_uchar(r);
       break;
