@@ -2428,6 +2428,6 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
 }
 
 void WbSupervisorUtilities::simulationReset(bool restartControllers) {
-  if (!restartControllers)
+  if (!restartControllers)  // If the controller is about to be restarted, there's no need to tell it to reset its own state
     mSimulationReset = true;
 }
