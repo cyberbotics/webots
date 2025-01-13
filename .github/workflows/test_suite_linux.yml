@@ -38,7 +38,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make webots_target -j4
   build:
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
     strategy:
       fail-fast: false
       matrix:
