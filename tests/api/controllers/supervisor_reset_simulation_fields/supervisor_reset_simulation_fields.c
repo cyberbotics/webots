@@ -30,9 +30,9 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     const double *first_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
     ts_assert_vec3_equal(first_translation[0], first_translation[1], first_translation[2],
-                         new_translation[0], new_translation[1], new_translation[2],
+                         initial_translation[0], initial_translation[1], initial_translation[2],
                          "SOLID's initial position should be [%f, %f, %f] not [%f, %f, %f]",
-                         new_translation[0], new_translation[1], new_translation[2],
+                         initial_translation[0], initial_translation[1], initial_translation[2],
                          first_translation[0], first_translation[1], first_translation[2]);
     wb_robot_step(TIME_STEP);
 
