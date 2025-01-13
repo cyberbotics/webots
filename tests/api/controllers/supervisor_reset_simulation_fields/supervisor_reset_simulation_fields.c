@@ -31,11 +31,10 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
     wb_robot_step(TIME_STEP);
     const double *first_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
-    ts_assert_vec3_equal(first_translation[0], first_translation[1], first_translation[2],
-                         initial_translation[0], initial_translation[1], initial_translation[2],
-                         "SOLID's initial position should be [%f, %f, %f] not [%f, %f, %f]",
-                         initial_translation[0], initial_translation[1], initial_translation[2],
-                         first_translation[0], first_translation[1], first_translation[2]);
+    ts_assert_vec3_equal(
+      first_translation[0], first_translation[1], first_translation[2], initial_translation[0], initial_translation[1],
+      initial_translation[2], "SOLID's initial position should be [%f, %f, %f] not [%f, %f, %f]", initial_translation[0],
+      initial_translation[1], initial_translation[2], first_translation[0], first_translation[1], first_translation[2]);
     wb_robot_step(TIME_STEP);
 
     // <Other controller resets the simulation>
@@ -46,11 +45,10 @@ int main(int argc, char **argv) {
 
     wb_robot_step(TIME_STEP);
     const double *second_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
-    ts_assert_vec3_equal(second_translation[0], second_translation[1], second_translation[2],
-                         new_translation[0], new_translation[1], new_translation[2],
-                         "SOLID's position should be [%f, %f, %f] not [%f, %f, %f] after reset",
-                         new_translation[0], new_translation[1], new_translation[2],
-                         second_translation[0], second_translation[1], second_translation[2]);
+    ts_assert_vec3_equal(
+      second_translation[0], second_translation[1], second_translation[2], new_translation[0], new_translation[1],
+      new_translation[2], "SOLID's position should be [%f, %f, %f] not [%f, %f, %f] after reset", new_translation[0],
+      new_translation[1], new_translation[2], second_translation[0], second_translation[1], second_translation[2]);
   }
 
   ts_send_success();
