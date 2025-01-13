@@ -1296,7 +1296,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       movie_status = request_read_uchar(r);
       break;
     case C_SUPERVISOR_SIMULATION_RESET:
-      WbFieldStruct *field = field_list;
+      WbFieldRef field = field_list;
       while (field) {
         field->last_update = -DBL_MAX;
         field = field->next;
