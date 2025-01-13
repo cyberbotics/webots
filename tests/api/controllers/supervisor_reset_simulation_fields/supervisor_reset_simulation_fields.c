@@ -10,7 +10,6 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 32
-#define SOLID_BOX_NUMBER 5
 
 int main(int argc, char **argv) {
   ts_setup(argv[1]);
@@ -20,13 +19,16 @@ int main(int argc, char **argv) {
   WbFieldRef translation_field = wb_supervisor_node_get_field(wb_supervisor_node_get_from_def("SOLID"), "translation");
   if (strcmp(argv[1], "supervisor_reset_simulation_fields_resetter") == 0) {
     wb_robot_step(TIME_STEP);
+    wb_robot_step(TIME_STEP);
 
     // <Other controller verifies SOLID's inital position>
 
     wb_robot_step(TIME_STEP);
     wb_supervisor_simulation_reset();
+    wb_robot_step(TIME_STEP);  // We have to wait another step or else the reset will overwrite the new value
     wb_supervisor_field_set_sf_vec3f(translation_field, new_translation);
   } else {
+    wb_robot_step(TIME_STEP);
     wb_robot_step(TIME_STEP);
     const double *first_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
     ts_assert_vec3_equal(first_translation[0], first_translation[1], first_translation[2],
@@ -36,7 +38,11 @@ int main(int argc, char **argv) {
                          first_translation[0], first_translation[1], first_translation[2]);
     wb_robot_step(TIME_STEP);
 
-    // <Other controller resets the simulation and updates SOLID's position>
+    // <Other controller resets the simulation>
+
+    wb_robot_step(TIME_STEP);
+
+    // <Other controller updates SOLID's position>
 
     wb_robot_step(TIME_STEP);
     const double *second_translation = wb_supervisor_field_get_sf_vec3f(translation_field);
