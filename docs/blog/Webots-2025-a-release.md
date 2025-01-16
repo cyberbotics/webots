@@ -1,11 +1,11 @@
 # Version R2025a Released
 
-<p id="publish-data">By Name Surname - Day Month Year</p>
+<p id="publish-data">By Milos Nikolic - 27th January 2025</p>
 <!--  -->
 ---
 
 It is that time of the year again!
-Today we are happy to announce the release of Webots R2023b!
+Today we are happy to announce the release of Webots R2025a!
 This new version is packed with some new features, improvements and, of course, bug fixes.
 
 Here we are going to present some of the main new features, but for a comprehensive list of changes please refer to the [Change Log](../reference/changelog-r2025.md).
@@ -41,35 +41,46 @@ A new feature enhances the Supervisor API by allowing direct access to internal 
 
 This includes new functions such as `wb_supervisor_proto_get_field` and `wb_supervisor_proto_get_number_of_fields`, enabling introspection and manipulation of nested PROTO parameters.
 
-The update also propagates these changes across all supported programming languages, such as Python, C++, Java, and Matlab, ensuring consistency.
-
 Additionally, several existing API methods were renamed for clarity, minimizing the impact on existing controllers. This improvement streamlines simulation control and introspection, making it easier for developers to interact with complex PROTO structures.
 
-All the changes are available in the [Supervisor API](https://cyberbotics.com/doc/reference/supervisor?version=develop).
+All the changes are available in the [Supervisor API](https://cyberbotics.com/doc/reference/supervisor).
 
 ---
 
-## Improved Rotating Lidar Angle Range in Webots
+## ROS and ROS 2
 
-To improve consistency and compatibility with ROS 2, the angle range of rotating Lidars in Webots has been updated. Previously providing data in `[0, 2π]`, the angle range now spans `[-π, +π]`. This change ensures better alignment with ROS 2 standards and provides a uniform experience across Lidar implementations.
+With the deprecation of the `webots_ros` package and the upcoming End of Life (EOL) for ROS 1 Noetic in [May 2025](https://wiki.ros.org/Distributions), we strongly encourage our users to transition to ROS 2 for a more future-proof and robust robotics experience.
 
----
+If you still require ROS 1 support with Webots, we have got you covered! We offer a convenient Docker-based solution. Learn more and get started [here](https://github.com/cyberbotics/webots_ros/tree/develop/docker).
 
-## Improved Speed and Accuracy of Box-Plane Collisions
+In our continued efforts to enhance ROS 2 support in Webots, we have added several exciting updates:  
 
-Contact handling has been significantly improved for better accuracy and performance. 
+- **Expanded ROS 2 Support**:  
+  We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support for **ROS 2 Iron Irwini**, ensuring compatibility with the latest ROS 2 developments.  
 
-The update ensures that the `maxContacts` deepest contacts are always returned, fixing issues with oscillations caused by inconsistent contact selection in edge cases.
+- **New Demos Featuring Husarion and Crazyflie**:  
+  We are excited to introduce two brand-new demos showcasing the capabilities of:  
+  1. **[Husarion ROSbot and ROSbot XL](https://husarion.com/)**  
+     A versatile robotic platform ideal for autonomous navigation and research applications.  
+     %figure "Husarion ROSbot XL"  
+     ![Husarion ROSbot XL](images/husarion_rosbot_xl.thumbnail.png)  
+     %end  
 
-The new implementation is faster when handling common scenarios, such as objects settling on a plane, and provides comparable performance in other cases.
+  2. **[Crazyflie](https://www.bitcraze.io/products/old-products/crazyflie-2-1/)**  
+     A lightweight and agile drone platform for indoor exploration and experimentation.  
+     %figure "Crazyflie"  
+     ![Crazyflie](images/crazyflie.thumbnail.png)  
+     %end  
 
-This change improves stability and reliability in physics simulations.
+For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.  
+
+**Why Transition to ROS 2?** ROS 2 brings improved real-time capabilities, enhanced security, and greater scalability, making it the ideal platform for modern robotics applications. As ROS 1 approaches its EOL, now is the perfect time to make the switch and take advantage of the latest innovations in robotics development.
 
 ---
 
 ## Extra Goodies
 
-- Webots is now compatible with Ubuntu 24.04 "Noble Numbat" and macOS 14 "Sonoma".
+Webots is now compatible with Ubuntu 24.04 "Noble Numbat" and macOS 14 "Sonoma".
 
 **Go and [download Webots R2025a](https://cyberbotics.com/#download) today, so you do not miss out on all these great new features!**
 
