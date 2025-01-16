@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -102,6 +102,12 @@ bool WbField::isW3d() const {
 
 bool WbField::isDeprecated() const {
   return mModel->isDeprecated();
+}
+
+// Because of unconnected fields, the only way to definitively check if a field is a parameter is to check its parent node
+// If that is not possible, fallback to the old behavior (See #6604 and #6735)
+bool WbField::isParameter() const {
+  return parentNode() ? parentNode()->isProtoInstance() : !mInternalFields.isEmpty();
 }
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {

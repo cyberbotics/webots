@@ -1,4 +1,4 @@
-#VRML_SIM R2024a utf8
+#VRML_SIM R2025a utf8
 
 IMPORTABLE EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/bounding_objects/protos/TorusBoundingObject.proto"

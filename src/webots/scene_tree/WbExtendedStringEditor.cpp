@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -453,7 +453,7 @@ void WbExtendedStringEditor::edit(bool copyOriginalValue) {
 
   if (copyOriginalValue) {
     const WbField *effectiveField = field();
-    if (effectiveField->isParameter())
+    if (!effectiveField->internalFields().isEmpty())
       effectiveField = effectiveField->internalFields().at(0);
 
     mStringType = fieldNameToStringType(effectiveField->name(), effectiveField->parentNode());

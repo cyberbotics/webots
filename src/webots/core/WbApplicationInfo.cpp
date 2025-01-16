@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ const WbVersion &WbApplicationInfo::version() {
   static bool firstCall = true;
 
   if (firstCall) {
-    static QString webotsVersionString = "R2024a";  // updated by script
+    static QString webotsVersionString = "R2025a";  // updated by script
     bool success = webotsVersion.fromString(webotsVersionString);
     if (!success)
       WbLog::fatal(QObject::tr("Internal error: the Webots version is not computable."));

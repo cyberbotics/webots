@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public:
   void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
-  bool isParameter() const { return mInternalFields.size() != 0; }
+  bool isParameter() const;
 
   void clearInternalFields() { mInternalFields.clear(); }
 

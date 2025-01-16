@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -448,7 +448,7 @@ void WbAddNodeDialog::buildTree() {
     static const QString INVALID_FOR_INSERTION_IN_BOUNDING_OBJECT("N");
 
     const WbField *const actualField =
-      (mField->isParameter() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
+      (!mField->internalFields().isEmpty() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
     bool boInfo = actualField->name() == "boundingObject";
     if (!boInfo)
       boInfo = nodeUse & WbNode::BOUNDING_OBJECT_USE;
