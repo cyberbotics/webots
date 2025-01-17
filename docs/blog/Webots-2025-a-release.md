@@ -74,6 +74,8 @@ This demo demonstrates PID control implementation using a Webots ROS 2 plugin.
 ![Crazyflie](images/ros_crazyflie.thumbnail.jpg)
 %end
 
+The packages should be available after ROS 2 sync under name `ros-${ROS_DISTRO}-webots-ros2-crazyflie` and `ros-${ROS_DISTRO}-webots-ros2-husarion`.
+
 For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.
 
 ---
