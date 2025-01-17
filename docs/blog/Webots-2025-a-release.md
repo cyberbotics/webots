@@ -54,7 +54,7 @@ With the deprecation of the `webots_ros` package and the upcoming End of Life (E
 If you still require ROS 1 support with Webots, we have got you covered!
 We offer a convenient Docker-based solution. Learn more and get started [here](https://github.com/cyberbotics/webots_ros/tree/develop/docker).
 
-We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support for **ROS 2 Iron Irwini**, ensuring compatibility with the latest ROS 2 developments.  
+We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support for **ROS 2 Iron Irwini**, ensuring compatibility with the latest ROS 2 developments.
 
 ### New Demos
 
@@ -62,19 +62,19 @@ We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support
 This demo showcases a versatile robotic platform for autonomous navigation and research.
 The demo demonstrates usage of the `robot_localization` package for sensor fusion.
 
-%figure "Husarion ROSbot XL"  
-![Husarion ROSbot XL](images/ros_husarion_rosbot_xl.thumbnail.jpg)  
+%figure "Husarion ROSbot XL"
+![Husarion ROSbot XL](images/ros_husarion_rosbot_xl.thumbnail.jpg)
 %end
 
 **[Crazyflie](https://www.bitcraze.io/products/old-products/crazyflie-2-1/).**
 A lightweight, agile drone platform designed for indoor exploration.
 This demo demonstrates PID control implementation using a Webots ROS 2 plugin.
 
-%figure "Crazyflie"  
-![Crazyflie](images/ros_crazyflie.thumbnail.jpg)  
-%end  
+%figure "Crazyflie"
+![Crazyflie](images/ros_crazyflie.thumbnail.jpg)
+%end
 
-For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.  
+For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.
 
 ---
 
