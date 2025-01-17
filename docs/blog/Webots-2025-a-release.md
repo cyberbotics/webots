@@ -51,30 +51,30 @@ All the changes are available in the [Supervisor API](https://cyberbotics.com/do
 
 With the deprecation of the `webots_ros` package and the upcoming End of Life (EOL) for ROS 1 Noetic in [May 2025](https://wiki.ros.org/Distributions), we strongly encourage our users to transition to ROS 2 for a more future-proof and robust robotics experience.
 
-If you still require ROS 1 support with Webots, we have got you covered! We offer a convenient Docker-based solution. Learn more and get started [here](https://github.com/cyberbotics/webots_ros/tree/develop/docker).
+If you still require ROS 1 support with Webots, we have got you covered!
+We offer a convenient Docker-based solution. Learn more and get started [here](https://github.com/cyberbotics/webots_ros/tree/develop/docker).
 
-In our continued efforts to enhance ROS 2 support in Webots, we have added several exciting updates:  
+We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support for **ROS 2 Iron Irwini**, ensuring compatibility with the latest ROS 2 developments.  
 
-- **Expanded ROS 2 Support**:  
-  We now support the newly released **ROS 2 Jazzy Jalisco** while dropping support for **ROS 2 Iron Irwini**, ensuring compatibility with the latest ROS 2 developments.  
+### New Demos
 
-- **New Demos Featuring Husarion and Crazyflie**:  
-  We are excited to introduce two brand-new demos showcasing the capabilities of:  
-  1. **[Husarion ROSbot and ROSbot XL](https://husarion.com/)**  
-     A versatile robotic platform ideal for autonomous navigation and research applications.  
-     %figure "Husarion ROSbot XL"  
-     ![Husarion ROSbot XL](images/ros_husarion_rosbot_xl.thumbnail.png)  
-     %end  
+**[Husarion ROSbot and ROSbot XL](https://husarion.com/).**
+This demo showcases a versatile robotic platform for autonomous navigation and research.
+The demo demonstrates usage of the `robot_localization` package for sensor fusion.
 
-  2. **[Crazyflie](https://www.bitcraze.io/products/old-products/crazyflie-2-1/)**  
-     A lightweight and agile drone platform for indoor exploration and experimentation.  
-     %figure "Crazyflie"  
-     ![Crazyflie](images/ros_crazyflie.thumbnail.png)  
-     %end  
+%figure "Husarion ROSbot XL"  
+![Husarion ROSbot XL](images/ros_husarion_rosbot_xl.thumbnail.png)  
+%end
+
+**[Crazyflie](https://www.bitcraze.io/products/old-products/crazyflie-2-1/).**
+A lightweight, agile drone platform designed for indoor exploration.
+This demo demonstrates PID control implementation using a Webots ROS 2 plugin.
+
+%figure "Crazyflie"  
+![Crazyflie](images/ros_crazyflie.thumbnail.png)  
+%end  
 
 For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.  
-
-**Why Transition to ROS 2?** ROS 2 brings improved real-time capabilities, enhanced security, and greater scalability, making it the ideal platform for modern robotics applications. As ROS 1 approaches its EOL, now is the perfect time to make the switch and take advantage of the latest innovations in robotics development.
 
 ---
 
