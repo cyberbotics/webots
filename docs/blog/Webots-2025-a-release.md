@@ -63,13 +63,13 @@ In our continued efforts to enhance ROS 2 support in Webots, we have added sever
   1. **[Husarion ROSbot and ROSbot XL](https://husarion.com/)**  
      A versatile robotic platform ideal for autonomous navigation and research applications.  
      %figure "Husarion ROSbot XL"  
-     ![Husarion ROSbot XL](images/husarion_rosbot_xl.thumbnail.png)  
+     ![Husarion ROSbot XL](images/ros_husarion_rosbot_xl.thumbnail.png)  
      %end  
 
   2. **[Crazyflie](https://www.bitcraze.io/products/old-products/crazyflie-2-1/)**  
      A lightweight and agile drone platform for indoor exploration and experimentation.  
      %figure "Crazyflie"  
-     ![Crazyflie](images/crazyflie.thumbnail.png)  
+     ![Crazyflie](images/ros_crazyflie.thumbnail.png)  
      %end  
 
 For a detailed overview of all the changes, check out the [main changelog](https://github.com/cyberbotics/webots_ros2/blob/master/webots_ros2/CHANGELOG.rst) for the `webots_ros2` package.  
