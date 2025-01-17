@@ -16,7 +16,7 @@ A new robot model has been added to the Webots library.
 The Heron USV robot from [Clearpath Robotics](https://clearpathrobotics.com/) is now included in Webots.
 
 %figure "Heron USV"
-![Added Robots](images/heron_usv.thumbnail.png)
+![Heron USV](images/heron_usv.thumbnail.png)
 %end
 
 You can discover this new robot in its demo world under `File > Open Sample World > ocean.wbt/swarm.wbt`.
