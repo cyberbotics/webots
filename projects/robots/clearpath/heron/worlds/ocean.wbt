@@ -3,7 +3,7 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
-EXTERNPROTO "../protos/Heron.proto"
+EXTERNPROTO "webots://projects/robots/clearpath/heron/protos/Heron.proto"
 
 WorldInfo {
 }
@@ -30,11 +30,7 @@ DEF WATER Fluid {
     }
   ]
   viscosity 0.01
-  boundingObject Transform {
-    children [
-      USE WATER_BOX
-    ]
-  }
+  boundingObject USE WATER_BOX
   locked TRUE
 }
 Heron {
