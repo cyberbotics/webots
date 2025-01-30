@@ -53,7 +53,7 @@ int main() {
       printf("The texture URL of the robot body was changed from the supervisor to a non-existing file.\n");
     } else if (counter == 160) {
       wb_supervisor_field_set_mf_string(url, 0,
-                                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/"
+                                        "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/"
                                         "protos/textures/brushed_steel/brushed_steel_base_color.jpg");
       printf("The texture URL of the robot body was changed from the supervisor to an existing URL.\n");
     }
