@@ -143,7 +143,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     protoDeclaration = injectDeclarationByBackwardsCompatibility(modelName);
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
-    if (foundProtoVersion && protoVersion < WbVersion(2025, 1, 0)) {
+    if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
       const QString backwardsCompatibilityMessage = tr("Please adapt your project to R2025a following these instructions: "
                                                        "https://cyberbotics.com/doc/guide/upgrading-webots");
       const QString outdatedProtoMessage =
