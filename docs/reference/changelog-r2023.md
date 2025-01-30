@@ -1,26 +1,5 @@
 # Webots R2023 Change Log
 
-## Webots R2023b Revision 1
-Released on XXX XXth, 2023.
-  - New Devices and Objects
-    - Added a model of a silo and a field ditch ([#6289](https://github.com/cyberbotics/webots/pull/6289)).
-  - Enhancements
-    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
-    - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
-  - Bug fixes
-    - Fixed Python path for `libcar.dylib` and `libdriver.dylib` on macOS ([#6482](https://github.com/cyberbotics/webots/pull/6482)).
-    - Avoided crash and provided better warnings when attempting to access PROTO nodes in a wrong way from the supervisor API ([#6473](https://github.com/cyberbotics/webots/pull/6473)).
-    - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
-    - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
-    - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
-    - Replaced the [Mesh](mesh.md) bounding object of the ROSbot XL by [Boxes](box.md) ([#6326](https://github.com/cyberbotics/webots/pull/6326)).
-    - Fixed a crash when [IndexedLineSet](indexedlineset.md) has `coord` but no `coordIndex` ([#6359](https://github.com/cyberbotics/webots/pull/6359)).
-    - Fixed values returned by the [Receiver.getEmitterDirection](https://cyberbotics.com/doc/reference/receiver?tab-language=python#wb_receiver_get_emitter_direction) Python method ([#6394](https://github.com/cyberbotics/webots/pull/6394)).
-    - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
-    - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
-    - Fixed JNILIB_FLAGS relative reference for Java controllers ([#5181](https://github.com/cyberbotics/webots/issues/5181))
-
-    
 ## Webots R2023b
 Released on June 28th, 2023.
   - New Features
