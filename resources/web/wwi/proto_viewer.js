@@ -157,7 +157,7 @@ function setupModalWindow(container) {
 
   const loadImage = document.createElement('img');
   loadImage.classList.add('modal-window-load-image');
-  loadImage.setAttribute('src', 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/resources/web/wwi/images/loading/load_animation.gif');
+  loadImage.setAttribute('src', 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/resources/web/wwi/images/loading/load_animation.gif');
 
   const image = document.createElement('img');
   image.classList.add('modal-window-image-content');

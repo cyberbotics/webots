@@ -11,9 +11,9 @@ WorldInfo {
   title "Assets Download"
   contactProperties [
     ContactProperties {
-      bumpSound "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/sounds/bump.wav"
-      rollSound "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/sounds/roll.wav"
-      slideSound "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/sounds/slide.wav"
+      bumpSound "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/sounds/bump.wav"
+      rollSound "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/sounds/roll.wav"
+      slideSound "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/sounds/slide.wav"
     }
   ]
 }
@@ -23,40 +23,40 @@ Viewpoint {
 }
 Background {
   backUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_back.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_back.jpg"
   ]
   bottomUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_bottom.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_bottom.jpg"
   ]
   frontUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_front.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_front.jpg"
   ]
   leftUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_left.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_left.jpg"
   ]
   rightUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_right.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_right.jpg"
   ]
   topUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_top.jpg"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_top.jpg"
   ]
   backIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_back.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_back.hdr"
   ]
   bottomIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_bottom.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_bottom.hdr"
   ]
   frontIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_front.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_front.hdr"
   ]
   leftIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_left.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_left.hdr"
   ]
   rightIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_right.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_right.hdr"
   ]
   topIrradianceUrl [
-    "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/cubic/mountains_top.hdr"
+    "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/cubic/mountains_top.hdr"
   ]
 }
 TexturedBackgroundLight {
@@ -172,7 +172,7 @@ DEF MESH Transform {
       }
       geometry Mesh {
         url [
-          "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/meshes/suzanne.obj"
+          "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/meshes/suzanne.obj"
         ]
       }
     }
@@ -190,27 +190,27 @@ Robot {
             baseColor 0.8039 0.6745 0.5764
             baseColorMap DEF IMAGE_TEXTURE ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/varnished_pine/varnished_pine_base_color.jpg"
               ]
               filtering 5
             }
             roughnessMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/varnished_pine/varnished_pine_roughness.jpg"
               ]
               filtering 5
             }
             metalness 0
             normalMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/varnished_pine/varnished_pine_normal.jpg"
               ]
               filtering 5
             }
             normalMapFactor 0.5
             occlusionMap ImageTexture {
               url [
-                "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
+                "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/textures/varnished_pine/varnished_pine_occlusion.jpg"
               ]
               filtering 5
             }
@@ -231,7 +231,7 @@ Robot {
         RotationalMotor {
           name "left wheel motor"
           consumptionFactor 70
-          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/sounds/rotational_motor.wav"
+          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/sounds/rotational_motor.wav"
         }
         PositionSensor {
           name "left wheel sensor"
@@ -275,7 +275,7 @@ Robot {
         RotationalMotor {
           name "right wheel motor"
           consumptionFactor 70
-          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/sounds/rotational_motor.wav"
+          sound "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/sounds/rotational_motor.wav"
         }
         PositionSensor {
           name "right wheel sensor"
@@ -380,7 +380,7 @@ Robot {
       width 400
       height 300
       antiAliasing TRUE
-      noiseMaskUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/samples/devices/worlds/textures/noise_mask.png"
+      noiseMaskUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/samples/devices/worlds/textures/noise_mask.png"
     }
   ]
   name "MyBot"

@@ -1,7 +1,7 @@
 # Webots R2025 Change Log
 
 ## Webots R2025a
-Released on December **th, 2023.
+Released on January 30th, 2025.
   - New Features
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
     - Removed support for Ubuntu 20.04 "Focal Fossa" and added support for Ubuntu 24.04 "Noble Numbat" ([#6704](https://github.com/cyberbotics/webots/pull/6704)).
@@ -17,10 +17,15 @@ Released on December **th, 2023.
       - Fixed the method signature of `wb_supervisor_node_get_number_of_fields` in MATLAB.
     - Removed support for Lua as a PROTO scripting language ([#6642](https://github.com/cyberbotics/webots/pull/6642)).
     - Adapt QtToolTip text box for every Webots mode ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
+  - New Devices and Objects
+    - Added a model of a silo and a field ditch ([#6289](https://github.com/cyberbotics/webots/pull/6289)).
+    - Added a model of the Clearpath Heron USV robot ([#6548](https://github.com/cyberbotics/webots/pull/6548)).
   - Enhancements
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
     - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
+    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
+    - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
     - Remove ROS (1) support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
@@ -51,3 +56,14 @@ Released on December **th, 2023.
     - Fixed crash when an invalid HDR image was set as a world background ([#6744](https://github.com/cyberbotics/webots/pull/6744)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
     - Fixed the QtToolTip bug, where the text in the text box is not being displayed ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
+    - Fixed Python path for `libcar.dylib` and `libdriver.dylib` on macOS ([#6482](https://github.com/cyberbotics/webots/pull/6482)).
+    - Avoided crash and provided better warnings when attempting to access PROTO nodes in a wrong way from the supervisor API ([#6473](https://github.com/cyberbotics/webots/pull/6473)).
+    - Fixed errors loading template PROTO if the system user name, the project path, or the temporary directory path contains the `\` character ([#6288](https://github.com/cyberbotics/webots/pull/6288)).
+    - Fixed Webots and libController version comparison not to take revisions into account ([#6315](https://github.com/cyberbotics/webots/pull/6315)).
+    - Fixed translation, rotation and scale displayed in the Position tab of the Node viewer in the scene tree ([#6309](https://github.com/cyberbotics/webots/pull/6309)).
+    - Replaced the [Mesh](mesh.md) bounding object of the ROSbot XL by [Boxes](box.md) ([#6326](https://github.com/cyberbotics/webots/pull/6326)).
+    - Fixed a crash when [IndexedLineSet](indexedlineset.md) has `coord` but no `coordIndex` ([#6359](https://github.com/cyberbotics/webots/pull/6359)).
+    - Fixed values returned by the [Receiver.getEmitterDirection](https://cyberbotics.com/doc/reference/receiver?tab-language=python#wb_receiver_get_emitter_direction) Python method ([#6394](https://github.com/cyberbotics/webots/pull/6394)).
+    - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
+    - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
+    - Fixed JNILIB_FLAGS relative reference for Java controllers ([#5181](https://github.com/cyberbotics/webots/issues/5181))
