@@ -77,14 +77,6 @@ wb_speaker_play_sound(left, right, sound, volume, pitch, balance, loop)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/play_sound` | `service` | `webots_ros::speaker_play_sound` | `string sound`<br/>`float64 volume`<br/>`float64 pitch`<br/>`float64 balance`<br/>`int8 loop`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -111,9 +103,11 @@ Finally, the boolean `loop` argument defines if the sound will be played only on
 
 It is possible to change the volume, pitch, balance, and loop parameters of a sound currently playing by calling again the `wb_speaker_play_sound` function with the same speakers and `sound` arguments.
 
-> **Note**: The path to the sound file should be defined either absolutely or relatively.
-If defined relatively, it will be searched first relatively to the robot controller folder.
-If not found there and if the robot is a PROTO, it will be searched relatively to the PROTO folder of the robot.
+> **Note**: The path to the sound file can be defined either absolutely or relatively.
+If the file path is accessible by the robot controller either absolutely or relative to its working directory, it is loaded by the controller and its contents are streamed to Webots.
+If the file is not found by the controller, the given path is passed to Webots.
+Webots will first search for the path relative to the robot controller folder.
+If the file is not found relative to the controller folder and the robot is a PROTO, Webots will search for the sound file relative to the folder of the PROTO file.
 
 ---
 
@@ -176,14 +170,6 @@ public class Speaker extends Device {
 ```MATLAB
 wb_speaker_stop(tag, sound)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/stop` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -260,14 +246,6 @@ public class Speaker extends Device {
 ```MATLAB
 wb_speaker_is_sound_playing(tag, sound)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/is_sound_playing` | `service` | `webots_ros::speaker_is_sound_playing` | `string sound`<br/>`---`<br/>`bool value`<br/> |
 
 %tab-end
 
@@ -372,19 +350,6 @@ success = wb_speaker_set_language(tag, language)
 wb_speaker_is_speaking()
 wb_speaker_speak(tag, text, volume)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_engine` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_language` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/set_engine` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/<device_name>/set_language` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/<device_name>/is_speaking` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-| `/<device_name>/speak` | `service` | `webots_ros::speaker\speak` | `string text`<br/>`float64 volume`<br/>`---`<br/>`int8 success`<br/> |
 
 %tab-end
 

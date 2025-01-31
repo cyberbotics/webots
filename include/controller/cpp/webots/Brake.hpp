@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ namespace webots {
       Device(name),
       motor(NULL),
       positionSensor(NULL) {}  // Use Robot::getBrake() instead
+    explicit Brake(WbDeviceTag tag) : Device(tag), motor(NULL), positionSensor(NULL) {}
     virtual ~Brake() {}
     Type getType() const;
     void setDampingConstant(double dampingConstant) const;

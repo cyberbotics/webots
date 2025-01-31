@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ class WbMouse : public QObject {
 public:
   static WbMouse *create();
   static void destroy(WbMouse *mouse);  // Note: it calls the mouse destructor
-  static QList<WbMouse *> mouses() { return mMouses; }
+  static QList<WbMouse *> &mouses() { return mMouses; }
 
   bool left() const { return mLeft; }
   bool middle() const { return mMiddle; }

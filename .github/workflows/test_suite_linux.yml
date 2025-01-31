@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -38,17 +38,16 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         xvfb-run --auto-servernum make webots_target -j4
   build:
-    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         include:
-          - os: ubuntu-20.04
-            JAVA_VERSION: "16"
-            ROS_DISTRO: "noetic"
           - os: ubuntu-22.04
             JAVA_VERSION: "18"
+          - os: ubuntu-24.04
+            JAVA_VERSION: "21"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -66,23 +65,22 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
-        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
     - name: Create/Update GitHub release
-      if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
+      if: ${{ matrix.os == 'ubuntu-22.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v3
-      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    - uses: actions/upload-artifact@v4
+      if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v3
-      if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    - uses: actions/upload-artifact@v4
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
@@ -95,19 +93,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
-        name: build-ubuntu-20.04
+        name: build-ubuntu-22.04
         path: artifact
     - name: Extract Webots
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh --exclude-ros
+      run: sudo scripts/install/linux_test_dependencies.sh
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
@@ -121,63 +119,29 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: test-results-${{ matrix.os }}
         path: |
           tests/
-  test-ros:
-    needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-20.04]
-        include:
-          - os: ubuntu-20.04
-            ROS_DISTRO: noetic
-            python: 3.8
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v3
-      with:
-         submodules: true
-    - name: Download Artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: build-${{ matrix.os }}
-        path: artifact
-    - name: Extract Webots
-      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
-    - name: Install Webots Dependencies
-      run: sudo scripts/install/linux_test_dependencies.sh
-    - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python }}
-    - name: Run Test
-      run: |
-        export WEBOTS_HOME=$PWD/artifact/webots
-        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        python -m pip install rospkg catkin_pkg empy defusedxml netifaces
-        Xvfb :99 &
-        export DISPLAY=:99
-        ./tests/ros.sh
-      timeout-minutes: 15
   test-worlds:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-    - name: Download Artifacts
-      uses: actions/download-artifact@v3
+    - name: Download Scripts
+      uses: actions/checkout@v4
       with:
-        name: build-ubuntu-20.04
+        sparse-checkout: |
+          scripts/install/linux_runtime_dependencies.sh
+          tests/test_worlds.py
+        sparse-checkout-cone-mode: false
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4.1.7
+      with:
+        name: build-ubuntu-22.04
         path: artifact
-    - name: Get branch name
-      id: branch-name
-      uses: tj-actions/branch-names@v5.1
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -190,19 +154,18 @@ jobs:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo bash linux_runtime_dependencies.sh
+        sudo bash scripts/install/linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
-        xvfb-run --auto-servernum python3 test_worlds.py
+        xvfb-run --auto-servernum python3 tests/test_worlds.py
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
-    needs: [build, test-suite, test-ros, test-worlds]
+    needs: [build, test-suite, test-worlds]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

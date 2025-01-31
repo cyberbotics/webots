@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public:
   explicit WbReceiver(WbTokenizer *tokenizer = NULL);
   WbReceiver(const WbReceiver &other);
   explicit WbReceiver(const WbNode &other);
-  virtual ~WbReceiver();
+  virtual ~WbReceiver() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RECEIVER; }

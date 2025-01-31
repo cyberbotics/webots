@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,8 +73,8 @@ typedef struct WbuBvhMotionPrivate {
 //        Utility functions          //
 //***********************************//
 
-static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, char *this_name, BvhMotionJointPrivate_t *parent,
-                                              int *channels_count) {
+static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, const char *this_name,
+                                              BvhMotionJointPrivate_t *parent, int *channels_count) {
   // create and init new joint
   BvhMotionJointPrivate_t *new_joint = malloc(sizeof(BvhMotionJointPrivate_t));
   new_joint->name = (char *)malloc(strlen(this_name) + 1);
@@ -100,7 +100,7 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
 
   char line[MAX_LINE];
   while (fgets(line, MAX_LINE, file)) {
-    char *token = strtok(line, DELIM);
+    const char *token = strtok(line, DELIM);
 
     // opening bracket of joint
     if (strcmp(token, "{") == 0)
@@ -193,7 +193,7 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
 
 static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_count) {
   int n_frames = motion->n_frames;
-  char *token;
+  const char *token;
   int joint_index;
 
   // init joints
@@ -316,7 +316,7 @@ WbuBvhMotion wbu_bvh_read_file(const char *filename) {
   int channels_count = 0;
   char line[MAX_LINE];
   while (fgets(line, MAX_LINE, file)) {
-    char *token;
+    const char *token;
     token = strtok(line, DELIM);
     // skeleton section
     if (strcmp(token, "HIERARCHY") == 0)
@@ -476,7 +476,7 @@ void wbu_bvh_set_scale(WbuBvhMotion motion, double scale) {
 const double *wbu_bvh_get_root_translation(const WbuBvhMotion motion) {
   static double result[3];
   int frame_index = motion->current_frame;
-  double *frame_position = motion->joint_list[0]->frame_position[frame_index];
+  const double *frame_position = motion->joint_list[0]->frame_position[frame_index];
   int i = 0;
   for (; i < 3; ++i)
     result[i] = frame_position[i] * motion->scale_factor;

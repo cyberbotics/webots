@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -77,8 +77,8 @@ static void tessEnd() {
 // the glu tesselator calls this function in the right order to populate the
 // index list
 static void tessVertexData(void *vertex, void *r) {
-  QList<QVector<int>> *results = (QList<QVector<int>> *)r;
-  TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
+  QList<QVector<int>> *results = static_cast<QList<QVector<int>> *>(r);
+  const TesselatorData *tesselatorData = static_cast<TesselatorData *>(vertex);
   results->append(QVector<int>() << tesselatorData->coordIndex << tesselatorData->normalIndex << tesselatorData->texIndex);
 }
 
@@ -114,11 +114,11 @@ QString WbTesselator::tesselate(const QList<QVector<int>> &indexes, const QList<
   GLUtesselator *tesselator = gluNewTess();
   assert(tesselator);
 
-  gluTessCallback(tesselator, GLU_TESS_BEGIN, (GLU_function_pointer)&tessBegin);
-  gluTessCallback(tesselator, GLU_TESS_VERTEX_DATA, (GLU_function_pointer)&tessVertexData);
-  gluTessCallback(tesselator, GLU_TESS_END, (GLU_function_pointer)&tessEnd);
-  gluTessCallback(tesselator, GLU_TESS_EDGE_FLAG, (GLU_function_pointer)&tessEdgeFlag);
-  gluTessCallback(tesselator, GLU_TESS_ERROR, (GLU_function_pointer)&tessError);
+  gluTessCallback(tesselator, GLU_TESS_BEGIN, reinterpret_cast<GLU_function_pointer>(&tessBegin));
+  gluTessCallback(tesselator, GLU_TESS_VERTEX_DATA, reinterpret_cast<GLU_function_pointer>(&tessVertexData));
+  gluTessCallback(tesselator, GLU_TESS_END, reinterpret_cast<GLU_function_pointer>(&tessEnd));
+  gluTessCallback(tesselator, GLU_TESS_EDGE_FLAG, reinterpret_cast<GLU_function_pointer>(&tessEdgeFlag));
+  gluTessCallback(tesselator, GLU_TESS_ERROR, reinterpret_cast<GLU_function_pointer>(&tessError));
   gluTessProperty(tesselator, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_POSITIVE);
   gluTessBeginPolygon(tesselator, &results);
   gluTessBeginContour(tesselator);

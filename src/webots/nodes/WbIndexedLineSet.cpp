@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -228,7 +228,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  if (!coord())
+  if (!coord() || mCoordIndex->isEmpty())
     return;
 
   const WbMFVector3 &points = coord()->point();
@@ -266,7 +266,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   }
 }
 
-QStringList WbIndexedLineSet::fieldsToSynchronizeWithX3D() const {
+QStringList WbIndexedLineSet::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "coordIndex";
   return fields;

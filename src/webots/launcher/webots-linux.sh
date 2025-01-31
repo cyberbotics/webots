@@ -69,7 +69,11 @@ export TMPDIR=$WEBOTS_TMPDIR
 export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
+export WEBOTS_ORIGINAL_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
+
+# set the QT platform to use the X11 server for compatibility with Wayland
+export QT_QPA_PLATFORM="xcb"
 
 # Fix for i3 window manager not working with Qt6
 if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
@@ -85,10 +89,6 @@ elif [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 else
   export QT_ENABLE_HIGHDPI_SCALING=1
 fi
-
-# Fixes warning on Ubuntu 22.04
-unset XDG_SESSION_TYPE
-unset WAYLAND_DISPLAY
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then

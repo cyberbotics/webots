@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 PROTO DefaultDef [
   field SFNode slot1 DEF BOX Shape { geometry Box { size 0.1 0.1 0.1 } }

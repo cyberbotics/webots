@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WbFieldIntSpinBox : public WbIntSpinBox {
 
 public:
   explicit WbFieldIntSpinBox(QWidget *parent = NULL);
-  virtual ~WbFieldIntSpinBox();
+  virtual ~WbFieldIntSpinBox() override;
   void stepBy(int steps) override;
   void setValueNoSignals(int value);
 

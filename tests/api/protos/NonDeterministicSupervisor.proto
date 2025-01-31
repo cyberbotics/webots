@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 # tags: nonDeterministic
 # This PROTO generates a file called 'test.txt' in the temporary files.
 # The content of the file is the number of times the PROTO was regenerated.

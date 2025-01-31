@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -345,8 +345,7 @@ void WbVideoRecorder::stopRecording(bool canceled) {
 
 void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
-  FrameWriterThread *thread =
-    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
+  FrameWriterThread *thread = new FrameWriterThread(frame, fileName, mVideoResolution, 1, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -460,7 +459,7 @@ QString WbVideoRecorder::nextFileName() {
 
 void WbVideoRecorder::createMpeg() {
 #ifdef __linux__
-  static const QString ffmpeg("ffmpeg");
+  static const QString ffmpeg("LD_LIBRARY_PATH=\"$WEBOTS_ORIGINAL_LD_LIBRARY_PATH\" ffmpeg");
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
@@ -480,8 +479,8 @@ void WbVideoRecorder::createMpeg() {
   if (ffmpegScript.open(QIODevice::WriteOnly)) {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
-    long long int bitrate = (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() /
-                            256 / (mScreenPixelRatio * mScreenPixelRatio);
+    long long int bitrate =
+      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256;
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32

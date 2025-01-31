@@ -601,7 +601,7 @@ body {
 .ui-icon {
   display: inline-block;
   background-repeat: no-repeat;
-  background-image: url('https://cyberbotics.com/wwi/{{ webots.version.major }}/images/icons.svg');
+  background-image: url('https://cyberbotics.com/wwi/R2025a/images/icons.svg');
   background-color: transparent;
   border: none;
   width: 34px;

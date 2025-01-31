@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -515,26 +515,26 @@ const QString WbImageTexture::path() const {
 }
 
 bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
-  if (!writer.isX3d() || !isUseNode() || mRole.isEmpty())
+  if (!writer.isW3d() || !isUseNode() || mRole.isEmpty())
     return WbBaseNode::exportNodeHeader(writer);
 
-  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-  if (isInvisibleNode())
-    writer << " render=\'false\'";
+  writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (defNode())
     writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'";
-  writer << " role=\'" << mRole << "\' ></" + x3dName() + ">";
+  writer << " role=\'" << mRole << "\' ></" + w3dName() + ">";
   return true;
 }
 
 void WbImageTexture::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
     QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {
@@ -547,27 +547,23 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
 
   urlFieldCopy.write(writer);
 
-  findField("repeatS", true)->write(writer);
-  findField("repeatT", true)->write(writer);
-  findField("filtering", true)->write(writer);
-
-  if (writer.isX3d()) {
+  if (writer.isW3d()) {
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
   }
 }
 
 void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
-  if (!writer.isX3d() || mUrl->size() == 0)
+  if (!writer.isW3d() || mUrl->size() == 0)
     return;
 
   // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
   // 'webots://' since this case would be converted to a remote one that targets the current branch
-  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
+  if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isW3dStreaming())
     WbUrl::exportTexture(this, mUrl, 0, writer);
 }
 
-QStringList WbImageTexture::fieldsToSynchronizeWithX3D() const {
+QStringList WbImageTexture::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"
          << "repeatS"

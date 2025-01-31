@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -164,14 +164,14 @@ void WbColorEditor::apply() {
   updateButton();
 
   if (singleValue()) {
-    WbSFColor *const sfColor = static_cast<WbSFColor *>(singleValue());
+    const WbSFColor *const sfColor = static_cast<WbSFColor *>(singleValue());
     if (sfColor->value() == mRgb)
       return;
 
     mPreviousValue->setColor(sfColor->value());
 
   } else if (multipleValue()) {
-    WbMFColor *const mfColor = static_cast<WbMFColor *>(multipleValue());
+    const WbMFColor *const mfColor = static_cast<WbMFColor *>(multipleValue());
     if (mfColor->item(index()) == mRgb)
       return;
 

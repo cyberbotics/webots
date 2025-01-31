@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -169,7 +169,7 @@ void *request_read_data(WbRequest *r, int size) {
 }
 
 char *request_read_string(WbRequest *r) {
-  char *src = r->data + r->pointer;
+  const char *src = r->data + r->pointer;
   const int l = strlen(src) + 1;
   char *dst = malloc(l);
   memcpy(dst, src, l);
@@ -186,7 +186,7 @@ int request_get_size(WbRequest *r) {
   return *((int *)r->data);
 }
 
-int request_get_position(WbRequest *r) {
+int request_get_position(const WbRequest *r) {
   return r->pointer;
 }
 
@@ -198,7 +198,7 @@ void request_set_immediate(WbRequest *r, bool immediate) {
   r->immediate = immediate;
 }
 
-bool request_is_immediate(WbRequest *r) {
+bool request_is_immediate(const WbRequest *r) {
   return r->immediate;
 }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
+#include <algorithm>
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
@@ -274,6 +275,7 @@ void WbRobot::addDevices(WbNode *node) {
 
   WbGroup *group = dynamic_cast<WbGroup *>(node);
   if (group) {
+    // cppcheck-suppress constVariablePointer
     WbSolidDevice *solidDevice = dynamic_cast<WbSolidDevice *>(node);
     if (solidDevice) {
       mDevices.append(solidDevice);
@@ -293,7 +295,7 @@ void WbRobot::addDevices(WbNode *node) {
       }
     }
 
-    WbTrack *const track = dynamic_cast<WbTrack *>(group);
+    const WbTrack *const track = dynamic_cast<WbTrack *>(group);
     if (track) {
       const QVector<WbLogicalDevice *> trackDevices = track->devices();
       for (int i = 0; i < trackDevices.size(); ++i) {
@@ -317,7 +319,7 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbSlot *const slot = dynamic_cast<WbSlot *>(node);
+  const WbSlot *const slot = dynamic_cast<WbSlot *>(node);
   if (slot) {
     addDevices(slot->endPoint());
     return;
@@ -325,7 +327,7 @@ void WbRobot::addDevices(WbNode *node) {
 
   WbBasicJoint *const basicJoint = dynamic_cast<WbBasicJoint *>(node);
   if (basicJoint) {
-    WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
+    const WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
     if (joint) {
       const QVector<WbLogicalDevice *> &jointDevices = joint->devices();
       foreach (WbLogicalDevice *const jointDevice, jointDevices) {
@@ -355,8 +357,8 @@ void WbRobot::addDevices(WbNode *node) {
   // check if there are duplicated names, and print a warning if necessary
   if (dynamic_cast<const WbRobot *>(node)) {  // top node
     QStringList displayedWarnings;
-    foreach (WbDevice *deviceA, mDevices) {
-      foreach (WbDevice *deviceB, mDevices) {
+    foreach (const WbDevice *deviceA, mDevices) {
+      foreach (const WbDevice *deviceB, mDevices) {
         if (deviceA != deviceB && deviceA->deviceName() == deviceB->deviceName() &&
             !displayedWarnings.contains(deviceA->deviceName())) {
           parsingWarn(tr("At least two devices are sharing the same name (\"%1\") while unique names are required.")
@@ -441,7 +443,7 @@ QString WbRobot::searchDynamicLibraryAbsolutePath(const QString &key, const QStr
         }
       }
       // search in project folder associated with parent PROTO models
-      WbProtoModel *protoModel = proto();
+      const WbProtoModel *protoModel = proto();
       while (protoModel) {
         if (!protoModel->projectPath().isEmpty()) {
           QDir protoDir(protoModel->projectPath() + "/plugins/" + pluginSubdirectory + "/" + key);
@@ -670,7 +672,7 @@ double WbRobot::energyUploadSpeed() const {
 
 double WbRobot::energyConsumption() const {
   double e = mCpuConsumption->value();
-  foreach (WbDevice *deviceObject, mDevices)  // add energy consumption for each device
+  foreach (const WbDevice *deviceObject, mDevices)  // add energy consumption for each device
     e += deviceObject->energyConsumption();
   return e;
 }
@@ -1092,12 +1094,25 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
 }
 
 QString WbRobot::encodedName() const {
-  const QString encodedName = QUrl::toPercentEncoding(name());
+  QString encodedName = QUrl::toPercentEncoding(name());
   // the robot name is used to connect to the libController and in this process there are indirect
-  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
-  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
-  if (encodedName.length() > 70)  // note: this threshold should be the same as in robot.c
-    return QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names
+  // on some platforms.
+  // Since the server name also contains the tmp path and that includes the user's username and,
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded
+  // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
+  // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
+  // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
+  // chance of a name collision 1/65536.
+  // Note: It is critical that the same logic is used in robot.c
+  const QString &tmpPath = WbStandardPaths::webotsTmpPath();
+  qsizetype maxNameLength = std::max((qsizetype)4, 91 - (tmpPath.length() + (qsizetype)strlen("ipc//extern")));
+  // Round down to the next multiple of 2 because it makes the code in robot.c easier.
+  maxNameLength = maxNameLength / 2 * 2;
+  if (encodedName.length() > maxNameLength) {
+    encodedName = QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+    encodedName.truncate(maxNameLength);
+  }
   return encodedName;
 }
 
@@ -1376,7 +1391,7 @@ QString WbRobot::windowFile(const QString &extension) const {
     if (file.exists() && file.isFile() && file.isReadable())
       return path;
     // search in project folder associated with parent PROTO models
-    WbProtoModel *protoModel = proto();
+    const WbProtoModel *protoModel = proto();
     while (protoModel) {
       if (!protoModel->projectPath().isEmpty()) {
         path = protoModel->projectPath() + "/plugins/robot_windows/" + fileName;
@@ -1512,19 +1527,6 @@ bool WbRobot::refreshJoyStickSensorIfNeeded() {
   return false;
 }
 
-void WbRobot::exportNodeFields(WbWriter &writer) const {
-  WbMatter::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!name().isEmpty())
-      writer << " name='" << sanitizedName() << "'";
-    if (findField("controller") && !controllerName().isEmpty()) {
-      writer << " controller=";
-      writer.writeLiteralString(controllerName());
-    }
-    writer << " type='robot'";
-  }
-}
-
 void WbRobot::fixMissingResources() const {
   if (controllerName()[0] != '<' && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
     mController->setValue("<generic>");
@@ -1545,7 +1547,7 @@ const QString WbRobot::urdfName() const {
 }
 
 int WbRobot::computeSimulationMode() {
-  WbSimulationState *state = WbSimulationState::instance();
+  const WbSimulationState *state = WbSimulationState::instance();
   switch (state->mode()) {
     case WbSimulationState::REALTIME:
       return WB_SUPERVISOR_SIMULATION_MODE_REAL_TIME;

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ int tcp_client_open(char *buffer) {
 
 int tcp_client_connect(int fd, const char *host, int port, char *buffer) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   // fill in the socket address
   memset(&address, 0, sizeof(struct sockaddr_in));
   address.sin_family = AF_INET;

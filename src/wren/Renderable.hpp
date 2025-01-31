@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ namespace wren {
 
     void setDefaultMaterial(Material *material) { mDefaultMaterial = material; }
     void setEffectiveMaterial(Material *material) { mEffectiveMaterial = material; }
-    void setOptionalMaterial(std::string name, Material *material) { mOptionalMaterials[name] = material; }
+    void setOptionalMaterial(const std::string &name, Material *material) { mOptionalMaterials[name] = material; }
 
     // To ensure a valid bounding sphere, only set a Mesh to a Renderable after having called Mesh::setup.
     void setMesh(Mesh *mesh);
@@ -96,7 +96,7 @@ namespace wren {
     static const char *cUseMaterialName;
 
     Renderable();
-    virtual ~Renderable();
+    virtual ~Renderable() override;
 
     void setupAndRender(const ShaderProgram *program);
     void updateShadowVolumeCaster();

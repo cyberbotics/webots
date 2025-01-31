@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public:
   void removeTransition(Transition *t);
   void removeTransitionAt(int i);
   void removeAllTransitions();
-  QList<Transition *> transitions() const { return mTransition; }
+  const QList<Transition *> &transitions() const { return mTransition; }
 
   void fromString(const QString &string);
   void fromStringVersion3(const QString &string);  // backward compatibility code

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,8 +52,7 @@ signals:
 
 private slots:
   void unsubscribe(QObject *node);
-  void regenerateNodeFromFieldChange(WbField *field);
-  void regenerateNodeFromParameterChange(WbField *field);
+  void regenerateNodeFromField(WbField *field);
   void regenerateNode(WbNode *node, bool restarted = false);
   void nodeNeedRegeneration();
 
@@ -67,7 +66,6 @@ private:
 
   bool nodeNeedsToSubscribe(WbNode *node);
   void recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant);
-  void regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter);
 
   QList<WbNode *> mTemplates;
   QSet<const WbNode *> mNodesSubscribedForRegeneration;

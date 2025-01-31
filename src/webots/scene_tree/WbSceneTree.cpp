@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -320,8 +320,8 @@ void WbSceneTree::copy() {
     row = mSelectedItem->row();
   }
 
-  WbSingleValue *singleValue = dynamic_cast<WbSingleValue *>(value);
-  WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
+  const WbSingleValue *singleValue = dynamic_cast<WbSingleValue *>(value);
+  const WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
   if (mSelectedItem->isNode() || mSelectedItem->isSFNode()) {
     const QList<const WbNode *> clipboardNodes = WbVrmlNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
     if (!WbProtoManager::instance()->externProtoClipboardBuffer().isEmpty())
@@ -453,7 +453,7 @@ void WbSceneTree::pasteInMFValue() {
 void WbSceneTree::del(WbNode *nodeToDel) {
   WbNode *node = nodeToDel;
 
-  WbTreeItem *deletedItem;
+  const WbTreeItem *deletedItem;
   if (node == NULL) {
     node = mSelectedItem->node();
     deletedItem = mSelectedItem;
@@ -521,8 +521,8 @@ void WbSceneTree::reset() {
 
     // check if referred DEF node is going to be deleted
     bool containsReferredNode = false;
-    WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
-    WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
+    const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
+    const WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
     if (sfnode) {
       mRowsAreAboutToBeRemoved = sfnode->value();
       containsReferredNode = sfnode->value() && WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(sfnode->value());
@@ -669,7 +669,7 @@ void WbSceneTree::transform(const QString &modelName) {
   // copy fields and adopt children
   WbNode::setGlobalParentNode(newNode);
   QVector<WbField *> fields = currentNode->fieldsOrParameters();
-  foreach (WbField *originalField, fields) {
+  foreach (const WbField *originalField, fields) {
     // copy field if it exists
     WbField *const newField = newNode->findField(originalField->name());
     if (newField)
@@ -680,7 +680,7 @@ void WbSceneTree::transform(const QString &modelName) {
 
   // reassign pointer in parent
   WbField *parentField = selectedItem->parent()->field();
-  WbNode *upperTemplate =
+  const WbNode *upperTemplate =
     WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
   if (selectedItem->isSFNode()) {
@@ -823,7 +823,7 @@ void WbSceneTree::moveViewpointToObject() {
   if (!mSelectedItem)
     return;
 
-  WbTreeItem *itemToMoveTo = mSelectedItem;
+  const WbTreeItem *itemToMoveTo = mSelectedItem;
   while (true) {
     if (itemToMoveTo->isNode() || itemToMoveTo->isSFNode()) {
       WbNode *node = itemToMoveTo->node();
@@ -914,7 +914,7 @@ void WbSceneTree::addNew() {
   }
 
   // set selected WbField and WbNode
-  WbTreeItem *selectedFieldItem = NULL;
+  const WbTreeItem *selectedFieldItem = NULL;
   WbField *selectedField = NULL;
   WbNode *selectedNodeParent = NULL;
   int newNodeIndex = 0;
@@ -933,7 +933,7 @@ void WbSceneTree::addNew() {
     // if multiple item field
     // directly add item without opening the dialog
     WbMultipleValue *const mvalue = dynamic_cast<WbMultipleValue *>(selectedField->value());
-    WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(selectedField->value());
+    const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(selectedField->value());
     if (mvalue && !mfnode) {
       if (insertInertiaMatrix(selectedField))
         return;
@@ -1069,9 +1069,9 @@ bool WbSceneTree::isPasteAllowed() {
     const WbClipboard::WbClipboardNodeInfo *clipboardNodeInfo = mClipboard->nodeInfo();
     const QString &nodeModelName = clipboardNodeInfo->nodeModelName;
     QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(field, nodeModelName, parentNode, errorMessage,
+    if (!WbNodeUtilities::isAllowedToInsert(field, parentNode, errorMessage,
                                             static_cast<const WbBaseNode *>(parentNode)->nodeUse(), clipboardNodeInfo->slotType,
-                                            QStringList() << nodeModelName << clipboardNodeInfo->modelName))
+                                            nodeModelName, clipboardNodeInfo->modelName, clipboardNodeInfo->protoParentList))
       return false;
 
     if (clipboardNodeInfo->hasADeviceDescendant)
@@ -1335,7 +1335,7 @@ void WbSceneTree::prepareNodeRegeneration(WbNode *node, bool nested) {
 
   // Store the selected item only if not inside the node which will be regenerated.
   // Indeed this node (and its WbTreeItem(s)) will be destroyed and recreated.
-  WbNode *n = NULL;
+  const WbNode *n = NULL;
   if (mSelectedItem && !mSelectedItem->isInvalid()) {
     if (mSelectedItem->isField()) {
       const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());

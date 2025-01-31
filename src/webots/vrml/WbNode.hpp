@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 
 class WbNodeModel;
+class WbNodeProtoInfo;
 class WbProtoModel;
 class WbField;
 class WbFieldModel;
@@ -117,7 +118,7 @@ public:
   const QString &useName() const { return mUseName; }
   void setUseName(const QString &useName, bool signal = true);
   QString fullName() const;  // e.g. "Robot, "DEF MY_BOT Robot" or "USE MY_BOT"
-  virtual const QString &x3dName() const { return nodeModelName(); }
+  virtual const QString &w3dName() const { return nodeModelName(); }
   virtual const QString urdfName() const;
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
@@ -157,7 +158,7 @@ public:
   static WbNode *findNodeFromSubNodeIndex(int index, WbNode *root);
   // find descendant node from a list of parent indices
   // indices are listed from the ancestor parent node (position 0) to the searched node index (position indices.size()-1)
-  static WbNode *findNodeFromSubNodeIndices(QList<int> indices, WbNode *root);
+  static WbNode *findNodeFromSubNodeIndices(const QList<int> &indices, WbNode *root);
 
   // PROTO
   static WbNode *createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath);
@@ -166,11 +167,12 @@ public:
 
   bool isProtoInstance() const { return mProto != NULL; }
   WbProtoModel *proto() const { return mProto; }
+  const QList<WbNodeProtoInfo *> &protoParents() const { return mProtoParents; }
   bool isTemplate() const;
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
   const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
-  QList<WbField *> parameters() const { return mParameters; }
+  const QList<WbField *> &parameters() const { return mParameters; }
   void setProtoInstanceTemplateContent(const QByteArray &content) { mProtoInstanceTemplateContent = content; }
   // pass argument if we know that a PROTO ancestor exists, otherwise if hasAProtoAncestorFlag is FALSE it will be computed
   void updateNestedProtoFlag(bool hasAProtoAncestorFlag = false);
@@ -180,7 +182,7 @@ public:
   // is a parameter node contained in a PROTO instance
   bool isProtoParameterNode() const;
   // return the node instances redirected to this PROTO parameter node
-  QList<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
+  const QList<WbNode *> &protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
   // connect nested PROTO parameters
@@ -202,7 +204,7 @@ public:
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
-  QList<WbField *> fields() const { return mFields; }
+  const QList<WbField *> &fields() const { return mFields; }
   const QList<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
   int numFields() const { return fieldsOrParameters().size(); }
   WbField *field(int index, bool internal = false) const;
@@ -265,8 +267,8 @@ public:
   void setInsertionCompleted() { mInsertionCompleted = true; }
 
   // export
-  virtual void exportBoundingObjectToX3D(WbWriter &writer) const {}
-  virtual QStringList fieldsToSynchronizeWithX3D() const { return QStringList(); }
+  virtual void exportBoundingObjectToW3d(WbWriter &writer) const {}
+  virtual QStringList fieldsToSynchronizeWithW3d() const { return QStringList(); }
   virtual void fixMissingResources() const {}
 
   virtual void reset(const QString &id);
@@ -359,7 +361,9 @@ private:
 
   // for proto instances only
   WbProtoModel *mProto;
+  QList<WbNodeProtoInfo *> mProtoParents;
   QList<WbField *> mParameters;
+  QList<WbField *> mInternalProtoParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 

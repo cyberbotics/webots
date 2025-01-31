@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -107,7 +107,13 @@ int WbMathsUtilities::convexHull(const QVector<WbVector2> &points, QVector<int> 
       iMin = i;
   }
 
+  // Ignore false positive warning produced by some versions of GCC.
+#pragma GCC diagnostic push
+#if __GNUC__ >= 7
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
   QVector<int> index(size);
+#pragma GCC diagnostic pop
   for (i = 0; i < size; ++i)
     index[i] = i;
 

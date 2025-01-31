@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ static void base_set_wheel_velocity(WbDeviceTag t, double velocity) {
   wb_motor_set_velocity(t, velocity);
 }
 
-static void base_set_wheel_speeds_helper(double speeds[4]) {
+static void base_set_wheel_speeds_helper(const double speeds[4]) {
   int i;
   for (i = 0; i < 4; i++)
     base_set_wheel_velocity(wheels[i], speeds[i]);

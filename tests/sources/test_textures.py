@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,6 +79,9 @@ class TestTextures(unittest.TestCase):
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
                 for fileName in fnmatch.filter(fileNames, '*.jpg'):
+                    # Ignore thumbnails
+                    if fileName.startswith('.'):
+                        continue
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
         # 2. filter-out the images which are not textures

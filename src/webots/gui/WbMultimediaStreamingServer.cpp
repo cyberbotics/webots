@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ int WbMultimediaStreamingServer::bytesToWrite() {
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
-  QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
+  const QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
   if (client)
     mTcpClients.removeAll(client);
   if (mTcpClients.isEmpty())
@@ -387,9 +387,9 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       viewpoint->setFollowType(mode.toInt());
       viewpoint->startFollowUp(solid, true);
     }
-  } else if (message.startsWith("x3d")) {
-    WbLog::error(tr("Streaming server received unsupported X3D message: '%1'. You should run Webots with the "
-                    "'--stream=\"mode=x3d\"' command line option.")
+  } else if (message.startsWith("w3d")) {
+    WbLog::error(tr("Streaming server received unsupported W3D message: '%1'. You should run Webots with the "
+                    "'--stream=\"mode=w3d\"' command line option.")
                    .arg(message));
     return;
   } else

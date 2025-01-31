@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,13 +126,13 @@ void wb_range_finder_init(WbDevice *d) {
   // g_print("range_finder init done\n");
 }
 
-int wb_range_finder_get_unique_id(WbDevice *d) {
-  AbstractCamera *ac = d->pdata;
+int wb_range_finder_get_unique_id(const WbDevice *d) {
+  const AbstractCamera *ac = d->pdata;
   return ac->unique_id;
 }
 
 void wbr_range_finder_set_image(WbDeviceTag t, const unsigned char *image) {
-  RangeFinder *rf = range_finder_get_struct(t);
+  const RangeFinder *rf = range_finder_get_struct(t);
   if (rf)
     wbr_abstract_camera_set_image(range_finder_get_device(t), image);
   else
@@ -140,7 +140,7 @@ void wbr_range_finder_set_image(WbDeviceTag t, const unsigned char *image) {
 }
 
 unsigned char *wbr_range_finder_get_image_buffer(WbDeviceTag t) {
-  RangeFinder *rf = range_finder_get_struct(t);
+  const RangeFinder *rf = range_finder_get_struct(t);
   if (rf)
     return wbr_abstract_camera_get_image_buffer(range_finder_get_device(t));
 
@@ -166,7 +166,7 @@ void wb_range_finder_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_range_finder_disable(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (rf)
     wb_range_finder_enable(tag, 0);
   else
@@ -174,7 +174,7 @@ void wb_range_finder_disable(WbDeviceTag tag) {
 }
 
 int wb_range_finder_get_sampling_period(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
@@ -182,7 +182,7 @@ int wb_range_finder_get_sampling_period(WbDeviceTag tag) {
 }
 
 int wb_range_finder_get_height(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
@@ -190,7 +190,7 @@ int wb_range_finder_get_height(WbDeviceTag tag) {
 }
 
 int wb_range_finder_get_width(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
@@ -198,7 +198,7 @@ int wb_range_finder_get_width(WbDeviceTag tag) {
 }
 
 double wb_range_finder_get_fov(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
@@ -206,7 +206,7 @@ double wb_range_finder_get_fov(WbDeviceTag tag) {
 }
 
 double wb_range_finder_get_min_range(WbDeviceTag tag) {
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (!rf)
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 
@@ -216,7 +216,7 @@ double wb_range_finder_get_min_range(WbDeviceTag tag) {
 double wb_range_finder_get_max_range(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
   if (rf)
     result = rf->max_range;
   else
@@ -263,7 +263,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
 
   robot_mutex_lock();
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
-  RangeFinder *rf = range_finder_get_struct(tag);
+  const RangeFinder *rf = range_finder_get_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);

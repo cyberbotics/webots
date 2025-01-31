@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,12 +104,12 @@ void ActivateLayer(layer_t *l) {
   }
 }*/
 
-void EvolveLayer(layer_t *l, layer_t *pbest, layer_t *gbest) {
+void EvolveLayer(layer_t *l, const layer_t *pbest, const layer_t *gbest) {
   int i, j;
   float *lW = l->W;
   float *lvW = l->vW;
-  float *gbW = gbest->W;
-  float *pbW = pbest->W;
+  const float *gbW = gbest->W;
+  const float *pbW = pbest->W;
 
   for (i = 0; i < l->width; i++) {
     for (j = 0; j < l->depth; j++) {
@@ -123,7 +123,7 @@ void EvolveLayer(layer_t *l, layer_t *pbest, layer_t *gbest) {
   }
 }
 
-void PrintLayerOutput(layer_t *l) {
+void PrintLayerOutput(const layer_t *l) {
   int i;
   char *main_buffer = (char *)malloc(sizeof(char) * (10 * l->depth + 1));
   strcpy(main_buffer, "");
@@ -138,7 +138,7 @@ void PrintLayerOutput(layer_t *l) {
   free(main_buffer);
 }
 
-void SaveLayerWeights(layer_t *l, FILE *fp) {
+void SaveLayerWeights(const layer_t *l, FILE *fp) {
   if (fwrite(l->W, (sizeof(float) * (l->depth) * (l->width)), 1, fp) != 1)
     printf("error writing to file\n");
 }

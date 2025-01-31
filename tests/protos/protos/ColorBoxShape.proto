@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 PROTO ColorBoxShape [
   field SFColor faceColor 0.8 0.8 0.8

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -219,7 +219,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
     // compute absolute transform of this node from all the parents
     aiMatrix4x4 transform;
-    aiNode *current = node;
+    const aiNode *current = node;
     while (current != NULL) {
       transform *= current->mTransformation;
       current = current->mParent;
@@ -286,7 +286,7 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
   mTriangleMeshError = mTriangleMesh->init(coordData, normalData, texCoordData, indexData, totalVertices, currentIndexIndex);
 
   if (issueWarnings) {
-    foreach (QString warning, mTriangleMesh->warnings())
+    foreach (const QString &warning, mTriangleMesh->warnings())
       warn(warning);
 
     if (!mTriangleMeshError.isEmpty())
@@ -401,7 +401,7 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isX3d() || writer.isProto()))
+  if (!(writer.isW3d() || writer.isProto()))
     return;
 
   if (mUrl->size() == 0)
@@ -412,7 +412,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
     if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isX3d()));
+      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
     else if (WbUrl::isWeb(completeUrl))
       urlFieldValue->setItem(i, completeUrl);
     else {
@@ -425,19 +425,10 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   urlFieldCopy.write(writer);
 
-  findField("ccw", true)->write(writer);
-  findField("materialIndex", -1)->write(writer);
-  if (!mName->value().isEmpty()) {
-    QString dirtyName = mName->value();
-    dirtyName.replace("\'", "&apos;", Qt::CaseInsensitive);
-    dirtyName.replace("\"", "&quot;", Qt::CaseInsensitive);
-    dirtyName.replace(">", "&gt;", Qt::CaseInsensitive);
-    dirtyName.replace("<", "&lt;", Qt::CaseInsensitive);
-    writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
-  }
+  WbGeometry::exportNodeFields(writer);
 }
 
-QStringList WbMesh::fieldsToSynchronizeWithX3D() const {
+QStringList WbMesh::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"
          << "ccw"

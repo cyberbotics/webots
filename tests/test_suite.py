@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(description='Test-suite command line options')
 parser.add_argument('--nomake', dest='nomake', default=False, action='store_true', help='The controllers are not re-compiled.')
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
 parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
-                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+                    choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering'])
 parser.add_argument('--performance-log', '-p', type=str, dest='performance_log', default="",
                     help='The name of the performance log file to use if you want to log performance.')
 parser.add_argument('worlds', nargs='*', default=[])
@@ -86,6 +86,8 @@ def setupWebots():
 
     if sys.platform == 'win32':
         webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'mingw64', 'bin', 'webots.exe')
+    elif sys.platform == 'darwin':
+        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'Contents', 'MacOS', 'webots')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
@@ -114,7 +116,7 @@ def setupWebots():
     command = Command([webotsFullPath, '--sysinfo'])
     command.run()
     if command.returncode != 0:
-        raise RuntimeError('Error when getting the Webots information of the system')
+        raise RuntimeError('Error when getting the Webots information of the system: ' + command.output)
     webotsSysInfo = command.output.split('\n')
 
     return webotsFullPath, webotsVersion, webotsSysInfo, webotsEmptyWorldPath
@@ -179,7 +181,7 @@ def generateWorldsList(groupName):
     # generate the list from the arguments
     if filesArguments:
         for file in filesArguments:
-            if f'/tests/{groupName}/' in file:
+            if (os.sep + 'tests' + os.sep + groupName + os.sep) in file:
                 worldsList.append(file)
 
     # generate the list from 'ls worlds/*.wbt'
@@ -198,12 +200,17 @@ def generateWorldsList(groupName):
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
             # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
+            # billboard test not working in macos GitHub Action environment
+            # billboard and robot window not working on windows GitHub Action environment.
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
-                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
+                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
+                        (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
+                        (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
                     ))):
                 worldsList.append(filename)
 
@@ -236,17 +243,19 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     #  command.run(silent = False)
 
     webotsArguments = [webotsFullPath, firstSimulation]
-    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch']
+    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch', '--no-rendering', '--minimize']
     if args.performance_log:
         webotsArguments += [f'--log-performance={args.performance_log}']
-    if groupName != 'with_rendering':
-        webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':
         webotsArguments += ['--clear-cache']
     command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
-    command.runTest(timeout=10 * 60)  # 10 minutes
+    timeoutMinutes = 10
+    if sys.platform == "darwin":
+        # Longer timeout on MacOS because Webots takes longer to start there during CI.
+        timeoutMinutes = 60
+    command.runTest(timeout=timeoutMinutes * 60)
 
     if command.isTimeout or command.returncode != 0:
         if command.isTimeout:
@@ -332,7 +341,7 @@ for file in args.worlds:
 if args.group:
     testGroups = [str(args.group)]
 else:
-    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
+    testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering']
 
 if sys.platform == 'win32' and 'parser' in testGroups:
     testGroups.remove('parser')  # this one doesn't work on Windows
@@ -352,20 +361,20 @@ backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rende
                                     webotsEmptyWorldPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 # Wait until we can actually connect to it, trying 10 times.
-with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-    retries = 0
-    error = None
-    while retries < 10:
-        try:
+retries = 0
+error = None
+while retries < 10:
+    try:
+        with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
             sock.settimeout(1)
             sock.connect(("127.0.0.1", 1234))
             break
-        except socket.error as e:
-            error = e
-            retries += 1
-            time.sleep(1)
-    if retries == 10:
-        raise error
+    except socket.error as e:
+        error = e
+        retries += 1
+        time.sleep(1)
+if retries == 10:
+    raise error
 
 for groupName in testGroups:
     if groupName == 'cache':

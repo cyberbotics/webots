@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
@@ -8,8 +8,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.06939904725079878 -0.971070299644096 -0.22848686043141994 2.754925037543292
-  position -2.0283276380481268 2.5016408245438226 -4.162447135542576
+  orientation -0.5773502691896258 0.5773502691896257 0.5773502691896258 2.0943951023931953
+  position 0.03403387498495089 0.40499999999999703 4.818609101677204
 }
 Background {
   skyColor [

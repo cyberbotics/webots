@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -162,7 +162,7 @@ void ConsoleEdit::handleFilterChange() {
       }
     } else if (action->text() == WbLog::filterName(WbLog::ALL_WEBOTS)) {
       // disable all the Webots filters
-      foreach (const QString filter, WbLog::webotsFilterNames())
+      foreach (const QString &filter, WbLog::webotsFilterNames())
         emit filterDisabled(filter);
       emit filterDisabled(WbLog::filterName(WbLog::ALL));
     } else if (action->text() == WbLog::filterName(WbLog::ALL_CONTROLLERS)) {
@@ -587,7 +587,7 @@ void WbConsole::handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Lev
       }
 
       const QStringList codes(sequence.split(";"));  // handle multiple (e.g. sequence "ESC[0;39m" )
-      foreach (const QString code, codes) {
+      foreach (const QString &code, codes) {
         // the stored sequence may be "0m" or "1m", "4m", "2J", "30m", "31m", "32m", etc.
         if (code == "0m")  // reset to default
           resetFormat();

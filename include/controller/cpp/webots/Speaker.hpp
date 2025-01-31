@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ namespace webots {
   class Speaker : public Device {
   public:
     explicit Speaker(const std::string &name) : Device(name) {}  // Use Robot::getSpeaker() instead
+    explicit Speaker(WbDeviceTag tag) : Device(tag) {}
     virtual ~Speaker() {}
     static void playSound(Speaker *left, Speaker *right, const std::string &sound, double volume, double pitch, double balance,
                           bool loop);

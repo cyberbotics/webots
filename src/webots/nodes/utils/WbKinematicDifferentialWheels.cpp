@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ WbCylinder *WbKinematicDifferentialWheels::getRecursivelyBigestCylinder(WbBaseNo
     WbCylinder *cylinder = dynamic_cast<WbCylinder *>(node);
     if (cylinder)
       return cylinder;
-    WbGroup *group = dynamic_cast<WbGroup *>(node);
+    const WbGroup *group = dynamic_cast<WbGroup *>(node);
     if (group) {
       for (int i = 0; i < group->childCount(); ++i) {
         cylinder = getRecursivelyBigestCylinder(group->child(i));
@@ -77,7 +77,7 @@ WbCylinder *WbKinematicDifferentialWheels::getRecursivelyBigestCylinder(WbBaseNo
         }
       }
     }
-    WbShape *shape = dynamic_cast<WbShape *>(node);
+    const WbShape *shape = dynamic_cast<WbShape *>(node);
     if (shape) {
       cylinder = dynamic_cast<WbCylinder *>(shape->geometry());
       if (cylinder)
@@ -96,6 +96,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
   const QVector<WbBasicJoint *> joints = robot->jointChildren();
   QVector<WbHingeJoint *> motorizedJoints;
   for (int i = 0; i < joints.size(); ++i) {
+    // cppcheck-suppress constVariablePointer
     WbHingeJoint *joint = dynamic_cast<WbHingeJoint *>(joints.at(i));
     if (!joint || !joint->motor() || !joint->solidEndPoint())
       continue;
@@ -106,7 +107,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
   // check all the possible pairs of joints
   for (int i = 0; i < motorizedJoints.size(); ++i) {
     leftJoint = motorizedJoints.at(i);
-    WbCylinder *leftWheelCylinder = getRecursivelyBigestCylinder(leftJoint->solidEndPoint()->boundingObject());
+    const WbCylinder *leftWheelCylinder = getRecursivelyBigestCylinder(leftJoint->solidEndPoint()->boundingObject());
     // make sure this joint has a cylinder bounding object
     if (!leftWheelCylinder || leftWheelCylinder->radius() <= 0.0)
       continue;
@@ -115,7 +116,7 @@ WbKinematicDifferentialWheels *WbKinematicDifferentialWheels::createKinematicDif
     for (int j = i + 1; j < motorizedJoints.size(); ++j) {
       rightJoint = motorizedJoints.at(j);
       // make sure this joint has a cylinder bounding object
-      WbCylinder *rightWheelCylinder = getRecursivelyBigestCylinder(rightJoint->solidEndPoint()->boundingObject());
+      const WbCylinder *rightWheelCylinder = getRecursivelyBigestCylinder(rightJoint->solidEndPoint()->boundingObject());
       if (!rightWheelCylinder || rightWheelCylinder->radius() <= 0.0)
         continue;
       // make sure both cylinders have the same size

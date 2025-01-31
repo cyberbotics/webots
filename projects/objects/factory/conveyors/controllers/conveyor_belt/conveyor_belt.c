@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   wb_robot_init();
   assert(argc == 3);  // speed and timer excepted as argument.

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,9 +49,6 @@ public:
   // returns the tags stored as (# tags: tag1, tag2) comments in the file header
   const QStringList tags() const;
 
-  // returns the scripting language used in procedural PROTOs stored as (# templateEngine: string)
-  const QString templateLanguage() const;
-
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
 
@@ -60,6 +57,9 @@ public:
 
   // returns the documentation URL stored as (# license url: string) comments in the file header
   const QString documentationUrl() const;
+
+  // returns the parent node type stored as (# parent: string) comments in the file header
+  const QString parent() const;
 
   // returns file version found in file header
   const WbVersion &fileVersion() const { return mFileVersion; }

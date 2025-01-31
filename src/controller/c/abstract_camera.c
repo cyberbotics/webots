@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,50 +120,50 @@ void wb_abstract_camera_enable(WbDevice *d, int sampling_period) {
   robot_mutex_unlock();
 }
 
-int wb_abstract_camera_get_sampling_period(WbDevice *d) {
+int wb_abstract_camera_get_sampling_period(const WbDevice *d) {
   int sampling_period = 0;
   robot_mutex_lock();
-  AbstractCamera *ac = d->pdata;
+  const AbstractCamera *ac = d->pdata;
   if (ac)
     sampling_period = ac->sampling_period;
   robot_mutex_unlock();
   return sampling_period;
 }
 
-int wb_abstract_camera_get_height(WbDevice *d) {
+int wb_abstract_camera_get_height(const WbDevice *d) {
   int result = -1;
   robot_mutex_lock();
-  AbstractCamera *ac = d->pdata;
+  const AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->height;
   robot_mutex_unlock();
   return result;
 }
 
-int wb_abstract_camera_get_width(WbDevice *d) {
+int wb_abstract_camera_get_width(const WbDevice *d) {
   int result = -1;
   robot_mutex_lock();
-  AbstractCamera *ac = d->pdata;
+  const AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->width;
   robot_mutex_unlock();
   return result;
 }
 
-double wb_abstract_camera_get_fov(WbDevice *d) {
+double wb_abstract_camera_get_fov(const WbDevice *d) {
   double result = NAN;
   robot_mutex_lock();
-  AbstractCamera *ac = d->pdata;
+  const AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->fov;
   robot_mutex_unlock();
   return result;
 }
 
-double wb_abstract_camera_get_near(WbDevice *d) {
+double wb_abstract_camera_get_near(const WbDevice *d) {
   double result = NAN;
   robot_mutex_lock();
-  AbstractCamera *ac = d->pdata;
+  const AbstractCamera *ac = d->pdata;
   if (ac)
     result = ac->camnear;
   robot_mutex_unlock();

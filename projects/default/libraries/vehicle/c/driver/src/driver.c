@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -448,6 +448,7 @@ static void update_engine_sound() {
     }
     if (rpm < instance->car->engine_min_rpm)
       rpm = instance->car->engine_min_rpm;
+    // cppcheck-suppress variableScope
     double pitch = rpm / instance->car->engine_sound_rpm_reference;
     if (stop_sound)
       wb_speaker_stop(instance->engine_speaker, instance->car->engine_sound);

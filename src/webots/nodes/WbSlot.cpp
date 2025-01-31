@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ void WbSlot::setSleepMaterial() {
 }
 
 WbBoundingSphere *WbSlot::boundingSphere() const {
-  WbBaseNode *const baseNode = static_cast<WbBaseNode *>(mEndPoint->value());
+  const WbBaseNode *const baseNode = static_cast<WbBaseNode *>(mEndPoint->value());
   if (baseNode)
     return baseNode->boundingSphere();
 
@@ -225,7 +225,7 @@ void WbSlot::attachResizeManipulator() {
 }
 
 void WbSlot::detachResizeManipulator() const {
-  WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
   if (e)
     e->detachResizeManipulator();
 }

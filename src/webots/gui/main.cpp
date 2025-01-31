@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -147,8 +147,12 @@ int main(int argc, char *argv[]) {
 #endif
     );
 
-  // load qt warning filters from file
+#ifdef __APPLE__
+  QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/Contents/Resources/qt_warning_filters.conf");
+#else
   QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
+#endif
+  // load qt warning filters from file
   QFile qtFiltersFile(qtFiltersFilePath);
   if (qtFiltersFile.open(QIODevice::ReadOnly)) {
     QTextStream in(&qtFiltersFile);

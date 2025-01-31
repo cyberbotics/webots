@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -154,7 +154,7 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   if (solid->boundingObject())
     return true;
   else {
-    foreach (WbSolid *sc, solid->solidChildren()) {
+    foreach (const WbSolid *sc, solid->solidChildren()) {
       if (doesChildrenHaveBoundingObject(sc))
         return true;
     }
@@ -322,11 +322,12 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
         return false;
       }
     }
+    // add points at the back of the device to ensure the whole object is detected
+    pointsInFrustum << pointsAtBack;
     // move the points in the device referential
     for (int i = 0; i < pointsInFrustum.size(); ++i)
       pointsInFrustum[i] = deviceInverseRotation * (pointsInFrustum[i] - devicePosition);
-    // add points at the back of the device to ensure the whole object is detected
-    pointsInFrustum << pointsAtBack;
+
     double minX = pointsInFrustum[0].x();
     double maxX = minX;
     double minY = pointsInFrustum[0].y();
@@ -420,7 +421,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     }
 
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
-    if (!mIsOmniDirectional && mHorizontalFieldOfView <= M_PI_2) {
+    if (mHorizontalFieldOfView <= M_PI_2) {
       // do not recompute the object size and position if partly outside in case of fovX > PI
       // (a more complete computation will be needed and currently it seems to work quite well as-is)
       objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
@@ -432,7 +433,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   return true;
 }
 
-bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized,
+bool WbObjectDetection::recursivelyCheckIfWithinBounds(const WbSolid *solid, const bool boundsInitialized,
                                                        const WbAffinePlane *frustumPlanes) {
   bool initialized = boundsInitialized;
   if (initialized) {
@@ -441,7 +442,7 @@ bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, const boo
       mergeBounds(mObjectSize, mObjectRelativePosition, newObjectSize, newObjectRelativePosition);
   } else
     initialized = isWithinBounds(frustumPlanes, solid->boundingObject(), mObjectSize, mObjectRelativePosition, solid);
-  foreach (WbSolid *s, solid->solidChildren())
+  foreach (const WbSolid *s, solid->solidChildren())
     initialized = recursivelyCheckIfWithinBounds(s, initialized, frustumPlanes);
   return initialized;
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ public:
   explicit WbPen(WbTokenizer *tokenizer = NULL);
   WbPen(const WbPen &other);
   explicit WbPen(const WbNode &other);
-  virtual ~WbPen();
+  virtual ~WbPen() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PEN; }

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ class WbGeometry : public WbBaseNode {
 
 public:
   // Destructor
-  virtual ~WbGeometry();
+  virtual ~WbGeometry() override;
 
   // Reimplemented public functions
   void postFinalize() override;
@@ -123,7 +123,7 @@ public:
   void setUniformConstraintForResizeHandles(bool enabled) override;
 
   // export
-  void exportBoundingObjectToX3D(WbWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
   int triangleCount() const;

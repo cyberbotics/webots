@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ from utils.misc_utils import length2D
 GOOGLE_ELEVATION_BASE_URL = 'https://maps.googleapis.com/maps/api/elevation/json'
 GEAONAMES_ELEVATION_BASE_URI = 'http://api.geonames.org/astergdemJSON'
 
-GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/default/worlds/textures/grass.jpg'
+GRASS_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/grass.jpg'
 
 
 class Elevation(object):

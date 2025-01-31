@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ class Driver(Supervisor):
             car = 'car.dll'
             driver = 'driver.dll'
         elif sys.platform == 'darwin':
-            path = os.path.join('Contents', 'MacOS', 'lib', 'controller')
+            path = os.path.join('Contents', 'lib', 'controller')
             car = 'libcar.dylib'
             driver = 'libdriver.dylib'
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, car))

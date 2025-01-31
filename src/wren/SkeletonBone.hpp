@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ namespace wren {
 
   private:
     SkeletonBone(Skeleton *skeleton, const char *name);
-    virtual ~SkeletonBone() {}
+    virtual ~SkeletonBone() override {}
 
     std::string mName;
     std::unordered_map<DynamicMesh *, std::unordered_map<unsigned int, float>> mWeights;

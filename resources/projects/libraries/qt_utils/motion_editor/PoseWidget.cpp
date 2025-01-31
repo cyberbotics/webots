@@ -85,7 +85,7 @@ void PoseWidget::newItemAt(int index) {
 void PoseWidget::deleteItemAt(int index) {
   Motion *motion = Motion::instance();
   if (motion && mPose) {
-    MotorTargetState *stateToDelete = mPose->states().at(index);
+    const MotorTargetState *stateToDelete = mPose->states().at(index);
 
     bool deleteAllowed = true;
     bool atLeastOneDefinedRelatedState = motion->isSomeStateDefinedByMotorName(stateToDelete->motor()->name());
@@ -139,7 +139,7 @@ void PoseWidget::updatePoseFromModel(bool isStatusUpdate) {
 
 void PoseWidget::updateStateFromModel(int index) {
   if (mPose) {
-    MotorTargetState *state = mPose->states().at(index);
+    const MotorTargetState *state = mPose->states().at(index);
     QListWidgetItem *i = mListWidget->item(index);
     i->setText(state->toString());
     setItemAppearance(i, state->status());
@@ -151,7 +151,7 @@ void PoseWidget::updateStateFromModel(int index) {
 
 void PoseWidget::insertStateFromModel(int index) {
   if (mPose) {
-    MotorTargetState *state = mPose->states().at(index);
+    const MotorTargetState *state = mPose->states().at(index);
     QListWidgetItem *i = new QListWidgetItem(state->toString());
     setItemAppearance(i, state->status());
     mListWidget->insertItem(index, i);
@@ -166,10 +166,10 @@ void PoseWidget::setItemAppearance(QListWidgetItem *item, MotorTargetState::Stat
   QColor color("black");
   switch (status) {
     case MotorTargetState::DISABLED:
-      color.setNamedColor("dimgray");
+      color.fromString("dimgray");
       break;
     case MotorTargetState::INVALID:
-      color.setNamedColor("red");
+      color.fromString("red");
       break;
     default:
       break;

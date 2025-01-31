@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,11 +32,10 @@ namespace wren {
     void setDirection(const glm::vec3 &direction);
 
     LightNode::Type type() override { return TYPE_DIRECTIONAL; }
-    void updateFromParent() override {}
 
   private:
     DirectionalLight();
-    virtual ~DirectionalLight();
+    virtual ~DirectionalLight() override;
 
     void recomputeAabb() const override { mAabb = gAabbInf; }
 

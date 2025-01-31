@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,16 +45,16 @@ void mtn_play(MTN *mtn);
 void mtn_step(int ms);
 
 // total length of the movement in milliseconds
-int mtn_get_length(MTN *mtn);
+int mtn_get_length(const MTN *mtn);
 
 // current time (ms) of the execution of the MTN file
-int mtn_get_time(MTN *mtn);
+int mtn_get_time(const MTN *mtn);
 
 // return 1 if the MTN movement has completed, 0 otherwise
-int mtn_is_over(MTN *mtn);
+int mtn_is_over(const MTN *mtn);
 
 // used for debugging
-void mtn_fprint(FILE *fd, MTN *mtn);
+void mtn_fprint(FILE *fd, const MTN *mtn);
 
 // delete the resources used by a MTN object
 void mtn_delete(MTN *mtn);

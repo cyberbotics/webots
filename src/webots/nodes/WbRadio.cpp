@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -304,6 +304,7 @@ static void radio_event_destroy(struct WebotsRadioEvent *p) {
 
 void WbRadio::receiveCallback(const struct WebotsRadioEvent *event) {
   // yvan: Radio N>2 bug was fixed here: a *deep* copy of WebotsRadioEvent is required
+  // cppcheck-suppress constVariablePointer
   struct WebotsRadioEvent *copy = radio_event_duplicate(event);
   mReceivedEvents.append(copy);
 }

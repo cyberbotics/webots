@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -116,7 +116,7 @@ void EPuckInputPacket::decode(int simulationTime, const EPuckOutputPacket &outpu
     int mode = (int)readUCharAt(currentPos++);
     int wh1 = (int)readUCharAt(currentPos++);  // can be width or height depending on the mode
     int wh2 = (int)readUCharAt(currentPos++);  // can be width or height depending on the mode
-    const unsigned char *rawImage = (const unsigned char *)&(data()[currentPos]);
+    const unsigned char *rawImage = reinterpret_cast<const unsigned char *>(&(data()[currentPos]));
 
     Camera *camera = DeviceManager::instance()->camera();
     camera->resetSensorRequested();

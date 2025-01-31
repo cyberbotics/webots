@@ -19,7 +19,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [macos-11]
+        os: [macos-13]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') }}
     strategy:
       matrix:
-        os: [macos-11]
+        os: [macos-13]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -42,8 +42,10 @@ jobs:
          fetch-depth: 15
     - name: Install Webots Compilation Dependencies
       run: |
-        # swig wget and cmake are already installed
+        # wget and cmake are already installed
+        pip install setuptools
         npm install -g appdmg
+        brew install swig
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
       run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
@@ -57,7 +59,7 @@ jobs:
       run: |
         sudo python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
@@ -65,15 +67,15 @@ jobs:
           distribution/*.dmg
   test-suite:
     needs: build
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite mac') }}
     strategy:
       matrix:
-        os: [macos-11]
+        os: [macos-13]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -87,17 +89,21 @@ jobs:
       with:
         python-version: 3.11
     - name: Test
-      run:
+      run: |
+        brew install urdfdom
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        python scripts/packaging/update_urls.py $(git log -1 --format='%H')
         export WEBOTS_HOME=/Applications/Webots.app
-        # we currently can't run the test suite because of https://github.com/cyberbotics/webots/issues/2110
-        # python tests/test_suite.py
+        export TESTS_HOME=$PWD # required by cache group in the test suite
+        export WEBOTS_HOME_PATH=$PWD # required for tests to find Makefile.include
+        export BRANCH_HASH=$(git log -1 --format='%H')
+        python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [macos-11]
+        os: [macos-13]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

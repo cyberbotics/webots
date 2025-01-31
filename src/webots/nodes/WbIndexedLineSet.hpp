@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   explicit WbIndexedLineSet(WbTokenizer *tokenizer = NULL);
   WbIndexedLineSet(const WbIndexedLineSet &other);
   explicit WbIndexedLineSet(const WbNode &other);
-  virtual ~WbIndexedLineSet();
+  virtual ~WbIndexedLineSet() override;
 
   // field accessors
   WbCoordinate *coord() const;
@@ -53,7 +53,7 @@ public:
   // friction
   WbVector3 computeFrictionDirection(const WbVector3 &normal) const override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   // reimplemented protected functions

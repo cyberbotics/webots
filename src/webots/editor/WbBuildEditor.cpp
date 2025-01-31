@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -508,11 +508,8 @@ void WbBuildEditor::jumpToError(QString fileName, int line, int column) {
   if (currentBuffer() && QDir::isRelativePath(fileName))
     fileName = compileDir().absoluteFilePath(fileName);
 
-  if (openFile(fileName)) {
-    WbTextBuffer *buffer = currentBuffer();
-    if (line != -1)
-      buffer->markError(line, column);
-  }
+  if (openFile(fileName) && line != -1)
+    currentBuffer()->markError(line, column);
 }
 
 void WbBuildEditor::unmarkError() {

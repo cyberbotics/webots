@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 PROTO InternalTexture [
   field SFVec3f default_size 2 2 2

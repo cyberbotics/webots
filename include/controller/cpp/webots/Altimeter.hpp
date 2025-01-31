@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ namespace webots {
   class Altimeter : public Device {
   public:
     explicit Altimeter(const std::string &name) : Device(name) {}  // Use Robot::getAltimeter instead
+    explicit Altimeter(WbDeviceTag tag) : Device(tag) {}
     virtual ~Altimeter() {}
     virtual void enable(int samplingPeriod);
     virtual void disable();

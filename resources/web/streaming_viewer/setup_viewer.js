@@ -10,7 +10,7 @@ if (mobileDevice) {
   let mobileCss = document.createElement('link');
   mobileCss.setAttribute('rel', 'stylesheet');
   mobileCss.setAttribute('type', 'text/css');
-  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2023b/css/wwi_mobile.css');
+  mobileCss.setAttribute('href', 'https://www.cyberbotics.com/wwi/R2025a/css/wwi_mobile.css');
   head.appendChild(mobileCss);
 }
 
@@ -24,7 +24,7 @@ function init() {
 }
 
 function connect() {
-  const defaultThumbnail = 'https://cyberbotics.com/wwi/R2023b/images/loading/default_thumbnail.png';
+  const defaultThumbnail = 'https://cyberbotics.com/wwi/R2025a/images/loading/default_thumbnail.png';
   const streamingMode = modeSelect.options[modeSelect.selectedIndex].value;
   const webotsView = document.getElementsByTagName('webots-view')[0];
   webotsView.onready = onConnect;

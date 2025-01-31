@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public:
   int nChannels() const { return mNChannels; }
   int bitsPerSample() const { return mBitsPerSample; }
   int rate() const { return mRate; }
-  QString filename() const { return mFilename; }
+  const QString &filename() const { return mFilename; }
 
 private:
   QString mFilename;

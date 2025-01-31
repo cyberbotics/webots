@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,10 +48,6 @@ WbLed::WbLed(const WbNode &other) : WbSolidDevice(other) {
 
 WbLed::~WbLed() {
   clearMaterialsAndLights();
-}
-
-void WbLed::preFinalize() {
-  WbSolidDevice::preFinalize();
 }
 
 void WbLed::postFinalize() {
@@ -109,12 +105,14 @@ void WbLed::findMaterialsAndLights(const WbGroup *group) {
 
   for (int i = 0; i < size; ++i) {
     WbBaseNode *const n = group->child(i);
+    // cppcheck-suppress constVariablePointer
     WbLight *lightChild = dynamic_cast<WbLight *>(n);
     WbGroup *groupChild = dynamic_cast<WbGroup *>(n);
 
     if (n->nodeType() == WB_NODE_SHAPE) {
-      WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
+      const WbAppearance *appearance = dynamic_cast<WbShape *>(n)->appearance();
       if (appearance) {
+        // cppcheck-suppress constVariablePointer
         WbMaterial *material = appearance->material();
         if (material)
           mMaterials.append(material);

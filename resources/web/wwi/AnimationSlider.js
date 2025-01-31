@@ -1,7 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2023b/css/animation_slider.css">
+<link rel="stylesheet" href="https://cyberbotics.com/wwi/R2025a/css/animation_slider.css">
 
 <div class="range" id="range">
   <div class="slider" id="slider">

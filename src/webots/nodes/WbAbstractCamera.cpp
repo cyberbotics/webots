@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -445,7 +445,7 @@ void WbAbstractCamera::setNodesVisibility(QList<const WbBaseNode *> nodes, bool 
 }
 
 void WbAbstractCamera::removeInvisibleNodeFromList(QObject *node) {
-  WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
+  const WbBaseNode *const baseNode = static_cast<WbBaseNode *>(node);
   mInvisibleNodes.removeAll(baseNode);
 }
 
@@ -529,7 +529,7 @@ void WbAbstractCamera::updateBackground() {
   if (!mWrenCamera)
     return;
 
-  WbBackground *background = WbBackground::firstInstance();
+  const WbBackground *background = WbBackground::firstInstance();
   if (background)
     mWrenCamera->setBackgroundColor(background->skyColor());
   else

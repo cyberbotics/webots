@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WbPositionSensor : public WbJointDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbPositionSensor() { delete mSensor; }
+  virtual ~WbPositionSensor() override { delete mSensor; }
   explicit WbPositionSensor(const QString &modelName, WbTokenizer *tokenizer = NULL);
   explicit WbPositionSensor(WbTokenizer *tokenizer = NULL);
   WbPositionSensor(const WbPositionSensor &other);

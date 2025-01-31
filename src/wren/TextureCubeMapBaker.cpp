@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -313,7 +313,7 @@ namespace wren {
       return prefilteredCube;
     }
 
-    TextureRtt *bakeBrdf(ShaderProgram *brdfShader, unsigned int size) {
+    TextureRtt *bakeBrdf(const ShaderProgram *brdfShader, unsigned int size) {
       unsigned int captureFBO = 0;
       unsigned int captureRBO = 0;
       glGenFramebuffers(1, &captureFBO);
@@ -389,5 +389,5 @@ WrTextureCubeMap *wr_texture_cubemap_bake_specular_irradiance(WrTextureCubeMap *
 
 WrTextureRtt *wr_texture_cubemap_bake_brdf(WrShaderProgram *shader, unsigned int size) {
   return reinterpret_cast<WrTextureRtt *>(
-    wren::texturecubemapbaker::bakeBrdf(reinterpret_cast<wren::ShaderProgram *>(shader), size));
+    wren::texturecubemapbaker::bakeBrdf(reinterpret_cast<const wren::ShaderProgram *>(shader), size));
 }

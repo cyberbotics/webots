@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ void WeightedGradient(layer_t *l, float *Wg) {
   }
 }
 
-void PrintLayerOutput(layer_t *l) {
+void PrintLayerOutput(const layer_t *l) {
   int i;
   char *main_buffer = (char *)malloc(sizeof(char) * (10 * l->depth + 1));
   main_buffer[0] = '\0';
@@ -114,12 +114,12 @@ void PrintLayerOutput(layer_t *l) {
   free(main_buffer);
 }
 
-void SaveLayerWeights(layer_t *l, FILE *fp) {
+void SaveLayerWeights(const layer_t *l, FILE *fp) {
   if (fwrite(l->W, (sizeof(float) * (l->depth) * (l->width)), 1, fp) != 1)
     printf("error writing to file\n");
 }
 
-void SaveLayerWeightsHDT(layer_t *l, FILE *fp) {
+void SaveLayerWeightsHDT(const layer_t *l, FILE *fp) {
   int i, j;
   float *W;
 

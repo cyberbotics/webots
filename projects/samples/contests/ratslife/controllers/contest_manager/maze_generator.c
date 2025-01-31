@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ static Cell *get_linked_cell(const Cell *c, const Link *l) {
 }
 
 // get the orientation of cell b regard to cell a
-static Orientation get_orientation(Cell *a, Cell *b) {
+static Orientation get_orientation(const Cell *a, const Cell *b) {
   if (a->pos_x > b->pos_x)
     return West;
   else if (a->pos_x < b->pos_x)
@@ -282,7 +282,7 @@ void display_maze(Maze *maze, WbDeviceTag display) {
   wb_display_set_color(display, black);
   for (j = 0; j < maze->height; j++) {
     for (i = 0; i < maze->width; i++) {
-      Cell *c = maze->cells[maze->width * j + i];
+      const Cell *c = maze->cells[maze->width * j + i];
       int indexX = (2 * i + 1);
       int indexY = (2 * j + 1);
       if (c->feeder != None) {
@@ -297,7 +297,7 @@ void display_maze(Maze *maze, WbDeviceTag display) {
       }
       for (w = 0; w < c->link_number; w++) {
         if (c->links[w]->wall) {
-          Cell *n = get_linked_cell(c, c->links[w]);
+          const Cell *n = get_linked_cell(c, c->links[w]);
           Orientation o = get_orientation(c, n);
           switch (o) {
             case North:

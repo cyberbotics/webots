@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@ static int g_image_png_save(GImage *img, const char *filename) {
       fprintf(stderr, "Insufficient permissions to write file: %s\n", filename);
     else {
       char cwd[256];
-      char *r = getcwd(cwd, 256);
+      const char *r = getcwd(cwd, 256);
       if (r)
         fprintf(stderr, "Insufficient permissions to write file: %s%c%s\n", cwd, DIR_SEPARATOR, filename);
       else

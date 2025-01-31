@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -395,11 +395,9 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     setPixmap(pixmapPath);
 }
 
-bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
-  foreach (const WbVariant variant, mField->acceptedValues()) {
-    const WbNode *node = variant.toNode();
-    assert(node);
-    if (node->modelName() == nodeName)
+bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const WbNode *node) const {
+  foreach (const WbFieldValueRestriction restriction, mField->acceptedValues()) {
+    if (restriction.isNodeAccepted(node))
       return true;
   }
   return false;
@@ -437,8 +435,8 @@ void WbAddNodeDialog::buildTree() {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
     if (fileInfo.baseName().contains(regexp) &&
-        WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
-                                           QStringList(fileInfo.baseName()))) {
+        WbNodeUtilities::isAllowedToInsert(mField, mCurrentNode, errorMessage, nodeUse, QString(), fileInfo.baseName(),
+                                           fileInfo.baseName(), QStringList())) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
       item->setIcon(0, QIcon("enabledIcons:node.png"));
       nodesItem->addChild(item);
@@ -450,7 +448,7 @@ void WbAddNodeDialog::buildTree() {
     static const QString INVALID_FOR_INSERTION_IN_BOUNDING_OBJECT("N");
 
     const WbField *const actualField =
-      (mField->isParameter() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
+      (!mField->internalFields().isEmpty() && !mField->alias().isEmpty()) ? mField->internalFields().at(0) : mField;
     bool boInfo = actualField->name() == "boundingObject";
     if (!boInfo)
       boInfo = nodeUse & WbNode::BOUNDING_OBJECT_USE;
@@ -463,8 +461,7 @@ void WbAddNodeDialog::buildTree() {
       const QString &currentFullDefName = currentDefName + " (" + currentModelName + ")";
       if (!currentFullDefName.contains(regexp))
         continue;
-      if (mField->hasRestrictedValues() &&
-          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(node->nodeModelName())))
+      if (mField->hasRestrictedValues() && !doFieldRestrictionsAllowNode(node))
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
@@ -561,8 +558,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
 
     QString errorMessage;
     const QString nodeName = it.key();
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            QStringList() << baseType << nodeName))
+    if (!WbNodeUtilities::isAllowedToInsert(mField, mCurrentNode, errorMessage, nodeUse, info->slotType(), baseType, nodeName,
+                                            info->parents()))
       continue;
 
     // keep track of unique local proto that may clash

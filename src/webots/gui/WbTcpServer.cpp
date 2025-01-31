@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ void WbTcpServer::start(int port) {
 }
 
 void WbTcpServer::sendToJavascript(const QByteArray &string) {
-  WbRobot *robot = dynamic_cast<WbRobot *>(sender());
+  const WbRobot *robot = dynamic_cast<WbRobot *>(sender());
   if (robot) {
     QJsonObject jsonObject;
     jsonObject.insert("name", robot->name());
@@ -163,7 +163,7 @@ void WbTcpServer::destroy() {
   if (mWebSocketServer)
     mWebSocketServer->close();
 
-  foreach (QWebSocket *c, mWebSocketClients) {
+  foreach (const QWebSocket *c, mWebSocketClients) {
     disconnect(c, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
     disconnect(c, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
   };
@@ -236,7 +236,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   const QList<WbController *> &availableControllers = WbControlledWorld::instance()->disconnectedExternControllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
-    foreach (WbRobot *const robot, robots) {
+    foreach (const WbRobot *const robot, robots) {
       if (robot->encodedName() == robotName && robot->isControllerExtern()) {
         foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
@@ -258,7 +258,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
     socket->write(reply);
   } else {  // no robot name given
     int nbExternRobots = 0;
-    WbRobot *targetRobot = NULL;
+    const WbRobot *targetRobot = NULL;
     foreach (WbRobot *const robot, robots) {
       if (robot->isControllerExtern()) {
         targetRobot = robot;
@@ -548,7 +548,7 @@ void WbTcpServer::newWorld() {
   if (!prepareWorld())
     return;
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (WbRobot *const robot, robots)
+  foreach (const WbRobot *const robot, robots)
     connectNewRobot(robot);
 
   mWorldReady = true;
@@ -584,7 +584,7 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
     return;
 
   if (node->isProtoParameterNode()) {
-    // PROTO parameter nodes are not exported to X3D or transmitted to webots.min.js
+    // PROTO parameter nodes are not exported to W3D
     foreach (WbNode *nodeInstance, node->protoParameterNodeInstances())
       propagateNodeAddition(nodeInstance);
     return;

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
 #include "WbRotation.hpp"
 
 #include "WbMathsUtilities.hpp"
-#include "WbMatrix3.hpp"
-#include "WbQuaternion.hpp"
 
 #include <cassert>
 
@@ -93,25 +91,6 @@ void WbRotation::fromBasisVectors(const WbVector3 &vx, const WbVector3 &vy, cons
     mZ = vx.y() - vy.x();
     mAngle = acos(cosAngle);
   }
-}
-
-WbQuaternion WbRotation::toQuaternion() const {
-  const double halfAngle = 0.5 * mAngle;
-  const double sinusHalfAngle = sin(halfAngle), cosinusHalfAngle = cos(halfAngle);
-  return WbQuaternion(cosinusHalfAngle, mX * sinusHalfAngle, mY * sinusHalfAngle, mZ * sinusHalfAngle);
-}
-
-WbMatrix3 WbRotation::toMatrix3() const {
-  // Assuming that (x, y, z) is normalized
-  // Apply Rodrigues' formula: rotation matrix = cos(Angle) * I_3 + (1 - cos(Angle)) * r * r^{transpose} + sin(Angle) r_{cross
-  // product 3*3 matix}
-  const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
-  const double tTimesX = t * mX, tTimesY = t * mY, tTimesZ = t * mZ;
-  const double sTimesX = s * mX, sTimesY = s * mY, sTimesZ = s * mZ;
-  const double squareX = tTimesX * mX + c, squareY = tTimesY * mY + c, squareZ = tTimesZ * mZ + c;
-  const double tXY = tTimesX * mY, tXZ = tTimesX * mZ, tYZ = tTimesY * mZ;
-  return WbMatrix3(squareX, tXY - sTimesZ, tXZ + sTimesY, tXY + sTimesZ, squareY, tYZ - sTimesX, tXZ - sTimesY, tYZ + sTimesX,
-                   squareZ);
 }
 
 void WbRotation::toFloatArray(float *rotation) const {

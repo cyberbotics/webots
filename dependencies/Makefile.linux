@@ -6,21 +6,16 @@ include $(WEBOTS_HOME)/resources/Makefile.os.include
 
 DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/linux64/release
 
-QT_VERSION = 6.4.3
+QT_VERSION = 6.5.3
 QT_PACKAGE = webots-qt-$(QT_VERSION)-linux64-release.tar.bz2
-OPENAL_PACKAGE = openal-linux64-1.16.0.tar.bz2
 OIS_PACKAGE = libOIS.1.4.tar.bz2
 ASSIMP_PACKAGE = libassimp-5.2.3.tar.bz2
 PICO_PACKAGE = libpico.tar.bz2
-LUA_PACKAGE = lua-5.2.3.tar.gz
-OPENSSL_PACKAGE = libssl_1.1.tar.xz
+OPENSSL_VERSION=3.0.14
+OPENSSL_SRC_PACKAGE=openssl-$(OPENSSL_VERSION).tar.gz
 
-PACKAGES = qt open-al ois pico lua assimp
+PACKAGES = qt open-al ois pico assimp
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
-
-ifeq ($(UBUNTU_VERSION), 22.04)
-	PACKAGES += open-ssl
-endif
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
@@ -31,9 +26,7 @@ cleanse: $(PACKAGES_CLEAN)
 
 ../.clang-format:
 	@echo "# copying clang-format configuration file"
-ifeq ($(UBUNTU_VERSION), 22.04)
-	@cp .clang-format-9 $@
-else ifeq ($(UBUNTU_VERSION), 20.04)
+ifeq ($(filter $(UBUNTU_VERSION), 22.04 24.04), $(UBUNTU_VERSION))
 	@cp .clang-format-9 $@
 else
 	@cp .clang-format-6 $@
@@ -51,29 +44,19 @@ $(WEBOTS_HOME_LIB)/libQt6Core.so.$(QT_VERSION): $(WEBOTS_DEPENDENCY_PATH)/$(QT_P
 
 $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE):
 	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
-	@echo "# downloading $(QT_PACKAGE)"
-	@wget -qq $(DEPENDENCIES_URL)/$(QT_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(QT_PACKAGE) | awk '{print $$1;}')" != "a5448e2005fa981278f5348b43809932" ]; then echo "MD5 checksum failed for $(QT_PACKAGE)"; exit 1; fi
+	@echo "# Installing $(QT_PACKAGE)"
+	$(WEBOTS_HOME)/scripts/install/qt_linux_installer.sh
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(QT_PACKAGE)
 
 
 open-al-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openal $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)* $(WEBOTS_HOME_LIB)/libopenal.so*
+	@rm -rf $(WEBOTS_HOME_LIB)/libopenal.so*
 
 open-al: $(WEBOTS_HOME_LIB)/libopenal.so
 
-$(WEBOTS_HOME_LIB)/libopenal.so: $(WEBOTS_DEPENDENCY_PATH)/openal
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openal/build/libopenal.so* $(WEBOTS_HOME_LIB)/
-
-$(WEBOTS_DEPENDENCY_PATH)/openal:
-	@echo "# downloading $(OPENAL_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(OPENAL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(OPENAL_PACKAGE) | awk '{print $$1;}')" != "6c7c9a77dec67f42c51d0f035a94a090" ]; then echo "MD5 checksum failed for $(OPENAL_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(OPENAL_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENAL_PACKAGE)
-
+.LIBPATTERNS = lib%.so lib%.so.1 lib%.a
+$(WEBOTS_HOME_LIB)/libopenal.so: -lopenal
+	@cp -a $<* $(WEBOTS_HOME_LIB)/
 
 ois-clean:
 	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE) $(WEBOTS_HOME_LIB)/libOIS* $(WEBOTS_HOME)/include/libOIS
@@ -123,39 +106,23 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "13ce4d080f1db578cb2b73206b52e4cb" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)
 
-lua-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-
-lua: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a
-
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
-	@echo "# downloading $(LUA_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-	@wget -qq https://www.lua.org/ftp/$(LUA_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(LUA_PACKAGE) | awk '{print $$1;}')" != "dc7f94ec6ff15c985d2d6ad0f1b35654" ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(LUA_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)
-
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	@echo "# compiling lua"
-	+@make --silent -C $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3 linux 2> /dev/null
-
 open-ssl-clean:
-	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1 $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) $(WEBOTS_HOME_LIB)/libcrypto.so* $(WEBOTS_HOME_LIB)/libssl.so*
+	@rm -rf $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_SRC_PACKAGE) $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION) $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0 $(WEBOTS_HOME_LIB)/libcrypto.so* $(WEBOTS_HOME_LIB)/libssl.so*
 
 open-ssl: $(WEBOTS_HOME_LIB)/libcrypto.so
 
-$(WEBOTS_HOME_LIB)/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libcrypto.so* $(WEBOTS_HOME_LIB)
-	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-1.1/libssl.so* $(WEBOTS_HOME_LIB)
+$(WEBOTS_HOME_LIB)/libcrypto.so: $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0/libcrypto.so* $(WEBOTS_HOME_LIB)
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0/libssl.so* $(WEBOTS_HOME_LIB)
 
-$(WEBOTS_DEPENDENCY_PATH)/openssl-1.1:
-	@echo "# downloading $(OPENSSL_PACKAGE)"
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	@wget -qq $(DEPENDENCIES_URL)/$(OPENSSL_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
-	@if [ "$$(md5sum $(OPENSSL_PACKAGE) | awk '{print $$1;}')" != "f86af67eb474f562c14c16cfac100aa3" ]; then echo "MD5 checksum failed for $(OPENSSL_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(OPENSSL_PACKAGE)"
-	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
-	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
-	@touch $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_PACKAGE)
+$(WEBOTS_DEPENDENCY_PATH)/openssl-3.0:
+	@echo "# downloading $(OPENSSL_SRC_PACKAGE)"
+	@rm -f $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_SRC_PACKAGE)
+	@wget -qq https://github.com/openssl/openssl/releases/download/openssl-$(OPENSSL_VERSION)/$(OPENSSL_SRC_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ "$$(sha256sum $(OPENSSL_SRC_PACKAGE) | awk '{print $$1;}')" != "eeca035d4dd4e84fc25846d952da6297484afa0650a6f84c682e39df3a4123ca" ]; then echo "SHA256 checksum failed for $(OPENSSL_SRC_PACKAGE)"; exit 1; fi
+	@echo "# uncompressing $(OPENSSL_SRC_PACKAGE)"
+	@tar xfm $(WEBOTS_DEPENDENCY_PATH)/$(OPENSSL_SRC_PACKAGE) -C $(WEBOTS_DEPENDENCY_PATH)
+	@cd $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION) && ./Configure shared --prefix=/usr --openssldir=/usr/lib/ssl --libdir=lib/x86_64-linux-gnu no-idea no-mdc2 no-rc5 no-zlib no-ssl3 enable-unit-test no-ssl3-method enable-rfc3779 enable-cms no-capieng enable-ec_nistp_64_gcc_128 && $(MAKE) -j4
+	@mkdir $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION)/libcrypto.so* $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0
+	@cp -a $(WEBOTS_DEPENDENCY_PATH)/openssl-$(OPENSSL_VERSION)/libssl.so* $(WEBOTS_DEPENDENCY_PATH)/openssl-3.0

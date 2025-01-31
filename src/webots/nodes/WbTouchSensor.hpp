@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   explicit WbTouchSensor(WbTokenizer *tokenizer = NULL);
   WbTouchSensor(const WbTouchSensor &other);
   explicit WbTouchSensor(const WbNode &other);
-  virtual ~WbTouchSensor();
+  virtual ~WbTouchSensor() override;
 
   void setTouching(bool touching) { mIsTouching = touching; }
   void setGuiTouch(bool touching) { mIsGuiTouch = touching; }
@@ -75,7 +75,7 @@ private:
   void init();
   void computeValue();
   bool forceBehavior() const;
-  void setODEDynamicFlag(WbBaseNode *_node);
+  void setODEDynamicFlag(const WbBaseNode *_node);
   void addConfigure(WbDataStream &);
 
 private slots:

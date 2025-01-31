@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -148,6 +148,8 @@ class TestCppCheck(unittest.TestCase):
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
+        command += ' --suppress=duplInheritedMember --suppress=constParameterCallback'
+        command += ' --check-level=exhaustive' if os.environ.get('CI') else ' --suppress=normalCheckLevelMaxBranches'
         # command += ' --xml '  # Uncomment this line to get more information on the errors
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
@@ -171,17 +173,16 @@ class TestCppCheck(unittest.TestCase):
             'projects/vehicles'
         ]
         skippedDirs = [
-            'projects/default/controllers/ros/include',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include',
             'projects/robots/gctronic/e-puck/plugins/robot_windows/botstudio/build',
             'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
-            'projects/vehicles/plugins/robot_windows/automobile_window/build'
+            'projects/vehicles/plugins/robot_windows/automobile_window/build',
+            'projects/robots/robotis/darwin-op/plugins/robot_windows/robotis-op2_window/build'
         ]
         skippedFiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
@@ -191,6 +192,8 @@ class TestCppCheck(unittest.TestCase):
         command += self.platformOptions
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
+        command += ' --suppress=duplInheritedMember --suppress=constParameterCallback'
+        command += ' --check-level=exhaustive' if os.environ.get('CI') else ' --suppress=normalCheckLevelMaxBranches'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)

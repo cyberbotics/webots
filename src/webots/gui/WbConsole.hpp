@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class ConsoleEdit : public QPlainTextEdit {
 
 public:
   explicit ConsoleEdit(QWidget *parent);
-  virtual ~ConsoleEdit();
+  virtual ~ConsoleEdit() override;
   void copy();
   void mouseDoubleClickEvent(QMouseEvent *event) override;
 
@@ -87,7 +87,7 @@ class WbConsole : public WbDockWidget {
 
 public:
   explicit WbConsole(QWidget *parent = NULL, const QString &name = QString("Console"));
-  virtual ~WbConsole() {}
+  virtual ~WbConsole() override {}
 
   // parse compilation error line
   void jumpToError(const QString &errorLine);
@@ -116,13 +116,13 @@ public:
   void setAnsiCyan(const QString &color) { mAnsiCyan = color; }
   void setAnsiWhite(const QString &color) { mAnsiWhite = color; }
 
-  const QStringList getEnabledFilters() const { return mEnabledFilters; }
+  const QStringList &getEnabledFilters() const { return mEnabledFilters; }
   void setEnabledFilters(const QStringList &filters);
 
-  const QStringList getEnabledLevels() const { return mEnabledLevels; }
+  const QStringList &getEnabledLevels() const { return mEnabledLevels; }
   void setEnabledLevels(const QStringList &levels);
 
-  const QString name() const { return mConsoleName; }
+  const QString &name() const { return mConsoleName; }
 
 signals:
   void closed();

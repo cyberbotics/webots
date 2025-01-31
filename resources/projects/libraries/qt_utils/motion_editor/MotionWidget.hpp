@@ -21,7 +21,7 @@ namespace webotsQtUtils {
 
   public:
     explicit MotionWidget(QWidget *parent = NULL);
-    virtual ~MotionWidget();
+    virtual ~MotionWidget() override;
 
     void setMotion(Motion *motion);
 

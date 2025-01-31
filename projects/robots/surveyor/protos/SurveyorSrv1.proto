@@ -1,9 +1,13 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/surveyor/protos/SurveyorSrv1.proto
 # keywords: robot/tracked
 # The Surveyor's SRV-1 is a robot with two caterpillar tracks designed for research, education, and exploration.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO SurveyorSrv1 [
   field SFVec3f    translation     0 0 0          # Is `Pose.translation`.
@@ -34,100 +38,104 @@ PROTO SurveyorSrv1 [
       }
       DEF BODY Group {
         children [
-          DEF LEFT_TRACK Pose {
-            translation 0 0.0295 0.014
-            rotation 1 0 0 -1.57
+          DEF LEFT Track {
+            translation 0 0.0396 0.014
             children [
-              DEF TRACK Group {
+              TrackWheel {
+                position 0.049 0
+                radius 0.012
                 children [
-                  Pose {
-                    translation -0.049 0 0
-                    children [
-                      DEF TRACK_EXTRUSION Shape {
-                        appearance DEF BLACK PBRAppearance {
-                          metalness 0
-                          roughness 0.7
-                          baseColor 0 0 0
-                        }
-                        geometry IndexedFaceSet {
-                          coord Coordinate {
-                            point [
-                              0 0.014 0 -0.007 0.01212 0 -0.01212 0.007 0 -0.014 0 0 -0.01212 -0.007 0 -0.007 -0.01212 0 0 -0.014 0 0 0.014 0 0 0.014 0.0198 -0.007 0.01212 0.0198 -0.01212 0.007 0.0198 -0.014 0 0.0198 -0.01212 -0.007 0.0198 -0.007 -0.01212 0.0198 0 -0.014 0.0198 0 0.014 0.0198
-                            ]
-                          }
-                          coordIndex [
-                            7, 6, 5, 4, 3, 2, 1, 0, -1, 8, 9, 10, 11, 12, 13, 14, 15, -1, 0, 1, 9, 8, -1, 1, 2, 10, 9, -1, 2, 3, 11, 10, -1, 3, 4, 12, 11, -1, 4, 5, 13, 12, -1, 5, 6, 14, 13, -1, 6, 7, 15, 14, -1
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                  Pose {
-                    translation 0.049 0 0
-                    rotation 0 0 1 3.14
-                    children [
-                      DEF TRACK_EXTRUSION Shape {
-                        appearance USE BLACK
-                        geometry IndexedFaceSet {
-                          coord Coordinate {
-                            point [
-                              0 0.014 0 -0.007 0.01212 0 -0.01212 0.007 0 -0.014 0 0 -0.01212 -0.007 0 -0.007 -0.01212 0 0 -0.014 0 0 0.014 0 0 0.014 0.0198 -0.007 0.01212 0.0198 -0.01212 0.007 0.0198 -0.014 0 0.0198 -0.01212 -0.007 0.0198 -0.007 -0.01212 0.0198 0 -0.014 0.0198 0 0.014 0.0198
-                            ]
-                          }
-                          coordIndex [
-                            7, 6, 5, 4, 3, 2, 1, 0, -1, 8, 9, 10, 11, 12, 13, 14, 15, -1, 0, 1, 9, 8, -1, 1, 2, 10, 9, -1, 2, 3, 11, 10, -1, 3, 4, 12, 11, -1, 4, 5, 13, 12, -1, 5, 6, 14, 13, -1, 6, 7, 15, 14, -1
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                  Pose {
-                    translation 0.049 0 0.0101
-                    children [
-                      DEF TRACK_WHEEL Shape {
-                        appearance DEF GRAY PBRAppearance {
-                          roughness 0.2
-                        }
-                        geometry Cylinder {
-                          height 0.0205
-                          radius 0.011
-                        }
-                      }
-                    ]
-                  }
-                  Pose {
-                    translation -0.049 0 0.0101
-                    children [
-                      USE TRACK_WHEEL
-                    ]
-                  }
-                  Pose {
-                    translation 0 -0.0125 0.0099
-                    children [
-                      DEF TRACK_BOX Shape {
-                        appearance USE BLACK
-                        geometry Box {
-                          size 0.098 0.003 0.0198
-                        }
-                      }
-                    ]
-                  }
-                  Pose {
-                    translation 0 0.0125 0.0099
-                    children [
-                      USE TRACK_BOX
-                    ]
+                  DEF TRACK_WHEEL_SHAPE Shape {
+                    appearance DEF GRAY BrushedAluminium {
+                    }
+                    geometry Cylinder {
+                      height 0.0205
+                      radius 0.011
+                    }
                   }
                 ]
               }
+              TrackWheel {
+                position -0.049 0
+                radius 0.012
+                children USE TRACK_WHEEL_SHAPE
+              }
             ]
+            name "left track"
+            boundingObject DEF TRACK_BO Group {
+              children [
+                Pose {
+                  translation 0.049 0 0
+                  rotation 1 0 0 1.5708
+                  children [
+                    Cylinder {
+                      height 0.0205
+                      radius 0.0132
+                      subdivision 20
+                    }
+                  ]
+                }
+                Pose {
+                  translation -0.049 0 0
+                  rotation 1 0 0 1.5708
+                  children [
+                    Cylinder {
+                      height 0.0205
+                      radius 0.0132
+                      subdivision 20
+                    }
+                  ]
+                }
+                Box {
+                  size 0.075 0.02 0.028
+                }
+              ]
+            }
+            physics Physics {}
+            device [
+              LinearMotor {
+                name "left motor"
+              }
+            ]
+            animatedGeometry Shape {
+              appearance Rubber {
+              }
+              geometry Box {
+                size 0.007 0.0205 0.002
+              }
+            }
+            geometriesCount 39
           }
-          DEF RIGHT_TRACK Pose {
-            translation 0 -0.0295 0.014
-            rotation 1 0 0 1.57
+          DEF RIGHT_TRACK Track {
+            translation 0 -0.0396 0.014
             children [
-              USE TRACK
+              TrackWheel {
+                position 0.049 0
+                radius 0.012
+                children USE TRACK_WHEEL_SHAPE
+              }
+              TrackWheel {
+                position -0.049 0
+                radius 0.012
+                children USE TRACK_WHEEL_SHAPE
+              }
             ]
+            name "right track"
+            boundingObject USE TRACK_BO
+            physics Physics {}
+            device [
+              LinearMotor {
+                name "right motor"
+              }
+            ]
+            animatedGeometry Shape {
+              appearance Rubber {
+              }
+              geometry Box {
+                size 0.007 0.0205 0.002
+              }
+            }
+            geometriesCount 39
           }
           DEF BASE Pose {
             translation 0 0 0.014
@@ -356,7 +364,11 @@ PROTO SurveyorSrv1 [
                     }
                   }
                   Shape {
-                    appearance USE BLACK
+                    appearance DEF BLACK PBRAppearance {
+                      metalness 0
+                      roughness 0.7
+                      baseColor 0 0 0
+                    }
                     geometry IndexedFaceSet {
                       coord Coordinate {
                         point [
@@ -699,241 +711,6 @@ PROTO SurveyorSrv1 [
         width 160
         height 128
         near 0.005
-      }
-      DEF FIRST_LEFT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0.049 0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor00"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor00"
-          }
-        ]
-        endPoint Solid {
-          translation 0.049 0.0394 0.014
-          name "first left wheel"
-          contactMaterial "wheel"
-          boundingObject DEF BOUNDING_WHEEL Pose {
-            rotation 1 0 0 -1.57
-            children [
-              Cylinder {
-                height 0.0198
-                radius 0.014
-              }
-            ]
-          }
-          physics DEF PHYSICS_FRONT_WHEEL Physics {
-            density -1
-            mass 0.005
-          }
-        }
-      }
-      DEF SECOND_LEFT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0.0245 0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor01"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor01"
-          }
-        ]
-        endPoint Solid {
-          translation 0.0245 0.0394 0.014
-          name "second left wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF THIRD_LEFT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0 0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor02"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor02"
-          }
-        ]
-        endPoint Solid {
-          translation 0 0.0394 0.014
-          name "third left wheel"
-          contactMaterial "center_wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics DEF PHYSICS_CENTER_WHEEL Physics {
-            density -1
-            mass 0.005
-          }
-        }
-      }
-      DEF FOURTH_LEFT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor -0.0245 0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor03"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor03"
-          }
-        ]
-        endPoint Solid {
-          translation -0.0245 0.0394 0.014
-          name "fourth left wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF LAST_LEFT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor -0.049 0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor04"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor04"
-          }
-        ]
-        endPoint Solid {
-          translation -0.049 0.0394 0.014
-          rotation 1 0 0 0
-          name "last left wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF FIRST_RIGHT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0.049 -0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor05"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor05"
-          }
-        ]
-        endPoint Solid {
-          translation 0.049 -0.0394 0.014
-          name "first right wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF SECOND_RIGHT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0.0245 -0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor06"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor06"
-          }
-        ]
-        endPoint Solid {
-          translation 0.0245 -0.0394 0.014
-          name "second right wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF THIRD_RIGHT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor 0 -0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor07"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor07"
-          }
-        ]
-        endPoint Solid {
-          translation 0 -0.0394 0.014
-          name "third right wheel"
-          contactMaterial "center_wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_CENTER_WHEEL
-        }
-      }
-      DEF FOURTH_RIGHT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor -0.0245 -0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor08"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor08"
-          }
-        ]
-        endPoint Solid {
-          translation -0.0245 -0.0394 0.014
-          name "forth right wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
-      }
-      DEF LAST_RIGHT_WHEEL HingeJoint {
-        jointParameters HingeJointParameters {
-          anchor -0.049 -0.0394 0.014
-          axis 0 -1 0
-        }
-        device [
-          RotationalMotor {
-            name "wheel_motor09"
-            maxVelocity 50
-          }
-          PositionSensor {
-            name "wheel_sensor09"
-          }
-        ]
-        endPoint Solid {
-          translation -0.049 -0.0394 0.014
-          name "last right wheel"
-          contactMaterial "wheel"
-          boundingObject USE BOUNDING_WHEEL
-          physics USE PHYSICS_FRONT_WHEEL
-        }
       }
       DEF FRONT DistanceSensor {
         translation 0.0356 0.0168 0.0585

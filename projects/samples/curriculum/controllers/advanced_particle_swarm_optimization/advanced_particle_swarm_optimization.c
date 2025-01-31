@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,8 +116,7 @@ static void reset(void) {
     s[2]++;                          // increases the device number
     wb_distance_sensor_enable(ds[i], TIME_STEP);
   }
-  char *robot_name;
-  robot_name = (char *)wb_robot_get_name();
+  const char *robot_name = wb_robot_get_name();
 
   sscanf(robot_name, "epuck%d", &robot_id);  // read robot id from the robot's name
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ Communication::~Communication() {
 
 bool Communication::initialize(const string &ip) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   int rc;
   mFd = socket(AF_INET, SOCK_STREAM, 0);
   if (mFd == -1) {
@@ -78,7 +78,7 @@ bool Communication::initialize(const string &ip) {
     cleanup();
     return false;
   }
-  rc = connect(mFd, (struct sockaddr *)&address, sizeof(struct sockaddr));
+  rc = connect(mFd, reinterpret_cast<struct sockaddr *>(&address), sizeof(struct sockaddr));
   if (rc == -1) {
     fprintf(stderr, "Cannot connect to the server\n");
     cleanup();

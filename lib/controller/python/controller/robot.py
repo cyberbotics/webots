@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -136,7 +136,7 @@ class Robot:
             if type == Node.ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
             elif type == Node.ALTIMETER:
-                self.devices[name] = Altimeter(name)
+                self.devices[name] = Altimeter(tag)
             elif type == Node.BRAKE:
                 self.devices[name] = Brake(tag)
             elif type == Node.CAMERA:

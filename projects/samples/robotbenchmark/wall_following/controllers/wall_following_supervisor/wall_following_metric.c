@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,8 +85,8 @@ WallFollowingMetric *create_new_wall_following_metric(const double *robot_starti
     }
 
     // This vector corresponds to the first segment of the wall.
-    double robot_first_wall_segment_vector[2] = {segment_length * cos(first_segment_orientation),
-                                                 segment_length * sin(first_segment_orientation)};
+    const double robot_first_wall_segment_vector[2] = {segment_length * cos(first_segment_orientation),
+                                                       segment_length * sin(first_segment_orientation)};
 
     // This vector represents the distance between the starting position of the robot and the first segment
     // of the wall.

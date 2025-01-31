@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -141,7 +141,7 @@ int g_pipe_receive(GPipe *p, char *data, int size) {
 #endif
 }
 
-size_t g_pipe_get_handle(GPipe *p) {
+size_t g_pipe_get_handle(const GPipe *p) {
   if (p)
     return (size_t)p->handle;
   return 0;

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     bool foundProtoVersion = false;
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
     if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
-      const QString backwardsCompatibilityMessage = tr("Please adapt your project to R2023b following these instructions: "
+      const QString backwardsCompatibilityMessage = tr("Please adapt your project to R2025a following these instructions: "
                                                        "https://cyberbotics.com/doc/guide/upgrading-webots");
       const QString outdatedProtoMessage =
         tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
@@ -171,9 +171,11 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration) && WbNetwork::instance()->isCachedWithMapUpdate(modelPath))
-    modelPath = protoDeclaration;
-  else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
+  if (WbUrl::isWeb(protoDeclaration)) {
+    // The PROTO is a remote asset, check if it's already cached
+    if (WbNetwork::instance()->isCachedWithMapUpdate(protoDeclaration))
+      modelPath = protoDeclaration;
+  } else if (WbUrl::isLocalUrl(protoDeclaration) || QDir::isRelativePath(protoDeclaration)) {
     // two possibitilies arise if the declaration is local (webots://)
     // 1. the parent PROTO is in the cache (all its references are always 'webots://'): it may happen if a PROTO references
     // another PROTO (both being cached)
@@ -268,7 +270,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   QStringList queue;
   queue << parser.protoNodeList();
 
-  displayMissingDeclarations(tr("Please adapt your project to R2023b following these instructions: "
+  displayMissingDeclarations(tr("Please adapt your project to R2025a following these instructions: "
                                 "https://cyberbotics.com/doc/guide/upgrading-webots"));
 
   // list all PROTO nodes which are known
@@ -436,7 +438,7 @@ void WbProtoManager::loadWebotsProtoMap() {
         if (reader.name().toString() == "proto") {
           bool needsRobotAncestor = false;
           QString name, url, baseType, license, licenseUrl, documentationUrl, description, slotType;
-          QStringList tags, parameters;
+          QStringList tags, parameters, parents;
           while (reader.readNextStartElement()) {
             if (reader.name().toString() == "name") {
               name = reader.readElementText();
@@ -478,14 +480,19 @@ void WbProtoManager::loadWebotsProtoMap() {
               parameters = reader.readElementText().split("\\n", Qt::SkipEmptyParts);
               reader.readNext();
             }
+            if (reader.name().toString() == "parents") {
+              parents = reader.readElementText().split(",", Qt::SkipEmptyParts);
+              reader.readNext();
+            }
             if (reader.name().toString() == "needs-robot-ancestor") {
               needsRobotAncestor = reader.readElementText() == "true";
               reader.readNext();
             }
           }
           description = description.replace("\\n", "\n");
+          // cppcheck-suppress constVariablePointer
           WbProtoInfo *const info = new WbProtoInfo(url, baseType, license, licenseUrl, documentationUrl, description, slotType,
-                                                    tags, parameters, needsRobotAncestor);
+                                                    tags, parameters, parents, needsRobotAncestor);
           mWebotsProtoList.insert(name, info);
         } else
           reader.raiseError(tr("Expected 'proto' element."));
@@ -628,6 +635,7 @@ QStringList WbProtoManager::listProtoInCategory(int category) const {
 }
 
 const QMap<QString, WbProtoInfo *> &WbProtoManager::protoInfoMap(int category) const {
+  // cppcheck-suppress unassignedVariable
   static QMap<QString, WbProtoInfo *> empty;
 
   switch (category) {
@@ -718,7 +726,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   bool needsRobotAncestor = false;
   // establish if it requires a Robot ancestor by checking if it contains devices
   while (tokenizer.hasMoreTokens()) {
-    WbToken *token = tokenizer.nextToken();
+    const WbToken *token = tokenizer.nextToken();
     if (token->isIdentifier() && mNeedsRobotAncestorCallback(token->word())) {
       needsRobotAncestor = true;
       break;
@@ -749,16 +757,19 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     }
 
     QString field;
-    field += model->isVrml() ? "vrmlField " : "field ";
+    field += model->isW3d() ? "w3dField " : "field ";
     field += defaultValue->vrmlTypeName() + " ";
     field += model->name() + " ";
     field += vrmlDefaultValue;
     parameters << field;
   }
 
+  // generate parents string (needed by PROTO wizard)
+  QStringList parents = protoModel->parentProtoNames();
+
   WbProtoInfo *info = new WbProtoInfo(url, protoModel->baseType(), protoModel->license(), protoModel->licenseUrl(),
                                       protoModel->documentationUrl(), protoModel->info(), protoModel->slotType(),
-                                      protoModel->tags(), parameters, needsRobotAncestor);
+                                      protoModel->tags(), parameters, parents, needsRobotAncestor);
 
   protoModel->destroy();
   return info;
@@ -840,14 +851,14 @@ void WbProtoManager::clearExternProtoClipboardBuffer() {
 
 QList<QString> WbProtoManager::externProtoClipboardBufferUrls() const {
   QList<QString> list;
-  foreach (WbExternProto *proto, mExternProtoClipboardBuffer)
+  foreach (const WbExternProto *proto, mExternProtoClipboardBuffer)
     list << proto->url();
   return list;
 }
 
 void WbProtoManager::resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls) {
   clearExternProtoClipboardBuffer();
-  foreach (QString url, bufferUrls)
+  foreach (const QString &url, bufferUrls)
     saveToExternProtoClipboardBuffer(url);
 }
 

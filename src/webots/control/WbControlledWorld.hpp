@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
 
   // constructors and destructor
   explicit WbControlledWorld(WbTokenizer *tokenizer = NULL);
-  virtual ~WbControlledWorld();
+  virtual ~WbControlledWorld() override;
 
   void startController(WbRobot *robot);
   void externConnection(WbController *controller, bool connect);
@@ -41,8 +41,8 @@ public:
 
   void step() override;
 
-  QList<WbController *> controllers() const { return mControllers; }
-  QList<WbController *> disconnectedExternControllers() const { return mDisconnectedExternControllers; }
+  const QList<WbController *> &controllers() const { return mControllers; }
+  const QList<WbController *> &disconnectedExternControllers() const { return mDisconnectedExternControllers; }
 
 public slots:
   void deleteController(WbController *controller);

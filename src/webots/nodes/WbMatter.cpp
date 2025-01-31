@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ void WbMatter::postFinalize() {
     WbNode *parameter = protoParameterNode();
     while (parameter->protoParameterNode())
       parameter = parameter->protoParameterNode();
-    WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
+    const WbMatter *matter = dynamic_cast<WbMatter *>(parameter);
     if (matter)
       matter->connectNameUpdates();
   }
@@ -251,7 +251,7 @@ dGeomID WbMatter::odeGeom() const {
   if (bo == NULL)
     return NULL;
 
-  WbGeometry *g = NULL;
+  const WbGeometry *g = NULL;
 
   const WbPose *const p = dynamic_cast<WbPose *>(bo);
   // cppcheck-suppress knownConditionTrueFalse
@@ -279,6 +279,8 @@ dGeomID WbMatter::createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry
   dGeomID geom = geometry->createOdeGeom(space);
 
   if (geom && setOdeData) {
+    // Stores a pointer to the ODE geometry into the WbGeometry node & sets the WbGeometry node and its WbMatter parent node as
+    // reference data
     geometry->setOdeData(geom, this);
     connect(geometry, &WbGeometry::boundingGeometryRemoved, this, &WbMatter::removeBoundingGeometry, Qt::UniqueConnection);
   }
@@ -333,16 +335,7 @@ dGeomID WbMatter::createOdeGeomFromPose(dSpaceID space, WbPose *pose) {
   if (eg)  // TODO: rename slot?
     connect(eg, &WbElevationGrid::validElevationGridInserted, pose, &WbPose::geometryInPoseInserted, Qt::UniqueConnection);
 
-  dGeomID geom = createOdeGeomFromGeometry(space, geometry, false);
-  if (geom == NULL)
-    return NULL;
-
-  // Stores a pointer to the ODE geometry into the WbGeometry node & sets the WbGeometry node and its WbMatter parent node as
-  // reference data
-  geometry->setOdeData(geom, this);
-  connect(geometry, &WbGeometry::boundingGeometryRemoved, this, &WbMatter::removeBoundingGeometry, Qt::UniqueConnection);
-
-  return geom;
+  return createOdeGeomFromGeometry(space, geometry);
 }
 
 void WbMatter::createOdeGeomFromInsertedPoseItem() {
@@ -382,10 +375,7 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
       assert(ifs || eg);
       return;
     }
-    // Stores a pointer to the ODE geometry into the WbGeometry node & sets the WbGeometry node and its WbMatter parent node as
-    // reference data
-    geometry->setOdeData(insertedGeom, this);
-    connect(geometry, &WbGeometry::boundingGeometryRemoved, this, &WbMatter::removeBoundingGeometry, Qt::UniqueConnection);
+
     setGeomMatter(insertedGeom, geometry);
   }
 
@@ -523,7 +513,7 @@ void WbMatter::updateLineScale() {
 }
 
 void WbMatter::updateName() {
-  QString nameValue = mName->value();
+  const QString &nameValue = mName->value();
   if (nameValue.isEmpty()) {
     const QString &defaultName = dynamic_cast<const WbSFString *>(findField("name")->defaultValue())->value();
     parsingWarn(tr("'name' cannot be empty. Default node name '%1' is automatically set.").arg(defaultName));

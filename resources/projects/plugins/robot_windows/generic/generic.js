@@ -3,7 +3,7 @@
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
-import RobotWindow from 'https://cyberbotics.com/wwi/R2023b/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2025a/RobotWindow.js';
 
 var robotName = '';
 var commands = [];

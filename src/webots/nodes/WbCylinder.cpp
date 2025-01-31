@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,12 +125,6 @@ bool WbCylinder::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const radiusField = findField("radius", true);
   return WbVrmlNodeUtilities::isVisible(heightField) && WbVrmlNodeUtilities::isVisible(radiusField) &&
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
-}
-
-void WbCylinder::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
 }
 
 bool WbCylinder::sanitizeFields() {
@@ -309,7 +303,7 @@ void WbCylinder::updateScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
-QStringList WbCylinder::fieldsToSynchronizeWithX3D() const {
+QStringList WbCylinder::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "radius"
          << "height"
@@ -394,6 +388,7 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
   if (collisionDistance < 0)
     return false;
 
+  // cppcheck-suppress variableScope
   double h = scaledHeight();
   double r = scaledRadius();
 
@@ -535,11 +530,6 @@ void WbCylinder::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(0, 0, center), r);
   } else
     mBoundingSphere->set(WbVector3(), WbVector3(r, halfHeight, 0).length());
-}
-
-// if a cylinder has nothing to draw, then it shouldn't be exported to X3D
-bool WbCylinder::shallExport() const {
-  return mBottom->value() || mTop->value() || mSide->value();
 }
 
 ////////////////////////

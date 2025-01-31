@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ class ProtoInfo:
         self.path = path.replace('\\', '/')  # use cross-platform forward slashes
         self.proto_type = None  # direct node type, ex: for RoadSegment is Road
         self.base_type = None   # lowest node type, ex: for RoadSegment is Solid
+        self.parents = []       # all proto types this type extends, ex: for Road Segment is [Road]
         self.license = None
         self.license_url = None
         self.description = ''
@@ -44,7 +45,7 @@ class ProtoInfo:
         self.needs_robot_ancestor = False
 
         # store file contents to avoid reading it multiple times
-        with open(self.path, 'r') as file:
+        with open(self.path, 'r', encoding='utf-8') as file:
             self.contents = file.read()
             # remove IndexedFaceSet related fields since they significantly slow down the subsequent regex
             self.contents = re.sub(r'point\s+\[[^\]]+\]', '', self.contents)
@@ -154,6 +155,7 @@ def generate_proto_list(current_tag=None, silent=False):
             if info.base_type not in protos:  # the current proto depends on a sub-proto: iterate until a base node is reached
                 raise RuntimeError(f'Error: "{info.base_type}" proto node does not exist. Either it was skipped or the regex '
                                    'that retrieves the proto_type is incorrect.')
+            info.parents.append(info.base_type)
             sub_proto = protos[info.base_type]
             info.base_type = sub_proto.proto_type
 
@@ -201,6 +203,7 @@ def generate_proto_list(current_tag=None, silent=False):
         proto_element = ET.SubElement(root, 'proto')
         ET.SubElement(proto_element, 'name').text = info.name
         ET.SubElement(proto_element, 'base-type').text = info.base_type
+        ET.SubElement(proto_element, 'parents').text = ','.join(info.parents)
         ET.SubElement(proto_element, 'url').text = info.path.replace(WEBOTS_HOME + '/', prefix)
 
         if info.license is not None:

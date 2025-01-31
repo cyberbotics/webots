@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -240,6 +240,9 @@ class TestSuite (Supervisor):
 
         # 30 seconds before executing the next world, 60 seconds for the robot_window_html test
         delay = 60 if self.currentSimulationFilename.endswith('/robot_window_html.wbt') else 30
+        if sys.platform == "darwin":
+            # Longer timeout on MacOS because Webots takes longer to start there during CI.
+            delay *= 10
         timeout = time.time() + delay
 
         running_controllers_pid = []

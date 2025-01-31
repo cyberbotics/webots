@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public:
   explicit WbSliderJoint(WbTokenizer *tokenizer = NULL);
   WbSliderJoint(const WbSliderJoint &other);
   explicit WbSliderJoint(const WbNode &other);
-  virtual ~WbSliderJoint();
+  virtual ~WbSliderJoint() override;
 
   int nodeType() const override { return WB_NODE_SLIDER_JOINT; }
   void prePhysicsStep(double ms) override;
@@ -56,6 +56,7 @@ protected:
   void writeExport(WbWriter &writer) const override;
 
 protected slots:
+  // cppcheck-suppress uselessOverride
   void updateParameters() override;
   void updateMinAndMaxStop(double min, double max) override;
 

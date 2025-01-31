@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ char *wbu_string_strsep(char **stringp, const char *delim) {
 }
 
 // ref. https://stackoverflow.com/a/779960/2210777
-char *wbu_string_replace(char *value, char *before, char *after) {
+char *wbu_string_replace(char *value, const char *before, const char *after) {
   char *result, *ins, *tmp;
   int len_before, len_after, count;
 

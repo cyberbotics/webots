@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ static void load_motion_list() {
   const char *motion_dir = "../../motions";
   DIR *d = opendir(motion_dir);
   if (d) {
-    struct dirent *dir;
+    const struct dirent *dir;
     struct Motion *current_motion = NULL;
     while ((dir = readdir(d)) != NULL) {
       const char *name = dir->d_name;

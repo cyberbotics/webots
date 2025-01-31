@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ static int accept_client(int server_fd) {
 #else
   int asize;
 #endif
-  struct hostent *client_info;
+  const struct hostent *client_info;
 
   asize = sizeof(struct sockaddr_in);
 

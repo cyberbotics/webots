@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -542,7 +542,7 @@ void WbController::setProcessEnvironment() {
   QList<WbNode *> nodes = mRobot->subNodes(true, true, true);
   for (int i = 0; i < nodes.size(); ++i) {
     if (nodes.at(i)->isProtoInstance()) {
-      WbProtoModel *protoModel = nodes.at(i)->proto();
+      const WbProtoModel *protoModel = nodes.at(i)->proto();
       do {
         if (!protoModel->projectPath().isEmpty()) {
           QDir protoProjectDir(protoModel->projectPath());

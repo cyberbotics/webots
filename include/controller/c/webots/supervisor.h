@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,13 +97,14 @@ WbNodeType wb_supervisor_node_get_type(WbNodeRef node);
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, const int index);
 int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index);
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node);
+WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_base_node_fields(WbNodeRef node);
 void wb_supervisor_node_remove(WbNodeRef node);
 void wb_supervisor_node_save_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_load_state(WbNodeRef node, const char *state_name);
 void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int index);
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node);
 
 const char *wb_supervisor_node_get_def(WbNodeRef node);
 const char *wb_supervisor_node_get_type_name(WbNodeRef node);
@@ -139,6 +140,7 @@ const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
+WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field);
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
@@ -198,6 +200,13 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index);
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string);
 void wb_supervisor_field_remove_sf(WbFieldRef field);
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string);
+
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
+bool wb_supervisor_proto_is_derived(WbProtoRef proto);
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index);
+int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto);
 
 bool wb_supervisor_virtual_reality_headset_is_used();
 const double *wb_supervisor_virtual_reality_headset_get_position();

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,12 @@ public:
   // field models
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
-  QStringList fieldNames();
+  QStringList fieldNames() const;
+
+  // parent nodes (only defined for base nodes. For proto nodes, see
+  // WbProtoModel::ancestorProtoName/ancestorProtoNameModel/baseType)
+  const QString &parentName() const { return mParentName; };
+  const WbNodeModel *parentModel() const { return mParentModel; };
 
   QStringList documentationBookAndPage() const { return QStringList() << "reference" << mName.toLower(); }
 
@@ -60,6 +65,8 @@ private:
   QString mInfo;
   QString mName;
   QList<WbFieldModel *> mFieldModels;
+  QString mParentName;
+  WbNodeModel *mParentModel;
 
   static WbNodeModel *readModel(const QString &fileName);
   static void readAllModels();

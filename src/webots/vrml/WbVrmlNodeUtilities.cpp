@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ namespace {
   bool checkForUseOrDefNode(const WbNode *node, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch);
 
-  bool checkForUseOrDefNode(WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
+  bool checkForUseOrDefNode(const WbField *field, const QString &useName, const QString &previousUseName, bool &useOverlap,
                             bool &defOverlap, bool &abortSearch) {
     WbValue *const value = field->value();
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(value);
@@ -157,8 +157,8 @@ bool WbVrmlNodeUtilities::isFieldDescendant(const WbNode *node, const QString &f
   if (node == NULL)
     return false;
 
-  WbNode *n = node->parentNode();
-  WbField *field = node->parentField(true);
+  const WbNode *n = node->parentNode();
+  const WbField *field = node->parentField(true);
   while (n && !n->isWorldRoot() && field) {
     if (field->name() == fieldName)
       return true;
@@ -251,7 +251,7 @@ const WbField *WbVrmlNodeUtilities::findClosestParameterInProto(const WbField *f
 WbNode *WbVrmlNodeUtilities::findRootProtoNode(WbNode *const node) {
   WbNode *n = node;
   do {
-    WbProtoModel *proto = n->proto();
+    const WbProtoModel *proto = n->proto();
     if (proto)
       return n;
     n = n->parentNode();
@@ -282,7 +282,7 @@ QList<const WbNode *> WbVrmlNodeUtilities::protoNodesInWorldFile(const WbNode *r
   return result;
 }
 
-bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, WbNode *root) {
+bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, const WbNode *root) {
   if (!root)
     return false;
 
@@ -304,7 +304,7 @@ bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, 
   return false;
 }
 
-WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(const WbField *modifiedField, WbNode *parentNode) {
   if (parentNode == NULL || modifiedField == NULL)
     return NULL;
 
@@ -314,11 +314,11 @@ WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbFie
   return findUpperTemplateNeedingRegeneration(parentNode);
 }
 
-WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(const WbNode *modifiedNode) {
   if (modifiedNode == NULL)
     return NULL;
 
-  WbField *field = modifiedNode->parentField();
+  const WbField *field = modifiedNode->parentField();
   WbNode *node = modifiedNode->parentNode();
   while (node && field && !node->isWorldRoot()) {
     if (node->isTemplate() && field->isTemplateRegenerator())
@@ -363,7 +363,7 @@ bool WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(const WbNode *defNode, cons
   const WbNode *parentNode = node->parentNode();
 
   while (parentNode) {
-    WbField *const parentField = node->parentField();
+    const WbField *const parentField = node->parentField();
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(parentField->value());
     if (mfnode) {
       const int index = mfnode->nodeIndex(node) + 1;
@@ -423,7 +423,7 @@ bool WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(const WbNode *node, cons
       return true;
   }
 
-  foreach (WbField *field, node->fieldsOrParameters()) {
+  foreach (const WbField *field, node->fieldsOrParameters()) {
     WbValue *value = field->value();
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode && sfnode->value()) {
@@ -466,6 +466,7 @@ QList<WbNode *> WbVrmlNodeUtilities::findUseNodeAncestors(WbNode *node) {
   if (node == NULL)
     return list;
 
+  // cppcheck-suppress constVariablePointer
   WbNode *n = node;
   while (n && !n->isWorldRoot()) {
     if (n->isUseNode())
@@ -476,7 +477,7 @@ QList<WbNode *> WbVrmlNodeUtilities::findUseNodeAncestors(WbNode *node) {
   return list;
 }
 
-QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
+QString WbVrmlNodeUtilities::exportNodeToString(const WbNode *node) {
   QString nodeString;
   WbWriter writer(&nodeString, ".wbt");
   node->write(writer);

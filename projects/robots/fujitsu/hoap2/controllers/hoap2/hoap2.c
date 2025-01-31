@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,6 +133,7 @@ static const char *joint_number_to_name(int num) {
   }
 }
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   int i, sampling;
   int com_interval;
@@ -189,7 +190,7 @@ int main(int argc, char *argv[]) {
   next_position[larm_joint_5] = 0.0;
   next_position[rarm_joint_5] = 0.0;
 
-  char *ptr = fgets(l, 500, file);
+  const char *ptr = fgets(l, 500, file);
   if (ptr == NULL) {
     fprintf(stderr, "Error while reading the %s file\n", filename);
     fclose(file);

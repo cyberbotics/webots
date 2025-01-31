@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public:
   explicit WbAppearance(WbTokenizer *tokenizer = NULL);
   WbAppearance(const WbAppearance &other);
   explicit WbAppearance(const WbNode &other);
-  virtual ~WbAppearance();
+  virtual ~WbAppearance() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_APPEARANCE; }

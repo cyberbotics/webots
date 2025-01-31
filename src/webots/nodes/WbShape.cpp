@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -306,9 +306,9 @@ void WbShape::applyMaterialToGeometry() {
 // using uv mapping, paint color and diffuse color
 // could be improved by computing the exact openGL computing including lighting
 void WbShape::pickColor(const WbRay &ray, WbRgb &pickedColor, double *roughness, double *occlusion) const {
-  WbAppearance *const app = appearance();
-  WbPbrAppearance *const pbrApp = pbrAppearance();
-  WbGeometry *const geom = geometry();
+  const WbAppearance *const app = appearance();
+  const WbPbrAppearance *const pbrApp = pbrAppearance();
+  const WbGeometry *const geom = geometry();
 
   WbRgb diffuseColor(1.0f, 1.0f, 1.0f);
   WbRgb textureColor(1.0f, 1.0f, 1.0f);
@@ -491,35 +491,31 @@ bool WbShape::isAValidBoundingObject(bool checkOde, bool warning) const {
 ////////////
 
 bool WbShape::exportNodeHeader(WbWriter &writer) const {
-  if (writer.isX3d()) {
-    writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
-    if (isInvisibleNode())
-      writer << " render=\'false\'";
+  if (writer.isW3d() && isUseNode() && defNode()) {
+    writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+    writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + w3dName() + ">";
+    return true;
+  }
 
-    if (isUseNode() && defNode()) {
-      writer << " USE=\'" + QString::number(defNode()->uniqueId()) + "\'></" + x3dName() + ">";
-      return true;
-    }
-
-    if (!mIsPickable->value())
-      writer << " isPickable='false'";
-    if (mCastShadows->value())
-      writer << " castShadows='true'";
-
-    return false;
-  } else
-    return WbBaseNode::exportNodeHeader(writer);
+  return WbBaseNode::exportNodeHeader(writer);
 }
 
-void WbShape::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbShape::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
 
   if (isUseNode() && defNode())
-    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
-    writer << "<" << x3dName() << " role='boundingObject'"
+    writer << "<" << w3dName() << " role='boundingObject'"
            << " id=\'n" << QString::number(uniqueId()) << "\'>";
     geometry()->write(writer);
-    writer << "</" + x3dName() + ">";
+    writer << "</" + w3dName() + ">";
   }
+}
+
+QStringList WbShape::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "isPickable"
+         << "castShadows";
+  return fields;
 }

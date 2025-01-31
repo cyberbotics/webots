@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -419,8 +419,8 @@ void WbSimulationWorld::storeAddedNodeIfNeeded(WbNode *node) {
   connect(node, &QObject::destroyed, this, &WbSimulationWorld::removeNodeFromAddedNodeList);
 }
 
-void WbSimulationWorld::removeNodeFromAddedNodeList(QObject *node) {
-  WbNode *n = static_cast<WbNode *>(node);
+void WbSimulationWorld::removeNodeFromAddedNodeList(const QObject *node) {
+  const WbNode *n = static_cast<const WbNode *>(node);
   mAddedNode.removeAll(n);
 }
 

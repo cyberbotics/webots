@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,13 +34,14 @@ public:
   explicit WbTrackWheel(WbTokenizer *tokenizer = NULL);
   WbTrackWheel(const WbTrackWheel &other);
   explicit WbTrackWheel(const WbNode &other);
-  virtual ~WbTrackWheel();
+  virtual ~WbTrackWheel() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_TRACK_WHEEL; }
   void preFinalize() override;
   void postFinalize() override;
   void write(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
   void exportNodeFields(WbWriter &writer) const override;
   bool shallExport() const override;
 

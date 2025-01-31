@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -384,7 +384,8 @@ void Serial::updatePorts() {
     printf("IOServiceMatching failed.\n");
 
   CFDictionarySetValue(classesToMatch, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDRS232Type));
-  kernResult = IOServiceGetMatchingServices(kIOMasterPortDefault, classesToMatch, &serialPortIterator);
+  // NULL is equivalent to kIOMainPortDefault or kIOMasterPortDefault but works across SDK versions
+  kernResult = IOServiceGetMatchingServices((mach_port_t)NULL, classesToMatch, &serialPortIterator);
   if (kernResult != KERN_SUCCESS)
     printf("IOServiceGetMatchingServices failed: %d\n", kernResult);
   io_object_t service;

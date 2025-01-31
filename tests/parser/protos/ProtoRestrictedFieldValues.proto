@@ -1,15 +1,29 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/manual_tests/protos/PoseProto.proto"
 
 PROTO ProtoRestrictedFieldValues
 [
   field SFRotation{0 1 0 0, 0 0 1 0, 0 1 0 1.5708} rotation 0 0 1 0
   field SFVec3f{0 0 0} translation 0 0 0
-  field MFNode{Solid{}, Group{}} extensionSlot []
+  field MFNode{Solid{}+, PoseProto{}+} extensionSlot []
+  field MFNode{PoseProto{}} extensionSlot2 []
+  field MFNode{Pose{}} extensionSlot3 []
 ]
 {
   Solid {
     rotation IS rotation
     translation IS translation
-    children IS extensionSlot
+    children [
+      Group {
+        children IS extensionSlot
+      }
+      Group {
+        children IS extensionSlot2
+      }
+      Group {
+        children IS extensionSlot3
+      }
+    ]
   }
 }

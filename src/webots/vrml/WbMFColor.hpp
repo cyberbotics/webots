@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public:
 
   WbMFColor(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFColor(const WbMFColor &other) : mVector(other.mVector) {}
-  virtual ~WbMFColor() {}
+  virtual ~WbMFColor() override {}
   WbValue *clone() const override { return new WbMFColor(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

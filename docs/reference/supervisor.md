@@ -106,19 +106,6 @@ node = wb_supervisor_node_get_selected()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/get_root` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_self` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_from_id` | `service` | `webots_ros::supervisor_get_from_id` | `int32 id`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_from_device` | `service` | `webots_ros::supervisor_get_from_string` | `string value`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/get_selected` | `service` | [`webots_ros::get_uint64`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -146,10 +133,9 @@ This means that we are searching for a node named "SOLID" inside a node named "J
 The `wb_supervisor_node_get_from_id` function retrieves a handle to a node, but from its unique identifier (the `id` parameter).
 The function returns NULL if the given identifier doesn't match with any node of the current world.
 It is recommended to use this function only when knowing formerly the identifier (rather than looping on this function to retrieve all the nodes of a world).
-For example, when exporting an X3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
+For example, when exporting an W3D file, its XML nodes are containing an `id` attribute which matches with the unique identifier described here.
 
 The `wb_supervisor_node_get_from_device` function retrieves the node's handle for a [Device](device.md) object.
-Note that in the ROS API the device name has to be used to retrieve the handle to the node.
 
 The `wb_supervisor_node_get_root` function returns a handle to the root node which is actually a [Group](group.md) node containing all the nodes visible at the top level in the scene tree window of Webots.
 Like any [Group](group.md) node, the root node has a MFNode field called "children" which can be parsed to read each node in the scene tree.
@@ -167,6 +153,7 @@ If no node is currently selected, the function returns NULL.
 #### `wb_supervisor_node_get_id`
 #### `wb_supervisor_node_get_parent_node`
 #### `wb_supervisor_node_is_proto`
+#### `wb_supervisor_node_get_proto`
 #### `wb_supervisor_node_get_from_proto_def`
 
 %tab-component "language"
@@ -180,6 +167,7 @@ const char *wb_supervisor_node_get_def(WbNodeRef node);
 int wb_supervisor_node_get_id(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_parent_node(WbNodeRef node);
 bool wb_supervisor_node_is_proto(WbNodeRef node);
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node);
 WbNodeRef wb_supervisor_node_get_from_proto_def(WbNodeRef node, const char *def);
 ```
 
@@ -196,6 +184,7 @@ namespace webots {
     std::string getDef() const;
     Node *getParentNode() const;
     bool isProto() const;
+    Proto *getProto() const;
     Node *getFromProtoDef(const std::string &name);
     // ...
   }
@@ -214,6 +203,7 @@ class Node:
     def getDef(self):
     def getParentNode(self):
     def isProto(self):
+    def getProto(self):
     def getFromProtoDef(self, name):
     # ...
 ```
@@ -230,6 +220,7 @@ public class Node {
   public String getDef();
   public Node getParentNode();
   public boolean isProto();
+  public Proto getProto();
   public Node getFromProtoDef(String name);
   // ...
 }
@@ -244,20 +235,9 @@ id = wb_supervisor_node_get_id(node)
 s = wb_supervisor_node_get_def(node)
 node = wb_supervisor_node_get_parent_node(node)
 b = wb_supervisor_node_is_proto(node)
+proto = wb_supervisor_node_get_proto(node)
 node = wb_supervisor_node_get_from_proto_def(node, 'def')
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_id` | `service` | `webots_ros::node_get_id` | `uint64 node`<br/>`---`<br/>`int32 id` |
-| `/supervisor/node/get_def` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-| `/supervisor/node/get_parent_node` | `service` | `webots_ros::node_get_parent_node` | `uint64 node`<br/>`---`<br/>`uint64 node` |
-| `/supervisor/node/is_proto` | `service` | `webots_ros::node_is_proto` | `uint64 node`<br/>`---`<br/>`bool value` |
-| `/supervisor/get_from_def` | `service` | `webots_ros::supervisor_get_from_def` | `string name`<br/>`uint64 proto`<br/>`---`<br/>`uint64 node` |
 
 %tab-end
 
@@ -273,6 +253,9 @@ If no DEF name is specified, this function returns the empty string.
 The `wb_supervisor_node_get_id` function retrieves the unique identifier of the node given in parameter.
 
 The `wb_supervisor_node_get_parent_node` function retrieves the reference to the direct parent node of the node given in parameter.
+
+The `wb_supervisor_node_get_proto` function the instance of the proto type corresponding to the given node.
+If the node is not a PROTO node, the function returns NULL.
 
 The `wb_supervisor_node_is_proto` function returns `true` if the node given in the argument is a [PROTO node](proto.md).
 
@@ -544,16 +527,6 @@ name = wb_supervisor_node_get_base_type_name(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_type` | `service` | `webots_ros::node_get_type` | `uint64 node`<br/>`---`<br/>`int32 type` |
-| `/supervisor/node/get_type_name` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-| `/supervisor/node/get_base_type_name` | `service` | `webots_ros::node_get_name` | `uint64 node`<br/>`---`<br/>`string name` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -640,14 +613,6 @@ wb_supervisor_node_remove(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/remove` | `service` | `webots_ros::node_remove` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -721,14 +686,6 @@ node_string = wb_supervisor_node_export_string(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/export_string` | `service` | `webots_ros::node_get_string` | `uint64 node`<br/>`---`<br/>`string value` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -744,9 +701,9 @@ A file with the equivalent content can be produced in the Webots user interface 
 #### `wb_supervisor_node_get_field`
 #### `wb_supervisor_node_get_field_by_index`
 #### `wb_supervisor_node_get_number_of_fields`
-#### `wb_supervisor_node_get_proto_field`
-#### `wb_supervisor_node_get_proto_field_by_index`
-#### `wb_supervisor_node_get_proto_number_of_fields`
+#### `wb_supervisor_node_get_base_node_field`
+#### `wb_supervisor_node_get_base_node_field_by_index`
+#### `wb_supervisor_node_get_number_of_base_node_fields`
 
 %tab-component "language"
 
@@ -758,9 +715,9 @@ A file with the equivalent content can be produced in the Webots user interface 
 WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name);
 WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index);
 int wb_supervisor_node_get_number_of_fields(WbNodeRef node);
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name);
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, const char *field_name);
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node, int index);
+WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *field_name);
+WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int index);
+int wb_supervisor_node_get_number_of_base_node_fields(WbNodeRef node);
 ```
 
 %tab-end
@@ -775,9 +732,9 @@ namespace webots {
     Field *getField(const std::string &fieldName) const;
     Field *getFieldByIndex(int index) const;
     int getNumberOfFields() const;
-    Field *getProtoField(const std::string &fieldName) const;
-    Field *getProtoFieldByIndex(int index) const;
-    int getProtoNumberOfFields() const;
+    Field *getBaseNodeField(const std::string &fieldName) const;
+    Field *getBaseNodeFieldByIndex(int index) const;
+    int getNumberOfBaseNodeFields() const;
     // ...
   }
 }
@@ -793,10 +750,10 @@ from controller import Node
 class Node:
     def getField(self, fieldName):
     def getFieldByIndex(self, index):
-    def getNumberOfFields():
-    def getProtoField(self, fieldName):
-    def getProtoFieldByIndex(self, index):
-    def getProtoNumberOfFields():
+    def getNumberOfFields(self):
+    def getBaseNodeField(self, fieldName):
+    def getBaseNodeFieldByIndex(self, index):
+    def getNumberOfBaseNodeFields(self):
     # ...
 ```
 
@@ -811,9 +768,9 @@ public class Node {
   public Field getField(String fieldName);
   public Field getFieldByIndex(int index);
   public int getNumberOfFields();
-  public Field getProtoField(String fieldName);
-  public Field getProtoFieldByIndex(int index);
-  public int getProtoNumberOfFields();
+  public Field getBaseNodeField(String fieldName);
+  public Field getBaseNodeFieldByIndex(int index);
+  public int getNumberOfBaseNodeFields();
   // ...
 }
 ```
@@ -826,20 +783,10 @@ public class Node {
 field = wb_supervisor_node_get_field(node, 'field_name')
 field = wb_supervisor_node_get_field_by_index(node, index)
 size = wb_supervisor_node_get_number_of_fields(node)
-field = wb_supervisor_node_get_proto_field(node, 'field_name')
-field = wb_supervisor_node_get_proto_field_by_index(node, index)
-size = wb_supervisor_node_get_proto_number_of_fields(node)
+field = wb_supervisor_node_get_base_node_field(node, 'field_name')
+field = wb_supervisor_node_get_base_node_field_by_index(node, index)
+size = wb_supervisor_node_get_number_of_base_node_fields(node)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_field` | `service` | `webots_ros::node_get_field` | `uint64 node`<br/>`string fieldName`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_field_by_index` | `service` | `webots_ros::node_get_field_by_index` | `uint64 node`<br/>`int index`<br/>`bool proto`<br/>`---`<br/>`uint64 field` |
-| `/supervisor/node/get_number_of_fields` | `service` | `webots_ros::node_get_number_of_fields` | `uint64 node`<br/>`bool proto`<br/>`---`<br/>`uint32 value` |
 
 %tab-end
 
@@ -849,22 +796,22 @@ size = wb_supervisor_node_get_proto_number_of_fields(node)
 
 *get a field reference from a node*
 
-The `wb_supervisor_node_get_field` function retrieves a handler to a node field.
+The `wb_supervisor_node_get_field` function retrieves a handler to a node field in the scene tree.
 The field is specified by its name in `field_name` and the `node` it belongs to.
 It can be a single field (SF) or a multiple field (MF).
-If no such field name exists for the specified node or the field is an internal field of a PROTO, the return value is NULL.
+If no such field name exists for the specified node in the scene tree, the return value is NULL.
 Otherwise, it returns a handler to a field.
 
 > **Note**: The `wb_supervisor_node_get_field` function will return a valid field handler if the field corresponding to the field name is an hidden field.
 
-If the field is an internal field of a PROTO, the `wb_supervisor_node_get_proto_field` function should be used instead.
+If a field is defined for the base (Webots) type of a node but does not appear in the scene tree due to being an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field` function can be used instead.
 
 Field handlers can also be retrieved by index using the `wb_supervisor_node_get_field_by_index` function where the field is specified by its `index` and the the `node` it belongs to.
 Valid `index` values should be positive and lower than the number of fields returned by `wb_supervisor_node_get_number_of_fields`.
-If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` return -1.
-To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_field_by_index` and `wb_supervisor_node_get_proto_number_of_fields` should be used instead.
+If the arguments are not valid, `wb_supervisor_node_get_field_by_index` returns NULL and `wb_supervisor_node_get_number_of_fields` returns -1.
+To retrieve an internal field of a PROTO, the `wb_supervisor_node_get_base_node_field_by_index` and `wb_supervisor_node_get_number_of_base_node_fields` should be used instead.
 
-> **Note**: fields retrieved with the `wb_supervisor_node_get_proto_field` and `wb_supervisor_node_get_proto_field_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
+> **Note**: fields retrieved with the `wb_supervisor_node_get_base_node_field` and `wb_supervisor_node_get_base_node_by_index` functions are read-only. Which means that it is not possible to change them using any of the [`wb_supervisor_field_set_*`](#wb_supervisor_field_set_sf_bool) functions.
 
 
 
@@ -954,18 +901,6 @@ pose = wb_supervisor_node_get_pose(node, from_node)
 wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)
 wb_supervisor_node_disable_pose_tracking(node, from_node)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_position` | `service` | `webots_ros::node_get_position` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/node/get_orientation` | `service` | `webots_ros::node_get_orientation` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/node/get_pose` | `service` | `webots_ros::node_get_pose` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>[`geometry_msgs/Pose`](http://docs.ros.org/en/api/geometry_msgs/html/msg/Pose.html) pose |
-| `/supervisor/node/enable_pose_tracking` | `service` | `webots_ros::node_enable_pose_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/disable_pose_tracking` | `service` | `webots_ros::node_disable_pose_tracking` | `uint64 node`<br/>`uint64 from_node`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1096,14 +1031,6 @@ com = wb_supervisor_node_get_center_of_mass(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_center_of_mass` | `service` | `webots_ros::node_get_center_of_mass` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) centerOfMass |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1196,16 +1123,6 @@ wb_supervisor_node_disable_contact_points_tracking():
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
-| `/supervisor/node/enable_contact_points_tracking` | `service` | `webots_ros::enable_contact_points_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1291,14 +1208,6 @@ balance = wb_supervisor_node_get_static_balance(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_static_balance` | `service` | `webots_ros::node_get_static_balance` | `uint64 node`<br/>`---`<br/>`uint8 balance` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1378,15 +1287,6 @@ public class Node {
 velocity = wb_supervisor_node_get_velocity(node)
 wb_supervisor_node_set_velocity(node, velocity)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/get_velocity` | `service` | `webots_ros::node_get_velocity` | `uint64 node`<br/>`---`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html) velocity |
-| `/supervisor/node/set_velocity` | `service` | `webots_ros::node_set_velocity` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html) `velocity`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1484,16 +1384,6 @@ wb_supervisor_node_reset_physics(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/save_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/load_state` | `service` | `webots_ros::node_set_string` | `uint64 node`<br/>`string state_name`<br/>`---`<br/>`int8 success` |
-| `/supervisor/node/reset_physics` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1577,14 +1467,6 @@ public class Node {
 ```MATLAB
 wb_supervisor_node_set_joint_position(node, position, index)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/set_joint_position` | `service` | `webots_ros::node_set_joint_position` | `uint64 node`<br/>`float position`<br/>`int32 index`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1675,14 +1557,6 @@ wb_supervisor_node_restart_controller(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/restart_controller` | `service` | `webots_ros::node_reset_functions` | `uint64 node`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1758,14 +1632,6 @@ wb_supervisor_node_move_viewpoint(node)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/move_viewpoint` | `service` | `webots_ros::node_move_viewpoint` | `uint64 node`<br/>---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1836,14 +1702,6 @@ public class Node {
 ```MATLAB
 wb_supervisor_node_set_visibility(node, from, visible)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/set_visibility` | `service` | `webots_ros::node_hide_from_camera` | `uint64 node`<br/>`uint64 from`<br/>`uint8 visible`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1941,16 +1799,6 @@ void wb_supervisor_node_add_torque(node, torque, relative)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/node/add_force` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_force_with_offset` | `service` | `webots_ros::node_add_force_with_offset` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) offset<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/add_torque` | `service` | `webots_ros::node_add_force_or_torque` | `uint64 node`<br/>[`geometry_msgs/Twist`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) force<br/>`uint8 relative`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2024,14 +1872,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency, font)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/set_label` | `service` | `webots_ros::supervisor_set_label` | `int32 id`<br/>`string label`<br/>`float64 xpos`<br/>`float64 ypos`<br/>`float64 size`<br/>`int32 color`<br/>`float64 transparency`<br/>`string font`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -2156,14 +1996,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_simulation_quit(status)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_quit` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2320,15 +2152,6 @@ wb_supervisor_simulation_set_mode(mode)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/supervisor_simulation_get_mode` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/supervisor/supervisor_simulation_set_mode` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2417,14 +2240,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_simulation_reset()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_reset` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2680,14 +2495,6 @@ wb_supervisor_simulation_reset_physics()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/simulation_reset_physics` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2779,16 +2586,6 @@ wb_supervisor_world_reload()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/world_load` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/world_save` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/world_reload` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2875,14 +2672,6 @@ public class Supervisor extends Robot {
 ```MATLAB
 wb_supervisor_export_image('filename', quality)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/export_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -2979,17 +2768,6 @@ wb_supervisor_movie_stop_recording()
 status = wb_supervisor_movie_is_ready()
 status = wb_supervisor_movie_failed()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/movie_start_recording` | `service` | `webots_ros::supervisor_movie_start_recording` | `string filename`<br/>`int32 width`<br/>`int32 height`<br/>`int32 codec`<br/>`int32 quality`<br/>`int32 acceleration`<br/>`uint8 caption`<br/>`---`<br/>`int8 success` |
-| `/supervisor/movie_stop_recording` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-| `/supervisor/movie_is_ready` | `service` | `webots_ros::node_get_status` | `uint8 ask`<br/>`---`<br/>`uint8 status` |
-| `/supervisor/movie_failed` | `service` | `webots_ros::node_get_status` | `uint8 ask`<br/>`---`<br/>`uint8 status` |
 
 %tab-end
 
@@ -3092,15 +2870,6 @@ success = wb_supervisor_animation_stop_recording()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/animation_start_recording` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/supervisor/animation_stop_recording` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3123,6 +2892,7 @@ Both `wb_supervisor_animation_start_recording` and `wb_supervisor_animation_stop
 #### `wb_supervisor_field_get_type`
 #### `wb_supervisor_field_get_type_name`
 #### `wb_supervisor_field_get_count`
+#### `wb_supervisor_field_get_actual_field`
 #### `wb_supervisor_field_enable_sf_tracking`
 #### `wb_supervisor_field_disable_sf_tracking`
 
@@ -3143,6 +2913,7 @@ const char *wb_supervisor_field_get_name(WbFieldRef field);
 WbFieldType wb_supervisor_field_get_type(WbFieldRef field);
 const char *wb_supervisor_field_get_type_name(WbFieldRef field);
 int wb_supervisor_field_get_count(WbFieldRef field);
+WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field);
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period);
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field);
 ```
@@ -3166,6 +2937,7 @@ namespace webots {
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
+    WbFieldRef getActualField() const;
     void enableSFTracking(int samplingPeriod);
     void disableSFTracking();
     // ...
@@ -3189,6 +2961,7 @@ class Field:
     def getType(self):
     def getTypeName(self):
     def getCount(self):
+    def getActualField(self):
     def enableSFTracking(self, samplingPeriod):
     def disableSFTracking(self):
     # ...
@@ -3210,6 +2983,7 @@ public class Field {
   public int getType();
   public String getTypeName();
   public int getCount();
+  public Field getActualField();
   public void enableSFTracking(int samplingPeriod);
   public void disableSFTracking();
   // ...
@@ -3229,22 +3003,10 @@ name = wb_supervisor_field_get_name(field)
 type = wb_supervisor_field_get_type(field)
 name = wb_supervisor_field_get_type_name(field)
 count = wb_supervisor_field_get_count(field)
+actual_field = wb_supervisor_field_get_actual_field(field)
 wb_supervisor_field_enable_sf_tracking(field, sampling_period)
 wb_supervisor_field_disable_sf_tracking(field)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/get_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
-| `/supervisor/field/get_type` | `service` | `webots_ros::field_get_type` | `uint64 node`<br/>`---`<br/>`int8 success` |
-| `/supervisor/field/get_type_name` | `service` | `webots_ros::field_get_name` | `uint64 field`<br/>`---`<br/>`string name` |
-| `/supervisor/field/get_count` | `service` | `webots_ros::field_get_count` | `uint64 field`<br/>`---`<br/>`int32 count` |
-| `/supervisor/field/enable_sf_tracking` | `service` | `webots_ros::field_enable_sf_tracking` | `uint64 field`<br/>`int32 sampling_period`<br/>`---`<br/>`int8 sampling_period` |
-| `/supervisor/field/disable_sf_tracking` | `service` | `webots_ros::field_disable_sf_tracking` | `uint64 field`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -3269,6 +3031,11 @@ If the argument is NULL, the function returns the empty string.
 The `wb_supervisor_field_get_count` function returns the number of items of a multiple field (MF) passed as an argument to this function.
 If a single field (SF) or NULL is passed as an argument to this function, it returns -1.
 Hence, this function can also be used to test if a field is MF (like `WB_MF_INT32`) or SF (like `WB_SF_BOOL`).
+
+The `wb_supervisor_field_get_actual_field` function returns the field in the scene tree that is associated with the given field.
+This allows you to retrieve a modifiable field reference from an internal field reference. (e.g., a field reference returned by [`wb_supervisor_node_get_base_node_field`](#wb_supervisor_node_get_base_node_field) or [`wb_supervisor_proto_get_field`](#wb_supervisor_proto_get_field)).
+If the argument is invalid or doesn't have an associated field in the tree, the function returns NULL.
+If the function does not return NULL, the returned field is guaranteed to be modifiable.
 
 The `wb_supervisor_field_enable_sf_tracking` function forces Webots to stream field data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
@@ -3447,22 +3214,6 @@ node = wb_supervisor_field_get_mf_node(field, index)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/get_bool` | `service` | `webots_ros::field_get_bool` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`uint8 value` |
-| `/supervisor/field/get_int32` | `service` | `webots_ros::field_get_int32` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`int32 value` |
-| `/supervisor/field/get_float` | `service` | `webots_ros::field_get_float` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`float64 value` |
-| `/supervisor/field/get_vec2f` | `service` | `webots_ros::field_get_vec2f` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/><br/>Note: the 'z' coordinate should be ignored. |
-| `/supervisor/field/get_vec3f` | `service` | `webots_ros::field_get_vec3f` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) value |
-| `/supervisor/field/get_rotation` | `service` | `webots_ros::field_get_rotation` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) value |
-| `/supervisor/field/get_color` | `service` | `webots_ros::field_get_color` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) value |
-| `/supervisor/field/get_string` | `service` | `webots_ros::field_get_string` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`string value` |
-| `/supervisor/field/get_node` | `service` | `webots_ros::field_get_node` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`uint64 node` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3638,21 +3389,6 @@ wb_supervisor_field_set_mf_string(field, index, 'value')
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/set_bool` | `service` | `webots_ros::field_set_bool` | `uint64 field`<br/>`int32 index`<br/>`uint8 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_int32` | `service` | `webots_ros::field_set_int32` | `uint64 field`<br/>`int32 index`<br/>`int32 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_float` | `service` | `webots_ros::field_set_float` | `uint64 field`<br/>`int32 index`<br/>`float64 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_vec2f` | `service` | `webots_ros::field_set_vec2f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'z' coordinate is ignored. |
-| `/supervisor/field/set_vec3f` | `service` | `webots_ros::field_set_vec3f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_rotation` | `service` | `webots_ros::field_set_rotation` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/set_color` | `service` | `webots_ros::field_set_color` | `uint64 field`<br/>`int32 index`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'a' component is ignored. |
-| `/supervisor/field/set_string` | `service` | `webots_ros::field_set_string` | `uint64 field`<br/>`int32 index`<br/>`string value`<br/>`---`<br/>`int32 success`<br/> |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3821,22 +3557,6 @@ wb_supervisor_field_remove_sf(field)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/insert_bool` | `service` | `webots_ros::field_set_bool` | `uint64 field`<br/>`int32 index`<br/>`uint8 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_int32` | `service` | `webots_ros::field_set_int32` | `uint64 field`<br/>`int32 index`<br/>`int32 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_float` | `service` | `webots_ros::field_set_float` | `uint64 field`<br/>`int32 index`<br/>`float64 value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_vec2f` | `service` | `webots_ros::field_set_vec2f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'z' coordinate is ignored. |
-| `/supervisor/field/insert_vec3f` | `service` | `webots_ros::field_set_vec3f` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_rotation` | `service` | `webots_ros::field_set_rotation` | `uint64 field`<br/>`int32 index`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `value`<br/>`---`<br/>`int32 success` |
-| `/supervisor/field/insert_color` | `service` | `webots_ros::field_set_color` | `uint64 field`<br/>`int32 index`<br/>[`std_msgs/ColorRGBA`](http://docs.ros.org/api/std_msgs/html/msg/ColorRGBA.html) `value`<br/>`---`<br/>`int32 success`<br/><br/>Note: the 'a' component is ignored. |
-| `/supervisor/field/insert_string` | `service` | `webots_ros::field_set_string` | `uint64 field`<br/>`int32 index`<br/>`string value`<br/>`---`<br/>`int32 success`<br/> |
-| `/supervisor/field/remove` | `service` | `webots_ros::field_remove` | `uint64 field`<br/>`int32 index`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -3929,14 +3649,6 @@ wb_supervisor_field_import_sf_node_from_string(field, 'node_string')
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/field/import_node_from_string` | `service` | `webots_ros::field_import_node_from_string` | `uint64 field`<br/>`int32 position`<br/>`string nodeString`<br/>`---`<br/>`int32 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -4012,6 +3724,186 @@ rootChildrenField.importMFNodeFromString(4, 'DEF MY_ROBOT Robot { controller "my
 
 ---
 
+#### `wb_supervisor_proto_get_type_name`
+#### `wb_supervisor_proto_is_derived`
+#### `wb_supervisor_proto_get_parent`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto);
+bool wb_supervisor_proto_is_derived(WbProtoRef proto, const char *type_name);
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Proto.hpp>
+
+namespace webots {
+  class Proto {
+    std::string getTypeName();
+    bool isDerived();
+    Node getParent();
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Proto
+
+class Proto:
+    def getTypeName(self):
+    def isDerived(self):
+    def getParent(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Proto;
+
+public class Proto {
+  public String getTypeName();
+  public boolean isDerived();
+  public Node getParent();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+type_name = wb_supervisor_proto_get_type_name(proto)
+is_derived = wb_supervisor_proto_is_derived(proto)
+parent = wb_supervisor_proto_get_parent(proto)
+```
+
+%tab-end
+
+%end
+
+##### Description
+
+*get information about a proto instance*
+
+The `wb_supervisor_proto_get_type` function returns the type name of a proto instance as defined in the PROTO file.
+If the argument is NULL, the function returns the empty string.
+
+The `wb_supervisor_proto_is_derived` function returns true if the proto instance is derived from another proto type.
+
+The `wb_supervisor_proto_get_parent` function returns the instance of the parent proto type corresponding to the given proto instance.
+
+---
+
+#### `wb_supervisor_proto_get_field`
+#### `wb_supervisor_proto_get_field_by_index`
+#### `wb_supervisor_proto_get_number_of_fields`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/supervisor.h>
+
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name);
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index);
+int        wb_supervisor_proto_get_number_of_fields(WbProtoRef proto);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/Proto.hpp>
+
+namespace webots {
+  class Proto {
+    Field getField(const std::string &fieldName);
+    Field getFieldByIndex(int index);
+    int getNumberOfFields();
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import Proto
+
+class Proto:
+    def getField(self, fieldName):
+    def getFieldByIndex(self, index):
+    def getNumberOfFields(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.Proto;
+
+public class Proto {
+  public Field getField(String fieldName);
+  public Field getFieldByIndex(int index);
+  public int getNumberOfFields();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+field = wb_supervisor_proto_get_field(proto, 'field_name')
+field = wb_supervisor_proto_get_field_by_index(proto, index)
+number_of_fields = wb_supervisor_proto_get_number_of_fields(proto)
+```
+
+%tab-end
+
+%end
+
+##### Description
+
+*get information about a proto instance's fields*
+
+The `wb_supervisor_proto_get_field` function returns the field of a proto instance corresponding to the given field name.
+If the field does not exist or the provided proto is invalid, the function returns NULL.
+
+The `wb_supervisor_proto_get_field_by_index` function returns the field of a proto instance corresponding to the given index.
+If the field does not exist or the provided proto is invalid, the function returns NULL.
+
+The `wb_supervisor_proto_get_number_of_fields` function returns the number of fields of a proto instance.
+If the provided proto is invalid, the function returns -1.
+
+---
+
 #### `wb_supervisor_virtual_reality_headset_is_used`
 #### `wb_supervisor_virtual_reality_headset_get_position`
 #### `wb_supervisor_virtual_reality_headset_get_orientation`
@@ -4083,16 +3975,6 @@ used = wb_supervisor_virtual_reality_headset_is_used()
 position = wb_supervisor_virtual_reality_headset_get_position()
 orientation = wb_supervisor_virtual_reality_headset_get_orientation()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/supervisor/virtual_reality_headset_get_orientation` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_orientation` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Point`](http://docs.ros.org/api/geometry_msgs/html/msg/Point.html) position |
-| `/supervisor/virtual_reality_headset_get_position` | `service` | `webots_ros::supervisor_virtual_reality_headset_get_position` | `uint8 ask`<br/>`---`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) orientation |
-| `/supervisor/virtual_reality_headset_is_used` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -4185,15 +4067,6 @@ structs.WbContactPoint.members = struct(
   'node_id', 'int32',
 );
 ```
-
-%tab-end
-
-%tab "ROS"
-
-<br/>
-[`geometry_msgs/Point`](http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Point.html) point<br/>
-`int32` node_id
-<br/>
 
 %tab-end
 

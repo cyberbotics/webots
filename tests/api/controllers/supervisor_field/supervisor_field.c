@@ -25,6 +25,13 @@ int main(int argc, char **argv) {
   int i;
   double d;
 
+  ts_assert_string_equal(wb_supervisor_field_get_name(NULL), "",
+                         "wb_supervisor_field_get_name(NULL) should return the empty string");
+  ts_assert_int_equal(wb_supervisor_field_get_type(NULL), 0, "wb_supervisor_field_get_type(NULL) should return 0");
+  ts_assert_string_equal(wb_supervisor_field_get_type_name(NULL), "",
+                         "wb_supervisor_field_get_type_name(NULL) should return the empty string");
+  ts_assert_int_equal(wb_supervisor_field_get_count(NULL), -1, "wb_supervisor_field_get_count(NULL) should return -1");
+
   root = wb_supervisor_node_get_root();
   ts_assert_pointer_not_null(root, "Root node is not found");
 
@@ -70,27 +77,25 @@ int main(int argc, char **argv) {
   d = wb_supervisor_field_get_sf_float(field);
   ts_assert_double_equal(d, 0.73, "Proto \"camera_fieldOfView\" SFFloat field should have value 0.73 not %f", d);
 
-  // invalid to retrive a non-PROTO field or a PROTO parameter
-  internal_field = wb_supervisor_node_get_proto_field(box, "scale");
-  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for PROTO nodes.");
-  internal_field = wb_supervisor_node_get_proto_field(mfTest, "mfBool");
-  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_proto_field should only work for internal PROTO fields.");
+  // invalid to retrieve a non-base-node field
+  internal_field = wb_supervisor_node_get_base_node_field(mfTest, "mfBool");
+  ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_base_node_field should not return PROTO parameters.");
 
   // internal SFNode
-  internal_sf_node_field = wb_supervisor_node_get_proto_field(proto, "physics");
+  internal_sf_node_field = wb_supervisor_node_get_base_node_field(proto, "physics");
   ts_assert_pointer_not_null(internal_sf_node_field, "wb_supervisor_node_get_proto_field should return an internal field.");
   internal_physics = wb_supervisor_field_get_sf_node(internal_sf_node_field);
   ts_assert_pointer_not_null(internal_physics, "wb_supervisor_field_get_sf_node should return an internal node.");
   internal_field = wb_supervisor_node_get_field(internal_physics, "density");
-  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_field should return an internal field.");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, -1.0, "Returned value should be -1.0 and not %f", d);
 
   // internal SFFloat value
   internal_field = wb_supervisor_node_get_field(proto, "cpuConsumption");
   ts_assert_pointer_null(internal_field, "wb_supervisor_node_get_field should not return internal fields.");
-  internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
-  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_proto_field should return an internal field.");
+  internal_field = wb_supervisor_node_get_base_node_field(proto, "cpuConsumption");
+  ts_assert_pointer_not_null(internal_field, "wb_supervisor_node_get_base_node_field should return an internal field.");
   d = wb_supervisor_field_get_sf_float(internal_field);
   ts_assert_double_equal(d, 1.11, "Returned value should be 1.11 and not %f", d);
   wb_supervisor_field_set_sf_float(internal_field, 1.5);
@@ -423,7 +428,7 @@ int main(int argc, char **argv) {
   int internal_field_type = wb_supervisor_field_get_type(internal_field);
   printf("internal_field_type %d\n", internal_field_type);
   ts_assert_int_equal(internal_field_type, 0, "Internal field reference is invalid after PROTO regeneration");
-  internal_field = wb_supervisor_node_get_proto_field(proto, "cpuConsumption");
+  internal_field = wb_supervisor_node_get_base_node_field(proto, "cpuConsumption");
   printf("internal_field %p\n", internal_field);
   ts_assert_pointer_not_null(internal_field, "Node reference should be invalid after PROTO regeneration");
   d = wb_supervisor_field_get_sf_float(internal_field);
@@ -462,25 +467,22 @@ int main(int argc, char **argv) {
   fieldInvalid = wb_supervisor_node_get_field_by_index(mfTest, fields_count);
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a field using an out of range index");
 
-  const int proto_fields_count = wb_supervisor_node_get_proto_number_of_fields(mfTest);
-  ts_assert_int_equal(proto_fields_count, 17, "Number of PROTO internal fields of MF_FIELDS node is wrong");
-  field0 = wb_supervisor_node_get_proto_field_by_index(mfTest, 0);
+  const int proto_fields_count = wb_supervisor_node_get_number_of_base_node_fields(mfTest);
+  ts_assert_int_equal(proto_fields_count, 17, "Number of base node fields of MF_FIELDS node is wrong");
+  field0 = wb_supervisor_node_get_base_node_field_by_index(mfTest, 0);
   ts_assert_string_equal(wb_supervisor_field_get_name(field0), "translation",
-                         "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"",
-                         field0);
-  field2 = wb_supervisor_node_get_proto_field_by_index(mfTest, 2);
+                         "Name of first base node field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"", field0);
+  field2 = wb_supervisor_node_get_base_node_field_by_index(mfTest, 2);
   ts_assert_string_equal(wb_supervisor_field_get_name(field2), "children",
-                         "Name of third PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"children\"",
-                         field2);
-  field8 = wb_supervisor_node_get_proto_field_by_index(mfTest, fields_count - 1);
+                         "Name of third base node field of MF_FIELDS node is wrong: \"%s\" should be \"children\"", field2);
+  field8 = wb_supervisor_node_get_base_node_field_by_index(mfTest, fields_count - 1);
   ts_assert_string_equal(wb_supervisor_field_get_name(field8), "boundingObject",
-                         "Name of ninth PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"boundingObject\"",
+                         "Name of ninth base node field of MF_FIELDS node is wrong: \"%s\" should be \"boundingObject\"",
                          field8);
-  fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, -5);
-  ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a PROTO internal field using a negative index");
-  fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, proto_fields_count);
-  ts_assert_pointer_null(fieldInvalid,
-                         "It should not be possible to retrieve a PROTO internal field using an out of range index");
+  fieldInvalid = wb_supervisor_node_get_base_node_field_by_index(mfTest, -5);
+  ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a base node field using a negative index");
+  fieldInvalid = wb_supervisor_node_get_base_node_field_by_index(mfTest, proto_fields_count);
+  ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a base node field using an out of range index");
 
   wb_robot_step(TIME_STEP);
 

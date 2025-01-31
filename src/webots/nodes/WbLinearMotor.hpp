@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ public:
   explicit WbLinearMotor(WbTokenizer *tokenizer = NULL);
   WbLinearMotor(const WbLinearMotor &other);
   explicit WbLinearMotor(const WbNode &other);
-  virtual ~WbLinearMotor();
+  virtual ~WbLinearMotor() override;
   int nodeType() const override { return WB_NODE_LINEAR_MOTOR; }
   double force() const { return mMotorForceOrTorque; }
   double computeFeedback() const override;

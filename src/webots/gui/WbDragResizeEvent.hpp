@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ class WbDragResizeHandleEvent : public WbDragView3DEvent {
 public:
   WbDragResizeHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
                           WbGeometry *selectedGeometry);
-  virtual ~WbDragResizeHandleEvent();
+  virtual ~WbDragResizeHandleEvent() override;
   void apply(const QPoint &currentMousePosition) override = 0;
   virtual void addActionInUndoStack() = 0;
 

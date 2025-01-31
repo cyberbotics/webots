@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -264,6 +264,7 @@ static void command_01(byte *answer) {
   answer[3] = SHRIMP_PATCH_NUMBER;
 }
 
+// cppcheck-suppress constParameterPointer
 /*
  * This function allows to to set the speed and the steering angle of the
  * robot.

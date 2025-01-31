@@ -26,16 +26,14 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-x86_64-ffmpeg"           # Webots movies
   "mingw-w64-x86_64-dlfcn"            # dependency of ffmpeg
   "mingw-w64-x86_64-python"           # python controllers and scripts
+  "mingw-w64-x86_64-ca-certificates"  # CA certs needed to run tests/test_suite.py 
 )
 
 declare -a OPTIONAL_PACKAGES=(
   "git"                         # Distribution script (check_submodules_update.sh)
   "pacman-contrib"              # Distribution script (pactree)
   "swig"                        # Python and Java API wrappers
-  "mingw-w64-x86_64-libssh"     # Robotis OP2 robot window
-  "mingw-w64-x86_64-libzip"     # Robotis OP2 robot window
   "mingw-w64-x86_64-boost"      # to recompile ROS controller
-  "mingw-w64-x86_64-cmake"      # Thymio II dashel library
   "mingw-w64-x86_64-python-pip" # Useful for advanced python usage
 )
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ WbWriter::~WbWriter() {
 void WbWriter::setType() {
   if (mFileName.endsWith(".wbt", Qt::CaseInsensitive))
     mType = VRML_SIM;
-  else if (mFileName.endsWith(".x3d", Qt::CaseInsensitive))
-    mType = X3D;
+  else if (mFileName.endsWith(".w3d", Qt::CaseInsensitive))
+    mType = W3D;
   else if (mFileName.endsWith(".proto", Qt::CaseInsensitive))
     mType = PROTO;
   else if (mFileName.endsWith(".urdf", Qt::CaseInsensitive))
@@ -66,26 +66,26 @@ QString WbWriter::path() const {
 }
 
 void WbWriter::writeMFStart() {
-  if (!isX3d() && !isUrdf()) {
+  if (!isW3d() && !isUrdf()) {
     *this << "[";
     increaseIndent();
   }
 }
 
 void WbWriter::writeMFSeparator(bool first, bool smallSeparator) {
-  if (!isX3d() && !isUrdf()) {
+  if (!isW3d() && !isUrdf()) {
     if (smallSeparator && !first)
       *this << ", ";
     else {
       *this << "\n";
       indent();
     }
-  } else if (!first && !isUrdf())  // X3D
+  } else if (!first && !isUrdf())  // W3D
     *this << " ";
 }
 
 void WbWriter::writeMFEnd(bool empty) {
-  if (!isX3d() && !isUrdf()) {
+  if (!isW3d() && !isUrdf()) {
     decreaseIndent();
     if (!empty) {
       *this << "\n";
@@ -95,10 +95,10 @@ void WbWriter::writeMFEnd(bool empty) {
   }
 }
 
-void WbWriter::writeFieldStart(const QString &name, bool x3dQuote) {
-  if (isX3d()) {
+void WbWriter::writeFieldStart(const QString &name, bool w3dQuote) {
+  if (isW3d()) {
     *this << name + "=";
-    if (x3dQuote)
+    if (w3dQuote)
       *this << "\'";
   } else {
     indent();
@@ -106,9 +106,9 @@ void WbWriter::writeFieldStart(const QString &name, bool x3dQuote) {
   }
 }
 
-void WbWriter::writeFieldEnd(bool x3dQuote) {
-  if (isX3d()) {
-    if (x3dQuote)
+void WbWriter::writeFieldEnd(bool w3dQuote) {
+  if (isW3d()) {
+    if (w3dQuote)
       *this << "\'";
   } else
     *this << "\n";
@@ -116,10 +116,11 @@ void WbWriter::writeFieldEnd(bool x3dQuote) {
 
 void WbWriter::writeLiteralString(const QString &string) {
   QString text(string);
-  if (isX3d()) {
+  if (isW3d()) {
     text.replace("&", "&amp;");
     text.replace("<", "&lt;");
     text.replace(">", "&gt;");
+    text.replace("'", "&#39;");
   }
   text.replace("\\", "\\\\");   // replace '\' by '\\'
   text.replace("\"", "\\\"");   // replace '"' by '\"'
@@ -136,11 +137,9 @@ void WbWriter::writeHeader(const QString &title) {
     case VRML_SIM:
       *this << QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false));
       return;
-    case X3D:
+    case W3D:
       *this << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-      *this << "<!DOCTYPE X3D PUBLIC \"ISO//Web3D//DTD X3D 3.0//EN\" \"http://www.web3d.org/specifications/x3d-3.0.dtd\">\n";
-      *this << "<X3D version=\"3.0\" profile=\"Immersive\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema-instance\" "
-               "xsd:noNamespaceSchemaLocation=\"http://www.web3d.org/specifications/x3d-3.0.xsd\">\n";
+      *this << "<X3D>\n";
       *this << "<head>\n";
       *this << "<meta name=\"generator\" content=\"Webots\" />\n";
       *this << "<meta name=\"version\" content=\"" + WbApplicationInfo::version().toString(false) + "\" />\n";
@@ -157,7 +156,7 @@ void WbWriter::writeHeader(const QString &title) {
 }
 
 void WbWriter::writeFooter(const QStringList *info) {
-  if (isX3d()) {
+  if (isW3d()) {
     *this << "</Scene>\n";
     *this << "</X3D>\n";
   } else if (isUrdf())

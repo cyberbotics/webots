@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class WbBaseNode : public WbNode {
 
 public:
   // destructor
-  virtual ~WbBaseNode();
+  virtual ~WbBaseNode() override;
 
   virtual void downloadAssets() {}
   // finalize() assumes that the whole world node/field structure is complete

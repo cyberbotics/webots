@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ private:
   bool isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                       WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);
   // Checks whether the object and its solid children are inside the `frustumPlanes` frustum.
-  bool recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
+  bool recursivelyCheckIfWithinBounds(const WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
   void createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset);
@@ -98,7 +98,7 @@ private:
   QList<double> mRaysCollisionDepth;  // rays collision depth
   QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
   double mHorizontalFieldOfView;
-  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV > PI)
   int mOcclusion;
 };
 

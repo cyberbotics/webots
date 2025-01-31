@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -247,7 +247,7 @@ void wb_radio_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_radio_disable(WbDeviceTag tag) {
-  WbDevice *d = radio_get_device(tag);
+  const WbDevice *d = radio_get_device(tag);
   if (d)
     wb_radio_enable(tag, 0);
   else
@@ -461,7 +461,7 @@ char *wb_radio_event_get_data(const WbRadioEvent e) {
 }
 
 int wb_radio_event_get_data_size(const WbRadioEvent e) {
-  struct WebotsRadioEvent *ev = (struct WebotsRadioEvent *)e;
+  const struct WebotsRadioEvent *ev = (struct WebotsRadioEvent *)e;
   return ev->data_size;
 }
 
@@ -471,6 +471,6 @@ char *wb_radio_event_get_emitter(const WbRadioEvent e) {
 }
 
 double wb_radio_event_get_rssi(const WbRadioEvent e) {
-  struct WebotsRadioEvent *ev = (struct WebotsRadioEvent *)e;
+  const struct WebotsRadioEvent *ev = (struct WebotsRadioEvent *)e;
   return ev->rssi;
 }

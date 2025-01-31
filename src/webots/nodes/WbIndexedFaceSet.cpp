@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
     texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
-    foreach (QString warning, mTriangleMesh->warnings())
+    foreach (const QString &warning, mTriangleMesh->warnings())
       parsingWarn(warning);
 
     if (!mTriangleMeshError.isEmpty())
@@ -280,7 +280,7 @@ void WbIndexedFaceSet::updateCreaseAngle() {
   emit changed();
 }
 
-QStringList WbIndexedFaceSet::fieldsToSynchronizeWithX3D() const {
+QStringList WbIndexedFaceSet::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "ccw"
          << "normalPerVertex"
@@ -315,14 +315,14 @@ void WbIndexedFaceSet::translate(const WbVector3 &v) {
 }
 
 bool WbIndexedFaceSet::exportNodeHeader(WbWriter &writer) const {
-  if (!writer.isX3d())
+  if (!writer.isW3d())
     return WbGeometry::exportNodeHeader(writer);
 
   // reduce the number of exported TriangleMeshGeometrys by automatically
   // using a def-use based on the mesh hash
-  writer << "<" << x3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
   if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
-    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + x3dName() + ">";
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + w3dName() + ">";
     return true;
   }
 

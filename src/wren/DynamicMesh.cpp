@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -522,7 +522,7 @@ namespace wren {
 
   static void createOrCompleteEdge(size_t triangleIndex, unsigned int vertexIndex0, unsigned int vertexIndex1,
                                    std::unordered_map<std::pair<size_t, size_t>, Mesh::Edge> &edgeMap,
-                                   std::vector<Mesh::Triangle> &triangles, std::vector<Mesh::Edge> &edges) {
+                                   const std::vector<Mesh::Triangle> &triangles, std::vector<Mesh::Edge> &edges) {
     // Either add the edge to the edge map if it isn't present, or complete
     // an existing edge if it is already present in the edge map.
     auto itEdgeInverse = edgeMap.find(std::make_pair(vertexIndex1, vertexIndex0));

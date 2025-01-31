@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -273,7 +273,7 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   QGridLayout *layout = new QGridLayout(widget);
 
   mLanguageCombo = new QComboBox(this);
-  WbTranslator *t = WbTranslator::instance();
+  const WbTranslator *t = WbTranslator::instance();
   const QString &languageKey = WbPreferences::instance()->value("General/language").toString();
   const QStringList &languages = t->computeUserReadableLanguages();
   foreach (const QString &language, languages)

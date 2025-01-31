@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  foreach (QString warning, mTriangleMesh->warnings())
+  foreach (const QString &warning, mTriangleMesh->warnings())
     parsingWarn(warning);
 
   if (!mTriangleMeshError.isEmpty())

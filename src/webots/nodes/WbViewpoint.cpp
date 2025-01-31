@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1593,19 +1593,4 @@ void WbViewpoint::lookAtAnimationStep(const QVariant &value) {
   else
     mOrientation->setValue(WbRotation(slerpedQuaternion));
   emit refreshRequired();
-}
-
-void WbViewpoint::exportNodeFields(WbWriter &writer) const {
-  WbBaseNode::exportNodeFields(writer);
-
-  if (writer.isX3d()) {
-    writer << " exposure=\'" << mExposure->value() << "\'";
-    writer << " bloomThreshold=\'" << mBloomThreshold->value() << "\'";
-    writer << " zNear=\'" << mNear->value() << "\'";
-    writer << " zFar=\'" << mFar->value() << "\'";
-    writer << " followSmoothness=\'" << mFollowSmoothness->value() << "\'";
-    writer << " ambientOcclusionRadius=\'" << mAmbientOcclusionRadius->value() << "\'";
-    if (mFollowedSolid)
-      writer << " followedId=\'n" << QString::number(mFollowedSolid->uniqueId()) << "\'";
-  }
 }

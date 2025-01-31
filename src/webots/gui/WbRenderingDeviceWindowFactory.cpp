@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ void WbRenderingDeviceWindowFactory::showWindowForDevice(WbRenderingDevice *devi
 void WbRenderingDeviceWindowFactory::saveWindowsPerspective(WbPerspective &perspective) {
   for (int i = 0; i < mWindowsList.size(); ++i) {
     if (mWindowsList[i]->isVisible()) {
-      WbRenderingDeviceWindow *window = mWindowsList[i];
+      const WbRenderingDeviceWindow *window = mWindowsList[i];
       QStringList devicePerspective(window->device()->perspective());
       devicePerspective << window->perspective();
       perspective.setRenderingDevicePerspective(window->device()->computeShortUniqueName(), devicePerspective);

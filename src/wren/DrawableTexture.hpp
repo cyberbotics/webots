@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ namespace wren {
     static DrawableTexture *createDrawableTexture() { return new DrawableTexture(); }
 
     void setFont(Font *font) { mFont = font; }
-    void setColor(float *color) { mColor = toInt(color); }
+    void setColor(const float *color) { mColor = toInt(color); }
     void setAntialiasing(bool antialiasing) { mFontAntiAliasing = antialiasing; }
     void setUsePremultipliedAlpha(bool premultipliedAlpha) { mPremultipliedAlpha = premultipliedAlpha; }
 
@@ -43,7 +43,7 @@ namespace wren {
 
   private:
     DrawableTexture();
-    ~DrawableTexture();
+    ~DrawableTexture() override;
 
     void updateDirtyRect(int x, int y);
     void resetDirtyRect() {

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,9 +29,7 @@ namespace WbContextMenuGenerator {
   static bool gAreRobotActionsEnabled = false;
   static bool gAreProtoActionsEnabled = false;
   static bool gAreExternProtoActionsEnabled = false;
-  static QMenu *gRobotCameraMenu = NULL;
-  static QMenu *gRobotRangeFinderMenu = NULL;
-  static QMenu *gRobotDisplayMenu = NULL;
+  static QMenu *gOverlaysMenu = NULL;
 
   void enableNodeActions(bool enabled) {
     gAreNodeActionsEnabled = enabled;
@@ -45,14 +43,8 @@ namespace WbContextMenuGenerator {
   void enableExternProtoActions(bool enabled) {
     gAreExternProtoActionsEnabled = enabled;
   }
-  void setRobotCameraMenu(QMenu *menu) {
-    gRobotCameraMenu = menu;
-  }
-  void setRobotRangeFinderMenu(QMenu *menu) {
-    gRobotRangeFinderMenu = menu;
-  }
-  void setRobotDisplayMenu(QMenu *menu) {
-    gRobotDisplayMenu = menu;
+  void setOverlaysMenu(QMenu *menu) {
+    gOverlaysMenu = menu;
   }
 
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
@@ -105,10 +97,29 @@ namespace WbContextMenuGenerator {
       if (gAreRobotActionsEnabled) {
         contextMenu->addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
         contextMenu->addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
+
+        assert(gOverlaysMenu);
         QMenu *subMenu = contextMenu->addMenu(QObject::tr("Overlays"));
-        subMenu->addMenu(gRobotCameraMenu);
-        subMenu->addMenu(gRobotRangeFinderMenu);
-        subMenu->addMenu(gRobotDisplayMenu);
+        subMenu->setEnabled(false);
+        QListIterator<QAction *> actionIt(gOverlaysMenu->actions());
+        while (actionIt.hasNext()) {
+          const QAction *action = actionIt.next();
+          const QMenu *robotMenu = action->menu();
+          if (robotMenu && robotMenu->property("robot").value<void *>() == selectedNode) {
+            if (!robotMenu->isEnabled())
+              break;
+            assert(!robotMenu->actions().isEmpty());
+            QListIterator<QAction *> menuIt(robotMenu->actions());
+            bool enabled = true;
+            while (menuIt.hasNext()) {
+              QMenu *deviceMenu = menuIt.next()->menu();
+              enabled = enabled || deviceMenu->isEnabled();
+              subMenu->addMenu(deviceMenu);
+            }
+            subMenu->setEnabled(enabled);
+          }
+        }
+
         contextMenu->addSeparator();
       }
 
@@ -137,7 +148,7 @@ namespace WbContextMenuGenerator {
 
           if (!suitableTransformToModels.isEmpty()) {
             foreach (const QString &model, suitableTransformToModels) {
-              QAction *action = subMenu->addAction(model);
+              const QAction *action = subMenu->addAction(model);
               QObject::connect(action, &QAction::triggered, WbActionManager::instance(),
                                &WbActionManager::forwardTransformToActionToSceneTree);
             }

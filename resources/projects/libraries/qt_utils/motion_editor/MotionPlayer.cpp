@@ -98,8 +98,8 @@ void MotionPlayer::writeActuators() {
       afterPose->select();
 
     for (int i = 0; i < count; i++) {
-      MotorTargetState *beforeState = beforePose->states()[i];
-      MotorTargetState *afterState = afterPose->states()[i];
+      const MotorTargetState *beforeState = beforePose->states()[i];
+      const MotorTargetState *afterState = afterPose->states()[i];
 
       assert(beforeState->motor()->tag() == afterState->motor()->tag());
 
@@ -153,7 +153,7 @@ void MotionPlayer::updateMotionDuration() {
   if (!mMotion)
     return;
 
-  foreach (Pose *pose, mMotion->poses()) {
+  foreach (const Pose *pose, mMotion->poses()) {
     if (pose->time() > mMotionDuration)
       mMotionDuration = pose->time();
   }

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -179,7 +179,7 @@ void WbFieldEditor::updateTitle() {
   else if (mField->type() == WB_SF_NODE)
     title = mField->name() + " " + nodeAsTitle(static_cast<WbSFNode *>(value)->value());
   else {
-    WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
+    const WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
     if (multipleValue) {
       if (mItem == -1) {
         int size = multipleValue->size();
@@ -305,7 +305,7 @@ void WbFieldEditor::computeFieldInformation() {
   // check and store field type information
   WbValue *const value = mField->value();
   WbMultipleValue *const multipleValue = dynamic_cast<WbMultipleValue *>(value);
-  WbMFNode *mfNode = NULL;
+  const WbMFNode *mfNode = NULL;
 
   if (multipleValue) {
     mIsValidItemIndex = (mItem >= 0) && (mItem < multipleValue->size());
@@ -316,7 +316,7 @@ void WbFieldEditor::computeFieldInformation() {
         mNodeItem = mfNode->item(mItem);
     }
   } else {
-    WbSFNode *const sfNode = dynamic_cast<WbSFNode *>(value);
+    const WbSFNode *const sfNode = dynamic_cast<WbSFNode *>(value);
     if (sfNode)
       mNodeItem = sfNode->value();
   }

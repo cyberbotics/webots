@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,20 +19,19 @@
 // Description: 3D rotation (VRML-like) angle/axis representation
 //
 
+#include "WbMatrix3.hpp"
 #include "WbPrecision.hpp"
+#include "WbQuaternion.hpp"
 #include "WbVector3.hpp"
 
 #include <QtCore/QStringList>
 
 #include <cassert>
 
-class WbQuaternion;
-class WbMatrix3;
-
 class WbRotation {
 public:
   // construct as identity rotation
-  WbRotation() : mX(0.0), mY(1.0), mZ(0.0), mAngle(0.0) {}
+  WbRotation() : mX(0.0), mY(0.0), mZ(1.0), mAngle(0.0) {}
 
   // construct from other types of rotations
   WbRotation(const WbRotation &r) : mX(r.x()), mY(r.y()), mZ(r.z()), mAngle(r.angle()) {}
@@ -57,8 +56,9 @@ public:
   void fromOpenGlMatrix(const double m[16]);
 
   // conversion into other types
-  WbQuaternion toQuaternion() const;
-  WbMatrix3 toMatrix3() const;
+  WbQuaternion toQuaternion() const { return WbQuaternion(axis(), mAngle); }
+  WbMatrix3 toMatrix3() const { return WbMatrix3(mX, mY, mZ, mAngle); }
+
   void toFloatArray(float *rotation) const;
 
   // set |axis| = 1.0

@@ -49,8 +49,18 @@ public:
     exit(EXIT_SUCCESS);
   }
 
-  void assertPointerNotNull(void *ptr, const std::string &errorMessage) {
+  void assertIntNotEqual(int value, int not_expected, const std::string &errorMessage) {
+    if (value == not_expected)
+      sendErrorAndExit(errorMessage);
+  }
+
+  void assertPointerNotNull(const void *ptr, const std::string &errorMessage) {
     if (ptr == NULL)
+      sendErrorAndExit(errorMessage);
+  }
+
+  void assertStringEquals(std::string &value, std::string &expected, const std::string &errorMessage) {
+    if (value != expected)
       sendErrorAndExit(errorMessage);
   }
 

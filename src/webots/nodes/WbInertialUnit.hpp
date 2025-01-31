@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   explicit WbInertialUnit(WbTokenizer *tokenizer = NULL);
   WbInertialUnit(const WbInertialUnit &other);
   explicit WbInertialUnit(const WbNode &other);
-  virtual ~WbInertialUnit();
+  virtual ~WbInertialUnit() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_INERTIAL_UNIT; }

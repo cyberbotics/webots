@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ bool WbPlugin::load() {
 
   QStringList possibleDirPaths;
   possibleDirPaths << WbProject::current()->path() + pluginName;
-  foreach (WbProtoModel *model, WbProtoManager::instance()->models())
+  foreach (const WbProtoModel *model, WbProtoManager::instance()->models())
     possibleDirPaths << QDir(model->path() + "../" + pluginName).absolutePath() + "/";
   possibleDirPaths << WbStandardPaths::projectsPath() + "default/" + pluginName;
   possibleDirPaths << WbStandardPaths::resourcesProjectsPath() + pluginName;

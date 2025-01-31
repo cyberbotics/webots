@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -67,6 +67,11 @@ std::string Field::getTypeName() const {
 
 std::string Field::getName() const {
   return string(wb_supervisor_field_get_name(fieldRef));
+}
+
+Field *Field::getActualField() const {
+  WbFieldRef actualFieldRef = wb_supervisor_field_get_actual_field(fieldRef);
+  return Field::findField(actualFieldRef);
 }
 
 int Field::getCount() const {
@@ -171,7 +176,7 @@ void Field::setSFRotation(const double values[4]) {
   wb_supervisor_field_set_sf_rotation(fieldRef, values);
 }
 
-void Field::setSFColor(const double values[4]) {
+void Field::setSFColor(const double values[3]) {
   wb_supervisor_field_set_sf_color(fieldRef, values);
 }
 

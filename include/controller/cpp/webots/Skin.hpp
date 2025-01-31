@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ namespace webots {
   class Skin : public Device {
   public:
     explicit Skin(const std::string &name) : Device(name) {}
+    explicit Skin(WbDeviceTag tag) : Device(tag) {}
     virtual ~Skin() {}
     void setBoneOrientation(int index, const double orientation[4], bool absolute);
     void setBonePosition(int index, const double position[3], bool absolute);

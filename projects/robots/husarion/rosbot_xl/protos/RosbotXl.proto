@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto
@@ -40,13 +40,43 @@ PROTO RosbotXl [
         -2.000608e-04 -9.754257e-04 -2.603326e-04
       ]
     }
-    boundingObject DEF body_collision Group {
+    boundingObject DEF BODY_COLLISION Group {
       children [
-        DEF MAIN_BODY_BOX Pose {
-          translation 0 0 0.048
+        DEF LEFT_BODY_COLLISION Pose {
+          translation -0.005 0.115 0.117
           children [
-            Mesh {
-              url "meshes/body_collision.stl"
+            DEF SIDE_BODY_BOX Box {
+              size 0.27 0.02 0.03
+            }
+          ]
+        }
+        DEF RIGHT_BODY_COLLISION Pose {
+          translation -0.005 -0.115 0.117
+          children [
+            USE SIDE_BODY_BOX
+          ]
+        }
+        DEF CENTER_BODY_COLLISION Pose {
+          translation -0.005 0 0.082
+          children [
+            Box {
+              size 0.27 0.21 0.099
+            }
+          ]
+        }
+        DEF FRONT_BODY_COLLISION Pose {
+          translation 0.146 0 0.074
+          children [
+            Box {
+              size 0.032 0.21 0.069
+            }
+          ]
+        }
+        DEF BACK_BODY_COLLISION Pose {
+          translation -0.1536 0 0.082
+          children [
+            Box {
+              size 0.027 0.27 0.099
             }
           ]
         }

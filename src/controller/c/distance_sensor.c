@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ static void distance_sensor_read_answer(WbDevice *d, WbRequest *r) {
 int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->lookup_table_size;
   else
@@ -167,7 +167,7 @@ void wb_distance_sensor_enable(WbDeviceTag tag, int sampling_period) {
 int wb_distance_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     sampling_period = ds->sampling_period;
   else
@@ -177,7 +177,7 @@ int wb_distance_sensor_get_sampling_period(WbDeviceTag tag) {
 }
 
 void wb_distance_sensor_disable(WbDeviceTag tag) {
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     wb_distance_sensor_enable(tag, 0);
   else
@@ -187,7 +187,7 @@ void wb_distance_sensor_disable(WbDeviceTag tag) {
 double wb_distance_sensor_get_value(WbDeviceTag tag) {
   double value = NAN;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds) {
     if (ds->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_distance_sensor_enable().\n", __FUNCTION__);
@@ -201,7 +201,7 @@ double wb_distance_sensor_get_value(WbDeviceTag tag) {
 double wb_distance_sensor_get_max_value(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->max_value;
   else
@@ -213,7 +213,7 @@ double wb_distance_sensor_get_max_value(WbDeviceTag tag) {
 double wb_distance_sensor_get_min_value(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->min_value;
   else
@@ -225,7 +225,7 @@ double wb_distance_sensor_get_min_value(WbDeviceTag tag) {
 double wb_distance_sensor_get_aperture(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->aperture;
   else
@@ -237,7 +237,7 @@ double wb_distance_sensor_get_aperture(WbDeviceTag tag) {
 WbDistanceSensorType wb_distance_sensor_get_type(WbDeviceTag tag) {
   WbDistanceSensorType result = WB_DISTANCE_SENSOR_GENERIC;
   robot_mutex_lock();
-  DistanceSensor *ds = distance_sensor_get_struct(tag);
+  const DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->type;
   else

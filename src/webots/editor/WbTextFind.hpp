@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ public:
   void replace(const QString &before, const QString &after, FindFlags findFlags);
   void replaceAll(const QString &before, const QString &after, FindFlags findFlags);
 
-  static QStringList findStringList() { return cFindStringList; }
-  static QStringList replaceStringList() { return cReplaceStringList; }
+  static QStringList &findStringList() { return cFindStringList; }
+  static QStringList &replaceStringList() { return cReplaceStringList; }
   static FindFlags lastFindFlags() { return cLastFindFlags; }
 
 signals:

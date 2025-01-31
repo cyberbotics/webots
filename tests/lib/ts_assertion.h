@@ -30,12 +30,12 @@ void ts_assert_boolean_not_equal(bool value, const char *error_message, ...) {
   TS_FINAL_CHECK();
 }
 
-void ts_assert_pointer_null(void *ptr, const char *error_message, ...) {
+void ts_assert_pointer_null(const void *ptr, const char *error_message, ...) {
   bool correct = ptr == NULL;
   TS_FINAL_CHECK();
 }
 
-void ts_assert_pointer_not_null(void *ptr, const char *error_message, ...) {
+void ts_assert_pointer_not_null(const void *ptr, const char *error_message, ...) {
   bool correct = ptr != NULL;
   TS_FINAL_CHECK();
 }
@@ -216,6 +216,10 @@ void ts_assert_string_contains(const char *haystack, const char *needle, const c
 void ts_assert_color_in_delta(int red, int green, int blue, int expected_red, int expected_green, int expected_blue, int delta,
                               const char *error_message, ...) {
   bool correct = abs(red - expected_red) <= delta && abs(green - expected_green) <= delta && abs(blue - expected_blue) <= delta;
+  if (!correct) {
+    fprintf(stderr, "Actual color: (%d, %d, %d). Expected color: (%d, %d, %d)\n", red, green, blue, expected_red,
+            expected_green, expected_blue);
+  }
   TS_FINAL_CHECK();
 }
 

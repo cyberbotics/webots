@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,12 +55,18 @@ union WbFieldData {
 
 typedef struct WbFieldStructPrivate {
   const char *name;
-  WbFieldType type;  // WB_SF_* or WB_MT_* as defined in supervisor.h
+  WbFieldType type;  // WB_SF_* or WB_MF_* as defined in supervisor.h
   int count;         // used in MF fields only
   int node_unique_id;
-  int id;                        // attributed by Webots
+  int id;  // attributed by Webots
+  int proto_id;
   bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
   bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
+  int actual_field_node_id;      // the node and field id of the corresponding field in the scene tree (if it exists)
+  int actual_field_index;
+  // the lookup_field field will only be populated when we want to override the default value lookup behavior
+  // (for internal proto fields)
+  WbFieldRef lookup_field;
   union WbFieldData data;
   WbFieldRef next;
   double last_update;
@@ -114,12 +120,25 @@ typedef struct WbNodeStructPrivate {
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
   bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
+  WbProtoRef proto_info;
   WbNodeRef parent_proto;
   int tag;
   WbNodeRef next;
 } WbNodeStruct;
 
 static WbNodeStruct *node_list = NULL;
+
+typedef struct WbProtoInfoStructPrivate {
+  const char *type_name;
+  bool is_derived;
+  int node_unique_id;
+  int id;
+  int number_of_fields;
+  WbProtoRef parent;
+  WbProtoRef next;
+} WbProtoInfoStruct;
+
+static WbProtoInfoStruct *proto_list = NULL;
 
 typedef struct WbFieldChangeTrackingPrivate {
   WbFieldStruct *field;
@@ -175,11 +194,11 @@ static char *supervisor_strdup(const char *src) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bool is_proto_internal_field) {
+static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, int proto_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 &&
+    if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 && field->proto_id == proto_id &&
         field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
@@ -187,11 +206,12 @@ static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bo
   return NULL;
 }
 
-static WbFieldStruct *find_field_by_id(int node_id, int field_id, bool is_proto_internal_field) {
+static WbFieldStruct *find_field_by_id(int node_id, int proto_id, int field_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && field->id == field_id && field->is_proto_internal_field == is_proto_internal_field)
+    if (field->node_unique_id == node_id && field->proto_id == proto_id && field->id == field_id &&
+        field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -243,6 +263,19 @@ static bool is_node_ref_valid(const WbNodeRef n) {
   return false;
 }
 
+static bool is_proto_ref_valid(const WbProtoRef p) {
+  if (!p)
+    return false;
+
+  WbProtoRef proto = proto_list;
+  while (proto) {
+    if (proto == p)
+      return true;
+    proto = proto->next;
+  }
+  return false;
+}
+
 static void delete_node(WbNodeRef node) {
   // clean the node
   free(node->model_name);
@@ -255,6 +288,39 @@ static void delete_node(WbNodeRef node) {
   free(node->contact_points[1].points);
   free(node->solid_velocity);
   free(node);
+}
+
+static void delete_proto(WbProtoInfoStruct *proto) {
+  free((char *)proto->type_name);
+  free(proto);
+}
+
+static void delete_field(WbFieldStruct *field) {
+  if (field->type == WB_SF_STRING || field->type == WB_MF_STRING)
+    free(field->data.sf_string);
+  free((char *)field->name);
+  free(field);
+}
+
+static void remove_proto_from_list(WbProtoRef proto) {
+  if (!proto)
+    return;
+
+  // look for the previous proto in the list
+  if (proto_list == proto)  // the proto is the first of the list
+    proto_list = proto->next;
+  else {
+    WbProtoRef previous_proto_in_list = proto_list;
+    while (previous_proto_in_list) {
+      if (previous_proto_in_list->next && previous_proto_in_list->next == proto) {
+        // connect previous and next node in the list
+        previous_proto_in_list->next = proto->next;
+        break;
+      }
+      previous_proto_in_list = previous_proto_in_list->next;
+    }
+  }
+  delete_proto(proto);
 }
 
 static void remove_node_from_list(int uid) {
@@ -282,6 +348,14 @@ static void remove_node_from_list(int uid) {
     if (n->parent_id == uid)
       n->parent_id = -1;
     n = n->next;
+  }
+
+  WbProtoRef p = proto_list;
+  while (p) {
+    WbProtoRef proto = p;
+    p = p->next;
+    if (proto->node_unique_id == uid)
+      remove_proto_from_list(proto);
   }
 }
 
@@ -333,15 +407,17 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
         field_list = field->next;
       WbFieldStruct *current_field = field;
       field = field->next;
-      // clean the field
-      if (current_field->type == WB_SF_STRING || current_field->type == WB_MF_STRING)
-        free(current_field->data.sf_string);
-      free((char *)current_field->name);
-      free(current_field);
+      delete_field(current_field);
     } else {
       previous_field = field;
       field = field->next;
     }
+  }
+
+  while (proto_list) {
+    WbProtoInfoStruct *p = proto_list->next;
+    delete_proto(proto_list);
+    proto_list = p;
   }
 }
 
@@ -382,6 +458,7 @@ static void add_node_to_list(int uid, WbNodeType type, const char *model_name, c
   n->solid_velocity = NULL;
   n->is_proto = is_proto;
   n->is_proto_internal = false;
+  n->proto_info = NULL;
   n->parent_proto = NULL;
   n->tag = tag;
   n->next = node_list;
@@ -444,6 +521,7 @@ static int node_number_of_fields = -1;
 static int requested_field_index = -1;
 static bool node_get_selected = false;
 static int node_ref = 0;
+static int proto_ref = -1;
 static WbNodeRef root_ref = NULL;
 static WbNodeRef self_node_ref = NULL;
 static WbNodeRef position_node_ref = NULL;
@@ -473,6 +551,7 @@ static const double *add_force_offset = NULL;
 static WbNodeRef set_joint_node_ref = NULL;
 static double set_joint_position = 0.0;
 static int set_joint_index = 0;
+static bool node_get_proto = false;
 static bool virtual_reality_headset_is_used_request = false;
 static bool virtual_reality_headset_is_used = false;
 static bool virtual_reality_headset_position_request = false;
@@ -488,10 +567,7 @@ static void supervisor_cleanup(WbDevice *d) {
   clean_field_request_garbage_collector();
   while (field_list) {
     WbFieldStruct *f = field_list->next;
-    if (field_list->type == WB_SF_STRING || field_list->type == WB_MF_STRING)
-      free(field_list->data.sf_string);
-    free((char *)field_list->name);
-    free(field_list);
+    delete_field(field_list);
     field_list = f;
   }
   while (field_requests_list_head) {
@@ -517,6 +593,11 @@ static void supervisor_cleanup(WbDevice *d) {
     WbNodeStruct *n = node_list->next;
     delete_node(node_list);
     node_list = n;
+  }
+  while (proto_list) {
+    WbProtoInfoStruct *p = proto_list->next;
+    delete_proto(proto_list);
+    proto_list = p;
   }
 
   free(export_image_filename);
@@ -567,11 +648,13 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
   } else if (requested_field_name) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_NAME);
     request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
     request_write_string(r, requested_field_name);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (requested_field_index >= 0) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_GET_FROM_INDEX);
     request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
     request_write_uint32(r, requested_field_index);
     request_write_uchar(r, allow_search_in_proto ? 1 : 0);
   } else if (requested_node_number_of_fields) {
@@ -585,6 +668,10 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, pose_change_tracking.enable);
     if (pose_change_tracking.enable)
       request_write_int32(r, pose_change_tracking.sampling_period);
+  } else if (node_get_proto) {
+    request_write_uchar(r, C_SUPERVISOR_NODE_GET_PROTO);
+    request_write_uint32(r, node_ref);
+    request_write_int32(r, proto_ref);
   } else if (field_change_tracking_requested) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
     request_write_int32(r, field_change_tracking.field->node_unique_id);
@@ -608,6 +695,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
       if (request->type == GET) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_GET_VALUE);
         request_write_uint32(r, f->node_unique_id);
+        request_write_int32(r, f->proto_id);
         request_write_uint32(r, f->id);
         request_write_uchar(r, f->is_proto_internal_field ? 1 : 0);
         if (request->index != -1)
@@ -949,12 +1037,32 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
         node_id = uid;
       }
     } break;
+    case C_SUPERVISOR_NODE_GET_PROTO: {
+      const int id = request_read_int32(r);
+      const bool is_derived = request_read_uchar(r) == 1;
+      const int num_fields = request_read_int32(r);
+      const char *type_name = request_read_string(r);
+      if (id < 0)
+        break;
+      WbProtoInfoStruct *p = malloc(sizeof(WbProtoInfoStruct));
+      p->type_name = type_name;
+      p->is_derived = is_derived;
+      p->node_unique_id = node_ref;
+      p->id = id;
+      p->number_of_fields = num_fields;
+      p->parent = NULL;
+
+      p->next = proto_list;
+      proto_list = p;
+    } break;
     case C_SUPERVISOR_FIELD_GET_FROM_INDEX:
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
       const WbFieldType field_type = request_read_int32(r);
       const bool is_proto_internal_field = request_read_uchar(r) == 1;
       const int field_count = request_read_int32(r);
+      const int actual_field_node_id = request_read_int32(r);
+      const int actual_field_index = request_read_int32(r);
       const char *name = request_read_string(r);
       if (field_ref == -1) {
         requested_field_name = NULL;
@@ -967,10 +1075,14 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->count = field_count;
       f->node_unique_id = node_ref;
       f->name = name;
+      f->proto_id = proto_ref;
       f->is_proto_internal_field = is_proto_internal_field;
       f->is_read_only = is_proto_internal_field;
       f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
+      f->actual_field_node_id = actual_field_node_id;
+      f->actual_field_index = actual_field_index;
+      f->lookup_field = NULL;
       field_list = f;
     } break;
     case C_SUPERVISOR_FIELD_GET_VALUE: {
@@ -979,12 +1091,14 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       // field_type == 0 if node was deleted
       if (field_type != 0) {
         const int field_node_id = request_read_int32(r);
+        const int field_proto_id = request_read_int32(r);
         const int field_id = request_read_int32(r);
         const bool is_field_get_request = sent_field_get_request && sent_field_get_request->field &&
                                           sent_field_get_request->field->node_unique_id == field_node_id &&
+                                          sent_field_get_request->field->proto_id == field_proto_id &&
                                           sent_field_get_request->field->id == field_id;
-        WbFieldStruct *f =
-          (is_field_get_request) ? sent_field_get_request->field : find_field_by_id(field_node_id, field_id, false);
+        WbFieldStruct *f = (is_field_get_request) ? sent_field_get_request->field :
+                                                    find_field_by_id(field_node_id, field_proto_id, field_id, false);
         if (f) {
           switch (f->type) {
             case WB_SF_BOOL:
@@ -1064,10 +1178,12 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int parent_node_id = request_read_int32(r);
       const char *field_name = request_read_string(r);
       const int field_count = request_read_int32(r);
+      // Proto fields do not receive count change events
+      // They will just defer to the lookup_field
       if (parent_node_id >= 0) {
-        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id, false);
+        WbFieldStruct *field = find_field_by_name(field_name, parent_node_id, -1, false);
         if (field == NULL)
-          field = find_field_by_name(field_name, parent_node_id, true);
+          field = find_field_by_name(field_name, parent_node_id, -1, true);
         if (field)
           field->count = field_count;
       }
@@ -2100,7 +2216,7 @@ const double *wb_supervisor_node_get_contact_point(WbNodeRef node, int index) {
   const int descendants = node->contact_points_include_descendants;
 
   if (t <= node->contact_points[descendants].timestamp && node->contact_points[descendants].points)
-    return (node->contact_points[descendants].points && index < node->contact_points[descendants].n) ?
+    return index < node->contact_points[descendants].n ?
              node->contact_points[descendants].points[index].point :
              invalid_vector;  // will be (NaN, NaN, NaN) if n is not a Solid or if there is no contact
 
@@ -2310,18 +2426,19 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, index, false);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, false);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
+    proto_ref = -1;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, index, false);
+      result = find_field_by_id(node->id, -1, index, false);
     if (result && node->is_proto_internal)
       result->is_read_only = true;
   }
@@ -2329,7 +2446,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   return result;
 }
 
-WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index) {
+WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int index) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2346,19 +2463,20 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
 
   robot_mutex_lock();
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_id(node->id, index, true);
+  WbFieldRef result = find_field_by_id(node->id, -1, index, true);
   if (!result) {
     // otherwise: need to talk to Webots
     WbFieldRef field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
+    proto_ref = -1;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     requested_field_index = -1;
     if (field_list != field_list_before)
       result = field_list;
     else
-      result = find_field_by_id(node->id, index, true);
+      result = find_field_by_id(node->id, -1, index, true);
     if (result)
       result->is_read_only = true;
     allow_search_in_proto = false;
@@ -2384,11 +2502,12 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
 
   robot_mutex_lock();
 
-  WbFieldRef result = find_field_by_name(field_name, node->id, false);
+  WbFieldRef result = find_field_by_name(field_name, node->id, -1, false);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
+    proto_ref = -1;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
       requested_field_name = NULL;
@@ -2423,7 +2542,7 @@ int wb_supervisor_node_get_number_of_fields(WbNodeRef node) {
   return -1;
 }
 
-int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
+int wb_supervisor_node_get_number_of_base_node_fields(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return -1;
 
@@ -2447,7 +2566,7 @@ int wb_supervisor_node_get_proto_number_of_fields(WbNodeRef node) {
   return -1;
 }
 
-WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_name) {
+WbFieldRef wb_supervisor_node_get_base_node_field(WbNodeRef node, const char *field_name) {
   if (!robot_check_supervisor(__FUNCTION__))
     return NULL;
 
@@ -2471,11 +2590,12 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
   robot_mutex_lock();
 
   // search if field is already present in field_list
-  WbFieldRef result = find_field_by_name(field_name, node->id, true);
+  WbFieldRef result = find_field_by_name(field_name, node->id, -1, true);
   if (!result) {
     // otherwise: need to talk to Webots
     requested_field_name = field_name;
     node_ref = node->id;
+    proto_ref = -1;
     allow_search_in_proto = true;
     wb_robot_flush_unlocked(__FUNCTION__);
     if (requested_field_name) {
@@ -2790,6 +2910,38 @@ void wb_supervisor_node_set_joint_position(WbNodeRef node, double position, int 
   robot_mutex_unlock();
 }
 
+WbProtoRef wb_supervisor_node_get_proto(WbNodeRef node) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_node_ref_valid(node)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL 'node' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!node->is_proto)
+    return NULL;
+
+  robot_mutex_lock();
+
+  if (!is_proto_ref_valid(node->proto_info)) {
+    // if we don't know the proto info yet, we need to talk to Webots
+    WbProtoRef proto_list_before = proto_list;
+    node_ref = node->id;
+    proto_ref = -1;
+    node_get_proto = true;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    if (proto_list != proto_list_before)
+      node->proto_info = proto_list;
+    node_get_proto = false;
+  }
+
+  robot_mutex_unlock();
+
+  return node->proto_info;
+}
+
 bool wb_supervisor_virtual_reality_headset_is_used() {
   if (!robot_check_supervisor(__FUNCTION__))
     return false;
@@ -2831,6 +2983,9 @@ const double *wb_supervisor_virtual_reality_headset_get_orientation() {
 }
 
 const char *wb_supervisor_field_get_name(WbFieldRef field) {
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return "";
+
   return field->name;
 }
 
@@ -2842,6 +2997,9 @@ WbFieldType wb_supervisor_field_get_type(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_count(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return -1;
 
@@ -2849,6 +3007,31 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
     return -1;
 
   return ((WbFieldStruct *)field)->count;
+}
+
+WbFieldRef wb_supervisor_field_get_actual_field(WbFieldRef field) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
+    return NULL;
+
+  if (!field->is_read_only)
+    return field;
+
+  if (field->lookup_field)
+    return field->lookup_field;
+
+  if (field->actual_field_node_id != -1 && field->actual_field_index != -1) {
+    WbNodeRef node = node_get_from_id(field->actual_field_node_id, __FUNCTION__);
+    if (node) {
+      WbFieldRef actual_field = wb_supervisor_node_get_field_by_index(node, field->actual_field_index);
+      assert(!actual_field || !actual_field->is_read_only);
+      return actual_field;
+    }
+  }
+
+  return NULL;
 }
 
 void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
@@ -2922,6 +3105,9 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return;
 
@@ -2941,6 +3127,9 @@ void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_perio
 }
 
 void wb_supervisor_field_disable_sf_tracking(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false))
     return;
 
@@ -3030,6 +3219,9 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
 }
 
 bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, false))
     return false;
 
@@ -3038,6 +3230,9 @@ bool wb_supervisor_field_get_sf_bool(WbFieldRef field) {
 }
 
 int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_INT32, true, NULL, false, false))
     return 0;
 
@@ -3046,6 +3241,9 @@ int wb_supervisor_field_get_sf_int32(WbFieldRef field) {
 }
 
 double wb_supervisor_field_get_sf_float(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_FLOAT, true, NULL, false, false))
     return 0.0;
 
@@ -3054,6 +3252,9 @@ double wb_supervisor_field_get_sf_float(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_VEC2F, true, NULL, false, false))
     return NULL;
 
@@ -3062,6 +3263,9 @@ const double *wb_supervisor_field_get_sf_vec2f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_VEC3F, true, NULL, false, false))
     return NULL;
 
@@ -3070,6 +3274,9 @@ const double *wb_supervisor_field_get_sf_vec3f(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_ROTATION, true, NULL, false, false))
     return NULL;
 
@@ -3078,6 +3285,9 @@ const double *wb_supervisor_field_get_sf_rotation(WbFieldRef field) {
 }
 
 const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_COLOR, true, NULL, false, false))
     return NULL;
 
@@ -3086,6 +3296,9 @@ const double *wb_supervisor_field_get_sf_color(WbFieldRef field) {
 }
 
 const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_STRING, true, NULL, false, false))
     return "";
 
@@ -3094,6 +3307,9 @@ const char *wb_supervisor_field_get_sf_string(WbFieldRef field) {
 }
 
 WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_NODE, true, NULL, false, false))
     return NULL;
 
@@ -3108,6 +3324,9 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
 }
 
 bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_BOOL, true, &index, false, false))
     return 0;
 
@@ -3116,6 +3335,9 @@ bool wb_supervisor_field_get_mf_bool(WbFieldRef field, int index) {
 }
 
 int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_INT32, true, &index, false, false))
     return 0;
 
@@ -3124,6 +3346,9 @@ int wb_supervisor_field_get_mf_int32(WbFieldRef field, int index) {
 }
 
 double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_FLOAT, true, &index, false, false))
     return 0.0;
 
@@ -3132,6 +3357,9 @@ double wb_supervisor_field_get_mf_float(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_VEC2F, true, &index, false, false))
     return NULL;
 
@@ -3140,6 +3368,9 @@ const double *wb_supervisor_field_get_mf_vec2f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_VEC3F, true, &index, false, false))
     return NULL;
 
@@ -3148,6 +3379,9 @@ const double *wb_supervisor_field_get_mf_vec3f(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_COLOR, true, &index, false, false))
     return NULL;
 
@@ -3156,6 +3390,9 @@ const double *wb_supervisor_field_get_mf_color(WbFieldRef field, int index) {
 }
 
 const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_ROTATION, true, &index, false, false))
     return NULL;
 
@@ -3164,6 +3401,9 @@ const double *wb_supervisor_field_get_mf_rotation(WbFieldRef field, int index) {
 }
 
 const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_STRING, true, &index, false, false))
     return "";
 
@@ -3172,6 +3412,9 @@ const char *wb_supervisor_field_get_mf_string(WbFieldRef field, int index) {
 }
 
 WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_MF_NODE, true, &index, false, false))
     return NULL;
 
@@ -3183,6 +3426,9 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
 }
 
 void wb_supervisor_field_set_sf_bool(WbFieldRef field, bool value) {
+  if (check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, false) && field->lookup_field)
+    field = field->lookup_field;
+
   if (!check_field(field, __FUNCTION__, WB_SF_BOOL, true, NULL, false, true))
     return;
 
@@ -3671,4 +3917,158 @@ const char *wb_supervisor_field_get_type_name(WbFieldRef field) {
     default:
       return "";
   }
+}
+
+const char *wb_supervisor_proto_get_type_name(WbProtoRef proto) {
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return "";
+  }
+
+  return proto->type_name;
+}
+
+bool wb_supervisor_proto_is_derived(WbProtoRef proto) {
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return false;
+  }
+
+  return proto->is_derived;
+}
+
+WbProtoRef wb_supervisor_proto_get_parent(WbProtoRef proto) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!proto->is_derived)
+    return NULL;
+
+  robot_mutex_lock();
+
+  if (!is_proto_ref_valid(proto->parent)) {
+    // if we don't know the parent yet, we need to talk to Webots
+    WbProtoRef proto_list_before = proto_list;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    node_get_proto = true;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    node_get_proto = false;
+    if (proto_list != proto_list_before)
+      proto->parent = proto_list;
+  }
+
+  robot_mutex_unlock();
+
+  return proto->parent;
+}
+
+WbFieldRef wb_supervisor_proto_get_field(WbProtoRef proto, const char *field_name) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (!field_name || !field_name[0]) {
+    fprintf(stderr, "Error: %s() called with a NULL or empty 'field_name' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  robot_mutex_lock();
+
+  WbFieldRef result = find_field_by_name(field_name, proto->node_unique_id, proto->id, true);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    requested_field_name = field_name;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    if (requested_field_name) {
+      requested_field_name = NULL;
+      result = field_list;  // was just inserted at list head
+      if (result)
+        result->is_read_only = true;
+    }
+  }
+
+  robot_mutex_unlock();
+
+  if (result && result->actual_field_index != -1) {
+    WbFieldRef actual_field = wb_supervisor_field_get_actual_field(result);
+    assert(actual_field);
+    result->lookup_field = actual_field;
+  }
+
+  return result;
+}
+
+WbFieldRef wb_supervisor_proto_get_field_by_index(WbProtoRef proto, int index) {
+  if (!robot_check_supervisor(__FUNCTION__))
+    return NULL;
+
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return NULL;
+  }
+
+  if (index < 0) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
+    return NULL;
+  } else if (index >= proto->number_of_fields)
+    return NULL;
+
+  robot_mutex_lock();
+  // search if field is already present in field_list
+  WbFieldRef result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
+  if (!result) {
+    // otherwise: need to talk to Webots
+    WbFieldRef field_list_before = field_list;
+    requested_field_index = index;
+    node_ref = proto->node_unique_id;
+    proto_ref = proto->id;
+    allow_search_in_proto = true;
+    wb_robot_flush_unlocked(__FUNCTION__);
+    requested_field_index = -1;
+    if (field_list != field_list_before)
+      result = field_list;
+    else
+      result = find_field_by_id(proto->node_unique_id, proto->id, index, true);
+    if (result)
+      result->is_read_only = true;
+    allow_search_in_proto = false;
+  }
+
+  robot_mutex_unlock();
+
+  if (result && result->actual_field_index != -1) {
+    WbFieldRef actual_field = wb_supervisor_field_get_actual_field(result);
+    assert(actual_field);
+    result->lookup_field = actual_field;
+  }
+
+  return result;
+}
+
+int wb_supervisor_proto_get_number_of_fields(WbProtoRef proto) {
+  if (!is_proto_ref_valid(proto)) {
+    if (!robot_is_quitting())
+      fprintf(stderr, "Error: %s() called with a NULL or invalid 'proto' argument.\n", __FUNCTION__);
+    return -1;
+  }
+
+  return proto->number_of_fields;
 }

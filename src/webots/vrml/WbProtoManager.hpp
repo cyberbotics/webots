@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ class WbProtoInfo {
 public:
   WbProtoInfo(const QString &url, const QString &baseType, const QString &license, const QString &licenseUrl,
               const QString &documentationUrl, const QString &description, const QString &slotType, const QStringList &tags,
-              const QStringList &parameters, bool needsRobotAncestor) :
+              const QStringList &parameters, const QStringList &parents, bool needsRobotAncestor) :
     mUrl(url),
     mBaseType(baseType),
     mLicense(license),
@@ -66,11 +66,12 @@ public:
     mSlotType(slotType),
     mTags(tags),
     mParameters(parameters),
+    mParents(parents),
     mNeedsRobotAncestor(needsRobotAncestor),
     mIsDirty(false) {
     // extract parameter names
     foreach (const QString &parameter, mParameters) {
-      QRegularExpression re("(?:field|vrmlField)\\s+(?:\\w+|(?:\\{[\\s\\S]*\\}))+\\s+(\\w+)\\s");
+      QRegularExpression re("(?:field|w3dField)\\s+(?:\\w+|(?:\\{[\\s\\S]*\\}))+\\s+(\\w+)\\s");
       QRegularExpressionMatch match = re.match(parameter);
       if (match.hasMatch())
         mParameterNames << match.captured(1);
@@ -81,7 +82,7 @@ public:
   // copy constructor
   WbProtoInfo(const WbProtoInfo &other) :
     WbProtoInfo(other.mUrl, other.mBaseType, other.mLicense, other.mLicenseUrl, other.mDocumentationUrl, other.mDescription,
-                other.mSlotType, other.mTags, other.mParameters, other.mNeedsRobotAncestor) {}
+                other.mSlotType, other.mTags, other.mParameters, other.mParents, other.mNeedsRobotAncestor) {}
 
   const QString &url() const { return mUrl; }
   const QString &baseType() const { return mBaseType; }
@@ -93,6 +94,7 @@ public:
   const QStringList &tags() const { return mTags; }
   const QStringList &parameters() const { return mParameters; }
   const QStringList &parameterNames() const { return mParameterNames; }
+  const QStringList &parents() const { return mParents; }
   const bool needsRobotAncestor() const { return mNeedsRobotAncestor; }
   void setDirty(bool value) { mIsDirty = value; }
   bool isDirty() const { return mIsDirty; }
@@ -107,6 +109,7 @@ private:
   QString mSlotType;
   QStringList mTags;
   QStringList mParameters;
+  QStringList mParents;
   bool mNeedsRobotAncestor;
   bool mIsDirty;
 
@@ -150,7 +153,7 @@ public:
   void retrieveLocalProtoDependencies();
 
   // used primarily when populating the dialog windows
-  QMap<QString, WbProtoInfo *> webotsProtoList() { return mWebotsProtoList; };
+  const QMap<QString, WbProtoInfo *> &webotsProtoList() { return mWebotsProtoList; };
 
   // generates meta info from a PROTO file (license, tags, ...)
   WbProtoInfo *generateInfoFromProtoFile(const QString &protoFileName);

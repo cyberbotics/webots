@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public:
   explicit WbVacuumGripper(WbTokenizer *tokenizer = NULL);
   WbVacuumGripper(const WbVacuumGripper &other);
   explicit WbVacuumGripper(const WbNode &other);
-  virtual ~WbVacuumGripper();
+  virtual ~WbVacuumGripper() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_VACUUM_GRIPPER; }

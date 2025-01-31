@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit LightSensorWidget(Device *device, QWidget *parent = NULL);
-    virtual ~LightSensorWidget() {}
+    virtual ~LightSensorWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

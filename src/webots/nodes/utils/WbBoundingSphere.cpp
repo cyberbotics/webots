@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@
 bool gUpdatesEnabled = false;
 bool gRayTracingEnabled = false;
 
+// cppcheck-suppress constParameterPointer
 void WbBoundingSphere::enableUpdates(bool enabled, WbBoundingSphere *root) {
   gUpdatesEnabled = enabled;
   if (enabled && root) {
@@ -248,7 +249,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
   mParentCoordinatesDirty = false;
 }
 
-void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
+void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) const {
   const WbPose *upperPose = dynamic_cast<const WbPose *>(mPoseOwner);
   if (upperPose == NULL)
     upperPose = WbNodeUtilities::findUpperPose(mOwner);
@@ -324,7 +325,6 @@ void WbBoundingSphere::parentUpdateNotification() const {
 }
 
 void WbBoundingSphere::setOwnerMoved() {
-  assert(mPoseOwner);
   if (mParentBoundingSphere && !mParentCoordinatesDirty) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)

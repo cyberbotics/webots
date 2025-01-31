@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ void WbDownloadManager::abort() {
 
 WbDownloader *WbDownloadManager::createDownloader(const QUrl &url, QObject *parent) {
   WbSimulationState::instance()->pauseSimulation();
-  WbDownloader *existingDownload = mUrlCache.value(url, NULL);
+  const WbDownloader *existingDownload = mUrlCache.value(url, NULL);
   WbDownloader *downloader = new WbDownloader(url, existingDownload, parent);
   connect(downloader, &WbDownloader::destroyed, this, &WbDownloadManager::removeDownloader);
   connect(downloader, &WbDownloader::complete, this, &WbDownloadManager::downloadCompleted);
