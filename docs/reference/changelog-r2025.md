@@ -1,7 +1,7 @@
 # Webots R2025 Change Log
 
 ## Webots R2025a
-Released on January 30th, 2025.
+Released on January 31st, 2025.
   - New Features
     - **Change the name of the web scene format from `X3D` to `W3D` ([#6280](https://github.com/cyberbotics/webots/pull/6280)).**
     - Removed support for Ubuntu 20.04 "Focal Fossa" and added support for Ubuntu 24.04 "Noble Numbat" ([#6704](https://github.com/cyberbotics/webots/pull/6704)).
