@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -101,7 +101,6 @@ class TestLicense(unittest.TestCase):
 
         skippedDirectoryPaths = [
             'src/webots/external',
-            'projects/default/controllers/ros/include',
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/humans/c3d/controllers/c3d_viewer',
@@ -117,8 +116,7 @@ class TestLicense(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis/Linux',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/robots/robotis/darwin-op/libraries',
-            'projects/samples/robotbenchmark',
-            'projects/vehicles/controllers/ros_automobile/include'
+            'projects/samples/robotbenchmark'
         ]
         skippedDirectoryPathsFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path))
                                      for path in skippedDirectoryPaths]

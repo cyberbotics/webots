@@ -813,6 +813,18 @@ To fix the problem, you should:
         <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;w3dField&apos; or &apos;hiddenField&apos; keywords</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Corrupted WAVE file: RIFF chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Corrupted WAVE file: format chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Corrupted WAVE file: data chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -1994,6 +2006,10 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Cannot read texture file: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load HDR texture &apos;%1&apos;: %2.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5674,7 +5690,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Please adapt your project to R2023b following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
+        <source>Please adapt your project to R2025a following these instructions: https://cyberbotics.com/doc/guide/upgrading-webots</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6175,14 +6191,6 @@ export animation</source>
     <message>
         <source>Unable to save screenshot because the &apos;.%1&apos; format is unsupported. Please use only the &apos;.png&apos;, &apos;.jpg&apos; or &apos;.jpeg&apos; file extension.</source>
         <translation>Impossibile salvare lo screenshot perchè il formato &apos;%1&apos; non è supportato. Per favore usa solo un&apos;estensione &apos;.png&apos;, &apos;.jpg&apos; o &apos;.jpeg&apos;.</translation>
-    </message>
-    <message>
-        <source>PNG (*.png)</source>
-        <translation>PNG (*.png)</translation>
-    </message>
-    <message>
-        <source>JPEG (*.jpg *.jpeg)</source>
-        <translation>JPEG (*.jpg *.jpeg)</translation>
     </message>
     <message>
         <source>Hide the Scene Tree side bar.</source>
@@ -6749,6 +6757,14 @@ Please save the current world to get rid of this message.</source>
         <source>No active field tracking could be found matching the field &apos;%1&apos; of node &apos;%2&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot get the PROTO instance for node &apos;%1&apos; (derived from &apos;%2&apos;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot get the PROTO instance for node &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbTcpServer</name>
@@ -6818,14 +6834,6 @@ Please save the current world to get rid of this message.</source>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
         <translation>Impossibile cambiare cartella a: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Installation error: Lua resources are not found</source>
-        <translation>Errore di installazione: risorse Lua non trovate</translation>
-    </message>
-    <message>
-        <source>luaL_dostring error : %1</source>
-        <translation>luaL_dostring errore : %1</translation>
     </message>
     <message>
         <source>Expected JavaScript closing token &apos;%1&apos; is missing.</source>
@@ -6983,15 +6991,15 @@ Desideri salvarlo prima di chiudere?</translation>
         <translation type="unfinished">Chiudi</translation>
     </message>
     <message>
-        <source>Welcome to Webots R2024a</source>
+        <source>Welcome to Webots R2025a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Thank you for using Webots R2024a.&lt;/b&gt;</source>
+        <source>&lt;b&gt;Thank you for using Webots R2025a.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2024a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2025a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7362,6 +7370,10 @@ Desideri mostrarlo?
     </message>
     <message>
         <source>Cannot copy &apos;w3d_playback.html&apos; to &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot copy the &apos;w3d_playback.css&apos; file to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

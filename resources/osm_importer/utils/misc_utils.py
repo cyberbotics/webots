@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import re
 from projection import Projection
 
 
-PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/'
+PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/'
 GRASS_TEXTURE = f'{PREFIX}projects/default/worlds/textures/grass.jpg'
 
 
@@ -62,7 +62,7 @@ def extern_proto_declaration(options):
 def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2023b utf8\n")
+    file.write("#VRML_SIM R2025a utf8\n")
     file.write(extern_proto_declaration(options))
     file.write("WorldInfo {\n")
     file.write("  info [\n")

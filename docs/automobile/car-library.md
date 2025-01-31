@@ -66,16 +66,7 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-> In ROS, car library initialization and cleanup are implicit.
-
-%tab-end
-
 %end
-
-> **Note** [ROS]: To enable synchronous simulation you will have to call the `/robot/time_step` service with a positive `step` argument.
-Then each time this service is called a car step will be executed (set the `step` argument to 0 to disable synchronization).
 
 ##### Description
 
@@ -164,15 +155,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| [`/automobile/get_type`](car-library.md#wbu_car_get_type) | `service` | `webots_ros::get_int` | |
-| [`/automobile/get_engine_type`](car-library.md#wbu_car_get_type) | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
@@ -266,15 +248,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_indicator_period` | `service` | `webots_ros::set_float` | |
-| `/automobile/get_indicator_period` | `service` | `webots_ros::get_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -344,15 +317,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_backwards_light` | `service` | `webots_ros::get_bool` | |
-| `/automobile/get_brake_light` | `service` | `webots_ros::get_bool` | |
 
 %tab-end
 
@@ -440,14 +404,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_dimensions` | `service` | `webots_ros::automobile_get_dimensions` | `uint8 ask`<br/>---<br/>`float64 trackFront`<br/>`float64 trackRear`<br/>`float64 wheelBase`<br/>`float64 frontWheelRadius`<br/>`float64 rearWheelRadius` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -528,15 +484,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/front_right_wheel_encoder`<br/>`/automobile/front_left_wheel_encoder`<br/>`/automobile/rear_right_wheel_encoder`<br/>`/automobile/rear_left_wheel_encoder`<br/> | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/front_right_wheel_speed`<br/>`/automobile/front_left_wheel_speed`<br/>`/automobile/rear_right_wheel_speed`<br/>`/automobile/rear_left_wheel_speed`<br/> | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -632,17 +579,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/right_steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/left_steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/set_right_steering_angle` | `service` | `webots_ros::set_float` | |
-| `/automobile/set_left_steering_angle` | `service` | `webots_ros::set_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -711,14 +647,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/enable_limited_slip_differential` | `service` | `webots_ros::set_bool` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -782,14 +710,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/enable_indicator_auto_disabling` | `service` | `webots_ros::set_bool` | |
 
 %tab-end
 

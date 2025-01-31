@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@
 #include "WbNetwork.hpp"
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
+#include "WbNodeProtoInfo.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
@@ -200,6 +201,8 @@ WbNode::WbNode(const WbNode &other) :
   if (other.mProto) {
     mProto = other.mProto;
     mProto->ref();
+    foreach (const WbNodeProtoInfo *protoInfo, other.mProtoParents)
+      mProtoParents << new WbNodeProtoInfo(*protoInfo);
   }
 
   // do not redirect fields of DEF node descendant even if included in a PROTO parameter
@@ -219,11 +222,27 @@ WbNode::WbNode(const WbNode &other) :
       WbField *copy = new WbField(*parameter, this);
       mParameters.append(copy);
       connect(copy, &WbField::valueChanged, this, &WbNode::notifyParameterChanged);
+
+      // Redirect field references in proto info
+      foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+        protoInfo->redirectFields(parameter, copy);
     }
 
     // connect fields to PROTO parameters
     foreach (WbField *parameter, mParameters)
       redirectAliasedFields(parameter, this);
+
+    // copy internal PROTO parameters
+    foreach (const WbField *parameter, other.mInternalProtoParameters) {
+      WbField *copy = new WbField(*parameter, this);
+      mInternalProtoParameters << copy;
+
+      // No need to connect any of these. They can only be changed by regenerating the proto
+
+      // Redirect field references in proto info
+      foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+        protoInfo->redirectFields(parameter, copy);
+    }
   }
 
   gParent = parentNode();
@@ -242,6 +261,11 @@ WbNode::~WbNode() {
     n = mParameters.size() - 1;
     for (int i = n; i >= 0; --i)
       delete mParameters[i];
+    n = mInternalProtoParameters.size() - 1;
+    for (int i = n; i >= 0; --i)
+      delete mInternalProtoParameters[i];
+    foreach (WbNodeProtoInfo *protoInfo, mProtoParents)
+      delete protoInfo;
     mProto->unref();
   }
 
@@ -1636,6 +1660,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
   delete newNode;
 
   instance->mProto = proto;
+  instance->mProtoParents.prepend(new WbNodeProtoInfo(proto->name(), parameters));
   if (id >= 0)
     instance->setUniqueId(id);
 
@@ -1668,6 +1693,9 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
             internalField->setAlias(aliasParam->name());
           }
           gParent = tmpParent;
+
+          foreach (WbNodeProtoInfo *protoInfo, instance->mProtoParents)
+            protoInfo->redirectFields(param, aliasParam);
 
           aliasNotFound = false;
           remove = true;
@@ -1733,13 +1761,25 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
       instance->redirectAliasedFields(parameter, instance);
   }
 
+  // set the parent node of internal parameters
+  foreach (const WbField *f, instance->mInternalProtoParameters) {
+    QList<WbField *> internalFields = f->internalFields();
+    while (!internalFields.isEmpty()) {
+      WbField *internalField = internalFields.takeFirst();
+      internalField->setParentNode(instance);
+      internalFields << internalField->internalFields();
+    }
+  }
+
   // remove the fake parameters introduced in case of direct nested PROTOs
   QMutableVectorIterator<WbField *> fieldIt(instance->mParameters);
   while (fieldIt.hasNext()) {
+    // cppcheck-suppress constVariablePointer
     WbField *f = fieldIt.next();
     if (!f->isHiddenParameter() && proto->findFieldModel(f->name()) == NULL) {
       fieldIt.remove();
-      delete f;
+      // The field can still be accessed through the proto info, so don't delete it
+      instance->mInternalProtoParameters << f;
     }
   }
   delete gProtoParameterList.takeLast();

@@ -1,3 +1,2 @@
-projects/default/controllers/ros/
 projects/robots/a4/
 projects/robots/picaxe/

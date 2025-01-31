@@ -208,14 +208,6 @@ period = wb_robot_step_end()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/time_step` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -863,13 +855,6 @@ tag = wb_robot_get_device('name')
 
 %tab-end
 
-%tab "ROS"
-
-> **Note**: this function has no equivalent for ROS.
-Devices are available through their services.
-
-%tab-end
-
 %end
 
 ##### Description
@@ -956,15 +941,6 @@ public class Robot {
 size = wb_robot_get_number_of_devices()
 tag = wb_robot_get_device_by_index(index)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_number_of_devices` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/robot/get_device_list` | `service` | `webots_ros::robot_get_device_list` | `uint8 ask`<br/>`---`<br/>`string[] list` |
 
 %tab-end
 
@@ -1091,14 +1067,6 @@ event_type = wb_robot_wait_for_user_input_event(event_type, timeout)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/wait_for_user_input_event` | `service` | `webots_ros::robot_wait_for_user_input_event` | `int32 eventType`<br/>`int32 timeout`<br/>`---`<br/>`int32 event` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1220,16 +1188,6 @@ value = wb_robot_battery_sensor_get_value()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/battery_sensor/value` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/battery_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/battery_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1307,14 +1265,6 @@ public class Robot {
 ```MATLAB
 step = wb_robot_get_basic_time_step()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_basic_time_step` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -1411,15 +1361,6 @@ WB_MODE_SIMULATION, WB_MODE_CROSS_COMPILATION, WB_MODE_REMOTE_CONTROL
 mode = wb_robot_get_mode()
 wb_robot_set_mode(mode, arg)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_mode` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/robot/set_mode` | `service` | `webots_ros::robot_set_mode` | `char[] arg`<br/>`int32 mode`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -1588,14 +1529,6 @@ model = wb_robot_get_model()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_model` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1677,15 +1610,6 @@ wb_robot_set_custom_data('data')
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_custom_data` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/robot/set_custom_data` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1757,14 +1681,6 @@ public class Robot {
 ```MATLAB
 path = wb_robot_get_project_path()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_project_path` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -1843,14 +1759,6 @@ path = wb_robot_get_world_path()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_world_path` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1922,14 +1830,6 @@ public class Robot {
 ```MATLAB
 sync = wb_robot_get_supervisor()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_supervisor` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2006,14 +1906,6 @@ sync = wb_robot_get_synchronization()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_synchronization` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2083,14 +1975,6 @@ public class Robot {
 ```MATLAB
 time = wb_robot_get_time()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_time` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -2239,14 +2123,6 @@ wb_robot_get_urdf(prefix)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/get_urdf` | `service` | `webots_ros::get_urdf` | `string prefix`<br/>`---`<br/>`string value` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2342,15 +2218,6 @@ text = wb_robot_wwi_receive_text()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/robot/wwi_receive_text` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/robot/wwi_send_text` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -2377,4 +2244,4 @@ while ((message = wb_robot_wwi_receive_text())) {
 ```
 The reading head will be reset to the beginning of the buffer of received messages each time a time step is performed.
 
-> **note** [Java, Python, MATLAB, ROS]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, MATLAB, or ROS API.
+> **note** [Java, Python, MATLAB]: `wb_robot_wwi_receive` and `wb_robot_window_send` functions are not available in the Java, Python, or MATLAB API.

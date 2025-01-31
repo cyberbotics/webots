@@ -1,0 +1,12 @@
+#VRML_SIM R2025a utf8
+
+PROTO PoseProto [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 0 1 0
+]
+{
+  Pose {
+    translation IS translation
+    rotation IS rotation
+  }
+}
