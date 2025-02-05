@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -445,6 +445,7 @@ def main(args=None):
     generator.gen(PROC, "wb_supervisor_export_image(filename, quality)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_field_disable_sf_tracking(field)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_field_enable_sf_tracking(field, sampling_period)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_field_get_actual_field(fieldref)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_field_get_count(fieldref)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_field_get_mf_bool(fieldref, index)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_field_get_mf_color(fieldref, index)", "supervisor")
@@ -517,6 +518,8 @@ def main(args=None):
                         "supervisor")  # DEPRECATED
     generator.gen(FUNC, "wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_base_node_field(noderef, fieldname)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_base_node_field_by_index(noderef, fieldindex)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_center_of_mass(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_contact_point(noderef, index)", "supervisor")
@@ -524,21 +527,20 @@ def main(args=None):
     # generator.gen(PROC, "wb_supervisor_node_get_contact_points(noderef, include_descendants)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_def(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_field(noderef, fieldname)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_get_field_by_index(noderef, fieldname)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_field_by_index(noderef, fieldindex)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_from_def(defname)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_from_device(tag)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_from_id(id)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_from_proto_def(noderef, defname)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_id(noderef)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_number_of_base_node_fields(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_number_of_contact_points(noderef, include_descendants)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_get_number_of_fields(noderef, fieldname)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_number_of_fields(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_orientation(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_parent_node(noderef)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_get_proto(noderef)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_pose(noderef, noderef_from)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_node_get_position(noderef)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_get_proto_field(noderef, fieldname)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_get_proto_field_by_index(noderef, fieldname)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_get_proto_number_of_fields(noderef, fieldname)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_root()", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_selected()", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_self()", "supervisor")
@@ -556,6 +558,12 @@ def main(args=None):
     generator.gen(FUNC, "wb_supervisor_node_set_joint_position(noderef, position, index)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_set_velocity(noderef, velocity)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_set_visibility(node, from, visible)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_field(protoref, fieldname)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_field_by_index(protoref, fieldindex)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_number_of_fields(protoref)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_parent(protoref)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_get_type_name(protoref)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_proto_is_derived(protoref)", "supervisor")
     # generator.gen(FUNC, "wb_supervisor_save_world(filename)", "supervisor"); # DEPRECATED
     # generator.gen(PROC, "wb_supervisor_set_label()", "supervisor")
     generator.gen(FUNC, "wb_supervisor_simulation_get_mode()", "supervisor")

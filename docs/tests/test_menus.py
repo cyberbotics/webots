@@ -78,9 +78,9 @@ class TestMenus(unittest.TestCase):
             with open(menu, 'r', **args) as menu_file:
                 menu_content = menu_file.read()
             for file_path in os.listdir(book_path):
+                # Ignore the index/menu, and allow defunct pages to avoid dead links.
                 if (file_path.endswith(".md") and
-                        file_path != ('index.md') and
-                        file_path != "menu.md"):
+                        file_path not in ('index.md', 'menu.md', 'procedural-proto-nodes.md', 'lua-procedural-proto.md')):
                     self.assertIn(
                         file_path, menu_content,
                         msg='"%s" not referenced in "%s"' %

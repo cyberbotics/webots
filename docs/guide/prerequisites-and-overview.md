@@ -4,7 +4,7 @@
 
 The prerequisites for the server machine(s) are the following:
 
-- Ubuntu 20.04 LTS or newer
+- Ubuntu 22.04 LTS or newer
 - Web service dependencies ([installation instructions](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies#webots-web-service)):
 
 The simulation server machines have to met the [Webots system requirements](system-requirements.md).

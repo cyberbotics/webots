@@ -1,4 +1,5 @@
 # The Radar node is used to model a radar device, commonly found in automobiles.
+# parent: Solid
 
 Radar {
   #fields that inherit from the Solid node:

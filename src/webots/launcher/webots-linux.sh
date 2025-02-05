@@ -72,6 +72,9 @@ export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 export WEBOTS_ORIGINAL_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
+# set the QT platform to use the X11 server for compatibility with Wayland
+export QT_QPA_PLATFORM="xcb"
+
 # Fix for i3 window manager not working with Qt6
 if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
   DPI=`xrdb -query -all | grep Xft.dpi | awk '{print $2}'`

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ skippedDirectories = [
     '.git',
     'dependencies',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-    'projects/robots/robotis/darwin-op/libraries/python',
-    'resources/webots_ros/'
+    'projects/robots/robotis/darwin-op/libraries/python'
 ]
 skippedDirectoriesFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path)) for path in skippedDirectories]
 

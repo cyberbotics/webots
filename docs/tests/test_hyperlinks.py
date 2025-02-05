@@ -66,7 +66,7 @@ class TestHyperlinks(unittest.TestCase):
     def test_tag_hyperlinks(self):
         """Test that a tag-like hyperlinks are valid."""
         for h in self.hyperlinks:
-            if h['name'] in ['C++', 'Java', 'Python', 'ROS', 'MATLAB']:
+            if h['name'] in ['C++', 'Java', 'Python', 'MATLAB']:
                 self.assertTrue(
                     '.md' in h['url'],
                     msg='Hyperlink "%s" is wrongly detected as a tag in "%s".' % (h['md'], h['file'])

@@ -1,5 +1,6 @@
 # The Propeller node is used to model a motorized helix propeller.
 # It can be used to propel underwater robots, flying robots, floating robots or even wheeled robots.
+# parent: Solid
 
 Propeller {
   field    SFVec3f shaftAxis          1 0 0  # thrust direction (m)

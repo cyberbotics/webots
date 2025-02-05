@@ -142,18 +142,6 @@ noise = wb_inertial_unit_get_noise(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/quaternion` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the orientation is filled in |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_noise` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-
-%tab-end
-
 %end
 
 ##### Description
@@ -196,7 +184,3 @@ If these values are needed for a longer period they must be copied.
 <!-- -->
 
 > **Note** [Python]: The `getRollPitchYaw` function returns the angles as a list containing three floats.
-
-<!-- -->
-
-> **Note** [ROS]: The `/<device_name>/quaternion` topic publishes quaternions that follow ROS coordinate system convention when `coordinateSystem` in [WorldInfo](worldinfo.md) is set to `ENU`.

@@ -1,0 +1,45 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/api/protos/SolidProtoHierarchy.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.3346016217580861 0.9268563248699502 0.170232510894447 5.0632475
+  position -1.4014692 0.82937332 0.66081321
+}
+DEF BACKGROUND Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 1
+  intensity 0.13
+  location 0 0.3 0
+}
+DEF HIERARCHY SolidProtoHierarchy {
+}
+DEF Test Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "supervisor_proto"
+  controller "supervisor_proto"
+  supervisor TRUE
+}
+DEF Test Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "supervisor_proto_fields"
+  controller "supervisor_proto_fields"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

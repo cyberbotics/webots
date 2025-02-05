@@ -448,30 +448,6 @@ multiplier = wb_motor_get_multiplier(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_position` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_velocity` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_acceleration` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_available_force` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_available_torque` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_control_pid` | `service` | `webots_ros::motor_set_control_pid` | `float64 controlp`<br/>`float64 controli`<br/>`float64 controld`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/get_target_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_min_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_velocity` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_velocity` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_acceleration` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_available_force` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_force` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_available_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_multiplier` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -664,19 +640,6 @@ torque = wb_motor_get_torque_feedback(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/force_feedback` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/torque_feedback` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/force_feedback_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/force_feedback_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/torque_feedback_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/torque_feedback_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -785,15 +748,6 @@ wb_motor_set_torque(tag, torque)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_force` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_torque` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -889,14 +843,6 @@ type = wb_motor_get_type(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -988,15 +934,6 @@ public class Motor extends Device {
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_position_sensor(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_brake_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_position_sensor_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 

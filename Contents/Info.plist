@@ -35,7 +35,7 @@
 	<key>CFBundleExecutable</key>
 	<string>webots</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Webots R2024a, Copyright 1998-2024 Cyberbotics Ltd.</string>
+	<string>Webots R2025a, Copyright 1998-2024 Cyberbotics Ltd.</string>
 	<key>CFBundleIconFile</key>
 	<string>webots_icon</string>
 	<key>CFBundleIdentifier</key>
@@ -47,11 +47,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>R2024a</string>
+	<string>R2025a</string>
 	<key>CFBundleSignature</key>
 	<string>wbt </string>
 	<key>CFBundleVersion</key>
-	<string>R2024a</string>
+	<string>R2025a</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.14</string>
 	<key>CSResourcesFileMapped</key>

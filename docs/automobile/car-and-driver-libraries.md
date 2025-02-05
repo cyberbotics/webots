@@ -9,4 +9,3 @@ This section presents and explains how to use these two libraries.
 - [Driver library](driver-library.md)
 - [Car library](car-library.md)
 - [C++, Java and Python wrappers of the automobile libraries](cpp-java-and-python-wrappers-of-the-automobile-libraries.md)
-- [ROS support](ros-support.md)

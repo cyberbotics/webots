@@ -12,38 +12,71 @@ int main(int argc, char **argv) {
 
   int i = 0;
   WbNodeRef node = wb_supervisor_node_get_from_def("NODE");
-  const int FIELD_COUNT = 8;
-  WbFieldRef mfField[FIELD_COUNT];
-  mfField[0] = wb_supervisor_node_get_field(node, "bool");
-  mfField[1] = wb_supervisor_node_get_field(node, "int");
-  mfField[2] = wb_supervisor_node_get_field(node, "float");
-  mfField[3] = wb_supervisor_node_get_field(node, "vec2");
-  mfField[4] = wb_supervisor_node_get_field(node, "vec3");
-  mfField[5] = wb_supervisor_node_get_field(node, "rot");
-  mfField[6] = wb_supervisor_node_get_field(node, "color");
-  mfField[7] = wb_supervisor_node_get_field(node, "string");
-  int mfFieldCount[FIELD_COUNT];
-  for (i = 0; i < FIELD_COUNT; ++i)
-    mfFieldCount[i] = wb_supervisor_field_get_count(mfField[i]);
+  WbProtoRef proto = wb_supervisor_node_get_proto(node);
+  const char *field_names[] = {"bool", "int", "float", "vec2", "vec3", "rot", "color", "string"};
+  const int FIELD_COUNT = sizeof(field_names) / sizeof(field_names[0]);
+  WbFieldRef mf_field[FIELD_COUNT];
+  WbFieldRef mf_proto_fields[FIELD_COUNT];
+  for (i = 0; i < FIELD_COUNT; ++i) {
+    mf_field[i] = wb_supervisor_node_get_field(node, field_names[i]);
+    mf_proto_fields[i] = wb_supervisor_proto_get_field(proto, field_names[i]);
+  }
+
+  int mf_field_count[FIELD_COUNT];
+  for (i = 0; i < FIELD_COUNT; ++i) {
+    const int count = wb_supervisor_field_get_count(mf_field[i]);
+    mf_field_count[i] = count;
+    const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
+    ts_assert_int_equal(proto_count, count, "Size of proto field %d not correctly initialized: found %d, expected %d", i,
+                        proto_count, count);
+  }
 
   wb_robot_step(3 * TIME_STEP);
 
   for (i = 0; i < FIELD_COUNT; ++i) {
     wb_robot_step(TIME_STEP);
-    const int count = wb_supervisor_field_get_count(mfField[i]);
+    const int count = wb_supervisor_field_get_count(mf_field[i]);
     int increment = i < 7 ? 1 : 2;
-    ts_assert_int_equal(count, mfFieldCount[i] + increment,
+    ts_assert_int_equal(count, mf_field_count[i] + increment,
                         "Size of field %d not correctly updated after item inserted: found %d, expected %d", i, count,
-                        mfFieldCount[i] + increment);
+                        mf_field_count[i] + increment);
+
+    // The proto node should have been regenerated, so all the references should be invalidated
+    ts_assert_string_equal(wb_supervisor_proto_get_type_name(proto), "",
+                           "Proto node should have been regenerated after field insertion.");
+    ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
+                        "Proto field %d should have been invalidated after field insertion.", i);
+    proto = wb_supervisor_node_get_proto(node);
+    mf_proto_fields[i] = wb_supervisor_proto_get_field(proto, field_names[i]);
+
+    const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
+    ts_assert_int_equal(proto_count, mf_field_count[i] + increment,
+                        "Size of proto field %d not correctly updated after item inserted: found %d, expected %d", i,
+                        proto_count, mf_field_count[i] + increment);
+    wb_robot_step(TIME_STEP);
   }
 
   for (i = FIELD_COUNT - 1; i >= 0; --i) {
     wb_robot_step(TIME_STEP);
-    const int count = wb_supervisor_field_get_count(mfField[i]);
+    const int count = wb_supervisor_field_get_count(mf_field[i]);
     int increment = i < 7 ? 0 : 1;
-    ts_assert_int_equal(count, mfFieldCount[i] + increment,
+    ts_assert_int_equal(count, mf_field_count[i] + increment,
                         "Size of field %d not correctly updated after item removed: found %d, expected %d", i, count,
-                        mfFieldCount[i] + increment);
+                        mf_field_count[i] + increment);
+
+    // The proto node should have been regenerated, so all the references should be invalidated
+    ts_assert_string_equal(wb_supervisor_proto_get_type_name(proto), "",
+                           "Proto node should have been regenerated after field removal.");
+    ts_assert_int_equal(wb_supervisor_field_get_count(mf_proto_fields[i]), -1,
+                        "Proto field %d should have been invalidated after field removal.", i);
+    proto = wb_supervisor_node_get_proto(node);
+    mf_proto_fields[i] = wb_supervisor_proto_get_field(proto, field_names[i]);
+
+    const int proto_count = wb_supervisor_field_get_count(mf_proto_fields[i]);
+    ts_assert_int_equal(proto_count, mf_field_count[i] + increment,
+                        "Size of proto field %d not correctly updated after item removed: found %d, expected %d", i,
+                        proto_count, mf_field_count[i] + increment);
+    wb_robot_step(TIME_STEP);
   }
 
   ts_send_success();

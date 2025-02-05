@@ -55,12 +55,12 @@ The setup of a mail server is not covered by this guide.
 
 ### Software Requirements
 
-Instructions are provided here for Ubuntu 20.04, however it may work on any other version of Linux.
+Instructions are provided here for Ubuntu 22.04, however it may work on any other version of Linux.
 It is assumed that you will be running a simulation server on the same machine.
 If not, you can install the server edition of Ubuntu and skip step 2.
 
-1. Install Ubuntu 20.04:
-    - Choose the desktop version of Ubuntu 20.04. Simulation servers needs a X display and 3D OpenGL hardware acceleration which is easier to setup from a desktop version.
+1. Install Ubuntu 22.04:
+    - Choose the desktop version of Ubuntu 22.04. Simulation servers needs a X display and 3D OpenGL hardware acceleration which is easier to setup from a desktop version.
     - Create a user account named `cyberbotics` (or anything else).
 2. Makes that this user account has the auto-login feature enabled, so that when you boot the machine it get automatically logged in.
 3. Configure the [unattended upgrades](https://www.linuxbabe.com/ubuntu/automatic-security-update-unattended-upgrades-ubuntu) to reboot after security updates.

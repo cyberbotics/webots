@@ -89,15 +89,6 @@ type = wb_brake_get_type(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_damping_constant` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -183,15 +174,6 @@ public class Brake extends Device {
 tag = wb_brake_get_motor(tag)
 tag = wb_brake_get_position_sensor(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_motor_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_position_sensor_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 

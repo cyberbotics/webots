@@ -1,6 +1,7 @@
 # The DistanceSensor node can be used to model an ultrasound sonar, an infra-red sensor,
 # a single-ray laser or any type of device that measures the distance to objects.
 # To model a Lidar sensor, you should rather use a Lidar node.
+# parent: Solid
 
 DistanceSensor {
   #fields that inherit from the Solid node:
