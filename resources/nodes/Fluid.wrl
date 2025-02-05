@@ -1,4 +1,5 @@
 # A Fluid node can be used to represent a collection of fluid volumes where hydrostatic and hydrodynamic forces apply.
+# parent: Pose
 
 Fluid {
   #fields that inherit from the Pose node:

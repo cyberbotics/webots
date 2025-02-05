@@ -1,6 +1,7 @@
 # A TouchSensor can be used to measure contact force ("force", "force-3d") or simply detect collisions ("bumper").
 # It is critical that 'boundingObject' of a TouchSensor is defined and placed appropriately.
 # Refer to the Webots reference manual for more information on this.
+# parent: Solid
 
 TouchSensor { #models a bumper, button, cat whisker, force sensor etc.
   #fields that inherit from the Solid node:

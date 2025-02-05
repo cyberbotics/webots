@@ -1,5 +1,6 @@
 # A Compass node can be used to simulate 1, 2 and 3-axis digital compasses.
 # It indicates the direction of the simulated magnetic north which is specified in the WorldInfo node.
+# parent: Solid
 
 Compass {
   #fields that inherit from the Solid node:

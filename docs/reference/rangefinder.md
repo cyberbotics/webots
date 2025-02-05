@@ -173,15 +173,6 @@ period = wb_range_finder_get_sampling_period(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -259,14 +250,6 @@ public class RangeFinder extends Device {
 ```MATLAB
 fov = wb_range_finder_get_fov(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::range_finder_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 minRange`<br/>`float64 maxRange` |
 
 %tab-end
 
@@ -348,14 +331,6 @@ height = wb_range_finder_get_height(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::range_finder_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 minRange`<br/>`float64 maxRange` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -431,14 +406,6 @@ public class RangeFinder extends Device {
 min_range = wb_range_finder_get_min_range(tag)
 max_range = wb_range_finder_get_max_range(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::range_finder_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 minRange`<br/>`float64 maxRange` |
 
 %tab-end
 
@@ -519,14 +486,6 @@ public class RangeFinder extends Device {
 image = wb_range_finder_get_range_image(tag)
 depth = wb_range_finder_image_get_depth(image, width, x, y)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/range_image` | `topic` | [`sensor_msgs::Image`](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 
 %tab-end
 
@@ -633,14 +592,6 @@ public class RangeFinder extends Device {
 ```MATLAB
 success = wb_range_finder_save_image(tag, 'filename', quality)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/save_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 

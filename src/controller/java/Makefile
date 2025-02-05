@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -70,6 +70,7 @@ JAVA_FILES      = Accelerometer.java \
                   Pen.java \
                   PositionSensor.java \
                   Propeller.java \
+                  Proto.java \
                   Radar.java \
                   RadarTarget.java \
                   RangeFinder.java \
@@ -181,7 +182,7 @@ $(WEBOTS_CONTROLLER_LIB_PATH)/java/$(LIBNAME).dll: $(WRAPPER_OBJECT)
 
 $(JAR_FILE): $(WRAPPER)
 	@echo "# compiling java sources"
-	javac --release 8 $(SWIG_OUTPUT_PATH)/*.java -d .
+	javac --release 11 $(SWIG_OUTPUT_PATH)/*.java -d .
 	@echo "# creating   "$@
 	@mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/java
 	jar cfv $(JAR_FILE) $(CONTROLLERPATH)/*.class > /dev/null

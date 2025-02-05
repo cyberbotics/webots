@@ -80,6 +80,6 @@ pip install pycodestyle
 2. Run the tests:
 
 ```sh
-cd $WEBOTS_HOME/docs
+cd $WEBOTS_HOME/docs/tests
 python -m unittest discover
 ```

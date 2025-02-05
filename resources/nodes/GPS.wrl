@@ -1,4 +1,5 @@
 # The GPS node can be used to determine the global position of a robot or of a robot part.
+# parent: Solid
 
 GPS {
   #fields that inherit from the Solid node:

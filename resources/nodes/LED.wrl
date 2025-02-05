@@ -1,4 +1,5 @@
 # The LED node can be used to model a light emitting diode (LED) that can be controlled by the robot.
+# parent: Solid
 
 LED {
   #fields that inherit from the Solid node:

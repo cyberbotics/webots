@@ -1,6 +1,7 @@
 # The Speaker node is used to model a loudspeaker device.
 # It can be used to playback wav sound files as well as text-to-speech.
 # The sounds are localized in the 3D space and rendered at the main viewpoint in stereo.
+# parent: Solid
 
 Speaker {
   #fields that inherit from the Solid node:

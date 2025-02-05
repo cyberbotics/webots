@@ -4,6 +4,3 @@
 [submodule "src/stb"]
 	path = src/stb
 	url = https://github.com/nothings/stb.git
-[submodule "resources/webots_ros"]
-	path = resources/webots_ros
-	url = https://github.com/cyberbotics/webots_ros

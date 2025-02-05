@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1069,9 +1069,9 @@ bool WbSceneTree::isPasteAllowed() {
     const WbClipboard::WbClipboardNodeInfo *clipboardNodeInfo = mClipboard->nodeInfo();
     const QString &nodeModelName = clipboardNodeInfo->nodeModelName;
     QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(field, nodeModelName, parentNode, errorMessage,
+    if (!WbNodeUtilities::isAllowedToInsert(field, parentNode, errorMessage,
                                             static_cast<const WbBaseNode *>(parentNode)->nodeUse(), clipboardNodeInfo->slotType,
-                                            QStringList() << nodeModelName << clipboardNodeInfo->modelName))
+                                            nodeModelName, clipboardNodeInfo->modelName, clipboardNodeInfo->protoParentList))
       return false;
 
     if (clipboardNodeInfo->hasADeviceDescendant)

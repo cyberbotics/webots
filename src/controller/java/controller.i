@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
+#include <webots/Proto.hpp>
 #include <webots/radar_target.h>
 #include <webots/Radar.hpp>
 #include <webots/RangeFinder.hpp>
@@ -436,12 +437,20 @@ namespace webots {
 %ignore webots::Field::findField(WbFieldRef ref);
 %ignore webots::Field::cleanup();
 
+%rename("getActualFieldPrivate") getActualField() const;
+%javamethodmodifiers getActualField() const "private"
+
 %rename("getSFNodePrivate") getSFNode() const;
 %rename("getMFNodePrivate") getMFNode(int index) const;
 %javamethodmodifiers getSFNode() const "private"
 %javamethodmodifiers getMFNode(int index) const "private"
 
 %typemap(javacode) webots::Field %{
+  public Field getActualField() {
+    long cPtr = wrapperJNI.Field_getActualFieldPrivate(swigCPtr, this);
+    return Field.findField(cPtr);
+  }
+
   public Node getSFNode() {
     long cPtr = wrapperJNI.Field_getSFNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -632,11 +641,20 @@ namespace webots {
 %rename("getParentNodePrivate") getParentNode() const;
 %javamethodmodifiers getParentNode() const "private"
 
+%rename("getProtoPrivate") getProto() const;
+%javamethodmodifiers getProto() const "private"
+
 %rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
 %javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%rename("getBaseNodeFieldPrivate") getBaseNodeField(const std::string &fieldName) const;
+%rename("getBaseNodeFieldByIndexPrivate") getBaseNodeFieldByIndex(const int index) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
+%javamethodmodifiers getBaseNodeField(const std::string &fieldName) const "private"
+%javamethodmodifiers getBaseNodeFieldByIndex(const int index) const "private"
 
 %apply int *OUTPUT { int *size };
 %rename(getContactPointsPrivate) getContactPoints;
@@ -672,6 +690,11 @@ namespace webots {
     return Node.findNode(cPtr);
   }
 
+  public Proto getProto() {
+    long cPtr = wrapperJNI.Node_getProtoPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
+  }
+
   public Node getFromProtoDef(String name) {
     long cPtr = wrapperJNI.Node_getFromProtoDefPrivate(swigCPtr, this, name);
     return Node.findNode(cPtr);
@@ -679,6 +702,21 @@ namespace webots {
 
   public Field getField(String fieldName) {
     long cPtr = wrapperJNI.Node_getFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getFieldByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeField(String fieldName) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldByIndexPrivate(swigCPtr, this, index);
     return Field.findField(cPtr);
   }
 
@@ -732,6 +770,57 @@ namespace webots {
   }
 %}
 %include <webots/PositionSensor.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Proto
+//----------------------------------------------------------------------------------------------
+
+%ignore webots::Proto::findProto(WbProtoRef ref);
+%ignore webots::Proto::cleanup();
+
+%rename("getParentPrivate") getParent() const;
+%javamethodmodifiers getParent() const "private"
+
+%rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
+
+%typemap(javacode) webots::Proto %{
+// ----- begin hand written section ----
+  public Proto getParent() {
+    long cPtr = wrapperJNI.Proto_getParentPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
+  }
+
+  public Field getField(String fieldName) {
+    long cPtr = wrapperJNI.Proto_getFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Proto_getFieldByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  private static java.util.HashMap<Long,Proto> protos = new java.util.HashMap<Long,Proto>();
+
+  // DO NOT USE THIS FUNCTION: IT IS RESERVED FOR INTERNAL USE !
+  public static Proto findProto(long cPtr) {
+    if (cPtr == 0)
+      return null;
+
+    Proto proto = protos.get(new Long(cPtr));
+    if (proto != null)
+      return proto;
+
+    proto = new Proto(cPtr, false);
+    protos.put(new Long(cPtr), proto);
+    return proto;
+  }
+%}
+
+%include <webots/Proto.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Radar

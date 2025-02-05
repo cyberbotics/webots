@@ -206,17 +206,6 @@ lookup_table_array = wb_light_sensor_get_lookup_table(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | [`sensor_msgs::Illuminance`](http://docs.ros.org/api/sensor_msgs/html/msg/Illuminance.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 illuminance`<br/>`float64 variance` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description

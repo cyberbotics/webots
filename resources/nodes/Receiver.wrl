@@ -1,6 +1,7 @@
 # A Receiver node models a radio or infra-red receiver.
 # It can be used to receive data packets emitted by Emitter nodes (onboard other robots).
 # A Receiver cannot emit data: bidirectional communication requires two Emitter/Receiver pairs.
+# parent: Solid
 
 Receiver {
   #fields that inherit from the Solid node:

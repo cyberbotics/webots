@@ -1,0 +1,14 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/manual_tests/protos/PoseProto.proto"
+
+PROTO DerivedPoseProto [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 0 1 0
+]
+{
+  PoseProto {
+    translation IS translation
+    rotation IS rotation
+  }
+}

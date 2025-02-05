@@ -1,5 +1,6 @@
 # A Gyro node measures the angular velocity about 3 orthogonal axes (X, Y and Z).
 # The output is in rad/s. The Gyro node is mostly used for balance control.
+# parent: Solid
 
 Gyro {
   #fields that inherit from the Solid node:
