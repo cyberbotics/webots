@@ -149,15 +149,6 @@ name = wb_skin_get_bone_name(tag, index)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_bone_count` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/_get_bone_name` | `service` | `webots_ros::skin_get_bone_name` | `int32 index`<br/>`---`<br/>`string name` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -251,17 +242,6 @@ position = wb_skin_get_bone_position(tag, index, absolute)
 wb_skin_set_bone_orientation(tag, index, orientation, absolute)
 wb_skin_set_bone_position(tag, index, position, absolute)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_bone_orientation` | `service` | `webots_ros::skin_get_bone_orientation` | `int32 index`<br/>`bool absolute`<br/>`---`<br/>`geometry_msgs/Quaternion orientation` |
-| `/<device_name>/get_bone_position` | `service` | `webots_ros::skin_get_bone_position` | `int32 index`<br/>`bool absolute`<br/>`---`<br/>`geometry_msgs/Point position` |
-| `/<device_name>/set_bone_orientation` | `service` | `webots_ros::skin_set_bone_orientation` | `int32 index`<br/>`geometry_msgs/Quaternion orientation`<br/>`bool absolute`<br/>`---`<br/>`int32 success` |
-| `/<device_name>/set_bone_position` | `service` | `webots_ros::skin_set_bone_position` | `int32 index`<br/>`geometry_msgs/Point position`<br/>`bool absolute`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 

@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ $(JAR): JAVA_CLASSES
 	@jar cfv "$@" $(MODULE_PATH)/*.class > /dev/null
 
 JAVA_CLASSES: $(JAVA_SOURCES)
-	@javac --release 8 -classpath $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar $(JAVA_SOURCES) -d .
+	@javac --release 11 -classpath $(WEBOTS_CONTROLLER_LIB_PATH)/java/Controller.jar $(JAVA_SOURCES) -d .
 
 $(JAVA_SOURCES): $(WRAPPER)
 

@@ -30,12 +30,12 @@ void ts_assert_boolean_not_equal(bool value, const char *error_message, ...) {
   TS_FINAL_CHECK();
 }
 
-void ts_assert_pointer_null(void *ptr, const char *error_message, ...) {
+void ts_assert_pointer_null(const void *ptr, const char *error_message, ...) {
   bool correct = ptr == NULL;
   TS_FINAL_CHECK();
 }
 
-void ts_assert_pointer_not_null(void *ptr, const char *error_message, ...) {
+void ts_assert_pointer_not_null(const void *ptr, const char *error_message, ...) {
   bool correct = ptr != NULL;
   TS_FINAL_CHECK();
 }

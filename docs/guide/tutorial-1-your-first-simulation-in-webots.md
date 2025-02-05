@@ -145,7 +145,7 @@ Then save the simulation.
 We will now program a simple controller that will just make the robot move forwards.
 
 A **controller** is a program that defines the behavior of a robot.
-Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, ROS, etc.
+Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, etc.
 C, C++ and Java controllers need to be compiled before they can be run as robot controllers.
 Python and MATLAB controllers are interpreted languages so they will run without being compiled.
 In this tutorial, we are going to use C as a reference language but all the code snippets are also available in C++, Java, Python and MATLAB.

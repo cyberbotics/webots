@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -84,11 +84,17 @@ private:
   int mFoundNodeParentUniqueId;
   bool mFoundNodeIsProto;
   bool mFoundNodeIsProtoInternal;
+  int mFoundProtoId;
+  QString mFoundProtoTypeName;
+  bool mFoundProtoIsDerived;
+  int mFoundProtoParameterCount;
   int mFoundFieldIndex;
   int mFoundFieldType;
   int mFoundFieldCount;
   QString mFoundFieldName;
   bool mFoundFieldIsInternal;
+  int mFoundFieldActualFieldNodeId;
+  int mFoundFieldActualFieldIndex;
   int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;

@@ -1,4 +1,5 @@
 # A HingeJointParameters defines the parameters of a HingeJoint node.
+# parent: JointParameters
 
 HingeJointParameters {
   field SFFloat position                  0      # current position (m or rad)

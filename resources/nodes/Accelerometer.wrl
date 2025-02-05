@@ -2,6 +2,7 @@
 # simulation. The acceleration is measured along the 3 axes (X, Y and Z) and is
 # expressed in m/s^2. It is mostly used to measure the direction of the
 # gravity, but can be used for many other purposes.
+# parent: Solid
 
 Accelerometer {
   #fields that inherit from the Solid node:

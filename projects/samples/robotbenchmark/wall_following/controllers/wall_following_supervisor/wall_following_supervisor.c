@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 #include <stdlib.h>
 
 #define BENCHMARK_DURATION 60
-//#define ALLOW_LABELS true // uncomment to enable labels
+// #define ALLOW_LABELS true // uncomment to enable labels
 
 static WallFollowingMetric *generate_metric_from_proto(const double *robot_starting_position) {
   WallFollowingMetric *metric = NULL;

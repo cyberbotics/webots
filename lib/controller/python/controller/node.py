@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ import ctypes
 from .wb import wb
 from .constants import constant
 from .field import Field
+from .proto import Proto
 import struct
 import typing
 
@@ -40,6 +41,11 @@ class Node:
     wb.wb_supervisor_node_get_root.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_selected.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_proto.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_field_by_index.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_base_node_field.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_base_node_field_by_index.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_self.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_device.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_id.restype = ctypes.c_void_p
@@ -90,6 +96,10 @@ class Node:
     def isProto(self) -> bool:
         return wb.wb_supervisor_node_is_proto(self._ref) != 0
 
+    def getProto(self) -> Proto:
+        proto = wb.wb_supervisor_node_get_proto(self._ref)
+        return Proto(proto) if proto else None
+
     def getFromProtoDef(self, DEF: str) -> Node:
         node = wb.wb_supervisor_node_get_from_proto_def(self._ref, str.encode(DEF))
         return Node(ref=node) if node else None
@@ -109,24 +119,27 @@ class Node:
     def exportString(self):
         return wb.wb_supervisor_node_export_string(self._ref).decode()
 
-    def getField(self, name: str) -> Field:
-        field = Field(self, name=name)
-        return field if field._ref else None
+    def getField(self, fieldName: str) -> Field:
+        field = wb.wb_supervisor_node_get_field(self._ref, str.encode(fieldName))
+        return Field(field) if field else None
 
     def getFieldByIndex(self, index: int) -> Field:
-        field = Field(self, index=index)
-        return field if field._ref else None
+        field = wb.wb_supervisor_node_get_field_by_index(self._ref, index)
+        return Field(field) if field else None
 
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
-    def getProtoField(self, name: str) -> Field:
-        field = Field(self, name=name, proto=True)
-        return field if field._ref else None
+    def getBaseNodeField(self, fieldName: str) -> Field:
+        field = wb.wb_supervisor_node_get_base_node_field(self._ref, str.encode(fieldName))
+        return Field(field) if field else None
 
-    def getProtoFieldByIndex(self, index: int) -> Field:
-        field = Field(self, index=index, proto=True)
-        return field if field._ref else None
+    def getBaseNodeFieldByIndex(self, index: int) -> Field:
+        field = wb.wb_supervisor_node_get_base_node_field_by_index(self._ref, index)
+        return Field(field) if field else None
+
+    def getNumberOfBaseNodeFields(self) -> int:
+        return self.number_of_base_node_fields
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
@@ -234,6 +247,10 @@ class Node:
     @property
     def number_of_fields(self) -> int:
         return wb.wb_supervisor_node_get_number_of_fields(self._ref)
+
+    @property
+    def number_of_base_node_fields(self) -> int:
+        return wb.wb_supervisor_node_get_number_of_base_node_fields(self._ref)
 
 
 Node.NO_NODE = constant('NODE_NO_NODE')

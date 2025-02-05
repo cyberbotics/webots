@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -293,7 +293,7 @@ class proto2mesh:
                 self.shapeLevel += 1
             self.lineNumber += 1
             if '%' in line:
-                raise Exception("ERROR: LUA script for mesh data is not supported.")
+                raise Exception("ERROR: Javascript for mesh data is not supported.")
             ln = line.split()
             data += line
         data = ' '.join(data.split())

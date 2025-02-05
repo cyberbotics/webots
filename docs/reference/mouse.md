@@ -107,12 +107,6 @@ structs.WbMouseState.members = struct(
 
 %tab-end
 
-%tab "ROS"
-
-%tab-end
-
-> `MouseState` data is directly accessible from the related [`/mouse/mouse_get_state` service](#wb_mouse_enable).
-
 %end
 
 The `left`, `middle` and `right` fields are matching respectively with the left, middle and right buttons of the computer mouse.
@@ -207,16 +201,6 @@ state = wb_mouse_get_state()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/mouse/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/mouse/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/mouse/mouse_get_state` | `service` | `webots_ros::mouse_get_state` | `uint8 ask`<br/>`---`<br/>`uint8 left`<br/>`uint8 middle`<br/>`uint8 right`<br/>`float64 u`<br/>`float64 v`<br/>`float64 x`<br/>`float64 y`<br/>`float64 z` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -302,16 +286,6 @@ wb_mouse_enable_3d_position()
 wb_mouse_disable_3d_position()
 enabled = wb_mouse_is_3d_position_enabled()
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/mouse/mouse_enable_3d_position` | `service` | [`webots_ros::set_bool`](ros-api.md#common-services) | |
-| `/mouse/mouse_disable_3d_position` | `service` | [`webots_ros::set_bool`](ros-api.md#common-services) | |
-| `/mouse/mouse_is_3d_position_enabled` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
 
 %tab-end
 

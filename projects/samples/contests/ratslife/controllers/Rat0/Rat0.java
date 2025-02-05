@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,9 @@ public class Rat0 extends Robot {
   protected LED[] leds = new LED[10];
 
   public Rat0() {
+  }
+
+  public void initialize() {
     accelerometer = getAccelerometer("accelerometer");
     camera = getCamera("camera");
     camera.enable(8*timeStep);
@@ -161,6 +164,7 @@ public class Rat0 extends Robot {
 
   public static void main(String[] args) {
     Rat0 rat0 = new Rat0();
+    rat0.initialize();
     rat0.run();
   }
 }
