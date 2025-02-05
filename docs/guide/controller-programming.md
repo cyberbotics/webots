@@ -1505,9 +1505,6 @@ Here is an example of a typical runtime.ini file.
 [environment variables with paths]
 WEBOTS_LIBRARY_PATH = lib:$(WEBOTS_LIBRARY_PATH):../../library
 
-[environment variables]
-ROS_MASTER_URI = http://localhost:11311
-
 [environment variables for Windows]
 NAOQI_LIBRARY_FOLDER = "bin;C:\Users\My Documents\Naoqi\bin"
 

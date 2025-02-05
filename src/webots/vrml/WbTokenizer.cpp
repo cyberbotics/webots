@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -121,25 +121,6 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
       mLine--;        // one extra line was read
       mInfo.chop(1);  // remove last '\n'
       break;
-    }
-  }
-
-  // this step can be removed when Lua support is dropped, but is necessary for two different tokens to coexist as tokenizer
-  // functions like ReadWord need to adapt the tokens to the context.
-  if (isProto) {
-    bool isLua = true;
-    QStringList splittedInfo = mInfo.split('\n');
-    for (int i = 0; i < splittedInfo.size(); ++i) {
-      if (splittedInfo[i].toLower().startsWith("template language") && splittedInfo[i].toLower().contains("javascript"))
-        isLua = false;
-    }
-
-    if (isLua) {
-      WbProtoTemplateEngine::setOpeningToken(QString("%{"));
-      WbProtoTemplateEngine::setClosingToken(QString("}%"));
-    } else {
-      WbProtoTemplateEngine::setOpeningToken(QString("%<"));
-      WbProtoTemplateEngine::setClosingToken(QString(">%"));
     }
   }
 
@@ -488,16 +469,6 @@ const QStringList WbTokenizer::tags() const {
   return QStringList();
 }
 
-const QString WbTokenizer::templateLanguage() const {
-  const QStringList lines = mInfo.split("\n");
-  foreach (const QString &line, lines) {
-    if (line.startsWith("template language:") && line.toLower().contains("javascript")) {
-      return QString("javascript");
-    }
-  }
-  return QString("lua");
-}
-
 const QString WbTokenizer::license() const {
   const QStringList lines = mInfo.split("\n");
   foreach (QString line, lines) {
@@ -525,6 +496,17 @@ const QString WbTokenizer::documentationUrl() const {
   foreach (QString line, lines) {
     if (line.startsWith("documentation url:")) {
       line.remove("documentation url:");
+      return line.trimmed();
+    }
+  }
+  return QString();
+}
+
+const QString WbTokenizer::parent() const {
+  const QStringList lines = mInfo.split("\n");
+  foreach (QString line, lines) {
+    if (line.startsWith("parent:")) {
+      line.remove("parent:");
       return line.trimmed();
     }
   }

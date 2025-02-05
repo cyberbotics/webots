@@ -307,16 +307,6 @@ period = wb_camera_get_sampling_period(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/image` | `topic` | [`sensor_msgs::Image`](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -415,16 +405,6 @@ wb_camera_set_fov(tag, fov)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::camera_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 nearRange` |
-| `/<device_name>/set_fov` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_zoom_info` | `service` | `webots_ros::camera_get_zoom_info` | `uint8 ask`<br/>`---`<br/>`float64 minFov`<br/>`float64 maxFov` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -503,15 +483,6 @@ public class Camera extends Device {
 exposure = wb_camera_get_exposure(tag)
 wb_camera_set_exposure(tag, exposure)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_exposure` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_exposure` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
 
 %tab-end
 
@@ -612,15 +583,6 @@ wb_camera_set_focal_distance(tag, focal_distance)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_focus_info` | `service` | `webots_ros::camera_get_focus_info` | `uint8 ask`<br/>---<br/>`float64 focalLength`<br/>`float64 focalDistance`<br/>`float64 maxFocalDistance`<br/>`float64 minFocalDistance` |
-| `/<device_name>/set_focal_distance` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -700,14 +662,6 @@ height = wb_camera_get_height(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::camera_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 nearRange` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -777,14 +731,6 @@ public class Camera extends Device {
 ```MATLAB
 near = wb_camera_get_near(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::camera_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height`<br/>`float64 Fov`<br/>`float64 nearRange` |
 
 %tab-end
 
@@ -886,14 +832,6 @@ public class Camera extends Device {
 ```MATLAB
 image = wb_camera_get_image(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
 
 %tab-end
 
@@ -1076,14 +1014,6 @@ success = wb_camera_save_image(tag, 'filename', quality)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/save_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1238,23 +1168,6 @@ success = wb_camera_recognition_save_segmentation_image(tag, 'filename', quality
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/has_recognition` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_enable` | `service`| `webots_ros::set_int` | |
-| `/<device_name>/recognition_get_sampling_period` | `service`| `webots_ros::get_int` | |
-| `/<device_name>/recognition_objects` | `topic`| `webots_ros::RecognitionObjects` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`RecognitionObject`](ros-api.md#webots-messages)`[]` `objects` |
-| `/<device_name>/recognition_has_segmentation` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_enable_segmentation` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_disable_segmentation` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_is_segmentation_enabled` | `service`| `webots_ros::get_bool` | |
-| `/<device_name>/recognition_segmentation_image` | `topic` | `sensor_msgs::Image` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint32 height`<br/>`uint32 width`<br/>`string encoding`<br/>`uint8 is_bigendian`<br/>`uint32 step`<br/>`uint8[] data` |
-| `/<device_name>/save_recognition_segmentation_image` | `service` | `webots_ros::save_image` | `string filename`<br/>`int32 quality`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1404,12 +1317,6 @@ structs.WbCameraRecognitionObject.members = struct(
   'model', 'cstring'
 );
 ```
-
-%tab-end
-
-%tab "ROS"
-
-> `CameraRecognitionObject` data is directly accessible from the related [`/<device_name>/recognition_objects`](#wb_camera_recognition_get_objects) topic.
 
 %tab-end
 

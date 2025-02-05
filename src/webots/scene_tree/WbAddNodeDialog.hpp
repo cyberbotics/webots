@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ private:
   int addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
                 const QRegularExpression &regexp, const QDir &rootDirectory);
   void showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant = -1, const QString &boundingObjectInfo = "");
-  bool doFieldRestrictionsAllowNode(const QString &nodeName) const;
+  bool doFieldRestrictionsAllowNode(const WbNode *node) const;
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
 

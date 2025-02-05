@@ -143,14 +143,6 @@ success = wb_emitter_send(tag, data)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/send` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -297,15 +289,6 @@ channel = wb_emitter_get_channel(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_channel` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) |
-| `/<device_name>/get_channel` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -392,15 +375,6 @@ range = wb_emitter_get_range(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_range` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) |
-| `/<device_name>/get_range` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -475,14 +449,6 @@ public class Emitter extends Device {
 ```MATLAB
 size = wb_emitter_get_buffer_size(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_buffer_size` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
 
 %tab-end
 

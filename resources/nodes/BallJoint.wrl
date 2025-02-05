@@ -1,4 +1,5 @@
 # A BallJoint node can be used to simulate a rotating motion with 3 DOF (ball and socket).
+# parent: Hinge2Joint
 
 BallJoint {
   field SFNode jointParameters  NULL  # BallJointParameters specifying the joint anchor and spring and damper constants, minStop, maxStop related to the first axis

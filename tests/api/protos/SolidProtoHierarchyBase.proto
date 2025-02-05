@@ -1,0 +1,17 @@
+#VRML_SIM R2025a utf8
+
+PROTO SolidProtoHierarchyBase [
+  field SFFloat translationStep  0.01
+  field SFFloat rotationStep     0.01
+  field MFNode  children         []
+  unconnectedField SFFloat ucField1 0.01
+  # Note: For the purposes of the test, radarCrossSection is explicitly not exposed
+]
+{
+  Solid {
+    translationStep IS translationStep
+    rotationStep IS rotationStep
+    children IS children
+    radarCrossSection 0.01
+  }
+}

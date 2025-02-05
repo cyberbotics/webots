@@ -7,12 +7,10 @@ DEPENDENCIES_URL = https://cyberbotics.com/files/repository/dependencies/windows
 
 ASSIMP_PACKAGE = assimp-5.2.3.zip
 OPEN_VR_PACKAGE = openvr-1.0.7.zip
-LUA_PACKAGE = lua-5.2.3.tar.gz
 OIS_PACKAGE = libOIS.zip
 PICO_PACKAGE = libpico-1.0.zip
-LUA_GD_PACKAGE = lua-gd-windows.zip
 
-PACKAGES = assimp open-vr lua ois pico lua-gd
+PACKAGES = assimp open-vr ois pico
 PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 null :=
 space := $(null) $(null)
@@ -99,30 +97,6 @@ $(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7:
 	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(OPEN_VR_PACKAGE)"
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/openvr-1.0.7"
 
-lua-clean:
-	@rm -rf $(TARGET_PATH)/lua52.dll "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3"
-
-lua: $(TARGET_PATH)/lua52.dll
-
-$(TARGET_PATH)/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll
-	@echo "# copying lua dll"
-	@mkdir -p $(TARGET_PATH)
-	@cp "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll" "$(TARGET_PATH)/"
-
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3:
-	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
-	@echo "# downloading $(LUA_PACKAGE)"
-	@wget -qq "https://www.lua.org/ftp/$(LUA_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@if [ "$$(md5sum $(LUA_PACKAGE) | awk '{print $$1;}')" != "dc7f94ec6ff15c985d2d6ad0f1b35654" ]; then echo "MD5 checksum failed for $(LUA_PACKAGE)"; exit 1; fi
-	@echo "# uncompressing $(LUA_PACKAGE)"
-	@cd "$(WEBOTS_DEPENDENCY_PATH)"; tar xfm $(LUA_PACKAGE) -C "$(WEBOTS_DEPENDENCY_PATH)"
-	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_PACKAGE)"
-
-$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/lua52.dll: $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3
-	@sed -i '/AR= ar rcu/c\AR= ar rc' lua-5.2.3/src/Makefile
-	@echo "# compiling lua"
-	+@make --silent -C "$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3" mingw
-
 ois-clean:
 	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(OIS_PACKAGE)" $(TARGET_PATH)/OIS.dll $(TARGET_PATH)/XInput9_1_0.dll "$(WEBOTS_HOME_PATH)/include/libOIS"
 
@@ -161,21 +135,3 @@ $(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE):
 	@wget -qq "$(DEPENDENCIES_URL)/$(PICO_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
 	@if [ "$$(md5sum $(PICO_PACKAGE) | awk '{print $$1;}')" != "78a74b1190eb3a75bc0ae5360c699517" ]; then echo "MD5 checksum failed for $(PICO_PACKAGE)"; exit 1; fi
 	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(PICO_PACKAGE)"
-
-lua-gd-clean:
-	@rm -rf "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" $(TARGET_PATH)/gd.dll
-
-lua-gd: $(TARGET_PATH)/gd.dll
-
-$(TARGET_PATH)/gd.dll: $(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)
-	@echo "# uncompressing $(LUA_GD_PACKAGE)"
-	@mkdir -p $(TARGET_PATH)
-	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)" -d "$(WEBOTS_HOME_PATH)/msys64/mingw64/bin"
-	@touch "$(TARGET_PATH)/gd.dll"
-
-$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE):
-	@echo "# downloading $(LUA_GD_PACKAGE)"
-	@rm -f "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"
-	@wget -qq "$(DEPENDENCIES_URL)/$(LUA_GD_PACKAGE)" -P "$(WEBOTS_DEPENDENCY_PATH)"
-	@if [ "$$(md5sum $(LUA_GD_PACKAGE) | awk '{print $$1;}')" != "0a54dcc518d331a853f77fb66ebf75e9" ]; then echo "MD5 checksum failed for $(LUA_GD_PACKAGE)"; exit 1; fi
-	@touch "$(WEBOTS_DEPENDENCY_PATH)/$(LUA_GD_PACKAGE)"

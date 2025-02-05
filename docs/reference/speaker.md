@@ -77,14 +77,6 @@ wb_speaker_play_sound(left, right, sound, volume, pitch, balance, loop)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/play_sound` | `service` | `webots_ros::speaker_play_sound` | `string sound`<br/>`float64 volume`<br/>`float64 pitch`<br/>`float64 balance`<br/>`int8 loop`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -181,14 +173,6 @@ wb_speaker_stop(tag, sound)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/stop` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -262,14 +246,6 @@ public class Speaker extends Device {
 ```MATLAB
 wb_speaker_is_sound_playing(tag, sound)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/is_sound_playing` | `service` | `webots_ros::speaker_is_sound_playing` | `string sound`<br/>`---`<br/>`bool value`<br/> |
 
 %tab-end
 
@@ -374,19 +350,6 @@ success = wb_speaker_set_language(tag, language)
 wb_speaker_is_speaking()
 wb_speaker_speak(tag, text, volume)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_engine` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_language` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/set_engine` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/<device_name>/set_language` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/<device_name>/is_speaking` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-| `/<device_name>/speak` | `service` | `webots_ros::speaker\speak` | `string text`<br/>`float64 volume`<br/>`---`<br/>`int8 success`<br/> |
 
 %tab-end
 

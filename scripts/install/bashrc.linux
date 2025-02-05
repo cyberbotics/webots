@@ -4,7 +4,6 @@
 #####################################################################################################
 
 # export JAVA_HOME=/usr/lib/jvm/java-16-openjdk-amd64  # Defines the path to Java home.
-# export ROS_DISTRO=noetic
 
 #######################################################
 # Edit these WEBOTS environment variables when needed #

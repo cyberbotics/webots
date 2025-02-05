@@ -1,4 +1,5 @@
 # A PositionSensor allows a robot controller to read the position of a joint with respect to its main axis.
+# parent: Solid
 
 PositionSensor {
   field SFString name       "position sensor"  # used by wb_robot_get_device()

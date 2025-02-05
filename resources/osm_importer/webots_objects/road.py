@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ import re
 # vertical offset lifting the Roads and Crossroads in order to not be coplanar with the floor.
 vOffset = 0.01
 
-ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
-ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
+ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
+ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
 
 
 class Road(WebotsObject):

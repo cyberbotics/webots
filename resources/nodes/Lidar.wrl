@@ -1,5 +1,6 @@
 # The Lidar node is used to model an on-board lidar.
 # A lidar is used to measure the distance to obstacles.
+# parent: Solid
 
 Lidar {
   #fields that inherit from the Solid node:
