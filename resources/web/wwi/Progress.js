@@ -48,7 +48,7 @@ export default class Progress {
 
     this.#progressPanelCopyright = document.createElement('div');
     this.#progressPanelCopyright.className = 'progress-panel-copyright';
-    this.#progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2023 Cyberbotcs Ltd.';
+    this.#progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2025 Cyberbotcs Ltd.';
     this.#progressPanel.appendChild(this.#progressPanelCopyright);
 
     // Progress Bar

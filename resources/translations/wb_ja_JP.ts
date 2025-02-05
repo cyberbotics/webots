@@ -812,6 +812,18 @@ To fix the problem, you should:
         <source>&apos;field&apos;, &apos;unconnectedField&apos;, &apos;w3dField&apos; or &apos;hiddenField&apos; keywords</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Corrupted WAVE file: RIFF chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Corrupted WAVE file: format chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Corrupted WAVE file: data chunk not found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -1990,6 +2002,10 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
     </message>
     <message>
         <source>Cannot read texture file: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to load HDR texture &apos;%1&apos;: %2.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6157,14 +6173,6 @@ export animation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>PNG (*.png)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>JPEG (*.jpg *.jpeg)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Hide the Scene Tree side bar.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6726,6 +6734,14 @@ Please save the current world to get rid of this message.</source>
         <source>No active field tracking could be found matching the field &apos;%1&apos; of node &apos;%2&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot get the PROTO instance for node &apos;%1&apos; (derived from &apos;%2&apos;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot get the PROTO instance for node &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbTcpServer</name>
@@ -6794,14 +6810,6 @@ Please save the current world to get rid of this message.</source>
     <name>WbTemplateEngine</name>
     <message>
         <source>Cannot change directory to: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Installation error: Lua resources are not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>luaL_dostring error : %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7335,6 +7343,10 @@ Do you want to play it back?
     </message>
     <message>
         <source>Cannot copy &apos;w3d_playback.html&apos; to &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot copy the &apos;w3d_playback.css&apos; file to &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
