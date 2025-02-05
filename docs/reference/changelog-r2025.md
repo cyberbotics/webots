@@ -1,5 +1,12 @@
 # Webots R2025 Change Log
 
+## Webots R2025b.
+  - Enhancements
+    - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+    - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+  - Cleanup
+    - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
+
 ## Webots R2025a
 Released on January 31st, 2025.
   - New Features
@@ -21,15 +28,12 @@ Released on January 31st, 2025.
     - Added a model of a silo and a field ditch ([#6289](https://github.com/cyberbotics/webots/pull/6289)).
     - Added a model of the Clearpath Heron USV robot ([#6548](https://github.com/cyberbotics/webots/pull/6548)).
   - Enhancements
-    - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
-    - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
     - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
-    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
+    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)).
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Cleanup
-    - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
     - Remove ROS (1) support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
   - Bug Fixes
