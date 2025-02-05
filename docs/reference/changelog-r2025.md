@@ -1,5 +1,9 @@
 # Webots R2025 Change Log
 
+## Webots R2025b
+  - Bug Fixes
+    - Fixed a bug causing supervisors to occasionally read stale field values after the simulation was reset ([#6758](https://github.com/cyberbotics/webots/pull/6758)).
+
 ## Webots R2025a
 Released on January 31st, 2025.
   - New Features
@@ -54,7 +58,6 @@ Released on January 31st, 2025.
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed a bug preventing nodes from being inserted into unconnected proto fields ([#6735](https://github.com/cyberbotics/webots/pull/6735)).
     - Fixed crash when an invalid HDR image was set as a world background ([#6744](https://github.com/cyberbotics/webots/pull/6744)).
-    - Fixed a bug causing supervisors to occasionally read stale field values after the simulation was reset ([#6758](https://github.com/cyberbotics/webots/pull/6758)).
     - Fixed handling of remote assets from unofficial sources ([#6585](https://github.com/cyberbotics/webots/pull/6585)).
     - Fixed the QtToolTip bug, where the text in the text box is not being displayed ([#6711](https://github.com/cyberbotics/webots/pull/6711)).
     - Fixed Python path for `libcar.dylib` and `libdriver.dylib` on macOS ([#6482](https://github.com/cyberbotics/webots/pull/6482)).
