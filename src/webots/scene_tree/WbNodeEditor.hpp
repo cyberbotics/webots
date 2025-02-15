@@ -19,7 +19,9 @@
 // Description: editor for editing a WbSFNode or a WbMFNode item
 //
 
+#include "WbSimulationState.hpp"
 #include "WbValueEditor.hpp"
+#include "WbWorld.hpp"
 
 class WbFieldLineEdit;
 class WbNode;
@@ -33,7 +35,7 @@ class WbNodeEditor : public WbValueEditor {
   Q_OBJECT
 
 public:
-  explicit WbNodeEditor(QWidget *parent = NULL);
+  static WbNodeEditor *instance(QWidget *parent = nullptr);
 
   void recursiveBlockSignals(bool block) override;
 
@@ -47,10 +49,15 @@ public:
 
 signals:
   void dictionaryUpdateRequested();
+  void defNameChanged(bool changed);
+  void resetModifiedFromSceneTree();
 
 public slots:
   void apply() override;
   void cleanValue() override;
+  void resetDefNamesToInitial();
+  void switchInitialCurrentDef();
+  void tryConnectToWorld();
 
 protected:
   enum PaneType { DEF_PANE, EMPTY_PANE };
@@ -63,14 +70,20 @@ private:
   QLabel *mNbTriangles;
   QStackedWidget *mStackedWidget;
   bool mMessageBox;
+  QMap<WbNode *, QPair<QString, QString>> mInitialCurrentDefMap;
+  const WbWorld *world = nullptr;
+  WbSimulationState *state = nullptr;
+  static WbNodeEditor *cInstance;
 
   // actions buttons
   QLabel *mShowResizeHandlesLabel;
   QCheckBox *mShowResizeHandlesCheckBox;
 
+  explicit WbNodeEditor(QWidget *parent = nullptr);
   void setTransformActionVisibile(bool visible);
   void takeKeyboardFocus() override {}
   void printUrl();
+  void compareInitialCurrentDef();
 };
 
 #endif
