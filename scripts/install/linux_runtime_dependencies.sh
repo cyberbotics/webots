@@ -1,25 +1,67 @@
 #!/bin/bash
 
-# exit when any command fails on CI
+# Exit when any command fails on CI
 if [[ ! -z "$CI" ]]; then
-       set -e
+    set -e
 fi
 
 if [[ $EUID -ne 0 ]]; then
-       echo "This script must be run as root"
-       exit 1
+    echo "This script must be run as root"
+    exit 1
 fi
 
-alias apt='apt --option="APT::Acquire::Retries=3"'
-apt update
-apt install --yes lsb-release g++ make libavcodec-extra libglu1-mesa libegl1 libxkbcommon-x11-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcomposite-dev libxtst6 libnss3 libxcb-cursor0
-if [[ -z "$DISPLAY" ]]; then
-       apt install --yes xvfb
-fi
-
-UBUNTU_VERSION=$(lsb_release -rs)
-if [[ $UBUNTU_VERSION == "22.04" || $UBUNTU_VERSION == "24.04" ]]; then
-       apt install --yes ffmpeg
+# Detect the operating system
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS=$ID
+    VERSION_ID=$VERSION_ID
 else
-       echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+    echo "Cannot determine the operating system."
+    exit 1
 fi
+
+# Function to install runtime dependencies on Ubuntu
+install_ubuntu_runtime_packages() {
+    alias apt='apt --option="APT::Acquire::Retries=3"'
+    apt update
+    apt install --yes lsb-release g++ make libavcodec-extra libglu1-mesa libegl1 \
+        libxkbcommon-x11-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 \
+        libxcb-render-util0 libxcb-xinerama0 libxcomposite-dev libxtst6 libnss3 libxcb-cursor0
+
+    if [[ -z "$DISPLAY" ]]; then
+        apt install --yes xvfb
+    fi
+
+    UBUNTU_VERSION=$(lsb_release -rs)
+    if [[ $UBUNTU_VERSION == "22.04" || $UBUNTU_VERSION == "24.04" ]]; then
+        apt install --yes ffmpeg
+    else
+        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+    fi
+}
+
+# Function to install runtime dependencies on Fedora
+install_fedora_runtime_packages() {
+    dnf install -y redhat-lsb-core gcc-c++ make mesa-libGLU libEGL \
+        xkeyboard-config libxcb libXcomposite libXtst nss xcb-util xcb-util-image \
+        xcb-util-keysyms xcb-util-renderutil xcb-util-wm xcb-util-cursor \
+        ffmpeg
+
+    if [[ -z "$DISPLAY" ]]; then
+        dnf install -y xorg-x11-server-Xvfb
+    fi
+}
+
+# Determine the operating system and call the appropriate function
+case "$OS" in
+    ubuntu)
+        install_ubuntu_runtime_packages
+        ;;
+    fedora)
+        install_fedora_runtime_packages
+        ;;
+    *)
+        echo "Unsupported operating system: $OS"
+        exit 1
+        ;;
+esac
