@@ -33,7 +33,7 @@ static const QStringList cTabNames = QStringList() << "Node"
 WbNodePane::WbNodePane(QWidget *parent) :
   WbValueEditor(parent),
   mTabs(new QTabWidget(this)),
-  mNodeEditor(new WbNodeEditor()),
+  mNodeEditor(WbNodeEditor::instance()),
   mPhysicsViewer(new WbPhysicsViewer()),
   mPositionViewer(new WbPositionViewer()),
   mVelocityViewer(new WbVelocityViewer()),
