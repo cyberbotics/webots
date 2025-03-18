@@ -14,9 +14,8 @@
 
 #include "WbQjsEnv.hpp"
 
-#include <cstdlib> // For std::getenv.
+#include <cstdlib>  // For std::getenv.
 
-QString WbQjsEnv::getFromEnv(const QString &name) const
-{
+QString WbQjsEnv::getFromEnv(const QString &name) const {
   return std::getenv(name.toStdString().c_str());
 }
