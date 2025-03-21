@@ -618,6 +618,8 @@ def main(args=None):
     # utils/system.h
     generator.gen(FUNC, "wbu_system_getenv(variable)")
     generator.gen(FUNC, "wbu_system_short_path(path)")
+    generator.gen(FUNC, "wbu_system_tmpdir()")
+    generator.gen(FUNC, "wbu_system_webots_instance_path(refresh)")
 
     # constants
     generator.gen_const("WB_STDOUT", "1")
