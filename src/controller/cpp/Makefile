@@ -86,7 +86,7 @@ ifneq (,$(filter $(MAKECMDGOALS),debug release profile)) # if $(MAKECMDGOALS) is
 endif
 
 ifeq ($(OSTYPE),windows)
-LDFLAGS       = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a
+LDFLAGS       = -frandom-seed=0 -shared -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib
 LIBCONTROLLER = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 SHAREDLIBS    = $(LIBCONTROLLER)
 CPPFLAGS      = -c -Wall -mwindows
@@ -168,7 +168,7 @@ $(OBJDIR)/%.d:%.cpp
 	@$(CXX) $(CPPINCLUDES) -MM $< >> $@
 
 ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.a *.def *.exp
+FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.lib *.exp
 else
 FILES_TO_REMOVE = $(WEBOTS_CONTROLLER_LIB_PATH)/*Cpp*
 endif
