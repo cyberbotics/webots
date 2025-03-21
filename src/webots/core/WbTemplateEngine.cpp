@@ -16,6 +16,7 @@
 
 #include "WbLog.hpp"
 #include "WbProject.hpp"
+#include "WbQjsEnv.hpp"
 #include "WbQjsFile.hpp"
 #include "WbStandardPaths.hpp"
 
@@ -209,6 +210,10 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   WbQjsFile *jsFileObject = new WbQjsFile();
   QJSValue jsFile = engine.newQObject(jsFileObject);
   engine.globalObject().setProperty("wbfile", jsFile);
+  // create and add environment module
+  WbQjsEnv *jsEnvObject = new WbQjsEnv();
+  QJSValue jsEnv = engine.newQObject(jsEnvObject);
+  engine.globalObject().setProperty("wbenv", jsEnv);
   // add stream holders
   QJSValue jsStdOut = engine.newArray();
   engine.globalObject().setProperty("stdout", jsStdOut);
