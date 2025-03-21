@@ -72,7 +72,7 @@ Sphere {
 
 - Although not mandatory, the usage of semicolons for JavaScript statements is highly encouraged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
-- The modules `wbfile` for file manipulation and `wbenv` for environment variables do not need to, and should not, be imported as it is added automatically to each instance of the engine.
+- The modules `wbfile` for file manipulation and `wbenv` for environment variables do not need to, and should not, be imported as they are added automatically to each instance of the engine.
 - Performance degradation has been observed when the number of evaluations requested (i.e. expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.
 This is typically the case when expressions of this form are used to define the coordinates or indexes of, for instance, a [IndexedFaceSet](indexedfaceset.md).
 To greatly speed up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
