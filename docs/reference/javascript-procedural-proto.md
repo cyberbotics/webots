@@ -835,6 +835,8 @@ wbenv.getFromEnv(variableName);
 
 Returns the value of the environment variable `variableName` or an empty string if it does not exist.
 
+%tab-end
+
 %end
 
 ### PROTO Regeneration
