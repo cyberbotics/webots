@@ -1,5 +1,10 @@
 # Webots R2025 Change Log
 
+## Webots R2025b
+Released on ??.
+  - New Features
+    - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
+
 ## Webots R2025a
 Released on January 31st, 2025.
   - New Features
