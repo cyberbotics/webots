@@ -50,11 +50,11 @@ $(CONTROLLER_LAUNCHER): $(OBJDIR)/x86_64/webots-controller $(OBJDIR)/arm64/webot
 
 $(OBJDIR)/x86_64/webots-controller: webots_controller.c
 	@echo "# compiling " $@ "(x64_64)"
-	@$(CXX) $(CFLAGS) -target x86_64-apple-macos12 webots_controller.c -o $@
+	@gcc $(CFLAGS) -target x86_64-apple-macos12 webots_controller.c -o $@
 
 $(OBJDIR)/arm64/webots-controller: webots_controller.c
 	@echo "# compiling " $@ "(arm64)"
-	@$(CXX) $(CFLAGS) -target arm64-apple-macos12 webots_controller.c -o $@
+	@gcc $(CFLAGS) -target arm64-apple-macos12 webots_controller.c -o $@
 
 else
 
