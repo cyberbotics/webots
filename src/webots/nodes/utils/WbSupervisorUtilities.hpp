@@ -73,6 +73,7 @@ private slots:
   void removeTrackedContactPoints(QObject *obj);
   void removeTrackedPoseNode(QObject *obj);
   void removeTrackedField(QObject *obj);
+  void simulationReset(bool restartControllers);
 
 private:
   WbRobot *mRobot;
@@ -111,6 +112,7 @@ private:
   bool mNodeExportStringRequest;
   bool mIsProtoRegenerated;
   bool mShouldRemoveNode;
+  bool mSimulationReset;
 
   // pointer to a single integer: if not NULL, the new status has to be sent to the libController
   int *mAnimationStartStatus;
