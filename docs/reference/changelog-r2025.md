@@ -1,6 +1,6 @@
 # Webots R2025 Change Log
 
-## Webots R2025b.
+## Webots R2025b
   - Enhancements
     - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
