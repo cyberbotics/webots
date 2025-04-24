@@ -1,5 +1,12 @@
 # Webots R2025 Change Log
 
+## Webots R2025b
+Released on ??.
+  - New Features
+    - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
+  - Bug Fixes
+    - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+
 ## Webots R2025a
 Released on January 31st, 2025.
   - New Features
@@ -24,7 +31,7 @@ Released on January 31st, 2025.
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
     - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
-    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
+    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)).
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).

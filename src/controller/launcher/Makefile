@@ -1,4 +1,4 @@
-# Copyright 1996-2024 Cyberbotics Ltd.
+# Copyright 1996-2025 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,8 +41,30 @@ endif
 
 release debug profile: $(CONTROLLER_LAUNCHER)
 
+ifeq ($(OSTYPE),darwin)
+
+OBJDIR = build/$(MAKECMDGOALS)
+BUILD_PATH_SETUP := $(shell mkdir -p $(OBJDIR)/x86_64 $(OBJDIR)/arm64)
+
+$(CONTROLLER_LAUNCHER): $(OBJDIR)/x86_64/webots-controller $(OBJDIR)/arm64/webots-controller
+	@echo "# creating fat " $(notdir $@)
+	@lipo -create -output $@ $(OBJDIR)/x86_64/webots-controller $(OBJDIR)/arm64/webots-controller
+	@codesign -s - $@
+
+$(OBJDIR)/x86_64/webots-controller: webots_controller.c
+	@echo "# compiling " $@ "(x64_64)"
+	@gcc $(CFLAGS) -target x86_64-apple-macos12 webots_controller.c -o $@
+
+$(OBJDIR)/arm64/webots-controller: webots_controller.c
+	@echo "# compiling " $@ "(arm64)"
+	@gcc $(CFLAGS) -target arm64-apple-macos12 webots_controller.c -o $@
+
+else
+
 $(CONTROLLER_LAUNCHER): webots_controller.c
 	@echo "# compiling" $<
 	@gcc $(CFLAGS) webots_controller.c -o $@
+
+endif
 
 FILES_TO_REMOVE += $(CONTROLLER_LAUNCHER)

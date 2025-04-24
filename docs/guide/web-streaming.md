@@ -72,7 +72,7 @@ The firewall of the local computer may complain about this operation, in this ca
 
 ### How to Embed a Web Scene in your Website
 
-Similarly to [this section](web-streaming.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
+Similarly to [this section](web-scene.md#how-to-embed-a-web-scene-in-your-website), to embed the simulation it is enough to instantiate a `webots-view` web component from the [WebotsView.js] package.
 
 ### Programming Interface
 

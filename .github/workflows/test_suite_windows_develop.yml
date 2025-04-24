@@ -98,6 +98,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
-      uses: geekyeggo/delete-artifact@v1
+      uses: geekyeggo/delete-artifact@v5
       with:
         name: build-${{ matrix.os }}

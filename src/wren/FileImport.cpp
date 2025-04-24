@@ -1,4 +1,4 @@
-// Copyright 1996-2024 Cyberbotics Ltd.
+// Copyright 1996-2025 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -271,7 +271,7 @@ namespace wren {
           aiMaterial *material = scene->mMaterials[materialIndex];
           aiString name;
           material->Get(AI_MATKEY_NAME, name);
-          char *matName = new char[strlen(name.C_Str())];
+          char *matName = new char[strlen(name.C_Str()) + 1];
           strcpy(matName, name.C_Str());
           materials.push_back(matName);
         }
