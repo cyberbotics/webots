@@ -1,6 +1,10 @@
 name: Test Sources with Latest Cppcheck
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    branches-ignore:
+      - 'released'
   schedule:
     - cron:  '0 22 * * *'
 
