@@ -791,16 +791,16 @@ namespace webots {
 from controller import Camera
 
 class Camera (Device):
-    def getImage(self):
-    def getImageArray(self):
+    def getImage(self) -> bytes:
+    def getImageArray(self) -> list[list[list[int]]]:
     @staticmethod
-    def imageGetRed(image, width, x, y):
+    def imageGetRed(image: bytes, width: int, x: int, y: int) -> int:
     @staticmethod
-    def imageGetGreen(image, width, x, y):
+    def imageGetGreen(image: bytes, width: int, x: int, y: int) -> int:
     @staticmethod
-    def imageGetBlue(image, width, x, y):
+    def imageGetBlue(image: bytes, width: int, x: int, y: int) -> int:
     @staticmethod
-    def imageGetGray(image, width, x, y):
+    def imageGetGray(image: bytes, width: int, x: int, y: int) -> int:
     # ...
 ```
 
@@ -895,8 +895,8 @@ Here is an example:
 
 <!-- -->
 
-> **Note** [Python]: The `getImage` function returns a `string`.
-This `string` is closely related to the `const char *` of the C API.
+> **Note** [Python]: The `getImage` function returns a byte array (`bytes`).
+This `bytes` is closely related to the `const char *` of the C API.
 `imageGet*`-like functions can be used to get the channels of the camera Here is an example:
 
 > ```python
