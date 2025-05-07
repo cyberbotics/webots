@@ -3,6 +3,7 @@
 ## Webots R2025b
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+    - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method.
 
 ## Webots R2025a
 Released on January 31st, 2025.
