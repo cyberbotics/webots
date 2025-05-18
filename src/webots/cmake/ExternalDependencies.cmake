@@ -66,3 +66,9 @@ endif()
 # Create a custom target that depends on the external project
 add_custom_target(picotts ALL DEPENDS picotts_external)
 add_dependencies(pico::pico picotts)
+
+# Install the pico library
+install(FILES ${PICOTTS_LIBRARY}
+  DESTINATION bin
+  COMPONENT runtime
+)

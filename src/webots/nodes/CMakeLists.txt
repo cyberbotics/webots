@@ -9,6 +9,27 @@ target_compile_options(nodes_lib
     -fno-gnu-unique
 )
 
+# Find STB headers
+find_path(STB_INCLUDE_DIR
+    NAMES stb_image.h
+    PATHS
+        ${STB_ROOT}/include
+        ${STB_ROOT}
+        $ENV{MSYSTEM_PREFIX}/include/stb
+        $ENV{MSYSTEM_PREFIX}/local/include/stb
+        /usr/include/stb
+        /usr/local/include/stb
+        ${CMAKE_SOURCE_DIR}/external/stb
+        ${CMAKE_SOURCE_DIR}/src/webots/external/stb
+        ${CMAKE_SOURCE_DIR}/include/stb
+)
+
+if(NOT STB_INCLUDE_DIR)
+    message(FATAL_ERROR "STB headers not found - please install stb package or set STB_ROOT")
+else()
+    message(STATUS "Found STB headers at: ${STB_INCLUDE_DIR}")
+endif()
+
 # Set position independent code
 set_property(TARGET nodes_lib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -20,7 +41,12 @@ set_target_properties(nodes_lib PROPERTIES
     VISIBILITY_INLINES_HIDDEN OFF
 )
 
-target_link_libraries(nodes_lib 
+target_include_directories(nodes_lib
+    PUBLIC
+    ${STB_INCLUDE_DIR}
+)
+
+target_link_libraries(nodes_lib
     PUBLIC 
     core_lib
     vrml_lib

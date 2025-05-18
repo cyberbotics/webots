@@ -48,7 +48,11 @@ add_subdirectory(wren)
 
 # Main executable
 add_executable(webots gui/main.cpp)
-
+if(MINGW) # Or if you want it for other compilers, adjust the condition
+    target_link_options(webots PRIVATE "-Wl,-Map,${CMAKE_CURRENT_BINARY_DIR}/webots.map")
+    # For MSVC, the flag would be /MAP:"${CMAKE_CURRENT_BINARY_DIR}/webots.map"
+    # For Clang/LLD, it might be -Wl,--cref or -Wl,-Map=webots.map depending on the linker
+endif()
 # Link main executable with all components
 target_link_libraries(webots
     PRIVATE
