@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbApplication.hpp"
+#include "WbStandardPaths.hpp"
 #include "WbGuiApplication.hpp"
 
 #include <QtCore/QDir>
@@ -148,9 +149,9 @@ int main(int argc, char *argv[]) {
     );
 
 #ifdef __APPLE__
-  QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/Contents/Resources/qt_warning_filters.conf");
+  QString qtFiltersFilePath = QDir::fromNativeSeparators(WbStandardPaths::resourcesPath() + "qt_warning_filters.conf");
 #else
-  QString qtFiltersFilePath = QDir::fromNativeSeparators(webotsDirPath + "/resources/qt_warning_filters.conf");
+  QString qtFiltersFilePath = QDir::fromNativeSeparators(WbStandardPaths::resourcesPath() + "qt_warning_filters.conf");
 #endif
   // load qt warning filters from file
   QFile qtFiltersFile(qtFiltersFilePath);
