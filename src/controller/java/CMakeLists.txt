@@ -1,8 +1,10 @@
-# Find SWIG
+# Find SWIG and setup Java option
+option(WEBOTS_BUILD_JAVA "Build Java controller support" OFF)
+
 find_package(SWIG)
 
-# Check if SWIG was found
-if(SWIG_FOUND)
+# Check if SWIG was found and Java is enabled
+if(SWIG_FOUND AND WEBOTS_BUILD_JAVA)
     include(UseSWIG)
     message(STATUS "SWIG found: ${SWIG_EXECUTABLE}")
 
@@ -273,7 +275,8 @@ if(SWIG_FOUND)
 
     # Check if Java include directories were found
     if(NOT JAVA_INCLUDE_PATH OR NOT JAVA_MD_INCLUDE_PATH)
-        message(FATAL_ERROR "Java include directories not found. Please ensure Java is properly installed.")
+        message(WARNING "Java include directories not found. Java controller support will be disabled.")
+        set(WEBOTS_BUILD_JAVA OFF CACHE BOOL "Build Java controller support" FORCE)
     else()
         message(STATUS "JAVA_INCLUDE_PATH: ${JAVA_INCLUDE_PATH}")
         message(STATUS "JAVA_MD_INCLUDE_PATH: ${JAVA_MD_INCLUDE_PATH}")
@@ -317,6 +320,8 @@ if(SWIG_FOUND)
             COMMENT "Creating symbolic link for ${JNI_LIBRARY_NAME}"
     )
 
+elseif(SWIG_FOUND AND NOT WEBOTS_BUILD_JAVA)
+    message(STATUS "Java controller support explicitly disabled")
 else()
     message(WARNING "SWIG not found. Skipping Java API generation.")
 endif()

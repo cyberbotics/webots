@@ -17,6 +17,7 @@ target_compile_options(wren PUBLIC -fPIC)
 # Find required packages
 find_package(Freetype REQUIRED)
 find_package(assimp REQUIRED)
+find_package(glm REQUIRED)
 
 # Include directories
 target_include_directories(wren PUBLIC 
@@ -31,6 +32,7 @@ target_include_directories(wren PUBLIC
     ${Qt6OpenGL_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
     ${ASSIMP_INCLUDE_DIRS}
+    ${GLM_INCLUDE_DIRS}
 )
 
 # Define GLM experimental features
