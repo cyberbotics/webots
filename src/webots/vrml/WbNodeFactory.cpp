@@ -29,10 +29,6 @@ WbNodeFactory::WbNodeFactory() {
 }
 
 WbNodeFactory::~WbNodeFactory() {
-  // qDebug() << "WbNodeFactory DESTRUCTOR (this:" << this << "). Setting gInstance to 0.";
   if (gInstance == this) // Only nullify if it's us
     gInstance = 0;
-  else
-    // qDebug() << "WbNodeFactory DESTRUCTOR (this:" << this << "): gInstance was already" << gInstance << ", not this instance.";
-  // qDebug() << "WbNodeFactory DESTRUCTOR: gInstance is now:" << gInstance;
 }
