@@ -15,7 +15,10 @@ if(WIN32)
     add_definitions(-DUNICODE -D_UNICODE)
 endif()
 # Set visibility settings globally
-add_compile_options(-fvisibility=default -fno-gnu-unique)
+add_compile_options(-fvisibility=default)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-fno-gnu-unique)
+endif()
 
 # Add cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")

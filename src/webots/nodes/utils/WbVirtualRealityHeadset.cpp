@@ -41,7 +41,7 @@
 #include <wren/viewport.h>
 
 #include <openvr.h>
-#include <openvr_capi.h>
+//#include <openvr_capi.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QStandardPaths>

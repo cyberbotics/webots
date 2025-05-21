@@ -109,7 +109,8 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
     tokenizer->reportError(QObject::tr("Skipped unknown '%1' node or PROTO").arg(modelName));
   else
    // qDebug() << "WbNodeReader::createNode: Cannot report error, tokenizer is NULL for unknown model:" << modelName;
-  return NULL;
+   return NULL;
+ return NULL;
 }
 
 WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath) {
