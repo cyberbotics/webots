@@ -19,6 +19,7 @@
 #include "WbBoundingSphere.hpp"
 #include "WbControlledWorld.hpp"
 #include "WbDownloadManager.hpp"
+#include "WbConcreteNodeFactory.hpp" 
 #include "WbLog.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbParser.hpp"
@@ -199,7 +200,10 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
   return true;
 }
 
+#include <QDebug> // Added for debugging
+
 void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+  qDebug() << "WbApplication::loadWorld called with worldName:" << worldName << "reloading:" << reloading << "isLoadingAfterDownload:" << isLoadingAfterDownload;
   disconnect(WbProtoManager::instance(), &WbProtoManager::worldLoadCompleted, this, &WbApplication::loadWorld);
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
