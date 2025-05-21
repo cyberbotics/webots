@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbTokenizer.hpp"
+#include <QDebug> // Added for debugging
 
 #include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
@@ -373,6 +374,7 @@ QString WbTokenizer::readWord() {
 }
 
 int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
+  qDebug() << "WbTokenizer::tokenize called with fileName:" << fileName << "prefix:" << prefix;
   mFileName = fileName;
   mFileType = fileTypeFromFileName(fileName);
   mIndex = 0;

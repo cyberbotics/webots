@@ -15,6 +15,8 @@
 #include "WbApplication.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbGuiApplication.hpp"
+#include "WbNodeFactory.hpp"
+#include "../../nodes/utils/WbConcreteNodeFactory.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -94,6 +96,9 @@ static void quitApplication(int sig) {
 }
 
 int main(int argc, char *argv[]) {
+  // Initialize both factory singletons early
+  WbNodeFactory::instance();
+  WbConcreteNodeFactory::getInstance();
 #ifdef _WIN32
   // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path

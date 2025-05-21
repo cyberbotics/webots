@@ -119,18 +119,20 @@
 // class WbNodeFactory;
 
 
-// this creates and destructs the global instance
-WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
+WbConcreteNodeFactory *WbConcreteNodeFactory::getInstance() {
+  static WbConcreteNodeFactory instance;
+  return &instance;
+}
 
 WbConcreteNodeFactory::WbConcreteNodeFactory() {
-  qDebug() << "WbConcreteNodeFactory CONSTRUCTOR (this:" << this << ", &gFactory:" << &gFactory << "). Base WbNodeFactory constructor should have run.";
+  qDebug() << "WbConcreteNodeFactory CONSTRUCTOR (this:" << this << "). Base WbNodeFactory constructor should have run.";
   // At this point, WbNodeFactory::gInstance should be 'this' (as a WbNodeFactory*)
   // We can't directly call WbNodeFactory::instance() here to check gInstance without risking recursion
   // if instance() itself had complex logic, but we know WbNodeFactory's constructor sets it.
 }
 
 WbConcreteNodeFactory::~WbConcreteNodeFactory() {
-  qDebug() << "WbConcreteNodeFactory DESTRUCTOR (this:" << this << ", &gFactory:" << &gFactory << "). Base WbNodeFactory destructor will run.";
+  qDebug() << "WbConcreteNodeFactory DESTRUCTOR (this:" << this << "). Base WbNodeFactory destructor will run.";
 }
 
 
