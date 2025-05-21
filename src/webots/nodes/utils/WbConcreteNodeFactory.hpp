@@ -37,8 +37,8 @@ public:
                                  QString &errorMessage) const override;
 
 private:
-  WbConcreteNodeFactory() {}
-  virtual ~WbConcreteNodeFactory() override {}
+  WbConcreteNodeFactory();             // Declaration only
+  virtual ~WbConcreteNodeFactory() override; // Declaration only
   static WbConcreteNodeFactory gFactory;
 };
 
