@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbParser.hpp"
+#include <QDebug> // Added for debugging
 
 #include "WbApplicationInfo.hpp"
 #include "WbFieldModel.hpp"
@@ -198,6 +199,7 @@ void WbParser::reportUnexpected(const QString &expected) const {
 }
 
 bool WbParser::parseWorld(const QString &worldPath, bool (*updateProgress)(int)) {
+  qDebug() << "WbParser::parseWorld called with worldPath:" << worldPath;
   mTokenizer->rewind();
   try {
     while (!peekToken()->isEof()) {

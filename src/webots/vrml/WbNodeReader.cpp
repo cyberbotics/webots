@@ -65,6 +65,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
     qDebug() << "WbNodeReader::createNode: NORMAL mode, modelName:" << modelName;
     qDebug() << "WbNodeReader::createNode: NORMAL mode: Getting WbNodeFactory instance...";
     WbNodeFactory *factory = WbNodeFactory::instance();
+    qDebug() << "WbNodeReader::createNode: Value of 'factory' variable after call to WbNodeFactory::instance():" << factory;
     if (!factory) {
       qDebug() << "WbNodeReader::createNode: NORMAL mode: WbNodeFactory::instance() returned NULL!";
       // Potentially handle error or return NULL, though a segfault elsewhere suggests it's not just returning null
