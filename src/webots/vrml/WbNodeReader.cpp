@@ -48,67 +48,67 @@ WbNodeReader::~WbNodeReader() {
 
 WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath,
                                  const QString &fileName) {
-  qDebug() << "WbNodeReader::createNode called with modelName:" << modelName
-           << "worldPath:" << worldPath << "fileName:" << fileName;
+ // qDebug() << "WbNodeReader::createNode called with modelName:" << modelName
+  //         << "worldPath:" << worldPath << "fileName:" << fileName;
   if (tokenizer) {
-    WbToken *currentToken = tokenizer->peekToken();
+    const WbToken *currentToken = tokenizer->peekToken();
     if (currentToken) {
-      qDebug() << "Tokenizer current token:" << currentToken->word() << "at line:" << currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
+//      qDebug() << "Tokenizer current token:" << currentToken->word() << "at line:" << currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
     } else {
-      qDebug() << "Tokenizer: No current token available (peekToken() is NULL). Pos:" << tokenizer->pos();
+ //     qDebug() << "Tokenizer: No current token available (peekToken() is NULL). Pos:" << tokenizer->pos();
     }
   } else {
-    qDebug() << "WbNodeReader::createNode: tokenizer is NULL!";
+ //   qDebug() << "WbNodeReader::createNode: tokenizer is NULL!";
   }
 
   if (mMode == NORMAL) {
-    qDebug() << "WbNodeReader::createNode: NORMAL mode, modelName:" << modelName;
-    qDebug() << "WbNodeReader::createNode: NORMAL mode: Getting WbNodeFactory instance...";
+///    qDebug() << "WbNodeReader::createNode: NORMAL mode, modelName:" << modelName;
+  //  qDebug() << "WbNodeReader::createNode: NORMAL mode: Getting WbNodeFactory instance...";
     WbNodeFactory *factory = WbNodeFactory::instance();
-    qDebug() << "WbNodeReader::createNode: Value of 'factory' variable after call to WbNodeFactory::instance():" << factory;
+ //   qDebug() << "WbNodeReader::createNode: Value of 'factory' variable after call to WbNodeFactory::instance():" << factory;
     if (!factory) {
-      qDebug() << "WbNodeReader::createNode: NORMAL mode: WbNodeFactory::instance() returned NULL!";
+   //   qDebug() << "WbNodeReader::createNode: NORMAL mode: WbNodeFactory::instance() returned NULL!";
       // Potentially handle error or return NULL, though a segfault elsewhere suggests it's not just returning null
       return NULL;
     }
-    qDebug() << "WbNodeReader::createNode: NORMAL mode: WbNodeFactory instance obtained:" << factory;
-    qDebug() << "WbNodeReader::createNode: NORMAL mode: Calling WbNodeModel::compatibleNodeName for" << modelName;
+   // qDebug() << "WbNodeReader::createNode: NORMAL mode: WbNodeFactory instance obtained:" << factory;
+   // qDebug() << "WbNodeReader::createNode: NORMAL mode: Calling WbNodeModel::compatibleNodeName for" << modelName;
     QString compatibleName = WbNodeModel::compatibleNodeName(modelName);
-    qDebug() << "WbNodeReader::createNode: NORMAL mode: Compatible name:" << compatibleName;
-    qDebug() << "WbNodeReader::createNode: NORMAL mode: Calling factory->createNode for" << compatibleName;
+   // qDebug() << "WbNodeReader::createNode: NORMAL mode: Compatible name:" << compatibleName;
+   /// qDebug() << "WbNodeReader::createNode: NORMAL mode: Calling factory->createNode for" << compatibleName;
     WbNode *node = factory->createNode(compatibleName, tokenizer);
-    qDebug() << "WbNodeReader::createNode: NORMAL mode, created node:" << (node ? node->nodeModelName() : "NULL");
+  //  qDebug() << "WbNodeReader::createNode: NORMAL mode, created node:" << (node ? node->nodeModelName() : "NULL");
     return node;
   }
 
   if (modelName == "Transform") {
-    qDebug() << "WbNodeReader::createNode: Handling Transform backward compatibility";
+  //  qDebug() << "WbNodeReader::createNode: Handling Transform backward compatibility";
     bool isPose = WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer);
-    qDebug() << "WbNodeReader::createNode: isPose:" << isPose;
+   // qDebug() << "WbNodeReader::createNode: isPose:" << isPose;
     return isPose ? new WbNode("Pose", worldPath, tokenizer) :
                     new WbNode("Transform", worldPath, tokenizer);
   } else {
     if (WbNodeModel::findModel(modelName)) {
-      qDebug() << "WbNodeReader::createNode: Found model in WbNodeModel:" << modelName;
+     // qDebug() << "WbNodeReader::createNode: Found model in WbNodeModel:" << modelName;
       WbNode* node = new WbNode(modelName, worldPath, tokenizer);
-      qDebug() << "WbNodeReader::createNode: Created WbNode for model:" << modelName << "node:" << (node ? node->nodeModelName() : "NULL");
+     // qDebug() << "WbNodeReader::createNode: Created WbNode for model:" << modelName << "node:" << (node ? node->nodeModelName() : "NULL");
       return node;
     }
   }
-  qDebug() << "WbNodeReader::createNode: Attempting to find PROTO model:" << modelName << "in worldPath:" << worldPath << "fileName:" << fileName;
+ // qDebug() << "WbNodeReader::createNode: Attempting to find PROTO model:" << modelName << "in worldPath:" << worldPath << "fileName:" << fileName;
   WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
   if (proto) {
-    qDebug() << "WbNodeReader::createNode: Found PROTO model:" << modelName << "proto name:" << proto->name();
+   // qDebug() << "WbNodeReader::createNode: Found PROTO model:" << modelName << "proto name:" << proto->name();
     WbNode *node = WbNode::createProtoInstance(proto, tokenizer, worldPath);
-    qDebug() << "WbNodeReader::createNode: Created PROTO instance:" << (node ? node->nodeModelName() : "NULL");
+   // qDebug() << "WbNodeReader::createNode: Created PROTO instance:" << (node ? node->nodeModelName() : "NULL");
     return node;
   }
 
-  qDebug() << "WbNodeReader::createNode: Skipped unknown node or PROTO:" << modelName;
+  //qDebug() << "WbNodeReader::createNode: Skipped unknown node or PROTO:" << modelName;
   if (tokenizer)
     tokenizer->reportError(QObject::tr("Skipped unknown '%1' node or PROTO").arg(modelName));
   else
-    qDebug() << "WbNodeReader::createNode: Cannot report error, tokenizer is NULL for unknown model:" << modelName;
+   // qDebug() << "WbNodeReader::createNode: Cannot report error, tokenizer is NULL for unknown model:" << modelName;
   return NULL;
 }
 

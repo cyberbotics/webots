@@ -142,7 +142,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   //          << "parentNode:" << (parentNode ? parentNode->nodeModelName() : "NULL")
   //          << "protoUrl:" << (protoUrl ? *protoUrl : "NULL");
   if (tokenizer) {
-    WbToken *currentToken = tokenizer->peekToken();
+    const WbToken *currentToken = tokenizer->peekToken();
     if (currentToken) {
       // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer current token:" << currentToken->word() << "at line:" << currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
     } else {
