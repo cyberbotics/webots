@@ -65,7 +65,7 @@ namespace wren {
     bool on() const { return mOn; }
     bool castShadows() const { return mCastShadows; }
 
-    virtual LightNode::Type type() = 0;
+    virtual LightNode::Type type() const = 0;
 
   protected:
     LightNode();
