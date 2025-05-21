@@ -13,8 +13,10 @@ target_compile_options(nodes_utils_lib
     PUBLIC
     -frtti
     -fvisibility=default
-    -fno-gnu-unique
 )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-fno-gnu-unique)
+endif()
 
 # Set position independent code
 set_property(TARGET nodes_utils_lib PROPERTY POSITION_INDEPENDENT_CODE ON)

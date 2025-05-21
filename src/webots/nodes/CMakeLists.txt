@@ -6,8 +6,10 @@ target_compile_options(nodes_lib
     PUBLIC
     -frtti
     -fvisibility=default
-    -fno-gnu-unique
 )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-fno-gnu-unique)
+endif()
 
 # Find STB headers
 find_path(STB_INCLUDE_DIR
