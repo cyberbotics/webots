@@ -62,6 +62,15 @@ include(src/webots/cmake/ExternalDependencies.cmake)
 install(DIRECTORY resources/
   DESTINATION ${CMAKE_INSTALL_PREFIX}/share/webots/resources
   PATTERN ".gitkeep" EXCLUDE
+  PATTERN "*.user" EXCLUDE
+  PATTERN "*.lock" EXCLUDE
+)
+
+install(DIRECTORY projects/
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/webots/projects
+  PATTERN ".gitkeep" EXCLUDE
+  PATTERN "*.user" EXCLUDE
+  PATTERN "*.lock" EXCLUDE
 )
 
 # Add subdirectories
