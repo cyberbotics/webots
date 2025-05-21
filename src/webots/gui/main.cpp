@@ -76,9 +76,9 @@ static void catchMessageOutput(QtMsgType type, const QMessageLogContext &context
     case QtInfoMsg:
       fprintf(stderr, "Info: %s\n", message.toUtf8().constData());
       break;
-    case QtDebugMsg:
-      fprintf(stderr, "Debug: %s\n", message.toUtf8().constData());
-      break;
+    // case QtDebugMsg:
+    //   fprintf(stderr, "Debug: %s\n", message.toUtf8().constData());
+    //   break;
     case QtWarningMsg:
       fprintf(stderr, "Warning: %s\n", message.toUtf8().constData());
       break;

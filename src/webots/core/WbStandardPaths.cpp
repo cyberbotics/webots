@@ -61,7 +61,7 @@ const QString &WbStandardPaths::webotsHomePath() {
     wchar_t winPath[MAX_PATH];
     if (GetModuleFileNameW(NULL, winPath, MAX_PATH)) {
         exePath = QDir::cleanPath(QString::fromWCharArray(winPath));
-        qDebug() << "Windows executable path:" << exePath;
+        // qDebug() << "Windows executable path:" << exePath;
     }
     #elif defined(__linux__)
     char linuxPath[PATH_MAX];
@@ -69,25 +69,25 @@ const QString &WbStandardPaths::webotsHomePath() {
     if (count != -1) {
         linuxPath[count] = '\0';
         exePath = QFileInfo(linuxPath).absoluteFilePath();
-        qDebug() << "Linux executable path:" << exePath;
+        // qDebug() << "Linux executable path:" << exePath;
     }
     #elif defined(__APPLE__)
     char macPath[PATH_MAX];
     uint32_t size = sizeof(macPath);
     if (_NSGetExecutablePath(macPath, &size) == 0) {
         exePath = QFileInfo(macPath).absoluteFilePath();
-        qDebug() << "macOS executable path:" << exePath;
+        // qDebug() << "macOS executable path:" << exePath;
     }
     #endif
 
     if (exePath.isEmpty() && QCoreApplication::instance()) {
         exePath = QCoreApplication::applicationFilePath();
-        qDebug() << "Fallback to QCoreApplication path:" << exePath;
+        // qDebug() << "Fallback to QCoreApplication path:" << exePath;
     }
 
     QFileInfo exeInfo(exePath);
     QString currentPath = exeInfo.absolutePath();
-    qDebug() << "Executable directory:" << currentPath;
+    // qDebug() << "Executable directory:" << currentPath;
 
     QDir dir(currentPath);
     
@@ -95,7 +95,7 @@ const QString &WbStandardPaths::webotsHomePath() {
     QDir installDir(dir);
     if (installDir.cd("../share/webots/resources") && installDir.exists()) {
       path = installDir.absolutePath() + "/../"; // Go up to share/webots
-      qDebug() << "Using install_dir path:" << path;
+      // qDebug() << "Using install_dir path:" << path;
     }
     // Fall back to standard path calculation
     else {
@@ -108,7 +108,7 @@ const QString &WbStandardPaths::webotsHomePath() {
         }
       }
       path = dir.absolutePath() + "/";
-      qDebug() << "Using standard path:" << path;
+      // qDebug() << "Using standard path:" << path;
     }
   }
   return path;
