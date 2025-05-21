@@ -18,8 +18,8 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QObject>
 #include <QtCore/QVector>
-#include <windows.h>
 
+#include <windows.h>
 #include <sapi.h>
 #include <cassert>
 
