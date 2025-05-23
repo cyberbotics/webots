@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "WbNodeFactory.hpp"
-#include <QDebug> // For qDebug
+#include <QDebug>  // For qDebug
 
 static WbNodeFactory *gInstance = 0;
 
@@ -29,6 +29,6 @@ WbNodeFactory::WbNodeFactory() {
 }
 
 WbNodeFactory::~WbNodeFactory() {
-  if (gInstance == this) // Only nullify if it's us
+  if (gInstance == this)  // Only nullify if it's us
     gInstance = 0;
 }

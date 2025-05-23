@@ -36,8 +36,7 @@ WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &lo
 
     mScreenshot = QImage("images:splash_images/" + screenshots.at(randomImageIndex));
     if (mScreenshot.isNull()) {
-      QMessageBox::warning(nullptr, "Error",
-                           "Failed to load splash screen image: " + screenshots.at(randomImageIndex));
+      QMessageBox::warning(nullptr, "Error", "Failed to load splash screen image: " + screenshots.at(randomImageIndex));
       // Optionally load a default image here or skip loading a screenshot
       // mScreenshot = QImage("path/to/default/image.png");
     }

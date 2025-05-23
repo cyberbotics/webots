@@ -30,11 +30,11 @@
 #include <QtCore/QTimer>
 
 #ifdef _WIN32
-#include "../../../include/controller/c/webots/utils/system.h"
 #include <windows.h>
+#include "../../../include/controller/c/webots/utils/system.h"
 #elif defined(__linux__)
-#include <unistd.h>
 #include <limits.h>
+#include <unistd.h>
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
 #endif
@@ -55,34 +55,34 @@ const QString &WbStandardPaths::webotsHomePath() {
 #endif
   if (path.isEmpty()) {
     QString exePath;
-    
-    // Get absolute path to executable
-    #ifdef _WIN32
+
+// Get absolute path to executable
+#ifdef _WIN32
     wchar_t winPath[MAX_PATH];
     if (GetModuleFileNameW(NULL, winPath, MAX_PATH)) {
-        exePath = QDir::cleanPath(QString::fromWCharArray(winPath));
-        // qDebug() << "Windows executable path:" << exePath;
+      exePath = QDir::cleanPath(QString::fromWCharArray(winPath));
+      // qDebug() << "Windows executable path:" << exePath;
     }
-    #elif defined(__linux__)
+#elif defined(__linux__)
     char linuxPath[PATH_MAX];
     ssize_t count = readlink("/proc/self/exe", linuxPath, PATH_MAX);
     if (count != -1) {
-        linuxPath[count] = '\0';
-        exePath = QFileInfo(linuxPath).absoluteFilePath();
-        // qDebug() << "Linux executable path:" << exePath;
+      linuxPath[count] = '\0';
+      exePath = QFileInfo(linuxPath).absoluteFilePath();
+      // qDebug() << "Linux executable path:" << exePath;
     }
-    #elif defined(__APPLE__)
+#elif defined(__APPLE__)
     char macPath[PATH_MAX];
     uint32_t size = sizeof(macPath);
     if (_NSGetExecutablePath(macPath, &size) == 0) {
-        exePath = QFileInfo(macPath).absoluteFilePath();
-        // qDebug() << "macOS executable path:" << exePath;
+      exePath = QFileInfo(macPath).absoluteFilePath();
+      // qDebug() << "macOS executable path:" << exePath;
     }
-    #endif
+#endif
 
     if (exePath.isEmpty() && QCoreApplication::instance()) {
-        exePath = QCoreApplication::applicationFilePath();
-        // qDebug() << "Fallback to QCoreApplication path:" << exePath;
+      exePath = QCoreApplication::applicationFilePath();
+      // qDebug() << "Fallback to QCoreApplication path:" << exePath;
     }
 
     QFileInfo exeInfo(exePath);
@@ -90,11 +90,11 @@ const QString &WbStandardPaths::webotsHomePath() {
     // qDebug() << "Executable directory:" << currentPath;
 
     QDir dir(currentPath);
-    
+
     // First check if we're in install_dir/bin/
     QDir installDir(dir);
     if (installDir.cd("../share/webots/resources") && installDir.exists()) {
-      path = installDir.absolutePath() + "/../"; // Go up to share/webots
+      path = installDir.absolutePath() + "/../";  // Go up to share/webots
       // qDebug() << "Using install_dir path:" << path;
     }
     // Fall back to standard path calculation
@@ -102,7 +102,8 @@ const QString &WbStandardPaths::webotsHomePath() {
       for (int i = 0; i < depth; i++) {
         if (!dir.cdUp()) {
           QString error = QString("Failed to find Webots home directory. Current path: %1\nExecutable path: %2")
-                         .arg(currentPath).arg(exePath);
+                            .arg(currentPath)
+                            .arg(exePath);
           qCritical() << error;
           assert(false && error.toUtf8().constData());
         }
