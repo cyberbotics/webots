@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "WbParser.hpp"
-#include <QDebug> // Added for debugging
+#include <QDebug>  // Added for debugging
 
 #include "WbApplicationInfo.hpp"
 #include "WbFieldModel.hpp"

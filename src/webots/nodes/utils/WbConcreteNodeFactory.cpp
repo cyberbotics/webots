@@ -110,14 +110,13 @@
 #include "WbWorldInfo.hpp"
 #include "WbZoom.hpp"
 
+#include <QDebug>  // For qDebug()
 #include <QtCore/QStringList>
-#include <QDebug> // For qDebug()
-#include "WbToken.hpp" // Added for full WbToken definition
+#include "WbToken.hpp"  // Added for full WbToken definition
 
 // Forward declaration for WbNodeFactory::instance() to be callable from constructor/destructor if needed for logging
 // though it's not strictly necessary for these specific logs.
 // class WbNodeFactory;
-
 
 WbConcreteNodeFactory *WbConcreteNodeFactory::getInstance() {
   static WbConcreteNodeFactory instance;
@@ -135,7 +134,6 @@ WbConcreteNodeFactory::~WbConcreteNodeFactory() {
   // qDebug() << "WbConcreteNodeFactory DESTRUCTOR (this:" << this << "). Base WbNodeFactory destructor will run.";
 }
 
-
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
                                           const QString *protoUrl) {
   // qDebug() << "WbConcreteNodeFactory::createNode CALLED with modelName:" << modelName
@@ -144,9 +142,11 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   if (tokenizer) {
     const WbToken *currentToken = tokenizer->peekToken();
     if (currentToken) {
-      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer current token:" << currentToken->word() << "at line:" << currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
+      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer current token:" << currentToken->word() << "at line:" <<
+      // currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
     } else {
-      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer: No current token available (peekToken() is NULL). Pos:" << tokenizer->pos();
+      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer: No current token available (peekToken() is NULL). Pos:" <<
+      // tokenizer->pos();
     }
   } else {
     // qDebug() << "WbConcreteNodeFactory::createNode: tokenizer is NULL.";
@@ -339,7 +339,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     // qDebug() << "WbConcreteNodeFactory::createNode: Created WbZoom:" << (node ? node->nodeModelName() : "NULL");
     return node;
   }
-  // ... (other built-in nodes will be here, ensure to add qDebug before and after their creation if needed for deeper debugging)
+  // ... (other built-in nodes will be here, ensure to add qDebug before and after their creation if needed for deeper
+  // debugging)
 
   // qDebug() << "WbConcreteNodeFactory::createNode: ModelName" << modelName << "not a built-in, looking for PROTOs...";
   // look for PROTOs
@@ -376,7 +377,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   // qDebug() << "WbConcreteNodeFactory::createNode: Creating PROTO instance for" << model->name();
   WbNode *protoInstance =
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
-  // qDebug() << "WbConcreteNodeFactory::createNode: Created PROTO instance:" << (protoInstance ? protoInstance->nodeModelName() : "NULL");
+  // qDebug() << "WbConcreteNodeFactory::createNode: Created PROTO instance:" << (protoInstance ? protoInstance->nodeModelName()
+  // : "NULL");
 
   if (protoInstance) {
     // qDebug() << "WbConcreteNodeFactory::createNode: Subscribing PROTO instance to TemplateManager.";
@@ -385,7 +387,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
 
   // qDebug() << "WbConcreteNodeFactory::createNode: Fixing backward compatibility for PROTO instance (if any).";
   WbNodeUtilities::fixBackwardCompatibility(protoInstance);
-  // qDebug() << "WbConcreteNodeFactory::createNode: Returning PROTO instance:" << (protoInstance ? protoInstance->nodeModelName() : "NULL");
+  // qDebug() << "WbConcreteNodeFactory::createNode: Returning PROTO instance:" << (protoInstance ?
+  // protoInstance->nodeModelName() : "NULL");
 
   return protoInstance;
 }
