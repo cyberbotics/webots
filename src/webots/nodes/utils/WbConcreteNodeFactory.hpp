@@ -39,8 +39,8 @@ public:
   static WbConcreteNodeFactory *getInstance();
 
 private:
-  WbConcreteNodeFactory();             // Declaration only
-  virtual ~WbConcreteNodeFactory() override; // Declaration only
+  WbConcreteNodeFactory();                    // Declaration only
+  virtual ~WbConcreteNodeFactory() override;  // Declaration only
 };
 
 #endif

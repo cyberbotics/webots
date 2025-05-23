@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "../../nodes/utils/WbConcreteNodeFactory.hpp"
 #include "WbApplication.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbGuiApplication.hpp"
 #include "WbNodeFactory.hpp"
-#include "../../nodes/utils/WbConcreteNodeFactory.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>

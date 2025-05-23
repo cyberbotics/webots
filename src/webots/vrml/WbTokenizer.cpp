@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "WbTokenizer.hpp"
-#include <QDebug> // Added for debugging
+#include <QDebug>  // Added for debugging
 
 #include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
