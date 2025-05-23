@@ -20,10 +20,8 @@
 #include <QtCore/QVector>
 #include <QtXml/QDomDocument>
 
-#include <picoapi.h>
-#include <picoapid.h>
-#include <picoos.h>
 #include <cassert>
+#include "PicoTTSWrapper.h"
 
 // adaptation layer defines
 #define PICO_MEM_SIZE 25000000
