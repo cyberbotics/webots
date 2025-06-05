@@ -51,7 +51,7 @@ class PositionSensor(Sensor):
     @property
     def motor(self):
         from .motor import Motor
-        tag = wb.wb_brake_get_motor(self._tag)
+        tag = wb.wb_position_sensor_get_motor(self._tag)
         return None if tag == 0 else Motor(tag)
 
     @property
