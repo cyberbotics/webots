@@ -19,8 +19,9 @@
 #include <QtCore/QObject>
 #include <QtCore/QVector>
 
-#include <sapi.h>
 #include <windows.h>
+
+#include <sapi.h>
 #include <cassert>
 
 static QString gError = "";
