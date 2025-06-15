@@ -269,13 +269,13 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
       if (WbMessageBox::enabled()) {
         QMessageBox messageBox(QMessageBox::Question, tr("Compilation successful"),
                                tr("Do you want to reset or reload the world?"), QMessageBox::Cancel, this);
-        QPushButton *reloadButton = messageBox.addButton(tr("Reload"), QMessageBox::AcceptRole);
+        const QPushButton *reloadButton = messageBox.addButton(tr("Reload"), QMessageBox::AcceptRole);
         QPushButton *resetButton = messageBox.addButton(tr("Reset"), QMessageBox::AcceptRole);
         messageBox.setDefaultButton(resetButton);
 
         messageBox.exec();
 
-        QAbstractButton *clickedButton = messageBox.clickedButton();
+        const QAbstractButton *clickedButton = messageBox.clickedButton();
         if (clickedButton == reloadButton)
           emit reloadRequested();
         else if (clickedButton == resetButton)
