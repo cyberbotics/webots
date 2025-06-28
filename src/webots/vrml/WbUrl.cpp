@@ -58,18 +58,17 @@ QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning,
-                          bool disableCache) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-  return computePath(node, field, url, showWarning, disableCache);
+  return computePath(node, field, url, showWarning);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning, bool disableCache) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning) {
   QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
   if (url.isEmpty()) {
@@ -96,7 +95,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
       if (protoNode->proto()->isDerived()) {
-        if (!disableCache && WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
+        if (WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
           parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
         else
           parentUrl = f->scope();
