@@ -404,17 +404,7 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   if (!(writer.isW3d() || writer.isProto()))
     return;
 
-  if (mUrl->size() == 0)
-    return;
-
-  WbField urlFieldCopy(*findField("url", true));
-  for (int i = 0; i < mUrl->size(); ++i) {
-    const QString &resolvedURL = WbUrl::computePath(this, "url", mUrl, i);
-    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    urlFieldValue->setItem(i, exportResource(mUrl->item(i), resolvedURL, writer.relativeMeshesPath(), writer));
-  }
-
-  urlFieldCopy.write(writer);
+  exportMFResourceField("url", mUrl, writer.relativeMeshesPath(), writer);
 
   WbGeometry::exportNodeFields(writer);
 }

@@ -1258,6 +1258,40 @@ QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL
   }
 }
 
+void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
+  if (value->size() == 0) return;
+
+  const WbField *originalField = findField(fieldName, true);
+  assert(originalField && originalField->type() == WB_MF_STRING);
+
+  WbField copiedField(*originalField);
+  WbMFString *newValue = dynamic_cast<WbMFString *>(copiedField.value());
+
+  for (int i = 0; i < value->size(); ++i) {
+    const QString &rawURL = value->item(i);
+    const QString &resolvedURL = WbUrl::computePath(this, fieldName, rawURL);
+    newValue->setItem(i, exportResource(rawURL, resolvedURL, relativeResourcePath, writer));
+  }
+
+  copiedField.write(writer);
+}
+
+void WbNode::exportSFResourceField(const QString &fieldName, const WbSFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
+  const QString &rawURL = value->value();
+  if (rawURL.isEmpty()) return;
+
+  const WbField *originalField = findField(fieldName, true);
+  assert(originalField && originalField->type() == WB_SF_STRING);
+
+  WbField copiedField(*originalField);
+  WbSFString *newValue = dynamic_cast<WbSFString *>(copiedField.value());
+
+  const QString &resolvedURL = WbUrl::computePath(this, fieldName, rawURL);
+  newValue->setValue(exportResource(rawURL, resolvedURL, relativeResourcePath, writer));
+
+  copiedField.write(writer);
+}
+
 bool WbNode::operator==(const WbNode &other) const {
   if (mModel != other.mModel || isProtoInstance() != other.isProtoInstance() ||
       (mProto && mProto->url() != other.mProto->url()) || mDefName != other.mDefName)

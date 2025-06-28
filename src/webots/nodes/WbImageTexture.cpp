@@ -528,15 +528,7 @@ bool WbImageTexture::exportNodeHeader(WbWriter &writer) const {
 void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   WbBaseNode::exportNodeFields(writer);
 
-  // export to ./textures folder relative to writer path
-  WbField urlFieldCopy(*findField("url", true));
-  for (int i = 0; i < mUrl->size(); ++i) {
-    const QString &resolvedURL = WbUrl::computePath(this, "url", mUrl, i);
-    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    urlFieldValue->setItem(i, exportResource(mUrl->item(i), resolvedURL, writer.relativeTexturesPath(), writer));
-  }
-
-  urlFieldCopy.write(writer);
+  exportMFResourceField("url", mUrl, writer.relativeTexturesPath(), writer);
 
   if (writer.isW3d()) {
     if (!mRole.isEmpty())
