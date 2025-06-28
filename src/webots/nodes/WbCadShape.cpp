@@ -568,13 +568,15 @@ const WbVector3 WbCadShape::absoluteScale() const {
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isW3d() || writer.isProto()))
-    return;
-
   WbBaseNode::exportNodeFields(writer);
 
   if (mUrl->size() == 0)
     return;
+
+  if (!(writer.isW3d() || writer.isProto())) {
+    findField("url", true)->write(writer);
+    return;
+  }
 
   // export model
   WbField urlFieldCopy(*findField("url", true));

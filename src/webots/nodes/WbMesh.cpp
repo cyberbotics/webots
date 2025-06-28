@@ -401,12 +401,9 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isW3d() || writer.isProto()))
-    return;
+  WbGeometry::exportNodeFields(writer);
 
   exportMFResourceField("url", mUrl, writer.relativeMeshesPath(), writer);
-
-  WbGeometry::exportNodeFields(writer);
 }
 
 QStringList WbMesh::fieldsToSynchronizeWithW3d() const {

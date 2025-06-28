@@ -679,10 +679,7 @@ WbRgb WbBackground::skyColor() const {
 }
 
 void WbBackground::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
+  WbBaseNode::exportNodeFields(writer);
 
   if (writer.isW3d()) {
     QString backgroundFileNames[6];
@@ -690,7 +687,6 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (mUrlFields[i]->size() == 0)
         continue;
 
-      WbField urlFieldCopy(*findField(gUrlNames(i), true));
       const QString &resolvedURL = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i], 0);
       backgroundFileNames[i] = exportResource(mUrlFields[i]->item(0), resolvedURL, writer.relativeTexturesPath(), writer);
     }
@@ -712,7 +708,15 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
     }
+  } else if (writer.isProto()) {
+    for (int i = 0; i < 6; ++i) {
+      exportMFResourceField(gUrlNames(i), mUrlFields[i], writer.relativeTexturesPath(), writer);
+      exportMFResourceField(gIrradianceUrlNames(i), mIrradianceUrlFields[i], writer.relativeTexturesPath(), writer);
+    }
+  } else {
+    for (int i = 0; i < 6; ++i) {
+      findField(gUrlNames(i), true)->write(writer);
+      findField(gIrradianceUrlNames(i), true)->write(writer);
+    }
   }
-
-  WbBaseNode::exportNodeFields(writer);
 }

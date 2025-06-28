@@ -1259,10 +1259,16 @@ QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL
 }
 
 void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
-  if (value->size() == 0) return;
-
   const WbField *originalField = findField(fieldName, true);
   assert(originalField && originalField->type() == WB_MF_STRING);
+
+  // only w3c and proto exports need urls to be resolved
+  if (!(writer.isW3d() || writer.isProto())) {
+    originalField->write(writer);
+    return;
+  }
+
+  if (value->size() == 0) return;
 
   WbField copiedField(*originalField);
   WbMFString *newValue = dynamic_cast<WbMFString *>(copiedField.value());
@@ -1277,11 +1283,17 @@ void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* v
 }
 
 void WbNode::exportSFResourceField(const QString &fieldName, const WbSFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
-  const QString &rawURL = value->value();
-  if (rawURL.isEmpty()) return;
-
   const WbField *originalField = findField(fieldName, true);
   assert(originalField && originalField->type() == WB_SF_STRING);
+
+  // only w3c and proto exports need urls to be resolved
+  if (!(writer.isW3d() || writer.isProto())) {
+    originalField->write(writer);
+    return;
+  }
+
+  const QString &rawURL = value->value();
+  if (rawURL.isEmpty()) return;
 
   WbField copiedField(*originalField);
   WbSFString *newValue = dynamic_cast<WbSFString *>(copiedField.value());
