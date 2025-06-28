@@ -1244,6 +1244,20 @@ void WbNode::writeExport(WbWriter &writer) const {
   }
 }
 
+QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
+                        WbWriter &writer) const {
+  if (WbUrl::isLocalUrl(resolvedURL))
+    return WbUrl::computeLocalAssetUrl(resolvedURL, writer.isW3d());
+  else if (WbUrl::isWeb(resolvedURL))
+    return resolvedURL;
+  else {
+    if (writer.isWritingToFile())
+      return WbUrl::exportResource(this, rawURL, resolvedURL, relativeResourcePath, writer);
+    else
+      return WbUrl::expressRelativeToWorld(resolvedURL);
+  }
+}
+
 bool WbNode::operator==(const WbNode &other) const {
   if (mModel != other.mModel || isProtoInstance() != other.isProtoInstance() ||
       (mProto && mProto->url() != other.mProto->url()) || mDefName != other.mDefName)

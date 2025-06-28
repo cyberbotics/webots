@@ -409,18 +409,9 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
 
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    const QString &resolvedURL = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
-    else if (WbUrl::isWeb(completeUrl))
-      urlFieldValue->setItem(i, completeUrl);
-    else {
-      if (writer.isWritingToFile())
-        urlFieldValue->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
-      else
-        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
-    }
+    urlFieldValue->setItem(i, exportResource(mUrl->item(i), resolvedURL, writer.relativeMeshesPath(), writer));
   }
 
   urlFieldCopy.write(writer);

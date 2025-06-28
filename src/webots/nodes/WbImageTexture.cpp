@@ -531,18 +531,9 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   // export to ./textures folder relative to writer path
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    QString completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    const QString &resolvedURL = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
-    else if (WbUrl::isWeb(completeUrl))
-      urlFieldValue->setItem(i, completeUrl);
-    else {
-      if (writer.isWritingToFile())
-        urlFieldValue->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
-      else
-        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
-    }
+    urlFieldValue->setItem(i, exportResource(mUrl->item(i), resolvedURL, writer.relativeTexturesPath(), writer));
   }
 
   urlFieldCopy.write(writer);
@@ -560,7 +551,7 @@ void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
   // note: the texture of the shallow nodes needs to be exported only if the URL is locally defined but not of type
   // 'webots://' since this case would be converted to a remote one that targets the current branch
   if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isW3dStreaming())
-    WbUrl::exportTexture(this, mUrl, 0, writer);
+    WbUrl::exportResource(this, mUrl->item(0), WbUrl::computePath(this, "url", mUrl, 0), writer.relativeTexturesPath(), writer);
 }
 
 QStringList WbImageTexture::fieldsToSynchronizeWithW3d() const {

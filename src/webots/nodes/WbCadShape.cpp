@@ -571,43 +571,26 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   if (!(writer.isW3d() || writer.isProto()))
     return;
 
+  WbBaseNode::exportNodeFields(writer);
+
   if (mUrl->size() == 0)
     return;
-
-  WbBaseNode::exportNodeFields(writer);
 
   // export model
   WbField urlFieldCopy(*findField("url", true));
   for (int i = 0; i < mUrl->size(); ++i) {
-    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
+    const QString &resolvedURL = WbUrl::computePath(this, "url", mUrl, i);
     WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
-    else if (WbUrl::isWeb(completeUrl))
-      urlFieldValue->setItem(i, completeUrl);
-    else {
-      urlFieldValue->setItem(
-        i, writer.isWritingToFile() ? WbUrl::exportMesh(this, mUrl, i, writer) : WbUrl::expressRelativeToWorld(completeUrl));
-    }
+    urlFieldValue->setItem(i, exportResource(mUrl->item(i), resolvedURL, writer.relativeMeshesPath(), writer));
   }
 
   // export materials
   if (writer.isW3d()) {  // only needs to be included in the w3d, when converting to base node it shouldn't be included
-    const QString &parentUrl = WbUrl::computePath(this, "url", mUrl->item(0));
+    const QString &parentUrl = WbUrl::computePath(this, "url", mUrl, 0);
     for (const QString &material : objMaterialList(parentUrl)) {
       QString materialUrl = WbUrl::combinePaths(material, parentUrl);
       WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-      if (WbUrl::isLocalUrl(materialUrl))
-        urlFieldValue->addItem(WbUrl::computeLocalAssetUrl(materialUrl, writer.isW3d()));
-      else if (WbUrl::isWeb(materialUrl))
-        urlFieldValue->addItem(materialUrl);
-      else {
-        if (writer.isWritingToFile())
-          urlFieldValue->addItem(
-            WbUrl::exportResource(this, materialUrl, materialUrl, writer.relativeMeshesPath(), writer, false));
-        else
-          urlFieldValue->addItem(WbUrl::expressRelativeToWorld(materialUrl));
-      }
+      urlFieldValue->addItem(exportResource(material, materialUrl, writer.relativeMeshesPath(), writer));
     }
   }
 

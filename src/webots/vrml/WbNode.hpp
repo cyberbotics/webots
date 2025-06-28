@@ -317,6 +317,10 @@ protected:
   virtual void exportNodeFooter(WbWriter &writer) const;
   virtual void exportExternalSubProto(WbWriter &writer) const;
 
+  // Helper to handle exporting fields with resources which reference external files
+  QString exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
+                          WbWriter &writer) const;
+
   // Methods related to URDF export
   const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
   virtual bool isUrdfRootLink() const;     // Determines whether the Webots node is considered as URDF link as well

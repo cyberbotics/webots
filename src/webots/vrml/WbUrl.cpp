@@ -58,17 +58,18 @@ QString WbUrl::missing(const QString &url) {
   return "";
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool showWarning,
+                          bool disableCache) {
   // check if mUrl is empty
   if (urlField->size() < 1)
     return "";
 
   // get the URL at specified index
   const QString &url = urlField->item(index);
-  return computePath(node, field, url, showWarning);
+  return computePath(node, field, url, showWarning, disableCache);
 }
 
-QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning) {
+QString WbUrl::computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning, bool disableCache) {
   QString url = resolveUrl(rawUrl);
   // check if the first URL is empty
   if (url.isEmpty()) {
@@ -85,6 +86,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field, true);
+    assert(f);
     const WbNode *protoNode = node->containingProto(false);
 
     protoNode = WbVrmlNodeUtilities::findFieldProtoScope(f, protoNode);
@@ -94,7 +96,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       // note: derived PROTO are a special case because instances of the intermediary ancestors from which it is defined don't
       // persist after the build process, hence why we keep track of the scope while building the node itself
       if (protoNode->proto()->isDerived()) {
-        if (WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
+        if (!disableCache && WbFileUtil::isLocatedInDirectory(f->scope(), WbStandardPaths::cachedAssetsPath()))
           parentUrl = WbNetwork::instance()->getUrlFromEphemeralCache(f->scope());
         else
           parentUrl = f->scope();
@@ -132,7 +134,7 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
 }
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
-                              const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {
+                              const QString &relativeResourcePath, const WbWriter &writer) {
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeResourcePath + fileName;
@@ -155,11 +157,7 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
       const QString extension = urlFileInfo.suffix();
 
       for (int i = 1; i < 100; ++i) {  // number of trials before failure
-        QString newRelativePath;
-        if (isTexture)
-          newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
-        else
-          newRelativePath = writer.relativeMeshesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+        QString newRelativePath = relativeResourcePath + baseName + '.' + QString::number(i) + '.' + extension;
 
         const QString newAbsolutePath = writer.path() + "/" + newRelativePath;
         if (QFileInfo(newAbsolutePath).exists()) {
@@ -170,33 +168,14 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
           return newRelativePath;
         }
       }
-      if (isTexture)
-        node->warn(QObject::tr("Failure exporting texture, too many textures share the same name: %1.").arg(url));
-      else
-        node->warn(QObject::tr("Failure exporting mesh, too many meshes share the same name: %1.").arg(url));
 
+      node->warn(QObject::tr("Failure exporting resource, too many resources share the same name: %1.").arg(url));
       return "";
     }
   } else {  // simple case
     QFile::copy(sourcePath, expectedPath);
     return expectedRelativePath;
   }
-}
-
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the texture file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeTexturesPath(), writer);
-}
-
-QString WbUrl::exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the mesh file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeMeshesPath(), writer, false);
 }
 
 bool WbUrl::isWeb(const QString &url) {
