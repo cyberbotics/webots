@@ -106,9 +106,8 @@ QStringList WbTrackWheel::fieldsToSynchronizeWithW3d() const {
 }
 
 void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
-  if (!writer.isW3d())
-    return;
-
   WbBaseNode::exportNodeFields(writer);
-  writer << " rotation=\'" << mRotation->value() << "\'";
+
+  if (!writer.isW3d())
+    writer << " rotation=\'" << mRotation->value() << "\'";
 }
