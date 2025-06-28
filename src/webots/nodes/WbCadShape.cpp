@@ -603,6 +603,12 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
   urlFieldCopy.write(writer);
 }
 
+QStringList WbCadShape::customExportedFields() const {
+  QStringList fields;
+  fields << "url";
+  return fields;
+}
+
 QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }

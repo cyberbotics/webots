@@ -1111,7 +1111,8 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
     return;
 
   foreach (const WbField *f, fields()) {
-    if (!f->isDeprecated() && ((f->isW3d() || writer.isProto()) && f->singleType() != WB_SF_NODE))
+    if (!f->isDeprecated() && ((f->isW3d() || writer.isProto()) && f->singleType() != WB_SF_NODE) &&
+        !customExportedFields().contains(f->name()))
       f->write(writer);
   }
 }

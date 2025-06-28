@@ -720,3 +720,12 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     }
   }
 }
+
+QStringList WbBackground::customExportedFields() const {
+  QStringList fields;
+  for (int i = 0; i < 6; ++i) {
+    fields << gUrlNames(i);
+    fields << gIrradianceUrlNames(i);
+  }
+  return fields;
+}

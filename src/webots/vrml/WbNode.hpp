@@ -317,6 +317,9 @@ protected:
   virtual void exportNodeFooter(WbWriter &writer) const;
   virtual void exportExternalSubProto(WbWriter &writer) const;
 
+  // fields which should not be handled by the default exportNodeFields function
+  virtual QStringList customExportedFields() const { return QStringList(); }
+
   // Helper to handle exporting fields with resources which reference external files
   QString exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
                           WbWriter &writer) const;

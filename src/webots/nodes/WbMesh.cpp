@@ -406,6 +406,12 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
   exportMFResourceField("url", mUrl, writer.relativeMeshesPath(), writer);
 }
 
+QStringList WbMesh::customExportedFields() const {
+  QStringList fields;
+  fields << "url";
+  return fields;
+}
+
 QStringList WbMesh::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "url"

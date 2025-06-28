@@ -536,6 +536,12 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   }
 }
 
+QStringList WbImageTexture::customExportedFields() const {
+  QStringList fields;
+  fields << "url";
+  return fields;
+}
+
 void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
   if (!writer.isW3d() || mUrl->size() == 0)
     return;
