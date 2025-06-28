@@ -20,7 +20,7 @@
 
 #include "round_manager.h"
 
-#include "boolean.h"
+#include <stdbool.h>
 #include "helper.h"
 
 #include <math.h>

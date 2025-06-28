@@ -21,7 +21,7 @@
 #ifndef MAZE_DEFINITION_H
 #define MAZE_DEFINITION_H
 
-#include "boolean.h"
+#include <stdbool.h>
 #include "linked_list.h"
 // enum
 typedef enum { North, South, East, West, None } Orientation;
