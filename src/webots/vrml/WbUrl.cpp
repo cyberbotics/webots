@@ -134,6 +134,9 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
                               const QString &relativeResourcePath, const WbWriter &writer) {
+  // in addition to writing the node, we want to ensure that the resource file exists
+  // at the expected location. If not, we should copy it, possibly creating the expected
+  // directory structure.
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeResourcePath + fileName;
