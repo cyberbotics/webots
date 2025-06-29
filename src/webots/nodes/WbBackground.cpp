@@ -697,8 +697,8 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
         continue;
 
       const QString &resolvedURL = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i], 0);
-      irradianceFileNames[i] = exportResource(mIrradianceUrlFields[i]->item(0), resolvedURL,
-                                              writer.relativeTexturesPath(), writer);
+      irradianceFileNames[i] =
+        exportResource(mIrradianceUrlFields[i]->item(0), resolvedURL, writer.relativeTexturesPath(), writer);
     }
 
     writer << " ";

@@ -1246,7 +1246,7 @@ void WbNode::writeExport(WbWriter &writer) const {
 }
 
 QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
-                        WbWriter &writer) const {
+                               WbWriter &writer) const {
   if (WbUrl::isLocalUrl(resolvedURL))
     return WbUrl::computeLocalAssetUrl(resolvedURL, writer.isW3d());
   else if (WbUrl::isWeb(resolvedURL))
@@ -1259,7 +1259,8 @@ QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL
   }
 }
 
-void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
+void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString *value, const QString &relativeResourcePath,
+                                   WbWriter &writer) const {
   const WbField *originalField = findField(fieldName, true);
   assert(originalField && originalField->type() == WB_MF_STRING);
 
@@ -1269,7 +1270,8 @@ void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* v
     return;
   }
 
-  if (value->size() == 0) return;
+  if (value->size() == 0)
+    return;
 
   WbField copiedField(*originalField);
   WbMFString *newValue = dynamic_cast<WbMFString *>(copiedField.value());
@@ -1283,7 +1285,8 @@ void WbNode::exportMFResourceField(const QString &fieldName, const WbMFString* v
   copiedField.write(writer);
 }
 
-void WbNode::exportSFResourceField(const QString &fieldName, const WbSFString* value, const QString &relativeResourcePath, WbWriter &writer) const {
+void WbNode::exportSFResourceField(const QString &fieldName, const WbSFString *value, const QString &relativeResourcePath,
+                                   WbWriter &writer) const {
   const WbField *originalField = findField(fieldName, true);
   assert(originalField && originalField->type() == WB_SF_STRING);
 
@@ -1294,7 +1297,8 @@ void WbNode::exportSFResourceField(const QString &fieldName, const WbSFString* v
   }
 
   const QString &rawURL = value->value();
-  if (rawURL.isEmpty()) return;
+  if (rawURL.isEmpty())
+    return;
 
   WbField copiedField(*originalField);
   WbSFString *newValue = dynamic_cast<WbSFString *>(copiedField.value());

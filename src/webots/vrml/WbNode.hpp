@@ -322,12 +322,12 @@ protected:
 
   // Helper to handle exporting fields with resources which reference external files
   QString exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
-                          WbWriter &writer) const;
+                         WbWriter &writer) const;
   // Wrappers for the most common use case (simply exporting a field with no additional processing)
-  void exportMFResourceField(const QString &fieldName, const WbMFString* value, const QString &relativeResourcePath,
-                              WbWriter &writer) const;
-  void exportSFResourceField(const QString &fieldName, const WbSFString* value, const QString &relativeResourcePath,
-                              WbWriter &writer) const;
+  void exportMFResourceField(const QString &fieldName, const WbMFString *value, const QString &relativeResourcePath,
+                             WbWriter &writer) const;
+  void exportSFResourceField(const QString &fieldName, const WbSFString *value, const QString &relativeResourcePath,
+                             WbWriter &writer) const;
 
   // Methods related to URDF export
   const WbNode *findUrdfLinkRoot() const;  // Finds first upper Webots node that is considered as URDF link
