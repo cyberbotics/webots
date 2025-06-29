@@ -708,15 +708,10 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
     }
-  } else if (writer.isProto()) {
+  } else {
     for (int i = 0; i < 6; ++i) {
       exportMFResourceField(gUrlNames(i), mUrlFields[i], writer.relativeTexturesPath(), writer);
       exportMFResourceField(gIrradianceUrlNames(i), mIrradianceUrlFields[i], writer.relativeTexturesPath(), writer);
-    }
-  } else {
-    for (int i = 0; i < 6; ++i) {
-      findField(gUrlNames(i), true)->write(writer);
-      findField(gIrradianceUrlNames(i), true)->write(writer);
     }
   }
 }
