@@ -322,7 +322,7 @@ protected:
 
   // Helper to handle exporting fields with resources which reference external files
   QString exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
-                         WbWriter &writer) const;
+                         const WbWriter &writer) const;
   // Wrappers for the most common use case (simply exporting a field with no additional processing)
   void exportMFResourceField(const QString &fieldName, const WbMFString *value, const QString &relativeResourcePath,
                              WbWriter &writer) const;

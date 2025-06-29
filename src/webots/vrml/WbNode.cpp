@@ -1246,7 +1246,7 @@ void WbNode::writeExport(WbWriter &writer) const {
 }
 
 QString WbNode::exportResource(const QString &rawURL, const QString &resolvedURL, const QString &relativeResourcePath,
-                               WbWriter &writer) const {
+                               const WbWriter &writer) const {
   if (WbUrl::isLocalUrl(resolvedURL))
     return WbUrl::computeLocalAssetUrl(resolvedURL, writer.isW3d());
   else if (WbUrl::isWeb(resolvedURL))
