@@ -211,8 +211,8 @@ def generateWorldsList(groupName):
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
                         (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
-                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
-                        (filename.endswith('backward_compability_enu_flu.wbt' and sys.platform == 'win32'))
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32') or
+                        (filename.endswith('backward_compability_enu_flu.wbt') and sys.platform == 'win32')
                     ))):
                 worldsList.append(filename)
 
