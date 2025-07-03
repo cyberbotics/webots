@@ -64,6 +64,10 @@ signals:
   void valuesChanged();
   void needToEnableBodies();
 
+protected:
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
+
 private:
   // user accessible fields
   WbSFString *mMaterial1;

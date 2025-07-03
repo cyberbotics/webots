@@ -679,10 +679,7 @@ WbRgb WbBackground::skyColor() const {
 }
 
 void WbBackground::exportNodeFields(WbWriter &writer) const {
-  if (writer.isWebots()) {
-    WbBaseNode::exportNodeFields(writer);
-    return;
-  }
+  WbBaseNode::exportNodeFields(writer);
 
   if (writer.isW3d()) {
     QString backgroundFileNames[6];
@@ -690,18 +687,8 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (mUrlFields[i]->size() == 0)
         continue;
 
-      WbField urlFieldCopy(*findField(gUrlNames(i), true));
-      const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-      if (WbUrl::isLocalUrl(imagePath))
-        backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath, writer.isW3d());
-      else if (WbUrl::isWeb(imagePath))
-        backgroundFileNames[i] = imagePath;
-      else {
-        if (writer.isWritingToFile())
-          backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath, writer.relativeTexturesPath(), writer);
-        else
-          backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
-      }
+      const QString &resolvedURL = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i], 0);
+      backgroundFileNames[i] = exportResource(mUrlFields[i]->item(0), resolvedURL, writer.relativeTexturesPath(), writer);
     }
 
     QString irradianceFileNames[6];
@@ -709,18 +696,9 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (mIrradianceUrlFields[i]->size() == 0)
         continue;
 
-      const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-      if (WbUrl::isLocalUrl(irradiancePath))
-        irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath, writer.isW3d());
-      else if (WbUrl::isWeb(irradiancePath))
-        irradianceFileNames[i] = irradiancePath;
-      else {
-        if (writer.isWritingToFile())
-          irradianceFileNames[i] =
-            WbUrl::exportResource(this, irradiancePath, irradiancePath, writer.relativeTexturesPath(), writer);
-        else
-          irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
-      }
+      const QString &resolvedURL = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i], 0);
+      irradianceFileNames[i] =
+        exportResource(mIrradianceUrlFields[i]->item(0), resolvedURL, writer.relativeTexturesPath(), writer);
     }
 
     writer << " ";
@@ -730,7 +708,19 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
     }
+  } else {
+    for (int i = 0; i < 6; ++i) {
+      exportMFResourceField(gUrlNames(i), mUrlFields[i], writer.relativeTexturesPath(), writer);
+      exportMFResourceField(gIrradianceUrlNames(i), mIrradianceUrlFields[i], writer.relativeTexturesPath(), writer);
+    }
   }
+}
 
-  WbBaseNode::exportNodeFields(writer);
+QStringList WbBackground::customExportedFields() const {
+  QStringList fields;
+  for (int i = 0; i < 6; ++i) {
+    fields << gUrlNames(i);
+    fields << gIrradianceUrlNames(i);
+  }
+  return fields;
 }
