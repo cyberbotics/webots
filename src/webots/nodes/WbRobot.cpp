@@ -632,7 +632,7 @@ void WbRobot::updateBattery(bool itemInserted) {
 }
 
 void WbRobot::removeRenderingDevice() {
-  mRenderingDevices.removeOne(static_cast<WbRenderingDevice *>(sender()));
+  mRenderingDevices.removeOne(dynamic_cast<WbRenderingDevice *>(sender()));
 }
 
 void WbRobot::assignDeviceTags(bool reset) {
