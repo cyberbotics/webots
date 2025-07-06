@@ -284,7 +284,7 @@ void WbRobot::addDevices(WbNode *node) {
 
       WbRenderingDevice *renderingDevice = dynamic_cast<WbRenderingDevice *>(node);
       if (renderingDevice) {
-        connect(renderingDevice, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
+        connect(renderingDevice, &WbNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
         mRenderingDevices.append(renderingDevice);
         WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
         if (camera) {
