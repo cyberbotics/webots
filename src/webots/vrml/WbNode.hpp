@@ -281,6 +281,8 @@ public:
   virtual const bool isRobot() const { return false; };
 
 signals:
+  void isBeingDestroyed(WbNode *node);
+
   // emitted when any value has changed
   void fieldChanged(WbField *field);
   void parameterChanged(WbField *field);

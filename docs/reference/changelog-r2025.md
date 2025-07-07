@@ -10,6 +10,7 @@
     - Fixed resolution of relative paths when converting protos to their base nodes ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
       - **As a result of this change, relative paths that are not within a Webots-recognized resource field (ex. `url`) will no longer be updated when a proto is converted to its base nodes.** This should not affect most users.
     - Fixed a bug causing `TrackWheel` nodes to lose their field values when used in a proto converted to a base node ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+    - Fixed a bug causing Webots to occasionally crash when unloading a world ([#6857](https://github.com/cyberbotics/webots/pull/6857)).
 
 ## Webots R2025a
 Released on January 31st, 2025.
