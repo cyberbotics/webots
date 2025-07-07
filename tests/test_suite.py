@@ -200,6 +200,7 @@ def generateWorldsList(groupName):
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
             # robot window test cannot open a browser for the robot window in a headless environment
+            #       on non-mac operating systems
             # movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
             # billboard test not working in macos GitHub Action environment
             # billboard and robot window not working on windows GitHub Action environment.
@@ -207,10 +208,10 @@ def generateWorldsList(groupName):
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'linux') or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
                         (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'linux') or
                         (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
                     ))):
                 worldsList.append(filename)
