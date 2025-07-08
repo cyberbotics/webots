@@ -250,6 +250,7 @@ WbNode::WbNode(const WbNode &other) :
 
 WbNode::~WbNode() {
   mIsBeingDeleted = true;
+  emit isBeingDestroyed(this);
 
   // Delete fields backwards to always delete USE nodes before DEF nodes
   int n = mFields.size() - 1;
