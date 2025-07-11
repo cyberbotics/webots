@@ -227,7 +227,7 @@ bool wb_supervisor_save_world(const char *filename) WB_DEPRECATED;  // please us
 // deprecated since Webots 8.6.0, please use wb_supervisor_field_remove_mf() instead
 void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) WB_DEPRECATED;
 
-// deprecated since Webots 8.0.0, pleaae use wb_supervisor_simulation_reset_physics() instead
+// deprecated since Webots 8.0.0, please use wb_supervisor_simulation_reset_physics() instead
 void wb_supervisor_simulation_physics_reset() WB_DEPRECATED;
 
 // deprecated since Webots 8.4.0 please use wb_supervisor_movie_is_ready and wb_supervisor_movie_failed
