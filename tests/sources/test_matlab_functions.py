@@ -79,7 +79,7 @@ class TestMatlabFunctions(unittest.TestCase):
                 *glob.glob(os.path.join(WEBOTS_HOME, 'include', 'controller', 'c', 'webots', 'utils', '*.h'))
                 ], capture_output=True, text=True)
             if symbolSearch.returncode != 0:
-                self.fail(f'Failed to generate function list:\n{symbolSearch.stdout}')
+                self.fail(f'Failed to generate function list:\n{symbolSearch.stdout}\n{symbolSearch.stderr}')
 
             for line in symbolSearch.stdout.splitlines():
                 if not any(re.match(f'^{skippedLine}$', line) for skippedLine in skippedLines) and line not in self.functions:
