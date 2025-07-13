@@ -26,9 +26,7 @@ install_ubuntu_packages() {
     apt update
     apt install --yes git lsb-release cmake swig libglu1-mesa-dev libglib2.0-dev libfreeimage3 libfreetype6-dev libxml2-dev libboost-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 wget zip unzip python3 python3-pip libopenal-dev
 
-    if [[ $VERSION_ID == "20.04" ]]; then
-        apt install --yes libzip5 perl libtext-template-perl
-    elif [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" ]]; then
+    if [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" ]]; then
         apt install --yes libzip4 openssl
     else
         echo "Unsupported Ubuntu version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
