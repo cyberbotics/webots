@@ -2,6 +2,7 @@
 
 ## Webots R2025b
   - Enhancements
+    - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
     - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
   - Cleanup
