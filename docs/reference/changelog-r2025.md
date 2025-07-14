@@ -10,6 +10,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+    - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
     - Fixed a bug causing Webots to crash when multiple sounds were used with a [Speaker](speaker.md) node ([#6843](https://github.com/cyberbotics/webots/pull/6843)).
     - Fixed a bug causing the "Reload/Reset" buttons in the controller recompilation popup to not work on Windows ([#6844](https://github.com/cyberbotics/webots/pull/6844)).
     - Fixed resolution of relative paths when converting protos to their base nodes ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
