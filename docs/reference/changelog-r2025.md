@@ -5,6 +5,7 @@
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
     - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+  - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
