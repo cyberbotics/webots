@@ -6,6 +6,9 @@ Released on ??.
     - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+    - Fixed a bug causing Webots to crash when multiple sounds were used with a [Speaker](speaker.md) node ([#6843](https://github.com/cyberbotics/webots/pull/6843)).
+    - Fixed a bug causing the "Reload/Reset" buttons in the controller recompilation popup to not work on Windows ([#6844](https://github.com/cyberbotics/webots/pull/6844)).
+    - Fixed a bug causing Webots to occasionally crash when unloading a world ([#6857](https://github.com/cyberbotics/webots/pull/6857)).
 
 ## Webots R2025a
 Released on January 31st, 2025.

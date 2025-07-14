@@ -2181,7 +2181,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
       currentRobotWindow = new WbRobotWindow(robot);
       mRobotWindows << currentRobotWindow;
       connect(mTcpServer, &WbTcpServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
-      connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
+      connect(robot, &WbNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::externControllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
