@@ -100,6 +100,9 @@ protected:
   void enableMotorFeedback(int rate);
   virtual double computeFeedback() const = 0;
 
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
+
 protected slots:
   void updateMaxForceOrTorque();
   void updateMinAndMaxPosition();

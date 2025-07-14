@@ -30,9 +30,7 @@ namespace WbUrl {
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
   QString exportResource(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeResourcePath,
-                         const WbWriter &writer, const bool isTexture = true);
-  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
-  QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
+                         const WbWriter &writer);
 
   QString missing(const QString &url);
   const QString &missingTexture();
