@@ -1,6 +1,9 @@
 # Webots R2025 Change Log
 
 ## Webots R2025b
+Released on ??.
+  - New Features
+    - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
   - Enhancements
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
     - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
