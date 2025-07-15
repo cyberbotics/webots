@@ -56,6 +56,7 @@ public:
 
 protected:
   void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
   void recomputeBoundingSphere() const;
 

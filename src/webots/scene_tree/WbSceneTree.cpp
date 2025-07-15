@@ -750,20 +750,6 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       writer.setRootNode(NULL);
     currentNode->write(writer);
 
-    // relative urls that get exposed by the conversion need to be changed to remote ones
-    QRegularExpressionMatchIterator it = WbUrl::vrmlResourceRegex().globalMatch(nodeString);
-    while (it.hasNext()) {
-      const QRegularExpressionMatch match = it.next();
-      if (match.hasMatch()) {
-        QString asset = match.captured(0);
-        asset.replace("\"", "");
-        if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset)) {
-          QString newUrl = QString("\"%1\"").arg(WbUrl::combinePaths(asset, currentNode->proto()->url()));
-          nodeString.replace(QString("\"%1\"").arg(asset), newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-        }
-      }
-    }
-
     const bool skipTemplateRegeneration =
       WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
     if (skipTemplateRegeneration)

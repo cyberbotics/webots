@@ -64,10 +64,6 @@ class TestMatlabFunctions(unittest.TestCase):
 
                 'wb_device_get_type',  # Deprecated since 8.0.0
                 'wb_node_get_name',  # C API Only
-
-                # Not Yet Implemented
-                'wbu_system_tmpdir',
-                'wbu_system_webots_instance_path',
             ]
             self.functions = []
 

@@ -4,10 +4,22 @@
 Released on ??.
   - New Features
     - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
+  - Enhancements
+    - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+    - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
+    - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+    - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+  - Cleanup
+    - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+    - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
     - Fixed a bug causing Webots to crash when multiple sounds were used with a [Speaker](speaker.md) node ([#6843](https://github.com/cyberbotics/webots/pull/6843)).
     - Fixed a bug causing the "Reload/Reset" buttons in the controller recompilation popup to not work on Windows ([#6844](https://github.com/cyberbotics/webots/pull/6844)).
+    - Fixed resolution of relative paths when converting protos to their base nodes ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+      - **As a result of this change, relative paths that are not within a Webots-recognized resource field (ex. `url`) will no longer be updated when a proto is converted to its base nodes.** This should not affect most users.
+    - Fixed a bug causing `TrackWheel` nodes to lose their field values when used in a proto converted to a base node ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+    - Fixed a bug causing supervisors to occasionally read stale field values after the simulation was reset ([#6758](https://github.com/cyberbotics/webots/pull/6758)).
     - Fixed a bug causing Webots to occasionally crash when unloading a world ([#6857](https://github.com/cyberbotics/webots/pull/6857)).
 
 ## Webots R2025a
