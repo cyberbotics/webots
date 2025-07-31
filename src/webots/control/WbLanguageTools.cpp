@@ -148,15 +148,17 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
   process.start(pythonCommand, QStringList() << "-c"
                                              << "import sys;print(sys.version);");
   process.waitForFinished();
+  bool processSucceeded = process.error() == QProcess::UnknownError;
   const QString output = process.readAll();
   // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
-  if (!version[0].startsWith("3.")) {
+  const QStringList version_numbers(version[0].split("."));
+  const int minor_version = version_numbers.size() >= 2 ? version_numbers[1].toInt() : 0;
+  if (!processSucceeded || !version[0].startsWith("3.") || minor_version < 7) {
     if (log)
       WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
     shortVersion = QString();
   } else {
-    const QStringList version_numbers(version[0].split("."));
     shortVersion = version_numbers[0] + version_numbers[1];
   }
   return shortVersion;
