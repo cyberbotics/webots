@@ -76,8 +76,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   const QString advice =
 #ifdef __APPLE__
-    "To fix the problem, you should set the full path of your python command in "
-    "Webots->preferences->python command.\n";
+    QObject::tr("To fix the problem, you should set the full path of your python command in "
+                "Webots->preferences->python command.\n");
 #else
     QObject::tr("Webots requires Python version 3.7 or newer in your current PATH.\n"
                 "To fix the problem, you should:\n"
