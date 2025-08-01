@@ -28,7 +28,6 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#include <QtCore/QProcess>
 extern "C" {
 // defaults to nVidia instead of Intel graphics on Optimus architectures (commonly found on laptops)
 // unfortunately, the AMD equivalent doesn't seem to exist.
