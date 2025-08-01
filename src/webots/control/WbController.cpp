@@ -336,7 +336,7 @@ void WbController::start() {
     WbLog::error(tr("Cannot listen to the local server (server name = '%1'): %2").arg(serverName).arg(mServer->errorString()));
     return;
   }
-  if (mProcess) {
+  if (mProcess && !mCommand.isEmpty()) {
     info(tr("Starting controller: %1").arg(commandLine()));
     // for matlab controllers we must change to the lib/matlab directory
     // other controller types are executed in the controller dir
