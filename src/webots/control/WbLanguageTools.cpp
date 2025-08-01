@@ -123,7 +123,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   process.setProcessEnvironment(env);
   process.start(pythonCommand, QStringList() << "-u"
                                              << "-c"
-                                             << "print(sys.maxsize > 2**32)");
+                                             << "import sys;print(sys.maxsize > 2**32)");
   process.waitForFinished();
   bool processSucceeded = process.error() == QProcess::UnknownError;
   const QString output = process.readAll();
