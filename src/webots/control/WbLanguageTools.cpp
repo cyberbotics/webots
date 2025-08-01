@@ -119,19 +119,19 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   } else {  // Python exists
 
 #ifdef _WIN32  // 64-bit check
-  QProcess process;
-  process.setProcessEnvironment(env);
-  process.start(pythonCommand, QStringList() << "-u"
-                                             << "-c"
-                                             << "import sys;print(sys.maxsize > 2**32)");
-  process.waitForFinished();
-  bool processSucceeded = process.error() == QProcess::UnknownError;
-  const QString output = process.readAll();
-  if (!processSucceeded || !output.startsWith("True")) {
-    WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
-    shortVersion = QString();
-  }
+    QProcess process;
+    process.setProcessEnvironment(env);
+    process.start(pythonCommand, QStringList() << "-u"
+                                               << "-c"
+                                               << "import sys;print(sys.maxsize > 2**32)");
+    process.waitForFinished();
+    bool processSucceeded = process.error() == QProcess::UnknownError;
+    const QString output = process.readAll();
+    if (!processSucceeded || !output.startsWith("True")) {
+      WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) + advice);
+      pythonCommand = "!";
+      shortVersion = QString();
+    }
 #endif  // _WIN32
 
   }
