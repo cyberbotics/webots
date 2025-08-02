@@ -133,7 +133,6 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
       shortVersion = QString();
     }
 #endif         // _WIN32
-
   }
 
 #endif  // __APPLE__
