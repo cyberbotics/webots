@@ -127,11 +127,12 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
     bool processSucceeded = process.error() == QProcess::UnknownError;
     const QString output = process.readAll();
     if (!processSucceeded || !output.startsWith("True")) {
-      WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) + advice);
+      WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) +
+                     advice);
       pythonCommand = "!";
       shortVersion = QString();
     }
-#endif  // _WIN32
+#endif         // _WIN32
 
   }
 
