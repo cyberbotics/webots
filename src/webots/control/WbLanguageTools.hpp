@@ -35,7 +35,6 @@ public:
 private:
   WbLanguageTools() {}
   ~WbLanguageTools() {}
-  // cppcheck-suppress unusedPrivateFunction
   static const QString checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log);
 #ifdef __APPLE__
   static QString findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log);
