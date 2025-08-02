@@ -64,13 +64,12 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
-#ifdef _WIN32
   if (pythonCommand.isEmpty())
+#ifdef _WIN32
     pythonCommand = "python";
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
     pythonCommand += ".exe";
 #else
-  if (pythonCommand.isEmpty())
     pythonCommand = "python3";
 #endif
 
