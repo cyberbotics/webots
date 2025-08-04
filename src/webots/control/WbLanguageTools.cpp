@@ -67,13 +67,16 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   if (pythonCommand.isEmpty())
 #ifdef _WIN32
     pythonCommand = "python";
+  if (!command.endsWith(".exe", Qt::CaseInsensitive))
+    pythonCommand += ".exe";
 #else
     pythonCommand = "python3";
 #endif
+
   const QString advice =
 #ifdef __APPLE__
-    "To fix the problem, you should set the full path of your python command in "
-    "Webots->preferences->python command.\n";
+    QObject::tr("To fix the problem, you should set the full path of your python command in "
+                "Webots->preferences->python command.\n");
 #else
     QObject::tr("Webots requires Python version 3.7 or newer in your current PATH.\n"
                 "To fix the problem, you should:\n"
@@ -81,30 +84,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
                 "3. Install a recent Python 64 bit version and ensure your PATH environment variable points to it.\n");
 #endif
-#ifdef _WIN32
-  if (!command.endsWith(".exe", Qt::CaseInsensitive))
-    pythonCommand += ".exe";
-  QProcess process;
-  process.setProcessEnvironment(env);
-  process.start(pythonCommand, QStringList() << "-u"
-                                             << "-c"
-                                             << "import sys;print(sys.version);print(sys.maxsize > 2**32)");
-  process.waitForFinished();
-  const QString output = process.readAll();
-  // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
-  const QStringList version = output.split("\n");
-  const int v = (QString(version[0][2]) + (version[0][3] != '.' ? QString(version[0][3]) : "")).toInt();
-  if (!version[0].startsWith("3.") || v < 7) {
-    WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
-  } else if (version.size() > 1 && version[1].startsWith("False")) {
-    WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) + advice);
-    pythonCommand = "!";
-  } else
-    shortVersion = QString(version[0][0]) + version[0][2];
-  if (version[0][3] != '.')
-    shortVersion += version[0][3];  // handle versions 310, 311, 321, etc.
-#elif __APPLE__
+
+#ifdef __APPLE__
   if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   else if (pythonCommand == "python" || pythonCommand == "python3") {
@@ -129,18 +110,36 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
-#else  // __linux__
-      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+#else  // __linux__ and _WIN32
+  shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
+  } else {  // Python exists
+
+#ifdef _WIN32  // 64-bit check
+    QProcess process;
+    process.setProcessEnvironment(env);
+    process.start(pythonCommand, QStringList() << "-u"
+                                               << "-c"
+                                               << "import sys;print(sys.maxsize > 2**32)");
+    process.waitForFinished();
+    bool processSucceeded = process.error() == QProcess::UnknownError;
+    const QString output = process.readAll();
+    if (!processSucceeded || !output.startsWith("True")) {
+      WbLog::warning(QObject::tr("\"%1\" 64 bit was not found, but the 32 bit version was found.\n").arg(pythonCommand) +
+                     advice);
+      pythonCommand = "!";
+      shortVersion = QString();
+    }
+#endif         // _WIN32
   }
 
-#endif
+#endif  // __APPLE__
+
   return pythonCommand;
 }
 
-#if defined __APPLE__ || defined __linux__
 const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCommand, QProcessEnvironment &env, bool log) {
   QString shortVersion;
   QProcess process;
@@ -148,20 +147,21 @@ const QString WbLanguageTools::checkIfPythonCommandExist(const QString &pythonCo
   process.start(pythonCommand, QStringList() << "-c"
                                              << "import sys;print(sys.version);");
   process.waitForFinished();
+  bool processSucceeded = process.error() == QProcess::UnknownError;
   const QString output = process.readAll();
   // "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]" or the like
   const QStringList version = output.split(" ");
-  if (!version[0].startsWith("3.")) {
+  const QStringList version_numbers(version[0].split("."));
+  const int minor_version = version_numbers.size() >= 2 ? version_numbers[1].toInt() : 0;
+  if (!processSucceeded || !version[0].startsWith("3.") || minor_version < 7) {
     if (log)
       WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand));
     shortVersion = QString();
   } else {
-    const QStringList version_numbers(version[0].split("."));
     shortVersion = version_numbers[0] + version_numbers[1];
   }
   return shortVersion;
 }
-#endif
 
 #ifdef __APPLE__
 QString WbLanguageTools::findWorkingPythonPath(const QString &pythonVersion, QProcessEnvironment &env, bool log) {
