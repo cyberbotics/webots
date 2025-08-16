@@ -50,6 +50,8 @@ install_fedora_runtime_packages() {
     if [[ -z "$DISPLAY" ]]; then
         dnf install -y xorg-x11-server-Xvfb
     fi
+
+    echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
 }
 
 # Determine the operating system and call the appropriate function
