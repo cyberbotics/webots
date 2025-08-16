@@ -24,7 +24,7 @@ fi
 install_ubuntu_runtime_packages() {
     alias apt='apt --option="APT::Acquire::Retries=3"'
     apt update
-    apt install --yes lsb-release g++ make libavcodec-extra libglu1-mesa libegl1 \
+    apt install --yes g++ make libavcodec-extra libglu1-mesa libegl1 \
         libxkbcommon-x11-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 \
         libxcb-render-util0 libxcb-xinerama0 libxcomposite-dev libxtst6 libnss3 libxcb-cursor0
 
@@ -32,7 +32,7 @@ install_ubuntu_runtime_packages() {
         apt install --yes xvfb
     fi
 
-    UBUNTU_VERSION=$(lsb_release -rs)
+    UBUNTU_VERSION=$(shell grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"')
     if [[ $UBUNTU_VERSION == "22.04" || $UBUNTU_VERSION == "24.04" ]]; then
         apt install --yes ffmpeg
     else
@@ -42,7 +42,7 @@ install_ubuntu_runtime_packages() {
 
 # Function to install runtime dependencies on Fedora
 install_fedora_runtime_packages() {
-    dnf install -y redhat-lsb-core gcc-c++ make mesa-libGLU libEGL \
+    dnf install -y gcc-c++ make mesa-libGLU libEGL \
         xkeyboard-config libxcb libXcomposite libXtst nss xcb-util xcb-util-image \
         xcb-util-keysyms xcb-util-renderutil xcb-util-wm xcb-util-cursor \
         ffmpeg

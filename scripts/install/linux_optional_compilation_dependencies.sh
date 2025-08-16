@@ -27,7 +27,7 @@ install_ubuntu_optional_compilation_packages() {
     apt install --yes software-properties-common
     add-apt-repository -y ppa:deadsnakes/ppa
     apt update
-    apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
+    apt install --yes curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
 
     if [[ $VERSION_ID == "22.04" ]]; then
         apt install --yes openjdk-18-jdk
