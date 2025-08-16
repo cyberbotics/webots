@@ -50,13 +50,14 @@ ifeq ($(OSTYPE),Darwin)
  OSTYPE = darwin
 endif
 
-# determine the OSARCH and UBUNTU_VERSION (linux only)
+# determine the OSARCH, OSDIST, and UBUNTU_VERSION (linux only)
 ifeq ($(OSTYPE),linux)
   ifeq ($(filter x86_64, $(shell uname -a)),)
     OSARCH = i386
   else
     OSARCH = x86_64
   endif
+  OSDIST=$(shell grep ^ID= /etc/os-release | cut -d= -f2)
   ifeq ($(OSTYPE),linux)
     ifeq ($(SNAP_NAME), webots)
       UBUNTU_VERSION=22.04
@@ -66,6 +67,8 @@ ifeq ($(OSTYPE),linux)
       endif
     endif
   endif
+else
+  OSDIST=$(OSTYPE)
 endif
 
 # OS specific variables

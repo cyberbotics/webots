@@ -35,7 +35,7 @@ install_ubuntu_packages() {
 
 # Function to install packages on Fedora
 install_fedora_packages() {
-    dnf install -y git cmake swig mesa-libGLU-devel glib2-devel freeimage freetype-devel libxml2-devel boost-devel libssh-devel libzip-devel readline-devel pbzip2 wget zip unzip python3 python3-pip openal-soft-devel glm-devel stb-devel
+    dnf install -y git cmake swig mesa-libGLU-devel glib2-devel freeimage freetype-devel.x86_64 freetype-devel.i686 glibc-devel.x86_64 glibc-devel.i686 libxml2-devel boost-devel libssh-devel libzip-devel readline-devel pbzip2 wget zip unzip python3 python3-pip openal-soft-devel glm-devel stb-devel
 }
 
 # Determine the operating system and call the appropriate function
