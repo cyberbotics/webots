@@ -35,11 +35,18 @@ import contextlib
 from command import Command
 from cache.cache_environment import update_cache_urls
 
+is_ubuntu_22_04 = False
 if sys.platform == 'linux':
-    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
-    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
-else:
-    is_ubuntu_22_04 = False
+    try:
+        with open('/etc/os-release') as releaseInfo:
+            for var in releaseInfo.readlines():
+                var = var.strip()
+                if var.startswith('VERSION_ID'):
+                    is_ubuntu_22_04 = var == 'VERSION_ID="22.04"'
+                    break
+    except OSError:
+        print('WARNING: /etc/os-release not found! Assuming not Ubuntu 22.04.')
+
 
 # monitor failures
 failures = 0
