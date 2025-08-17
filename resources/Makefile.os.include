@@ -63,7 +63,7 @@ ifeq ($(OSTYPE),linux)
       UBUNTU_VERSION=22.04
     else
       ifneq (, $(wildcard /etc/os-release))
-        UBUNTU_VERSION:=$(shell grep VERSION_ID /etc/os-release | cut -d= -f2)
+        UBUNTU_VERSION:=$(shell grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"')
       endif
     endif
   endif
