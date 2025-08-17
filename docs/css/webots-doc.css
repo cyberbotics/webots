@@ -917,6 +917,13 @@ body {
 .webots-doc g foreignObject div a {
   font-family: Tahoma, Arial, sans-serif;  /* mermaidjs is quite sensitive to the font used and it's size */
   font-size: 100%;
+  text-decoration: underline;
+}
+
+.webots-doc g foreignObject div a:active,
+.webots-doc g foreignObject div a:focus,
+.webots-doc g foreignObject div a:hover {
+  text-decoration: underline;
 }
 
 .webots-doc .mermaid {
