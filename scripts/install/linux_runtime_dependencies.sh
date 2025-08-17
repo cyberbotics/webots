@@ -44,10 +44,18 @@ install_fedora_runtime_packages() {
     dnf install -y gcc-c++ make mesa-libGLU libEGL \
         xkeyboard-config libxcb libXcomposite libXtst nss xcb-util xcb-util-image \
         xcb-util-keysyms xcb-util-renderutil xcb-util-wm xcb-util-cursor \
-        ffmpeg
 
     if [[ -z "$DISPLAY" ]]; then
         dnf install -y xorg-x11-server-Xvfb
+    fi
+
+    # Install ffmpeg (with non-free codecs)
+    # Enable RPMFusion
+    dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    if dnf list installed ffmpeg-free &> /dev/null; then
+        dnf swap -y ffmpeg-free ffmpeg --allowerasing
+    else
+        dnf install -y ffmpeg
     fi
 
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
