@@ -40,6 +40,7 @@ if sys.platform == 'linux':
     try:
         with open('/etc/os-release') as releaseInfo:
             for var in releaseInfo.readlines():
+                var = var.strip()
                 if var.startswith('VERSION_ID'):
                     is_ubuntu_22_04 = var == 'VERSION_ID="22.04"'
                     break
