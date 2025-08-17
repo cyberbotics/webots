@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -187,7 +187,7 @@ void RobotisOp2MotionManager::playPage(int id, bool sync) {
   } else {
     InitMotionAsync();
     mPage = new Action::PAGE;
-    if (!(mAction->LoadPage(id, (Action::PAGE *)mPage)))
+    if (!(mAction->LoadPage(id, static_cast<Action::PAGE *>(mPage))))
       cerr << "Cannot load the page" << endl;
   }
 #endif
@@ -278,21 +278,21 @@ void RobotisOp2MotionManager::step(int duration) {
   } else if (mWait > 0)
     mWait--;
   else {
-    if (mStepnum < ((Action::PAGE *)mPage)->header.stepnum) {
+    if (mStepnum < static_cast<Action::PAGE *>(mPage)->header.stepnum) {
       for (int k = 0; k < DMM_NMOTORS; k++)
-        mTargetPositions[k] = valueToPosition(((Action::PAGE *)mPage)->step[mStepnum].position[k + 1]);
-      mStepNumberToAchieveTarget = (8 * ((Action::PAGE *)mPage)->step[mStepnum].time) / mBasicTimeStep;
+        mTargetPositions[k] = valueToPosition(static_cast<Action::PAGE *>(mPage)->step[mStepnum].position[k + 1]);
+      mStepNumberToAchieveTarget = (8 * static_cast<Action::PAGE *>(mPage)->step[mStepnum].time) / mBasicTimeStep;
       if (mStepNumberToAchieveTarget == 0)
         mStepNumberToAchieveTarget = 1;
-      mWait = (8 * ((Action::PAGE *)mPage)->step[mStepnum].pause) / mBasicTimeStep + 0.5;
+      mWait = (8 * static_cast<Action::PAGE *>(mPage)->step[mStepnum].pause) / mBasicTimeStep + 0.5;
       mStepnum++;
       step(duration);
-    } else if (mRepeat < (((Action::PAGE *)mPage)->header.repeat)) {
+    } else if (mRepeat < (static_cast<Action::PAGE *>(mPage)->header.repeat)) {
       mRepeat++;
       mStepnum = 0;
       step(duration);
-    } else if (((Action::PAGE *)mPage)->header.next != 0)
-      playPage(((Action::PAGE *)mPage)->header.next, true);
+    } else if (static_cast<Action::PAGE *>(mPage)->header.next != 0)
+      playPage(static_cast<Action::PAGE *>(mPage)->header.next, true);
     else
       mMotionPlaying = false;
   }

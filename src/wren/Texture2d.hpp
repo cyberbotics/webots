@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ namespace wren {
     static std::unordered_map<cache::Key, cache::Texture2dData> cCache;
 
     Texture2d();
-    virtual ~Texture2d() {}
+    virtual ~Texture2d() override {}
 
     void setGlName(unsigned int glName) override { mCacheData->mGlName = glName; };
     void prepareGl() override;

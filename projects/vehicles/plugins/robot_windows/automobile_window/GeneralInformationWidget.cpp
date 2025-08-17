@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,11 @@ using namespace std;
 
 GeneralInformationWidget::GeneralInformationWidget(QWidget *parent) : QWidget(parent) {
   mEnableCheckBox = new QCheckBox("Disabled", this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &GeneralInformationWidget::updateEnableCheckBoxText);
+#else
   connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &GeneralInformationWidget::updateEnableCheckBoxText);
+#endif
 
   // define drawing position
   int height = parent->height();

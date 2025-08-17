@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -229,18 +229,18 @@ void WbTouchSensor::computeValue() {
   }
 }
 
-void WbTouchSensor::setODEDynamicFlag(WbBaseNode *_node) {
-  WbGeometry *geom = dynamic_cast<WbGeometry *>(_node);
+void WbTouchSensor::setODEDynamicFlag(const WbBaseNode *_node) {
+  const WbGeometry *geom = dynamic_cast<const WbGeometry *>(_node);
 
   if (!geom) {
-    WbShape *shape = dynamic_cast<WbShape *>(_node);
+    const WbShape *shape = dynamic_cast<const WbShape *>(_node);
     if (shape)
       geom = shape->geometry();
   }
   if (geom)
     dGeomSetDynamicFlag(geom->odeGeom());
   else {
-    WbGroup *group = dynamic_cast<WbGroup *>(_node);
+    const WbGroup *group = dynamic_cast<const WbGroup *>(_node);
     if (group) {
       for (int i = 0; i < group->childCount(); i++)
         setODEDynamicFlag(group->child(i));
@@ -250,7 +250,7 @@ void WbTouchSensor::setODEDynamicFlag(WbBaseNode *_node) {
 
 void WbTouchSensor::createOdeObjects() {
   WbSolidDevice::createOdeObjects();
-  WbBaseNode *node = WbSolidDevice::boundingObject();
+  const WbBaseNode *node = WbSolidDevice::boundingObject();
   setODEDynamicFlag(node);
 }
 

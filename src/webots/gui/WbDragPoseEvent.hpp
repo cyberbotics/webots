@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class WbViewpoint;
 class WbDragPoseEvent : public WbDragKinematicsEvent {
 public:
   WbDragPoseEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
-  virtual ~WbDragPoseEvent();
+  virtual ~WbDragPoseEvent() override;
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
@@ -50,7 +50,7 @@ protected:
 class WbTranslateEvent : public WbDragPoseEvent {
 public:
   WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
-  virtual ~WbTranslateEvent();
+  virtual ~WbTranslateEvent() override;
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
@@ -68,7 +68,7 @@ protected:
 class WbDragHorizontalEvent : public WbTranslateEvent {
 public:
   WbDragHorizontalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
-  virtual ~WbDragHorizontalEvent();
+  virtual ~WbDragHorizontalEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 private:
@@ -81,7 +81,7 @@ private:
 class WbDragVerticalEvent : public WbTranslateEvent {
 public:
   WbDragVerticalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
-  virtual ~WbDragVerticalEvent();
+  virtual ~WbDragVerticalEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 private:
@@ -96,7 +96,7 @@ class WbDragTranslateAlongAxisEvent : public WbDragPoseEvent {
 public:
   WbDragTranslateAlongAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize, WbViewpoint *viewpoint,
                                 int handleNumber, WbAbstractPose *selectedPose);
-  virtual ~WbDragTranslateAlongAxisEvent();
+  virtual ~WbDragTranslateAlongAxisEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 protected:
@@ -122,7 +122,7 @@ class WbDragRotateAroundWorldVerticalAxisEvent : public WbDragPoseEvent {
 public:
   WbDragRotateAroundWorldVerticalAxisEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint,
                                            WbAbstractPose *selectedPose);
-  virtual ~WbDragRotateAroundWorldVerticalAxisEvent();
+  virtual ~WbDragRotateAroundWorldVerticalAxisEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 protected:
@@ -139,7 +139,7 @@ class WbDragRotateAroundAxisEvent : public WbDragPoseEvent {
 public:
   WbDragRotateAroundAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize, WbViewpoint *viewpoint,
                               int handleNumber, WbAbstractPose *selectedPose);
-  virtual ~WbDragRotateAroundAxisEvent();
+  virtual ~WbDragRotateAroundAxisEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 protected:

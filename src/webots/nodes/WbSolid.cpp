@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -233,7 +233,7 @@ WbSolid::~WbSolid() {
   mJoint = NULL;
 
   // disconnecting descendants
-  foreach (WbSolid *const solid, mSolidChildren)
+  foreach (const WbSolid *const solid, mSolidChildren)
     disconnect(solid, &WbSolid::destroyed, this, 0);
 }
 
@@ -250,7 +250,7 @@ void WbSolid::validateProtoNode() {
     if (!(checkTranslation || checkRotation))
       return;
 
-    foreach (WbField *parameter, parameters()) {
+    foreach (const WbField *parameter, parameters()) {
       if (checkTranslation && parameter->name() == "translation" && parameter->isTemplateRegenerator()) {
         parsingWarn(tr("template regenerator field named 'translation' found. "
                        "It is recommended not to use template statements to update the top Solid 'translation' field"));
@@ -530,7 +530,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
 
     bool found = false;
     re.setPattern(QString("%1\\((\\d+)\\)").arg(QRegularExpression::escape(nameWithoutIndex)));
-    foreach (WbSolid *s, siblings) {
+    foreach (const WbSolid *s, siblings) {
       if (!s || s == this)
         continue;
 
@@ -1476,15 +1476,18 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
   while (it.hasNext()) {
     WbNode *const n = it.next();
 
+    // cppcheck-suppress constVariablePointer
     WbSolid *const solid = dynamic_cast<WbSolid *>(n);
     if (solid) {
       solidChildren.append(solid);
       continue;
     }
 
+    // cppcheck-suppress constVariablePointer
     WbBasicJoint *j = dynamic_cast<WbBasicJoint *>(n);
     if (j) {
       jointChildren.append(j);
+      // cppcheck-suppress constVariablePointer
       WbSolid *const ep = j->solidEndPoint();
       if (ep && j->solidReference() == NULL) {
         solidChildren.append(ep);
@@ -1492,6 +1495,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       }
     }
 
+    // cppcheck-suppress constVariablePointer
     WbPropeller *propeller = dynamic_cast<WbPropeller *>(n);
     if (propeller) {
       propellerChildren.append(propeller);
@@ -1520,6 +1524,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
           j = dynamic_cast<WbBasicJoint *>(slot->endPoint());
           if (j) {
             jointChildren.append(j);
+            // cppcheck-suppress constVariablePointer
             WbSolid *const ep = j->solidEndPoint();
             if (ep && j->solidReference() == NULL) {
               solidChildren.append(ep);
@@ -1543,7 +1548,7 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
 
 void WbSolid::updateDynamicSolidDescendantFlag() {
   mHasDynamicSolidDescendant = false;
-  foreach (WbSolid *s, mSolidChildren) {
+  foreach (const WbSolid *s, mSolidChildren) {
     if (!s->isPostFinalizedCalled())
       // postpone flag update after finalization
       return;
@@ -2012,9 +2017,9 @@ void WbSolid::prePhysicsStep(double ms) {
 // Accessors to relatives
 
 WbBasicJoint *WbSolid::jointParent() const {
-  WbSlot *parentSlot = dynamic_cast<WbSlot *>(parentNode());
+  const WbSlot *parentSlot = dynamic_cast<WbSlot *>(parentNode());
   if (parentSlot) {
-    WbSlot *granParentSlot = dynamic_cast<WbSlot *>(parentSlot->parentNode());
+    const WbSlot *granParentSlot = dynamic_cast<WbSlot *>(parentSlot->parentNode());
     if (granParentSlot)
       return dynamic_cast<WbBasicJoint *>(granParentSlot->parentNode());
   }
@@ -2191,9 +2196,9 @@ void WbSolid::jerk(bool resetVelocities, bool rootJerk) {
 }
 
 void WbSolid::notifyChildJerk(WbPose *childNode) {
-  WbNode *node = childNode->parentNode();
+  const WbNode *node = childNode->parentNode();
   while (node != this && node != NULL) {
-    if (mMovedChildren.contains(dynamic_cast<WbPose *>(node)))
+    if (mMovedChildren.contains(dynamic_cast<const WbPose *>(node)))
       return;
     node = node->parentNode();
   }
@@ -2203,7 +2208,7 @@ void WbSolid::notifyChildJerk(WbPose *childNode) {
 
 void WbSolid::childrenJerk() {
   updateOdeGeomPosition();
-  foreach (WbPose *childNode, mMovedChildren) {
+  foreach (const WbPose *childNode, mMovedChildren) {
     QVector<WbSolid *> solidChildrenList;
     QVector<WbBasicJoint *> jointChildrenList;
     QVector<WbPropeller *> propellerChildrenList;
@@ -2744,7 +2749,7 @@ void WbSolid::collectSolidDescendantNames(QStringList &items, const WbSolid *con
     items << name();
 
   // Recurses through all first level solid descendants
-  foreach (WbSolid *const solid, mSolidChildren)
+  foreach (const WbSolid *const solid, mSolidChildren)
     solid->collectSolidDescendantNames(items, solidException);
 }
 
@@ -2765,7 +2770,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
 
   if (mSolidMerger == NULL || merger) {
     // TODO: implement an mIsVisible flag in WbNode for sake of efficiency
-    WbBasicJoint *parentJoint = jointParent();
+    const WbBasicJoint *parentJoint = jointParent();
     if (parentJoint) {
       // remove unquantified ODE effects on the endPoint Solid
       parentJoint->computeEndPointSolidPositionFromParameters(translationToBeCopied, rotationToBeCopied);
@@ -2843,7 +2848,7 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
   ++counter;
 
   // Recurses through all first level solid descendants
-  foreach (WbSolid *const solid, mSolidChildren)
+  foreach (const WbSolid *const solid, mSolidChildren)
     solid->collectHiddenKinematicParameters(map, counter);
 }
 
@@ -2975,27 +2980,9 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
   return WbMatter::exportNodeHeader(writer);
 }
 
-void WbSolid::exportNodeFields(WbWriter &writer) const {
-  WbMatter::exportNodeFields(writer);
-  if (writer.isX3d()) {
-    if (!name().isEmpty())
-      writer << " name='" << sanitizedName() << "'";
-    writer << " type='solid'";
-  }
-}
-
 void WbSolid::exportNodeFooter(WbWriter &writer) const {
-  if (writer.isX3d() && boundingObject())
-    boundingObject()->exportBoundingObjectToX3D(writer);
+  if (writer.isW3d() && boundingObject())
+    boundingObject()->exportBoundingObjectToW3d(writer);
 
   WbMatter::exportNodeFooter(writer);
-}
-
-const QString WbSolid::sanitizedName() const {
-  QString name_dirty = name();
-  name_dirty.replace("\'", "&apos;", Qt::CaseInsensitive);
-  name_dirty.replace("\"", "&quot;", Qt::CaseInsensitive);
-  name_dirty.replace(">", "&gt;", Qt::CaseInsensitive);
-  name_dirty.replace("<", "&lt;", Qt::CaseInsensitive);
-  return name_dirty.replace("&", "&amp;", Qt::CaseInsensitive);
 }

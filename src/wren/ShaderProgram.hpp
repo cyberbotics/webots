@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ namespace wren {
     static bool readFile(const std::string &path, std::string &contents);
 
     ShaderProgram();
-    ~ShaderProgram();
+    ~ShaderProgram() override;
 
     unsigned int compileShader(const std::string &path, unsigned int type);
     bool linkProgram();

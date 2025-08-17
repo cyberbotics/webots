@@ -31,15 +31,15 @@ showdown.extension('wbVariables', function() {
   var vars = {
     webots: {
       version: {
-        major: 'R2023b',
+        major: 'R2025a',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2023b',
-        package: 'R2023b'
+        full: 'R2025a',
+        package: 'R2025a'
       }
     },
     date: {
-      year: 2023
+      year: 2024
     },
     url: {
       github_tree: `https://github.com/cyberbotics/webots/tree/` + branch,

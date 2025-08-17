@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public:
   explicit WbLidar(WbTokenizer *tokenizer = NULL);
   WbLidar(const WbLidar &other);
   explicit WbLidar(const WbNode &other);
-  virtual ~WbLidar();
+  virtual ~WbLidar() override;
 
   // reimplemented public functions
   void createOdeObjects() override;

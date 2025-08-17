@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -308,7 +308,7 @@ bool WbTextEditor::openFile(const QString &path, const QString &title) {
     QFileInfo info(path);
     QString canonical = info.canonicalFilePath();
     for (int i = 0; i < n; i++) {
-      WbTextBuffer *buf = buffer(i);
+      const WbTextBuffer *buf = buffer(i);
       if (canonical == buf->fileName()) {
         selectTab(i);
         return true;
@@ -334,7 +334,7 @@ void WbTextEditor::openFileDialog() {
 
   // find a smart dir
   QString dir;
-  WbTextBuffer *textBuffer = currentBuffer();
+  const WbTextBuffer *textBuffer = currentBuffer();
   if (textBuffer)
     dir = textBuffer->path();
   else if (WbProject::current())
@@ -608,7 +608,7 @@ QStringList WbTextEditor::openFiles() const {
   QStringList list;
   int count = mTabWidget->count();
   for (int i = 0; i < count; i++) {
-    WbTextBuffer *buf = buffer(i);
+    const WbTextBuffer *buf = buffer(i);
     list << buf->fileName();
   }
 
@@ -618,7 +618,7 @@ QStringList WbTextEditor::openFiles() const {
 void WbTextEditor::openFiles(const QStringList &list, int selectedTab) {
   closeAllBuffers();
 
-  foreach (QString file, list) {
+  foreach (const QString &file, list) {
     WbTextBuffer *newBuffer = new WbTextBuffer(this);
     connectBuffer(newBuffer);
     bool success = newBuffer->load(file);

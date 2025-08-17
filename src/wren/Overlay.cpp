@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -159,7 +159,7 @@ namespace wren {
     cOverlays.erase(std::remove(cOverlays.begin(), cOverlays.end(), this), cOverlays.end());
   }
 
-  void Overlay::prepareTexture(Texture *texture, int textureUnitIndex) {
+  void Overlay::prepareTexture(Texture *texture, int textureUnitIndex) const {
     if (!texture)
       return;
 

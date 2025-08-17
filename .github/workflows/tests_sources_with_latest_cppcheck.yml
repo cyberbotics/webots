@@ -30,12 +30,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-11, windows-2019]
+        os: [ubuntu-22.04, macos-14, windows-2019]
         python: [3.9]
         include:
           - os: ubuntu-22.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install cppcheck"
-          - os: macos-11
+          - os: macos-14
             DEPENDENCIES_INSTALLATION: "brew install cppcheck; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
           - os: windows-2019
             DEPENDENCIES_INSTALLATION: "choco install -y cppcheck || true; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""

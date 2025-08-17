@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,11 +60,11 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
- WBCFLAGS += -Wno-unknown-pragmas -target $(PROCESSOR)-apple-macos11
+ WBCFLAGS += -Wno-unknown-pragmas -target $(PROCESSOR)-apple-macos12
  FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
  INCLUDE += -F"$(FRAMEWORKS_DIR)"
  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
- LD_FLAGS = -target $(PROCESSOR)-apple-macos11
+ LD_FLAGS = -target $(PROCESSOR)-apple-macos12
  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__APPLE__

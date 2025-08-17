@@ -19,14 +19,17 @@ apt install --yes lsb-release curl python3.7-dev python3.8-dev python3.9-dev pyt
 
 UBUNTU_VERSION=$(lsb_release -rs)
 if [[ $UBUNTU_VERSION == "22.04" ]]; then
-       apt install --yes openjdk-18-jdk
-elif [[ $UBUNTU_VERSION == "20.04" ]]; then
-       apt install --yes openjdk-16-jdk
+    apt install --yes openjdk-18-jdk
+elif [[ $UBUNTU_VERSION == "24.04" ]]; then
+    apt install --yes openjdk-21-jdk
 else
-       echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+    echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS versions are supported."
 fi
 
 script_full_path=$(dirname "$0")
 $script_full_path/linux_test_dependencies.sh --norecurse
 $script_full_path/linux_compilation_dependencies.sh
-$script_full_path/linux_web_viewer_dependencies.sh
+
+if [[ -z "$SNAP" ]]; then
+  $script_full_path/linux_web_viewer_dependencies.sh
+fi

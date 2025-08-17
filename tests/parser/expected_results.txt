@@ -17,6 +17,7 @@ parser/worlds/missing_use_value.wbt "Expected field name or '}', found 'USE'."
 parser/worlds/nested_def_name.wbt VOID
 parser/worlds/nested_proto_missing_ending_curly_bracket.wbt "Expected parameter name or '}', found end of file."
 parser/worlds/node_without_brackets.wbt "Expected '{', found 'RectangleArena'."
+parser/worlds/proto_allowed_mf_field_value.wbt VOID
 parser/worlds/proto_concatenated_comment.wbt VOID
 parser/worlds/proto_default_def_parameter.wbt "Wrong order of fields in the instance of PROTO DefaultDef: USE nodes might refer to the wrong DEF nodes."
 parser/worlds/proto_mismatch_field_type.wbt "Type mismatch between 'fieldTexture' PROTO parameter and field 'url'."
@@ -25,11 +26,15 @@ parser/worlds/proto_missing_ending_curly_bracket.wbt "Expected field name or '}'
 parser/worlds/proto_missing_item_value_in_field.wbt "Expected floating point value, found 'field'."
 parser/worlds/proto_nested_parameter.wbt VOID
 parser/worlds/proto_not_allowed_field_value.wbt "Invalid 'translation' changed to 0 0 0. The value should be in the list: {0 0 0}."
-parser/worlds/proto_not_allowed_mf_field_value.wbt "Invalid 'Pose' removed from 'extensionSlot' field. The values should be in the list: {Solid, Group}."
+parser/worlds/proto_not_allowed_mf_field_value_base.wbt "Invalid 'Pose' removed from 'extensionSlot' field. The values should be in the list: {Solid+, PoseProto+}."
+parser/worlds/proto_not_allowed_mf_field_value_base_no_subtypes.wbt "Invalid 'Solid' removed from 'extensionSlot3' field. The values should be in the list: {Pose}."
+parser/worlds/proto_not_allowed_mf_field_value_base_of_proto.wbt "Invalid 'Pose' removed from 'extensionSlot2' field. The values should be in the list: {PoseProto}."
+parser/worlds/proto_not_allowed_mf_field_value_proto.wbt "Invalid 'Parameter' removed from 'extensionSlot' field. The values should be in the list: {Solid+, PoseProto+}."
+parser/worlds/proto_not_allowed_mf_field_value_proto_no_subtypes.wbt "Invalid 'DerivedPoseProto' removed from 'extensionSlot2' field. The values should be in the list: {PoseProto}."
 parser/worlds/proto_parameter_missing_ending_curly_bracket.wbt "Expected field name or '}', found ']'."
 parser/worlds/proto_typo_in_alias.wbt "PROTO parameter 'rotation' has no matching IS field."
 parser/worlds/proto_typo_in_is_keyword.wbt "Expected floating point value, found 'ISNOT'."
-parser/worlds/proto_unknown_field_header.wbt "Expected 'field', 'unconnectedField', 'vrmlField' or 'hiddenField' keywords, found 'notfield'."
+parser/worlds/proto_unknown_field_header.wbt "Expected 'field', 'unconnectedField', 'w3dField' or 'hiddenField' keywords, found 'notfield'."
 parser/worlds/proto_unknown_field_type.wbt "Expected field type name, found 'SFIssue'."
 parser/worlds/proto_unknown_parameter.wbt "Skipped unknown 'wrongNode' parameter in Floor PROTO."
 parser/worlds/recursive_proto.wbt "Recursive definition of PROTO node 'RecursiveProto' is not supported."

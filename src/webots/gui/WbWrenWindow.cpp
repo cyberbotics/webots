@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -200,8 +200,8 @@ void WbWrenWindow::renderLater() {
   }
 }
 
-void WbWrenWindow::renderNow(bool culling) {
-  if (!isExposed() || !wr_gl_state_is_initialized())
+void WbWrenWindow::renderNow(bool culling, bool offScreen) {
+  if ((!isExposed() && !offScreen) || !wr_gl_state_is_initialized())
     return;
 
   static int first = true;
@@ -225,9 +225,10 @@ void WbWrenWindow::renderNow(bool culling) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_scene_render(wr_scene_get_instance(), NULL, culling);
+  wr_scene_render(wr_scene_get_instance(), NULL, culling, offScreen);
 
-  WbWrenOpenGlContext::instance()->swapBuffers(this);
+  if (!offScreen)
+    WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
 
   if (mVideoStreamingServer && mVideoStreamingServer->isNewFrameNeeded() && !first)
@@ -312,12 +313,11 @@ QImage WbWrenWindow::grabWindowBufferNow() {
     mSnapshotBufferHeight = destinationHeight;
     mSnapshotBuffer = new unsigned char[4 * destinationWidth * destinationHeight];
   }
-  const qreal ratio = devicePixelRatio();
-  const int sourceWidth = destinationWidth * ratio;
-  const int sourceHeight = destinationHeight * ratio;
+  const int sourceWidth = destinationWidth;
+  const int sourceHeight = destinationHeight;
   unsigned char *temp = new unsigned char[4 * sourceWidth * sourceHeight];
   readPixels(sourceWidth, sourceHeight, GL_BGRA, temp);
-  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, ratio);
+  flipAndScaleDownImageBuffer(temp, mSnapshotBuffer, sourceWidth, sourceHeight, 1.0);
   delete[] temp;
   WbWrenOpenGlContext::doneWren();
 
@@ -327,9 +327,8 @@ QImage WbWrenWindow::grabWindowBufferNow() {
 void WbWrenWindow::initVideoPBO() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  const int ratio = (int)devicePixelRatio();
-  mVideoWidth = width() * ratio;
-  mVideoHeight = height() * ratio;
+  mVideoWidth = width();
+  mVideoHeight = height();
   const int size = 4 * mVideoWidth * mVideoHeight;
   wr_scene_init_frame_capture(wr_scene_get_instance(), PBO_COUNT, mVideoPBOIds, size);
   mVideoPBOIndex = -1;
@@ -445,15 +444,5 @@ void WbWrenWindow::feedMultimediaStreamer() {
 }
 
 void WbWrenWindow::readPixels(int width, int height, unsigned int format, void *buffer) {
-#ifdef __linux__
-  if (WbSysInfo::isVirtualMachine()) {
-    // Reading the front buffer is not supported by all OpenGL implementations (especially on Linux running in a VM).
-    // In that case, to read the front buffer, we need to swap the buffers, read the back buffer and swap the buffers again.
-    // However, doing this may cause flickering on platforms where reading the front buffer is supported (including macOS).
-    WbWrenOpenGlContext::instance()->swapBuffers(this);
-    wr_scene_get_main_buffer(wr_scene_get_instance(), width, height, format, GL_UNSIGNED_BYTE, GL_BACK, buffer);
-    WbWrenOpenGlContext::instance()->swapBuffers(this);
-  } else
-#endif
-    wr_scene_get_main_buffer(wr_scene_get_instance(), width, height, format, GL_UNSIGNED_BYTE, GL_FRONT, buffer);
+  wr_scene_get_main_buffer(width, height, format, GL_UNSIGNED_BYTE, buffer);
 }

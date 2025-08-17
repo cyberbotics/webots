@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
     QStyleOptionViewItem itemOption(option);
 
-    WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
+    const WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
     if (item->isDefault())
       // paint unmodified tree items in black
       itemOption.palette.setColor(QPalette::Text, mDefaultColor);

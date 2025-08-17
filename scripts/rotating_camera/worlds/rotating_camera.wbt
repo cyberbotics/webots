@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 WorldInfo {
   info [
     "Example of a supervisor controller rotating the Viewpoint around a Robot, so that the Robot is always in the field of view."

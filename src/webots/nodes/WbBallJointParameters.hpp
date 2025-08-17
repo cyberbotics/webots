@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,14 +28,13 @@ class WbBallJointParameters : public WbJointParameters {
   Q_OBJECT
 
 public:
-  virtual ~WbBallJointParameters();
+  virtual ~WbBallJointParameters() override;
   WbBallJointParameters(const QString &modelName, WbTokenizer *tokenizer);
   explicit WbBallJointParameters(WbTokenizer *tokenizer = NULL);
   WbBallJointParameters(const WbBallJointParameters &other);
   explicit WbBallJointParameters(const WbNode &other);
 
   int nodeType() const override { return WB_NODE_BALL_JOINT_PARAMETERS; }
-  void preFinalize() override;
   void postFinalize() override;
 
   virtual const WbVector3 &anchor() const { return mAnchor->value(); }

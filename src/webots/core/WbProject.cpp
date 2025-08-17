@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -124,6 +124,7 @@ QString WbProject::projectPathFromWorldFile(const QString &fileName, bool &valid
   assert(info.suffix() == "wbt");
   QDir directory = info.absoluteDir();
   valid = directory.dirName() == "worlds";
+  // cppcheck-suppress ignoredReturnErrorCode
   directory.cdUp();  // remove "worlds"
   return directory.absolutePath() + "/";
 }
@@ -133,6 +134,7 @@ QString WbProject::projectNameFromWorldFile(const QString &fileName) {
   assert(info.suffix() == "wbt");
   QDir directory = info.absoluteDir();
   if (directory.dirName() == "worlds") {
+    // cppcheck-suppress ignoredReturnErrorCode
     directory.cdUp();  // remove "worlds"
     return directory.dirName();
   }

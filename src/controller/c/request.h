@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,10 +62,10 @@ void *request_read_data(WbRequest *, int size);
 char *request_read_string(WbRequest *);  // to be released with g_free
 bool request_is_over(WbRequest *);
 int request_get_size(WbRequest *);
-int request_get_position(WbRequest *);
+int request_get_position(const WbRequest *);
 void request_set_position(WbRequest *, int pos);
 void request_set_immediate(WbRequest *, bool immediate);
-bool request_is_immediate(WbRequest *);
+bool request_is_immediate(const WbRequest *);
 void request_print(FILE *fd, WbRequest *);  // for debug
 
 #define request_read_char(r) ((r)->data[(r)->pointer++])

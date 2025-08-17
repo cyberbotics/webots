@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public:
   explicit WbCylinder(WbTokenizer *tokenizer = NULL);
   WbCylinder(const WbCylinder &other);
   explicit WbCylinder(const WbNode &other);
-  virtual ~WbCylinder();
+  virtual ~WbCylinder() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CYLINDER; }
@@ -38,7 +38,6 @@ public:
   void createResizeManipulator() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  bool shallExport() const override;
   void rescale(const WbVector3 &scale) override;
 
   // field accessors
@@ -65,11 +64,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbCylinder &operator=(const WbCylinder &);  // non copyable

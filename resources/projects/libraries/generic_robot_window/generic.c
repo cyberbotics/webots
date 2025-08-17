@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -207,12 +207,12 @@ void wbu_generic_robot_window_parse_device_command(char *token, char *tokens) {
   };
 }
 
-bool wbu_generic_robot_window_parse_device_control_command(char *first_token, char *tokens) {
+bool wbu_generic_robot_window_parse_device_control_command(const char *first_token, char *tokens) {
   if (strcmp(first_token, "device-control-mode") != 0)
     return false;
   WbNodeType type = WB_NODE_NO_NODE;
 
-  char *token = NULL;
+  const char *token = NULL;
   while ((token = wbu_string_strsep(&tokens, ":"))) {
     if (type == WB_NODE_NO_NODE) {
       type = stringToDeviceType(token);

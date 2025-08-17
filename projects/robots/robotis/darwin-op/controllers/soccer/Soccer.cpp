@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -158,6 +158,7 @@ void Soccer::run() {
   const double acc_step = 20;
 
   while (true) {
+    // cppcheck-suppress variableScope
     double x, y, neckPosition, headPosition;
     bool ballInFieldOfView = getBallCenter(x, y);
     const double *acc = mAccelerometer->getValues();

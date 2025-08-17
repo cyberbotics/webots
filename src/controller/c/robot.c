@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -358,8 +358,7 @@ static void robot_configure(WbRequest *r) {
   robot.device[0]->name = request_read_string(r);
 
   WEBOTS_VERSION = request_read_string(r);
-  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
-                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+  if (strlen(WEBOTS_VERSION) && (strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, 6)))
     fprintf(stderr,
             "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
             "to undefined behavior.\n",
@@ -1082,21 +1081,33 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static char *encode_robot_name(const char *robot_name) {
+static char *encode_robot_name(const char *robot_name, int chars_used) {
   if (!robot_name)
     return NULL;
 
   char *encoded_name = percent_encode(robot_name);
   int length = strlen(encoded_name);
   // the robot name is used to connect to the libController and in this process there are indirect
-  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
-  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
-  if (length > 70) {  // note: this threshold should be the same as in WbRobot.cpp
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names
+  // on some platforms.
+  // Since the server name also contains the tmp path and that includes the user's username and,
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded
+  // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
+  // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
+  // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
+  // chance of a name collision 1/65536.
+  // Note: It is critical that the same logic is used in WbRobot.cpp
+  int max_name_length = 91 - chars_used;
+  if (max_name_length < 4)
+    max_name_length = 4;
+  // Round down to the next multiple of 2 because it makes the code easier.
+  max_name_length = max_name_length / 2 * 2;
+  if (length > max_name_length) {
     char hash[21];
-    char *output = malloc(41);
+    char *output = malloc(max_name_length + 1);
     SHA1(hash, encoded_name, length);
     free(encoded_name);
-    for (size_t i = 0; i < 20; i++)
+    for (size_t i = 0; i < max_name_length / 2 && i < 20; i++)
       sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
     return output;
   }
@@ -1105,10 +1116,12 @@ static char *encode_robot_name(const char *robot_name) {
 }
 
 static char *compute_socket_filename(char *error_buffer) {
-  char *robot_name = encode_robot_name(wbu_system_getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
+  char *robot_name = NULL;
+  const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
   char *socket_filename;
-  if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
+    robot_name = encode_robot_name(WEBOTS_ROBOT_NAME, strlen(WEBOTS_INSTANCE_PATH) + strlen("ipc//intern"));
 #ifndef _WIN32
     const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
@@ -1166,7 +1179,7 @@ static char *compute_socket_filename(char *error_buffer) {
     struct stat filestat;
     double timestamp = 0.0;
     int number = -1;
-    struct dirent *de;
+    const struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
 #ifndef _WIN32
       if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
@@ -1251,9 +1264,15 @@ static char *compute_socket_filename(char *error_buffer) {
     return NULL;
   }
   closedir(dr);
+  size_t path_length = strlen(webots_instance_folder) + 9;
   // check if Webots is currently loading
   char *loading_file_path = malloc(strlen(webots_instance_folder) + 9);  // webots_instance_folder + '/loading'
-  snprintf(loading_file_path, strlen(webots_instance_folder) + 9, "%s/loading", webots_instance_folder);
+  int written = snprintf(loading_file_path, path_length, "%s/loading", webots_instance_folder);
+  if (written < 0 || (size_t)written >= path_length) {
+    fprintf(stderr, "Error: Constructing loading_file_path failed or truncated.\n");
+    free(loading_file_path);
+    exit(EXIT_FAILURE);
+  }
   FILE *loading_file = fopen(loading_file_path, "r");
   if (loading_file) {
     fclose(loading_file);
@@ -1267,8 +1286,8 @@ static char *compute_socket_filename(char *error_buffer) {
   free(loading_file_path);
 
   free(robot_name);
-  char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
-  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
+  const char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL, strlen(ipc_folder) + strlen("//extern"));
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
@@ -1292,7 +1311,7 @@ static char *compute_socket_filename(char *error_buffer) {
     }
     char **filenames = NULL;
     int count = 0;
-    struct dirent *de;
+    const struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
       if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
         continue;
@@ -1304,7 +1323,7 @@ static char *compute_socket_filename(char *error_buffer) {
       DIR *d = opendir(subfolder);
       free(subfolder);
       if (d) {
-        struct dirent *sub;
+        const struct dirent *sub;
         while ((sub = readdir(d)) != NULL) {
           if (strcmp(sub->d_name, "extern") == 0) {
             found = true;
@@ -1371,7 +1390,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
-  *robot_name = rn != NULL ? encode_robot_name(rn + 1) : NULL;
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1, 0) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
@@ -1463,11 +1482,11 @@ int wb_robot_init() {  // API initialization
         retry -= 5;
         fprintf(stderr, "%s, pending until loading is done...\n", error_message);
       } else if (socket_filename) {
+        fprintf(stderr,
+                "The specified robot (at %s) is not in the list of robots with <extern> controllers, retrying for another %d "
+                "seconds...\n",
+                socket_filename, 50 - retry);
         free(socket_filename);
-        fprintf(
-          stderr,
-          "The specified robot is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
-          50 - retry);
       } else
         fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
     }

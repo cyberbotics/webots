@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -141,7 +141,7 @@ QVector<WbLogicalDevice *> WbBallJoint::devices() const {
 
 WbVector3 WbBallJoint::anchor() const {
   static const WbVector3 ZERO(0.0, 0.0, 0.0);
-  WbBallJointParameters *const p = ballJointParameters();
+  const WbBallJointParameters *const p = ballJointParameters();
   return p ? p->anchor() : ZERO;
 }
 

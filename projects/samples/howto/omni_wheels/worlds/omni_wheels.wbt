@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -43,6 +43,7 @@ DEF OMNI_WHEELS Robot {
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 0.05
                 }
                 endPoint Solid {
@@ -100,6 +101,7 @@ DEF OMNI_WHEELS Robot {
               }
               DEF sr3 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 -0.05
                 }
                 endPoint Solid {
@@ -306,6 +308,7 @@ DEF OMNI_WHEELS Robot {
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 0.05
                 }
                 endPoint Solid {
@@ -343,6 +346,7 @@ DEF OMNI_WHEELS Robot {
               }
               DEF sr3 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 -0.05
                 }
                 endPoint Solid {
@@ -502,6 +506,7 @@ DEF OMNI_WHEELS Robot {
             children [
               DEF sr1 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 0.05
                 }
                 endPoint Solid {
@@ -539,6 +544,7 @@ DEF OMNI_WHEELS Robot {
               }
               DEF sr3 HingeJoint {
                 jointParameters HingeJointParameters {
+                  axis 0 1 0
                   anchor -0.02 0 -0.05
                 }
                 endPoint Solid {

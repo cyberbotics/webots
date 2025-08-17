@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public:
   WbMFVector3() {}
   WbMFVector3(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFVector3(const WbMFVector3 &other) : mVector(other.mVector) {}
-  virtual ~WbMFVector3() {}
+  virtual ~WbMFVector3() override {}
   WbValue *clone() const override { return new WbMFVector3(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

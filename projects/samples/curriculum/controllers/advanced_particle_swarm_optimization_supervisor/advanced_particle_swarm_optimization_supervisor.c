@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,7 +157,7 @@ int main() {
 
     while (nb_received != NB_ROBOTS) {
       // robot_console_printf("In the while, receiver queue length: %d\n", receiver_get_queue_length(receiver));
-      float *inbuffer;
+      const float *inbuffer;
       // get all the new messages from the robots
       while (wb_receiver_get_queue_length(receiver) > 0) {
         // robot_console_printf("Something received\n");

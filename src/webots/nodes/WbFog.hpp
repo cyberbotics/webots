@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ public:
   explicit WbFog(WbTokenizer *tokenizer = NULL);
   WbFog(const WbFog &other);
   explicit WbFog(const WbNode &other);
-  virtual ~WbFog();
+  virtual ~WbFog() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_FOG; }
@@ -42,7 +42,7 @@ public:
 
   int mode() const { return mWrenFogType; }
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void modeChanged();

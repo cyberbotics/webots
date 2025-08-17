@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ int main() {
 
   wb_robot_init();
 
-  /* get a handle the the bumper and activate it. */
+  /* get a handle to the bumper and activate it. */
   bumper = wb_robot_get_device("bumper");
   wb_touch_sensor_enable(bumper, TIME_STEP);
 

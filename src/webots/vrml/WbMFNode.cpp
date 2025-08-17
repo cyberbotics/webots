@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -198,7 +198,7 @@ void WbMFNode::write(WbWriter &writer) const {
   const int vectorSize = mVector.size();
   for (int i = 0; i < vectorSize; ++i) {
     if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
-      if (!writer.isX3d())
+      if (!writer.isW3d())
         writer.writeMFSeparator(c == 0, smallSeparator(i));
       writeItem(writer, i);
       ++c;

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,14 +151,16 @@ void WbParser::parseFieldAcceptedValues(WbFieldType type, const QString &worldPa
   while (nextWord() != '}') {
     mTokenizer->ungetToken();
     WbParser::parseSingleFieldValue(type, worldPath);
+    if (nextWord() != '+')
+      mTokenizer->ungetToken();
   }
 }
 
 void WbParser::parseFieldDeclaration(const QString &worldPath) {
-  WbToken *const token = nextToken();
-  if (token->word() != "field" && token->word() != "vrmlField" && token->word() != "hiddenField" &&
+  const WbToken *const token = nextToken();
+  if (token->word() != "field" && token->word() != "w3dField" && token->word() != "hiddenField" &&
       token->word() != "deprecatedField" && token->word() != "unconnectedField")
-    reportUnexpected(QObject::tr("'field', 'unconnectedField', 'vrmlField' or 'hiddenField' keywords"));
+    reportUnexpected(QObject::tr("'field', 'unconnectedField', 'w3dField' or 'hiddenField' keywords"));
 
   // check field type
   const WbFieldType type = WbValue::vrmlNameToType(nextWord());
@@ -274,7 +276,7 @@ void WbParser::parseEof() {
 }
 
 const QString &WbParser::parseIdentifier(const QString &expected) {
-  WbToken *token = nextToken();
+  const WbToken *token = nextToken();
 
   if (!token->isIdentifier())
     reportUnexpected(expected);

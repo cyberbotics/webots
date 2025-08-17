@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -341,11 +341,11 @@ void mtn_delete(MTN *mtn) {
   free(mtn);
 }
 
-int mtn_get_length(MTN *mtn) {
+int mtn_get_length(const MTN *mtn) {
   return mtn->length;
 }
 
-int mtn_get_time(MTN *mtn) {
+int mtn_get_time(const MTN *mtn) {
   return mtn->current_time;
 }
 
@@ -354,7 +354,7 @@ void mtn_play(MTN *mtn) {
   // TODO: check for possible joint control clashes before  appending to the running list
 }
 
-int mtn_is_over(MTN *mtn) {
+int mtn_is_over(const MTN *mtn) {
   return !list_contains(mtn);
   // rationale: an MTN is over when it reaches its final position;
   // when that happens, it is removed from the simultaneous play queue
@@ -364,7 +364,7 @@ const char *mtn_get_error() {
   return mtn_last_error;
 }
 
-void mtn_fprint(FILE *fd, MTN *mtn) {
+void mtn_fprint(FILE *fd, const MTN *mtn) {
   int i, j;
   fprintf(fd, "MTN version:\t%d.%d\n", mtn->major_version, mtn->minor_version);
   fprintf(fd, "# keyframes:\t%d\n", mtn->number_of_keyframes);

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,11 @@ AbstractWidget::AbstractWidget(QWidget *parent) : QWidget(parent) {
   mLayout = new QGridLayout(this);
 
   mEnableCheckBox = new QCheckBox("Disabled", this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+  connect(mEnableCheckBox, &QCheckBox::checkStateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
+#else
   connect(mEnableCheckBox, &QCheckBox::stateChanged, this, &AbstractWidget::updateEnableCheckBoxText);
+#endif
   mLayout->addWidget(mEnableCheckBox, 0, 0);
 
   mValueLabel = new QLabel("", this);

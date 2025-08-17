@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,10 +33,6 @@ WbAnchorParameter::WbAnchorParameter(const WbNode &other) : WbBaseNode(other) {
 }
 
 WbAnchorParameter::~WbAnchorParameter() {
-}
-
-void WbAnchorParameter::preFinalize() {
-  WbBaseNode::preFinalize();
 }
 
 void WbAnchorParameter::postFinalize() {

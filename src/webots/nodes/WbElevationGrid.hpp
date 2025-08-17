@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public:
   explicit WbElevationGrid(WbTokenizer *tokenizer = NULL);
   WbElevationGrid(const WbElevationGrid &other);
   explicit WbElevationGrid(const WbNode &other);
-  virtual ~WbElevationGrid();
+  virtual ~WbElevationGrid() override;
 
   // field accessors
   // getters
@@ -70,14 +70,13 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void validElevationGridInserted();
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbWriter &writer) const override;
 
 private:
   WbElevationGrid &operator=(const WbElevationGrid &);  // non copyable

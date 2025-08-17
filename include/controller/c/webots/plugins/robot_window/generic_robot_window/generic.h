@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 void wbu_generic_robot_window_parse_device_command(char *token, char *tokens);
-bool wbu_generic_robot_window_parse_device_control_command(char *first_token, char *tokens);
+bool wbu_generic_robot_window_parse_device_control_command(const char *first_token, char *tokens);
 bool wbu_generic_robot_window_handle_messages(const char *message);
 void wbu_generic_robot_window_init();
 void wbu_generic_robot_window_update();

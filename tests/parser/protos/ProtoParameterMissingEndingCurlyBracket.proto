@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 # error: missing ending bracket in default value of children field
 
 PROTO ProtoParameterMissingEndingCurlyBracket [

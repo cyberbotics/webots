@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,8 @@ const QString &WbStandardPaths::webotsHomePath() {
   if (path.isEmpty()) {
     QDir dir(QCoreApplication::applicationDirPath());
     for (int i = 0; i < depth; i++)
-      dir.cdUp();
+      if (!dir.cdUp())
+        assert(false);
     path = dir.absolutePath() + "/";
   }
   return path;
@@ -243,16 +244,17 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
 #endif
   // cleanup old and unused tmp directories
   QDir directory(cWebotsTmpPath);
-  directory.cdUp();
-  const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
-  foreach (const QString &dirname, webotsTmp) {
-    const QString fullName(directory.absolutePath() + "/" + dirname);
-    const QFileInfo fileInfo(fullName + "/live.txt");
-    const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
-    const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
-    if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
-      QDir d(fullName);
-      d.removeRecursively();
+  if (directory.cdUp()) {
+    const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
+    foreach (const QString &dirname, webotsTmp) {
+      const QString fullName(directory.absolutePath() + "/" + dirname);
+      const QFileInfo fileInfo(fullName + "/live.txt");
+      const QDateTime &lastModified = fileInfo.fileTime(QFileDevice::FileModificationTime);
+      const qint64 diff = lastModified.secsTo(QDateTime::currentDateTime());
+      if (diff > 3600) {  // if the live.txt file was not modified for more than one hour, delete the tmp folder
+        QDir d(fullName);
+        d.removeRecursively();
+      }
     }
   }
 

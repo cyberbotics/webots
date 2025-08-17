@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ namespace WbUrl {
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  QString computeLocalAssetUrl(QString url, bool isX3d);
+  QString computeLocalAssetUrl(QString url, bool isW3d);
   QString computePrefix(const QString &rawUrl);
 
   QString remoteWebotsAssetRegex(bool capturing);

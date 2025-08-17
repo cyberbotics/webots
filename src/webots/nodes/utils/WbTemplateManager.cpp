@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ void WbTemplateManager::blockRegeneration(bool block) {
 }
 
 void WbTemplateManager::clear() {
-  foreach (WbNode *node, mTemplates)
+  foreach (const WbNode *node, mTemplates)
     disconnect(node, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
   mTemplates.clear();
 }
@@ -121,7 +121,7 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
   if (!node->isProtoInstance())
     return false;
 
-  foreach (WbField *field, node->fieldsOrParameters()) {
+  foreach (const WbField *field, node->fieldsOrParameters()) {
     if (!field->alias().isEmpty())
       return true;
   }
@@ -131,10 +131,9 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
 void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bool subscribedNode, bool subscribedDescendant) {
   if (subscribedNode || subscribedDescendant) {
     if (node->isProtoInstance())
-      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromParameterChange,
-              Qt::UniqueConnection);
+      connect(node, &WbNode::parameterChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
     else
-      connect(node, &WbNode::fieldChanged, this, &WbTemplateManager::regenerateNodeFromFieldChange, Qt::UniqueConnection);
+      connect(node, &WbNode::fieldChanged, this, &WbTemplateManager::regenerateNodeFromField, Qt::UniqueConnection);
   }
 
   // if PROTO node:
@@ -177,25 +176,15 @@ void WbTemplateManager::recursiveFieldSubscribeToRegenerateNode(WbNode *node, bo
   }
 }
 
-void WbTemplateManager::regenerateNodeFromFieldChange(WbField *field) {
-  // retrieve the right node
-  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
-  assert(templateNode);
-  if (templateNode)
-    regenerateNodeFromField(templateNode, field, false);
-}
-
-void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
-  // retrieve the right node
-  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
-  assert(templateNode);
-  if (templateNode)
-    regenerateNodeFromField(templateNode, field, true);
-}
-
 // intermediate function to determine which node should be updated
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
-void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
+void WbTemplateManager::regenerateNodeFromField(WbField *field) {
+  // retrieve the right node
+  WbNode *templateNode = dynamic_cast<WbNode *>(sender());
+  assert(templateNode);
+  if (!templateNode)
+    return;
+
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
   WbNode *upperTemplateNode = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
@@ -203,7 +192,7 @@ void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *f
     return;
 
   // 2. check it's not a parameter managed by ODE
-  if (!isParameter && dynamic_cast<const WbSolid *>(templateNode) &&
+  if (!field->isParameter() && dynamic_cast<const WbSolid *>(templateNode) &&
       ((field->name() == "translation" && field->type() == WB_SF_VEC3F) ||
        (field->name() == "rotation" && field->type() == WB_SF_ROTATION) ||
        (field->name() == "position" && field->type() == WB_SF_FLOAT)))
@@ -237,7 +226,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   WbField *parentField = node->parentField();
   QVector<WbField *> parameters;
   WbNode::setRestoreUniqueIdOnClone(true);
-  foreach (WbField *parameter, node->parameters()) {
+  foreach (const WbField *parameter, node->parameters()) {
     parameters << new WbField(*parameter, NULL);
     if (parameter->parameter() != NULL)
       previousParentRedirections.append(parameter->parameter());
@@ -299,7 +288,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
   if (node->isProtoParameterNode()) {
     // internal PROTO child could be regenerated due to a parameter exposed in the parent PROTO node
     // so for parent PROTO instances both fields and parameters needs to be checked
-    const QList<WbField *> parentFields = (parent->isProtoInstance() ? parent->parameters() : QList<WbField *>())
+    const QList<WbField *> parentFields = (parent->isProtoInstance() ? QList(parent->parameters()) : QList<WbField *>())
                                           << parent->fields();
     foreach (WbField *const pf, parentFields) {
       if (pf->type() == WB_SF_NODE) {
@@ -321,7 +310,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
         WbMFNode *mfnode = static_cast<WbMFNode *>(pf->value());
         bool found = false;
         for (int i = 0; i < mfnode->size(); ++i) {
-          WbNode *n = mfnode->item(i);
+          const WbNode *n = mfnode->item(i);
           if (n == node) {
             if (ancestorTemplateRegeneration)
               mfnode->blockSignals(true);
@@ -351,7 +340,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     WbGroup *const parentGroup = dynamic_cast<WbGroup *>(parent);
     WbBasicJoint *const parentJoint = dynamic_cast<WbBasicJoint *>(parent);
     WbShape *const parentShape = dynamic_cast<WbShape *>(parent);
-    WbSkin *const parentSkin = dynamic_cast<WbSkin *>(parent);
+    const WbSkin *const parentSkin = dynamic_cast<WbSkin *>(parent);
     WbSlot *const parentSlot = dynamic_cast<WbSlot *>(parent);
     WbAppearance *const newAppearance = dynamic_cast<WbAppearance *>(newNode);
     WbPbrAppearance *const newPbrAppearance = dynamic_cast<WbPbrAppearance *>(newNode);

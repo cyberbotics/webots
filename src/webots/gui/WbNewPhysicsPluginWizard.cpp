@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,6 +113,7 @@ QWizardPage *WbNewPhysicsPluginWizard::createIntroPage() {
 
   page->setTitle(tr("New physics plugin creation"));
 
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(tr("This wizard will help you creating a new physics plugin."), page);
 
   QVBoxLayout *layout = new QVBoxLayout(page);

@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ static int cleanup_done = 0;
 // returns UNDEFINED_TIME in case of syntax error
 static int str_to_time(const char *token) {
   // check for illegal characters
-  char cset[] = "0123456789:";
+  const char cset[] = "0123456789:";
   if (strspn(token, cset) < strlen(token))
     return UNDEFINED_TIME;
 
@@ -110,7 +110,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
     return false;
   }
 
-  char *token = next_token(buffer);
+  const char *token = next_token(buffer);
   if (!token) {
     fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n", filename);
     return false;
@@ -217,7 +217,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
   rewind(file);
 
   char buffer[MAX_LINE];
-  char *r = fgets(buffer, MAX_LINE, file);
+  const char *r = fgets(buffer, MAX_LINE, file);
   if (r == NULL)
     return;  // should never happen
 
@@ -227,7 +227,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
 
   int i;
   for (i = 0; i < ref->n_joints; i++) {
-    char *token = next_token(NULL);
+    const char *token = next_token(NULL);
     ref->joint_names[i] = malloc(strlen(token) + 1);
     strcpy(ref->joint_names[i], token);
   }
@@ -236,7 +236,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
     r = fgets(buffer, MAX_LINE, file);
     if (r == NULL)
       return;  // should never happen
-    char *token = next_token(buffer);
+    const char *token = next_token(buffer);
     ref->times[i] = str_to_time(token);
     next_token(NULL);  // skip pose name
     int j;

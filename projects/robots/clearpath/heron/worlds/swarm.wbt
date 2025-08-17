@@ -1,0 +1,121 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "webots://projects/robots/clearpath/heron/protos/Heron.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.18176804184458514 0.0956506889908684 0.978678356080054 2.3939203875238824
+  position 9.724896539150558 -16.953124456807643 11.603646524687557
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF WATER Fluid {
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.0626841 0.552224 0.723339
+        transparency 0.7
+        roughness 1
+        metalness 0
+      }
+      geometry DEF WATER_BOX Box {
+        size 1000 1000 0.7
+      }
+    }
+  ]
+  viscosity 0.01
+  boundingObject USE WATER_BOX
+  locked TRUE
+}
+OilBarrel {
+  translation -5.769041604986175 5.7137363726152754 0.5595498919704249
+  rotation -0.16995723822816233 -0.9045642485178795 0.39099623716493703 1.751439322141487
+  physics Physics {
+    density 100
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+    }
+  ]
+}
+OilBarrel {
+  translation -10.052079249302796 2.4814946123187727 0.5595498919704248
+  rotation -0.2750758106273439 -0.660017664982181 0.6990779501022608 -2.8436801772670055
+  name "oil barrel(1)"
+  physics Physics {
+    density 100
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+    }
+  ]
+}
+OilBarrel {
+  translation -9.806804324970415 -3.2705951440882433 0.5595498919704248
+  rotation 0.9914248557443196 0.045597095586811014 0.12246493492588871 1.5859460279251565
+  name "oil barrel(2)"
+  physics Physics {
+    density 100
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+    }
+  ]
+}
+OilBarrel {
+  translation -9.210530377900385 3.4633481997220334 0.5595498864740154
+  rotation 0.7706881417390529 0.22496315694279187 -0.5961806489656792 -2.154322256155228
+  name "oil barrel(3)"
+  physics Physics {
+    density 100
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+    }
+  ]
+}
+Heron {
+  translation -6.615901389647778 -0.10311821791702494 0.4607076736909942
+  rotation -4.6247733909052664e-05 -0.002706298153373231 -0.9999963368990169 0.03417465445606993
+}
+Heron {
+  translation -6.52386 -1.44172 0.46070752315447433
+  rotation 0.00048045640364142506 0.030233731683355424 -0.9995427407720706 0.031794666209612875
+  name "heron(3)"
+}
+Heron {
+  translation -6.432764992739735 1.126054508316503 0.46070790263066325
+  rotation -2.9648308687466188e-05 -0.001213445947895377 -0.9999992633346834 0.04885661841190292
+  name "heron(1)"
+}
+Heron {
+  translation -6.32039 2.49159 0.4607075538980211
+  rotation -0.00040473384668264804 -0.029653153639982166 -0.9995601666081523 0.027308176523216297
+  name "heron(2)"
+}

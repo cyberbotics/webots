@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ static void create_wren_scene() {
 
 // Render function.
 static void render() {
-  wr_scene_render(wr_scene_get_instance(), NULL, true);
+  wr_scene_render(wr_scene_get_instance(), NULL, true, false);
   glutSwapBuffers();
 }
 

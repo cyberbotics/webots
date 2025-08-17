@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public:
   explicit WbCoordinate(WbTokenizer *tokenizer = NULL);
   WbCoordinate(const WbCoordinate &other);
   explicit WbCoordinate(const WbNode &other);
-  virtual ~WbCoordinate();
+  virtual ~WbCoordinate() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_COORDINATE; }
@@ -43,7 +43,7 @@ public:
   }
   void rescaleAndTranslate(const WbVector3 &s, const WbVector3 &t) { mPoint->rescaleAndTranslate(s, t); }
   void translate(const WbVector3 &v) { mPoint->translate(v); }
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private:
   // user accessible fields

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -281,7 +281,7 @@ QString WbPhysicsPlugin::findSourceFileForPlugin(const QString &name) {
       return path;
 
     // search in projects folder of loaded PROTOs
-    foreach (WbProtoModel *model, WbProtoManager::instance()->models()) {
+    foreach (const WbProtoModel *model, WbProtoManager::instance()->models()) {
       if (!model->path().isEmpty()) {
         path = model->path() + "../" + fileName;
         if (QFile::exists(path))

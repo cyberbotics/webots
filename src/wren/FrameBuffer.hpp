@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ namespace wren {
     // Encapsulate memory management
     static FrameBuffer *createFrameBuffer() { return new FrameBuffer(); }
     static void deleteFrameBuffer(FrameBuffer *frameBuffer);
-    static void swapTexture(TextureRtt *texture);
+    static void swapTexture(const TextureRtt *texture);
 
     void appendOutputTexture(TextureRtt *texture);
     void appendOutputTextureDisable(TextureRtt *texture);
@@ -81,9 +81,9 @@ namespace wren {
     unsigned int glName() const { return mGlName; }
 
     void setup();
-    void blitToScreen();
-    void bind();
-    void release();
+    void blitToScreen() const;
+    void bind() const;
+    void release() const;
 
     void initiateCopyToPbo();
     void copyContents(size_t index, void *data);
@@ -97,7 +97,7 @@ namespace wren {
 
   private:
     FrameBuffer();
-    ~FrameBuffer() {}
+    ~FrameBuffer() override {}
 
     const Texture::GlFormatParams &drawBufferFormat(size_t index) const;
 

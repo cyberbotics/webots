@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,14 +45,14 @@ namespace wren {
     int computeChildCount() const override;
     void setMatrixDirty() const override {
       TransformNode::setMatrixDirty();
-      for (Node *n : mChildren)
+      for (const Node *n : mChildren)
         n->setMatrixDirty();
     }
 
   protected:
     Transform();
     explicit Transform(Transform *source);
-    virtual ~Transform();
+    virtual ~Transform() override;
 
   private:
     void recomputeAabb() const override {
@@ -71,7 +71,7 @@ namespace wren {
       if (mChildren.size()) {
         std::vector<primitive::Sphere> spheres;
         spheres.reserve(mChildren.size());
-        for (Node *child : mChildren)
+        for (const Node *child : mChildren)
           spheres.push_back(child->boundingSphere());
 
         mBoundingSphere = primitive::mergeBoundingSpheres(spheres);

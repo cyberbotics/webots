@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -201,7 +201,7 @@ void WbControlledWorld::step() {
     }
   }
 
-  WbSimulationState *const simulationState = WbSimulationState::instance();
+  const WbSimulationState *const simulationState = WbSimulationState::instance();
 
   // starts controllers that were set by the user at the previous time step
   static QList<WbController *> justStartedControllers;
@@ -260,7 +260,7 @@ void WbControlledWorld::step() {
 
   if (mRetryEnabled) {
     mRetryEnabled = false;
-    foreach (WbController *const controller, mControllers)
+    foreach (const WbController *const controller, mControllers)
       disconnect(controller, &WbController::requestReceived, this, &WbControlledWorld::step);
     emit stepBlocked(false);
   }
@@ -288,14 +288,14 @@ void WbControlledWorld::step() {
 bool WbControlledWorld::needToWait(bool *waitForExternControllerStart) {
   if (waitForExternControllerStart)
     *waitForExternControllerStart = false;
-  foreach (WbController *const controller, mDisconnectedExternControllers) {
+  foreach (const WbController *const controller, mDisconnectedExternControllers) {
     if (controller->robot()->synchronization()) {
       if (waitForExternControllerStart)
         *waitForExternControllerStart = true;
       return true;
     }
   }
-  foreach (WbController *const controller, mControllers) {
+  foreach (const WbController *const controller, mControllers) {
     if (!controller->isRequestPending() || controller->isIncompleteRequest()) {
       mNeedToYield = true;
       if (controller->synchronization())
@@ -425,7 +425,7 @@ void WbControlledWorld::externConnection(WbController *controller, bool connect)
 
 QStringList WbControlledWorld::activeControllersNames() const {
   QStringList list;
-  foreach (WbController *const controller, mControllers) {
+  foreach (const WbController *const controller, mControllers) {
     if (controller && controller->isRunning())
       list.append(controller->name());
   }
@@ -444,7 +444,7 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
     }
   }
 
-  WbSimulationState *const simulationState = WbSimulationState::instance();
+  const WbSimulationState *const simulationState = WbSimulationState::instance();
   for (int i = 0; i < controllersCount; ++i) {
     WbController *controller = mControllers[i];
     if (!controller->isRequestPending())

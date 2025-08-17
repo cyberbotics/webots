@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,7 +134,7 @@ bool WbWrenPicker::pick(int x, int y) {
   wr_viewport_enable_skybox(mViewport, false);
   wr_scene_enable_translucence(scene, false);
   wr_scene_enable_depth_reset(scene, false);
-  wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true);
+  wr_scene_render_to_viewports(scene, 1, &mViewport, "picking", true, false);
   wr_scene_enable_depth_reset(scene, true);
   wr_viewport_enable_skybox(mViewport, true);
   wr_scene_enable_translucence(scene, true);
@@ -142,7 +142,7 @@ bool WbWrenPicker::pick(int x, int y) {
   char *data = new char[4];
   wr_frame_buffer_copy_pixel(mFrameBuffer, 0, x, y, data, true);
 
-  unsigned char *data2 = reinterpret_cast<unsigned char *>(data);
+  const unsigned char *data2 = reinterpret_cast<unsigned char *>(data);
   int id = (data2[0] << 24) | (data2[1] << 16) | (data2[2] << 8) | data2[3];
 
   delete[] data;

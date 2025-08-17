@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,7 +132,7 @@ void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_position_sensor_disable(WbDeviceTag tag) {
-  PositionSensor *p = position_sensor_get_struct(tag);
+  const PositionSensor *p = position_sensor_get_struct(tag);
   if (p)
     wb_position_sensor_enable(tag, 0);
   else
@@ -142,7 +142,7 @@ void wb_position_sensor_disable(WbDeviceTag tag) {
 double wb_position_sensor_get_value(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  PositionSensor *p = position_sensor_get_struct(tag);
+  const PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     if (p->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_position_sensor_enable().\n", __FUNCTION__);
@@ -156,7 +156,7 @@ double wb_position_sensor_get_value(WbDeviceTag tag) {
 int wb_position_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  PositionSensor *p = position_sensor_get_struct(tag);
+  const PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     sampling_period = p->sampling_period;
   } else
@@ -168,7 +168,7 @@ int wb_position_sensor_get_sampling_period(WbDeviceTag tag) {
 WbJointType wb_position_sensor_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
   robot_mutex_lock();
-  PositionSensor *p = position_sensor_get_struct(tag);
+  const PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     type = p->type;
   } else

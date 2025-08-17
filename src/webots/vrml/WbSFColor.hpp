@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public:
   explicit WbSFColor(double r, double g, double b) : mValue(WbRgb(r, g, b)) {}
   WbSFColor(WbTokenizer *tokenizer, const QString &worldPath) { readSFColor(tokenizer, worldPath); }
   WbSFColor(const WbSFColor &other) : mValue(other.mValue) {}
-  virtual ~WbSFColor() {}
+  virtual ~WbSFColor() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFColor(tokenizer, worldPath); }
   void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ void WbBillboard::applyTranslationToWren() {
 
 void WbBillboard::applyRotationToWren() {
   const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
-  WbSFRotation *orientation = viewpoint->orientation();
+  const WbSFRotation *orientation = viewpoint->orientation();
   float rotation[4];
   orientation->value().toFloatArray(rotation);
   wr_transform_set_orientation(wrenNode(), rotation);

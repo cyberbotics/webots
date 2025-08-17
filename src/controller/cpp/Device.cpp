@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,6 +24,10 @@ using namespace webots;
 
 Device::Device(const string &deviceName) : name(deviceName) {
   tag = wb_robot_get_device(name.c_str());
+}
+
+Device::Device(WbDeviceTag deviceTag) : tag(deviceTag) {
+  name = wb_device_get_name(deviceTag);
 }
 
 int Device::getNodeType() const {

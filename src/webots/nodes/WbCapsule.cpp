@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -292,7 +292,7 @@ void WbCapsule::updateLineScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
-QStringList WbCapsule::fieldsToSynchronizeWithX3D() const {
+QStringList WbCapsule::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "radius"
          << "height"
@@ -516,19 +516,6 @@ void WbCapsule::recomputeBoundingSphere() const {
     mBoundingSphere->set(WbVector3(0, 0, offsetZ), newRadius);
   } else  // complete capsule
     mBoundingSphere->set(WbVector3(), halfHeight + r);
-}
-
-void WbCapsule::write(WbWriter &writer) const {
-  if (writer.isWebots())
-    WbGeometry::write(writer);
-  else
-    writeExport(writer);
-}
-
-void WbCapsule::exportNodeFields(WbWriter &writer) const {
-  WbGeometry::exportNodeFields(writer);
-  if (writer.isX3d())
-    writer << " subdivision=\'" << mSubdivision->value() << "\'";
 }
 
 ////////////////////////

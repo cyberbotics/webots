@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ namespace wren {
       setRequireAction(GlUser::GL_ACTION_PREPARE);
   }
 
-  void FrameBuffer::bind() {
+  void FrameBuffer::bind() const {
     glstate::bindFrameBuffer(mGlName);
 
     std::vector<unsigned int> drawBuffers;
@@ -125,13 +125,13 @@ namespace wren {
     glDrawBuffers(drawBuffers.size(), &drawBuffers[0]);
   }
 
-  void FrameBuffer::blitToScreen() {
+  void FrameBuffer::blitToScreen() const {
     glstate::bindDrawFrameBuffer(0);
 
     blit(0, true, false, false, 0, 0, mWidth, mHeight, 0, 0, mWidth, mHeight);
   }
 
-  void FrameBuffer::release() {
+  void FrameBuffer::release() const {
     glstate::releaseFrameBuffer(mGlName);
   }
 
@@ -267,7 +267,7 @@ namespace wren {
       return mOutputTextures[mOutputDrawBuffers[index].mStorageIndex]->glFormatParams();
   }
 
-  void FrameBuffer::swapTexture(TextureRtt *texture) {
+  void FrameBuffer::swapTexture(const TextureRtt *texture) {
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->glName(), 0);
   }
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
 
 EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
@@ -30,14 +30,12 @@ ProtoRestrictedFieldValues {
   rotation 0 1 0 1.5708
   translation 0 1 0
   extensionSlot [
-    Group {
+    Solid {
       children [
         Solid {
           name "solid(0)"
         }
       ]
-    }
-    Solid {
     }
     SolidBox {
       translation 0 0 2.2799999999999985

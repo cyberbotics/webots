@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,9 +31,7 @@ namespace WbContextMenuGenerator {
   void enableProtoActions(bool enabled);
   void enableExternProtoActions(bool enabled);
   void enableRobotActions(bool enabled);
-  void setRobotCameraMenu(QMenu *menu);
-  void setRobotRangeFinderMenu(QMenu *menu);
-  void setRobotDisplayMenu(QMenu *menu);
+  void setOverlaysMenu(QMenu *menu);
 };  // namespace WbContextMenuGenerator
 
 #endif

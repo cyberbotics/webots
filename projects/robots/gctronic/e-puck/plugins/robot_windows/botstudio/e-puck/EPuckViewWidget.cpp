@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@ EPuckViewWidget::~EPuckViewWidget() {
 
 void EPuckViewWidget::updateValues() {
   setUpdatesEnabled(false);
-  EPuckFacade *epuck = static_cast<EPuckFacade *>(mModel->robotFacade());
+  const EPuckFacade *epuck = static_cast<EPuckFacade *>(mModel->robotFacade());
 
   for (int i = 0; i < EPuckFacade::NUMBER_OF_DISTANCE_SENSORS; i++)
     mDistanceSensorSliders[i]->setValue(epuck->distanceSensorValue(i));

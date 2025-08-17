@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,17 +117,17 @@ static void place_interval(double x, double y) {
 }
 
 // return the x position in meter of a given cell
-static double cell_get_x_pos(Cell *c) {
+static double cell_get_x_pos(const Cell *c) {
   return RATIO * c->pos_x;
 }
 
 // return the y position in meter of a given cell
-static double cell_get_y_pos(Cell *c) {
+static double cell_get_y_pos(const Cell *c) {
   return RATIO * c->pos_y;
 }
 
 // return the angle in radian that a special cell should have
-static double cell_get_angle(Cell *c) {
+static double cell_get_angle(const Cell *c) {
   if (c->feeder != None) {
     switch (c->feeder) {
       case North:
@@ -159,19 +159,19 @@ static double cell_get_angle(Cell *c) {
 }
 
 // return the x position in meter of a given link
-static double link_get_x_pos(Link *l) {
+static double link_get_x_pos(const Link *l) {
   return 0.5 * (cell_get_x_pos(l->cell_A) + cell_get_x_pos(l->cell_B));
 }
 
 // return the y position in meter of a given link
-static double link_get_y_pos(Link *l) {
+static double link_get_y_pos(const Link *l) {
   return 0.5 * (cell_get_y_pos(l->cell_A) + cell_get_y_pos(l->cell_B));
 }
 
 // return the angle in radian that a link should have
-static double link_get_angle(Link *l) {
-  Cell *a = l->cell_A;
-  Cell *b = l->cell_B;
+static double link_get_angle(const Link *l) {
+  const Cell *a = l->cell_A;
+  const Cell *b = l->cell_B;
   if (a->pos_x != b->pos_x)
     return 0.0;
   else if (a->pos_y != b->pos_y)
@@ -198,7 +198,7 @@ void build_maze(Maze *maze) {
   // place the internal walls
   LLIST *links = maze->links;
   while (links) {
-    Link *link = links->data;
+    const Link *link = links->data;
     if (link->wall)
       place_wall(link_get_x_pos(link), link_get_y_pos(link), link_get_angle(link));
     links = links->next;
@@ -224,7 +224,7 @@ void build_maze(Maze *maze) {
       for (k = 0; k < dim; k++) {
         Cell *cell = maze->cells[k];
         for (l = 0; l < cell->link_number; l++) {
-          Link *link = cell->links[l];
+          const Link *link = cell->links[l];
           if (link->wall) {
             double dx = px - link_get_x_pos(link);
             double dy = py - link_get_y_pos(link);
@@ -244,7 +244,7 @@ void build_maze(Maze *maze) {
 
   // place the feeders and the e-pucks
   for (i = 0; i < dim; i++) {
-    Cell *c = maze->cells[i];
+    const Cell *c = maze->cells[i];
     if (c->feeder != None)
       place_feeder(cell_get_x_pos(c), cell_get_y_pos(c), cell_get_angle(c));
     else if (c->init_pos != None)

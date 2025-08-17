@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ static bool socket_set_non_blocking(int fd) {
 static int socket_accept(int server_fd) {
   int cfd;
   struct sockaddr_in client;
-  struct hostent *client_info;
+  const struct hostent *client_info;
 #ifndef _WIN32
   socklen_t asize;
 #else

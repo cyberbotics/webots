@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -207,8 +207,8 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
-  if (!isX3d)
+QString WbUrl::computeLocalAssetUrl(QString url, bool isW3d) {
+  if (!isW3d)
     return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
 
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {

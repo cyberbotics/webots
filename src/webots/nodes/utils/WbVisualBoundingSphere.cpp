@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ void WbVisualBoundingSphere::show(const WbBaseNode *node) {
     return;
   }
 
-  WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
+  const WbBoundingSphere *boundingSphere = node ? node->boundingSphere() : NULL;
   if (!boundingSphere) {
     if (mInitialized)
       wr_node_set_visible(WR_NODE(mWrenScaleTransform), false);

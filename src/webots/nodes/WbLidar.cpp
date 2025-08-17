@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -242,7 +242,7 @@ void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
   if (writer.isWebots() || writer.isUrdf())
     return;
 
-  WbSolid *s = solidEndPoint();
+  const WbSolid *s = solidEndPoint();
   if (s)
     s->write(writer);
 }
@@ -362,7 +362,8 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
     maxWidth = ((double)w / 2.0) * (1.0 + ratio);
 
     double tmpAngle =
-      (fabs(mPreviousRotatingAngle / (2.0 * M_PI)) - floor(fabs(mPreviousRotatingAngle / (2.0 * M_PI)))) * (2.0 * M_PI);
+      (fabs((mPreviousRotatingAngle - M_PI) / (2.0 * M_PI)) - floor(fabs((mPreviousRotatingAngle - M_PI) / (2.0 * M_PI)))) *
+      (2.0 * M_PI);
     if (tmpAngle < 0)
       tmpAngle += 2.0 * M_PI;
     widthOffset = resolution * (tmpAngle / (2.0 * M_PI));
@@ -383,7 +384,7 @@ void WbLidar::copyAllLayersToMemoryMappedFile() {
         memcpy(data + (i + 1) * resolution + minWidth + widthOffset, mTemporaryImage + width() * (int)(i * skip) + minWidth,
                sizeof(float) * abs(minWidth + widthOffset));
         memcpy(data + i * resolution, mTemporaryImage + width() * (int)(i * skip) - widthOffset,
-               sizeof(float) * (maxWidth + widthOffset));
+               sizeof(float) * abs(maxWidth + widthOffset));
       }
     }
   }
@@ -423,10 +424,11 @@ void WbLidar::updatePointCloud(int minWidth, int maxWidth) {
   const double cosPhi0 = cos(phi0);
   const double sinPhi0 = sin(phi0);
 
-  const double dtheta = mIsActuallyRotating ? (-2 * M_PI / (double)resolution) : (-actualFieldOfView() / (w - 1.0));
+  const double dtheta = mIsActuallyRotating ? (-2 * M_PI / (double)resolution) : (-actualFieldOfView() / w);
   const double cosdTheta = cos(dtheta);
   const double sindTheta = sin(dtheta);
-  const double theta0 = mIsActuallyRotating ? (minWidth * dtheta) : (actualFieldOfView() / 2 + minWidth * dtheta);
+  const double theta0 =
+    mIsActuallyRotating ? minWidth * dtheta - M_PI : actualFieldOfView() / 2 + minWidth * dtheta + dtheta / 2;
   const double cosTheta0 = cos(theta0);
   const double sinTheta0 = sin(theta0);
 
@@ -1003,7 +1005,7 @@ void WbLidar::attachResizeManipulator() {
 
 void WbLidar::detachResizeManipulator() const {
   WbAbstractCamera::detachResizeManipulator();
-  WbSolid *s = solidEndPoint();
+  const WbSolid *s = solidEndPoint();
   if (s)
     s->detachResizeManipulator();
 }

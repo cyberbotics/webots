@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -107,8 +107,8 @@ void AutomatonScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
       endItems.removeFirst();
 
     if (startItems.count() > 0 && endItems.count() > 0 && startItems.first() != endItems.first()) {
-      StateRepresentation *start = dynamic_cast<StateRepresentation *>(startItems.first());
-      StateRepresentation *end = dynamic_cast<StateRepresentation *>(endItems.first());
+      const StateRepresentation *start = dynamic_cast<StateRepresentation *>(startItems.first());
+      const StateRepresentation *end = dynamic_cast<StateRepresentation *>(endItems.first());
       if (start && end) {
         QPointF midPoint(mTransitionCreationLine->line().pointAt(0.5));
         mModel->automaton()->createTransition(midPoint, start->state(), end->state());
@@ -127,8 +127,8 @@ void AutomatonScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 
 QGraphicsItem *AutomatonScene::findRepresentationFromAutomatonObject(AutomatonObject *o) const {
   foreach (QGraphicsItem *item, items()) {
-    StateRepresentation *sr = dynamic_cast<StateRepresentation *>(item);
-    TransitionRepresentation *tr = dynamic_cast<TransitionRepresentation *>(item);
+    const StateRepresentation *sr = dynamic_cast<StateRepresentation *>(item);
+    const TransitionRepresentation *tr = dynamic_cast<TransitionRepresentation *>(item);
     if (sr && sr->state() == o)
       return item;
     else if (tr && tr->transition() == o)
@@ -147,8 +147,8 @@ TransitionRepresentation *AutomatonScene::findTransitionRepresentationFromTransi
 
 void AutomatonScene::updateEnabled(bool enabled) {
   foreach (QGraphicsItem *item, items()) {
-    StateRepresentation *sr = dynamic_cast<StateRepresentation *>(item);
-    TransitionRepresentation *tr = dynamic_cast<TransitionRepresentation *>(item);
+    const StateRepresentation *sr = dynamic_cast<StateRepresentation *>(item);
+    const TransitionRepresentation *tr = dynamic_cast<TransitionRepresentation *>(item);
     if (sr || tr)
       item->setEnabled(enabled);
   }

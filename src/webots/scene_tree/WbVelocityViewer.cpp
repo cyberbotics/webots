@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ void WbVelocityViewer::requestUpdate() {
 
 void WbVelocityViewer::update() {
   if (mIsSelected && mSolid) {
-    WbSolid *solid = mSolid;
+    const WbSolid *solid = mSolid;
     if (mRelativeToComboBox->currentIndex() == 0)
       solid = NULL;
     else {

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,6 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#ifdef _WIN32
+#include <dwmapi.h>
+#include <windows.h>
+#include <QtGui/QWindow>
+#endif
 
 #include "WbGuiApplication.hpp"
 
@@ -31,9 +37,9 @@
 #include "WbSysInfo.hpp"
 #include "WbTranslator.hpp"
 #include "WbVersion.hpp"
+#include "WbW3dStreamingServer.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
-#include "WbX3dStreamingServer.hpp"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -169,8 +175,6 @@ void WbGuiApplication::parseArguments() {
       WbMessageBox::disable();
     } else if (arg.startsWith("--update-world"))
       mTask = UPDATE_WORLD;
-    else if (arg == "--enable-x3d-meta-file-export")
-      WbWorld::enableX3DMetaFileExport();
     else if (arg.startsWith("--port")) {
       int index = arg.indexOf('=');
       if (index == -1)
@@ -183,10 +187,10 @@ void WbGuiApplication::parseArguments() {
         }
       }
     } else if (arg == "--stream") {
-      mStream = 'x';  // x3d is the default mode
+      mStream = 'w';  // w3d is the default mode
     } else if (arg.startsWith("--stream=")) {
       const QString mode = arg.mid(arg.indexOf('=') + 1);
-      if (mode != "x3d" && mode != "mjpeg")
+      if (mode != "w3d" && mode != "mjpeg")
         commandLineError(tr("invalid value \"%1\" to '--stream' option.").arg(mode));
       else
         mStream = mode[0].toLatin1();
@@ -238,9 +242,9 @@ void WbGuiApplication::parseArguments() {
       commandLineError(tr("you should also use --batch (in addition to --stream) for production."), false);
     if (mStream == 'm')
       mTcpServer = new WbMultimediaStreamingServer();
-    else {  // x3d
-      mTcpServer = new WbX3dStreamingServer();
-      WbWorld::enableX3DStreaming();
+    else {  // w3d
+      mTcpServer = new WbW3dStreamingServer();
+      WbWorld::enableW3dStreaming();
     }
   }
   mTcpServer->start(port);
@@ -492,10 +496,6 @@ void WbGuiApplication::loadInitialWorld() {
 }
 
 #ifdef _WIN32
-#include <Windows.h>
-#include <dwmapi.h>
-#include <QtGui/QWindow>
-
 static bool windowsDarkMode = false;
 
 enum PreferredAppMode { Default, AllowDark, ForceDark, ForceLight, Max };

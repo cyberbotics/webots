@@ -1,4 +1,5 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2025a utf8
+# template language: javascript
 
 PROTO Parameter [
   field SFBool my_custom_parameter FALSE
@@ -8,12 +9,12 @@ PROTO Parameter [
     type "parameter"
     endPoint Group {
       children [
-        %{ if fields.my_custom_parameter.value then }%
+        %< if (fields.my_custom_parameter.value) { >%
           Shape {
             geometry Box {
             }
           }
-        %{ end }%
+        %< } >%
       ]
     }
   }

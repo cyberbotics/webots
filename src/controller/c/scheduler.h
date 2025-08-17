@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ extern unsigned int scheduler_actual_step;
 int scheduler_init_remote(const char *host, int port, const char *robot_name, char *buffer);
 int scheduler_init_local(const char *pipe);
 void scheduler_cleanup();
-void scheduler_send_request(WbRequest *);
+void scheduler_send_request(const WbRequest *);
 WbRequest *scheduler_read_data();
 WbRequest *scheduler_read_data_remote();
 WbRequest *scheduler_read_data_local();

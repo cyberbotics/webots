@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public:
   explicit WbSpotLight(WbTokenizer *tokenizer = NULL);
   WbSpotLight(const WbSpotLight &other);
   explicit WbSpotLight(const WbNode &other);
-  virtual ~WbSpotLight();
+  virtual ~WbSpotLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SPOT_LIGHT; }
@@ -47,12 +47,14 @@ public:
   double computeAttenuation(double distance) const;
   WbVector3 computeAbsoluteLocation() const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 protected slots:
   void updateAmbientIntensity() override;
+  // cppcheck-suppress uselessOverride
   void updateIntensity() override;
   void updateOn() override;
+  // cppcheck-suppress uselessOverride
   void updateColor() override;
 
 private:

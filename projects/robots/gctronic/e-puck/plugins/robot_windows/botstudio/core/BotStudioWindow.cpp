@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -230,7 +230,7 @@ void BotStudioWindow::openStateMachine() {
   if (dialog.exec())
     fileNames = dialog.selectedFiles();
 
-  if (fileNames.size() > 0 && !fileNames.isEmpty()) {
+  if (!fileNames.isEmpty()) {
     mFile->setFileName(fileNames[0]);
     loadStateMachine();
     updateToolBars();
@@ -295,7 +295,7 @@ void BotStudioWindow::saveAsStateMachine() {
   if (dialog.exec())
     fileNames = dialog.selectedFiles();
 
-  if (fileNames.size() > 0 && !fileNames.isEmpty())
+  if (!fileNames.isEmpty())
     mFile->setFileName(fileNames[0]);
 
   saveStateMachine();

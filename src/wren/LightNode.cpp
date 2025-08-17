@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ namespace wren {
     // debug::printVec4(LightNode::cActiveLights.mAmbientLight, "ambient light");
 
     glm::int32 lightCount = 0;
-    for (DirectionalLight *l : directionalLights) {
+    for (const DirectionalLight *l : directionalLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mDirectionalLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mDirectionalLights[lightCount].mDirection =
@@ -65,7 +65,7 @@ namespace wren {
     // DEBUG(lightCount << " active directional lights");
 
     lightCount = 0;
-    for (PointLight *l : pointLights) {
+    for (const PointLight *l : pointLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mPointLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mPointLights[lightCount].mPosition = camera->view() * glm::vec4(l->position(), 1.0);
@@ -86,7 +86,7 @@ namespace wren {
 
     LightNode::cActiveLights.mLightCount[1] = lightCount;
     lightCount = 0;
-    for (SpotLight *l : spotLights) {
+    for (const SpotLight *l : spotLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mSpotLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mSpotLights[lightCount].mPosition = camera->view() * glm::vec4(l->position(), 1.0f);

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -183,7 +183,7 @@ void WbBox::updateScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
-QStringList WbBox::fieldsToSynchronizeWithX3D() const {
+QStringList WbBox::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "size";
   return fields;
@@ -350,8 +350,7 @@ WbVector2 WbBox::computeTextureCoordinate(const WbVector3 &minBound, const WbVec
 
 bool WbBox::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSet) const {
   WbVector3 localCollisionPoint;
-  int faceIndex;
-  double collisionDistance = computeLocalCollisionPoint(localCollisionPoint, faceIndex, ray);
+  double collisionDistance = computeLocalCollisionPoint(localCollisionPoint, ray);
   if (collisionDistance < 0)
     // no valid collision
     return false;
@@ -364,11 +363,10 @@ bool WbBox::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoordSe
 
 double WbBox::computeDistance(const WbRay &ray) const {
   WbVector3 collisionPoint;
-  int faceIndex;
-  return computeLocalCollisionPoint(collisionPoint, faceIndex, ray);
+  return computeLocalCollisionPoint(collisionPoint, ray);
 }
 
-double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
+double WbBox::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   WbRay localRay(ray);
   const WbPose *const pose = upperPose();
   if (pose) {

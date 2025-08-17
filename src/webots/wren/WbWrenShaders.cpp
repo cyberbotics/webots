@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -735,16 +735,11 @@ WrShaderProgram *WbWrenShaders::mergeSphericalShader() {
     wr_shader_program_use_uniform(gShaders[SHADER_MERGE_SPHERICAL], WR_GLSL_LAYOUT_UNIFORM_TEXTURE4);
     wr_shader_program_use_uniform(gShaders[SHADER_MERGE_SPHERICAL], WR_GLSL_LAYOUT_UNIFORM_TEXTURE5);
 
-    const int defaultInt = 0;
     const bool defaultBool = false;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "rangeCamera",
                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, reinterpret_cast<const char *>(&defaultBool));
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "cylindrical",
                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL, reinterpret_cast<const char *>(&defaultBool));
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionX",
-                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT, reinterpret_cast<const char *>(&defaultInt));
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "subCamerasResolutionY",
-                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT, reinterpret_cast<const char *>(&defaultInt));
 
     const float defaultFloat = 0.0f;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MERGE_SPHERICAL], "minRange", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,

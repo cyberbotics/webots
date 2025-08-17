@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,9 @@ endif
 FILES_TO_REMOVE = $(MAIN_TARGET_COPY) libode.a ode.a
 
 CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
-ifneq ($(OSTYPE),darwin)
+ifeq ($(OSTYPE),darwin)
+  CFLAGS += -Wno-unused-but-set-variable
+else
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
 

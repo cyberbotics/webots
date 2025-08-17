@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public:
   explicit WbDirectionalLight(WbTokenizer *tokenizer = NULL);
   WbDirectionalLight(const WbDirectionalLight &other);
   explicit WbDirectionalLight(const WbNode &other);
-  virtual ~WbDirectionalLight();
+  virtual ~WbDirectionalLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DIRECTIONAL_LIGHT; }
@@ -40,7 +40,7 @@ public:
   // specific functions
   const WbVector3 &direction() const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private slots:
   void updateDirection();

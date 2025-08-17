@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,7 +117,7 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_connector_disable_presence(WbDeviceTag tag) {
-  Connector *con = connector_get_struct(tag);
+  const Connector *con = connector_get_struct(tag);
   if (con)
     wb_connector_enable_presence(tag, 0);
   else
@@ -127,7 +127,7 @@ void wb_connector_disable_presence(WbDeviceTag tag) {
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Connector *con = connector_get_struct(tag);
+  const Connector *con = connector_get_struct(tag);
   if (con)
     sampling_period = con->presence_sampling_period;
   else
@@ -161,7 +161,7 @@ void wb_connector_unlock(WbDeviceTag tag) {
 int wb_connector_get_presence(WbDeviceTag tag) {
   int result = -1;
   robot_mutex_lock();
-  Connector *con = connector_get_struct(tag);
+  const Connector *con = connector_get_struct(tag);
   if (con) {
     if (con->presence_sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_connector_enable_presence().\n", __FUNCTION__);
@@ -175,7 +175,7 @@ int wb_connector_get_presence(WbDeviceTag tag) {
 bool wb_connector_is_locked(WbDeviceTag tag) {
   bool result;
   robot_mutex_lock();
-  Connector *con = connector_get_struct(tag);
+  const Connector *con = connector_get_struct(tag);
   if (con)
     result = con->is_locked;
   else {

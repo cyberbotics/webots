@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,17 +72,17 @@ public:
   virtual ~WbRecognizedObject() {}
 
   int id() const { return mId; }
-  const QString model() const { return mModel; }
-  const WbRotation relativeOrientation() const { return mRelativeOrientation; }
+  const QString &model() const { return mModel; }
+  const WbRotation &relativeOrientation() const { return mRelativeOrientation; }
   const WbVector2 positionOnImage() const { return mPositionOnImage; }
   const WbVector2 pixelSize() const { return mPixelSize; }
-  const QList<WbRgb> colors() const { return mColors; }
+  const QList<WbRgb> &colors() const { return mColors; }
 
   void setModel(const QString &model) { mModel = model; }
   void setRelativeOrientation(const WbRotation &relativeOrientation) { mRelativeOrientation = relativeOrientation; }
   void setPositionOnImage(const WbVector2 &positionOnImage) { mPositionOnImage = positionOnImage; }
   void setPixelSize(const WbVector2 &pixelSize) { mPixelSize = pixelSize; }
-  void addColor(WbRgb colors) { mColors.append(colors); }
+  void addColor(const WbRgb &colors) { mColors.append(colors); }
   void clearColors() { mColors.clear(); }
 
 protected:
@@ -771,10 +771,7 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
       const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height());
       const double theta1 = -atan2(position.y(), fabs(position.x()));
       const double theta2 = atan2(position.z(), fabs(position.x()));
-      if (mProjection->value() == "planar")
-        uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
-      else
-        uv.setX(theta1 * fovX);
+      uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
       uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
     }
   } else if (mProjection->value() == "spherical") {

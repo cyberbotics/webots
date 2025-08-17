@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 import unittest
 import os
 import fnmatch
+import subprocess
 
 IGNORED_PROTOS = [
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
@@ -73,7 +74,9 @@ class TestHeaderVersion(unittest.TestCase):
             dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.wbproj'):
                 projFile = os.path.join(rootPath, fileName)
-                self.files.append((projFile, 'Webots Project File version %s' % self.version))
+                # Only check files that aren't ignored by git
+                if subprocess.run(['git', 'check-ignore', '-q', projFile]).returncode != 0:
+                    self.files.append((projFile, 'Webots Project File version %s' % self.version))
 
     def test_header_version(self):
         """Test that the PROTO and world files have the correct header."""

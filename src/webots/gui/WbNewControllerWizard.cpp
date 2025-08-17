@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -169,6 +169,7 @@ const QString &WbNewControllerWizard::controllerName() const {
 QWizardPage *WbNewControllerWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
   page->setTitle(tr("New controller creation"));
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(tr("This wizard will help you creating a new controller."), page);
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);

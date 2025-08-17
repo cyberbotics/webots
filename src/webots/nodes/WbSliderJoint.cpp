@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -138,7 +138,7 @@ void WbSliderJoint::updatePosition(double position) {
 
 void WbSliderJoint::updateMinAndMaxStop(double min, double max) {
   const WbJointParameters *const p = dynamic_cast<WbJointParameters *>(sender());
-  WbLinearMotor *const lm = linearMotor();
+  const WbLinearMotor *const lm = linearMotor();
   if (lm) {
     const double minPos = lm->minPosition();
     const double maxPos = lm->maxPosition();
@@ -267,7 +267,7 @@ void WbSliderJoint::postPhysicsStep() {
     p->setPositionFromOde(mPosition);
 
   if (isEnabled()) {
-    WbLinearMotor *const lm = linearMotor();
+    const WbLinearMotor *const lm = linearMotor();
     if (lm && lm->hasMuscles() && !lm->userControl())
       // dynamic position or velocity control
       emit updateMuscleStretch(-lm->computeFeedback() / lm->maxForceOrTorque(), false, 1);

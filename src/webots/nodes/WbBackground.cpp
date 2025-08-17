@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -540,6 +540,11 @@ bool WbBackground::loadIrradianceTexture(int i) {
   float *data = stbi_loadf_from_memory(reinterpret_cast<const unsigned char *>(content.constData()), content.size(),
                                        &mIrradianceWidth, &mIrradianceHeight, &components, 0);
 
+  if (data == NULL) {
+    warn(tr("Failed to load HDR texture '%1': %2.").arg(url).arg(stbi_failure_reason()));
+    return false;
+  }
+
   const int rotate = gCoordinateSystemRotate(i);
   // FIXME: this texture rotation should be performed by OpenGL or in the shader to get a better performance
   if (rotate != 0) {
@@ -679,48 +684,45 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
     return;
   }
 
-  findField("skyColor", true)->write(writer);
-  findField("luminosity", true)->write(writer);
+  if (writer.isW3d()) {
+    QString backgroundFileNames[6];
+    for (int i = 0; i < 6; ++i) {
+      if (mUrlFields[i]->size() == 0)
+        continue;
 
-  QString backgroundFileNames[6];
-  for (int i = 0; i < 6; ++i) {
-    if (mUrlFields[i]->size() == 0)
-      continue;
-
-    WbField urlFieldCopy(*findField(gUrlNames(i), true));
-    const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
-    if (WbUrl::isLocalUrl(imagePath))
-      backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath, writer.isX3d());
-    else if (WbUrl::isWeb(imagePath))
-      backgroundFileNames[i] = imagePath;
-    else {
-      if (writer.isWritingToFile())
-        backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath, writer.relativeTexturesPath(), writer);
-      else
-        backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
+      WbField urlFieldCopy(*findField(gUrlNames(i), true));
+      const QString &imagePath = WbUrl::computePath(this, gUrlNames(i), mUrlFields[i]->item(0));
+      if (WbUrl::isLocalUrl(imagePath))
+        backgroundFileNames[i] = WbUrl::computeLocalAssetUrl(imagePath, writer.isW3d());
+      else if (WbUrl::isWeb(imagePath))
+        backgroundFileNames[i] = imagePath;
+      else {
+        if (writer.isWritingToFile())
+          backgroundFileNames[i] = WbUrl::exportResource(this, imagePath, imagePath, writer.relativeTexturesPath(), writer);
+        else
+          backgroundFileNames[i] = WbUrl::expressRelativeToWorld(imagePath);
+      }
     }
-  }
 
-  QString irradianceFileNames[6];
-  for (int i = 0; i < 6; ++i) {
-    if (mIrradianceUrlFields[i]->size() == 0)
-      continue;
+    QString irradianceFileNames[6];
+    for (int i = 0; i < 6; ++i) {
+      if (mIrradianceUrlFields[i]->size() == 0)
+        continue;
 
-    const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
-    if (WbUrl::isLocalUrl(irradiancePath))
-      irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath, writer.isX3d());
-    else if (WbUrl::isWeb(irradiancePath))
-      irradianceFileNames[i] = irradiancePath;
-    else {
-      if (writer.isWritingToFile())
-        irradianceFileNames[i] =
-          WbUrl::exportResource(this, irradiancePath, irradiancePath, writer.relativeTexturesPath(), writer);
-      else
-        irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
+      const QString &irradiancePath = WbUrl::computePath(this, gIrradianceUrlNames(i), mIrradianceUrlFields[i]->item(0));
+      if (WbUrl::isLocalUrl(irradiancePath))
+        irradianceFileNames[i] = WbUrl::computeLocalAssetUrl(irradiancePath, writer.isW3d());
+      else if (WbUrl::isWeb(irradiancePath))
+        irradianceFileNames[i] = irradiancePath;
+      else {
+        if (writer.isWritingToFile())
+          irradianceFileNames[i] =
+            WbUrl::exportResource(this, irradiancePath, irradiancePath, writer.relativeTexturesPath(), writer);
+        else
+          irradianceFileNames[i] = WbUrl::expressRelativeToWorld(irradiancePath);
+      }
     }
-  }
 
-  if (writer.isX3d()) {
     writer << " ";
     for (int i = 0; i < 6; ++i) {
       if (!backgroundFileNames[i].isEmpty())
@@ -728,6 +730,7 @@ void WbBackground::exportNodeFields(WbWriter &writer) const {
       if (!irradianceFileNames[i].isEmpty())
         writer << gIrradianceUrlNames(i) << "='\"" << irradianceFileNames[i] << "\"' ";
     }
-  } else
-    WbNode::exportNodeFields(writer);
+  }
+
+  WbBaseNode::exportNodeFields(writer);
 }

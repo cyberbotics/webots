@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ WbTrack *WbJointDevice::track() const {
 WbLogicalDevice *WbJointDevice::getSiblingDeviceByType(int nodeType) const {
   WbJoint *j = joint();
   if (j) {
-    WbBallJoint *ballJoint = dynamic_cast<WbBallJoint *>(j);
+    const WbBallJoint *ballJoint = dynamic_cast<WbBallJoint *>(j);
     if (ballJoint) {
       // special case for nodes in devices3 field
       bool isDevice3 = false;
@@ -95,7 +95,7 @@ WbLogicalDevice *WbJointDevice::getSiblingDeviceByType(int nodeType) const {
         return NULL;
       }
     }
-    WbHinge2Joint *hinge2 = dynamic_cast<WbHinge2Joint *>(j);
+    const WbHinge2Joint *hinge2 = dynamic_cast<WbHinge2Joint *>(j);
     if (hinge2) {
       // special case for nodes in devices2 field
       bool isDevice2 = false;
@@ -123,7 +123,7 @@ WbLogicalDevice *WbJointDevice::getSiblingDeviceByType(int nodeType) const {
     return NULL;
   }
 
-  WbTrack *t = track();
+  const WbTrack *t = track();
   if (t) {
     foreach (WbLogicalDevice *device, t->devices()) {
       if (device && device->nodeType() == nodeType)

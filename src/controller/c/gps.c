@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,7 +148,7 @@ void wb_gps_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_gps_disable(WbDeviceTag tag) {
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps)
     wb_gps_enable(tag, 0);
   else
@@ -158,7 +158,7 @@ void wb_gps_disable(WbDeviceTag tag) {
 int wb_gps_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps)
     sampling_period = gps->sampling_period;
   else
@@ -170,7 +170,7 @@ int wb_gps_get_sampling_period(WbDeviceTag tag) {
 const double *wb_gps_get_values(WbDeviceTag tag) {
   const double *result = NULL;
   robot_mutex_lock();
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps) {
     if (gps->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gps_enable().\n", __FUNCTION__);
@@ -184,7 +184,7 @@ const double *wb_gps_get_values(WbDeviceTag tag) {
 double wb_gps_get_speed(WbDeviceTag tag) {
   double result = NAN;
   robot_mutex_lock();
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps) {
     if (gps->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gps_enable().\n", __FUNCTION__);
@@ -198,7 +198,7 @@ double wb_gps_get_speed(WbDeviceTag tag) {
 const double *wb_gps_get_speed_vector(WbDeviceTag tag) {
   const double *result = NULL;
   robot_mutex_lock();
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps) {
     if (gps->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gps_enable().\n", __FUNCTION__);
@@ -221,7 +221,7 @@ const char *wb_gps_convert_to_degrees_minutes_seconds(double decimal_degrees) {
 WbGpsCoordinateSystem wb_gps_get_coordinate_system(WbDeviceTag tag) {
   WbGpsCoordinateSystem result = WB_GPS_LOCAL_COORDINATE;
   robot_mutex_lock();
-  GPS *gps = gps_get_struct(tag);
+  const GPS *gps = gps_get_struct(tag);
   if (gps)
     result = gps->coordinate_system;
   else

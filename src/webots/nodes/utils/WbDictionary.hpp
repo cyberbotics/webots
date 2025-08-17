@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public:
   // Get node from DEF name
   WbNode *getNodeFromDEF(const QString &defName) const;
   void updateNodeDefName(WbNode *node, bool fromUseToDef);
-  void removeNodeFromDictionary(WbNode *node);
+  void removeNodeFromDictionary(const WbNode *node);
 
 private:
   static WbDictionary *cInstance;

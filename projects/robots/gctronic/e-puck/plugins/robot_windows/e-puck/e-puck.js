@@ -3,7 +3,7 @@
 /* exported wifiConnect */
 /* exported wifiDisconnect */
 
-import RobotWindow from 'https://cyberbotics.com/wwi/R2023b/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2025a/RobotWindow.js';
 
 window.onload = function() {
   let progressBar = document.getElementById('uploadProgressBar');

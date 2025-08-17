@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,7 +151,7 @@ WbMacAddress::WbMacAddress() {
   memset(&ifr, 0, sizeof(ifr));
   strcpy(ifr.ifr_name, *interface);
   if (ioctl(fd, SIOCGIFHWADDR, &ifr) == 0) {
-    unsigned char *ch = reinterpret_cast<unsigned char *>(ifr.ifr_hwaddr.sa_data);
+    const unsigned char *ch = reinterpret_cast<unsigned char *>(ifr.ifr_hwaddr.sa_data);
     for (int i = 0; i < 6; i++)
       mAddress[i] = *ch++;
   }

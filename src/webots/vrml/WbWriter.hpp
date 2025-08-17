@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 #define WB_VRML_WRITER_HPP
 
 //
-// Description: a text stream specialized for writing indented VRML or X3D
+// Description: a text stream specialized for writing indented VRML or W3D
 //
 
 #include <QtCore/QHash>
@@ -39,7 +39,7 @@ public:
   WbWriter(QString *target, const QString &fileName);
   virtual ~WbWriter();
 
-  bool isX3d() const { return mType == X3D; }
+  bool isW3d() const { return mType == W3D; }
   bool isProto() const { return mType == PROTO; }
   bool isUrdf() const { return mType == URDF; }
   bool isWebots() const { return mType == VRML_SIM || mType == PROTO; }
@@ -51,10 +51,10 @@ public:
   void writeMFStart();
   void writeMFSeparator(bool first, bool smallSeparator);
   void writeMFEnd(bool empty);
-  void writeFieldStart(const QString &name, bool x3dQuote);
-  void writeFieldEnd(bool x3dQuote);
+  void writeFieldStart(const QString &name, bool w3dQuote);
+  void writeFieldEnd(bool w3dQuote);
 
-  WbVector3 jointOffset() const { return mJointOffset; }
+  const WbVector3 &jointOffset() const { return mJointOffset; }
   void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
 
   // change current indentation
@@ -64,7 +64,7 @@ public:
   // write current indentation
   void indent();
 
-  // write .wbt, .x3d or .urdf header and footer based on VrmlType
+  // write .wbt, .w3d or .urdf header and footer based on VrmlType
   void writeHeader(const QString &title);
   void writeFooter(const QStringList *info = NULL);
 
@@ -73,7 +73,7 @@ public:
   void trackDeclaration(const QString &protoName, const QString &protoUrl) {
     mTrackedDeclarations.append(std::pair<QString, QString>(protoName, protoUrl));
   };
-  QList<std::pair<QString, QString>> declarations() const { return mTrackedDeclarations; };
+  const QList<std::pair<QString, QString>> &declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);
@@ -95,7 +95,7 @@ public:
 private:
   void setType();
 
-  enum Type { VRML_SIM, X3D, PROTO, URDF };
+  enum Type { VRML_SIM, W3D, PROTO, URDF };
   QString *mString;
   QIODevice *mDevice;
   QString mFileName;

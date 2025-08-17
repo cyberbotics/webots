@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -148,14 +148,14 @@ void WbRotationEditor::apply() {
     mRotation = WbRotation(mComboBox->currentText());
 
   if (singleValue()) {
-    WbSFRotation *const sfRotation = static_cast<WbSFRotation *>(singleValue());
+    const WbSFRotation *const sfRotation = static_cast<WbSFRotation *>(singleValue());
     if (sfRotation->value() == mRotation)
       return;
 
     mPreviousValue->setRotation(sfRotation->value());
 
   } else if (multipleValue()) {
-    WbMFRotation *const mfRotation = static_cast<WbMFRotation *>(multipleValue());
+    const WbMFRotation *const mfRotation = static_cast<WbMFRotation *>(multipleValue());
     if (mfRotation->item(index()) == mRotation)
       return;
 

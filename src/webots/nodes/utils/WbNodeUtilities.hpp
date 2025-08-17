@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@
 //
 
 #include "WbNode.hpp"
+#include "WbNodeModel.hpp"
 #include "WbOdeTypes.hpp"
+#include "WbProtoModel.hpp"
 
 #include <QtCore/QList>
 
@@ -139,7 +141,7 @@ namespace WbNodeUtilities {
   bool isSelected(const WbNode *node);
 
   // is this node or a WbMatter ancestor of the current node locked
-  bool isNodeOrAncestorLocked(WbNode *node);
+  bool isNodeOrAncestorLocked(const WbNode *node);
 
   // tests node types
   bool isGeometryTypeName(const QString &modelName);
@@ -167,13 +169,26 @@ namespace WbNodeUtilities {
   // return false if the Slot structure is invalid and insertion should be aborted
   bool validateInsertedNode(WbField *field, const WbNode *newNode, const WbNode *parentNode, bool isInBoundingObject);
 
-  // check if a node with node model 'modelName' can be inserted in the field 'field' of parent node 'node'
+  // check if a new node with the given parameters can be inserted in the field 'field' of parent node 'node'
   // in case of PROTO parent node and parameter field,
   // it first retrieve the base field and model and then check the validity
   // type is checked in case of Slot node
-  bool isAllowedToInsert(const WbField *const field, const QString &nodeName, const WbNode *node, QString &errorMessage,
-                         WbNode::NodeUse nodeUse, const QString &type, const QStringList &restrictionValidNodeNames,
-                         bool automaticBoundingObjectCheck = true);
+  bool isAllowedToInsert(const WbField *const field, const WbNode *node, QString &errorMessage, WbNode::NodeUse nodeUse,
+                         const QString &type, const QString &newNodeModelName, const WbNodeModel *newNodeBaseModel,
+                         const QStringList &newNodeProtoParentList, bool automaticBoundingObjectCheck = true);
+  inline bool isAllowedToInsert(const WbField *const field, const WbNode *node, QString &errorMessage, WbNode::NodeUse nodeUse,
+                                const QString &type, const QString &newNodeBaseModelName, const QString &newNodeModelName,
+                                const QStringList &newNodeProtoParentList, bool automaticBoundingObjectCheck = true) {
+    return isAllowedToInsert(field, node, errorMessage, nodeUse, type, newNodeModelName,
+                             WbNodeModel::findModel(newNodeBaseModelName), newNodeProtoParentList,
+                             automaticBoundingObjectCheck);
+  }
+  inline bool isAllowedToInsert(const WbField *const field, const WbNode *node, QString &errorMessage, WbNode::NodeUse nodeUse,
+                                const QString &type, const WbNode *newNode, bool automaticBoundingObjectCheck = true) {
+    return isAllowedToInsert(field, node, errorMessage, nodeUse, type, newNode->modelName(), newNode->model(),
+                             newNode->isProtoInstance() ? newNode->proto()->parentProtoNames() : QStringList(),
+                             automaticBoundingObjectCheck);
+  }
 
   // check existing node structure
   bool validateExistingChildNode(const WbField *const field, const WbNode *childNode, const WbNode *node,

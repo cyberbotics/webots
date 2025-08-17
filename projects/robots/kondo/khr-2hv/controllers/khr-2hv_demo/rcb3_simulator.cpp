@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -694,7 +694,7 @@ bool rcb3_simulator::read_rcb_file(const char *filename, RCBMotion &motion) {
   item.m_name = NULL;
   while (!feof(f)) {
     memset(buffer, 0, 512);
-    char *ptr = fgets(buffer, 512, f);
+    const char *ptr = fgets(buffer, 512, f);
     if (ptr == NULL)
       break;
     if (buffer[0] == '[') {
@@ -754,7 +754,7 @@ bool rcb3_simulator::read_rcb_file(const char *filename, RCBMotion &motion) {
         else if (strncmp(buffer, "Name", 4) == 0)
           item.m_name = strdup(buffer + 5);
         else if (strncmp(buffer, "Prm", 3) == 0) {
-          char *token = strtok(buffer + 4, ",");
+          const char *token = strtok(buffer + 4, ",");
           while (token) {
             int v = atoi(token);
             token = strtok(NULL, ",");
@@ -767,7 +767,7 @@ bool rcb3_simulator::read_rcb_file(const char *filename, RCBMotion &motion) {
         if (strstr(buffer, "Origin") != NULL) {
           link.m_origin = atoi(buffer + 7);
         } else if (strstr(buffer, "Point") != NULL) {
-          char *token = strtok(buffer + 6, ", ");
+          const char *token = strtok(buffer + 6, ", ");
           while (token) {
             if (isdigit(*token)) {
               int v = atoi(token);

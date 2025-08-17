@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -252,7 +252,7 @@ void WbView3D::onSelectionChanged(WbAbstractPose *selectedPose) {
     return;
 
   WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedPose);
-  WbViewpoint *const viewpoint = mWorld->viewpoint();
+  const WbViewpoint *const viewpoint = mWorld->viewpoint();
 
   if (selectedSolid) {
     setCheckedShowSupportPolygonAction(selectedSolid);
@@ -332,7 +332,7 @@ void WbView3D::refresh() {
   const WbSimulationState *const sim = WbSimulationState::instance();
   mPhysicsRefresh = true;
   if (mScreenshotRequested)
-    renderNow();
+    renderNow(true, true);
   else if (sim->isPaused())
     renderLater();
   else if (WbVideoRecorder::instance()->isRecording()) {
@@ -1087,7 +1087,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   // connect supervisor scene tree modifications to graphical updates
   const QList<WbRobot *> &robots = mWorld->robots();
-  foreach (WbRobot *const robot, robots) {
+  foreach (const WbRobot *const robot, robots) {
     if (robot->supervisor())
       connect(robot->supervisorUtilities(), &WbSupervisorUtilities::worldModified, this,
               &WbView3D::handleWorldModificationFromSupervisor);
@@ -1111,8 +1111,9 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
 
   WbWrenOpenGlContext::doneWren();
 
-  // first rendering without culling to make sure every meshes/textures are actually loaded on the GPU
-  renderNow(false);
+  // first rendering is offscreen without culling to make sure every meshes/textures are actually
+  // loaded on the GPU
+  renderNow(false, true);
 }
 
 void WbView3D::restoreOptionalRendering(const QStringList &enabledCenterOfMassNodeNames,
@@ -1441,7 +1442,7 @@ void WbView3D::resizeWren(int width, int height) {
   emit resized();
 }
 
-void WbView3D::renderNow(bool culling) {
+void WbView3D::renderNow(bool culling, bool offScreen) {
   if (!wr_gl_state_is_initialized())
     initialize();
 
@@ -1461,7 +1462,7 @@ void WbView3D::renderNow(bool culling) {
       WbWrenOpenGlContext::doneWren();
     } else
 #endif
-      WbWrenWindow::renderNow(culling);
+      WbWrenWindow::renderNow(culling, offScreen);
     mLastRefreshTimer.start();
     emit mainRenderingEnded(mPhysicsRefresh);
 
@@ -2196,6 +2197,7 @@ void WbView3D::keyPressEvent(QKeyEvent *event) {
 #endif
                         (((event->modifiers() & Qt::ALT) == 0) ? 0 : WbRobot::mapSpecialKey(Qt::ALT));
 
+  // cppcheck-suppress constVariablePointer
   WbRobot *const currentRobot = getCurrentRobot();
   QList<WbRobot *> robotList;
   if (currentRobot)
@@ -2218,6 +2220,7 @@ void WbView3D::keyReleaseEvent(QKeyEvent *event) {
 
   // pass key event to robots
   if (mWorld) {
+    // cppcheck-suppress constVariablePointer
     WbRobot *const currentRobot = getCurrentRobot();
     QList<WbRobot *> robotList;
     if (currentRobot)

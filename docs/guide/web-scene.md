@@ -1,19 +1,18 @@
-## X3D and Web Scene
+## W3D and Web Scene
 
 ### Description
 
 Webots can export a world to an interactive 3D `HTML` page.
 This feature is especially useful for publishing Webots-created worlds on the Web.
 
-During the export, a [X3D](http://www.web3d.org/x3d/what-x3d) file, a `HTML5` page and a `CSS`file are generated.
+During the export, a `W3D` file, a `HTML5` page and a `CSS`file are generated.
 
-The `X3D` file contains the graphical information of the world.
-`X3D` is a modern `XML`-based file format for representing 3D computer graphics.
-In Webots, the `X3D` file uses a custom format that is heavily based on the `X3D` file format.
+The `W3D` file contains the graphical information of the world.
+`W3D` is a Webots custom `XML`-based file format for representing 3D computer graphics.
 
 The `CSS` file is used to style the following `HTML5` page.
 
-The `HTML5` page contains a Webots player which displays the `X3D` file as shown in the [figure below](#screenshot-of-a-web-scene-page-generated-by-webots).
+The `HTML5` page contains a Webots player which displays the `W3D` file as shown in the [figure below](#screenshot-of-a-web-scene-page-generated-by-webots).
 It can be open in any recent Web browser as documented in the [section below](#remarks-on-the-used-technologies-and-their-limitations).
 The 3D navigation in the player is possible using the mouse or the touch screen, similarly to the Webots navigation.
 
@@ -28,7 +27,7 @@ The 3D navigation in the player is possible using the mouse or the touch screen,
 Select the `Share...` menu item, choose if you want to upload it to [webots.cloud](https://webots.cloud) or to save it locally, then click the `Export scene` button.
 When the export is completed, Webots will ask to playback the resulting file in the default Web browser.
 
-**Note**: The `CSS` file, the `X3D` file and the required textures are exported in the same directory as the target `HTML` file.
+**Note**: The `CSS` file, the `W3D` file and the required textures are exported in the same directory as the target `HTML` file.
 
 **Note**: The `CSS` file is meant to be used as a styling guide but can be modified/removed.
 
@@ -48,13 +47,13 @@ The web scene is displayed by a web component from the [WebotsView.js] package c
 
 The following attributes are available:
 * `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
-* `data-scene`: the name of the .x3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
+* `data-scene`: the name of the .w3d file containing the 3d scene. It is evaluated only once: when the page is loaded. If the `data-scene` attribute is set, the `webots-view` web-component will automatically try to load the web scene .
 
 For more complex interaction with the web component, the following functions are available:
 * `close()`: close the current scene. Note that if the `webots-view` element is removed from the HTML page or `loadScene`, `loadAnimation` or `connect` is called, `close` will be automatically called.
 * `onready()`: a function that can be overridden. It will be called once the scene is loaded.
 * `loadScene(scene, mobileDevice, thumbnail)`: load and display the scene.
-  * `scene`: name of the .x3d file.
+  * `scene`: name of the .w3d file.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
   * `thumbnail`: the URL of the scene thumbnail.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
@@ -85,7 +84,7 @@ It may occur that the rendering in the Webots application and in the exported We
       }
       document.body.appendChild(webotsView);
 
-      webotsView.loadScene("scene.x3d");
+      webotsView.loadScene("scene.w3d");
     }
 
     function remove() {
@@ -101,7 +100,7 @@ The Webots player is using internally the `WRENJS` library (based on `WebGL 2`).
 Unfortunately it is not yet supported by Safari (see details on the [deployment of WebGL 2](https://caniuse.com/webgl2)).
 In case of related issues, make sure that `WebGL 2` is enabled in your Web browser settings.
 
-Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is required by the Webots player to open the `X3D` file and the textures.
+Some web browsers (for example Chrome and Firefox 68 or later) cannot open local files using the `file` protocol by default, while this is required by the Webots player to open the `W3D` file and the textures.
 Here are some workarounds:
 - run a local HTTP server in the directory containing the exported files, and launch the scene or animation through the server by navigating to the `HTML` file.
     - Python 3:

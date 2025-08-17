@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ class WbViewpoint;
 ///////////////////////////////////////////////////////////////////////////////////
 class WbDragViewpointEvent : public WbDragKinematicsEvent {
 public:
-  virtual ~WbDragViewpointEvent() {}
+  virtual ~WbDragViewpointEvent() override {}
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
@@ -43,7 +43,7 @@ protected:
 class WbTranslateViewpointEvent : public WbDragViewpointEvent {
 public:
   WbTranslateViewpointEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, double scale);
-  virtual ~WbTranslateViewpointEvent();
+  virtual ~WbTranslateViewpointEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
 private:
@@ -57,7 +57,7 @@ private:
 class WbRotateViewpointEvent : public WbDragViewpointEvent {
 public:
   WbRotateViewpointEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, bool objectPicked);
-  virtual ~WbRotateViewpointEvent();
+  virtual ~WbRotateViewpointEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
   static void applyToViewpoint(const QPoint &delta, const WbVector3 &rotationCenter, const WbVector3 &worldUpVector,
@@ -74,7 +74,7 @@ private:
 class WbZoomAndRotateViewpointEvent : public WbDragViewpointEvent {
 public:
   WbZoomAndRotateViewpointEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, const double scale);
-  virtual ~WbZoomAndRotateViewpointEvent();
+  virtual ~WbZoomAndRotateViewpointEvent() override;
   void apply(const QPoint &currentMousePosition) override;
 
   static void applyToViewpoint(double tiltAngle, double zoom, double scaleFactor, WbViewpoint *viewpoint);

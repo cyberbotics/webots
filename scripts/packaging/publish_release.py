@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,9 +47,6 @@ now = datetime.datetime.now()
 if now.hour <= 5:
     # Publish nightly build with previous day date even if it completes in the morning
     now = now - datetime.timedelta(hours=6)
-if now.weekday() >= 5:
-    print('Skipping nightly build for Saturday and Sunday.')
-    sys.exit(0)
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
@@ -67,6 +64,10 @@ else:
     branchLink = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
                  % (branchName, options.repo, options.commit, now.year)
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branchLink, warningMessage)
+
+if now.weekday() >= 5 and tagName.startswith("nightly_"):
+    print("Skipping nightly build for Saturday and Sunday.")
+    sys.exit(0)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)

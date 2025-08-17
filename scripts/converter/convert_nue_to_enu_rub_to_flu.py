@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -465,8 +465,9 @@ if __name__ == '__main__':
             error_verbose, clean_verbose, warning_verbose = convert_nue_to_enu_world(
                 filename, mode, objects_pi, objects_pi_2, objects_minus_pi_2)
             if error_verbose:
-                print('''Conversion of \033[33m{}\033[m successful but incomplete. \r\n
-                ■ You may need to convert manually: {}'''.format(filename, error_verbose))
+                msg = '''Conversion of \033[33m{}\033[m successful but incomplete. \r\n
+                ■ You may need to convert manually: {}'''
+                print(msg.format(filename, error_verbose))
             else:
                 if mode == 'clean':
                     print('clean of {} ✅'.format(filename))

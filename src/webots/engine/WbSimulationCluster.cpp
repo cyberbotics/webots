@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -320,8 +320,15 @@ void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, c
   // handle rolling friction
   if (rho[0] > 0 || rho[1] > 0 || rho[2] > 0) {
     contact->surface.mode = contact->surface.mode | dContactRolling;
-    if (rho[1] > 0 || rho[2] > 0)
+    if (rho[1] > 0 || rho[2] > 0) {
+      // ODE will use asymmetric sliding friction if we set dContactAxisDep (because dContactAxisDep
+      // == dContactMu2), so we need to make sure mu2 is set. If it wasn't already set above, we
+      // want symmetric sliding friction which means setting mu2 = mu (like ODE would do if
+      // dContactMu2 was not set.)
+      if (!(contact->surface.mode & dContactMu2))
+        contact->surface.mu2 = contact->surface.mu;
       contact->surface.mode = contact->surface.mode | dContactAxisDep;
+    }
 
     contact->surface.rho = rho[0];
     contact->surface.rho2 = rho[1];
@@ -439,7 +446,7 @@ void WbSimulationCluster::fillImmersionSurfaceParameters(const WbSolid *s, const
   surf->maxAngularVel = 1000.0;
 }
 
-static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
+static bool needCollisionDetection(const WbSolid *solid, bool isOtherRayGeom) {
   switch (solid->nodeType()) {
     case WB_NODE_TOUCH_SENSOR:
       if (isOtherRayGeom)
@@ -456,6 +463,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+// cppcheck-suppress constParameterPointer
 void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
   if (WbOdeContext::instance()->numberOfThreads() > 1) {
     QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);

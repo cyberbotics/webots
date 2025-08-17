@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -358,7 +358,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
 
 void WbHingeJoint::postPhysicsStep() {
   assert(mJoint);
-  WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *const rm = rotationalMotor();
 
   // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
   double angleRate = dJointGetHingeAngleRate(mJoint);
@@ -435,7 +435,7 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
   if (max >= M_PI)
     p->parsingWarn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
 
-  WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *const rm = rotationalMotor();
   if (rm) {
     const double minPos = rm->minPosition();
     const double maxPos = rm->maxPosition();
@@ -521,7 +521,7 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   if (!mJoint || !isPostFinalizedCalled())
     return;
 
-  WbHingeJointParameters *p = hingeJointParameters();
+  const WbHingeJointParameters *p = hingeJointParameters();
   if (p && (p->suspensionSpringConstant() != 0.0 || p->suspensionDampingConstant() != 0.0))
     // remove suspension effect by resetting the endPoint solid position
     updatePosition(mPosition);

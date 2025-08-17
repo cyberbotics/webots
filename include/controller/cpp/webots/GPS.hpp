@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ namespace webots {
     typedef enum { LOCAL = 0, WGS84 } CoordinateSystem;
 
     explicit GPS(const std::string &name) : Device(name) {}  // Use Robot::getGPS() instead
+    explicit GPS(WbDeviceTag tag) : Device(tag) {}
     virtual ~GPS() {}
 
     virtual void enable(int samplingPeriod);

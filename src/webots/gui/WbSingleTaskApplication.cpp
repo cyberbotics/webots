@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Get user parameters strings
   QMap<QString, QString> userParameters;
-  for (QString param : cliParser.values("p")) {
+  for (const QString &param : cliParser.values("p")) {
     QStringList pair = param.split("=");
     if (pair.size() != 2) {
       cerr << tr("A parameter is not properly formatted!\n").toUtf8().constData();
@@ -109,7 +109,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Combine the user parameters with the default ones
   QVector<WbField *> fields;
-  for (WbFieldModel *fieldModel : model->fieldModels()) {
+  for (const WbFieldModel *fieldModel : model->fieldModels()) {
     WbField *field = new WbField(fieldModel);
     if (userParameters.contains(field->name())) {
       WbTokenizer tokenizer;
@@ -130,7 +130,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Generate a node structure
   WbNode::setInstantiateMode(true);
-  WbNode *node = WbNode::createProtoInstanceFromParameters(model, fields, "");
+  const WbNode *node = WbNode::createProtoInstanceFromParameters(model, fields, "");
   for (WbNode *subNode : node->subNodes(true)) {
     if (dynamic_cast<WbSolidReference *>(subNode))
       cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")
@@ -200,7 +200,7 @@ void WbSingleTaskApplication::showHelp() const {
   cerr << tr("    Change the TCP port used by Webots (default value is 1234).").toUtf8().constData() << endl << endl;
   cerr << "  --stream[=<mode>]" << endl;
   cerr << tr("    Start the Webots streaming server. The <mode> argument should be either").toUtf8().constData() << endl;
-  cerr << tr("    x3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
+  cerr << tr("    w3d (default) or mjpeg.").toUtf8().constData() << endl << endl;
   cerr << "  --extern-urls" << endl;
   cerr << tr("    Print on stdout the URL of extern controllers that should be started.").toUtf8().constData() << endl << endl;
   cerr << "  --heartbeat[=<time>]" << endl;
@@ -231,10 +231,11 @@ void WbSingleTaskApplication::showSysInfo() const {
   // An OpenGL context is required there for the OpenGL calls like `glGetString`.
   // The format is QSurfaceFormat::defaultFormat() => OpenGL 3.3 defined in main.cpp.
   QOpenGLContext *context = new QOpenGLContext();
-  context->create();
+  if (!context->create())
+    assert(false);
   QOpenGLFunctions *gl = context->functions();  // QOpenGLFunctions_3_3_Core cannot be initialized here on some systems like
                                                 // macOS High Sierra and some Ubuntu environments.
-
+  assert(gl);
 #ifdef _WIN32
   const quint32 vendorId = WbSysInfo::gpuVendorId(gl);
   const quint32 rendererId = WbSysInfo::gpuDeviceId(gl);

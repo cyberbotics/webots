@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -70,10 +70,8 @@ public:
 
   bool isVideoRecording() const { return mIsVideoRecording; }
 
-  static QString defaultX3dFrustumCullingParameter() { return "true"; }
-  static void enableX3DMetaFileExport() { cX3DMetaFileExport = true; }
-  static bool isX3DStreaming() { return cX3DStreaming; }
-  static void enableX3DStreaming() { cX3DStreaming = true; }
+  static bool isW3dStreaming() { return cW3dStreaming; }
+  static void enableW3dStreaming() { cW3dStreaming = true; }
   static bool printExternUrls() { return cPrintExternUrls; }
   static void setPrintExternUrls() { cPrintExternUrls = true; }
 
@@ -81,9 +79,9 @@ public:
   bool save();
   virtual bool saveAs(const QString &fileName);
 
-  // save and replace Webots specific nodes by VRML/X3D nodes
+  // save and replace Webots specific nodes by VRML/W3D nodes
   bool exportAsHtml(const QString &fileName, bool animation) const;
-  bool exportAsX3d(const QString &fileName) const;
+  bool exportAsW3d(const QString &fileName) const;
   void write(WbWriter &writer) const;
 
   // nodes that do always exist
@@ -108,18 +106,18 @@ public:
   QList<WbSolid *> findSolids(bool visibleNodes = false) const;
 
   // return the list of all robots
-  QList<WbRobot *> robots() const { return mRobots; }
+  const QList<WbRobot *> &robots() const { return mRobots; }
 
   // return the list of all top solids (not looking recursively)
-  QList<WbSolid *> topSolids() const { return mTopSolids; }
+  const QList<WbSolid *> &topSolids() const { return mTopSolids; }
 
   // return the list of all solids that have a positive radar cross-section (radar target)
-  QList<WbSolid *> radarTargetSolids() const { return mRadarTargets; }
+  const QList<WbSolid *> &radarTargetSolids() const { return mRadarTargets; }
   void addRadarTarget(WbSolid *target) { mRadarTargets.append(target); }
   void removeRadarTarget(WbSolid *target) { mRadarTargets.removeAll(target); }
 
   // return the list of all solids that have a non-empty 'recognitionColors' field
-  QList<WbSolid *> cameraRecognitionObjects() const { return mCameraRecognitionObjects; }
+  const QList<WbSolid *> &cameraRecognitionObjects() const { return mCameraRecognitionObjects; }
   void addCameraRecognitionObject(WbSolid *object) { mCameraRecognitionObjects.append(object); }
   void removeCameraRecognitionObject(WbSolid *object) { mCameraRecognitionObjects.removeAll(object); }
 
@@ -158,6 +156,7 @@ signals:
   void worldLoadingHasProgressed(int percent);
   void viewpointChanged();
   void robotAdded(WbRobot *robot);
+  void robotRemoved(WbRobot *robot);
   void resetRequested(bool restartControllers);
 
 public slots:
@@ -205,10 +204,8 @@ private:
   WbNode *findTopLevelNode(const QString &modelName, int preferredPosition) const;
 
   virtual void storeLastSaveTime(){};
-  void createX3DMetaFile(const QString &filename) const;
 
-  static bool cX3DMetaFileExport;
-  static bool cX3DStreaming;
+  static bool cW3dStreaming;
   static bool cPrintExternUrls;
 
 private slots:

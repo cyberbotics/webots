@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,8 +53,7 @@ namespace wren {
     void reset();
     static void applyPendingUpdates();
 
-    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, unsigned int buffer_type,
-                              void *buffer);
+    static void getMainBuffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer);
     void initFrameCapture(int pixelBufferCount, unsigned int *pixelBufferIds, int frameSize);
     static void bindPixelBuffer(int buffer);
     void *mapPixelBuffer(unsigned int accessMode);
@@ -90,8 +89,8 @@ namespace wren {
 
     int computeNodeCount() const;
     static void printSceneTree();
-    void render(bool culling);
-    void renderToViewports(std::vector<Viewport *> viewports, bool culling);
+    void render(bool culling, bool offScreen = false);
+    void renderToViewports(const std::vector<Viewport *> &viewports, bool culling, bool offScreen = false);
 
     void addFrameListener(void (*listener)()) { mListeners.push_back(listener); }
     void removeFrameListener(void (*listener)());
@@ -114,12 +113,11 @@ namespace wren {
     static RenderQueueIterator partitionByUseMaterial(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByStencilProgram(RenderQueueIterator first, RenderQueueIterator last);
     static RenderQueueIterator partitionByShadowReceiving(RenderQueueIterator first, RenderQueueIterator last);
-    static RenderQueueIterator partitionByZOrder(RenderQueueIterator first, RenderQueueIterator last);
 
     ShadowVolumeIterator partitionShadowsByVisibility(ShadowVolumeIterator first, ShadowVolumeIterator last, LightNode *light);
 
     static void sortRenderQueueByState(RenderQueueIterator first, RenderQueueIterator last);
-    void sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last);
+    void sortRenderQueueByDistance(RenderQueueIterator first, RenderQueueIterator last) const;
 
     static void renderDefault(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
     void renderStencilPerLight(LightNode *light, RenderQueueIterator first, RenderQueueIterator firstShadowReceiver,
@@ -129,7 +127,7 @@ namespace wren {
     static void renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last);
     static void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
                                              bool applyShadows = true);
-    void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last);
+    void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const;
     static void renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last);
     static void renderTranslucent(RenderQueueIterator first, RenderQueueIterator last, bool disableDepthTest = false);
 

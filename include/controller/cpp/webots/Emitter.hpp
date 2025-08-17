@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ namespace webots {
   class Emitter : public Device {
   public:
     explicit Emitter(const std::string &name) : Device(name) {}  // Use Robot::getEmitter() instead
+    explicit Emitter(WbDeviceTag tag) : Device(tag) {}
     virtual ~Emitter() {}
     enum { CHANNEL_BROADCAST = -1 };
     virtual int send(const void *data, int size);

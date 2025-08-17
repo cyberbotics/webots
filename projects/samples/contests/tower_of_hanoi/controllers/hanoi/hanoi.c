@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,13 +119,13 @@ static void automatic_behavior() {
   double distance_arm0_platform = 0.2;
   double distance_arm0_robot_center = 0.189;
   double distance_origin_platform = 1.0;
-  double angles[3] = {0.0, 2.0 * M_PI / 3.0, -2.0 * M_PI / 3.0};
+  const double angles[3] = {0.0, 2.0 * M_PI / 3.0, -2.0 * M_PI / 3.0};
   int GOTO_SRC = 0, GOTO_TMP = 1, GOTO_DST = 2;
 
   double delta = distance_origin_platform - distance_arm0_platform - distance_arm0_robot_center;
-  double goto_info[3][3] = {{delta * sin(angles[0]), delta * cos(angles[0]), -angles[0]},
-                            {delta * sin(angles[1]), delta * cos(angles[1]), -angles[1]},
-                            {delta * sin(angles[2]), delta * cos(angles[2]), -angles[2]}};
+  const double goto_info[3][3] = {{delta * sin(angles[0]), delta * cos(angles[0]), -angles[0]},
+                                  {delta * sin(angles[1]), delta * cos(angles[1]), -angles[1]},
+                                  {delta * sin(angles[2]), delta * cos(angles[2]), -angles[2]}};
 
   arm_set_height(ARM_HANOI_PREPARE);
   // SRC A1 => DST

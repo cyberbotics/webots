@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public:
   explicit WbSolid(WbTokenizer *tokenizer = NULL);
   WbSolid(const WbSolid &other);
   explicit WbSolid(const WbNode &other);
-  virtual ~WbSolid();
+  virtual ~WbSolid() override;
 
   // list of finalized solids
   static const QList<const WbSolid *> &solids() { return cSolids; }
@@ -282,9 +282,7 @@ protected:
 
   // export
   bool exportNodeHeader(WbWriter &writer) const override;
-  void exportNodeFields(WbWriter &writer) const override;
   void exportNodeFooter(WbWriter &writer) const override;
-  const QString sanitizedName() const;
 
 protected slots:
   void updateTranslation() override;

@@ -34,15 +34,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-11, windows-2019]
+        os: [ubuntu-22.04, macos-14, windows-2019]
         python: [3.9]
         include:
           - os: ubuntu-22.04
-            DEPENDENCIES_INSTALLATION: "wget https://github.com/danmar/cppcheck/archive/refs/tags/2.10.tar.gz; tar -xf 2.10.tar.gz -C ~/; mkdir -p ~/cppcheck-2.10/build; cd ~/cppcheck-2.10/build; cmake ..; cmake --build .; export PATH=~/cppcheck-2.10/build/bin:$PATH"
-          - os: macos-11
-            DEPENDENCIES_INSTALLATION: "brew tap-new --no-git $USER/local-cppcheck; brew extract --version=2.10 cppcheck $USER/local-cppcheck; brew install cppcheck@2.10; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
+            DEPENDENCIES_INSTALLATION: "wget https://github.com/danmar/cppcheck/archive/refs/tags/2.14.2.tar.gz; tar -xf 2.14.2.tar.gz -C ~/; mkdir -p ~/cppcheck-2.14.2/build; cd ~/cppcheck-2.14.2/build; cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..; cmake --build . --config RelWithDebInfo; export PATH=~/cppcheck-2.14.2/build/bin:$PATH"
+          - os: macos-14
+            DEPENDENCIES_INSTALLATION: "brew tap-new --no-git $USER/local-cppcheck; brew extract --version=2.14.2 cppcheck $USER/local-cppcheck; brew install cppcheck@2.14.2; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
           - os: windows-2019
-            DEPENDENCIES_INSTALLATION: "choco install -y cppcheck --version=2.10 || true; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
+            DEPENDENCIES_INSTALLATION: "curl -LJO https://github.com/danmar/cppcheck/releases/download/2.14.1/cppcheck-2.14.1-x64-Setup.msi; powershell 'Start-Process msiexec -ArgumentList \"/quiet\",\"/passive\",\"/qn\",\"/i\",\"cppcheck-2.14.1-x64-Setup.msi\" -Wait'; choco uninstall -y llvm; choco install -y llvm --version=14.0.0; export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\""
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
@@ -71,4 +71,4 @@ jobs:
         cd $WEBOTS_HOME
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
-        python -m unittest discover -s tests/sources
+        python -m unittest discover -s tests/sources -v

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -148,6 +148,7 @@ QString WbNewWorldWizard::fileName() const {
 QWizardPage *WbNewWorldWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
   page->setTitle(introTitle());
+  // cppcheck-suppress constVariablePointer
   QLabel *label = new QLabel(introText(), page);
   QVBoxLayout *layout = new QVBoxLayout(page);
   layout->addWidget(label);

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
     while (1) {  // read chunks one by one
       Chunk chunk;
-      qint64 readSize = mDevice->read((char *)&chunk, sizeof(Chunk));
+      qint64 readSize = mDevice->read(reinterpret_cast<char *>(&chunk), sizeof(Chunk));
       if (readSize <= 0)
         break;  // end of file
       if (readSize != sizeof(Chunk))
@@ -94,7 +94,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       if (strncmp(chunk.id, "RIFF", 4) == 0) {
         RIFFChunkData riffChunk;
-        readSize = mDevice->read((char *)&riffChunk, sizeof(RIFFChunkData));
+        readSize = mDevice->read(reinterpret_cast<char *>(&riffChunk), sizeof(RIFFChunkData));
         if (readSize != sizeof(RIFFChunkData))
           throw QObject::tr("Cannot read RIFF chunk");
 
@@ -105,7 +105,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       } else if (strncmp(chunk.id, "fmt ", 4) == 0) {
         FormatChunkData formatChunk;
-        readSize = mDevice->read((char *)&formatChunk, sizeof(FormatChunkData));
+        readSize = mDevice->read(reinterpret_cast<char *>(&formatChunk), sizeof(FormatChunkData));
         if (readSize != sizeof(FormatChunkData))
           throw QObject::tr("Cannot read format chunk");
 
@@ -138,13 +138,13 @@ void WbWaveFile::loadConvertedFile(int side) {
     }
 
     if (riffChunkRead == false)
-      throw("Corrupted WAVE file: RIFF chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: RIFF chunk not found"));
 
     if (formatChunkRead == false)
-      throw("Corrupted WAVE file: format chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: format chunk not found"));
 
     if (dataChunkRead == false)
-      throw("Corrupted WAVE file: data chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: data chunk not found"));
 
   } catch (const QString &e) {
     // clean up
@@ -160,7 +160,7 @@ void WbWaveFile::loadConvertedFile(int side) {
     int newSize = mBufferSize / 2;
     qint16 *newBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * newSize));
     if (mBitsPerSample == 8) {
-      qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
+      const qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
       qint8 *outBuffer = reinterpret_cast<qint8 *>(newBuffer);
       for (int i = 0; i < newSize; i += 1) {
         if (side == 1)
@@ -205,13 +205,10 @@ void WbWaveFile::loadFromFile(const QString &extension, int side) {
 
 #ifdef __linux__
   static QString ffmpeg("avconv");
-  static QString percentageChar = "%";
 #elif defined(__APPLE__)
   static QString ffmpeg(QString("%1Contents/util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
-  static QString percentageChar = "%";
 #else  // _WIN32
   static QString ffmpeg = "ffmpeg.exe";
-  static QString percentageChar = "%%";
 #endif
 
   const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";

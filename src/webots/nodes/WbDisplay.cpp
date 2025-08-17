@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,6 +39,10 @@
 #include "../../controller/c/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
 #include <QtCore/QDataStream>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #define SHIFT(value, shift) (((value) >> (shift)) & 0xFF)
 
@@ -163,15 +167,17 @@ void WbDisplay::findImageTextures() {
     return;
 
   WbNode *firstChild = children().item(0);
-  WbShape *shape = dynamic_cast<WbShape *>(firstChild);
+  const WbShape *shape = dynamic_cast<WbShape *>(firstChild);
   if (shape) {
-    WbAppearance *appearance = shape->appearance();
-    WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+    const WbAppearance *appearance = shape->appearance();
+    const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
     if (appearance) {
+      // cppcheck-suppress constVariablePointer
       WbImageTexture *theTexture = appearance->texture();
       if (theTexture)
         mImageTextures.push_back(theTexture);
     } else if (pbrAppearance) {
+      // cppcheck-suppress constVariablePointer
       WbImageTexture *theTexture = pbrAppearance->baseColorMap();
       if (theTexture)
         mImageTextures.push_back(theTexture);
@@ -206,15 +212,17 @@ void WbDisplay::findImageTextures(WbGroup *group) {
   WbMFNode::Iterator i(group->children());
   while (i.hasNext()) {
     WbNode *node = i.next();
-    WbShape *shape = dynamic_cast<WbShape *>(node);
+    const WbShape *shape = dynamic_cast<WbShape *>(node);
     if (shape) {
-      WbAppearance *appearance = shape->appearance();
-      WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+      const WbAppearance *appearance = shape->appearance();
+      const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
       if (appearance) {
+        // cppcheck-suppress constVariablePointer
         WbImageTexture *theTexture = appearance->texture();
         if (theTexture)
           mImageTextures.push_back(theTexture);
       } else if (pbrAppearance) {
+        // cppcheck-suppress constVariablePointer
         WbImageTexture *theTexture = pbrAppearance->baseColorMap();
         if (theTexture)
           mImageTextures.push_back(theTexture);
@@ -400,7 +408,7 @@ void WbDisplay::writeAnswer(WbDataStream &stream) {
     stream.writeRawData(reinterpret_cast<const char *>(mImage), 4 * width() * height());
 
     for (unsigned i = 0; i < number; i++) {
-      WbDisplayImage *di = mImages.at(i);
+      const WbDisplayImage *di = mImages.at(i);
       stream << (qint32)di->id();
       stream << (quint16)di->width();
       stream << (quint16)di->height();
@@ -532,6 +540,7 @@ void WbDisplay::drawRectangle(int x, int y, int w, int h, bool fill) {
   int displayWidth = width();
   int displayHeight = height();
 #ifndef NDEBUG
+  // cppcheck-suppress variableScope
   int size = displayWidth * displayHeight;
 #endif
   if (fill) {
@@ -660,8 +669,8 @@ void WbDisplay::drawOval(int cx, int cy, int a, int b, bool fill) {
   my1 = cy;
   mx2 = cx + a;
   my2 = cy;
-  aq = a * a;
-  bq = b * b;
+  aq = (qint64)a * a;
+  bq = (qint64)b * b;
   dx = aq << 1;
   dy = bq << 1;
   r = a * bq;
@@ -930,7 +939,7 @@ unsigned int *WbDisplay::imageCopy(short int x, short int y, short int &w, short
 void WbDisplay::imagePaste(int id, int x, int y, bool blend) {
   if (x >= width() || y >= height())
     return;
-  WbDisplayImage *subImage = NULL;
+  const WbDisplayImage *subImage = NULL;
   for (int i = 0; i < mImages.size(); i++)
     if (mImages.at(i)->id() == id) {
       subImage = mImages.at(i);

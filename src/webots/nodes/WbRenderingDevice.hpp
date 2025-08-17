@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class WbRenderingDevice : public WbSolidDevice {
   Q_OBJECT
 
 public:
-  virtual ~WbRenderingDevice();
+  virtual ~WbRenderingDevice() override;
 
   // reimplemented public functions
   void preFinalize() override;
@@ -62,7 +62,7 @@ public:
 
   // static functions
   static WbRenderingDevice *fromMousePosition(int x, int y);
-  static QList<WbRenderingDevice *> renderingDevices() { return cRenderingDevices; }
+  static const QList<WbRenderingDevice *> &renderingDevices() { return cRenderingDevices; }
 
   enum TextureRole { BACKGROUND_TEXTURE = 0, MAIN_TEXTURE, MASK_TEXTURE, FOREGROUND_TEXTURE };
 

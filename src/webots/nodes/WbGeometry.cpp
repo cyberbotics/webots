@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -466,7 +466,7 @@ void WbGeometry::setOdeMass(const dMass *mass) {
 }
 
 void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
-  assert(geom && matterAncestor);
+  assert(geom && geom != mOdeGeom && matterAncestor);
 
   if (!areOdeObjectsCreated())
     createOdeObjects();
@@ -620,8 +620,8 @@ int WbGeometry::constraintType() const {
 // Export //
 ////////////
 
-void WbGeometry::exportBoundingObjectToX3D(WbWriter &writer) const {
-  assert(writer.isX3d());
+void WbGeometry::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
   assert(isInBoundingObject());
   if (!mWrenMesh)
     return;

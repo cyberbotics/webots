@@ -85,7 +85,7 @@ export default class NodeSelectorWindow {
     img.id = 'node-image';
     img.className = 'node-image';
     img.draggable = false;
-    img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/resources/images/missing_proto_icon.png';
+    img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/resources/images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
     const line = document.createElement('hr');
@@ -344,7 +344,7 @@ export default class NodeSelectorWindow {
       nodeImage.src = info.icon;
       nodeImage.onerror = () => {
         nodeImage.onerror = undefined;
-        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023b/resources/images/missing_proto_icon.png';
+        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/resources/images/missing_proto_icon.png';
       };
       description.innerHTML = info.description;
       license.innerHTML =

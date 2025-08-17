@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   tryToAddResolution(WbResolution(3840, 2160, "4K UHD"), fullScreen);
   tryToAddResolution(WbResolution(fullScreen.width(), fullScreen.height(), ""), fullScreen);
 
-  foreach (WbResolution r, mAvailableResolutions)
+  foreach (const WbResolution &r, mAvailableResolutions)
     mResolutionList.addItem(r.toString());
 
   // quality

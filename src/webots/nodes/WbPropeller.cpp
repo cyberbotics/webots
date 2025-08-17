@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -365,9 +365,9 @@ void WbPropeller::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    WbSolid *const fastHelix = helix(FAST_HELIX);
-    WbSolid *const slowHelix = helix(SLOW_HELIX);
-    if (writer.isX3d())
+    const WbSolid *const fastHelix = helix(FAST_HELIX);
+    const WbSolid *const slowHelix = helix(SLOW_HELIX);
+    if (writer.isW3d())
       writer << "<Propeller>";
     else {
       writer << "Group {\n";
@@ -385,7 +385,7 @@ void WbPropeller::write(WbWriter &writer) const {
       slowHelix->write(writer);
     }
     writer.writeMFEnd(!fastHelix && !slowHelix);
-    if (writer.isX3d())
+    if (writer.isW3d())
       writer << "</Propeller>";
     else {
       writer << "\n";

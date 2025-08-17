@@ -1,4 +1,4 @@
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ endif
 
 WB_ODE_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) $(CONTROLLER_INCLUDE) -Iapp -Icore -Imaths -Inodes -Inodes/utils -Ivrml -Iengine
 WB_MATHS_INCLUDE         = $(QT_CORE_INCLUDE)
-WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(QT_QML_INCLUDE) $(LUA_INCLUDE) -Iqml -Iexternal/compilation_timestamp
+WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(QT_QML_INCLUDE) -Iqml -Iexternal/compilation_timestamp
 WB_UTIL_INCLUDE          = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Isound -Icore
 WB_WREN_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Ivrml -Iutil
 WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Icore -Imaths -Ivrml
@@ -44,7 +44,7 @@ WB_CONTROL_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) -Icore -Ieng
 WB_NODES_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(ODE_INCLUDE) $(CONTROLLER_INCLUDE) $(OIS_INCLUDE) $(FREETYPE_INCLUDE) $(WREN_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE) -Iapp -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iplugins -Isound -Iutil -Ivrml
 WB_APP_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Icontrol -Icore -Ieditor -Iengine -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Ivrml
 WB_SCENE_TREE_INCLUDE    = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(ASSIMP_INCLUDE) -isystem external/siphash -Iapp -Icore -Ieditor -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml -Iwidgets
-WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
+WB_SOUND_INCLUDE         = $(QT_CORE_INCLUDE) $(QT_XML_INCLUDE) $(ODE_INCLUDE) $(PICO_INCLUDE) -Icore -Imaths -Inodes -Inodes/utils -Isound -Ivrml
 WB_GUI_INCLUDE           = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_WEBSOCKETS_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_OPENGL_WIDGETS_INCLUDE) $(ODE_INCLUDE) $(WREN_INCLUDE) -Iapp -Icontrol -Icore -Iwidgets -Ieditor -Iengine -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iplugins -Iscene_tree -Isound -Iuser_commands -Iutil -Ivrml
 WB_RENDER_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_WIDGETS_INCLUDE) $(WREN_INCLUDE) -isystem external/siphash
 
@@ -58,7 +58,6 @@ HOSTTYPE ?= $(shell uname -m)
 %:: s.%
 %:: SCCS/s.%
 
-LUA_INCLUDE = -I$(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src
 OIS_INCLUDE = -isystem $(WEBOTS_PATH)/include/libOIS
 PICO_INCLUDE = -I$(WEBOTS_PATH)/include/libpico
 WREN_INCLUDE = -I$(WEBOTS_PATH)/include
@@ -84,7 +83,7 @@ QT_WEBSOCKETS_INCLUDE = -isystem $(FRAMEWORKS)/QtWebSockets.framework/Headers
 QT_XML_INCLUDE     = -isystem $(FRAMEWORKS)/QtXml.framework/Headers
 FREETYPE_INCLUDE   = -isystem $(WEBOTS_DEPENDENCY_PATH)/freetype2
 ASSIMP_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
-LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -llua -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
+LD_FLAGS           = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -L$(WEBOTS_LIB_PATH) -lOIS -lpico -lassimp -Xlinker -rpath -Xlinker @loader_path/../..
 MOC                =  $(WEBOTS_PATH)/bin/qt/moc
 LIBS_FRAMEWORKS    = -F$(FRAMEWORKS) -framework OpenAL -framework OpenGL -framework QtCore -framework QtGui -framework QtPrintSupport -framework QtQml -framework QtNetwork -framework QtOpenGL -framework QtOpenGLWidgets -framework QtWebSockets -framework QtWidgets -framework QtXml -framework IOKit -framework CoreFoundation -framework Cocoa
 LIBS              += -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
@@ -104,7 +103,6 @@ CFLAGS += -Wno-deprecated-register
 
 else ifeq ($(OSTYPE),linux)
 LIB_WREN           = ../wren/libwren.a ../glad/libglad.a
-OPENAL_INCLUDE     = -I$(WEBOTS_DEPENDENCY_PATH)/openal/include
 ASSIMP_INCLUDE     = -I$(WEBOTS_PATH)/include/libassimp/include
 QT_CORE_INCLUDE    = -isystem $(WEBOTS_PATH)/include/qt/QtCore
 QT_GUI_INCLUDE     = -isystem $(WEBOTS_PATH)/include/qt/QtGui
@@ -121,7 +119,7 @@ TARGET             = $(WEBOTS_PATH)/bin/webots-bin
 CFLAGS             = -fPIC
 CXXFLAGS           = -std=c++11
 MOC                = $(WEBOTS_PATH)/bin/qt/moc
-LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
+LIBS              += $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
 FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
@@ -155,7 +153,7 @@ CFLAGS                    = -isystem /mingw64/lib/libzip/include
 CXXFLAGS                  = -std=c++11 -D_USE_MATH_DEFINES
 MOC                       = /mingw64/share/qt6/bin/moc
 MOC_FLAGS                += -D_WIN32
-LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -llua52 -lfreetype-6 -lopenvr_api -lassimp-5
+LIBS                     += $(LIB_WREN) -L$(TARGET_PATH) -L/mingw64/bin -L/mingw64/lib -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lode -lopenal -lopengl32 -liphlpapi -ld3d9 -lgdi32 -lglu32 -lOIS -ldinput8 -ldxguid -lole32 -lsapi -loleaut32 -luuid -lpico -lfreetype-6 -lopenvr_api -lassimp-5
 LD_FLAGS                  = -Wl,--enable-auto-import
 EXTRA_CMD                 = cp launcher/webots-bin.exe.config $(TARGET_PATH)/
 FILES_TO_REMOVE           = $(TARGET_PATH)/webots-bin.exe.config
@@ -182,7 +180,7 @@ CONTROLLER_INCLUDE = -I$(WEBOTS_PATH)/include/controller/c
 ODE_INCLUDE        = -Iode -isystem $(WEBOTS_PATH)/include/ode
 QT_CORE_INCLUDE   += -I$(OBJDIR)
 WREN_INCLUDE      += -Iwren
-INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(LUA_INCLUDE) $(OIS_INCLUDE) $(OPENAL_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
+INCLUDE            = $(ALL_INCLUDE) $(CONTROLLER_INCLUDE) $(ODE_INCLUDE) $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) $(QT_OPENGL_INCLUDE) $(QT_NETWORK_INCLUDE) $(OIS_INCLUDE) $(PICO_INCLUDE) $(WREN_INCLUDE) $(FREETYPE_INCLUDE) $(STB_INCLUDE) $(ASSIMP_INCLUDE)
 
 ifeq ($(MAKECMDGOALS),debug)
 CFLAGS += -ggdb
@@ -290,6 +288,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbFieldIntSpinBox.cpp \
   WbFieldLineEdit.cpp \
   WbFindReplaceDialog.cpp \
+  WbFieldValueRestriction.cpp \
   WbFluid.cpp \
   WbFocus.cpp \
   WbFog.cpp \
@@ -476,7 +475,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbWrenRenderingContext.cpp \
   WbWrenTextureOverlay.cpp \
   WbWrenWindow.cpp \
-  WbX3dStreamingServer.cpp \
+  WbW3dStreamingServer.cpp \
   WbZoom.cpp
 
 # objects that don't inherit from QObject (alphabetical order)
@@ -525,6 +524,7 @@ OTHER_SOURCES = \
   WbNetwork.cpp \
   WbNodeFactory.cpp \
   WbNodeModel.cpp \
+  WbNodeProtoInfo.cpp \
   WbNodeUtilities.cpp \
   WbObjectDetection.cpp \
   WbOdeDebugger.cpp \
@@ -642,11 +642,11 @@ $(TARGET): $(OBJDIR)/x86_64/webots $(OBJDIR)/arm64/webots
 
 $(OBJDIR)/x86_64/webots: $(X86_64_OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@ "(x64_64)"
-	@$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) -o $@ $(X86_64_OBJECTS) $(LIBS)
+	@$(CXX) -target x86_64-apple-macos12 $(LD_FLAGS) -o $@ $(X86_64_OBJECTS) $(LIBS)
 
 $(OBJDIR)/arm64/webots: $(ARM64_OBJECTS) $(LIB_WREN) $(LIB_ODE)
 	@echo "# linking " $@ "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) -o $@ $(ARM64_OBJECTS) $(LIBS)
+	@$(CXX) -target arm64-apple-macos12 $(LD_FLAGS) -o $@ $(ARM64_OBJECTS) $(LIBS)
 
 else
 
@@ -775,164 +775,164 @@ webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 
 $(OBJDIR)/x86_64/%.o: $(OBJDIR)/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: app/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_APP_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_APP_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: control/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_CONTROL_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_CONTROL_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: core/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_CORE_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_CORE_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: widgets/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_WIDGETS_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_WIDGETS_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: editor/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_EDITOR_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_EDITOR_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: engine/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_ENGINE_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_ENGINE_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: external/siphash/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) -isystem external/siphash $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) -isystem external/siphash $< -o $@
 
 $(OBJDIR)/x86_64/%.o: gui/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_GUI_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_GUI_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: nodes/utils/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: nodes/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: maths/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_MATHS_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_MATHS_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: ode/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_ODE_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_ODE_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: wren/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_WREN_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_WREN_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: util/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_UTIL_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_UTIL_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: plugins/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_PLUGINS_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_PLUGINS_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: scene_tree/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_SCENE_TREE_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_SCENE_TREE_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: sound/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_SOUND_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_SOUND_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: user_commands/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_USER_COMMANDS_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_USER_COMMANDS_INCLUDE) $< -o $@
 
 $(OBJDIR)/x86_64/%.o: vrml/%.cpp
 	@echo "# compiling" $< "(x86_64)"
-	@$(CXX) -target x86_64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_VRML_INCLUDE) $< -o $@
+	@$(CXX) -target x86_64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_VRML_INCLUDE) $< -o $@
 
 
 $(OBJDIR)/arm64/%.o: $(OBJDIR)/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: app/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_APP_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_APP_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: control/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_CONTROL_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_CONTROL_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: core/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_CORE_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_CORE_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: widgets/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_WIDGETS_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_WIDGETS_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: editor/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_EDITOR_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_EDITOR_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: engine/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_ENGINE_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_ENGINE_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: external/siphash/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) -isystem external/siphash $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) -isystem external/siphash $< -o $@
 
 $(OBJDIR)/arm64/%.o: gui/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_GUI_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_GUI_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: nodes/utils/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: nodes/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_NODES_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: maths/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_MATHS_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_MATHS_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: ode/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_ODE_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_ODE_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: wren/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_WREN_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_WREN_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: util/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_UTIL_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_UTIL_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: plugins/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_PLUGINS_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_PLUGINS_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: scene_tree/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_SCENE_TREE_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_SCENE_TREE_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: sound/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_SOUND_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_SOUND_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: user_commands/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_USER_COMMANDS_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_USER_COMMANDS_INCLUDE) $< -o $@
 
 $(OBJDIR)/arm64/%.o: vrml/%.cpp
 	@echo "# compiling" $< "(arm64)"
-	@$(CXX) -target arm64-apple-macos11 -c $(CFLAGS) $(CXXFLAGS) $(WB_VRML_INCLUDE) $< -o $@
+	@$(CXX) -target arm64-apple-macos12 -c $(CFLAGS) $(CXXFLAGS) $(WB_VRML_INCLUDE) $< -o $@
 
 
 clean:

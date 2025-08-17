@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -202,6 +202,7 @@ static float distance_to_segment(float x, float y, float ax, float ay, float bx,
   float v1p_x = x - ax;  // vector from 1st segment point to test point
   float v1p_y = y - ay;
   float norm_v12 = sqrt(v12_x * v12_x + v12_y * v12_y);
+  // cppcheck-suppress variableScope
   float norm_v1p = sqrt(v1p_x * v1p_x + v1p_y * v1p_y);
   float dot_v12_v1p = v12_x * v1p_x + v12_y * v1p_y;
 

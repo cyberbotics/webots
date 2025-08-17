@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -121,7 +121,7 @@ namespace wren {
   protected:
     TransformNode();
     explicit TransformNode(TransformNode *source);
-    ~TransformNode() {}
+    virtual ~TransformNode() override {}
 
   private:
     // May be modified when getting position/scale/orientation/matrix, thus mutable

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ namespace wren {
     Overlay();
     ~Overlay();
 
-    void prepareTexture(Texture *texture, int textureUnitIndex);
+    void prepareTexture(Texture *texture, int textureUnitIndex) const;
 
     static ShaderProgram *cDefaultSizeProgram;
     static size_t cMaxOrder;

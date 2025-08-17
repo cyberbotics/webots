@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,6 +46,9 @@ public class Slave extends Robot {
   }
 
   public Slave() {
+  }
+
+  public void initialize() {
     camera = getCamera("camera");
     camera.enable(4*timeStep);
     receiver = getReceiver("receiver");
@@ -106,6 +109,7 @@ public class Slave extends Robot {
 
   public static void main(String[] args) {
     Slave controller = new Slave();
+    controller.initialize();
     controller.run();
   }
 }

@@ -1,47 +1,48 @@
 # The Camera node is used to model an on-board camera.
+# parent: Solid
 
 Camera {
   #fields that inherit from the Solid node:
-  vrmlField SFVec3f    translation         0 0 0
-  vrmlField SFRotation rotation            0 0 1 0
-  vrmlField MFNode     children            []          # shape and solids fixed to that solid
-  field     SFString   name                "camera"    # used by wb_robot_get_device()
-  field     SFString   model               ""          # generic name of the solid (eg: "chair")
-  field     SFString   description         ""          # a short (1 line) of description of the solid
-  field     SFString   contactMaterial     "default"   # see ContactProperties node
-  field     MFNode     immersionProperties []          # see ImmersionProperties node
-  field     SFNode     boundingObject      NULL        # for collision detection
-  field     SFNode     physics             NULL        # physical properties (Physics node)
-  field     SFBool     locked              FALSE       # to avoid moving objects with the mouse
-  field     SFFloat    translationStep     0.01        # step size used by translation manipulator
-  field     SFFloat    rotationStep        0.261799387 # step size used by rotation manipulator
-  field     SFFloat    radarCrossSection   0.0         # radar cross section of this solid
-  field     MFColor    recognitionColors   []          # colors returned for this Solid by Cameras with a Recognition node
+  w3dField SFVec3f                                        translation            0 0 0
+  w3dField SFRotation                                     rotation               0 0 1 0
+  w3dField MFNode                                         children               []           # shape and solids fixed to that solid
+  field    SFString                                       name                   "camera"     # used by wb_robot_get_device()
+  field    SFString                                       model                  ""           # generic name of the solid (eg: "chair")
+  field    SFString                                       description            ""           # a short (1 line) of description of the solid
+  field    SFString                                       contactMaterial        "default"    # see ContactProperties node
+  field    MFNode                                         immersionProperties    []           # see ImmersionProperties node
+  field    SFNode                                         boundingObject         NULL         # for collision detection
+  field    SFNode                                         physics                NULL         # physical properties (Physics node)
+  field    SFBool                                         locked                 FALSE        # to avoid moving objects with the mouse
+  field    SFFloat                                        translationStep        0.01         # step size used by translation manipulator
+  field    SFFloat                                        rotationStep           0.261799387  # step size used by rotation manipulator
+  field    SFFloat                                        radarCrossSection      0.0          # radar cross section of this solid
+  field    MFColor                                        recognitionColors      []           # colors returned for this Solid by Cameras with a Recognition node
 
   #fields specific to the Camera node:
-  field     SFFloat                                        fieldOfView            0.785398 # range is (0,pi)
-  field     SFInt32                                        width                  64       # pixel width
-  field     SFInt32                                        height                 64       # pixel height
-  field     SFString{"planar", "cylindrical", "spherical"} projection             "planar" # projection type
-  field     SFFloat                                        near                   0.01     # OpenGL near clipping plane (meters)
-  field     SFFloat                                        far                    0.0      # OpenGL far clipping plane (meters)
-  field     SFFloat                                        exposure               1.0      # Photometric exposure level
-  field     SFBool                                         antiAliasing           FALSE    # enable anti-aliasing
-  field     SFFloat                                        ambientOcclusionRadius 0        # radius of ambient occlusion for this camera
-  field     SFFloat                                        bloomThreshold         -1.0     # threshold of above which pixels bloom for this camera
-  field     SFFloat                                        motionBlur             0.0      # response time of the image in milliseconds
-  field     SFFloat                                        noise                  0.0      # add a noise to the pixel values
-  field     SFString                                       noiseMaskUrl           ""       # user-defined noise texture
-  field     SFNode                                         lens                   NULL     # a Lens node
-  field     SFNode                                         focus                  NULL     # a Focus node if the camera has a controllable focus
-  field     SFNode                                         zoom                   NULL     # a Zoom node if the camera has a controllable zoom
-  field     SFNode                                         recognition            NULL     # a Recognition node if the Camera has recognition capability
-  field     SFNode                                         lensFlare              NULL     # a LensFlare node
+  field    SFFloat                                        fieldOfView            0.785398     # range is (0,pi)
+  field    SFInt32                                        width                  64           # pixel width
+  field    SFInt32                                        height                 64           # pixel height
+  field    SFString{"planar", "cylindrical", "spherical"} projection             "planar"     # projection type
+  field    SFFloat                                        near                   0.01         # OpenGL near clipping plane (meters)
+  field    SFFloat                                        far                    0.0          # OpenGL far clipping plane (meters)
+  field    SFFloat                                        exposure               1.0          # Photometric exposure level
+  field    SFBool                                         antiAliasing           FALSE        # enable anti-aliasing
+  field    SFFloat                                        ambientOcclusionRadius 0            # radius of ambient occlusion for this camera
+  field    SFFloat                                        bloomThreshold         -1.0         # threshold of above which pixels bloom for this camera
+  field    SFFloat                                        motionBlur             0.0          # response time of the image in milliseconds
+  field    SFFloat                                        noise                  0.0          # add a noise to the pixel values
+  field    SFString                                       noiseMaskUrl           ""           # user-defined noise texture
+  field    SFNode                                         lens                   NULL         # a Lens node
+  field    SFNode                                         focus                  NULL         # a Focus node if the camera has a controllable focus
+  field    SFNode                                         zoom                   NULL         # a Zoom node if the camera has a controllable zoom
+  field    SFNode                                         recognition            NULL         # a Recognition node if the Camera has recognition capability
+  field    SFNode                                         lensFlare              NULL         # a LensFlare node
 
   # hidden fields
-  hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
-  hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+  hiddenField SFVec3f linearVelocity  0 0 0  # (m/s) Solid's initial linear velocity
+  hiddenField SFVec3f angularVelocity 0 0 0  # (rad/s) Solid's initial angular velocity
 
   # deprecated fields
-  deprecatedField SFBool spherical    FALSE   # kept for converting to 'projection' field
+  deprecatedField SFBool spherical    FALSE  # kept for converting to 'projection' field
 }

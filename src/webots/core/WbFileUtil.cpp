@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &
 }
 
 bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
-                                      QList<std::pair<QString, QString>> values) {
+                                      const QList<std::pair<QString, QString>> &values) {
   QFile sourceFile(sourcePath);
   if (!sourceFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;
@@ -89,7 +89,7 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   // copy files
   int count = 0;
   QStringList files = sourceDir.entryList(QDir::Files | QDir::Hidden);
-  foreach (QString file, files) {
+  foreach (const QString &file, files) {
     QString srcName = sourcePath + "/" + file;
     QString destName = destPath + "/" + file;
     if (QFile::exists(destName)) {
@@ -109,7 +109,8 @@ int WbFileUtil::copyDir(const QString &sourcePath, const QString &destPath, bool
   // recurse in subdirectories
   if (recurse) {
     QStringList dirs = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    foreach (QString dir, dirs) {
+    foreach (const QString &dir, dirs) {
+      // cppcheck-suppress variableScope
       QString srcName = sourcePath + "/" + dir;
       QString destName = destPath + "/" + dir;
       if (!QDir(destName).exists() || merge)

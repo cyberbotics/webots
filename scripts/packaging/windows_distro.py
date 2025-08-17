@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2023 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -205,7 +205,9 @@ class WindowsWebotsPackage(WebotsPackage):
         else:
             INNO_SETUP_HOME = "/C/Program Files (x86)/Inno Setup 6"
         print('creating webots_setup.exe (takes long)\n')
-        subprocess.run([INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss'])
+        subprocess.run(
+            [INNO_SETUP_HOME + '/iscc', '-Q', 'webots.iss']
+        ).check_returncode()
 
         print('Done.')
 

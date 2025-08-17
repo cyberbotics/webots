@@ -42,8 +42,9 @@ void wr_scene_apply_pending_updates(WrScene *scene);
 
 /* The 'materialName' parameter is optional (can be set to NULL for default), and if set, force
 the renderables to use the named material */
-void wr_scene_render(WrScene *scene, const char *material_name, bool culling);
-void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling);
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling, bool offScreen);
+void wr_scene_render_to_viewports(WrScene *scene, int count, WrViewport **viewports, const char *material_name, bool culling,
+                                  bool offScreen);
 
 void wr_scene_set_ambient_light(const float *ambient_light);
 
@@ -67,8 +68,7 @@ void wr_scene_enable_depth_reset(WrScene *scene, bool enable);
 void wr_scene_add_frame_listener(WrScene *scene, void (*listener)());
 void wr_scene_remove_frame_listener(WrScene *scene, void (*listener)());
 
-void wr_scene_get_main_buffer(WrScene *scene, int width, int height, unsigned int format, unsigned int data_type,
-                              unsigned int buffer_type, void *buffer);
+void wr_scene_get_main_buffer(int width, int height, unsigned int format, unsigned int data_type, void *buffer);
 
 void wr_scene_init_frame_capture(WrScene *scene, int pixel_buffer_count, unsigned int *pixel_buffer_ids, int frame_size);
 void wr_scene_bind_pixel_buffer(WrScene *scene, int buffer);

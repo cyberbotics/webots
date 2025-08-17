@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,10 +34,15 @@ void WbNodeModel::cleanup() {
     delete it.next().value();
 }
 
-WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mName(tokenizer->nextWord()) {
+WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) :
+  mInfo(tokenizer->info()),
+  mName(tokenizer->nextWord()),
+  mParentName(tokenizer->parent()),
+  mParentModel(NULL) {
   tokenizer->skipToken("{");
 
   while (tokenizer->peekWord() != "}") {
+    // cppcheck-suppress constVariablePointer
     WbFieldModel *fieldModel = new WbFieldModel(tokenizer, "");
     fieldModel->ref();
     mFieldModels.append(fieldModel);
@@ -47,7 +52,7 @@ WbNodeModel::WbNodeModel(WbTokenizer *tokenizer) : mInfo(tokenizer->info()), mNa
 }
 
 WbNodeModel::~WbNodeModel() {
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     fieldModel->unref();
   mFieldModels.clear();
 }
@@ -72,10 +77,18 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString modelName, list) {
+  foreach (const QString &modelName, list) {
+    // cppcheck-suppress constVariablePointer
     WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
+  }
+
+  // Now that all the models are loaded, populate the ancestry tree
+  foreach (QString baseModelName, baseModelNames()) {
+    WbNodeModel *baseModel = findModel(baseModelName);
+    if (baseModel)
+      baseModel->mParentModel = findModel(baseModel->mParentName);
   }
 
   qAddPostRoutine(WbNodeModel::cleanup);
@@ -148,9 +161,9 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   return true;
 }
 
-QStringList WbNodeModel::fieldNames() {
+QStringList WbNodeModel::fieldNames() const {
   QStringList names;
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     names.append(fieldModel->name());
   return names;
 }

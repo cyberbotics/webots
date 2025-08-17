@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -98,8 +98,8 @@ WbLinkWindow::WbLinkWindow(QWidget *parent) : QDialog(parent) {
 void WbLinkWindow::reject() {
   QDir dir(WbStandardPaths::webotsTmpPath() + "textures/");  // remove tmp files
   dir.removeRecursively();
-  const QStringList extensions = {".html", ".x3d", ".json", ".jpg"};
-  foreach (QString extension, extensions)
+  const QStringList extensions = {".html", ".w3d", ".json", ".jpg"};
+  foreach (const QString &extension, extensions)
     QFile::remove(WbStandardPaths::webotsTmpPath() + "cloud_export" + extension);
 
   QDialog::reject();

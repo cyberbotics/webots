@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -366,36 +366,4 @@ void WbWorldInfo::updateGpsCoordinateSystem() {
 void WbWorldInfo::updateContactProperties() {
   if (areOdeObjectsCreated())
     emit globalPhysicsPropertiesChanged();
-}
-
-// e.g. '"Aldebaran's >"' to '"Aldebaran&#39;s &gt;"'
-static QString forgeHtmlEscapedString(const QString &s) {
-  QString r = s;
-  r = r.replace(QRegularExpression("^\""), "").replace(QRegularExpression("\"$"), "");  // remove first and last double quotes
-  r = r.toHtmlEscaped().replace("'", "&#39;");  // replace the problematic HTML characters by their codes
-  return QString("\"%1\"").arg(r);              // restore the suffix and prefix double quotes
-}
-
-void WbWorldInfo::exportNodeFields(WbWriter &writer) const {
-  if (writer.isX3d()) {
-    QString titleString = forgeHtmlEscapedString(mTitle->toString());
-    if (titleString.size() > 2)  // at least 2 double quotes
-      writer << " title=" << titleString;
-
-    if (mInfo->size() > 0) {
-      writer << " info='";
-      for (int i = 0; i < mInfo->size(); ++i) {
-        QString infoString = forgeHtmlEscapedString(mInfo->itemToString(i));
-        writer << infoString;
-        if (i != mInfo->size() - 1)
-          writer << " ";
-      }
-      writer << "'";
-    }
-
-    writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
-    writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
-    writer << " lineScale=\'" << mLineScale->value() << "\'";
-  } else
-    WbBaseNode::exportNodeFields(writer);
 }

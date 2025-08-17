@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ namespace WbMathsUtilities {
     return ((int)(value / resolution + 0.5)) * resolution;
   }
   inline double discretize(float value, float resolution) {
-    return ((int)(value / resolution + 0.5f)) * resolution;
+    return ((int)(value / resolution + 0.5f)) * ((double)resolution);
   }
 
   // performs two Graham scan and returns the indices of points in the convex hull

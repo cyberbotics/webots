@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public:
   void setConstantForceDuration(double duration) { mConstantForceDuration = duration; }
   void setForceAxis(int axis);
 
-  QString initializationError() const { return mError; }
+  const QString &initializationError() const { return mError; }
   bool isCorrectlyInitialized() const { return mCorrectlyInitialized; }
   bool hasForceFeedback() const { return mHasForceFeedback; }
   bool supportConstantForceFeedbackEffect() const { return mSupportConstantForceFeedbackEffect; }

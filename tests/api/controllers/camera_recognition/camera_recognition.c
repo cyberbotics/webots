@@ -9,7 +9,7 @@
 #include "../../../lib/ts_utils.h"
 
 #define TIME_STEP 32
-#define VISIBLE_SOLID_NUMBER 6
+#define VISIBLE_SOLID_NUMBER 7
 
 // This test is mainly testing the functionalities for a planar camera.
 // Some basic tests for spherical and cylindrical cameras are also performed checking mainly
@@ -17,7 +17,8 @@
 
 // objects visible in planar camera
 static const char *visible_solid_models[VISIBLE_SOLID_NUMBER] = {
-  "visible sphere", "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO"};
+  "visible sphere",   "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO",
+  "perpendicular box"};
 
 static const char *occcluded_solid_model = "occluded box";
 
@@ -45,13 +46,16 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
-                      object_number);
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 4,
+                      "The spherical camera should initially see %d objects"
+                      " and not %d (with occlusion).",
+                      VISIBLE_SOLID_NUMBER + 4, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
-                      7, object_number);
-
+  ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 2,
+                      "The cylindrical camera should initially see %d objects"
+                      " and not %d (with occlusion).",
+                      VISIBLE_SOLID_NUMBER + 2, object_number);
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
@@ -60,7 +64,7 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
                           "The Recognition.segmentation field should be set to TRUE.");
   const unsigned char *image = wb_camera_recognition_get_segmentation_image(camera);
-  ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentaton is disabled.");
+  ts_assert_boolean_equal(image == NULL, "No segmentation image should be returned if segmentation is disabled.");
 
   wb_robot_step(TIME_STEP);
 
@@ -137,7 +141,7 @@ int main(int argc, char **argv) {
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
     }
-    // check objct is one of the visible solid
+    // check object is one of the visible solid
     bool found = false;
     for (j = 0; j < VISIBLE_SOLID_NUMBER; ++j) {
       if (strcmp(objects[i].model, visible_solid_models[j]) == 0)
@@ -157,6 +161,50 @@ int main(int argc, char **argv) {
   double composed_solid_size = objects[composed_solid_index].size_on_image[0] * objects[composed_solid_index].size_on_image[1];
   ts_assert_double_is_bigger(composed_solid_size, sub_solid_size, "Object: '%s' should have a bigger pixel size than '%s'.",
                              objects[composed_solid_index].model, objects[sub_solid_index].model);
+
+  // check if perpendicular object is recognized correctly
+  const double perpendicular_box_position[3] = {-0.528470, -1.191827, -0.105723};
+  const double perpendicular_box_orientation[4] = {0.577352, -0.577349, 0.577350, 2.094393};
+  // case spherical
+  object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
+  objects = wb_camera_recognition_get_objects(camera_spherical);
+
+  for (i = 0; i < object_number; ++i) {
+    if (strcmp(objects[i].model, "perpendicular box") == 0) {
+      ts_assert_doubles_in_delta(3, objects[i].position, perpendicular_box_position, 0.001,
+                                 "Position of 'perpendicular box' is not correct for spherical camera: found=("
+                                 "%f, %f, %f), expected=(%f, %f, %f).",
+                                 objects[i].position[0], objects[i].position[1], objects[i].position[2],
+                                 perpendicular_box_position[0], perpendicular_box_position[1], perpendicular_box_position[2]);
+      // orientation
+      ts_assert_doubles_in_delta(4, objects[i].orientation, perpendicular_box_orientation, 0.001,
+                                 "Orientation of 'perpendicular box' is not correct for spherical camera: found=("
+                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], perpendicular_box_orientation[0], perpendicular_box_orientation[1],
+                                 perpendicular_box_orientation[2], perpendicular_box_orientation[3]);
+    }
+  }
+  // case cylindrical
+  object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
+  objects = wb_camera_recognition_get_objects(camera_cylindrical);
+  for (i = 0; i < object_number; ++i) {
+    if (strcmp(objects[i].model, "perpendicular box") == 0) {
+      // position
+      ts_assert_doubles_in_delta(3, objects[i].position, perpendicular_box_position, 0.001,
+                                 "Position of 'perpendicular box' is not correct for cylindrical camera: found=("
+                                 "%f, %f, %f), expected=(%f, %f, %f).",
+                                 objects[i].position[0], objects[i].position[1], objects[i].position[2],
+                                 perpendicular_box_position[0], perpendicular_box_position[1], perpendicular_box_position[2]);
+      // orientation
+      ts_assert_doubles_in_delta(4, objects[i].orientation, perpendicular_box_orientation, 0.001,
+                                 "Orientation of 'perpendicular box' is not correct for cylindrical camera: found=("
+                                 "%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], perpendicular_box_orientation[0], perpendicular_box_orientation[1],
+                                 perpendicular_box_orientation[2], perpendicular_box_orientation[3]);
+    }
+  }
 
   wb_robot_step(TIME_STEP);
 
@@ -212,6 +260,7 @@ int main(int argc, char **argv) {
   const double invisible_capsule_position[3] = {0.369, 1.650, 0.899};
   const double invisible_capsule_orientation[4] = {0.577350, -0.577350, -0.577350, 2.094390};
   const double invisible_capsule_size[2] = {0.1, 0.1};
+
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
   ts_assert_int_equal(object_number, 4,
                       "The spherical camera should see only 4 objects after removal of the initial objects and not %d.",
@@ -266,12 +315,12 @@ int main(int argc, char **argv) {
       // position
       ts_assert_doubles_in_delta(
         3, objects[i].position, invisible_capsule_position, 0.001,
-        "Position of 'invisble capsule' is not correct for spherical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
+        "Position of 'invisible capsule' is not correct for spherical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
         objects[i].position[0], objects[i].position[1], objects[i].position[2], invisible_capsule_position[0],
         invisible_capsule_position[1], invisible_capsule_position[2]);
       // orientation
       ts_assert_doubles_in_delta(4, objects[i].orientation, invisible_capsule_orientation, 0.001,
-                                 "Orientation of 'invisble capsule' is not correct for spherical camera: found=(%f, %f, %f, "
+                                 "Orientation of 'invisible capsule' is not correct for spherical camera: found=(%f, %f, %f, "
                                  "%f), expected=(%f, %f, %f, %f).",
                                  objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
                                  objects[i].orientation[3], invisible_capsule_orientation[0], invisible_capsule_orientation[1],
@@ -279,19 +328,19 @@ int main(int argc, char **argv) {
       // size
       ts_assert_doubles_in_delta(
         2, objects[i].size, invisible_capsule_size, 0.001,
-        "Size of 'invisble capsule' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).",
+        "Size of 'invisible capsule' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).",
         objects[i].size[0], objects[i].size[1], invisible_capsule_size[0], invisible_capsule_size[1]);
       // size on image
       int expected_size_on_image[2] = {14, 28};
       ts_assert_integers_in_delta(
         2, objects[i].size_on_image, expected_size_on_image, 1,
-        "Size on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        "Size on image of 'invisible capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
       int expected_position_on_image[2] = {79, 102};
       ts_assert_integers_in_delta(
         2, objects[i].position_on_image, expected_position_on_image, 1,
-        "Position on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        "Position on image of 'invisible capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
     }
@@ -315,7 +364,7 @@ int main(int argc, char **argv) {
         invisible_capsule_position[1], invisible_capsule_position[2]);
       // orientation
       ts_assert_doubles_in_delta(4, objects[i].orientation, invisible_capsule_orientation, 0.001,
-                                 "Orientation of 'invisble capsule' is not correct for cylindrical camera: found=(%f, %f, %f, "
+                                 "Orientation of 'invisible capsule' is not correct for cylindrical camera: found=(%f, %f, %f, "
                                  "%f), expected=(%f, %f, %f, %f).",
                                  objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
                                  objects[i].orientation[3], invisible_capsule_orientation[0], invisible_capsule_orientation[1],
@@ -323,19 +372,19 @@ int main(int argc, char **argv) {
       // size
       ts_assert_doubles_in_delta(
         2, objects[i].size, invisible_capsule_size, 0.001,
-        "Size of 'invisble capsule' is not correct for cylindrical camera: found=(%f, %f), expected=(%f, %f).",
+        "Size of 'invisible capsule' is not correct for cylindrical camera: found=(%f, %f), expected=(%f, %f).",
         objects[i].size[0], objects[i].size[1], invisible_capsule_size[0], invisible_capsule_size[1]);
       // size on image
       int expected_size_on_image[2] = {6, 45};
       ts_assert_integers_in_delta(
         2, objects[i].size_on_image, expected_size_on_image, 1,
-        "Size on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
+        "Size on image of 'invisible capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
       int expected_position_on_image[2] = {12, 88};
       ts_assert_integers_in_delta(
         2, objects[i].position_on_image, expected_position_on_image, 1,
-        "Position on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
+        "Position on image of 'invisible capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
 

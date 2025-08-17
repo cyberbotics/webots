@@ -11,8 +11,7 @@ Webots cannot load procedural PROTO nodes directly, therefore the procedural PRO
 
 ### Programming Facts
 
-- For backwards compatibility reasons, procedural PROTO files are assumed to be Lua by default.
-In order to use JavaScript scripting it is required to add the comment `# template language: javascript` in the header of the file.
+In order to use JavaScript scripting you should add the comment `# template language: javascript` in the header of the file.
 - A template statement is encapsulated inside the `%<` and the `>%` tokens and can be written on several lines.
 - Adding an "=" just after the opening token (`%<=`) allows to evaluate a statement.
 - The use of template statements is exclusively allowed inside the content scope of the PROTO (cf. example).
@@ -27,6 +26,8 @@ The first represents the effective value of the field (for instance the one defi
 - As shown in [this table](#vrml97-type-to-javascript-type-conversion), the conversion of a VRML97 node is an object.
 This object contains the following keys: "node\_name" containing the VRML97 node name and "fields" which is in turn an object containing the JavaScript representation of the VRML97 node fields.
 This object is equal to `undefined` if the VRML97 node is not defined (`NULL`).
+- By default, the parser only detects fields that are accessed directly in the template statements (i.e. `fields.appearance`).
+If you would like to access the `fields` object without referencing a specific field, you can add the following line at the beginning of the PROTO file: `# tags: indirectFieldAccess`.
 - Objects that are part of [ECMA-262](http://www.ecma-international.org/publications/standards/Ecma-262.htm) are built-in and globally accessible, such as `Math`, `Date` and `String`.
 - The `context` object provides contextual information about the PROTO.
 Table [this table](#content-of-the-context-object) shows the available information and the corresponding keys.
@@ -70,7 +71,6 @@ Sphere {
 %end
 
 - Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
-- Lua and JavaScript Procedural PROTO nodes use two distinct tokens (`%{` and `}%` for Lua and `%<` and `>%` for JavaScript) and cannot be interchanged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
 - The `wbfile` module for file manipulation does not need to, and should not, be imported as it is added automatically to each instance of the engine.
 - Performance degradation has been observed when the number of evaluations requested (i.e expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.
@@ -822,6 +822,14 @@ The location of this path can be retrieved from the `context` field object, see 
 %tab-end
 
 %end
+
+### PROTO Regeneration
+When a field used in a template statement is modified, the PROTO node is regenerated.
+This means that the template statements are re-evaluated and the PROTO node is reloaded in the world.
+For most nodes, this behavior should not affect the simulation.
+However, special care should be taken when using PROTOs that have side effects (e.g. writing to a file).
+Additionally, Robot nodes will restart their controllers when regenerated.
+Using `tags: indirectFieldAccess` in the PROTO file will cause the PROTO to be regenerated whenever any field is modified, even if it is not used in a template statement.
 
 ### Optimization
 

@@ -124,7 +124,7 @@ Then choose these settings:
 
     Where "MyController" is the name of a new or already existing controller
     directory, and where "Location" must indicate the "controllers" subdirectory of
-    your Webots project directory.
+    your Webots project directory. Make sure to check the "Place solution and project in the same directory" checkbox.
 
 3. Then you can add a C or C++ source file to your project: Choose either: `Project / Add Existing Item` or `Project / Add New Item / C++ File (.cpp)`.
 In the second case you can copy the content of one of the C/C++ examples of Webots distribution.
@@ -184,9 +184,9 @@ If you want to use the C++ API follow these instructions:
     You can proceed like this:
 
     - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources Files` folder, then select `Add / New Filter`.
-    This should create a `NewFilter1` subfolder in your `Sources Files` folder.
-    Then select the `NewFilter1` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
-    In the file dialog, go to the "C:\Program Files\Webots\resources\languages\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
+    This should create a `NewFilter` subfolder in your `Sources Files` folder.
+    Then select the `NewFilter` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
+    In the file dialog, go to the "C:\Program Files\Webots\src\controller\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
     This should add the "Accelerometer.cpp, Camera.cpp, Compass.cpp", etc. source files to your project.
 
 6. Now you should be able to build your controller with the `Build / Build MyController` menu item (or the <kbd>F7</kbd> key).

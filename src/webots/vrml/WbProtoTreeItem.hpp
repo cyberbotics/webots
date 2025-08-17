@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public:
   const QString &url() const { return mUrl; }
   const QStringList &error() const { return mError; }
   const WbProtoTreeItem *parent() const { return mParent; }
-  const QList<WbProtoTreeItem *> children() const { return mChildren; }
+  const QList<WbProtoTreeItem *> &children() const { return mChildren; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public:
   explicit WbNormal(WbTokenizer *tokenizer = NULL);
   WbNormal(const WbNormal &other);
   explicit WbNormal(const WbNode &other);
-  virtual ~WbNormal();
+  virtual ~WbNormal() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_NORMAL; }
@@ -39,7 +39,7 @@ public:
   int vectorSize() const { return mVector->size(); }
   void setVector(int index, const WbVector3 &vector) { mVector->setItem(index, vector); }
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private:
   // user accessible fields

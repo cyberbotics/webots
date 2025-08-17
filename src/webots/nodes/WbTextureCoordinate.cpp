@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ WbTextureCoordinate::WbTextureCoordinate(const WbNode &other) : WbBaseNode(other
 WbTextureCoordinate::~WbTextureCoordinate() {
 }
 
-QStringList WbTextureCoordinate::fieldsToSynchronizeWithX3D() const {
+QStringList WbTextureCoordinate::fieldsToSynchronizeWithW3d() const {
   QStringList fields;
   fields << "point";
   return fields;

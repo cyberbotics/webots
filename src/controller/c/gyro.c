@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2023 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ static void gyro_read_answer(WbDevice *d, WbRequest *r) {
 int wb_gyro_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
   robot_mutex_lock();
-  Gyro *dev = gyro_get_struct(tag);
+  const Gyro *dev = gyro_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
@@ -157,7 +157,7 @@ void wb_gyro_enable(WbDeviceTag tag, int sampling_period) {
 }
 
 void wb_gyro_disable(WbDeviceTag tag) {
-  Gyro *gyro = gyro_get_struct(tag);
+  const Gyro *gyro = gyro_get_struct(tag);
   if (gyro)
     wb_gyro_enable(tag, 0);
   else
@@ -167,7 +167,7 @@ void wb_gyro_disable(WbDeviceTag tag) {
 int wb_gyro_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  Gyro *gyro = gyro_get_struct(tag);
+  const Gyro *gyro = gyro_get_struct(tag);
   if (gyro)
     sampling_period = gyro->sampling_period;
   else
@@ -179,7 +179,7 @@ int wb_gyro_get_sampling_period(WbDeviceTag tag) {
 const double *wb_gyro_get_values(WbDeviceTag tag) {
   const double *result = NULL;
   robot_mutex_lock();
-  Gyro *gyro = gyro_get_struct(tag);
+  const Gyro *gyro = gyro_get_struct(tag);
   if (gyro) {
     if (gyro->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_gyro_enable().\n", __FUNCTION__);

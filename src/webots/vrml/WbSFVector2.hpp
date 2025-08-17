@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class WbSFVector2 : public WbSingleValue {
 public:
   WbSFVector2(WbTokenizer *tokenizer, const QString &worldPath) { readSFVector2(tokenizer, worldPath); }
   WbSFVector2(const WbSFVector2 &other) : mValue(other.mValue) {}
-  virtual ~WbSFVector2() {}
+  virtual ~WbSFVector2() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFVector2(tokenizer, worldPath); }
   void write(WbWriter &writer) const override {
     writer << toString(writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);

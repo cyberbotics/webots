@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -180,7 +180,7 @@ WbMainWindow::WbMainWindow(bool minimizedOnStart, WbTcpServer *tcpServer, QWidge
 
   mFactoryLayout = new QByteArray(saveState());
 
-  updateGui();
+  updateWindowTitle();
 
   if (WbPreferences::instance()->value("General/checkWebotsUpdateOnStartup").toBool() && WbMessageBox::enabled()) {
     WbWebotsUpdateManager *webotsUpdateManager = WbWebotsUpdateManager::instance();
@@ -383,8 +383,6 @@ void WbMainWindow::createMainTools() {
   setCentralWidget(mSimulationView);
   addDock(mSimulationView);
   connect(mSimulationView, &WbSimulationView::requestOpenUrl, this, &WbMainWindow::openUrl);
-  connect(mSimulationView->selection(), &WbSelection::selectionChangedFromSceneTree, this, &WbMainWindow::updateOverlayMenu);
-  connect(mSimulationView->selection(), &WbSelection::selectionChangedFromView3D, this, &WbMainWindow::updateOverlayMenu);
   connect(mSimulationView->sceneTree(), &WbSceneTree::editRequested, this, &WbMainWindow::openFileInTextEditor);
   if (mTcpServer) {
     mTcpServer->setMainWindow(this);
@@ -708,17 +706,12 @@ QMenu *WbMainWindow::createOverlayMenu() {
   mOverlayMenu = new QMenu(this);
   mOverlayMenu->setTitle(tr("&Overlays"));
 
-  mRobotCameraMenu = mOverlayMenu->addMenu(tr("Ca&mera Devices"));
-  mRobotRangeFinderMenu = mOverlayMenu->addMenu(tr("&RangeFinder Devices"));
-  mRobotDisplayMenu = mOverlayMenu->addMenu(tr("&Display Devices"));
-
-  WbContextMenuGenerator::setRobotCameraMenu(mRobotCameraMenu);
-  WbContextMenuGenerator::setRobotRangeFinderMenu(mRobotRangeFinderMenu);
-  WbContextMenuGenerator::setRobotDisplayMenu(mRobotDisplayMenu);
-
   mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_CAMERA_OVERLAYS));
   mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_RANGE_FINDER_OVERLAYS));
   mOverlayMenu->addAction(WbActionManager::instance()->action(WbAction::HIDE_ALL_DISPLAY_OVERLAYS));
+  mOverlayMenu->addSeparator();
+
+  WbContextMenuGenerator::setOverlaysMenu(mOverlayMenu);
 
   return mOverlayMenu;
 }
@@ -1023,6 +1016,11 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
 
   logActiveControllersTermination();
 
+  if (WbWorld::instance()) {
+    disconnect(WbWorld::instance(), &WbWorld::robotAdded, this, &WbMainWindow::addRobotInOverlaysMenu);
+    disconnect(WbWorld::instance(), &WbWorld::robotRemoved, this, &WbMainWindow::removeRobotInOverlaysMenu);
+  }
+
   // disconnect from file changed signal before saving the perspective
   // if the perspective file is open, a segmentation fault is generated
   // due to double free of the reload QMessageBox on Linux
@@ -1182,7 +1180,7 @@ void WbMainWindow::savePerspective(bool reloading, bool saveToFile, bool isSaveE
 
 void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadingFromMemory) {
   WbWorld *world = WbWorld::instance();
-  WbPerspective *perspective = world->perspective();
+  const WbPerspective *perspective = world->perspective();
   bool meansOfLoading = false;
   if (loadingFromMemory)
     meansOfLoading = true;
@@ -1259,6 +1257,7 @@ void WbMainWindow::restoreRenderingDevicesPerspective() {
       device->restorePerspective(devicePerspective);
   }
   disconnect(mSimulationView->view3D(), &WbView3D::resized, this, &WbMainWindow::restoreRenderingDevicesPerspective);
+  updateOverlayMenu();
 }
 
 void WbMainWindow::loadDifferentWorld(const QString &fileName) {
@@ -1311,6 +1310,10 @@ void WbMainWindow::loadWorld(const QString &fileName, bool reloading) {
     return;
   }
   mSimulationView->cancelSupervisorMovieRecording();
+  if (WbWorld::instance()) {
+    disconnect(WbWorld::instance(), &WbWorld::robotAdded, this, &WbMainWindow::addRobotInOverlaysMenu);
+    disconnect(WbWorld::instance(), &WbWorld::robotRemoved, this, &WbMainWindow::removeRobotInOverlaysMenu);
+  }
   logActiveControllersTermination();
   WbLog::setConsoleLogsPostponed(true);
   WbApplication::instance()->loadWorld(fileName, reloading);
@@ -1376,8 +1379,11 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
 
   connect(world, &WbWorld::modificationChanged, this, &WbMainWindow::updateWindowTitle);
   connect(world, &WbWorld::resetRequested, this, &WbMainWindow::resetGui, Qt::QueuedConnection);
+  // update 'overlays' menu
+  connect(WbWorld::instance(), &WbWorld::robotAdded, this, &WbMainWindow::addRobotInOverlaysMenu);
+  connect(WbWorld::instance(), &WbWorld::robotRemoved, this, &WbMainWindow::removeRobotInOverlaysMenu);
 
-  updateGui();
+  updateWindowTitle();
 
   if (!reloading)
     WbActionManager::instance()->resetApplicationActionsState();
@@ -1609,16 +1615,16 @@ void WbMainWindow::upload() {
 
   if (mUploadType == 'A' && uploadFileExists("cloud_export.json"))
     fileNames << "cloud_export.json";
-  if (uploadFileExists("cloud_export.x3d"))
-    fileNames << "cloud_export.x3d";
+  if (uploadFileExists("cloud_export.w3d"))
+    fileNames << "cloud_export.w3d";
   if (WbPreferences::instance()->value("General/thumbnail").toBool() && uploadFileExists("cloud_export.jpg"))
     fileNames << "cloud_export.jpg";
 
   // add files content
   QMap<QString, QString> map;
-  foreach (const QString fileName, fileNames) {
+  foreach (const QString &fileName, fileNames) {
     QHttpPart mainPart;
-    if (fileName.contains("x3d")) {
+    if (fileName.contains("w3d")) {
       map["foldername"] = WbStandardPaths::webotsTmpPath();
       map["name"] = "scene-file";
     } else if (fileName.contains("json")) {
@@ -1725,7 +1731,7 @@ void WbMainWindow::uploadFinished() {
     QJsonDocument doc(obj);
     QByteArray data = doc.toJson();
 
-    QNetworkReply *uploadReply = manager->post(request, data);
+    const QNetworkReply *uploadReply = manager->post(request, data);
 
     QObject::connect(uploadReply, &QNetworkReply::finished, this, &WbMainWindow::uploadStatus);
 
@@ -2107,11 +2113,6 @@ void WbMainWindow::updateWindowTitle() {
   setWindowTitle(title);
 }
 
-void WbMainWindow::updateGui() {
-  updateWindowTitle();
-  updateOverlayMenu();
-}
-
 void WbMainWindow::simulationEnabledChanged(bool e) {
   mSimulationMenu->setEnabled(e);
 }
@@ -2226,91 +2227,136 @@ void WbMainWindow::deleteRobotWindow(WbRobot *robot) {
   mOnSocketOpen = true;
 }
 
-static bool isRobotNode(WbBaseNode *node) {
-  return dynamic_cast<WbRobot *>(node);
+void WbMainWindow::clearOverlaysMenu() {
+  QList<QAction *> actions = mOverlayMenu->actions();
+  while (actions.size() > 4) {
+    QAction *action = actions.last();
+    if (action->menu())
+      mOverlayMenu->removeAction(action);
+    actions.removeLast();
+  }
+}
+
+void WbMainWindow::updateRobotNameInOverlaysMenu() {
+  const WbRobot *robot = static_cast<WbRobot *>(sender());
+  QListIterator<QAction *> it(mOverlayMenu->actions());
+  while (it.hasNext()) {
+    const QAction *action = it.next();
+    QMenu *menu = action->menu();
+    if (menu && menu->property("robot").value<void *>() == robot) {
+      QString robotName = robot->name();
+#ifdef __linux__
+      // fix Unity bug with underscores in menu item text
+      if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
+        robotName.replace("_", "__");
+#endif
+      menu->setTitle(tr("'%1' Overlays").arg(robotName));
+    }
+  }
+}
+
+void WbMainWindow::removeRobotInOverlaysMenu(const WbRobot *robot) {
+  QListIterator<QAction *> it(mOverlayMenu->actions());
+  while (it.hasNext()) {
+    QAction *action = it.next();
+    const QMenu *menu = action->menu();
+    if (menu && menu->property("robot").value<void *>() == robot) {
+      mOverlayMenu->removeAction(action);
+      return;
+    }
+  }
+}
+
+void WbMainWindow::addRobotInOverlaysMenu(WbRobot *robot) {
+  QAction *action = NULL;
+  QList<QAction *> cameraActions;
+  QList<QAction *> rangeFinderActions;
+  QList<QAction *> displayActions;
+
+  QString robotName = robot->name();
+#ifdef __linux__
+  // fix Unity bug with underscores in menu item text
+  if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
+    robotName.replace("_", "__");
+#endif
+  QMenu *robotMenu = mOverlayMenu->addMenu(tr("'%1' Overlays").arg(robotName));
+  robotMenu->setProperty("robot", QVariant::fromValue(static_cast<void *>(const_cast<WbRobot *>(robot))));
+  connect(robot, &WbMatter::matterNameChanged, this, &WbMainWindow::updateRobotNameInOverlaysMenu);
+
+  QListIterator<WbRenderingDevice *> devicesIt(robot->renderingDevices());
+  while (devicesIt.hasNext()) {
+    const WbRenderingDevice *device = devicesIt.next();
+    QString deviceName = device->name();
+#ifdef __linux__
+    // fix Unity bug with underscores in menu item text
+    if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
+      deviceName.replace("_", "__");
+#endif
+    action = new QAction(this);
+    action->setText(tr("Show '%1' Overlay").arg(deviceName));
+    if (device->nodeType() == WB_NODE_CAMERA) {
+      action->setStatusTip(tr("Show overlay of camera device '%1' for robot '%2'.").arg(deviceName).arg(robotName));
+      cameraActions << action;
+    } else if (device->nodeType() == WB_NODE_RANGE_FINDER) {
+      action->setStatusTip(tr("Show overlay of range-finder device '%1' for robot '%2'.").arg(deviceName).arg(robotName));
+      rangeFinderActions << action;
+    } else if (device->nodeType() == WB_NODE_DISPLAY) {
+      action->setStatusTip(tr("Show overlay of display device '%1' for robot '%2'.").arg(deviceName).arg(robotName));
+      displayActions << action;
+    } else {
+      delete action;
+      continue;
+    }
+    action->setToolTip(mToggleFullScreenAction->statusTip());
+    action->setCheckable(true);
+    action->setChecked(device->isOverlayEnabled());
+    action->setEnabled(!device->isWindowActive());
+    action->setProperty("renderingDevice", QVariant::fromValue(static_cast<void *>(const_cast<WbRenderingDevice *>(device))));
+    connect(action, &QAction::toggled, mSimulationView->view3D(), &WbView3D::setShowRenderingDevice);
+    connect(device, &WbRenderingDevice::overlayVisibilityChanged, action, &QAction::setChecked);
+    connect(device, &WbRenderingDevice::overlayStatusChanged, action, &QAction::setEnabled);
+  }
+
+  if (cameraActions.isEmpty() && rangeFinderActions.isEmpty() && displayActions.isEmpty()) {
+    robotMenu->setEnabled(false);
+    return;
+  }
+
+  QMenu *cameraMenu = robotMenu->addMenu(tr("Camera Devices"));
+  if (cameraActions.isEmpty())
+    cameraMenu->setEnabled(false);
+  else {
+    QListIterator<QAction *> actionIt(cameraActions);
+    while (actionIt.hasNext())
+      cameraMenu->addAction(actionIt.next());
+  }
+  QMenu *rangeFinderMenu = robotMenu->addMenu(tr("RangeFinder Devices"));
+  if (rangeFinderActions.isEmpty())
+    rangeFinderMenu->setEnabled(false);
+  else {
+    QListIterator<QAction *> actionIt(rangeFinderActions);
+    while (actionIt.hasNext())
+      rangeFinderMenu->addAction(actionIt.next());
+  }
+  QMenu *displayMenu = robotMenu->addMenu(tr("Display Devices"));
+  if (displayActions.isEmpty())
+    displayMenu->setEnabled(false);
+  else {
+    QListIterator<QAction *> actionIt(displayActions);
+    while (actionIt.hasNext())
+      displayMenu->addAction(actionIt.next());
+  }
 }
 
 void WbMainWindow::updateOverlayMenu() {
-  QList<QAction *> actions;
-  WbRobot *selectedRobot = mSimulationView->selectedRobot();
+  clearOverlaysMenu();
 
-  // remove camera and display item list
-  actions = mRobotCameraMenu->actions();
-  for (int i = 0; i < actions.size(); ++i) {
-    mRobotCameraMenu->removeAction(actions[i]);
-    delete actions[i];
-  }
-  actions = mRobotRangeFinderMenu->actions();
-  for (int i = 0; i < actions.size(); ++i) {
-    mRobotRangeFinderMenu->removeAction(actions[i]);
-    delete actions[i];
-  }
-  actions = mRobotDisplayMenu->actions();
-  for (int i = 0; i < actions.size(); ++i) {
-    mRobotDisplayMenu->removeAction(actions[i]);
-    delete actions[i];
-  }
+  if (!WbWorld::instance())
+    return;
 
-  // add current robot and descendant robot specific camera and display items
-  if (selectedRobot) {
-    QAction *action = NULL;
-    bool hasDisplay = false;
-    bool hasCamera = false;
-    bool hasRangeFinder = false;
-    QList<WbNode *> robotList = WbNodeUtilities::findDescendantNodesOfType(selectedRobot, isRobotNode, true);
-    robotList.prepend(selectedRobot);
-    foreach (WbNode *robotNode, robotList) {
-      WbRobot *robot = reinterpret_cast<WbRobot *>(robotNode);
-      QList<WbRenderingDevice *> devices = robot->renderingDevices();
-      for (int i = 0; i < devices.size(); ++i) {
-        const WbRenderingDevice *device = devices[i];
-        QString deviceName = device->name();
-#ifdef __linux__
-        // fix Unity bug with underscores in menu item text
-        if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity")
-          deviceName.replace("_", "__");
-#endif
-        action = new QAction(this);
-        if (robot != selectedRobot)
-          action->setText(tr("Show '%2' overlay of robot '%1'").arg(robot->name()).arg(deviceName));
-        else
-          action->setText(tr("Show '%1' overlay").arg(deviceName));
-        if (device->nodeType() == WB_NODE_CAMERA) {
-          action->setStatusTip(tr("Show overlay of camera device '%1'.").arg(deviceName));
-          mRobotCameraMenu->addAction(action);
-          hasCamera = true;
-        } else if (device->nodeType() == WB_NODE_RANGE_FINDER) {
-          action->setStatusTip(tr("Show overlay of range-finder device '%1'.").arg(deviceName));
-          mRobotRangeFinderMenu->addAction(action);
-          hasRangeFinder = true;
-        } else if (device->nodeType() == WB_NODE_DISPLAY) {
-          action->setStatusTip(tr("Show overlay of display device '%1'.").arg(deviceName));
-          mRobotDisplayMenu->addAction(action);
-          hasDisplay = true;
-        } else {
-          delete action;
-          continue;
-        }
-        action->setToolTip(mToggleFullScreenAction->statusTip());
-        action->setCheckable(true);
-        action->setChecked(device->isOverlayEnabled());
-        action->setEnabled(!device->isWindowActive());
-        action->setProperty("renderingDevice",
-                            QVariant::fromValue(static_cast<void *>(const_cast<WbRenderingDevice *>(device))));
-        connect(action, &QAction::toggled, mSimulationView->view3D(), &WbView3D::setShowRenderingDevice);
-        connect(device, &WbRenderingDevice::overlayVisibilityChanged, action, &QAction::setChecked);
-        connect(device, &WbRenderingDevice::overlayStatusChanged, action, &QAction::setEnabled);
-      }
-    }
-
-    mRobotDisplayMenu->setEnabled(hasDisplay);
-    mRobotCameraMenu->setEnabled(hasCamera);
-    mRobotRangeFinderMenu->setEnabled(hasRangeFinder);
-  }
-
-  actions = mOverlayMenu->actions();
-  for (int i = 0; i < actions.size() - 3; ++i)
-    actions[i]->setVisible(selectedRobot != NULL);
+  QListIterator<WbRobot *> robotIt(WbWorld::instance()->robots());
+  while (robotIt.hasNext())
+    addRobotInOverlaysMenu(robotIt.next());
 }
 
 void WbMainWindow::updateProjectPath(const QString &oldPath, const QString &newPath) {
@@ -2571,7 +2617,7 @@ void WbMainWindow::disableAnimationAction() {
 }
 
 void WbMainWindow::logActiveControllersTermination() {
-  WbControlledWorld *controlledWorld = WbControlledWorld::instance();
+  const WbControlledWorld *controlledWorld = WbControlledWorld::instance();
   if (controlledWorld) {
     QStringList activeControllers = controlledWorld->activeControllersNames();
     foreach (QString controllerName, activeControllers)

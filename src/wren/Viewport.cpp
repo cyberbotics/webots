@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -180,10 +180,6 @@ namespace wren {
         }
       }
 
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
-
       for (size_t i = 0; i < mPostProcessingEffects.size(); ++i)
         mPostProcessingEffects[i]->apply();
     }
@@ -202,9 +198,6 @@ namespace wren {
         mAmbientOcclusionEffect->setResultFrameBuffer(mFrameBuffer);
         mAmbientOcclusionEffect->firstPass()->setInputTexture(0, mFrameBuffer->outputTexture(0));
       }
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
 
       mAmbientOcclusionEffect->apply();
     }
@@ -223,10 +216,6 @@ namespace wren {
         mAntiAliasingEffect->setResultFrameBuffer(mFrameBuffer);
         mAntiAliasingEffect->firstPass()->setInputTexture(0, mFrameBuffer->outputTexture(0));
       }
-
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
 
       mAntiAliasingEffect->apply();
     }

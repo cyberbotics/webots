@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ namespace webots {
   class LED : public Device {
   public:
     explicit LED(const std::string &name) : Device(name) {}  // Use Robot::getLED() instead
+    explicit LED(WbDeviceTag tag) : Device(tag) {}
     virtual ~LED() {}
     virtual void set(int value);
     int get() const;

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,14 +32,13 @@ class WbProtoTemplateEngine : public WbTemplateEngine {
 
 public:
   explicit WbProtoTemplateEngine(const QString &templateContent);
-  virtual ~WbProtoTemplateEngine() {}
+  virtual ~WbProtoTemplateEngine() override {}
 
   bool generate(const QString &logHeaderName, const QVector<WbField *> &parameters, const QString &protoPath,
-                const QString &worldPath, int id, const QString &templateLanguage);
+                const QString &worldPath, int id);
   static QString convertFieldValueToJavaScriptStatement(const WbField *field);
   static const QString &coordinateSystem();
   static void setCoordinateSystem(const QString &coordinateSystem);
-  static QString convertStatementFromJavaScriptToLua(QString &statement);
 
 private:
   static QString convertFieldDefaultValueToJavaScriptStatement(const WbField *field);

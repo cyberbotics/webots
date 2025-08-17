@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,8 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
     }
   } else {  // otherwise propose new project dir as sibling of current project
     QDir dir(WbProject::current()->path());
-    dir.cdUp();
+    if (!dir.cdUp())
+      assert(false);
     path = dir.absolutePath() + "/my_project";
   }
   // propose only if this directory does not yet exist or is empty
@@ -80,7 +81,9 @@ void WbNewProjectWizard::accept() {
   createWorldFile();
   // store the accepted project directory in the preferences
   QDir dir(mProject->path());
-  dir.cdUp();  // store the upper level, probably the path where the directories are stored
+  // store the upper level, probably the path where the directories are stored
+  if (!dir.cdUp())
+    assert(false);
   WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
   QDialog::accept();
 }

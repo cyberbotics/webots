@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -291,7 +291,7 @@ const QString &WbSysInfo::linuxCpuModelName() {
   QFile cpuinfoFile("/proc/cpuinfo");
   if (cpuinfoFile.open(QIODevice::ReadOnly)) {
     const QStringList lines = QString(cpuinfoFile.readAll()).split('\n');
-    foreach (const QString line, lines) {
+    foreach (const QString &line, lines) {
       if (line.startsWith("model name")) {
         // 12 corresponds to the strlen("model name: ")
         cpuinfo = line.mid(12).trimmed();  // remove leading and trailing whitespace
@@ -353,6 +353,7 @@ bool WbSysInfo::isVirtualMachine() {
   const int vendorIdLength = 13;
   using VendorIdStr = char[vendorIdLength];
   VendorIdStr hyperVendorId = {};
+  // cppcheck-suppress nullPointer
   memcpy(hyperVendorId + 0, &ebx, 4);
   memcpy(hyperVendorId + 4, &ecx, 4);
   memcpy(hyperVendorId + 8, &edx, 4);
@@ -365,6 +366,7 @@ bool WbSysInfo::isVirtualMachine() {
     "prl hyperv  ",     // Parallels
     "VBoxVBoxVBox"      // VirtualBox
   };
+  // cppcheck-suppress constVariableReference
   for (const auto &vendor : vendors) {
     if (!memcmp(vendor, hyperVendorId, vendorIdLength)) {
       virtualMachine = 1;

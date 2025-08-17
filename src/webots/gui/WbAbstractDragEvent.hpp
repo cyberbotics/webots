@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ protected:
 // WbDragView3DEvent class
 class WbDragView3DEvent : public WbDragEvent {
 public:
-  virtual ~WbDragView3DEvent() {}
+  virtual ~WbDragView3DEvent() override {}
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
@@ -72,7 +72,7 @@ protected:
 /////////////////////////////////////////
 class WbDragKinematicsEvent : public WbDragView3DEvent {
 public:
-  virtual ~WbDragKinematicsEvent() {}
+  virtual ~WbDragKinematicsEvent() override {}
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:

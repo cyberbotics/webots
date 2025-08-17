@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -73,13 +73,9 @@ public:
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
   // 3x3 absolute rotation matrix
-  virtual WbMatrix3 rotationMatrix() const {
-    const WbMatrix4 &m = matrix();
-    const WbVector3 &s = m.scale();
-    WbMatrix3 rm = m.extracted3x3Matrix();
-    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
-    return rm;
-  }
+  WbMatrix3 rotationMatrix() const;
+
+  const WbQuaternion &relativeQuaternion() const { return mRelativeQuaternion; }
 
   // position in 'world' coordinates
   WbVector3 position() const { return matrix().translation(); }
@@ -131,6 +127,7 @@ protected:
   mutable bool mMatrixNeedUpdate;
   mutable WbMatrix4 mVrmlMatrix;
   mutable bool mVrmlMatrixNeedUpdate;
+  mutable WbQuaternion mRelativeQuaternion;
 
 private:
   mutable bool mIsTranslationFieldVisible;

@@ -89,7 +89,7 @@ sequenceDiagram
 
 ### Quick Start
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
-We assume you use Ubuntu 20.04 or newer and have the latest version of Webots installed.
+We assume you use Ubuntu 22.04 or newer and have the latest version of Webots installed.
 
 First, you need to install the web service dependencies:
 ```bash

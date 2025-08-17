@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,14 +83,14 @@ void WbDoubleEditor::apply() {
   mDouble = field()->hasRestrictedValues() ? mComboBox->currentText().toDouble() :
                                              WbPrecision::roundValue(mSpinBox->value(), WbPrecision::GUI_MEDIUM);
   if (singleValue()) {
-    WbSFDouble *const sfDouble = static_cast<WbSFDouble *>(singleValue());
+    const WbSFDouble *const sfDouble = static_cast<WbSFDouble *>(singleValue());
     if (sfDouble->value() == mDouble)
       return;
 
     mPreviousValue->setDouble(sfDouble->value());
 
   } else if (multipleValue()) {
-    WbMFDouble *const mfDouble = static_cast<WbMFDouble *>(multipleValue());
+    const WbMFDouble *const mfDouble = static_cast<WbMFDouble *>(multipleValue());
     if (mfDouble->item(index()) == mDouble)
       return;
 

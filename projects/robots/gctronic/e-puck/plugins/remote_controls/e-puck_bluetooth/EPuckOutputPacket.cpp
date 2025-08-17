@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ void EPuckOutputPacket::apply(int simulationTime) {
   // the order of the sensors should match with EPuckInputPacket::decode()
 
   // accelerometer management
-  TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
+  const TripleValuesSensor *accelerometer = DeviceManager::instance()->accelerometer();
   if (accelerometer->isSensorRequested()) {
     mAccelerometerRequested = true;
     append(static_cast<char>(-'a'));
@@ -99,7 +99,7 @@ void EPuckOutputPacket::apply(int simulationTime) {
   // manage the optional ground sensors
   // (send the command if at least one ground sensor is required)
   for (int i = 0; i < 3; i++) {
-    SingleValueSensor *gs = DeviceManager::instance()->groundSensor(i);
+    const SingleValueSensor *gs = DeviceManager::instance()->groundSensor(i);
     if (gs && gs->isSensorRequested()) {
       mGroundSensorRequested = true;
       append(static_cast<char>(-'M'));
@@ -111,7 +111,7 @@ void EPuckOutputPacket::apply(int simulationTime) {
   // manage the distance sensors
   // (send the command if at least one distance sensor is required)
   for (int i = 0; i < 8; i++) {
-    SingleValueSensor *ds = DeviceManager::instance()->distanceSensor(i);
+    const SingleValueSensor *ds = DeviceManager::instance()->distanceSensor(i);
     if (ds->isSensorRequested()) {
       mDistanceSensorRequested = true;
       append(static_cast<char>(-'N'));
@@ -123,7 +123,7 @@ void EPuckOutputPacket::apply(int simulationTime) {
   // manage the light sensors
   // (send the command if at least one light sensor is required)
   for (int i = 0; i < 8; i++) {
-    SingleValueSensor *ls = DeviceManager::instance()->lightSensor(i);
+    const SingleValueSensor *ls = DeviceManager::instance()->lightSensor(i);
     if (ls->isSensorRequested()) {
       mLightSensorRequested = true;
       append(static_cast<char>(-'O'));
@@ -143,7 +143,7 @@ void EPuckOutputPacket::apply(int simulationTime) {
   // camera management
   // it's better to put the camera at the end in case of
   // retrieval after transmission troubles
-  Camera *camera = DeviceManager::instance()->camera();
+  const Camera *camera = DeviceManager::instance()->camera();
   if (camera->isSensorRequested()) {
     mCameraRequested = true;
     append(static_cast<char>(-'I'));

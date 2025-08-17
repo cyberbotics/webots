@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -256,7 +256,7 @@ void WbBasicJoint::updateEndPointPosition() {
   if (mIsEndPointPositionChangedByJoint)
     return;
 
-  WbSolid *const s = solidEndPoint();
+  const WbSolid *const s = solidEndPoint();
   if (s)
     updateEndPointZeroTranslationAndRotation();
 
@@ -292,15 +292,15 @@ void WbBasicJoint::setSolidEndPoint(WbSlot *slot) {
 }
 
 WbSolid *WbBasicJoint::solidEndPoint() const {
-  WbSlot *slot = dynamic_cast<WbSlot *>(mEndPoint->value());
+  const WbSlot *slot = dynamic_cast<WbSlot *>(mEndPoint->value());
   if (slot) {
-    WbSlot *childrenSlot = slot->slotEndPoint();
+    const WbSlot *childrenSlot = slot->slotEndPoint();
     if (childrenSlot) {
       WbSolid *solid = childrenSlot->solidEndPoint();
       if (solid)
         return solid;
 
-      WbSolidReference *s = childrenSlot->solidReferenceEndPoint();
+      const WbSolidReference *s = childrenSlot->solidReferenceEndPoint();
       if (s)
         return s->solid();
     }
@@ -318,9 +318,9 @@ WbSolid *WbBasicJoint::solidEndPoint() const {
 }
 
 WbSolidReference *WbBasicJoint::solidReference() const {
-  WbSlot *slot = dynamic_cast<WbSlot *>(mEndPoint->value());
+  const WbSlot *slot = dynamic_cast<WbSlot *>(mEndPoint->value());
   if (slot) {
-    WbSlot *childrenSlot = slot->slotEndPoint();
+    const WbSlot *childrenSlot = slot->slotEndPoint();
     if (childrenSlot)
       return childrenSlot->solidReferenceEndPoint();
     else
@@ -464,7 +464,7 @@ void WbBasicJoint::write(WbWriter &writer) const {
     WbBaseNode::write(writer);
   else {
     // we should not export any SolidReference Solid here,
-    // otherwise they will appear duplicate in the X3D/VRML file,
+    // otherwise they will appear duplicate in the W3D/VRML file,
     // this is why we don't use the solidEndPoint() method
     const WbSolid *solid = dynamic_cast<const WbSolid *>(mEndPoint->value());
     if (solid)
@@ -472,7 +472,7 @@ void WbBasicJoint::write(WbWriter &writer) const {
     else {
       const WbSlot *slot = dynamic_cast<const WbSlot *>(mEndPoint->value());
       if (slot) {
-        WbSlot *childrenSlot = slot->slotEndPoint();
+        const WbSlot *childrenSlot = slot->slotEndPoint();
         if (childrenSlot) {
           const WbSolid *solidInSlot = childrenSlot->solidEndPoint();
           if (solidInSlot)

@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ namespace wren {
   template<class T> class CustomUniform : public CustomUniformBase {
   public:
     CustomUniform(const std::string &name, const T &initialValue) : CustomUniformBase(name), mValue(initialValue) {}
-    virtual ~CustomUniform() {}
+    virtual ~CustomUniform() override {}
 
     void setValue(const char *value) override { mValue = *(reinterpret_cast<const T *>(value)); }
     void uploadValue() const override {

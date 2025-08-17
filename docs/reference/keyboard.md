@@ -129,16 +129,6 @@ key = wb_keyboard_get_key()
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/keyboard/key` | `topic` | webots_ros::Int32Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
-| `/keyboard/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/keyboard/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description

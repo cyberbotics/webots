@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace WbFileUtil {
 
   // copy file from 'sourcePath' to 'destPath' while replacing a string pattern
   bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
-                            QList<std::pair<QString, QString>> values);
+                            const QList<std::pair<QString, QString>> &values);
   bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, const QString &before,
                             const QString &after);
 

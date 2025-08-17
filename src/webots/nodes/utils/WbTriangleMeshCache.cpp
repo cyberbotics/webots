@@ -1,4 +1,4 @@
-// Copyright 1996-2023 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,11 +44,11 @@ namespace WbTriangleMeshCache {
   TriangleMeshGeometryKey::TriangleMeshGeometryKey() {
     mHash = 0;
   }
-  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) {
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     set(triangleMeshGeometry);
   }
 
-  void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
+  void TriangleMeshGeometryKey::set(const WbTriangleMeshGeometry *triangleMeshGeometry) {
     mHash = triangleMeshGeometry->computeHash();
   }
 
