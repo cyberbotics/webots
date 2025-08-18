@@ -271,7 +271,7 @@ namespace wren {
           aiMaterial *material = scene->mMaterials[materialIndex];
           aiString name;
           material->Get(AI_MATKEY_NAME, name);
-          char *matName = new char[strlen(name.C_Str())];
+          char *matName = new char[strlen(name.C_Str()) + 1];
           strcpy(matName, name.C_Str());
           materials.push_back(matName);
         }
