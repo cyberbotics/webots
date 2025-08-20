@@ -19,6 +19,7 @@
     - Fixed a bug causing supervisors to occasionally read stale field values after the simulation was reset ([#6758](https://github.com/cyberbotics/webots/pull/6758)).
     - Fixed a bug causing Webots to occasionally crash when unloading a world ([#6857](https://github.com/cyberbotics/webots/pull/6857)).
     - Fixed a crash occurring when Python was not found on Windows ([#6870](https://github.com/cyberbotics/webots/pull/6870)).
+    - Fixed `addForceWithOffset` and `addTorque` doing the same thing as `addForce` in Python ([#6881](https://github.com/cyberbotics/webots/pull/6881)).
 
 ## Webots R2025a
 Released on January 31st, 2025.
