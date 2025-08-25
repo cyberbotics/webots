@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This metainfo file provides metadata about Webots for Flatpak distribution.
+  It follows the AppStream specification and is required for publishing Webots
+  on Flathub.
+  See: https://github.com/flathub/com.cyberbotics.webots
+-->
 <component type="desktop-application">
   <id>com.cyberbotics.webots</id>
   <name>Webots</name>
