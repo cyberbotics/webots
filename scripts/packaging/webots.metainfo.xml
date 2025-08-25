@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2025 Cyberbotics Ltd. -->
 <!--
   This metainfo file provides metadata about Webots for Flatpak distribution.
   It follows the AppStream specification and is required for publishing Webots
