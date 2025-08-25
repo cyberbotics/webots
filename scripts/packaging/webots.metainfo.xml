@@ -44,6 +44,8 @@
     <content_attribute id="social-info">moderate</content_attribute>
   </content_rating>
   <releases>
-    <release version="R2025a" date="2025-02-04"></release>
+    <release version="R2025a" date="2025-02-04">
+      <url>https://cyberbotics.com/doc/reference/changelog-r2025</url>
+    </release>
   </releases>
 </component>
