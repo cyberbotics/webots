@@ -39,7 +39,9 @@
     <category>Education</category>
     <category>Robotics</category>
   </categories>
-  <content_rating type="oars-1.1"/>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">moderate</content_attribute>
+  </content_rating>
   <releases>
     <release version="R2025a" date="2025-02-04"></release>
   </releases>
