@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2025 Cyberbotics Ltd. -->
+<!--
+  This metainfo file provides metadata about Webots for Flatpak distribution.
+  It follows the AppStream specification and is required for publishing Webots
+  on Flathub.
+  See: https://docs.flathub.org/docs/for-app-authors/metainfo-guidelines
+  See: https://github.com/flathub/com.cyberbotics.webots
+-->
+<component type="desktop-application">
+  <id>com.cyberbotics.webots</id>
+  <name>Webots</name>
+  <project_license>Apache-2.0</project_license>
+  <developer id="com.cyberbotics">
+    <name>Cyberbotics Ltd.</name>
+  </developer>
+  <summary>Webots Robot Simulator</summary>
+  <description>
+    <p>
+      Webots provides a complete development environment to model, program, and simulate robots, vehicles, and mechanical systems. It is a beginner friendly software that is meant to introduce newcomers to the world of robotics.
+    </p>
+    <p>
+      Webots was originally designed at EPFL in 1996 as a research tool for mobile robotics. In 1998, it began being developed and commercialized by Cyberbotics. In December 2018, Webots was open sourced. Since then, Cyberbotics continues to develop Webots thanks to paid customer support, training, and consulting for industry and academic research projects.
+    </p>
+  </description>
+  <metadata_license>CC0-1.0</metadata_license>
+  <launchable type="desktop-id">com.cyberbotics.webots.desktop</launchable>
+  <url type="homepage">https://cyberbotics.com</url>
+  <url type="help">https://github.com/cyberbotics/webots/discussions</url>
+  <url type="bugtracker">https://github.com/cyberbotics/webots/issues</url>
+  <url type="contribute">https://github.com/cyberbotics/webots/blob/master/CONTRIBUTING.md</url>
+  <url type="donation">https://github.com/sponsors/cyberbotics</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+      <image>https://raw.githubusercontent.com/cyberbotics/webots/master/docs/guide/images/main_window.png</image>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>Education</category>
+    <category>Robotics</category>
+  </categories>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">moderate</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="R2025a" date="2025-02-04">
+      <url>https://cyberbotics.com/doc/reference/changelog-r2025</url>
+    </release>
+  </releases>
+</component>
