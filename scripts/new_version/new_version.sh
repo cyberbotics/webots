@@ -119,3 +119,11 @@ then
 
   echo "tests/cache/worlds/backwards_compatibility.wbt should not be modified by this script"
 fi
+# metainfo
+echo "Update metainfo file..."
+$CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+$CURRENT_DIR/new_version_file.sh "[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" "$(date +%F)" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+$CURRENT_DIR/new_version_file.sh "Copyright [0-9]\{4\}" "Copyright ${new_version_year}" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+if [ $new_version_year -ne $old_version_year ]; then
+  $CURRENT_DIR/new_version_file.sh "changelog-r${old_version_year}" "changelog-r${new_version_year}" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+fi
