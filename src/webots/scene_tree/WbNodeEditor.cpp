@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,15 +19,19 @@
 #include "WbFieldLineEdit.hpp"
 #include "WbGeometry.hpp"
 #include "WbGroup.hpp"
+#include "WbLog.hpp"
 #include "WbMFNode.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbProtoManager.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QDir>
@@ -44,6 +48,7 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   mNode(NULL),
   mDefEdit(new WbFieldLineEdit(this)),
   mUseCount(new QLabel(this)),
+  mPrintUrl(new QPushButton("Print EXTERNPROTO", this)),
   mNbTriangles(new QLabel(this)),
   mStackedWidget(new QStackedWidget(this)),
   mMessageBox(false),
@@ -56,16 +61,17 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
   layout->addWidget(new QLabel("DEF:", this), 0, 0);
   layout->addWidget(mDefEdit, 0, 1);
   layout->addWidget(mUseCount, 1, 1);
-  layout->addWidget(mNbTriangles, 2, 1);
+  layout->addWidget(mPrintUrl, 3, 1);
+  layout->addWidget(mNbTriangles, 4, 1);
 
-  layout->addWidget(mShowResizeHandlesLabel, 4, 0);
-  layout->addWidget(mShowResizeHandlesCheckBox, 4, 1);
+  layout->addWidget(mShowResizeHandlesLabel, 5, 0);
+  layout->addWidget(mShowResizeHandlesCheckBox, 5, 1);
 
   // setup layout size policy in order to put all the widgets top - left
   // vertically
   QWidget *vStretch = new QWidget(this);
-  layout->addWidget(vStretch, 4, 0);
-  layout->setRowStretch(4, 1);
+  layout->addWidget(vStretch, 5, 0);
+  layout->setRowStretch(5, 1);
   // horizontally
   QWidget *hStretch = new QWidget(this);
   layout->addWidget(hStretch, 0, 2);
@@ -78,8 +84,16 @@ WbNodeEditor::WbNodeEditor(QWidget *parent) :
 
   connect(mDefEdit, &WbFieldLineEdit::returnPressed, this, &WbNodeEditor::apply);
   connect(mDefEdit, &WbFieldLineEdit::focusLeft, this, &WbNodeEditor::apply);
+  connect(mPrintUrl, &QPushButton::pressed, this, &WbNodeEditor::printUrl);
   connect(mShowResizeHandlesCheckBox, &QAbstractButton::toggled, WbSelection::instance(),
           &WbSelection::showResizeManipulatorFromSceneTree, Qt::UniqueConnection);
+}
+
+void WbNodeEditor::printUrl() {
+  if (!mNode->isProtoInstance())
+    return;
+
+  WbLog::info(tr("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->externProtoUrl(mNode, true)));
 }
 
 void WbNodeEditor::recursiveBlockSignals(bool block) {
@@ -100,9 +114,9 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
     if (multipleValue())
       mNode = static_cast<WbMFNode *>(multipleValue())->item(index());
 
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(mNode);
+    WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(mNode);
     if (baseNode) {
-      bool handlesAvailable = baseNode->hasResizeManipulator();
+      const bool handlesAvailable = baseNode->hasResizeManipulator();
 
       mShowResizeHandlesLabel->setVisible(handlesAvailable);
       mShowResizeHandlesCheckBox->setVisible(handlesAvailable);
@@ -110,6 +124,12 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
 
       if (WbNodeUtilities::isNodeOrAncestorLocked(baseNode))
         mShowResizeHandlesCheckBox->setEnabled(false);
+
+      if (handlesAvailable) {
+        const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
+        if (g)
+          mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
+      }
     }
   }
 
@@ -142,6 +162,12 @@ void WbNodeEditor::update() {
       mUseCount->clear();
     else
       mUseCount->setText(tr("USE count: %1").arg(mNode->useCount()));  // TODO: is this the final implementation?
+
+    if (mNode->isProtoInstance()) {
+      mPrintUrl->setVisible(true);
+      mPrintUrl->setToolTip(WbProtoManager::instance()->externProtoUrl(mNode, true));
+    } else
+      mPrintUrl->setVisible(false);
   } else
     mStackedWidget->setCurrentIndex(EMPTY_PANE);
 
@@ -190,7 +216,8 @@ void WbNodeEditor::apply() {
     // check if the new DEF name is not already used by subsequent USE nodes
     bool defOverlap = false;
     bool useOverlap = false;
-    dictionaryUpdateRequest = WbNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
+    dictionaryUpdateRequest =
+      WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
     if (dictionaryUpdateRequest) {
       mMessageBox = true;
       QString message;

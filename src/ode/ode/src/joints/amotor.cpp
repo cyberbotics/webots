@@ -448,6 +448,11 @@ dReal dJointGetAMotorAngle( dJointID j, int anum )
     checktype( joint, AMotor );
     if ( anum < 0 ) anum = 0;
     if ( anum > 2 ) anum = 2;
+
+    // Force computation of Euler angles
+    dxJoint::Info1 info;
+    joint->getInfo1(&info);
+
     return joint->angle[anum];
 }
 

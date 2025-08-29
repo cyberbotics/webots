@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,6 +95,7 @@ void WbHinge2Joint::postFinalize() {
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();
 
+  connect(mDevice2, &WbMFNode::itemChanged, this, &WbHinge2Joint::addDevice2);
   connect(mDevice2, &WbMFNode::itemInserted, this, &WbHinge2Joint::addDevice2);
   connect(mParameters2, &WbSFNode::changed, this, &WbHinge2Joint::updateParameters);
   if (brake2())
@@ -177,7 +178,7 @@ void WbHinge2Joint::applyToOdeAxis() {
 
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   // compute orientation of rotation axis
   const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
   WbVector3 a2;
@@ -196,12 +197,12 @@ void WbHinge2Joint::applyToOdeAxis() {
       if (mSpringAndDampingConstantsAxis1On && mSpringAndDampingConstantsAxis2On) {
         // axes 0 and 1 of the AMotorAngle are enabled
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 2, a2.x(), a2.y(), a2.z());
       } else if (mSpringAndDampingConstantsAxis1On) {
         // only axis 0 of the AMotorAngle is enabled
         dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
       } else
-        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
+        dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 2, a2.x(), a2.y(), a2.z());
     }
   } else {
     parsingWarn(tr("Hinge axes are aligned: using x and z axes instead."));
@@ -209,7 +210,7 @@ void WbHinge2Joint::applyToOdeAxis() {
     dJointSetHinge2Axis2(mJoint, 0.0, 0.0, 1.0);
     if (mSpringAndDamperMotor) {
       dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, 1.0, 0.0, 0.0);
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, 0.0, 0.0, 1.0);
+      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 2, 0.0, 0.0, 1.0);
     }
   }
 }
@@ -276,15 +277,6 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
     return;
   }
 
-  // Handles scale
-  const double scale = upperTransform()->absoluteScale().x();
-  double s4 = scale * scale;
-  s4 *= scale;
-  s *= s4;
-  d *= s4;
-  s2 *= s4;
-  d2 *= s4;
-
   double cfm, erp, cfm2, erp2;
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   const double t = wi->basicTimeStep() * 0.001;
@@ -303,12 +295,11 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   dJointSetAMotorNumAxes(mSpringAndDamperMotor, numberOfAxes);
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
 
+  applyToOdeAxis();
+
   // Axis dependent settings
-  const WbMatrix4 &m4 = upperTransform()->matrix();
   if (mSpringAndDampingConstantsAxis1On) {
     const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
-    const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
-    dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a1.x(), a1.y(), a1.z());
     dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
     dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped);
     dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped);
@@ -318,16 +309,13 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
 
   if (mSpringAndDampingConstantsAxis2On) {
     const double clamped2 = WbMathsUtilities::normalizeAngle(mOdePositionOffset2);
-    const WbVector3 &a2 = m4.sub3x3MatrixDot(axis2());
     if (bothAxes) {  // axes 0 and 1 of the AMotorAngle are enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 1, 1, a2.x(), a2.y(), a2.z());
       dJointSetAMotorAngle(mSpringAndDamperMotor, 1, 0.0);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop2, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop2, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopCFM2, cfm2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamStopERP2, erp2);
     } else {  // only axis 0 of the AMotorAngle is enabled
-      dJointSetAMotorAxis(mSpringAndDamperMotor, 0, 1, a2.x(), a2.y(), a2.z());
       dJointSetAMotorAngle(mSpringAndDamperMotor, 0, 0.0);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamLoStop, clamped2);
       dJointSetAMotorParam(mSpringAndDamperMotor, dParamHiStop, clamped2);
@@ -345,10 +333,6 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
   WbJointParameters *const p2 = parameters2();
 
   if (isEnabled()) {
-    const double s = upperTransform()->absoluteScale().x();
-    double s5 = s * s;
-    s5 *= s5 * s;
-
     if (rm && rm->userControl()) {
       // user-defined torque
       dJointAddHinge2Torques(mJoint, -rm->rawInput(), 0.0);
@@ -359,7 +343,7 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      dJointSetHinge2Param(mJoint, dParamFMax, s5 * fMax);
+      dJointSetHinge2Param(mJoint, dParamFMax, fMax);
       dJointSetHinge2Param(mJoint, dParamVel, currentVelocity);
     }
 
@@ -373,7 +357,7 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity2 = rm2 ? rm2->computeCurrentDynamicVelocity(ms, mPosition2) : 0.0;
       const double fMax2 = qMax(p2 ? p2->staticFriction() : 0.0, rm2 ? rm2->torque() : 0.0);
-      dJointSetHinge2Param(mJoint, dParamFMax2, s5 * fMax2);
+      dJointSetHinge2Param(mJoint, dParamFMax2, fMax2);
       dJointSetHinge2Param(mJoint, dParamVel2, currentVelocity2);
     }
     // eventually add spring and damping forces
@@ -421,16 +405,14 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
 
 void WbHinge2Joint::postPhysicsStep() {
   assert(mJoint);
-  WbRotationalMotor *const rm = rotationalMotor();
-  WbRotationalMotor *const rm2 = rotationalMotor2();
-  if (rm && rm->isPIDPositionControl()) {
-    // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
-  } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
-  }
+  const WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *const rm2 = rotationalMotor2();
+
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
+
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
@@ -438,10 +420,10 @@ void WbHinge2Joint::postPhysicsStep() {
     // dynamic position or velocity control
     emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
 
-  if (rm2 && rm2->isPIDPositionControl())
-    mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint) + mOdePositionOffset2, mPosition2);
-  else
-    mPosition2 -= dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition2 += dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint) + mOdePositionOffset2, mPosition2);
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
@@ -699,7 +681,7 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 //////////
 
 void WbHinge2Joint::createWrenObjects() {
-  WbJoint::createWrenObjects();
+  WbHingeJoint::createWrenObjects();
 
   // create Wren objects for Muscle devices
   for (int i = 0; i < devices2Number(); ++i) {
@@ -737,7 +719,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
+void WbHinge2Joint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
     return;

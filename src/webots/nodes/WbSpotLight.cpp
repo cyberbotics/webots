@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,12 +18,12 @@
 #include "WbFieldChecker.hpp"
 #include "WbMFColor.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSpotLightRepresentation.hpp"
-#include "WbTransform.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -87,7 +87,7 @@ void WbSpotLight::postFinalize() {
 
 WbSpotLight::~WbSpotLight() {
   if (areWrenObjectsInitialized()) {
-    detachFromUpperTransform();
+    detachFromUpperPose();
     wr_node_delete(WR_NODE(mWrenLight));
     delete mLightRepresentation;
   }
@@ -95,16 +95,16 @@ WbSpotLight::~WbSpotLight() {
 
 WbVector3 WbSpotLight::computeAbsoluteLocation() const {
   WbVector3 location = mLocation->value();
-  WbTransform *ut = upperTransform();
-  if (ut)
-    location = ut->matrix() * location;
+  const WbPose *const up = upperPose();
+  if (up)
+    location = up->matrix() * location;
   return location;
 }
 
 void WbSpotLight::createWrenObjects() {
   mWrenLight = wr_spot_light_new();
   WbLight::createWrenObjects();
-  attachToUpperTransform();
+  attachToUpperPose();
 
   // Has to be done after WbLight::createWrenTransform (otherwise wrenNode() == NULL)
   mLightRepresentation =
@@ -211,13 +211,13 @@ void WbSpotLight::checkAmbientAndAttenuationExclusivity() {
   }
 }
 
-void WbSpotLight::attachToUpperTransform() {
-  WbTransform *upperTransform = WbNodeUtilities::findUpperTransform(this);
-  if (upperTransform)
-    wr_transform_attach_child(upperTransform->wrenNode(), WR_NODE(mWrenLight));
+void WbSpotLight::attachToUpperPose() {
+  const WbPose *const upperPose = WbNodeUtilities::findUpperPose(this);
+  if (upperPose)
+    wr_transform_attach_child(upperPose->wrenNode(), WR_NODE(mWrenLight));
 }
 
-void WbSpotLight::detachFromUpperTransform() {
+void WbSpotLight::detachFromUpperPose() {
   WrNode *node = WR_NODE(mWrenLight);
   WrTransform *parent = wr_node_get_parent(node);
   if (parent)
@@ -268,9 +268,9 @@ void WbSpotLight::applyBillboardVisibilityToWren() {
 }
 
 void WbSpotLight::applyLightDirectionToWren() {
-  const float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                             static_cast<float>(mDirection->z())};
-  wr_spot_light_set_direction(mWrenLight, direction);
+  const float d[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
+                     static_cast<float>(mDirection->z())};
+  wr_spot_light_set_direction(mWrenLight, d);
   mLightRepresentation->setDirection(mDirection->value());
 }
 
@@ -300,12 +300,13 @@ double WbSpotLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
 }
 
-void WbSpotLight::exportNodeFields(WbVrmlWriter &writer) const {
-  findField("attenuation", true)->write(writer);
-  findField("beamWidth", true)->write(writer);
-  findField("cutOffAngle", true)->write(writer);
-  findField("direction", true)->write(writer);
-  findField("location", true)->write(writer);
-  findField("radius", true)->write(writer);
-  WbLight::exportNodeFields(writer);
+QStringList WbSpotLight::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "attenuation"
+         << "beamWidth"
+         << "cutOffAngle"
+         << "direction"
+         << "location"
+         << "radius" << WbLight::fieldsToSynchronizeWithW3d();
+  return fields;
 }

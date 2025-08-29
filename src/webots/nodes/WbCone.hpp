@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ public:
   explicit WbCone(WbTokenizer *tokenizer = NULL);
   WbCone(const WbCone &other);
   explicit WbCone(const WbNode &other);
-  virtual ~WbCone();
+  virtual ~WbCone() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONE; }
@@ -60,9 +60,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
+  QStringList fieldsToSynchronizeWithW3d() const override;
+
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private:
   // user accessible fields

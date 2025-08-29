@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,6 +64,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode) {
       connect(sfnode, &WbSFNode::changed, this, &WbTreeItem::sfnodeChanged);
+      if (sfnode->value())
+        connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
     } else {
       // Main signal
       connect(singleValue, &WbSFNode::changed, this, &WbTreeItem::propagateDataChange);
@@ -92,8 +94,15 @@ WbTreeItem::WbTreeItem(WbField *field) {
   }
 
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
+  // slots are executed in the order they have been connected
+  if (mField->type() == WB_MF_NODE) {
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild);
+  } else
+    // otherwise there is no need to recreate the item when the value changes
+    connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
+  connect(multipleValue, &WbMultipleValue::cleared, this, &WbTreeItem::emitDeleteAllChildren);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }
 
@@ -126,15 +135,8 @@ QString WbTreeItem::data() const {
     return QString();
 
   switch (mType) {
-    case NODE: {
-      QString fullName = mNode->fullName();
-      if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
-        const WbSFString *name = mNode->findSFString("name");
-        if (name)
-          fullName += " \"" + name->value() + "\"";
-      }
-      return fullName;
-    }
+    case NODE:
+      return mNode->usefulName();
     case FIELD: {
       if (mField->isSingle())
         return QString("%1 %2").arg(mField->name(), mField->value()->toString(WbPrecision::GUI_LOW));
@@ -233,7 +235,7 @@ bool WbTreeItem::isFixedRowsMFitem() const {
   if (f == NULL)
     return false;
 
-  foreach (const QString name, FIXED_ROWS_MFFIELD) {
+  foreach (const QString &name, FIXED_ROWS_MFFIELD) {
     if (f->name() == name)
       return true;
   }
@@ -242,7 +244,7 @@ bool WbTreeItem::isFixedRowsMFitem() const {
     f = f->internalFields().at(0);
     if (f == NULL)
       return false;
-    foreach (const QString name, FIXED_ROWS_MFFIELD) {
+    foreach (const QString &name, FIXED_ROWS_MFFIELD) {
       if (f->name() == name)
         return true;
     }
@@ -258,7 +260,7 @@ bool WbTreeItem::isNonEmptyFixedRowsMFfield() const {
   if (f == NULL || !f->isMultiple())
     return false;
 
-  foreach (const QString name, FIXED_ROWS_MFFIELD) {
+  foreach (const QString &name, FIXED_ROWS_MFFIELD) {
     if (f->name() == name)
       return !dynamic_cast<WbMultipleValue *>(f->value())->isEmpty();
   }
@@ -268,7 +270,7 @@ bool WbTreeItem::isNonEmptyFixedRowsMFfield() const {
     if (f == NULL)
       return false;
 
-    foreach (const QString name, FIXED_ROWS_MFFIELD) {
+    foreach (const QString &name, FIXED_ROWS_MFFIELD) {
       if (f->name() == name)
         return !dynamic_cast<WbMultipleValue *>(f->value())->isEmpty();
     }
@@ -343,7 +345,7 @@ bool WbTreeItem::canCut() const {
         return false;
       return true;
     case FIELD: {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
+      const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
       return sfnode && sfnode->value() && !sfnode->value()->isUseNode();
     }
     case ITEM:
@@ -368,7 +370,7 @@ bool WbTreeItem::canDelete() const {
       return true;
     }
     case FIELD: {
-      WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
+      const WbSFNode *sfnode = dynamic_cast<WbSFNode *>(mField->value());
       return sfnode && sfnode->value() != NULL;
     }
     case ITEM: {
@@ -410,8 +412,8 @@ int WbTreeItem::makeInvalid() {
   mNode = NULL;
 
   int count = 1;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
 
   return count;
 }
@@ -419,6 +421,13 @@ int WbTreeItem::makeInvalid() {
 void WbTreeItem::emitChildNeedsDeletion(int row) {
   mChildren.at(row)->makeInvalid();
   emit childrenNeedDeletion(row, 1);
+}
+
+void WbTreeItem::emitDeleteAllChildren() {
+  for (int i = mChildren.size() - 1; i >= 0; --i)
+    mChildren.at(i)->makeInvalid();
+
+  deleteAllChildren();
 }
 
 void WbTreeItem::addChild(int row) {
@@ -437,18 +446,20 @@ void WbTreeItem::deleteAllChildren() {
 
 void WbTreeItem::sfnodeChanged() {
   assert(mType == FIELD);
-  WbSFNode *sfnode = static_cast<WbSFNode *>(mField->value());
-  WbNode *node = sfnode->value();
+  const WbSFNode *sfnode = static_cast<WbSFNode *>(mField->value());
+  const WbNode *nodeObject = sfnode->value();
 
   // delete previous children items
   int count = 0;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
   if (count)
     emit childrenNeedDeletion(0, count);
 
-  if (node != NULL)
+  if (nodeObject) {
     emit rowsInserted(0, 1);
+    connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
+  }
 }
 
 bool WbTreeItem::isSFNode() const {
@@ -459,7 +470,7 @@ WbNode *WbTreeItem::node() const {
   if (mType == NODE)
     return mNode;
 
-  WbSFNode *sfNode = dynamic_cast<WbSFNode *>(mField->value());
+  const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(mField->value());
   if (!sfNode)
     return NULL;
 

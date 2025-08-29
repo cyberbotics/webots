@@ -2,7 +2,7 @@
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME)/dependencies
 DARWIN_OP_LIB_PATH = $(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries
 
-DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/develop
+DEPENDENCIES_URL_DEVELOP = https://cyberbotics.com/files/repository/dependencies/mac/release/
 
 SSH_PACKAGE = libssh.tar.bz2
 ZIP_PACKAGE = libzip.tar.bz2
@@ -29,6 +29,7 @@ $(DARWIN_OP_LIB_PATH)/libssh/libssh.4.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PAC
 $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 	$(WGET) $(DEPENDENCIES_URL_DEVELOP)/$(SSH_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ `md5 -q $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)` != "e98fef570bc518c21e419a88faad03e4" ]; then echo "MD5 checksum failed for $(SSH_PACKAGE)"; exit 1; fi
 	touch $(WEBOTS_DEPENDENCY_PATH)/$(SSH_PACKAGE)
 
 
@@ -44,4 +45,5 @@ $(DARWIN_OP_LIB_PATH)/libzip/libnihzip.dylib: $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PA
 $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE):
 	rm -f $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)
 	$(WGET) $(DEPENDENCIES_URL_DEVELOP)/$(ZIP_PACKAGE) -P $(WEBOTS_DEPENDENCY_PATH)
+	@if [ `md5 -q $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)` != "8f5eb8c0eeb5605a3ec3f924be8ac592" ]; then echo "MD5 checksum failed for $(ZIP_PACKAGE)"; exit 1; fi
 	touch $(WEBOTS_DEPENDENCY_PATH)/$(ZIP_PACKAGE)

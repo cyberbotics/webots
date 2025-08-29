@@ -75,14 +75,6 @@ model = wb_device_get_model(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_model` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -92,6 +84,8 @@ model = wb_device_get_model(tag)
 The `wb_device_get_model` function returns the model string of the device corresponding to the WbDeviceTag given as parameter (`tag`).
 
 This function returns NULL if the WbDeviceTag does not match a valid device, or returns an empty string if the device is not a solid device (i.e. does not have a `model` field).
+
+> **Note** [C, C++]: The returned string is a pointer to the internal values managed by the [Device](#device) node, therefore it is illegal to free this pointer.
 
 ---
 
@@ -157,14 +151,6 @@ name = wb_device_get_name(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -174,6 +160,8 @@ name = wb_device_get_name(tag)
 The `wb_device_get_name` function converts the WbDeviceTag given as parameter (`tag`) to its corresponding name.
 
 This function returns NULL if the WbDeviceTag does not match a valid device.
+
+> **Note** [C, C++]: The returned string is a pointer to the internal values managed by the [Device](#device) node, therefore it is illegal to free this pointer.
 
 ---
 
@@ -236,14 +224,6 @@ public class Device {
 ```MATLAB
 type = wb_device_get_node_type(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_node_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
 
 %tab-end
 

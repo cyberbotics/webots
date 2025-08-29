@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,13 +30,15 @@ public:
   explicit WbHingeJoint(WbTokenizer *tokenizer = NULL);
   WbHingeJoint(const WbHingeJoint &other);
   explicit WbHingeJoint(const WbNode &other);
-  virtual ~WbHingeJoint();
+  virtual ~WbHingeJoint() override;
 
   int nodeType() const override { return WB_NODE_HINGE_JOINT; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void updateOdeWorldCoordinates() override;
   void computeEndPointSolidPositionFromParameters(WbVector3 &translation, WbRotation &rotation) const override;
+
+  void createWrenObjects() override;
 
   WbVector3 anchor() const override;
   // return the axis of the joint with coordinates relative to the parent Solid; defaults to unit x-axis
@@ -60,11 +62,21 @@ protected slots:
   void updateStopErp();
   void updateStopCfm();
   virtual void updateAnchor();
+  void updateOptionalRendering(int option) override;
 
 private slots:
   void updateSuspension();
+  virtual void updateJointAnchorRepresentation();
 
 private:
+  WbHingeJoint &operator=(const WbHingeJoint &);  // non copyable
+  void init();
+
+  WrTransform *mAnchorTransform;
+  WrRenderable *mAnchorRenderable;
+  WrStaticMesh *mAnchorMesh;
+  WrMaterial *mAnchorMaterial;
+
   void applyToOdeMinAndMaxStop() override;
   virtual void applyToOdeSuspension();
   void applyToOdeAxis() override;

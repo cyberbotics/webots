@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,7 @@ static void save_bmp_image(const char *filename, const unsigned char *image, int
   int filesize = 54 + 3 * width * height;
   unsigned char bmpfileheader[14] = {'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0};
   unsigned char bmpinfoheader[40] = {40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0};
-  unsigned char bmppad[3] = {0, 0, 0};
+  const unsigned char bmppad[3] = {0, 0, 0};
   bmpfileheader[2] = (unsigned char)(filesize);
   bmpfileheader[3] = (unsigned char)(filesize >> 8);
   bmpfileheader[4] = (unsigned char)(filesize >> 16);
@@ -75,9 +75,9 @@ static void cleanup() {
   closesocket(fd);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
   struct sockaddr_in address;
-  struct hostent *server;
+  const struct hostent *server;
   int rc;
   const char *ip = argv[1];
 

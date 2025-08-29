@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,6 +55,7 @@ namespace webots {
     Type getType() const;
     std::string getTypeName() const;
     int getCount() const;
+    Field *getActualField() const;
 
     void enableSFTracking(int samplingPeriod);
     void disableSFTracking();
@@ -109,15 +110,8 @@ namespace webots {
     void removeMF(int index);
     void removeSF();
 
-    void importMFNode(int position, const std::string &filename);
     void importMFNodeFromString(int position, const std::string &nodeString);
-    void importSFNode(const std::string &filename);
     void importSFNodeFromString(const std::string &nodeString);
-
-    // Deprecated functions
-
-    // Deprecated since Webots 8.6.0, please use removeMF() instead
-    void removeMFNode(int position);
 
     // DO NOT USE THESE FUNCTIONS: THEY ARE RESERVED FOR INTERNAL USE:
     static Field *findField(WbFieldRef ref);

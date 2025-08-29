@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -307,6 +307,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
             }
             break;
           case WB_NODE_RADIO:
+            // cppcheck-suppress incorrectStringBooleanError
             ROBOT_ASSERT(!"radio unimplemented");
             break;
           default:
@@ -318,6 +319,7 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       handleRobotMessage(r, c);
       break;
     case WB_NODE_CONNECTOR:
+      // cppcheck-suppress incorrectStringBooleanError
       ROBOT_ASSERT(!"connector unimplemented");
       break;
     case WB_NODE_DISPLAY:
@@ -347,7 +349,9 @@ static void handleMessage(WbRequest *r, WbDeviceTag tag, WbNodeType type) {
       break;
     case WB_NODE_ROTATIONAL_MOTOR:
     case WB_NODE_LINEAR_MOTOR:
+      // cppcheck-suppress incorrectStringBooleanError
       REQUEST_ASSERT(!"Impossible fallback", tag, type, c);
+      break;
     default:
       REQUEST_ASSERT(0, tag, type, c);
   }

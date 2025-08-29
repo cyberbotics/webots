@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ public:
   explicit WbCoordinate(WbTokenizer *tokenizer = NULL);
   WbCoordinate(const WbCoordinate &other);
   explicit WbCoordinate(const WbNode &other);
-  virtual ~WbCoordinate();
+  virtual ~WbCoordinate() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_COORDINATE; }
@@ -43,6 +43,7 @@ public:
   }
   void rescaleAndTranslate(const WbVector3 &s, const WbVector3 &t) { mPoint->rescaleAndTranslate(s, t); }
   void translate(const WbVector3 &v) { mPoint->translate(v); }
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 private:
   // user accessible fields

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 //
 #include "WbPositionSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbJoint.hpp"
@@ -70,7 +71,7 @@ void WbPositionSensor::updateResolution() {
   WbFieldChecker::resetDoubleIfNonPositiveAndNotDisabled(this, mResolution, -1.0, -1.0);
 }
 
-void WbPositionSensor::writeConfigure(QDataStream &stream) {
+void WbPositionSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << (unsigned short)tag();
@@ -91,7 +92,7 @@ void WbPositionSensor::handleMessage(QDataStream &stream) {
     stream >> deviceType;
     assert(mRequestedDeviceTag == NULL);
     mRequestedDeviceTag = new WbDeviceTag[1];
-    WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
+    const WbLogicalDevice *device = getSiblingDeviceByType(deviceType);
     if (!device && deviceType == WB_NODE_ROTATIONAL_MOTOR)
       // check both motor types
       device = getSiblingDeviceByType(WB_NODE_LINEAR_MOTOR);
@@ -111,7 +112,7 @@ double WbPositionSensor::position() const {
   return pos;
 }
 
-void WbPositionSensor::writeAnswer(QDataStream &stream) {
+void WbPositionSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_POSITION_SENSOR_DATA;

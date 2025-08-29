@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,8 +25,13 @@
 #include "../../../include/controller/c/webots/nodes.h"
 #include "WbNode.hpp"
 
-class WbTransform;  // TODO: remove this dependency: a class should not have a dependency on its subclass
-class WbSolid;      // TODO: remove this dependency: a class should not have a dependency on its subclass
+#include "WbMatrix3.hpp"
+#include "WbRgb.hpp"
+#include "WbVector3.hpp"
+
+class WbPose;
+class WbTransform;
+class WbSolid;
 class WbBoundingSphere;
 
 struct WrTransform;
@@ -36,7 +41,7 @@ class WbBaseNode : public WbNode {
 
 public:
   // destructor
-  virtual ~WbBaseNode();
+  virtual ~WbBaseNode() override;
 
   virtual void downloadAssets() {}
   // finalize() assumes that the whole world node/field structure is complete
@@ -56,7 +61,7 @@ public:
   virtual int nodeType() const = 0;
 
   // updates material of all WbGeometry descendants lying into a bounding object
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbShape and WbGeometry
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbShape and WbGeometry
   virtual void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) {}
   virtual void setSleepMaterial() {}
 
@@ -64,21 +69,29 @@ public:
   virtual void propagateSelection(bool selected) {}
 
   // Method used to cache absolute scale values
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbSolid, WbShape and WbIndexedFaceSet
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbSolid, WbShape and WbIndexedFaceSet
   virtual void setScaleNeedUpdate() {}
 
   // informs all children that their matrices need to be recomputed (inherited from WbGroup)
-  // reimplemented in WbGroup (recurse through all children), WbTransform, WbSolid, WbPropeller
+  // reimplemented in WbGroup (recurse through all children), WbPose, WbSolid, WbPropeller
   virtual void setMatrixNeedUpdate() {}
 
-  // update context of PROTO parameter node instances
-  virtual void updateContextDependentObjects();
+  // propagate segmentation color change reimplemented in WbGroup (recurse through all children), WbBasicJoint,
+  // WbCadShape, WbShape, WbSkin, WbSlot and WbSolid
+  virtual void updateSegmentationColor(const WbRgb &color) {}
 
   // Wren functions
   virtual void createWrenObjects();
   bool areWrenObjectsInitialized() const { return mWrenObjectsCreatedCalled; }
   WrTransform *wrenNode() const { return mWrenNode; }
   void setWrenNode(WrTransform *n) { mWrenNode = n; }
+
+  // return the closest descendant node(s) with dedicated Wren node (may be the node itself)
+  // only WbBillboard, WbGeometry, WbPose, and WbMuscle have a dedicated Wren node
+  // used to properly apply Wren settings only to the current/descendant nodes and not to parent and sibling nodes
+  virtual QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const {
+    return QList<const WbBaseNode *>();
+  }
 
   // Ode functions
   virtual void createOdeObjects() { mOdeObjectsCreatedCalled = true; }
@@ -92,7 +105,9 @@ public:
   bool isInBoundingObject() const;
   WbSolid *upperSolid() const;
   WbSolid *topSolid() const;
+  WbPose *upperPose() const;
   WbTransform *upperTransform() const;
+
   // Cached function that can change if new USE nodes are added
   // return if this node or any of its instances is used in boundingObject
   WbNode::NodeUse nodeUse() const;
@@ -114,7 +129,6 @@ public:
   QString documentationUrl() const;
 
 signals:
-  void isBeingDestroyed(WbBaseNode *node);
   void visibleHandlesChanged(bool resizeHandlesEnabled);
   void finalizationCompleted(WbBaseNode *node);
 
@@ -123,17 +137,22 @@ public slots:
 
 protected:
   bool isUrdfRootLink() const override;
-  void exportURDFJoint(WbVrmlWriter &writer) const override;
+  virtual WbVector3 urdfRotation(const WbMatrix3 &rotationMatrix) const { return rotationMatrix.toEulerAnglesZYX(); }
+
+  void exportUrdfJoint(WbWriter &writer) const override;
 
   // constructor:
   // if the tokenizer is NULL, then the node is constructed with the default field values
   // otherwise the field values are read from the tokenizer
-  WbBaseNode(const QString &modelName, WbTokenizer *tokenizer = NULL);
+  WbBaseNode(const QString &modelName, WbTokenizer *tokenizer);
 
   // copy constructor to be invoked from the copy constructors of derived classes
   // copies all the field values
   WbBaseNode(const WbBaseNode &other);
   WbBaseNode(const WbNode &other);
+
+  // constructor for shallow nodes, should be used exclusively by the CadShape node
+  WbBaseNode(const QString &modelName);
 
   void defHasChanged() override { finalize(); }
   void useNodesChanged() const override { mNodeUseDirty = true; };
@@ -143,7 +162,7 @@ protected:
 
   bool isInvisibleNode() const;
 
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
 private:
   WbBaseNode &operator=(const WbBaseNode &);  // non copyable
@@ -165,6 +184,8 @@ private:
   //         -> migrate the search/cache code into not const functions called when setting the parent
   mutable bool mIsInBoundingObject;
   mutable bool mBoundingObjectFirstTimeSearch;
+  mutable WbPose *mUpperPose;
+  mutable bool mUpperPoseFirstTimeSearch;
   mutable WbTransform *mUpperTransform;
   mutable bool mUpperTransformFirstTimeSearch;
   mutable WbSolid *mUpperSolid;

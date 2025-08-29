@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,9 +46,9 @@ namespace wren {
     mFrameBuffer->setSize(mOutputWidth, mOutputHeight);
 
     for (size_t i = 0; i < mOutputTextureFormat.size(); ++i) {
-      TextureRtt *outputTexture = TextureRtt::createTextureRtt();
-      outputTexture->setInternalFormat(mOutputTextureFormat[i]);
-      mFrameBuffer->appendOutputTexture(outputTexture);
+      TextureRtt *texture = TextureRtt::createTextureRtt();
+      texture->setInternalFormat(mOutputTextureFormat[i]);
+      mFrameBuffer->appendOutputTexture(texture);
     }
 
     // If during a shader invocation a texture is sampled and written to at the same time,
@@ -89,7 +89,7 @@ namespace wren {
 
     glstate::setBlend(mUseAlphaBlending);
 
-    for (auto &element : mProgramParameters)
+    for (const auto &element : mProgramParameters)
       mProgram->setCustomUniformValue(element.first, *element.second);
 
     mProgram->bind();
@@ -118,8 +118,14 @@ namespace wren {
           mInputTextures[i]->setTextureUnit(i);
           mInputTextures[i]->bind(mInputTextureParams[i]);
 
-          const int locationTexture =
+          int locationTexture =
             mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_TEXTURE0 + i));
+
+          // Special gtao case to bypass a chrome driver bug where texelFetch does not work with textures coming from array:
+          // https://community.amd.com/t5/archives-discussions/bug-report-texelfetch-shader-crash-on-msaa-fbo/td-p/87124
+          if (locationTexture == -1 && i == 2)
+            locationTexture = mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_GTAO));
+
           assert(locationTexture >= 0);
           glUniform1i(locationTexture, mInputTextures[i]->textureUnit());
         }
@@ -159,7 +165,8 @@ namespace wren {
     mOutputWidth(0),
     mOutputHeight(0),
     mClearBeforeDraw(false),
-    mUseAlphaBlending(true) {}
+    mUseAlphaBlending(true) {
+  }
 
   PostProcessingEffect::Pass::~Pass() {
     if (mFrameBuffer) {
@@ -187,7 +194,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureEven;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureOdd;
         }
@@ -201,7 +208,7 @@ namespace wren {
 #endif
         mInputTextures[inputOutput.mInputTextureIndex] = inputOutput.mTextureOdd;
 
-        for (Connection &connection : mConnections) {
+        for (const Connection &connection : mConnections) {
           if (connection.mOutputIndex == inputOutput.mOutputTextureIndexEven && connection.mFrom == this)
             connection.mTo->mInputTextures[connection.mInputIndex] = inputOutput.mTextureEven;
         }
@@ -230,11 +237,11 @@ namespace wren {
     if (mInputFrameBuffer)
       mPasses.front()->setInputTexture(0, mInputFrameBuffer->outputTexture(0));
 
-    for (Pass *pass : mPasses)
-      pass->setup();
+    for (Pass *p : mPasses)
+      p->setup();
 
-    for (Pass *pass : mPasses)
-      pass->processConnections();
+    for (Pass *p : mPasses)
+      p->processConnections();
 
     printPasses();
   }
@@ -261,11 +268,12 @@ namespace wren {
     mInputFrameBuffer(NULL),
     mResultFrameBuffer(NULL),
     mMesh(StaticMesh::createQuad()),
-    mDrawingIndex(0) {}
+    mDrawingIndex(0) {
+  }
 
   PostProcessingEffect::~PostProcessingEffect() {
-    for (Pass *pass : mPasses)
-      Pass::deletePass(pass);
+    for (Pass *p : mPasses)
+      Pass::deletePass(p);
 
     StaticMesh::deleteMesh(mMesh);
   }

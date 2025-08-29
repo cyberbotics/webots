@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,11 +16,14 @@
 
 #include "WbApplicationInfo.hpp"
 #include "WbLog.hpp"
+#include "WbPreferences.hpp"
+#include "WbSimulationState.hpp"
 #include "WbSysInfo.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
@@ -33,31 +36,38 @@
 const QString &WbStandardPaths::webotsHomePath() {
   static QString path;
 #ifdef __linux__
-  // on Linux,    the webots binary is located in $WEBOTS_HOME/bin/webots-bin
+  // on Linux, the webots binary is located in $WEBOTS_HOME/bin/webots-bin
   const int depth = 1;
 #elif defined(__APPLE__)
-  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots-bin
+  // on macOS, the webots binary is located in $WEBOTS_HOME/Contents/MacOS/webots
   const int depth = 2;
 #else
-  // on Windows,  the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
+  // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
   const int depth = 3;
 #endif
   if (path.isEmpty()) {
     QDir dir(QCoreApplication::applicationDirPath());
     for (int i = 0; i < depth; i++)
-      dir.cdUp();
+      if (!dir.cdUp())
+        assert(false);
     path = dir.absolutePath() + "/";
   }
   return path;
 };
 
+#ifdef __APPLE__
+static const QString cMacOsContents = "Contents/";
+#else
+static const QString cMacOsContents;
+#endif
+
 const QString &WbStandardPaths::webotsLibPath() {
-  static QString path = webotsHomePath() + "lib/webots/";
+  static QString path = webotsHomePath() + cMacOsContents + "lib/webots/";
   return path;
 }
 
 const QString &WbStandardPaths::controllerLibPath() {
-  static QString path = webotsHomePath() + "lib/controller/";
+  static QString path = webotsHomePath() + cMacOsContents + "lib/controller/";
   return path;
 }
 
@@ -69,17 +79,21 @@ const QString &WbStandardPaths::webotsMsys64Path() {
 #endif
 
 const QString &WbStandardPaths::localDocPath() {
-  static QString url(webotsHomePath() + "docs/");
+  static QString url(webotsHomePath() + cMacOsContents + "docs/");
   return url;
 };
 
 const QString &WbStandardPaths::projectsPath() {
-  static QString path(webotsHomePath() + "projects/");
+  static QString path(webotsHomePath() + cMacOsContents + "projects/");
   return path;
 };
 
 const QString &WbStandardPaths::resourcesPath() {
+#ifdef __APPLE__
+  static QString path(webotsHomePath() + "Contents/Resources/");
+#else
   static QString path(webotsHomePath() + "resources/");
+#endif
   return path;
 };
 
@@ -177,14 +191,10 @@ const QString &WbStandardPaths::emptyProjectPath() {
     return resourcesProjectsPath();
 
   static QString path;
-  path = qgetenv("WEBOTS_EMPTY_PROJECT_PATH");
+  if (path.isEmpty())
+    path = QDir(qgetenv("WEBOTS_EMPTY_PROJECT_PATH")).absolutePath() + "/";
   return path;
 }
-
-const QString &WbStandardPaths::unnamedWorld() {
-  static QString fileName("unnamed.wbt");
-  return fileName;
-};
 
 const QString &WbStandardPaths::unnamedTextFile() {
   static QString fileName("unnamed.txt");
@@ -200,30 +210,41 @@ static void liveWebotsTmpPath() {
   }
 }
 
-const QString &WbStandardPaths::webotsTmpPath() {
-  static QString webotsTmpPath;
-  if (webotsTmpPath.isEmpty()) {
-#ifdef _WIN32
-    // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
-    // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
-    webotsTmpPath = QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) +
-                    QString("/Temp/webots-%1/").arg(QCoreApplication::applicationPid());
-#elif defined(__APPLE__)
-    webotsTmpPath = QString("/var/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
-#else  // __linux__
-    const QString WEBOTS_TMP_PATH = WbSysInfo::environmentVariable("WEBOTS_TMP_PATH");
-    if (!WEBOTS_TMP_PATH.isEmpty() && QDir(WEBOTS_TMP_PATH).exists())
-      webotsTmpPath = WEBOTS_TMP_PATH;
-    else {
-      WbLog::error(QObject::tr(
-        "Webots has not been started regularly. Some features may not work. Please start Webots from its launcher."));
-      webotsTmpPath = QString("/tmp/webots-%1/").arg(QCoreApplication::applicationPid());
-    }
-#endif
+static QString cWebotsTmpPath;
+static int cWebotsTmpPathId = -1;
 
-    // cleanup old and unused tmp directories
-    QDir directory(webotsTmpPath);
-    directory.cdUp();
+bool WbStandardPaths::webotsTmpPathCreate(const int id) {
+  assert(cWebotsTmpPathId == -1 && cWebotsTmpPath.isEmpty());  // we should create it once
+#ifdef _WIN32
+  // We do not use QDir::tempPath() as it relies on the TEMP/TMP environment variables which are overriden by the MSYS2
+  // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
+  cWebotsTmpPath =
+    QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
+#else
+  QString username = qgetenv("USER");
+  if (username.isEmpty()) {
+    username = qgetenv("USERNAME");
+    if (username.isEmpty()) {
+      WbLog::error(QObject::tr("USER or USERNAME environment variable not set, falling back to 'default' username."));
+      username = "default";
+    }
+  }
+#if defined(__APPLE__)
+  cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
+#else  // __linux__
+  const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
+  if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
+    cWebotsTmpPath = QString("%1/webots/%2/%3/").arg(WEBOTS_TMPDIR).arg(username).arg(id);
+  else {
+    cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
+    WbLog::error(QObject::tr("Webots has not been started regularly. Some features may not work. "
+                             "Please start Webots from its launcher."));
+  }
+#endif
+#endif
+  // cleanup old and unused tmp directories
+  QDir directory(cWebotsTmpPath);
+  if (directory.cdUp()) {
     const QStringList &webotsTmp = directory.entryList(QStringList() << "webots-*", QDir::Dirs | QDir::Writable);
     foreach (const QString &dirname, webotsTmp) {
       const QString fullName(directory.absolutePath() + "/" + dirname);
@@ -235,23 +256,36 @@ const QString &WbStandardPaths::webotsTmpPath() {
         d.removeRecursively();
       }
     }
-
-    // create the required tmp directories
-    QDir dir(webotsTmpPath);
-    if (!dir.exists()) {
-      if (!dir.mkpath("."))
-        WbLog::fatal(QObject::tr("Cannot create the Webots temporary directory \"%1\"").arg(webotsTmpPath));
-#ifndef _WIN32
-      if (!dir.mkpath("lib"))  // used for the controller libraries
-        WbLog::fatal(QObject::tr("Cannot create a directory in the Webots temporary directory \"%1\"").arg(webotsTmpPath));
-#endif
-    }
-
-    // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
-    static QTimer timer;
-    liveWebotsTmpPath();
-    QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
-    timer.start(30 * 60 * 1000);  // call every 30 minutes
   }
-  return webotsTmpPath;
+
+  // create the required tmp directories
+  QDir dir(cWebotsTmpPath);
+  if (!dir.exists() && !dir.mkpath("."))
+    return false;
+
+  // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
+  static QTimer timer;
+  liveWebotsTmpPath();
+  QTimer::connect(&timer, &QTimer::timeout, liveWebotsTmpPath);
+  timer.start(30 * 60 * 1000);  // call every 30 minutes
+  cWebotsTmpPathId = id;
+  return true;
+}
+
+int WbStandardPaths::webotsTmpPathId() {
+  return cWebotsTmpPathId;
+}
+
+const QString &WbStandardPaths::webotsTmpPath() {
+  return cWebotsTmpPath;
+}
+
+const QString &WbStandardPaths::cachedAssetsPath() {
+  static QString path(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/");
+  return path;
+}
+
+const QString &WbStandardPaths::vehicleLibraryPath() {
+  static QString path(webotsHomePath() + cMacOsContents + "projects/default/libraries/vehicle/");
+  return path;
 }

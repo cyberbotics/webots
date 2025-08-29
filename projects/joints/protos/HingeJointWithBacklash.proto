@@ -1,17 +1,20 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/joints/protos/HingeJointWithBacklash.proto
+# keywords: primitive/joint
 # This extension of the hinge joint allows to model the effect of backlash.
+# tags: no3dView
 # template language: javascript
 
 PROTO HingeJointWithBacklash [
-  field SFNode                                 jointParameters   HingeJointParameters {}
-  field SFFloat                                backlash          0.01   # Defines the gear clearence, [0, inf).
-  field SFFloat                                gearMass          0.1    # Defines the gear mass, [0, inf).
-  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
-  field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
-  field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
+  field SFNode                                         jointParameters   HingeJointParameters {}
+  field SFFloat                                        backlash          0.01   # Defines the gear clearence, [0, inf).
+  field SFFloat                                        gearMass          0.1    # Defines the gear mass, [0, inf).
+  field MFNode                                         device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
+  field MFNode{PositionSensor{}}                       outputSensor      [ ]    # {PositionSensor}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Pose, Transform, or Shape}.
+  field SFNode                                         endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
   %<

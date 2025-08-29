@@ -1,10 +1,5 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
-import WbBillboard from '../WbBillboard.js';
-import WbTransform from '../WbTransform.js';
-import WbWorld from '../WbWorld.js';
-
-let undefinedID = -1; // Negative IDs are assigned to nodes provided by Webots without IDs.
 
 function array3Pointer(x, y, z) {
   const data = new Float32Array([x, y, z]);
@@ -46,26 +41,12 @@ function arrayXPointerFloat(array) {
   return dataHeap.byteOffset;
 }
 
-function direction(vec4) {
+function up(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
   const tTimesZ = t * vec4.z;
   return new WbVector3(tTimesZ * vec4.x + s * vec4.y, tTimesZ * vec4.y - s * vec4.x, tTimesZ * vec4.z + c);
-}
-
-function findUpperTransform(node) {
-  if (typeof node === 'undefined')
-    return undefined;
-
-  let n = WbWorld.instance.nodes.get(node.parent);
-  while (typeof n !== 'undefined') {
-    if (n instanceof WbTransform)
-      return n;
-    else
-      n = n.parent;
-  }
-  return undefined;
 }
 
 function fromAxisAngle(x, y, z, angle) {
@@ -87,49 +68,8 @@ function fromAxisAngle(x, y, z, angle) {
   return result;
 }
 
-function getAncestor(node) {
-  if (typeof node !== 'undefined' && typeof node.parent !== 'undefined') {
-    let parent = WbWorld.instance.nodes.get(node.parent);
-
-    if (typeof parent !== 'undefined')
-      return getAncestor(parent);
-  }
-
-  return node;
-}
-
-function getAnId() {
-  return 'n' + undefinedID--;
-}
-
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-}
-
-function nodeIsInBoundingObject(node) {
-  if (typeof node === 'undefined' || typeof node.parent === 'undefined')
-    return false;
-
-  const parent = WbWorld.instance.nodes.get(node.parent);
-  if (typeof parent !== 'undefined') {
-    if (parent instanceof WbTransform && typeof parent.boundingObject !== 'undefined')
-      return parent.boundingObject === node;
-    else if (typeof parent.parent !== 'undefined')
-      return nodeIsInBoundingObject(parent);
-  }
-
-  return false;
-}
-
-function isDescendantOfBillboard(node) {
-  while (typeof node !== 'undefined') {
-    if (node instanceof WbBillboard)
-      return true;
-
-    node = WbWorld.instance.nodes.get(node.parent);
-  }
-
-  return false;
 }
 
 function pointerOnFloat(float) {
@@ -164,7 +104,7 @@ function quaternionToVec4(quat) {
   return new WbVector4(x, y, z, angle);
 }
 
-function right(vec4) {
+function direction(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -172,7 +112,7 @@ function right(vec4) {
   return new WbVector3(tTimesX * vec4.x + c, tTimesX * vec4.y + s * vec4.z, tTimesX * vec4.z - s * vec4.y);
 }
 
-function up(vec4) {
+function right(vec4) {
   const c = Math.cos(vec4.w);
   const s = Math.sin(vec4.w);
   const t = 1 - c;
@@ -187,4 +127,5 @@ function vec4ToQuaternion(vec4) {
   return glm.quat(cosinusHalfAngle, vec4.x * sinusHalfAngle, vec4.y * sinusHalfAngle, vec4.z * sinusHalfAngle);
 }
 
-export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length, vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard, getAncestor, getAnId};
+export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
+  vec4ToQuaternion, quaternionToVec4, fromAxisAngle};

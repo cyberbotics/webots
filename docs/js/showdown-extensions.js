@@ -27,22 +27,24 @@ function wbSlugify(obj) {
 showdown.extension('wbVariables', function() {
   // static variables to maintain
   // TODO: could be computed
-  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined') ? setup.branch : 'released';
+  const branch = (typeof setup !== 'undefined' && typeof setup.branch !== 'undefined' && setup.branch !== '') ? setup.branch : 'released';
   var vars = {
     webots: {
       version: {
-        major: 'R2021b',
+        major: 'R2025a',
         // full is equal to major for the first major version
         // and contains the revision number for subsequent versions
-        full: 'R2021b',
-        package: 'R2021b'
+        full: 'R2025a',
+        package: 'R2025a'
       }
     },
     date: {
-      year: 2021
+      year: 2024
     },
     url: {
-      github_tree: `https://github.com/cyberbotics/webots/tree/` + branch
+      github_tree: `https://github.com/cyberbotics/webots/tree/` + branch,
+      github_blob: `https://github.com/cyberbotics/webots/blob/` + branch,
+      github_raw: `https://raw.githubusercontent.com/cyberbotics/webots/` + branch
     }
   };
 
@@ -245,13 +247,6 @@ showdown.extension('wbRobotComponent', function() {
               '<div id="%ROBOT%-robot-component" class="robot-component">\n' +
               '  <div id="%ROBOT%-robot-view" class="robot-view">\n' +
               '    <div id="%ROBOT%-robot-webots-view" class="robot-webots-view">\n' +
-              '    </div>\n' +
-              '    <div class="menu">\n' +
-              '      <div class="menu-items">\n' +
-              '        <button class="reset-button ui-icon" title="Reset Viewpoint and sliders."></button>\n' +
-              '        <button class="fullscreen-button ui-icon" title="Enter full-screen."></button>\n' +
-              '        <button class="exit-fullscreen-button ui-icon" title="Leave full-screen."></button>\n' +
-              '      </div>\n' +
               '    </div>\n' +
               '    <button class="menu-button" title="Show/Hide the device list."><div class="arrow-right" id="arrow"></div></button>\n' +
               '  </div>\n' +

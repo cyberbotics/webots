@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
   wb_robot_step(2000);                                             // wait for 2 seconds
   node = wb_supervisor_field_get_mf_node(root_children_field, 3);  // PointLight
   field = wb_supervisor_node_get_field(node, "location");
-  const double location[3] = {0.5, 0.3, 0.5};
+  const double location[3] = {0.5, 0.5, 0.3};
   wb_supervisor_field_set_sf_vec3f(field, location);
 
   // import a new sphere node after waiting 2 seconds
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
   wb_robot_step(2000);
   wb_supervisor_field_import_mf_node_from_string(
     root_children_field, -1,  // import at the end of the root children field
-    "Transform { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
+    "Pose { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
 
   // main simulation loop
   wb_supervisor_set_label(0, "Going to move the Sphere in 2 seconds (simulation time)...", 0.0, 0.0, 0.1, 0x00FF00, 0.1,
@@ -78,8 +78,8 @@ int main(int argc, char *argv[]) {
   field = wb_supervisor_node_get_field(node, "translation");
   while (wb_robot_step(32) != -1) {
     // move the Sphere node in a circle of 0.3m of radius
-    translation[0] = 0.3 * sin(wb_robot_get_time());
-    translation[2] = 0.3 * cos(wb_robot_get_time());
+    translation[0] = 0.3 * cos(wb_robot_get_time());
+    translation[1] = 0.3 * sin(wb_robot_get_time());
     wb_supervisor_field_set_sf_vec3f(field, translation);
   }
 

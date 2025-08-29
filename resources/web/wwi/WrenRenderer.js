@@ -2,14 +2,15 @@ import WbWorld from './nodes/WbWorld.js';
 import {disableShadows} from './nodes/wb_preferences.js';
 
 export default class WrenRenderer {
+  #canvas;
   constructor() {
-    this._canvas = document.createElement('canvas');
-    this._canvas.id = 'canvas';
+    this.#canvas = document.createElement('canvas');
+    this.#canvas.id = 'canvas';
     let div = document.getElementById('view3d');
 
     if (typeof div === 'undefined' || div === null)
       div = document.getElementsByTagName('webots-streaming');
-    div.insertBefore(this._canvas, div.firstChild);
+    div.insertBefore(this.#canvas, div.firstChild);
 
     _wr_config_enable_shadows(!disableShadows);
 
@@ -18,8 +19,8 @@ export default class WrenRenderer {
   }
 
   setSize(width, height) {
-    this._canvas.width = width;
-    this._canvas.height = height;
+    this.#canvas.width = width;
+    this.#canvas.height = height;
   }
 
   render() {
@@ -28,10 +29,9 @@ export default class WrenRenderer {
 
     try {
       WbWorld.instance.viewpoint.updatePostProcessingParameters();
-
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
-      console.log('No Context');
+      console.error('No Context' + error);
     }
   }
 
@@ -42,7 +42,7 @@ export default class WrenRenderer {
     try {
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
-      console.log('No Context');
+      console.error('No Context');
     }
   }
 }

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,14 +17,24 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbAppearance.hpp"
 #include "WbBasicJoint.hpp"
+#include "WbBoundingSphere.hpp"
+#include "WbDataStream.hpp"
+#include "WbDownloadManager.hpp"
+#include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
+#include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
-#include "WbResizeManipulator.hpp"
+#include "WbProtoModel.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
+#include "WbTransform.hpp"
+#include "WbTranslateRotateManipulator.hpp"
+#include "WbUrl.hpp"
+#include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -53,26 +63,34 @@ void WbSkin::init() {
   mBoneOrientationRequest = NULL;
   mBonePositionRequest = NULL;
   mNeedConfigureAfterModelChanged = false;
+  mIsModelUrlValid = false;
+  mDownloader = NULL;
 
   mBoneMesh = NULL;
   mBoneMaterial = NULL;
 
+  mBoundingSphere = NULL;
+
+  mPreviousXscaleValue = 1.0;
+  mAbsoluteScaleNeedUpdate = true;
+
   mName = findSFString("name");
-  mModelName = findSFString("model");
+  mModelUrl = findSFString("modelUrl");
   mAppearanceField = findMFNode("appearance");
   mBonesField = findMFNode("bones");
   mCastShadows = findSFBool("castShadows");
+  mScale = findSFVector3("scale");
 }
 
-WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstractPose(this), WbDevice() {
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice(other) {
+WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice(other) {
   init();
 }
 
-WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice() {
+WbSkin::WbSkin(const WbNode &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice() {
   init();
 }
 
@@ -83,6 +101,8 @@ WbSkin::~WbSkin() {
     wr_material_delete(mBoneMaterial);
     wr_static_mesh_delete(mBoneMesh);
   }
+
+  delete mBoundingSphere;
 }
 
 void WbSkin::downloadAssets() {
@@ -93,6 +113,23 @@ void WbSkin::downloadAssets() {
     assert(appearance);
     appearance->downloadAssets();
   }
+
+  const QString &url = mModelUrl->value();
+  if (!url.isEmpty()) {
+    const QString &completeUrl = WbUrl::computePath(this, "modelUrl", url);
+    if (WbUrl::isWeb(completeUrl)) {
+      delete mDownloader;
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
+      if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
+        connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
+      mDownloader->download();
+    }
+  }
+}
+
+void WbSkin::downloadUpdate() {
+  updateModel();
+  WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
 
 void WbSkin::preFinalize() {
@@ -109,7 +146,33 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  WbAbstractTransform::checkScale();
+  WbSkin::sanitizeScale();
+}
+
+void WbSkin::sanitizeScale() {
+  WbVector3 scale = mScale->value();
+  bool invalid = false;
+
+  if (scale.x() == 0.0) {
+    scale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
+    invalid = true;
+  }
+
+  if (scale.y() == 0.0) {
+    scale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
+    invalid = true;
+  }
+
+  if (scale.z() == 0.0) {
+    scale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
+    invalid = true;
+  }
+
+  if (invalid)
+    mScale->setValue(scale);
 }
 
 void WbSkin::postFinalize() {
@@ -125,70 +188,139 @@ void WbSkin::postFinalize() {
     appearance->postFinalize();
   }
 
-  updateAppearance();
-
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
-  connect(mModelName, &WbSFString::changed, this, &WbSkin::updateModel);
+  connect(mScale, &WbSFVector3::changed, this, &WbSkin::updateScale);
+  connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
   connect(mCastShadows, &WbSFBool::changed, this, &WbSkin::updateCastShadows);
 
-  if (mSkeleton)
-    wr_skeleton_apply_binding_pose(mSkeleton);
+  mBoundingSphere = new WbBoundingSphere(this);
+  updateModelUrl();
+
+  // apply segmentation color
+  const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
+  WbRgb color(0.0, 0.0, 0.0);
+  while (solid) {
+    if (solid->recognitionColorSize() > 0) {
+      color = solid->recognitionColor(0);
+      break;
+    }
+    solid = WbNodeUtilities::findUpperSolid(solid);
+  }
+  setSegmentationColor(color);
 }
 
 void WbSkin::updateTranslation() {
-  WbAbstractTransform::updateTranslation();
+  WbAbstractPose::updateTranslation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::updateRotation() {
-  WbAbstractTransform::updateRotation();
+  WbAbstractPose::updateRotation();
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
-void WbSkin::updateScale(bool warning) {
-  WbAbstractTransform::updateScale(warning);
+void WbSkin::updateScale() {
+  sanitizeScale();
+
+  applyToScale();
+
   if (mSkeleton && mBonesField->size() > 0)
     wr_skeleton_update_offset(mSkeleton);
 }
 
 void WbSkin::applyToScale() {
-  WbAbstractTransform::applyToScale();
+  mBaseNode->setMatrixNeedUpdate();
+  mBaseNode->setScaleNeedUpdate();
+
+  if (mBaseNode->areWrenObjectsInitialized())
+    applyScaleToWren();
+
+  if (WbSimulationState::instance()->isRayTracingEnabled() && mBaseNode->boundingSphere())
+    mBaseNode->boundingSphere()->setOwnerSizeChanged();
+
+  if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
+    updateTranslateRotateHandlesSize();
 }
 
-int WbSkin::constraintType() const {
-  static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
-  return CONSTRAINT;
+void WbSkin::applyScaleToWren() {
+  float newScale[3];
+  mScale->value().toFloatArray(newScale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
-void WbSkin::showResizeManipulator(bool enabled) {
-  if (isProtoInstance()) {
-    WbBaseNode::showResizeManipulator(enabled);
+void WbSkin::setScaleNeedUpdate() {
+  if (mAbsoluteScaleNeedUpdate)
     return;
-  }
 
-  WbAbstractTransform::showResizeManipulator(enabled);
-
-  emit visibleHandlesChanged(enabled);
+  mAbsoluteScaleNeedUpdate = true;
 }
 
-void WbSkin::updateModel() {
+void WbSkin::updateAbsoluteScale() const {
+  mAbsoluteScale = mScale->value();
+  // multiply with upper transform scale if any
+  const WbTransform *const up = mBaseNode->upperTransform();
+  if (up)
+    mAbsoluteScale *= up->absoluteScale();
+
+  mAbsoluteScaleNeedUpdate = false;
+}
+
+QString WbSkin::modelPath() const {
+  if (mModelUrl->value().isEmpty())
+    return QString();
+  return WbUrl::computePath(this, "modelUrl", mModelUrl->value(), true);
+}
+
+void WbSkin::setSegmentationColor(const WbRgb &color) {
+  const float segmentationColor[3] = {(float)color.red(), (float)color.green(), (float)color.blue()};
+
+  for (int i = 0; i < mSegmentationMaterials.size(); ++i) {
+    if (!mSegmentationMaterials[i])
+      continue;
+    wr_phong_material_set_linear_diffuse(mSegmentationMaterials[i], segmentationColor);
+  }
+}
+
+void WbSkin::updateModelUrl() {
   if (!isPostFinalizedCalled())
     return;
 
-  applyTranslationToWren();
-  applyRotationToWren();
-  applyScaleToWren();
+  if (!mDownloader)
+    mIsModelUrlValid = false;
 
-  createWrenSkeleton();
-  updateAppearance();
-  if (mSkeleton)
-    wr_skeleton_apply_binding_pose(mSkeleton);
+  if (!mModelUrl->value().isEmpty()) {
+    // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
+    QString value = mModelUrl->value();
+    mModelUrl->blockSignals(true);
+    mModelUrl->setValue(value.replace("\\", "/"));
+    mModelUrl->blockSignals(false);
+
+    const QFileInfo modelInfo(mModelUrl->value());
+    const QStringList supportedExtensions = {"FBX"};
+    if (!supportedExtensions.contains(modelInfo.completeSuffix(), Qt::CaseInsensitive)) {
+      warn(tr("Invalid modelUrl '%1'. Supported formats are: '%2'.")
+             .arg(mModelUrl->value())
+             .arg(supportedExtensions.join("', '")));
+      return;
+    }
+
+    const QString &completeUrl = WbUrl::computePath(this, "modelUrl", mModelUrl->value());
+    if (!WbWorld::instance()->isLoading() && WbUrl::isWeb(completeUrl) &&
+        !WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
+      // URL was changed from the scene tree or supervisor
+      downloadAssets();
+      mIsModelUrlValid = true;
+      return;
+    }
+  }
+
+  mIsModelUrlValid = true;
+  updateModel();
 }
 
 void WbSkin::updateAppearance() {
@@ -240,12 +372,14 @@ void WbSkin::updateMaterial() {
   assert(appearance);
   if (appearance) {
     const int materialIndex = mMaterialNames.indexOf(appearance->name());
-    if (materialIndex >= 0 && appearance->areWrenObjectsInitialized())
-      mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
-    else
-      mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
+    if (materialIndex >= 0) {
+      if (appearance->areWrenObjectsInitialized())
+        mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
+      else
+        mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
 
-    wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+      wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+    }
   }
 }
 
@@ -326,16 +460,8 @@ void WbSkin::updateBones() {
     }
   }
 
-  if (isPostFinalizedCalled()) {
-    applyTranslationToWren();
-    applyRotationToWren();
-    applyScaleToWren();
-
-    createWrenSkeleton();
-    updateAppearance();
-    if (mSkeleton)
-      wr_skeleton_apply_binding_pose(mSkeleton);
-  }
+  if (isPostFinalizedCalled())
+    updateModel();
 }
 
 void WbSkin::updateCastShadows() {
@@ -378,13 +504,7 @@ void WbSkin::createWrenObjects() {
   if (mBonesField->size() > 0)
     updateBones();
 
-  applyTranslationToWren();
-  applyRotationToWren();
-  applyScaleToWren();
-
-  createWrenSkeleton();
-  if (mSkeleton)
-    updateAppearance();
+  updateModel();
 }
 
 void WbSkin::reset(const QString &id) {
@@ -392,50 +512,80 @@ void WbSkin::reset(const QString &id) {
 
   for (int i = 0; i < mAppearanceField->size(); ++i)
     mAppearanceField->item(i)->reset(id);
-  for (int i = 0; i < mBonesField->size(); ++i)
-    mBonesField->item(i)->reset(id);
+  if (mBonesField->size() > 0) {
+    for (int i = 0; i < mBonesField->size(); ++i)
+      mBonesField->item(i)->reset(id);
+  } else if (mSkeleton) {
+    // reset mesh skeleton
+    const int bonesCount = wr_skeleton_get_bone_count(mSkeleton);
+    for (int i = 0; i < bonesCount; ++i) {
+      const WbVector3 &p = mInitialSkeletonPosition.at(i);
+      setBonePosition(i, p.x(), p.y(), p.z(), false);
+      const WbRotation &o = mInitialSkeletonOrientation.at(i);
+      setBoneOrientation(i, o.x(), o.y(), o.z(), o.angle(), false);
+    }
+  }
+}
+
+void WbSkin::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  exportSFResourceField("modelUrl", mModelUrl, writer.relativeMeshesPath(), writer);
+}
+
+QStringList WbSkin::customExportedFields() const {
+  QStringList fields;
+  fields << "modelUrl";
+  return fields;
+}
+
+void WbSkin::updateModel() {
+  applyTranslationToWren();
+  applyRotationToWren();
+  applyScaleToWren();
+
+  createWrenSkeleton();
+  if (mSkeleton) {
+    updateAppearance();
+    wr_skeleton_apply_binding_pose(mSkeleton);
+  }
 }
 
 void WbSkin::createWrenSkeleton() {
   deleteWrenSkeleton();
 
-  if (mModelName->value().isEmpty())
+  if (!mIsModelUrlValid || mModelUrl->value().isEmpty())
     return;
 
-  mModelPath = WbProject::current()->path() + "skins/" + mModelName->value() + "/";
-  if (!QDir(mModelPath).exists()) {
-    parsingWarn(tr("Model directory not found."));
+  const QString meshFilePath(modelPath());
+  if (meshFilePath.isEmpty())
     return;
-  }
-
-  QString meshFilePath = mModelPath + mModelName->value();
-  QString supportedExtensions[2] = {".fbx", ".mesh"};
-
-  for (int i = 0; i < 2; ++i) {
-    const QString fullPath = meshFilePath + supportedExtensions[i];
-    if (QFileInfo::exists(fullPath)) {
-      if (supportedExtensions[i] == ".mesh" && !QFileInfo::exists(meshFilePath + ".skeleton")) {
-        parsingWarn(tr("OGRE skeleton file not found."));
-        return;
-      }
-      meshFilePath = fullPath;
-      break;
-    }
-  }
-
-  if (!QFileInfo::exists(meshFilePath)) {
-    parsingWarn(tr("Mesh file not found: '%1'.").arg(meshFilePath));
-    return;
-  }
 
   WrDynamicMesh **meshes = NULL;
   const char **materialNames = NULL;
   int count;
-  const char *error = wr_import_skeleton(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+  const char *error;
+  if (WbUrl::isWeb(meshFilePath)) {
+    if (WbNetwork::instance()->isCachedWithMapUpdate(meshFilePath)) {
+      QFile file(WbNetwork::instance()->get(meshFilePath));
+      if (!file.open(QIODevice::ReadOnly))
+        return;
+      const QByteArray &data = file.readAll();
+      const QByteArray hint = meshFilePath.mid(meshFilePath.lastIndexOf('.') + 1).toUtf8();
+      error = wr_import_skeleton_from_memory(data.constData(), data.size(), hint.constData(), &mSkeleton, &meshes,
+                                             &materialNames, &count);
+    } else
+      return;
+  } else
+    error = wr_import_skeleton_from_file(meshFilePath.toStdString().c_str(), &mSkeleton, &meshes, &materialNames, &count);
+
   if (error) {
     parsingWarn(tr("Unable to read mesh file '%1': %2").arg(meshFilePath).arg(error));
     return;
   }
+
+  delete mDownloader;
+  mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();
   for (int i = 0; i < count; ++i) {
@@ -446,11 +596,22 @@ void WbSkin::createWrenSkeleton() {
     wr_renderable_set_receive_shadows(renderable, true);
     wr_renderable_set_cast_shadows(renderable, mCastShadows->value());
     wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VM_REGULAR);
-    wr_renderable_set_scene_culling(renderable, false);
+
+    // used for rendering range finder camera
+    WrMaterial *depthMaterial = wr_phong_material_new();
+    wr_material_set_default_program(depthMaterial, WbWrenShaders::encodeDepthShader());
+    wr_renderable_set_material(renderable, depthMaterial, "encodeDepth");
+
+    // used for rendering segmentation camera
+    WrMaterial *segmentationMaterial = wr_phong_material_new();
+    wr_material_set_default_program(segmentationMaterial, WbWrenShaders::segmentationShader());
+    wr_renderable_set_material(renderable, segmentationMaterial, "segmentation");
 
     wr_transform_attach_child(mRenderablesTransform, WR_NODE(renderable));
 
     mMaterials.push_back(material);
+    mSegmentationMaterials.push_back(segmentationMaterial);
+    mEncodeDepthMaterials.push_back(depthMaterial);
     mMeshes.push_back(meshes[i]);
     mMaterialNames.push_back(QString(materialNames[i]));
     mRenderables.push_back(renderable);
@@ -485,36 +646,40 @@ void WbSkin::createWrenSkeleton() {
     for (int i = 0; i < wr_skeleton_get_bone_count(mSkeleton); ++i) {
       WrSkeletonBone *bone = wr_skeleton_get_bone_by_index(mSkeleton, i);
       WrTransform *parent = wr_node_get_parent(WR_NODE(bone));
+      float position[3];
+      wr_skeleton_bone_get_position(bone, false, position);
       if (parent) {
         // Attach bone representation
-        float position[3];
-        wr_skeleton_bone_get_position(bone, false, position);
         const float length = WbVector3(position).length();
         const float scale[3] = {length, length, length};
         const float orientation[4] = {M_PI_2, -1, 0, 0};
 
-        WrRenderable *boneRenderable;
-        WrTransform *boneTransform = createBoneRepresentation(&boneRenderable, scale);
-        wr_transform_set_orientation(boneTransform, orientation);
-
+        WrTransform *boneTransform = createBoneRepresentation(scale, orientation, visible);
         wr_transform_attach_child(mBonesMap[parent], WR_NODE(boneTransform));
         wr_transform_attach_child(mBonesMap[parent], WR_NODE(mBonesMap[WR_TRANSFORM(bone)]));
-
-        mRenderables.push_back(boneRenderable);
-        wr_node_set_visible(WR_NODE(boneTransform), visible);
-        mBoneTransforms.push_back(boneTransform);
       } else
         wr_transform_attach_child(wrenNode(), WR_NODE(mBonesMap[WR_TRANSFORM(bone)]));
+
+      float orientation[4];
+      wr_skeleton_bone_get_orientation(bone, false, orientation);
+      mInitialSkeletonOrientation.append(WbRotation(orientation[1], orientation[2], orientation[3], orientation[0]));
+      mInitialSkeletonPosition.append(WbVector3(position));
     }
   }
 
   if (isPostFinalizedCalled())
     mNeedConfigureAfterModelChanged = true;
+
+  if (mBoundingSphere)
+    recomputeBoundingSphere();
 }
 
-WrTransform *WbSkin::createBoneRepresentation(WrRenderable **renderable, const float *scale) {
+WrTransform *WbSkin::createBoneRepresentation(const float *scale, const float *orientation, bool visible) {
   WrTransform *boneTransform = wr_transform_new();
   wr_transform_set_scale(boneTransform, scale);
+  wr_transform_set_orientation(boneTransform, orientation);
+  wr_node_set_visible(WR_NODE(boneTransform), visible);
+  mBoneTransforms.push_back(boneTransform);
 
   WrRenderable *boneRenderable = wr_renderable_new();
   wr_renderable_set_material(boneRenderable, mBoneMaterial, NULL);
@@ -523,9 +688,9 @@ WrTransform *WbSkin::createBoneRepresentation(WrRenderable **renderable, const f
   wr_renderable_set_drawing_mode(boneRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
   wr_renderable_set_drawing_order(boneRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_0);
   wr_renderable_set_visibility_flags(boneRenderable, WbWrenRenderingContext::VF_SKIN_SKELETON);
+  mRenderables.push_back(boneRenderable);
 
   wr_transform_attach_child(boneTransform, WR_NODE(boneRenderable));
-  *renderable = boneRenderable;
   return boneTransform;
 }
 
@@ -542,6 +707,14 @@ void WbSkin::deleteWrenSkeleton() {
   for (WrMaterial *material : mMaterials)
     wr_material_delete(material);
 
+  // delete encode depth material
+  for (WrMaterial *depthMaterial : mEncodeDepthMaterials)
+    wr_material_delete(depthMaterial);
+
+  // delete camera segmentation material
+  for (WrMaterial *segmentationMaterial : mSegmentationMaterials)
+    wr_material_delete(segmentationMaterial);
+
   for (WrTransform *transform : mBoneTransforms)
     wr_node_delete(WR_NODE(transform));
 
@@ -553,18 +726,23 @@ void WbSkin::deleteWrenSkeleton() {
   mMaterialNames.clear();
   mRenderables.clear();
   mMaterials.clear();
+  mSegmentationMaterials.clear();
+  mEncodeDepthMaterials.clear();
   mMeshes.clear();
   mBoneTransforms.clear();
   mBonesMap.clear();
+  mInitialSkeletonPosition.clear();
+  mInitialSkeletonOrientation.clear();
 }
 
 bool WbSkin::createSkeletonFromWebotsNodes() {
   // create bones
   QVector<QString> boneNames;
+  QVector<WrTransform *> parentBoneList;  // used to detect tail bones
   QMap<WrTransform *, WbSolid *> boneToSolidMap;
   int validBoneCount = 0;
   for (int i = 0; i < mBonesField->size(); ++i) {
-    WbSolidReference *ref = dynamic_cast<WbSolidReference *>(mBonesField->item(i));
+    const WbSolidReference *ref = dynamic_cast<WbSolidReference *>(mBonesField->item(i));
     if (ref->solid() == NULL)
       continue;
 
@@ -587,6 +765,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     boneToSolidMap[wrenBone] = solid;
     ++validBoneCount;
     boneNames.push_back(boneName);
+    parentBoneList.push_back(wr_node_get_parent(WR_NODE(wrenBone)));
   }
 
   const int skeletonBoneCount = wr_skeleton_get_bone_count(mSkeleton);
@@ -605,21 +784,28 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     const WrTransform *wrenBone = it.key();
     const WbSolid *solid = it.value();
 
-    WrTransform *parent = wr_node_get_parent(WR_NODE(wrenBone));
-    if (parent) {
+    WrTransform *parentBone = wr_node_get_parent(WR_NODE(wrenBone));
+    WrTransform *parentWrenNode = parentBone && boneToSolidMap[parentBone] ? boneToSolidMap[parentBone]->wrenNode() : NULL;
+    if (parentWrenNode) {
       // Attach bone representation
       const WbVector3 &offset = solid->translation();
-      const WbVector3 &scale = solid->scale();
-      const float length = (offset * scale).length();
+      const float length = offset.length();
       const float boneScale[3] = {length, length, length};
 
-      WrRenderable *boneRenderable;
-      WrTransform *boneTransform = createBoneRepresentation(&boneRenderable, boneScale);
-      wr_transform_attach_child(boneToSolidMap[parent]->wrenNode(), WR_NODE(boneTransform));
+      // compute orientation (default bone representation pointing in z-axis)
+      const WbVector3 unit(0, 0, 1);
+      const WbVector3 &norm = offset.normalized();
+      const WbVector3 &axis = unit.cross(norm).normalized();
+      const float boneOrientation[4] = {(float)unit.angle(norm), (float)axis[0], (float)axis[1], (float)axis[2]};
 
-      mRenderables.push_back(boneRenderable);
-      wr_node_set_visible(WR_NODE(boneTransform), visible);
-      mBoneTransforms.push_back(boneTransform);
+      WrTransform *boneTransform = createBoneRepresentation(boneScale, boneOrientation, visible);
+      wr_transform_attach_child(parentWrenNode, WR_NODE(boneTransform));
+
+      if (!parentBoneList.contains(wrenBone)) {
+        // display tail bone with same orientation and scale as parent
+        boneTransform = createBoneRepresentation(boneScale, boneOrientation, visible);
+        wr_transform_attach_child(solid->wrenNode(), WR_NODE(boneTransform));
+      }
     }
     wr_transform_attach_child(solid->wrenNode(), WR_NODE(wrenBone));
     ++it;
@@ -646,6 +832,8 @@ void WbSkin::setBoneOrientation(int boneIndex, double ax, double ay, double az, 
     if (skinSkeletonEnabled)
       wr_transform_set_orientation(boneRepresentation, orientation);
   }
+
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool absolute) {
@@ -665,6 +853,8 @@ void WbSkin::setBonePosition(int boneIndex, double x, double y, double z, bool a
     if (skinSkeletonEnabled)
       wr_transform_set_position(boneRepresentation, position);
   }
+
+  mBoundingSphere->setOwnerSizeChanged();
 }
 
 void WbSkin::handleMessage(QDataStream &stream) {
@@ -762,7 +952,7 @@ void WbSkin::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSkin::writeAnswer(QDataStream &stream) {
+void WbSkin::writeAnswer(WbDataStream &stream) {
   if (mNeedConfigureAfterModelChanged) {
     writeConfigure(stream);
     mNeedConfigureAfterModelChanged = false;
@@ -783,7 +973,7 @@ void WbSkin::writeAnswer(QDataStream &stream) {
   }
 }
 
-void WbSkin::writeConfigure(QDataStream &stream) {
+void WbSkin::writeConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   const int boneCount = mSkeleton ? wr_skeleton_get_bone_count(mSkeleton) : 0;
@@ -818,4 +1008,48 @@ void WbSkin::updateOptionalRendering(int option) {
     for (WrTransform *bone : mBoneTransforms)
       wr_node_set_visible(WR_NODE(bone), visible);
   }
+}
+
+/////////////////
+// Ray tracing //
+/////////////////
+
+void WbSkin::recomputeBoundingSphere() const {
+  assert(mBoundingSphere);
+  mBoundingSphere->empty();
+
+  if (!mSkeleton)
+    return;
+
+  const bool convertToLocal = mBonesField->size() > 0;
+  WbMatrix4 m;
+  if (convertToLocal)
+    // WREN resturns absolute coordinates
+    m = matrix().pseudoInversed();
+
+  int meshCount = 0;
+  // get list with format [centerX1, centerY1, centerZ1, radius1, centerX2, .. ]
+  // if spheres are world coordinate system
+  float *meshBoundingSphereList = wr_skeleton_compute_bounding_spheres(mSkeleton, meshCount);
+  int index = 0;
+  for (int c = 0; c < meshCount; ++c) {
+    WbVector3 center(meshBoundingSphereList[index], meshBoundingSphereList[index + 1], meshBoundingSphereList[index + 2]);
+    double radius = meshBoundingSphereList[index + 3];
+    if (convertToLocal) {
+      const WbVector3 &scale = absoluteScale();
+      radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
+      center = m * center;
+    }
+    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    mBoundingSphere->enclose(&meshBoundingSphere);
+    index += 4;
+  }
+  delete[] meshBoundingSphereList;
+}
+
+const WbVector3 &WbSkin::absoluteScale() const {
+  if (mAbsoluteScaleNeedUpdate)
+    updateAbsoluteScale();
+
+  return mAbsoluteScale;
 }

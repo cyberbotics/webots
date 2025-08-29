@@ -1,11 +1,17 @@
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbBillboard extends WbGroup {
   constructor(id) {
     super(id);
     WbWorld.instance.billboards.push(id);
   }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_BILLBOARD;
+  }
+
   createWrenObjects() {
     super.createWrenObjects(true);
 
@@ -30,19 +36,30 @@ export default class WbBillboard extends WbGroup {
   }
 
   updatePosition() {
-    this._applyRotationToWren();
-    this._applyTranslationToWren();
+    this.#applyRotationToWren();
+    this.#applyTranslationToWren();
   }
 
-  _applyRotationToWren() {
+  #applyRotationToWren() {
     let orientation = WbWorld.instance.viewpoint.orientation;
     let orientationPointer = _wrjs_array4(orientation.w, orientation.x, orientation.y, orientation.z);
     _wr_transform_set_orientation(this.wrenNode, orientationPointer);
   }
 
-  _applyTranslationToWren() {
+  #applyTranslationToWren() {
     let position = WbWorld.instance.viewpoint.position;
     let positionPointer = _wrjs_array3(position.x, position.y, position.z);
     _wr_transform_set_position(this.wrenNode, positionPointer);
+  }
+
+  static isDescendantOfBillboard(node) {
+    while (typeof node !== 'undefined') {
+      if (node.nodeType === WbNodeType.WB_NODE_BILLBOARD)
+        return true;
+
+      node = WbWorld.instance.nodes.get(node.parent);
+    }
+
+    return false;
   }
 }

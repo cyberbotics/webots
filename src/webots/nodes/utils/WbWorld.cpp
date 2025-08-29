@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@
 #include "WbMFNode.hpp"
 #include "WbMFString.hpp"
 #include "WbMotor.hpp"
+#include "WbNetwork.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeReader.hpp"
 #include "WbNodeUtilities.hpp"
@@ -41,7 +42,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbPropeller.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRobot.hpp"
@@ -51,11 +52,13 @@
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
-#include "WbVrmlWriter.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenVertexArrayFrameListener.hpp"
+#include "WbWriter.hpp"
 
 #include <wren/scene.h>
 
@@ -63,7 +66,6 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
-#include <QtCore/QStringListIterator>
 #include <QtCore/QTextStream>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
@@ -71,14 +73,14 @@
 #include <cassert>
 
 static WbWorld *gInstance = NULL;
-bool WbWorld::cX3DMetaFileExport = false;
-bool WbWorld::cX3DStreaming = false;
+bool WbWorld::cW3dStreaming = false;
+bool WbWorld::cPrintExternUrls = false;
 
 WbWorld *WbWorld::instance() {
   return gInstance;
 }
 
-WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
+WbWorld::WbWorld(WbTokenizer *tokenizer) :
   mWorldLoadingCanceled(false),
   mResetRequested(false),
   mRestartControllers(false),
@@ -87,11 +89,11 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
   mWorldInfo(NULL),
   mViewpoint(NULL),
   mPerspective(NULL),
-  mProtos(protos ? protos : new WbProtoList()),
   mLastAwakeningTime(0.0),
   mIsLoading(true),
   mIsCleaning(false),
   mIsVideoRecording(false) {
+  WbWrenVertexArrayFrameListener::resetLastUpdateTime();
   gInstance = this;
   WbNode::setInstantiateMode(true);
   WbNode::setGlobalParentNode(NULL);
@@ -107,9 +109,6 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
 
   if (tokenizer) {
     mFileName = tokenizer->fileName();
-    if (mFileName == (WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName()))
-      mFileName = WbStandardPaths::unnamedWorld();
-
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -127,7 +126,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
       return;
     }
     WbTemplateManager::instance()->blockRegeneration(true);
-    WbField *childrenField = mRoot->findField("children");
+    const WbField *childrenField = mRoot->findField("children");
     int index = 0;
     WbApplication::instance()->setWorldLoadingStatus(tr("Creating nodes"));
     foreach (WbNode *node, nodes) {
@@ -138,8 +137,8 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
         return;
       }
       QString errorMessage;
-      if (WbNodeUtilities::isAllowedToInsert(childrenField, node->nodeModelName(), mRoot, errorMessage, WbNode::STRUCTURE_USE,
-                                             WbNodeUtilities::slotType(node), QStringList(node->nodeModelName()))) {
+      if (WbNodeUtilities::isAllowedToInsert(childrenField, mRoot, errorMessage, WbNode::STRUCTURE_USE,
+                                             WbNodeUtilities::slotType(node), node)) {
         node->validate();
         mRoot->addChild(node);
       } else
@@ -150,8 +149,7 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     // ensure a minimal set of nodes for a functional world
     checkPresenceOfMandatoryNodes();
   } else {
-    mFileName = WbStandardPaths::unnamedWorld();
-
+    mFileName = WbProject::newWorldPath();
     mPerspective = new WbPerspective(mFileName);
     mPerspective->load();
 
@@ -162,18 +160,27 @@ WbWorld::WbWorld(WbProtoList *protos, WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
+  WbUrl::setWorldFileName(mFileName);
+
   WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
   // world loading stuff
   connect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
+  connect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+          &WbApplication::worldLoadingStatusHasChanged);
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
+
+  WbProtoManager::instance()->setNeedsRobotAncestorCallback(
+    [](const QString &nodeType) { return WbNodeUtilities::isDeviceTypeName(nodeType) && nodeType != "Connector"; });
 }
 
 void WbWorld::finalize() {
   disconnect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
+  disconnect(root(), &WbGroup::worldLoadingStatusHasChanged, WbApplication::instance(),
+             &WbApplication::worldLoadingStatusHasChanged);
   disconnect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   disconnect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   disconnect(root(), &WbGroup::childFinalizationHasProgressed, WbApplication::instance(),
@@ -196,7 +203,6 @@ void WbWorld::finalize() {
 
 WbWorld::~WbWorld() {
   delete mRoot;
-  delete mProtos;
   WbNode::cleanup();
   gInstance = NULL;
 
@@ -232,20 +238,27 @@ void WbWorld::setModified(bool isModified) {
   }
 }
 
-bool WbWorld::isUnnamed() const {
-  return mFileName == WbStandardPaths::unnamedWorld();
-}
-
 bool WbWorld::saveAs(const QString &fileName) {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   writer.writeHeader(fileName);
 
-  const int count = mRoot->childCount();
-  for (int i = 0; i < count; ++i) {
+  writer << "\n";  // leave one space between header and body regardless of whether there are EXTERNPROTO or not
+
+  // prior to saving the EXTERNPROTO entries to file, purge the unused entries
+  WbNodeOperations::instance()->purgeUnusedExternProtoDeclarations();
+  const QVector<WbExternProto *> &externProto = WbProtoManager::instance()->externProto();
+  for (int i = 0; i < externProto.size(); ++i) {
+    const QString &url = WbProtoManager::instance()->formatExternProtoPath(externProto[i]->url());
+    writer << QString("%1EXTERNPROTO \"%2\"\n").arg(externProto[i]->isImportable() ? "IMPORTABLE " : "").arg(url);
+    if (i == externProto.size() - 1)
+      writer << "\n";  // add additional empty line after the last EXTERNPROTO entry
+  }
+
+  for (int i = 0; i < mRoot->childCount(); ++i) {
     mRoot->child(i)->write(writer);
     writer << "\n";
   }
@@ -253,14 +266,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   writer.writeFooter();
 
   mFileName = fileName;
-  bool isValidProject = true;
-  const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
-  if (newProjectPath != WbProject::current()->path()) {
-    // reset list of loaded and available PROTO nodes
-    delete mProtos;
-    mProtos = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-    WbProject::current()->setPath(newProjectPath);
-  }
+  WbUrl::setWorldFileName(mFileName);
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;
@@ -282,56 +288,72 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
-  QString x3dFilename = fileName;
-  x3dFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".x3d");
+  QString w3dFilename = fileName;
+  w3dFilename.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".w3d");
+
+  QString cssFileName = fileName;
+  cssFileName.replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css");
 
   bool success = true;
-  QFileInfo fo(fileName);
-  QString targetPath = fo.absolutePath() + "/";
 
   try {
-    success = exportAsVrml(x3dFilename);
+    // export w3d file
+    success = exportAsW3d(w3dFilename);
     if (!success)
-      throw tr("Cannot export the x3d file to '%1'").arg(x3dFilename);
+      throw tr("Cannot export the w3d file to '%1'").arg(w3dFilename);
 
+    // export css file
+    QString typeString = (animation) ? "Animation" : "Scene";
     QString titleString(WbWorld::instance()->worldInfo()->title());
+    titleString = titleString.toHtmlEscaped();
+
+    QList<std::pair<QString, QString>> cssTemplateValues;
+    cssTemplateValues << std::pair<QString, QString>("%title%", titleString);
+    cssTemplateValues << std::pair<QString, QString>("%type%", typeString);
+
+    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/w3d_playback.css", cssFileName,
+                                               cssTemplateValues);
+    if (!success)
+      throw tr("Cannot copy the 'w3d_playback.css' file to '%1'").arg(cssFileName);
+
+    // export html file
     QString infoString;
     const WbMFString &info = WbWorld::instance()->worldInfo()->info();
     for (int i = 0; i < info.size(); ++i) {
       QString line = info.itemToString(i, WbPrecision::DOUBLE_MAX);
-      line.replace(QRegExp("^\""), "");
-      line.replace(QRegExp("\"$"), "");
+      line.replace(QRegularExpression("^\""), "");
+      line.replace(QRegularExpression("\"$"), "");
       infoString += line + "\n";
     }
 
-    titleString = titleString.toHtmlEscaped();
     infoString = infoString.toHtmlEscaped();
     infoString.replace("\n", "<br/>");
 
-    QList<QPair<QString, QString>> templateValues;
-    templateValues << QPair<QString, QString>("%x3dFilename%", QFileInfo(x3dFilename).fileName());
-    QString setAnimation;
-    if (animation) {
-      QString animationFilename = fileName;
-      animationFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".json");
-      setAnimation = "\n          view.setAnimation(\"" + QFileInfo(animationFilename).fileName() + "\", \"play\", true);";
-    }
+    QList<std::pair<QString, QString>> templateValues;
+    templateValues << std::pair<QString, QString>("%w3dFilename%", QFileInfo(w3dFilename).fileName());
+    templateValues << std::pair<QString, QString>("%type%", typeString);
+    templateValues << std::pair<QString, QString>("%title%", titleString);
+    templateValues << std::pair<QString, QString>("%description%", infoString);
+    templateValues << std::pair<QString, QString>(
+      "%w3dName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".w3d"));
+    templateValues << std::pair<QString, QString>(
+      "%jpgName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
+    templateValues << std::pair<QString, QString>(
+      "%cssName%",
+      fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
+    if (animation)
+      templateValues << std::pair<QString, QString>(
+        "%jsonName%",
+        fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".json"));
+    else
+      templateValues << std::pair<QString, QString>("%jsonName%", "");
 
-    templateValues << QPair<QString, QString>("%wwiPath%", WbStandardPaths::resourcesWebPath() + "wwi/");
-    templateValues << QPair<QString, QString>("%setAnimation%", setAnimation);
-    templateValues << QPair<QString, QString>("%title%", titleString);
-    templateValues << QPair<QString, QString>("%description%", infoString);
-
-    if (cX3DMetaFileExport) {
-      QString metaFilename = fileName;
-      metaFilename.replace(QRegExp(".html$", Qt::CaseInsensitive), ".meta.json");
-      createX3DMetaFile(metaFilename);
-    }
-
-    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.html", fileName,
+    success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/w3d_playback.html", fileName,
                                                templateValues);
     if (!success)
-      throw tr("Cannot copy 'x3d_playback.html' to '%1'").arg(fileName);
+      throw tr("Cannot copy 'w3d_playback.html' to '%1'").arg(fileName);
 
   } catch (const QString &e) {
     WbLog::error(tr("Cannot export html: '%1'").arg(e), true);
@@ -341,21 +363,21 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
   return success;
 }
 
-bool WbWorld::exportAsVrml(const QString &fileName) const {
+bool WbWorld::exportAsW3d(const QString &fileName) const {
   QFile file(fileName);
   if (!file.open(QIODevice::WriteOnly))
     return false;
 
-  WbVrmlWriter writer(&file, fileName);
+  WbWriter writer(&file, fileName);
   write(writer);
 
   return true;
 }
 
-void WbWorld::write(WbVrmlWriter &writer) const {
-  if (writer.isX3d()) {
+void WbWorld::write(WbWriter &writer) const {
+  if (writer.isW3d()) {
     // make sure all the meshes data are up-to-date
-    // only X3D exporter relies on OpenGL data
+    // only W3D exporter relies on OpenGL data
     // this is needed for example in minimize and streaming mode because the world is exported before the first main rendering
     WbWrenOpenGlContext::makeWrenCurrent();
     wr_scene_apply_pending_updates(wr_scene_get_instance());
@@ -422,104 +444,6 @@ void WbWorld::checkPresenceOfMandatoryNodes() {
   }
 }
 
-void WbWorld::createX3DMetaFile(const QString &filename) const {
-  QJsonArray robotArray;
-  foreach (const WbRobot *robot, mRobots) {  // foreach robot.
-    QJsonObject robotObject;
-    QJsonArray deviceArray;
-    for (int d = 0; d < robot->deviceCount(); ++d) {  // foreach device.
-      // Export the device name and type.
-      const WbDevice *device = robot->device(d);
-      QJsonObject deviceObject;
-      deviceObject.insert("name", device->deviceName());
-      const WbBaseNode *deviceBaseNode = dynamic_cast<const WbBaseNode *>(device);
-      const WbJointDevice *jointDevice = dynamic_cast<const WbJointDevice *>(device);
-      const WbMotor *motor = dynamic_cast<const WbMotor *>(jointDevice);
-
-      if (deviceBaseNode)
-        deviceObject.insert("type", deviceBaseNode->nodeModelName());
-
-      if (jointDevice && jointDevice->joint()) {  // case: joint devices.
-        deviceObject.insert("transformID", QString("n%1").arg(jointDevice->joint()->solidEndPoint()->uniqueId()));
-        if (motor) {
-          deviceObject.insert("minPosition", motor->minPosition());
-          deviceObject.insert("maxPosition", motor->maxPosition());
-          deviceObject.insert("position", motor->position());
-          const WbJointParameters *jointParameters = NULL;
-          if (motor->positionIndex() == 3)
-            jointParameters = motor->joint()->parameters3();
-          else if (motor->positionIndex() == 2)
-            jointParameters = motor->joint()->parameters2();
-          else {
-            assert(motor->positionIndex() == 1);
-            jointParameters = motor->joint()->parameters();
-          }
-          deviceObject.insert("axis", jointParameters->axis().toString(WbPrecision::FLOAT_MAX));
-          const WbBallJointParameters *ballJointParameters = dynamic_cast<const WbBallJointParameters *>(jointParameters);
-          const WbHingeJointParameters *hingeJointParameters = dynamic_cast<const WbHingeJointParameters *>(jointParameters);
-          if (hingeJointParameters)
-            deviceObject.insert("anchor", hingeJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
-          else if (ballJointParameters)
-            deviceObject.insert("anchor", ballJointParameters->anchor().toString(WbPrecision::FLOAT_MAX));
-          else
-            deviceObject.insert("anchor", "0 0 0");
-        }
-      } else if (jointDevice && jointDevice->propeller() && motor) {  // case: propeller.
-        WbSolid *helix = jointDevice->propeller()->helix(WbPropeller::SLOW_HELIX);
-        deviceObject.insert("transformID", QString("n%1").arg(helix->uniqueId()));
-        deviceObject.insert("position", motor->position());
-        deviceObject.insert("axis", motor->propeller()->axis().toString(WbPrecision::FLOAT_MAX));
-        deviceObject.insert("minPosition", motor->minPosition());
-        deviceObject.insert("maxPosition", motor->maxPosition());
-        deviceObject.insert("anchor", "0 0 0");
-      } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent =
-          jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
-        // Retrieve closest exported Transform parent, and compute its translation offset.
-        WbMatrix4 m;
-        while (parent) {
-          if (parent->shallExport()) {
-            deviceObject.insert("transformID", QString("n%1").arg(parent->uniqueId()));
-            WbVector3 v = m.translation();
-            if (!v.almostEquals(WbVector3()))
-              deviceObject.insert("transformOffset", v.toString(WbPrecision::FLOAT_MAX));
-            if (motor && parent->nodeType() == WB_NODE_TRACK)
-              deviceObject.insert("track", "true");
-            break;
-          } else {
-            const WbAbstractTransform *transform = dynamic_cast<const WbAbstractTransform *>(parent);
-            if (transform)
-              m *= transform->vrmlMatrix();
-          }
-          parent = dynamic_cast<const WbBaseNode *>(parent->parentNode());
-        }
-        // LED case: export color data.
-        const WbLed *led = dynamic_cast<const WbLed *>(device);
-        if (led) {
-          deviceObject.insert("ledGradual", led->isGradual());
-          QJsonArray colorArray;
-          for (int c = 0; c < led->colorsCount(); ++c)
-            colorArray.push_back(led->color(c).toString(WbPrecision::FLOAT_MAX));
-          deviceObject.insert("ledColors", colorArray);
-          QJsonArray appearanceArray;
-          foreach (const WbPbrAppearance *appearance, led->pbrAppearances())
-            appearanceArray.push_back(QString("n%1").arg(appearance->uniqueId()));
-          deviceObject.insert("ledPBRAppearanceIDs", appearanceArray);
-        }
-      }
-      deviceArray.push_back(deviceObject);
-    }
-    robotObject.insert("name", robot->name());
-    robotObject.insert("robotID", QString("n%1").arg(robot->uniqueId()));
-    robotObject.insert("devices", deviceArray);
-    robotArray.push_back(robotObject);
-  }
-  QJsonDocument document(robotArray);
-  QFile jsonFile(filename);
-  jsonFile.open(QFile::WriteOnly);
-  jsonFile.write(document.toJson());
-}
-
 WbSolid *WbWorld::findSolid(const QString &name) const {
   WbMFNode::Iterator it(mRoot->children());
   while (it.hasNext()) {
@@ -538,6 +462,7 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   QList<WbSolid *> allSolids;
 
   foreach (WbNode *const node, allNodes) {
+    // cppcheck-suppress constVariablePointer
     WbSolid *const solid = dynamic_cast<WbSolid *>(node);
     if (solid)
       allSolids.append(solid);
@@ -546,9 +471,8 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   return allSolids;
 }
 
-QStringList WbWorld::listTextureFiles() const {
-  QStringList list = mRoot->listTextureFiles();
-  list.removeDuplicates();
+QList<std::pair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
+  QList<std::pair<QString, WbMFString *>> list = mRoot->listTextureFiles();
   return list;
 }
 
@@ -563,11 +487,11 @@ void WbWorld::removeRobotIfPresent(WbRobot *robot) {
     return;
 
   mRobots.removeAll(robot);
+  emit robotRemoved(robot);
 }
 
 void WbWorld::addRobotIfNotAlreadyPresent(WbRobot *robot) {
-  if (!robot)
-    return;
+  assert(robot);
 
   // don't add a robot that's already in the global list
   if (mRobots.contains(robot))
@@ -582,8 +506,10 @@ void WbWorld::updateProjectPath(const QString &oldPath, const QString &newPath) 
   const QFileInfo infoPath(mFileName);
   const QFileInfo infoNewPath(newPath);
   const QString newFilename = infoNewPath.absolutePath() + "/worlds/" + infoPath.fileName();
-  if (QFile::exists(newFilename))
+  if (QFile::exists(newFilename)) {
     mFileName = newFilename;
+    WbUrl::setWorldFileName(mFileName);
+  }
 }
 
 void WbWorld::setViewpoint(WbViewpoint *viewpoint) {
@@ -638,7 +564,7 @@ void WbWorld::retrieveNodeNamesWithOptionalRendering(QStringList &centerOfMassNo
   centerOfBuoyancyNodeNames.clear();
   supportPolygonNodeNames.clear();
 
-  WbSolid *solid = NULL;
+  const WbSolid *solid = NULL;
   const QList<WbNode *> &allNodes = mRoot->subNodes(true);
   for (int i = 0; i < allNodes.size(); ++i) {
     solid = dynamic_cast<WbSolid *>(allNodes[i]);
@@ -660,17 +586,17 @@ QString WbWorld::logWorldMetrics() const {
   int jointCount = 0;
   int geomCount = 0;
   const QList<WbNode *> &allNodes = mRoot->subNodes(true);
-  foreach (WbNode *node, allNodes) {
-    if (dynamic_cast<WbBasicJoint *>(node)) {
+  foreach (const WbNode *node, allNodes) {
+    if (dynamic_cast<const WbBasicJoint *>(node)) {
       jointCount++;
       continue;
     }
-    WbSolid *solid = dynamic_cast<WbSolid *>(node);
+    const WbSolid *solid = dynamic_cast<const WbSolid *>(node);
     if (solid && (solid->isKinematic() || solid->isSolidMerger())) {
       solidCount++;
       continue;
     }
-    WbGeometry *geometry = dynamic_cast<WbGeometry *>(node);
+    const WbGeometry *geometry = dynamic_cast<const WbGeometry *>(node);
     if (geometry && !geometry->isInBoundingObject())
       geomCount++;
   }

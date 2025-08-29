@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,8 @@
 #include "RobotSensorCondition.hpp"
 #include "State.hpp"
 #include "Transition.hpp"
+
+#include <QtCore/QRegularExpression>
 
 Automaton::Automaton() : QObject(), mCurrentState(NULL) {
 }
@@ -59,6 +61,7 @@ void Automaton::addTransition(Transition *t) {
 void Automaton::deleteAllObjects() {
   QList<State *> states;
   foreach (AutomatonObject *object, mObjects) {
+    // cppcheck-suppress constVariablePointer
     State *state = dynamic_cast<State *>(object);
     if (state) {
       states.append(state);
@@ -119,6 +122,7 @@ void Automaton::deleteSelectedObjects() {
   QList<Transition *> transitions;
   foreach (AutomatonObject *object, mObjects) {
     if (object->isSelected()) {
+      // cppcheck-suppress constVariablePointer
       Transition *transition = dynamic_cast<Transition *>(object);
       if (transition)
         transitions.append(transition);
@@ -131,6 +135,7 @@ void Automaton::deleteSelectedObjects() {
   QList<State *> states;
   foreach (AutomatonObject *object, mObjects) {
     if (object->isSelected()) {
+      // cppcheck-suppress constVariablePointer
       State *state = dynamic_cast<State *>(object);
       if (state)
         states.append(state);
@@ -142,9 +147,9 @@ void Automaton::deleteSelectedObjects() {
 
 int Automaton::computeNumberOfSelectedStates() const {
   int counter = 0;
-  foreach (AutomatonObject *object, mObjects)
+  foreach (const AutomatonObject *object, mObjects)
     if (object->isSelected()) {
-      State *state = dynamic_cast<State *>(object);
+      const State *state = dynamic_cast<const State *>(object);
       if (state)
         counter++;
     }
@@ -153,7 +158,7 @@ int Automaton::computeNumberOfSelectedStates() const {
 
 int Automaton::computeNumberOfSelectedItems() const {
   int counter = 0;
-  foreach (AutomatonObject *object, mObjects)
+  foreach (const AutomatonObject *object, mObjects)
     if (object->isSelected())
       counter++;
   return counter;
@@ -235,7 +240,7 @@ void Automaton::stop() {
 }
 
 void Automaton::fromString(const QString &string) {
-  QStringList lines = string.split(QRegExp("\n"), Qt::SkipEmptyParts);
+  QStringList lines = string.split(QRegularExpression("\n"), Qt::SkipEmptyParts);
 
   foreach (const QString &line, lines) {
     if (line.startsWith('S')) {
@@ -262,13 +267,13 @@ void Automaton::fromString(const QString &string) {
 
 QString Automaton::toString() const {
   QString out;
-  foreach (AutomatonObject *object, mObjects) {
-    State *state = dynamic_cast<State *>(object);
+  foreach (const AutomatonObject *object, mObjects) {
+    const State *state = dynamic_cast<const State *>(object);
     if (state)
       out += state->toString() + "\n";
   }
-  foreach (AutomatonObject *object, mObjects) {
-    Transition *transition = dynamic_cast<Transition *>(object);
+  foreach (const AutomatonObject *object, mObjects) {
+    const Transition *transition = dynamic_cast<const Transition *>(object);
     if (transition)
       out += transition->toString() + "\n";
   }
@@ -278,7 +283,7 @@ QString Automaton::toString() const {
 
 // backward compatibility code
 void Automaton::fromStringVersion3(const QString &string) {
-  QStringList lines = string.split(QRegExp("\n"));
+  QStringList lines = string.split(QRegularExpression("\n"));
 
   lines.removeFirst();  // remove header
 

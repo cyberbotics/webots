@@ -1,12 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto
+# keywords: robot/extension
 # Tinkerbots cubie: box with round slots.
-# https://www.tinkerbots.com
+# More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
+
+EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieBoxWithRoundSlots [
-  field SFVec3f    translation 0 0 0                        # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0                      # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0                        # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0                      # Is `Pose.rotation`.
   field SFString   name        "box with round slots cubie" # Is `Solid.name`.
   field SFNode     upSlot      NULL                         # Type: "lego cross-".
   field SFNode     frontSlot   NULL                         # Type: "lego cross-".
@@ -20,7 +24,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation -0.01 0 0.02
           children [
             Slot {
@@ -29,7 +33,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.005 0 0.015
           rotation 0 1 0 1.57
           children [
@@ -39,7 +43,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.025 0 0.015
           rotation 0 1 0 -1.57
           children [
@@ -63,7 +67,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
                 endPoint IS axisSlot
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.01
               children [
                 Sphere {
@@ -78,7 +82,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
         Shape {
           appearance TinkerbotsPlasticAppearance {
             color "yellow"
-            occlusionMapUrl "webots://projects/robots/kinematics/tinkerbots/protos/textures/cubie_box_with_round_slots_occlusion.jpg"
+            occlusionMapUrl "textures/cubie_box_with_round_slots_occlusion.jpg"
           }
           geometry IndexedFaceSet {
             coord Coordinate {
@@ -103,7 +107,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
       ]
       name IS name
       contactMaterial "tinkerbots cubie"
-      boundingObject Transform {
+      boundingObject Pose {
         translation -0.01 0 0.015
         children [
           Box {

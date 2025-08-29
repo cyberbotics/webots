@@ -9,7 +9,7 @@ Plane {
 ### Description
 
 The [Plane](#plane) node defines a plane in 3D-space.
-The plane's normal vector is the y-axis of the local coordinate system.
+The plane's normal vector is the z-axis of the local coordinate system.
 The plane can be used as graphical object or as collision detection object.
 
 When a plane is used as graphical object, the `size` field specifies the dimensions of the graphical representation.
@@ -22,4 +22,6 @@ Note that Webots ignores collision between planes, so planes can safely cut each
 Note that a [Plane](#plane) node is in fact not really a plane: it's a half-space.
 Anything that is moving inside the half-space will be ejected out of it.
 This means that planes are only planes from the perspective of one side.
-If you want your plane to be reversed, rotate it by &pi; using a [Transform](transform.md) node.
+If you want your plane to be reversed, rotate it by &pi; using a [Pose](pose.md) node.
+
+When a texture is applied to the plane, the texture is mapped onto the plane (seen from above) with the same orientation as if the image was displayed normally in 2D (along the *x* and *y* axis).

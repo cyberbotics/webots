@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ public:
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
     QStyleOptionViewItem itemOption(option);
 
-    WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
+    const WbTreeItem *item = static_cast<WbTreeItem *>(index.internalPointer());
     if (item->isDefault())
       // paint unmodified tree items in black
       itemOption.palette.setColor(QPalette::Text, mDefaultColor);
@@ -62,7 +62,7 @@ WbTreeView::WbTreeView(QWidget *parent) : QTreeView(parent) {
 
   // display an horizontal scroll bar rather than
   // cutting strings with '...' characters
-  header()->setSectionResizeMode(QHeaderView::ResizeToContents);  // Qt5 version
+  header()->setSectionResizeMode(QHeaderView::ResizeToContents);
   header()->setStretchLastSection(false);
   header()->setDefaultSectionSize(10000);
 
@@ -76,7 +76,7 @@ WbTreeView::~WbTreeView() {
 
 void WbTreeView::focusInEvent(QFocusEvent *event) {
   QTreeView::focusInEvent(event);
-  WbActionManager::instance()->enableTextEditActions(false);
+  WbActionManager::instance()->enableTextEditActions(false, true);
   WbActionManager::instance()->setFocusObject(this);
 
   // when this widget gets keyboard focus the higlighted color of the current
@@ -126,7 +126,7 @@ void WbTreeView::showMenu(const QPoint &position) {
     return;
   const WbTreeItem *item = static_cast<WbTreeItem *>(indexes.at(0).internalPointer());
   assert(item);
-  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node());
+  WbContextMenuGenerator::generateContextMenu(mapToGlobal(position), item->node(), NULL);
 }
 
 void WbTreeView::scrollToModelIndex(const QModelIndex &index) {

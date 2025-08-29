@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset='UTF-8'>
-    <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
+    <link type="text/css" rel="stylesheet" href='webots://projects/samples/robotbenchmark/include/tabs.css' />
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
   </head>
   <body>
     <div id='infotabs' class='wrapper webotsTabs'>
@@ -36,10 +37,12 @@
           <a target='_blank' href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a>
           to set the speed of the wheels:</p>
           <pre style='background:#FEE'>
-        # PID control
-        integral = integral + (position + previous_position) * 0.5 / timestep
-        derivative = (position - previous_position) / timestep
-        speed = KP * position + KI * integral + KD * derivative</pre>
+
+  # PID control
+  integral = integral + (position + previous_position) * 0.5 / timestep
+  derivative = (position - previous_position) / timestep
+  speed = KP * position + KI * integral + KD * derivative
+          </pre>
           <p>The values of the PID coefficients <em>KP</em>, <em>KI</em>, and <em>KD</em> can be tuned to improve the pendulum stability and achieve a better result.</p>
           <p>Alternatively, it is also possible to improve the result by using more complex algorithm for example based on the derived equations of the motion of the inverted pendulum.</p>
           <p>Configuration of the system:</p>
@@ -66,7 +69,7 @@
         </div>
       </div>
     </div>
-    <script src="inverted_pendulum.js"></script>
+    <script type="module" src="inverted_pendulum.js"></script>
     <script>
       let height;
       function adaptPositionOfText() {

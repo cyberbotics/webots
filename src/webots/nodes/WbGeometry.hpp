@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,12 +46,11 @@ class WbGeometry : public WbBaseNode {
 
 public:
   // Destructor
-  virtual ~WbGeometry();
+  virtual ~WbGeometry() override;
 
   // Reimplemented public functions
   void postFinalize() override;
   void createOdeObjects() override;
-  void updateContextDependentObjects() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   void propagateSelection(bool selected) override;
 
@@ -69,6 +68,11 @@ public:
   virtual void deleteWrenRenderable();
   virtual void setWrenMaterial(WrMaterial *material, bool castShadows);
   void destroyWrenObjects();
+  void setSegmentationColor(const WbRgb &color);
+
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override {
+    return QList<const WbBaseNode *>() << this;
+  }
 
   // Create ODE dGeom (for a WbGeometry lying into a boundingObject)
   virtual dGeomID createOdeGeom(dSpaceID space);
@@ -110,6 +114,7 @@ public:
   // resize manipulator
   bool hasResizeManipulator() const override { return areSizeFieldsVisibleAndNotRegenerator(); }
   WbWrenAbstractResizeManipulator *resizeManipulator();
+  bool isResizeManipulatorAttached() const;
   void attachResizeManipulator() override;
   void detachResizeManipulator() const override;
   void updateResizeHandlesSize() override;
@@ -118,10 +123,14 @@ public:
   void setUniformConstraintForResizeHandles(bool enabled) override;
 
   // export
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
 
   static int maxIndexNumberToCastShadows();
   int triangleCount() const;
+
+  // visibility
+  void setTransparent(bool isTransparent);
+  bool isTransparent() const { return mIsTransparent; }
 
 signals:
   void changed();
@@ -132,7 +141,7 @@ public slots:
   void showResizeManipulator(bool enabled) override;
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
   static const float LINE_SCALE_FACTOR;
 
@@ -165,8 +174,8 @@ protected:
 
   // ODE objects for a WbGeometry lying into a boundingObject
   // Scaling
+  bool mIs90DegreesRotated;  // rotate ElevationGrid by 90 degrees: ODE to FLU rotation
   dGeomID mOdeGeom;          // stores a pointer on the ODE dGeom object when the WbGeometry lies into a boundingObject
-  bool mIs90DegreesRotated;  // rotate Capsule and Cylinder by 90 degrees: ODE to VRML rotation
   WbVector3 mLocalOdeGeomOffsetPosition;
   dMass *mOdeMass;        // needed to correct the WbSolid parent mass after the destruction of a bounding WbGeometry
   void applyToOdeMass();  // modifies the ODE dMass when the dimensions change
@@ -181,7 +190,6 @@ protected:
   WbWrenAbstractResizeManipulator *mResizeManipulator;  // Set of handles allowing resize by dragging the mouse
   bool mResizeManipulatorInitialized;
   int mResizeConstraint;
-  void checkForResizeManipulator();  // if needed create the resize manipulator according to the node location in the scene tree
 
 private:
   WbGeometry &operator=(const WbGeometry &);  // non copyable
@@ -191,7 +199,6 @@ private:
   void init();
 
   void applyVisibilityFlagToWren(bool selected);
-  void setSegmentationColor(const WbRgb &color);
   virtual void createResizeManipulator() {}
 
   // ODE info
@@ -203,6 +210,7 @@ private:
   WbMatrix3 mOdeOffsetRotation;
 
   bool mPickable;
+  bool mIsTransparent;
 
 private slots:
   virtual void updateBoundingObjectVisibility(int optionalRendering);

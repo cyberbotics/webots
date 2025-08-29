@@ -35,17 +35,17 @@ void Pose::setTimeFromParser(const QString &time) {
     throw tr("Error while parsing time: \"%1\"").arg(time);
 
   bool ok;
-  int minutes = timeTokens[0].toInt(&ok);
+  int m = timeTokens[0].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
-  int seconds = timeTokens[1].toInt(&ok);
+  int s = timeTokens[1].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
-  int milliseconds = timeTokens[2].toInt(&ok);
+  int ms = timeTokens[2].toInt(&ok);
   if (!ok)
     throw tr("Error while parsing time: \"%1\"").arg(time);
 
-  mTime = milliseconds + 1000 * seconds + 60000 * minutes;
+  mTime = ms + 1000 * s + 60000 * m;
 
   emit updated();
 }
@@ -115,7 +115,7 @@ MotorTargetState *Pose::findStateByMotorName(const QString &motorName) const {
 
 int Pose::computeIndexOfStateByMotorName(const QString &motorName) const {
   int index = 0;
-  foreach (MotorTargetState *state, mStates) {
+  foreach (const MotorTargetState *state, mStates) {
     if (state->motor()->name() == motorName)
       return index;
     index++;
@@ -198,7 +198,7 @@ int Pose::computeStateToIndex(MotorTargetState *s) const {
 void Pose::updateIsValid() {
   // recompute flag
   bool isValid = true;
-  foreach (MotorTargetState *state, mStates) {
+  foreach (const MotorTargetState *state, mStates) {
     if (!state->isValid()) {
       isValid = false;
       break;
@@ -219,7 +219,7 @@ void Pose::updateIsModified(bool modified) {
   } else if (mIsModified != modified) {
     // recompute flag
     modified = false;
-    foreach (MotorTargetState *state, mStates) {
+    foreach (const MotorTargetState *state, mStates) {
       if (state->isModified()) {
         modified = true;
         break;

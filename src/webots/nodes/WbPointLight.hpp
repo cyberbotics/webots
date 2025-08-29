@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,8 @@
 #define WB_POINT_LIGHT_HPP
 
 #include "WbLight.hpp"
+
+#include <QtCore/QMap>
 
 class WbLightRepresentation;
 class WbVector3;
@@ -30,7 +32,7 @@ public:
   explicit WbPointLight(WbTokenizer *tokenizer = NULL);
   WbPointLight(const WbPointLight &other);
   explicit WbPointLight(const WbNode &other);
-  virtual ~WbPointLight();
+  virtual ~WbPointLight() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_POINT_LIGHT; }
@@ -44,11 +46,13 @@ public:
   double computeAttenuation(double distance) const;
   WbVector3 computeAbsoluteLocation() const;
 
+  QStringList fieldsToSynchronizeWithW3d() const override;
+
 protected slots:
   void updateAmbientIntensity() override;
+  // cppcheck-suppress uselessOverride
   void updateIntensity() override;
   void updateOn() override;
-  void updateColor() override;
 
 private:
   // user accessible fields
@@ -76,9 +80,8 @@ private:
   void applyBillboardVisibilityToWren();
   void checkAmbientAndAttenuationExclusivity();
 
-  void attachToUpperTransform();
-  void detachFromUpperTransform();
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void attachToUpperPose();
+  void detachFromUpperPose();
 
 private slots:
   void updateAttenuation();

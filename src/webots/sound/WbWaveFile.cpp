@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,7 +55,6 @@ WbWaveFile::WbWaveFile(const QString &filename, QIODevice *device) :
 }
 
 WbWaveFile::WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate) :
-  mFilename(),
   mDevice(NULL),
   mBuffer(buffer),
   mBufferSize(bufferSize),
@@ -87,7 +86,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
     while (1) {  // read chunks one by one
       Chunk chunk;
-      qint64 readSize = mDevice->read((char *)&chunk, sizeof(Chunk));
+      qint64 readSize = mDevice->read(reinterpret_cast<char *>(&chunk), sizeof(Chunk));
       if (readSize <= 0)
         break;  // end of file
       if (readSize != sizeof(Chunk))
@@ -95,7 +94,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       if (strncmp(chunk.id, "RIFF", 4) == 0) {
         RIFFChunkData riffChunk;
-        readSize = mDevice->read((char *)&riffChunk, sizeof(RIFFChunkData));
+        readSize = mDevice->read(reinterpret_cast<char *>(&riffChunk), sizeof(RIFFChunkData));
         if (readSize != sizeof(RIFFChunkData))
           throw QObject::tr("Cannot read RIFF chunk");
 
@@ -106,7 +105,7 @@ void WbWaveFile::loadConvertedFile(int side) {
 
       } else if (strncmp(chunk.id, "fmt ", 4) == 0) {
         FormatChunkData formatChunk;
-        readSize = mDevice->read((char *)&formatChunk, sizeof(FormatChunkData));
+        readSize = mDevice->read(reinterpret_cast<char *>(&formatChunk), sizeof(FormatChunkData));
         if (readSize != sizeof(FormatChunkData))
           throw QObject::tr("Cannot read format chunk");
 
@@ -120,11 +119,11 @@ void WbWaveFile::loadConvertedFile(int side) {
           mBufferSize = chunk.size / sizeof(qint16) + 1;
         else
           mBufferSize = chunk.size / sizeof(qint16);
-        mBuffer = (qint16 *)malloc(sizeof(qint16) * mBufferSize);
+        mBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * mBufferSize));
         if (!mBuffer)
           throw QObject::tr("Cannot allocate data memory");
 
-        readSize = mDevice->read((char *)mBuffer, chunk.size);
+        readSize = mDevice->read(reinterpret_cast<char *>(mBuffer), chunk.size);
         if (readSize != chunk.size)
           throw QObject::tr("Cannot read data chunk");
 
@@ -139,13 +138,13 @@ void WbWaveFile::loadConvertedFile(int side) {
     }
 
     if (riffChunkRead == false)
-      throw("Corrupted WAVE file: RIFF chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: RIFF chunk not found"));
 
     if (formatChunkRead == false)
-      throw("Corrupted WAVE file: format chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: format chunk not found"));
 
     if (dataChunkRead == false)
-      throw("Corrupted WAVE file: data chunk not found");
+      throw(QObject::tr("Corrupted WAVE file: data chunk not found"));
 
   } catch (const QString &e) {
     // clean up
@@ -159,15 +158,15 @@ void WbWaveFile::loadConvertedFile(int side) {
   // if needed, remove one of the two channels
   if (mNChannels == 2 && side != 0) {
     int newSize = mBufferSize / 2;
-    qint16 *newBuffer = (qint16 *)malloc(sizeof(qint16) * newSize);
+    qint16 *newBuffer = static_cast<qint16 *>(malloc(sizeof(qint16) * newSize));
     if (mBitsPerSample == 8) {
-      qint8 *buffer = (qint8 *)mBuffer;
-      qint8 *outBuffer = (qint8 *)newBuffer;
+      const qint8 *currentBuffer = reinterpret_cast<qint8 *>(mBuffer);
+      qint8 *outBuffer = reinterpret_cast<qint8 *>(newBuffer);
       for (int i = 0; i < newSize; i += 1) {
         if (side == 1)
-          outBuffer[i] = buffer[i * 2];
+          outBuffer[i] = currentBuffer[i * 2];
         else
-          outBuffer[i] = buffer[i * 2 + 1];
+          outBuffer[i] = currentBuffer[i * 2 + 1];
       }
     } else if (mBitsPerSample == 16) {
       for (int i = 0; i < newSize; i += 1) {
@@ -195,10 +194,8 @@ void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   mDevice = NULL;
 }
 
-void WbWaveFile::loadFromFile(int side) {
-  const QString suffix = mFilename.mid(mFilename.lastIndexOf('.') + 1).toLower();
-
-  if (suffix == "wav") {
+void WbWaveFile::loadFromFile(const QString &extension, int side) {
+  if (extension == "wav") {
     if (mDevice)
       loadConvertedFile(side);
     else
@@ -208,19 +205,16 @@ void WbWaveFile::loadFromFile(int side) {
 
 #ifdef __linux__
   static QString ffmpeg("avconv");
-  static QString percentageChar = "%";
 #elif defined(__APPLE__)
-  static QString ffmpeg(QString("%1util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
-  static QString percentageChar = "%";
+  static QString ffmpeg(QString("%1Contents/util/ffmpeg").arg(WbStandardPaths::webotsHomePath()));
 #else  // _WIN32
   static QString ffmpeg = "ffmpeg.exe";
-  static QString percentageChar = "%%";
 #endif
 
   const QString outputFilename = WbStandardPaths::webotsTmpPath() + "output.wav";
   QString inputFilename;
   if (mDevice) {
-    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + suffix;
+    inputFilename = WbStandardPaths::webotsTmpPath() + "input." + extension;
     QFile input(inputFilename);
     input.open(QFile::WriteOnly);
     input.write(mDevice->readAll());
@@ -260,12 +254,12 @@ void WbWaveFile::convertToMono(double balance) {
 
   if (mBitsPerSample == 8) {
     // warning: 8 bit wav file are unsigned
-    quint8 *buffer = (quint8 *)mBuffer;
+    quint8 *currentBuffer = reinterpret_cast<quint8 *>(mBuffer);
     for (unsigned int i = 0; i < mBufferSize * sizeof(qint16); i += 2) {
-      quint8 left = buffer[i];
-      quint8 right = buffer[i + 1];
+      quint8 left = currentBuffer[i];
+      quint8 right = currentBuffer[i + 1];
       quint8 monoSample = ((1.0 - balance) / 2.0) * left + ((1.0 + balance) / 2.0) * right;
-      buffer[i / 2] = monoSample & 0xff;
+      currentBuffer[i / 2] = monoSample & 0xff;
     }
   } else if (mBitsPerSample == 16) {
     // warning: 16 bit wav file are signed

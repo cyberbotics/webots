@@ -1,0 +1,9 @@
+<svg version="1.1" id="quit-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#FFFFFF;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<path id="circle_1_" class="st0" d="M324.4,127.1c51.3,25.3,86.6,78.1,86.6,139.1c0,85.6-69.4,155-155,155s-155-69.4-155-155
+	c0-59.8,33.9-111.7,83.4-137.5"/>
+<line id="switch" class="st0" x1="256" y1="219.3" x2="256" y2="63.6"/>
+</svg>

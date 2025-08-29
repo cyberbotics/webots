@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,13 @@ public:
   WbTokenizer();
   ~WbTokenizer();
 
-  // files types: .wbt, .wbo, .proto or .wrl
-  enum FileType { UNKNOWN, WORLD, OBJECT, PROTO, MODEL };
+  // files types: .wbt, .proto or .wrl
+  enum FileType { UNKNOWN, WORLD, PROTO, MODEL };
   FileType fileType() const { return mFileType; }
 
   // build list of tokens
   // returns the number of invalid tokens found
-  int tokenize(const QString &fileName);
+  int tokenize(const QString &fileName, const QString &prefix = QString());
   int tokenizeString(const QString &string);
   const QString &fileName() const { return mFileName; }
 
@@ -49,17 +49,17 @@ public:
   // returns the tags stored as (# tags: tag1, tag2) comments in the file header
   const QStringList tags() const;
 
-  // returns the scripting language used in procedural PROTOs stored as (# templateEngine: string)
-  const QString templateLanguage() const;
-
   // returns the license stored as (# license: string) comments in the file header
   const QString license() const;
 
-  // returns the license url stored as (# license url: string) comments in the file header
+  // returns the license URL stored as (# license url: string) comments in the file header
   const QString licenseUrl() const;
 
-  // returns the documentation url stored as (# license url: string) comments in the file header
+  // returns the documentation URL stored as (# license url: string) comments in the file header
   const QString documentationUrl() const;
+
+  // returns the parent node type stored as (# parent: string) comments in the file header
+  const QString parent() const;
 
   // returns file version found in file header
   const WbVersion &fileVersion() const { return mFileVersion; }
@@ -116,9 +116,9 @@ public:
   // reports an general error on a file without specifying the token
   void reportFileError(const QString &message) const;
 
-  // set error report stuff
-  void setErrorPrefix(const QString &errorPrefix) { mErrorPrefix = errorPrefix; }
   int setErrorOffset(int offset) { return mErrorOffset = offset; }
+  void setReferralFile(const QString &file) { mReferralFile = file; }
+  const QString &referralFile() const { return mReferralFile; }
 
 private:
   QString mFileName;
@@ -132,7 +132,7 @@ private:
   int mLine, mColumn, mTokenLine, mTokenColumn;
   int mIndex;
   bool mAtEnd;
-  QString mErrorPrefix;
+  QString mReferralFile;
   int mErrorOffset;
 
   QString readLine();
@@ -140,8 +140,8 @@ private:
   QString readWord();
   void skipWhiteSpace();
   bool checkFileHeader();
-  bool readFileInfo(bool headerRequired, bool displayWarning, QString headerTag, bool isProto = false);
-  static void displayHeaderHelp(QString fileName, QString headerTag);
+  bool readFileInfo(bool headerRequired, bool displayWarning, const QString &headerTag, bool isProto = false);
+  static void displayHeaderHelp(const QString &fileName, const QString &headerTag);
   void markTokenStart();
   static FileType fileTypeFromFileName(const QString &fileName);
   void reportError(const QString &message, int line, int column) const;

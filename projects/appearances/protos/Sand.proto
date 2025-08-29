@@ -1,6 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Sand.proto
+# keywords: appearance/mineral
 # A sand material.
 
 PROTO Sand [
@@ -11,23 +13,23 @@ PROTO Sand [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/sand/sand_base_color.jpg"
+        "textures/sand/sand_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/sand/sand_roughness.jpg"
+        "textures/sand/sand_roughness.jpg"
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/sand/sand_normal.jpg"
+        "textures/sand/sand_normal.jpg"
       ]
     }
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/sand/sand_occlusion.jpg"
+        "textures/sand/sand_occlusion.jpg"
       ]
     }
     IBLStrength IS IBLStrength

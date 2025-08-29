@@ -32,20 +32,19 @@ void MotionWidget::setMotion(Motion *motion) {
   mMotion = motion;
   mMotion->blockPoseSelection(true);
 
-  if (mMotion) {
-    updateTitle();
-    setEnabled(true);
+  updateTitle();
+  setEnabled(true);
 
-    connect(mMotion, SIGNAL(destroyed()), this, SLOT(clearMotionPointer()));
-    connect(mMotion, SIGNAL(updated()), this, SLOT(updateTitle()));
-    connect(mMotion, SIGNAL(poseSelected(int)), this, SLOT(selectPoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseUpdated(int)), this, SLOT(updatePoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseInserted(int)), this, SLOT(insertPoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseDeleted(int)), this, SLOT(deletePoseFromModel(int)));
+  connect(mMotion, SIGNAL(destroyed()), this, SLOT(clearMotionPointer()));
+  connect(mMotion, SIGNAL(updated()), this, SLOT(updateTitle()));
+  connect(mMotion, SIGNAL(poseSelected(int)), this, SLOT(selectPoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseUpdated(int)), this, SLOT(updatePoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseInserted(int)), this, SLOT(insertPoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseDeleted(int)), this, SLOT(deletePoseFromModel(int)));
 
-    for (int i = 0; i < count(); i++)
-      insertPoseFromModel(i);
-  }
+  for (int i = 0; i < count(); i++)
+    insertPoseFromModel(i);
+
   mMotion->blockPoseSelection(false);
 }
 
@@ -111,14 +110,14 @@ void MotionWidget::selectPoseFromModel(int index) {
 }
 
 void MotionWidget::updatePoseFromModel(int index) {
-  Pose *pose = mMotion->poses().at(index);
+  const Pose *pose = mMotion->poses().at(index);
   QListWidgetItem *i = mListWidget->item(index);
   i->setText(pose->toString());
   setItemAppearance(i, pose->status());
 }
 
 void MotionWidget::insertPoseFromModel(int index) {
-  Pose *pose = mMotion->poses().at(index);
+  const Pose *pose = mMotion->poses().at(index);
   QListWidgetItem *i = new QListWidgetItem(pose->toString());
   setItemAppearance(i, pose->status());
   mListWidget->insertItem(index, i);
@@ -135,7 +134,7 @@ void MotionWidget::setItemAppearance(QListWidgetItem *item, Pose::Status status)
 
   QColor color("black");
   if (status == Pose::INVALID)
-    color.setNamedColor("red");
+    color.fromString("red");
   item->setForeground(QBrush(color));
 }
 

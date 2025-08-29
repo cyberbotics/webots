@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/NaoJersey.proto
+# keywords: robot/extension
 # Soccer jersey specifically designed for the Nao robot.
 #
 # The appearance can be modified changing the value of the 'jerseyTexture' field,
@@ -6,7 +10,7 @@
 # A default set of red and blue textures with player number from 1 to 5 is provided.
 
 PROTO NaoJersey [
-  field MFString jerseyTexture "webots://projects/robots/softbank/nao/protos/textures/nao_1_red.png"
+  field MFString jerseyTexture "textures/nao_1_red.png"
   field SFColor jerseyColor 0.4 0.05 0.05
 ]
 {

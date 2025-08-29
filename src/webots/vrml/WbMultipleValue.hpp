@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ class WbMultipleValue : public WbValue {
   Q_OBJECT
 
 public:
-  virtual ~WbMultipleValue() {}
+  virtual ~WbMultipleValue() override {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override;
   virtual int size() const = 0;
   bool isEmpty() const { return size() == 0; };
@@ -41,8 +41,8 @@ public:
   QString toString(WbPrecision::Level level) const override;
   // level is not meaningful in all the subclasses.
   QString itemToString(int index, WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const;
-  void write(WbVrmlWriter &writer) const override;
-  virtual void writeItem(WbVrmlWriter &writer, int index) const = 0;
+  void write(WbWriter &writer) const override;
+  virtual void writeItem(WbWriter &writer, int index) const = 0;
 
   // return generic value
   virtual WbVariant variantValue(int index) const = 0;
@@ -51,6 +51,7 @@ signals:
   void itemChanged(int index);   // called when a single item is modified
   void itemRemoved(int index);   // called when a single item is removed
   void itemInserted(int index);  // called when a single item is inserted
+  void cleared();                // called when all items are removed
 
 protected:
   WbMultipleValue() {}

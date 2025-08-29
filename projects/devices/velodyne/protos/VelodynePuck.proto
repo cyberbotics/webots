@@ -1,7 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-puck
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/velodyne/protos/VelodynePuck.proto
+# keywords: sensor/lidar
 # Velodyne Puck sensor model based on the Lidar PROTO.
 # This model can simulate the following versions:
 #  - 'Puck'
@@ -11,7 +12,7 @@
 
 PROTO VelodynePuck [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Velodyne Puck"
   field   SFString{"Puck", "Puck LITE", "Puck Hi-Res"}
                      version        "Puck"              # Defines the version of the velodyne puck.
@@ -22,8 +23,8 @@ PROTO VelodynePuck [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BOTTOM Transform {
-        translation 0 -0.0286 0
+      DEF BOTTOM Pose {
+        translation 0 0 -0.0286
         children [
           Shape {
             appearance DEF COLOR PBRAppearance {
@@ -38,9 +39,9 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF LOGO Transform {
-        translation 0 -0.0286 0
-        rotation 0 1 0 3.14159
+      DEF LOGO Pose {
+        translation 0 0 -0.0286
+        rotation 0 0 1 1.5708
         children [
           Shape {
             appearance PBRAppearance {
@@ -48,7 +49,7 @@ PROTO VelodynePuck [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/velodyne/protos/textures/velodyne.png"
+                  "textures/velodyne.png"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -68,7 +69,7 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF GLASS Transform {
+      DEF GLASS Pose {
         translation 0 0.0004 0
         children [
           Shape {
@@ -85,8 +86,8 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF TOP Transform {
-        translation 0 0.0274 0
+      DEF TOP Pose {
+        translation 0 0 0.0274
         children [
           Shape {
             appearance USE COLOR
@@ -101,7 +102,7 @@ PROTO VelodynePuck [
     ]
     name IS name
     model "Velodyne Puck"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 -0.00165 0
       children [
         Cylinder {
@@ -130,7 +131,7 @@ PROTO VelodynePuck [
     numberOfLayers 16
     minRange 1
     maxRange 100
-    spherical TRUE
+    projection "cylindrical"
     type "fixed"
     noise 0.003 # 0.03 / 100
     defaultFrequency 5

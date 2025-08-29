@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,6 @@
 #include "WbMFDouble.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
 
 void WbMFDouble::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
   mVector.append(tokenizer->nextToken()->toDouble());
@@ -25,6 +24,7 @@ void WbMFDouble::clear() {
   if (mVector.size() > 0) {
     mVector.clear();
     emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 
@@ -56,9 +56,9 @@ void WbMFDouble::setItem(int index, double value) {
 }
 
 void WbMFDouble::setAllItems(const double *values) {
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
   bool vectorHasChanged = false;
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     if (mVector[index] != values[index]) {
       mVector[index] = values[index];
       emit itemChanged(index);
@@ -74,8 +74,8 @@ void WbMFDouble::multiplyAllItems(double factor) {
   if (factor == 1.0)
     return;
 
-  const int size = mVector.size();
-  for (int index = 0; index < size; index++) {
+  const int vectorSize = mVector.size();
+  for (int index = 0; index < vectorSize; index++) {
     const double previousValue = mVector[index];
     if (previousValue != 0.0) {
       mVector[index] = factor * previousValue;

@@ -1,28 +1,34 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR10e.proto
+# keywords: robot/arm
 # An Universal Robots UR10e robotic arm.
+# More information here: [URe](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR3e.proto)
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
+
 PROTO UR10e [
-  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation        1 0 0 4.712388966 # Is `Transform.rotation`.
-  field SFString   name            "UR10e"           # Is `Solid.name`.
-  field SFString   controller      "void"            # Is `Robot.controller`.
-  field MFString   controllerArgs  []                # Is `Robot.controllerArgs`.
-  field SFBool     supervisor      FALSE             # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE              # Is `Robot.synchronization`.
-  field SFBool     selfCollision   TRUE              # Is `Robot.selfCollision`.
-  field MFNode     toolSlot        []                # Extend the robot with new nodes at the end of the arm.
-  field SFBool     staticBase      TRUE              # Defines if the robot base should ba pinned to the static environment.
+  field SFVec3f    translation     0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0      # Is `Pose.rotation`.
+  field SFString   name            "UR10e"      # Is `Solid.name`.
+  field SFString   controller      "<generic>"  # Is `Robot.controller`.
+  field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"  # Is `Robot.window`.
+  field SFBool     supervisor      FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
+  field SFBool     selfCollision   TRUE         # Is `Robot.selfCollision`.
+  field MFNode     toolSlot        []           # Extend the robot with new nodes at the end of the arm.
+  field SFBool     staticBase      TRUE         # Defines if the robot base should be pinned to the static environment.
 ]
 {
   Robot {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation -0.0602 0.0601 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -35,14 +41,14 @@ PROTO UR10e [
                     appearance OldSteel {
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/screw.obj"
+                      url "UR10e/meshes/screw.obj"
                     }
                   }
                 ]
               }
-              DEF CYLINDER Transform {
+              DEF CYLINDER Pose {
                 translation 0 0 0.02
-                rotation 1 0 0 1.5707963220000003
+                rotation -0.707107 0.707107 0 -3.141593
                 children [
                   Shape {
                     appearance ScrewThread {
@@ -62,21 +68,21 @@ PROTO UR10e [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.0602 -0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0602 -0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0602 0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -89,7 +95,7 @@ PROTO UR10e [
           roughness 0.7
         }
         geometry Mesh {
-          url "webots://projects/robots/universal_robots/protos/UR10e/meshes/base_link_0.obj"
+          url "UR10e/meshes/base_link_0.obj"
         }
       }
       Shape {
@@ -99,7 +105,7 @@ PROTO UR10e [
           metalness 0
         }
         geometry Mesh {
-          url "webots://projects/robots/universal_robots/protos/UR10e/meshes/base_link_1.obj"
+          url "UR10e/meshes/base_link_1.obj"
         }
       }
       HingeJoint {
@@ -126,19 +132,19 @@ PROTO UR10e [
               appearance DEF SCREW_APPEARANCE PBRAppearance {
               }
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_0.obj"
+                url "UR10e/meshes/shoulder_link_0.obj"
               }
             }
             Shape {
               appearance USE METAL_APPEARANCE
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_1.obj"
+                url "UR10e/meshes/shoulder_link_1.obj"
               }
             }
             Shape {
               appearance USE JOINT_APPEARANCE
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_2.obj"
+                url "UR10e/meshes/shoulder_link_2.obj"
               }
             }
             Shape {
@@ -148,17 +154,17 @@ PROTO UR10e [
                 metalness 0
                 normalMap ImageTexture {
                   url [
-                    "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_0.jpg"
+                    "UR10e/textures/normal_0.jpg"
                   ]
                 }
                 occlusionMap ImageTexture {
                   url [
-                    "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_0.jpg"
+                    "UR10e/textures/occlusion_0.jpg"
                   ]
                 }
               }
               geometry Mesh {
-                url "webots://projects/robots/universal_robots/protos/UR10e/meshes/shoulder_link_3.obj"
+                url "UR10e/meshes/shoulder_link_3.obj"
               }
             }
             HingeJoint {
@@ -185,13 +191,13 @@ PROTO UR10e [
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_0.obj"
+                      url "UR10e/meshes/upper_arm_link_0.obj"
                     }
                   }
                   Shape {
                     appearance USE SCREW_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_1.obj"
+                      url "UR10e/meshes/upper_arm_link_1.obj"
                     }
                   }
                   Shape {
@@ -199,7 +205,7 @@ PROTO UR10e [
                       roughness 0.7
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_2.obj"
+                      url "UR10e/meshes/upper_arm_link_2.obj"
                     }
                   }
                   Shape {
@@ -209,17 +215,17 @@ PROTO UR10e [
                       metalness 0
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_1.jpg"
+                          "UR10e/textures/normal_1.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_1.jpg"
+                          "UR10e/textures/occlusion_1.jpg"
                         ]
                       }
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_3.obj"
+                      url "UR10e/meshes/upper_arm_link_3.obj"
                     }
                   }
                   Shape {
@@ -229,47 +235,47 @@ PROTO UR10e [
                       metalness 0
                       normalMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_2.jpg"
+                          "UR10e/textures/normal_2.jpg"
                         ]
                       }
                       occlusionMap ImageTexture {
                         url [
-                          "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_2.jpg"
+                          "UR10e/textures/occlusion_2.jpg"
                         ]
                       }
                     }
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_4.obj"
+                      url "UR10e/meshes/upper_arm_link_4.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_5.obj"
+                      url "UR10e/meshes/upper_arm_link_5.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_6.obj"
+                      url "UR10e/meshes/upper_arm_link_6.obj"
                     }
                   }
                   Shape {
                     appearance USE METAL_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_7.obj"
+                      url "UR10e/meshes/upper_arm_link_7.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_8.obj"
+                      url "UR10e/meshes/upper_arm_link_8.obj"
                     }
                   }
                   Shape {
                     appearance USE JOINT_APPEARANCE
                     geometry Mesh {
-                      url "webots://projects/robots/universal_robots/protos/UR10e/meshes/upper_arm_link_9.obj"
+                      url "UR10e/meshes/upper_arm_link_9.obj"
                     }
                   }
                   HingeJoint {
@@ -295,25 +301,25 @@ PROTO UR10e [
                         Shape {
                           appearance USE SCREW_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_0.obj"
+                            url "UR10e/meshes/forearm_link_0.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE_LIGHT
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_1.obj"
+                            url "UR10e/meshes/forearm_link_1.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_2.obj"
+                            url "UR10e/meshes/forearm_link_2.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_3.obj"
+                            url "UR10e/meshes/forearm_link_3.obj"
                           }
                         }
                         Shape {
@@ -323,35 +329,35 @@ PROTO UR10e [
                             metalness 0
                             normalMap ImageTexture {
                               url [
-                                "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_3.jpg"
+                                "UR10e/textures/normal_3.jpg"
                               ]
                             }
                             occlusionMap ImageTexture {
                               url [
-                                "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_3.jpg"
+                                "UR10e/textures/occlusion_3.jpg"
                               ]
                             }
                           }
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_4.obj"
+                            url "UR10e/meshes/forearm_link_4.obj"
                           }
                         }
                         Shape {
                           appearance USE METAL_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_5.obj"
+                            url "UR10e/meshes/forearm_link_5.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_6.obj"
+                            url "UR10e/meshes/forearm_link_6.obj"
                           }
                         }
                         Shape {
                           appearance USE JOINT_APPEARANCE
                           geometry Mesh {
-                            url "webots://projects/robots/universal_robots/protos/UR10e/meshes/forearm_link_7.obj"
+                            url "UR10e/meshes/forearm_link_7.obj"
                           }
                         }
                         HingeJoint {
@@ -378,13 +384,13 @@ PROTO UR10e [
                               Shape {
                                 appearance USE SCREW_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_0.obj"
+                                  url "UR10e/meshes/wrist_1_link_0.obj"
                                 }
                               }
                               Shape {
                                 appearance USE METAL_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_1.obj"
+                                  url "UR10e/meshes/wrist_1_link_1.obj"
                                 }
                               }
                               Shape {
@@ -394,23 +400,23 @@ PROTO UR10e [
                                   metalness 0
                                   normalMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_4.jpg"
+                                      "UR10e/textures/normal_4.jpg"
                                     ]
                                   }
                                   occlusionMap ImageTexture {
                                     url [
-                                      "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_4.jpg"
+                                      "UR10e/textures/occlusion_4.jpg"
                                     ]
                                   }
                                 }
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_2.obj"
+                                  url "UR10e/meshes/wrist_1_link_2.obj"
                                 }
                               }
                               Shape {
                                 appearance USE JOINT_APPEARANCE
                                 geometry Mesh {
-                                  url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_1_link_3.obj"
+                                  url "UR10e/meshes/wrist_1_link_3.obj"
                                 }
                               }
                               HingeJoint {
@@ -436,13 +442,13 @@ PROTO UR10e [
                                     Shape {
                                       appearance USE SCREW_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_0.obj"
+                                        url "UR10e/meshes/wrist_2_link_0.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE METAL_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_1.obj"
+                                        url "UR10e/meshes/wrist_2_link_1.obj"
                                       }
                                     }
                                     Shape {
@@ -452,23 +458,23 @@ PROTO UR10e [
                                         metalness 0
                                         normalMap ImageTexture {
                                           url [
-                                            "webots://projects/robots/universal_robots/protos/UR10e/textures/normal_5.jpg"
+                                            "UR10e/textures/normal_5.jpg"
                                           ]
                                         }
                                         occlusionMap ImageTexture {
                                           url [
-                                            "webots://projects/robots/universal_robots/protos/UR10e/textures/occlusion_5.jpg"
+                                            "UR10e/textures/occlusion_5.jpg"
                                           ]
                                         }
                                       }
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_2.obj"
+                                        url "UR10e/meshes/wrist_2_link_2.obj"
                                       }
                                     }
                                     Shape {
                                       appearance USE JOINT_APPEARANCE
                                       geometry Mesh {
-                                        url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_2_link_3.obj"
+                                        url "UR10e/meshes/wrist_2_link_3.obj"
                                       }
                                     }
                                     HingeJoint {
@@ -494,10 +500,10 @@ PROTO UR10e [
                                           Shape {
                                             appearance USE METAL_APPEARANCE
                                             geometry Mesh {
-                                              url "webots://projects/robots/universal_robots/protos/UR10e/meshes/wrist_3_link_0.obj"
+                                              url "UR10e/meshes/wrist_3_link_0.obj"
                                             }
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0 0.12 0
                                             children IS toolSlot
                                           }
@@ -505,8 +511,9 @@ PROTO UR10e [
                                         name "wrist_3_link"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0.086 0
+                                              rotation 1 0 0 -1.570796
                                               children [
                                                 Cylinder {
                                                   height 0.048
@@ -514,8 +521,9 @@ PROTO UR10e [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0.109 0
+                                              rotation 1 0 0 -1.570796
                                               children [
                                                 Cylinder {
                                                   height 0.018
@@ -538,8 +546,9 @@ PROTO UR10e [
                                   name "wrist_2_link"
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0 0.007 0.1195
+                                        rotation 1 0 0 -1.570796
                                         children [
                                           Cylinder {
                                             height 0.12
@@ -547,9 +556,9 @@ PROTO UR10e [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.0805
-                                        rotation 1 0 0 4.712388966
+                                        rotation 1 0 0 3.141593
                                         children [
                                           Cylinder {
                                             height 0.043
@@ -572,8 +581,9 @@ PROTO UR10e [
                             name "wrist_1_link"
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0.095 0
+                                  rotation 1 0 0 -1.570796
                                   children [
                                     Cylinder {
                                       height 0.075
@@ -581,9 +591,9 @@ PROTO UR10e [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0.134 0.007
-                                  rotation 1 0 0 4.712388966
+                                  rotation 1 0 0 3.141593
                                   children [
                                     Cylinder {
                                       height 0.126
@@ -606,9 +616,9 @@ PROTO UR10e [
                       name "forearm_link"
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0 0.307
-                            rotation 1 0 0 4.712388966
+                            rotation 1 0 0 3.141593
                             children [
                               Cylinder {
                                 height 0.49
@@ -616,8 +626,9 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.009 0.57
+                            rotation 1 0 0 -1.570796
                             children [
                               Cylinder {
                                 height 0.129
@@ -625,9 +636,9 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.06 0
-                            rotation 1 0 0 6.283185277377264
+                            rotation 1 0 0 -1.570796
                             children [
                               Capsule {
                                 height 0.05
@@ -635,9 +646,8 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0 0.05
-                            rotation -1 0 0 4.712389014981909
                             children [
                               Capsule {
                                 height 0.03
@@ -660,9 +670,9 @@ PROTO UR10e [
                 name "upper_arm_link"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0 0.33
-                      rotation 1 0 0 4.712388966
+                      rotation 1 0 0 3.141593
                       children [
                         Cylinder {
                           height 0.463
@@ -670,9 +680,9 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0 0.06
-                      rotation 1 0 0 4.712388966
+                      rotation 1 0 0 3.141593
                       children [
                         Cylinder {
                           height 0.1
@@ -680,12 +690,18 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Cylinder {
-                      height 0.183
-                      radius 0.077
+                    Pose {
+                      rotation 1 0 0 -1.570796
+                      children [
+                        Cylinder {
+                          height 0.183
+                          radius 0.077
+                        }
+                      ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.005 0.612
+                      rotation 1 0 0 -1.570796
                       children [
                         Cylinder {
                           height 0.149
@@ -708,8 +724,8 @@ PROTO UR10e [
           name "shoulder_link"
           boundingObject Group {
             children [
-              Transform {
-                rotation 1 0 0 4.712388966
+              Pose {
+                rotation 1 0 0 3.141593
                 children [
                   Cylinder {
                     height 0.183
@@ -717,8 +733,9 @@ PROTO UR10e [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
+                rotation 1 0 0 1.570797
                 children [
                   Cylinder {
                     height 0.093
@@ -740,9 +757,9 @@ PROTO UR10e [
     ]
     name IS name
     model "UR10e"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.05
-      rotation 1 0 0 4.712388966
+      rotation 1 0 0 3.141593
       children [
         Cylinder {
           height 0.1
@@ -761,6 +778,7 @@ PROTO UR10e [
     %< } >%
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision

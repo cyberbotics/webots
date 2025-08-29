@@ -1,4 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -50,14 +56,6 @@ Robot {
           Solid {
             translation 0.1 0.05 0
             children [
-              Shape {
-                appearance RustyMetal {
-                }
-                geometry Cylinder {
-                  height 0.01
-                  radius 0.1
-                }
-              }
               Accelerometer {
                 name "center offset"
               }
@@ -73,17 +71,35 @@ Robot {
                 translation 0 0 0.1
                 name "tZ offset"
               }
+              Pose {
+                rotation 1 0 0 -1.57
+                children [
+                  Shape {
+                    appearance RustyMetal {
+                    }
+                    geometry Cylinder {
+                      height 0.01
+                      radius 0.1
+                    }
+                  }
+                ]
+              }
             ]
-            boundingObject Cylinder {
-              height 0.01
-              radius 0.1
+            boundingObject Pose {
+              rotation 1 0 0 -1.57
+              children [
+                Cylinder {
+                  height 0.01
+                  radius 0.1
+                }
+              ]
             }
             physics Physics {
             }
           }
           DEF AXIS Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0.063 0
                 children [
                   Shape {
@@ -97,8 +113,9 @@ Robot {
                     }
                   }
                 ]
+                rotation 1 0 0 -1.57
               }
-              Transform {
+              Pose {
                 translation 0 0.063 0
                 children [
                   Shape {
@@ -112,6 +129,7 @@ Robot {
                     }
                   }
                 ]
+                rotation 1 0 0 -1.57
               }
             ]
           }
@@ -123,7 +141,7 @@ Robot {
     }
     DEF BASIS_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.02 0
           children [
             Shape {
@@ -137,8 +155,9 @@ Robot {
               }
             }
           ]
+          rotation 1 0 0 -1.57
         }
-        Transform {
+        Pose {
           translation 0 0.04 0
           children [
             Shape {
@@ -152,6 +171,7 @@ Robot {
               }
             }
           ]
+          rotation 1 0 0 -1.57
         }
       ]
     }

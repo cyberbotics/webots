@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,11 @@
 #include "WbBaseNode.hpp"
 #include "WbMatrix3.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbRotation.hpp"
 #include "WbShape.hpp"
+#include "WbSkin.hpp"
 #include "WbTransform.hpp"
 
 #include <cassert>
@@ -27,6 +29,7 @@
 bool gUpdatesEnabled = false;
 bool gRayTracingEnabled = false;
 
+// cppcheck-suppress constParameterPointer
 void WbBoundingSphere::enableUpdates(bool enabled, WbBoundingSphere *root) {
   gUpdatesEnabled = enabled;
   if (enabled && root) {
@@ -46,9 +49,9 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
   mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
-  mTransformOwner(NULL),
+  mSkinOwner(NULL),
+  mPoseOwner(NULL),
   mBoundSpaceDirty(false),
-  mGeomSphereDirty(false),
   mParentCoordinatesDirty(true),
   mRadiusInParentCoordinates(0.0),
   mGlobalCoordinatesUpdateTime(-1.0),
@@ -62,9 +65,9 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &cen
   mParentBoundingSphere(NULL),
   mOwner(NULL),
   mGeomOwner(NULL),
-  mTransformOwner(NULL),
+  mSkinOwner(NULL),
+  mPoseOwner(NULL),
   mBoundSpaceDirty(true),
-  mGeomSphereDirty(true),
   mParentCoordinatesDirty(true),
   mRadiusInParentCoordinates(0.0),
   mGlobalCoordinatesUpdateTime(-1.0),
@@ -81,14 +84,18 @@ WbBoundingSphere::~WbBoundingSphere() {
 
 void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mOwner = owner;
-  mTransformOwner = dynamic_cast<const WbAbstractTransform *>(mOwner);
+  mPoseOwner = dynamic_cast<const WbPose *>(mOwner);
   mGeomOwner = dynamic_cast<const WbGeometry *>(mOwner);
+  mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
 
-double WbBoundingSphere::radius() {
+double WbBoundingSphere::scaledRadius() {
   if (mBoundSpaceDirty)
     recomputeIfNeeded();
-  return mRadius;
+  double globalRadius;
+  WbVector3 globalCenter;
+  computeSphereInGlobalCoordinates(globalCenter, globalRadius);
+  return globalRadius;
 }
 
 double WbBoundingSphere::radiusInParentCoordinates() {
@@ -126,7 +133,7 @@ void WbBoundingSphere::set(const WbVector3 &center, const double radius) {
     return;
   mCenter = center;
   mRadius = radius;
-  if (!gRayTracingEnabled) {
+  if (!gRayTracingEnabled && !mBoundSpaceDirty) {
     mBoundSpaceDirty = true;
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
@@ -150,10 +157,12 @@ void WbBoundingSphere::addSubBoundingSphere(WbBoundingSphere *subBoundingSphere)
     return;
   mSubBoundingSpheres.append(subBoundingSphere);
   subBoundingSphere->setParentBoundingSphere(this);
-  mBoundSpaceDirty = true;
-  mParentCoordinatesDirty = true;
-  if (gUpdatesEnabled)
-    parentUpdateNotification();
+  if (!mBoundSpaceDirty) {
+    mBoundSpaceDirty = true;
+    mParentCoordinatesDirty = true;
+    if (gUpdatesEnabled)
+      parentUpdateNotification();
+  }
 }
 
 void WbBoundingSphere::removeSubBoundingSphere(WbBoundingSphere *boundingSphere) {
@@ -162,7 +171,7 @@ void WbBoundingSphere::removeSubBoundingSphere(WbBoundingSphere *boundingSphere)
   mSubBoundingSpheres.removeOne(boundingSphere);
   if (mSubBoundingSpheres.isEmpty())
     empty();
-  else {
+  else if (!mBoundSpaceDirty) {
     mBoundSpaceDirty = true;
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
@@ -228,10 +237,11 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
   if (!mParentCoordinatesDirty)
     return;
 
-  if (mTransformOwner != NULL) {
-    const WbVector3 &scale = mTransformOwner->scale();
+  if (mPoseOwner != NULL) {
+    const WbTransform *const t = dynamic_cast<const WbTransform *const>(mPoseOwner);
+    const WbVector3 &scale = t ? t->scale() : WbVector3(1.0, 1.0, 1.0);
     mRadiusInParentCoordinates = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
-    mCenterInParentCoordinates = mTransformOwner->vrmlMatrix() * mCenter;
+    mCenterInParentCoordinates = mPoseOwner->vrmlMatrix() * mCenter;
   } else {
     mRadiusInParentCoordinates = mRadius;
     mCenterInParentCoordinates = mCenter;
@@ -239,14 +249,20 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
   mParentCoordinatesDirty = false;
 }
 
-void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbTransform *upperTransform = dynamic_cast<const WbTransform *>(mTransformOwner);
-  if (upperTransform == NULL)
-    upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
-  if (upperTransform) {
-    const WbVector3 &scale = upperTransform->absoluteScale();
-    radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
-    center = upperTransform->matrix() * mCenter;
+void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) const {
+  const WbPose *upperPose = dynamic_cast<const WbPose *>(mPoseOwner);
+  if (upperPose == NULL)
+    upperPose = WbNodeUtilities::findUpperPose(mOwner);
+  if (upperPose) {
+    const WbTransform *t = dynamic_cast<const WbTransform *>(upperPose);
+    if (t == NULL)
+      t = upperPose->upperTransform();
+    if (t) {
+      const WbVector3 &scale = t->absoluteScale();
+      radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
+    } else
+      radius = mRadius;
+    center = upperPose->matrix() * mCenter;
   } else {
     radius = mRadius;
     center = mCenter;
@@ -269,9 +285,11 @@ void WbBoundingSphere::recomputeIfNeededInternal(bool dirtyOnly, QSet<const WbBo
 
   if (mSubBoundingSpheres.empty()) {
     // geometry or empty bounding sphere
-    if (mGeomOwner) {
-      mGeomOwner->recomputeBoundingSphere();
-      mGeomSphereDirty = false;
+    if (mGeomOwner || mSkinOwner) {
+      if (mGeomOwner)
+        mGeomOwner->recomputeBoundingSphere();
+      else
+        mSkinOwner->recomputeBoundingSphere();
     }
     mBoundSpaceDirty = false;
     return;
@@ -307,8 +325,7 @@ void WbBoundingSphere::parentUpdateNotification() const {
 }
 
 void WbBoundingSphere::setOwnerMoved() {
-  assert(mTransformOwner);
-  if (mParentBoundingSphere) {
+  if (mParentBoundingSphere && !mParentCoordinatesDirty) {
     mParentCoordinatesDirty = true;
     if (gUpdatesEnabled)
       parentUpdateNotification();
@@ -316,13 +333,13 @@ void WbBoundingSphere::setOwnerMoved() {
 }
 
 void WbBoundingSphere::setOwnerSizeChanged() {
-  assert(mGeomOwner || mTransformOwner);
-  if (mGeomOwner)
-    mGeomSphereDirty = true;
-  mBoundSpaceDirty = true;
-  mParentCoordinatesDirty = true;
-  if (gUpdatesEnabled)
-    parentUpdateNotification();
+  assert(mGeomOwner || mSkinOwner || mPoseOwner);
+  if (!mBoundSpaceDirty) {
+    mBoundSpaceDirty = true;
+    mParentCoordinatesDirty = true;
+    if (gUpdatesEnabled)
+      parentUpdateNotification();
+  }
 }
 
 WbBoundingSphere::IntersectingShape WbBoundingSphere::computeIntersection(const WbRay &ray, double timeStep) {

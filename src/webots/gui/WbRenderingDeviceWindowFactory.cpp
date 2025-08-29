@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,7 +72,7 @@ void WbRenderingDeviceWindowFactory::showWindowForDevice(WbRenderingDevice *devi
 void WbRenderingDeviceWindowFactory::saveWindowsPerspective(WbPerspective &perspective) {
   for (int i = 0; i < mWindowsList.size(); ++i) {
     if (mWindowsList[i]->isVisible()) {
-      WbRenderingDeviceWindow *window = mWindowsList[i];
+      const WbRenderingDeviceWindow *window = mWindowsList[i];
       QStringList devicePerspective(window->device()->perspective());
       devicePerspective << window->perspective();
       perspective.setRenderingDevicePerspective(window->device()->computeShortUniqueName(), devicePerspective);
@@ -116,7 +116,7 @@ WbRenderingDeviceWindow *WbRenderingDeviceWindowFactory::getWindowForDevice(WbRe
     return NULL;
 
   WbRenderingDeviceWindow *window = new WbRenderingDeviceWindow(device);
-  connect(device, &WbRenderingDevice::isBeingDestroyed, this, &WbRenderingDeviceWindowFactory::deleteWindow);
+  connect(device, &WbNode::isBeingDestroyed, this, &WbRenderingDeviceWindowFactory::deleteWindow);
   mWindowsList.append(window);
   return window;
 }
@@ -140,7 +140,7 @@ void WbRenderingDeviceWindowFactory::setWindowsEnabled(bool enabled) {
 }
 
 void WbRenderingDeviceWindowFactory::deleteWindow() {
-  WbBaseNode *node = dynamic_cast<WbBaseNode *>(sender());
+  WbNode *node = dynamic_cast<WbNode *>(sender());
   assert(node);
   for (int i = 0; i < mWindowsList.size(); ++i) {
     if (mWindowsList[i]->deviceId() == node->uniqueId()) {

@@ -1,9 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/LollipopCandy.proto
+# keywords: robot/accessory
+
 PROTO LollipopCandy [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation 0 1 0 0
+  field SFRotation rotation 0 0 1 0
   field SFColor color 0.9 0.1 0.1
   field SFString name "lollipop candy"
 ]
@@ -14,7 +17,8 @@ Solid {
   children [
     DEF LOLLIPOP_SHAPE Group {
       children [
-        Transform {
+        Pose {
+          translation 0 0 0.076
           children [
             Shape {
               appearance PBRAppearance {
@@ -29,9 +33,8 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.038
-          rotation 1 0 0 1.57
           children [
             Shape {
               appearance PBRAppearance {

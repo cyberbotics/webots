@@ -1,22 +1,27 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/e-puck/protos/E-puckGroundSensors.proto
+# keywords: robot/extension
 # Ground sensors extension for the e-puck robot.
 #
 # It includes three infra-red proximity sensors
 # pointing down to the ground in front of the robot.
 
+EXTERNPROTO "webots://projects/appearances/protos/Pcb.proto"
+
 PROTO E-puckGroundSensors [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation    0 0 1 1.5708
+  field SFRotation rotation    0 0 1 0
 ]
 {
-  Transform {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [
-      DEF EPUCK_GROUND_SENSOR_CIRCUIT Transform {
-        translation 0 0.014 0
+      DEF EPUCK_GROUND_SENSOR_CIRCUIT Pose {
+        translation 0 0 0.014
+        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Shape {
             appearance Pcb {
@@ -28,8 +33,8 @@ PROTO E-puckGroundSensors [
         ]
       }
       DEF EPUCK_GS0 DistanceSensor {
-        translation -0.01 0.003 0
-        rotation 0 0 1 -1.57
+        translation 0 0.01 0.003
+        rotation 0 1 0 1.570796
         children [
           DEF EPUCK_GS_SHAPE Shape {
             appearance PBRAppearance {
@@ -50,8 +55,8 @@ PROTO E-puckGroundSensors [
         type "infra-red"
       }
       DEF EPUCK_GS1 DistanceSensor {
-        translation 0 0.003 0
-        rotation 0 0 1 -1.57
+        translation 0 0 0.003
+        rotation 0 1 0 1.570796
         children [
           USE EPUCK_GS_SHAPE
         ]
@@ -63,8 +68,8 @@ PROTO E-puckGroundSensors [
         type "infra-red"
       }
       DEF EPUCK_GS2 DistanceSensor {
-        translation 0.01 0.003 0
-        rotation 0 0 1 -1.57
+        translation 0 -0.01 0.003
+        rotation 0 1 0 1.570796
         children [
           USE EPUCK_GS_SHAPE
         ]

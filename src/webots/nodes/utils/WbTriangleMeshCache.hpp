@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,9 +39,9 @@ namespace WbTriangleMeshCache {
   // Key type for an instance of WbTriangleMeshGeometry. Instances can share a WbTriangleMesh if their keys compare equal.
   struct TriangleMeshGeometryKey {
     TriangleMeshGeometryKey();
-    explicit TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry);
+    explicit TriangleMeshGeometryKey(const WbTriangleMeshGeometry *triangleMeshGeometry);
 
-    void set(WbTriangleMeshGeometry *triangleMeshGeometry);
+    void set(const WbTriangleMeshGeometry *triangleMeshGeometry);
     bool operator==(const TriangleMeshGeometryKey &rhs) const;
 
     uint64_t mHash;

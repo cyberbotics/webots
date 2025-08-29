@@ -1,4 +1,4 @@
-## Using Your IDE
+## Using your IDE
 
 Using an [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) is convenient as it generally features advanced source code edition tools, a built-in debugger, etc.
 Fortunately, you can use your favorite IDE to develop a Webots controller.
@@ -75,7 +75,7 @@ N/A because Python is interpreted.
     - For Java: `.class` or `.jar`.
 - `SL_PREFIX` is the prefix of a shared library: `lib` on Linux or macOS, and an empty string on Windows.
 - `SL_SUFFIX` is the suffix of a shared library: `.so` on Linux, `.dylib` on macOS and `.dll` on Windows.
-- `PYTHON_VERSION` is your Python version, but concatenated (`27`, `37`, `38`, etc.).
+- `PYTHON_VERSION` is your Python version, but concatenated (`310`, `39`, `38`, etc.).
 
 ---
 
@@ -95,11 +95,11 @@ The C API is composed of ".h" files that contains flat C functions that can be u
 The C++ API is composed of ".hpp" files that contain C++ classes and methods that can be used in C++ controllers only.
 In principle any C or C++ controller from the Webots distribution can be turned into a Visual Studio project.
 
-#### Robot Controller Wizard
+#### New Robot Controller
 
-Since Webots R2018b, a Visual Studio option is offered in the **Wizards / New Robot Controller...** menu after you choose the C or C++ language on Windows.
-This wizard creates a Visual Studio project for your robot controller, so that you don't need to configure it manually as described in the next section.
-The wizard assumes that you defined the environment variable `WEBOTS_HOME` in the system settings.
+A Visual Studio option is offered in the **File / New / New Robot Controller...** menu item after you choose the C or C++ language on Windows.
+Webots creates a Visual Studio project for your robot controller, so that you don't need to configure it manually as described in the next section.
+Webots assumes that you defined the environment variable `WEBOTS_HOME` in the system settings.
 This variable should point to the installation folder of Webots, typically, `C:\Program Files\Webots` or `C:\Users\<MyUsername>\AppData\Local\Programs\Webots`.
 
 #### Configuration
@@ -110,11 +110,11 @@ The "Controller.lib" files is needed to link with the "Controller.dll" file that
 
 The following procedure (Visual Studio 2008 Express) explains how to create a Visual Studio project for a Webots controller.
 In this guide, the resulting ".exe" file is launched by Webots.
-Alternatively, Visual Studio can also launch external controllers as explained [here](running-extern-robot-controllers.md#single-simulation-and-single-extern-robot-controller).
+Alternatively, Visual Studio can also launch external controllers as explained [here](running-extern-robot-controllers.md#single-simulation-and-single-local-extern-robot-controller).
 
-1. Copy a Webots project from Webots distribution to your "Documents" folder, or create an empty project directory using Webots menu: `Wizard / New Project Directory...` Either way, the project directory must contain the "controllers" and "worlds" subdirectories.
+1. Copy a Webots project from Webots distribution to your "Documents" folder, or create an empty project directory using the **File / New / New Project Directory...**. Either way, the project directory must contain the "controllers" and "worlds" subdirectories.
 
-2. Start Visual Studio and select: `File / New / Project...`.
+2. Start Visual Studio and select: **File / New / Project...**.
 Then choose these settings:
 
         Project type: General
@@ -124,7 +124,7 @@ Then choose these settings:
 
     Where "MyController" is the name of a new or already existing controller
     directory, and where "Location" must indicate the "controllers" subdirectory of
-    your Webots project directory.
+    your Webots project directory. Make sure to check the "Place solution and project in the same directory" checkbox.
 
 3. Then you can add a C or C++ source file to your project: Choose either: `Project / Add Existing Item` or `Project / Add New Item / C++ File (.cpp)`.
 In the second case you can copy the content of one of the C/C++ examples of Webots distribution.
@@ -184,9 +184,9 @@ If you want to use the C++ API follow these instructions:
     You can proceed like this:
 
     - In Visual Studio, in the `Solution Explorer`: right-mouse-click on the `Sources Files` folder, then select `Add / New Filter`.
-    This should create a `NewFilter1` subfolder in your `Sources Files` folder.
-    Then select the `NewFilter1` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
-    In the file dialog, go to the "C:\Program Files\Webots\resources\languages\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
+    This should create a `NewFilter` subfolder in your `Sources Files` folder.
+    Then select the `NewFilter` and with the right-mouse-button: choose the `Add / Existing Item...` menu.
+    In the file dialog, go to the "C:\Program Files\Webots\src\controller\cpp" directory, then select all the .cpp files (but no other file) in that directory and hit the `Add` button.
     This should add the "Accelerometer.cpp, Camera.cpp, Compass.cpp", etc. source files to your project.
 
 6. Now you should be able to build your controller with the `Build / Build MyController` menu item (or the <kbd>F7</kbd> key).
@@ -258,9 +258,13 @@ file(GLOB C_SOURCES *.c)
 file(GLOB CPP_SOURCES *.cpp)
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES})
 
+# Set the  Webots home path (change it according to your installation method)
+set(WEBOTS_HOME "/usr/local/webots")
+#set(WEBOTS_HOME "/snap/webots/current/usr/share/webots")
+
 # Link with the Webots controller library.
 link_directories($ENV{WEBOTS_HOME}/lib/controller)
-set (LIBRARIES ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
+set (LIBRARIES m ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
 include_directories($ENV{WEBOTS_HOME}/include/controller/c $ENV{WEBOTS_HOME}/include/controller/cpp)
 
 # Setup the target executable.

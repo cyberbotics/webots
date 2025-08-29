@@ -43,7 +43,7 @@ This field defines the maximum value that can be set using the `wb_emitter_set_r
 A value of -1 (the default) for `maxRange` is considered to be infinite.
 
 - `aperture` opening angle of the emission cone (in radians); for "infra-red" only.
-The cone's apex is located at the origin ([0 0 0]) of the emitter's coordinate system and the cone's axis coincides with the z-axis of the emitter coordinate system.
+The cone's apex is located at the origin ([0 0 0]) of the emitter's coordinate system and the cone's axis coincides with the x-axis of the emitter coordinate system.
 An "infra-red" emitter can only send data to receivers currently located within its emission cone.
 An `aperture` of -1 (the default) is considered to be infinite, meaning that the emitted signals are omni-directional.
 For "radio" and "serial" emitters, this field is ignored.
@@ -140,14 +140,6 @@ public class Emitter extends Device {
 ```MATLAB
 success = wb_emitter_send(tag, data)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/send` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) |
 
 %tab-end
 
@@ -297,15 +289,6 @@ channel = wb_emitter_get_channel(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_channel` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) |
-| `/<device_name>/get_channel` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -392,15 +375,6 @@ range = wb_emitter_get_range(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_range` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) |
-| `/<device_name>/get_range` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -475,14 +449,6 @@ public class Emitter extends Device {
 ```MATLAB
 size = wb_emitter_get_buffer_size(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_buffer_size` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) |
 
 %tab-end
 

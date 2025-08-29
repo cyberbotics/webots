@@ -1,5 +1,6 @@
 % Description: MATLAB controller example for Webots
 %              This example does not need the Image Processing Toolbox
+function matlab
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop and interact with the controller
@@ -122,14 +123,14 @@ while wb_robot_step(TIME_STEP) ~= -1
     % plot latest trajectory segment
     subplot(2,2,3);
     if (samples > 100)
-      plot(p(samples-100:samples,1),-p(samples-100:samples,3));
+      plot(-p(samples-100:samples,2),p(samples-100:samples,1));
     else
-      plot(p(1:samples,1),-p(1:samples,3));
+      plot(-p(1:samples,2),p(1:samples,1));
     end
 
     % plot current e-puck position
     hold on;
-    plot(p(samples,1),-p(samples,3),'ro');
+    plot(-p(samples,2),p(samples,1),'ro');
     axis([-1 1 -1 1]);
     title('Trajectory (Supervisor)');
     hold off;

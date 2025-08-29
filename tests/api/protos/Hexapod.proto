@@ -1,8 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 PROTO Hexapod [
   field SFVec3f translation 0 0.06 0
-  field SFString controller ""
+  field SFString controller "<none>"
   field MFString controllerArgs []
 ]
 {
@@ -25,18 +27,23 @@ DEF HEXAPOD Robot {
       endPoint Solid {
         translation 0.2 0 0.05
         children [
-          DEF HIP_SHAPE Shape {
-            appearance DEF HIP_APPEARANCE Appearance {
-              material Material {
-                diffuseColor 1 0 0
+          DEF HIP_SHAPE Pose {
+            rotation -1 0 0 1.5708
+            children [
+              Shape {
+                appearance DEF HIP_APPEARANCE Appearance {
+                  material Material {
+                    diffuseColor 1 0 0
+                  }
+                }
+                geometry Cylinder {
+                  height 0.06
+                  radius 0.02
+                }
               }
-            }
-            geometry Cylinder {
-              height 0.06
-              radius 0.02
-            }
+            ]
           }
-          DEF FEMUR_TRANS Transform {
+          DEF FEMUR_POSE Pose {
             translation 0 0 0.06
             children [
               DEF FEMUR_SHAPE Shape {
@@ -51,8 +58,9 @@ DEF HEXAPOD Robot {
               }
             ]
           }
-          DEF KNEE_TRANS Transform {
+          DEF KNEE_POSE Pose {
             translation 0 0 0.11
+            rotation -1 0 0 1.5708
             children [
               DEF KNEE_SHAPE Shape {
                 appearance DEF KNEE_APPEARANCE Appearance {
@@ -83,27 +91,22 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 0.11
               rotation 1 0 0 1.5708
               children [
-                DEF TIBIA_TRANS Transform {
-                  rotation 1 0 0 1.5708
-                  children [
-                    DEF TIBIA_SHAPE Shape {
-                      appearance USE METAL_APPEARANCE
-                      geometry Cylinder {
-                        height 0.06
-                        radius 0.01
-                      }
-                    }
-                  ]
+                DEF TIBIA_SHAPE Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry Cylinder {
+                    height 0.06
+                    radius 0.01
+                  }
                 }
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics DEF STANDARD_PHYSICS Physics {
               }
             }
           }
         ]
         name "hip_r0"
-        boundingObject USE KNEE_TRANS
+        boundingObject USE KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }
@@ -122,8 +125,8 @@ DEF HEXAPOD Robot {
         translation 0 0 0.05
         children [
           USE HIP_SHAPE
-          USE FEMUR_TRANS
-          USE KNEE_TRANS
+          USE FEMUR_POSE
+          USE KNEE_POSE
           DEF KNEE_SLIDER_JOINT_R1 SliderJoint {
             jointParameters JointParameters {
               axis 0 -1 0
@@ -140,15 +143,15 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 0.11
               rotation 1 0 0 1.5708
               children [
-                USE TIBIA_TRANS
+                USE TIBIA_SHAPE
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics USE STANDARD_PHYSICS
             }
           }
         ]
         name "hip_r1"
-        boundingObject USE KNEE_TRANS
+        boundingObject USE KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }
@@ -167,8 +170,8 @@ DEF HEXAPOD Robot {
         translation -0.2 0 0.05
         children [
           USE HIP_SHAPE
-          USE FEMUR_TRANS
-          USE KNEE_TRANS
+          USE FEMUR_POSE
+          USE KNEE_POSE
           DEF KNEE_SLIDER_JOINT_R2 SliderJoint {
             jointParameters JointParameters {
               axis 0 -1 0
@@ -185,15 +188,15 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 0.11
               rotation 1 0 0 1.5708
               children [
-                USE TIBIA_TRANS
+                USE TIBIA_SHAPE
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics USE STANDARD_PHYSICS
             }
           }
         ]
         name "hip_r2"
-        boundingObject USE KNEE_TRANS
+        boundingObject USE KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }
@@ -212,14 +215,15 @@ DEF HEXAPOD Robot {
         translation 0.2 0 -0.05
         children [
           USE HIP_SHAPE
-          DEF LEFT_FEMUR_TRANS Transform {
+          DEF LEFT_FEMUR_POSE Pose {
             translation 0 0 -0.06
             children [
               USE FEMUR_SHAPE
             ]
           }
-          DEF LEFT_KNEE_TRANS Transform {
+          DEF LEFT_KNEE_POSE Pose {
             translation 0 0 -0.11
+            rotation 1 0 0 1.5708
             children [
               USE KNEE_SHAPE
             ]
@@ -240,15 +244,15 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 -0.11
               rotation 1 0 0 1.5708
               children [
-                USE TIBIA_TRANS
+                USE TIBIA_SHAPE
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics USE STANDARD_PHYSICS
             }
           }
         ]
         name "hip_l0"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE LEFT_KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }
@@ -267,8 +271,8 @@ DEF HEXAPOD Robot {
         translation 0 0 -0.05
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE LEFT_FEMUR_POSE
+          USE LEFT_KNEE_POSE
           DEF KNEE_SLIDER_JOINT_L1 SliderJoint {
             jointParameters JointParameters {
               axis 0 -1 0
@@ -285,15 +289,15 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 -0.11
               rotation 1 0 0 1.5708
               children [
-                USE TIBIA_TRANS
+                USE TIBIA_SHAPE
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics USE STANDARD_PHYSICS
             }
           }
         ]
         name "hip_l1"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE LEFT_KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }
@@ -312,8 +316,8 @@ DEF HEXAPOD Robot {
         translation -0.2 0 -0.05
         children [
           USE HIP_SHAPE
-          USE LEFT_FEMUR_TRANS
-          USE LEFT_KNEE_TRANS
+          USE LEFT_FEMUR_POSE
+          USE LEFT_KNEE_POSE
           DEF KNEE_SLIDER_JOINT_L2 SliderJoint {
             jointParameters JointParameters {
               axis 0 -1 0
@@ -330,15 +334,15 @@ DEF HEXAPOD Robot {
               translation 0 -0.03 -0.11
               rotation 1 0 0 1.5708
               children [
-                USE TIBIA_TRANS
+                USE TIBIA_SHAPE
               ]
-              boundingObject USE TIBIA_TRANS
+              boundingObject USE TIBIA_SHAPE
               physics USE STANDARD_PHYSICS
             }
           }
         ]
         name "hip_l2"
-        boundingObject USE LEFT_KNEE_TRANS
+        boundingObject USE LEFT_KNEE_POSE
         physics USE STANDARD_PHYSICS
       }
     }

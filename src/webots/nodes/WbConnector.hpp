@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,15 +34,15 @@ public:
   explicit WbConnector(WbTokenizer *tokenizer = NULL);
   WbConnector(const WbConnector &other);
   explicit WbConnector(const WbNode &other);
-  virtual ~WbConnector();
+  virtual ~WbConnector() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONNECTOR; }
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
@@ -97,12 +97,12 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);
   void detachFromPeer();
-  void createFixedJoint(WbConnector *other);
+  void createFixedJoint(WbConnector *other, const dBodyID b1, const dBodyID b2);
   void destroyFixedJoint();
   void lock();
   void unlock();
@@ -111,16 +111,16 @@ private:
   bool isCompatibleWith(const WbConnector *other) const;
   double getDistance2(const WbConnector *other) const;
   bool isAlignedWith(const WbConnector *other) const;
+  bool isXAlignedWith(const WbConnector *other) const;
   bool isZAlignedWith(const WbConnector *other) const;
-  bool isYAlignedWith(const WbConnector *other) const;
   void detachIfForceExceedStrength();
   double findClosestRotationalAlignment(double alpha) const;
-  void snapZAxes(WbConnector *other, dQuaternion q);
-  void snapOrigins(WbConnector *other);
-  void snapRotation(WbConnector *other, const WbVector3 &y1, const WbVector3 &y2);
-  void rotateBodies(WbConnector *other, const dQuaternion q);
+  void snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1, const dBodyID b2);
+  void snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2);
+  void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2, const dBodyID b1, const dBodyID b2);
+  void rotateBodies(WbConnector *other, const dQuaternion q, const dBodyID b1, const dBodyID b2);
   void getOriginInWorldCoordinates(double out[3]) const;
-  void snapNow(WbConnector *other);
+  void snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2);
   double getEffectiveTensileStrength() const;
   double getEffectiveShearStrength() const;
   void init();

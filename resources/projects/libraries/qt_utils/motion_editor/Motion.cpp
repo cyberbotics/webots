@@ -12,6 +12,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 #include <QtWidgets/QMessageBox>
 
@@ -82,10 +83,10 @@ void Motion::save() const {
   }
   out << "\n";
 
-  foreach (Pose *pose, mPoses) {
+  foreach (const Pose *pose, mPoses) {
     out << pose->toTimeString() << "," << pose->name();
 
-    foreach (Device *motor, motors) {
+    foreach (const Device *motor, motors) {
       MotorTargetState *state = pose->findStateByMotorName(motor->name());
       out << ",";
       if (state->isDefined())
@@ -101,7 +102,7 @@ void Motion::save() const {
 
 void Motion::applyPoseToRobot(Pose *pose) {
   if (pose && !mPlayer->isPlaying()) {
-    foreach (MotorTargetState *state, pose->states()) {
+    foreach (const MotorTargetState *state, pose->states()) {
       if (state->isDefined())
         state->motor()->setPosition(state->value());
     }
@@ -147,10 +148,10 @@ bool Motion::validate() const {
     return true;
 
   QList<Device *> motors;
-  foreach (MotorTargetState *state, mPoses[0]->states())
+  foreach (const MotorTargetState *state, mPoses[0]->states())
     motors << state->motor();
 
-  foreach (Pose *pose, mPoses) {
+  foreach (const Pose *pose, mPoses) {
     if (pose->states().count() != motors.count())
       return false;
 
@@ -204,16 +205,16 @@ void Motion::parse() {
   // get the list of motor devices used in the motion
   QStringList usedMotorNamesList(firstLineTokens);
   QList<Motor *> usedMotorList;
-  foreach (const QString &name, usedMotorNamesList) {
+  foreach (const QString &motorName, usedMotorNamesList) {
     bool ok = false;
     foreach (Motor *motor, MotionGlobalSettings::availableMotorList()) {
-      if (motor->name() == name) {
+      if (motor->name() == motorName) {
         ok = true;
         usedMotorList << motor;
       }
     }
     if (!ok)
-      throw tr("The motor \"%1\" found in the motion file doesn't exist on this Robot").arg(name);
+      throw tr("The motor \"%1\" found in the motion file doesn't exist on this Robot").arg(motorName);
   }
 
   // point of no return accoriding to the error tolerance
@@ -300,8 +301,8 @@ void Motion::newPoseAt(int index) {
     pose->setName(tr("Unnamed %1").arg(mNewPoseCounter++));
 
     if (mPoses.count() > 0) {
-      Pose *referencePose = mPoses[0];
-      foreach (MotorTargetState *referenceState, referencePose->states()) {
+      const Pose *referencePose = mPoses[0];
+      foreach (const MotorTargetState *referenceState, referencePose->states()) {
         pose->createAndAppendState(referenceState->motor());
       }
     }
@@ -328,11 +329,11 @@ void Motion::newPoseAt(int index) {
 }
 
 void Motion::duplicatePoseAt(int index) {
-  if (index >= 0 && index <= mPoses.count()) {
+  if (index >= 0 && index < mPoses.count()) {
     Pose *originalPose = mPoses.at(index);
     Pose *newPose = new Pose(*originalPose);
     QString originalName = originalPose->name();
-    if (originalName.contains(QRegExp("^.*\\s\\(\\d+\\)$"))) {
+    if (originalName.contains(QRegularExpression("^.*\\s\\(\\d+\\)$"))) {
       int startIndex = originalName.lastIndexOf("(");
       int endIndex = originalName.lastIndexOf(")");
       QString numberString = originalName.mid(startIndex + 1, endIndex - startIndex - 1);
@@ -388,8 +389,8 @@ void Motion::deleteStatesByMotorName(const QString &motorName) {
 }
 
 bool Motion::isSomeStateDefinedByMotorName(const QString &motorName) const {
-  foreach (Pose *pose, mPoses) {
-    MotorTargetState *state = pose->findStateByMotorName(motorName);
+  foreach (const Pose *pose, mPoses) {
+    const MotorTargetState *state = pose->findStateByMotorName(motorName);
     if (state->isDefined())
       return true;
   }

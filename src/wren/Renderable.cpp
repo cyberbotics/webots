@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,8 @@
 #include "StaticMesh.hpp"
 #include "Transform.hpp"
 #include "UniformBuffer.hpp"
+
+#include <wren/shader_program.h>
 
 #include <wren/renderable.h>
 
@@ -59,7 +61,9 @@ namespace wren {
     updateShadowVolumeCaster();
   }
 
-  const glm::mat4 &Renderable::parentMatrix() const { return mParent->matrix(); }
+  const glm::mat4 &Renderable::parentMatrix() const {
+    return mParent->matrix();
+  }
 
   Material *Renderable::optionalMaterial(const std::string &name) const {
     const auto it = mOptionalMaterials.find(name);
@@ -69,7 +73,9 @@ namespace wren {
       return it->second;
   }
 
-  bool Renderable::zSortedRendering() const { return mZSortedRendering || mDefaultMaterial->isTranslucent(); }
+  bool Renderable::zSortedRendering() const {
+    return mZSortedRendering || mDefaultMaterial->isTranslucent();
+  }
 
   void Renderable::render(const ShaderProgram *program) {
     if (!mEffectiveMaterial)
@@ -199,9 +205,13 @@ namespace wren {
     mInViewSpace(false),
     mZSortedRendering(false),
     mFaceCulling(true),
-    mPointSize(-1.0f) {}
+    mInvertFrontFace(false),
+    mPointSize(-1.0f) {
+  }
 
-  Renderable::~Renderable() { delete mShadowVolumeCaster; }
+  Renderable::~Renderable() {
+    delete mShadowVolumeCaster;
+  }
 
   void Renderable::setupAndRender(const ShaderProgram *program) {
     // Few Renderables use premultiplied alpha, if this is the case then
@@ -219,7 +229,29 @@ namespace wren {
     glUniformMatrix4fv(program->uniformLocation(WR_GLSL_LAYOUT_UNIFORM_MODEL_TRANSFORM), 1, false,
                        glm::value_ptr(mParent->matrix()));
 
+    // to render cw and ccw meshes
+    const unsigned int frontFaceMode = glstate::getFrontFace();
+    const glm::vec3 &scale = parent()->scale();
+    if (mInvertFrontFace) {
+      glstate::setFrontFace((frontFaceMode == GL_CCW) ? GL_CW : GL_CCW);
+
+      if (scale.x * scale.y * scale.z >= 0.0) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
+          glUniform1i(location, true);
+      }
+    } else {
+      if (scale.x * scale.y * scale.z < 0.0) {
+        const GLint location = glGetUniformLocation(program->glName(), "reverseNormals");
+        if (location != -1)
+          glUniform1i(location, true);
+      }
+    }
+
     mMesh->render(mDrawingMode);
+
+    if (mInvertFrontFace)
+      glstate::setFrontFace(frontFaceMode);
 
     if (mDefaultMaterial->hasPremultipliedAlpha())
       glstate::setBlendFunc(blendSrcFactor, blendDestFactor);
@@ -234,8 +266,11 @@ namespace wren {
       mShadowVolumeCaster = NULL;
 
     // In case the mesh is dynamic, it needs the shadow volume to recompute the silhouette when required
-    if (mMesh && mMesh->isDynamic())
-      dynamic_cast<DynamicMesh *>(mMesh)->setShadowVolume(mShadowVolumeCaster);
+    if (mMesh && mMesh->isDynamic()) {
+      DynamicMesh *dm = dynamic_cast<DynamicMesh *>(mMesh);
+      dm->notifySkeletonDirty();
+      dm->setShadowVolume(mShadowVolumeCaster);
+    }
   }
 
 }  // namespace wren
@@ -277,6 +312,10 @@ void wr_renderable_set_visibility_flags(WrRenderable *renderable, int flags) {
   reinterpret_cast<wren::Renderable *>(renderable)->setVisibilityFlags(flags);
 }
 
+void wr_renderable_invert_front_face(WrRenderable *renderable, bool invert_front_face) {
+  reinterpret_cast<wren::Renderable *>(renderable)->setInvertFrontFace(invert_front_face);
+}
+
 void wr_renderable_set_cast_shadows(WrRenderable *renderable, bool cast_shadows) {
   reinterpret_cast<wren::Renderable *>(renderable)->setCastShadows(cast_shadows);
 }
@@ -285,6 +324,7 @@ void wr_renderable_set_receive_shadows(WrRenderable *renderable, bool receive_sh
   reinterpret_cast<wren::Renderable *>(renderable)->setReceiveShadows(receive_shadows);
 }
 
+// only used for rendering axis systems, without it they might disappear near the edges of the viewport.
 void wr_renderable_set_scene_culling(WrRenderable *renderable, bool culling) {
   reinterpret_cast<wren::Renderable *>(renderable)->setSceneCulling(culling);
 }
@@ -303,10 +343,11 @@ void wr_renderable_set_z_sorted_rendering(WrRenderable *renderable, bool z_sorte
 
 WrMaterial *wr_renderable_get_material(WrRenderable *renderable, const char *name) {
   if (!name) {
-    wren::Material *defaultMaterial = reinterpret_cast<wren::Renderable *>(renderable)->defaultMaterial();
+    const wren::Material *defaultMaterial = reinterpret_cast<wren::Renderable *>(renderable)->defaultMaterial();
     return defaultMaterial->materialStructure();
   } else {
-    wren::Material *optionalMaterial = reinterpret_cast<wren::Renderable *>(renderable)->optionalMaterial(std::string(name));
+    const wren::Material *optionalMaterial =
+      reinterpret_cast<wren::Renderable *>(renderable)->optionalMaterial(std::string(name));
     if (optionalMaterial)
       return optionalMaterial->materialStructure();
     else
@@ -315,7 +356,7 @@ WrMaterial *wr_renderable_get_material(WrRenderable *renderable, const char *nam
 }
 
 void wr_renderable_get_bounding_sphere(WrRenderable *renderable, float *sphere) {
-  const wren::primitive::Sphere s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
+  const wren::primitive::Sphere &s = reinterpret_cast<wren::Renderable *>(renderable)->boundingSphere();
   sphere[0] = s.mCenter.x;
   sphere[1] = s.mCenter.y;
   sphere[2] = s.mCenter.z;

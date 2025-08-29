@@ -7,9 +7,8 @@ import random
 import math
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
-    sys.path.append(includePath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                                 'include'))
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")
@@ -19,7 +18,7 @@ except ImportError:
 def normalize(vector):
     length = math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2])
     if length == 0:
-        return [0, 1, 0]
+        return [0, 0, 1]
     else:
         return [vector[0] / length, vector[1] / length, vector[2] / length]
 
@@ -28,7 +27,7 @@ def randomlyPlaceObject(node):
     translationField = node.getField("translation")
     rotationField = node.getField("rotation")
 
-    newPosition = [random.random() * 2 - 1, random.random() + 0.5, random.random() * 1.6 - 0.5]
+    newPosition = [random.random() * 1.6 - 0.5, random.random() * 2 - 1, random.random() + 0.5]
     newRotation = normalize([random.random(), random.random(), random.random()]) + [random.random() * math.pi * 2]
 
     translationField.setSFVec3f(newPosition)
@@ -64,8 +63,8 @@ while robot.step(timestep) != -1:
         # terminate simulation.
         contactPoints = thymio2.getContactPoints()
         for contact in contactPoints:
-            if contact.point[1] > 0.02 or thymio2.getPosition()[0] < -3.3 or time >= 80:
-                if contact.point[1] > 0.02:
+            if contact.point[2] > 0.02 or thymio2.getPosition()[1] > 3.3 or time >= 80:
+                if contact.point[2] > 0.02:
                     time = 80
                 running = False
                 break
@@ -76,12 +75,13 @@ while robot.step(timestep) != -1:
             stopMessageSent = True
         else:
             message = robot.wwiReceiveText()
-            if message:
+            while message:
                 if message.startswith("record:"):
                     record = robotbenchmarkRecord(message, "obstacle_avoidance", -time)
                     robot.wwiSendText(record)
                     break
                 elif message == "exit":
                     break
+                message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

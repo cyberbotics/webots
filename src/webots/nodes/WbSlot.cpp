@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,7 +54,7 @@ void WbSlot::validateProtoNode() {
 
 void WbSlot::downloadAssets() {
   WbBaseNode::downloadAssets();
-  if (hasEndpoint())
+  if (hasEndPoint())
     static_cast<WbBaseNode *>(endPoint())->downloadAssets();
 }
 
@@ -167,7 +167,7 @@ void WbSlot::setSleepMaterial() {
 }
 
 WbBoundingSphere *WbSlot::boundingSphere() const {
-  WbBaseNode *const baseNode = static_cast<WbBaseNode *>(mEndPoint->value());
+  const WbBaseNode *const baseNode = static_cast<WbBaseNode *>(mEndPoint->value());
   if (baseNode)
     return baseNode->boundingSphere();
 
@@ -180,6 +180,16 @@ void WbSlot::endPointChanged() {
     e->setParentNode(this);
     emit endPointInserted(e);
   }
+}
+
+QString WbSlot::endPointName() const {
+  if (!mEndPoint->value())
+    return QString();
+
+  QString name = mEndPoint->value()->computeName();
+  if (name.isEmpty())
+    name = mEndPoint->value()->endPointName();
+  return name;
 }
 
 void WbSlot::reset(const QString &id) {
@@ -198,6 +208,12 @@ void WbSlot::save(const QString &id) {
     e->save(id);
 }
 
+void WbSlot::updateSegmentationColor(const WbRgb &color) {
+  WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->updateSegmentationColor(color);
+}
+
 //////////////////////////////////////////////////////////////
 //  WREN related methods for resizable WbGeometry children  //
 //////////////////////////////////////////////////////////////
@@ -209,16 +225,24 @@ void WbSlot::attachResizeManipulator() {
 }
 
 void WbSlot::detachResizeManipulator() const {
-  WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
   if (e)
     e->detachResizeManipulator();
 }
 
-void WbSlot::write(WbVrmlWriter &writer) const {
+void WbSlot::write(WbWriter &writer) const {
   if (writer.isWebots())
     WbBaseNode::write(writer);
   else {
-    if (hasEndpoint())
+    if (hasEndPoint())
       mEndPoint->value()->write(writer);
   }
+}
+
+QList<const WbBaseNode *> WbSlot::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  const WbBaseNode *const e = static_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    list << e->findClosestDescendantNodesWithDedicatedWrenNode();
+  return list;
 }

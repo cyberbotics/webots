@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,10 @@
 
 #include "WbConnector.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbMFNode.hpp"
 #include "WbMFVector3.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbPhysics.hpp"
 #include "WbRobot.hpp"
@@ -236,10 +238,7 @@ static inline void rotateVector(const dQuaternion q, WbVector3 &v) {
 
 // rotate "this" connector's parent dBody by q
 // and rotate "other" connector's parent dBody by inverse of q
-void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
-
+void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q, const dBodyID b1, const dBodyID b2) {
   // get current quaternions of bodies
   const dReal *q1 = b1 ? dBodyGetQuaternion(b1) : NULL;
   const dReal *q2 = b2 ? dBodyGetQuaternion(b2) : NULL;
@@ -258,33 +257,33 @@ void WbConnector::rotateBodies(WbConnector *other, const dQuaternion q) {
     dBodySetQuaternion(b2, q2n);
 }
 
-// rotate both (parent) bodies such that the connectors z-axes
+// rotate both (parent) bodies such that the connectors x-axes
 // become anti-parallel (collinear but in opposite directions)
 // each body performs half of the necessary rotation
 // output: q, the half rotation quaternion
-void WbConnector::snapZAxes(WbConnector *other, dQuaternion q) {
-  // z-axes of connector 1 and 2
-  WbVector3 z1 = zAxis();
-  WbVector3 z2 = -other->zAxis();
+void WbConnector::snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1, const dBodyID b2) {
+  // x-axes of connector 1 and 2
+  WbVector3 x1 = xAxis();
+  WbVector3 x2 = -other->xAxis();
 
-  // find rotation axis using cross product of z-axes
-  WbVector3 w = z1.cross(z2);
+  // find rotation axis using cross product of x-axes
+  WbVector3 w = x1.cross(x2);
 
-  // if z1 and z2 are collinear we are already z-aligned
+  // if x1 and x2 are collinear we are already x-aligned
   if (w.isNull())
     return;  // nothing to do
 
   if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())  // rotate b1 and b2 towards each other halfway
-    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2) / 2.0);
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2) / 2.0);
   else  // rotate only one body (the other one is static)
-    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(z1, z2));
-  rotateBodies(other, q);
+    dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2));
+  rotateBodies(other, q, b1, b2);
 }
 
 // search for possible rotational alignment matching alpha angle
 // (thanks to problem symmetry we need to look only in 180°)
-// input: alpha angle (angle between y-vectors of connectors)
-// returns: -1.0 if no matching y-alignment was found
+// input: alpha angle (angle between z-vectors of connectors)
+// returns: -1.0 if no matching z-alignment was found
 double WbConnector::findClosestRotationalAlignment(double alpha) const {
   int n = mNumberOfRotations->value();
   double angleStep = 2.0 * M_PI / n;
@@ -300,28 +299,29 @@ double WbConnector::findClosestRotationalAlignment(double alpha) const {
   return -1.0;
 }
 
-// rotate both (parent) bodies such that the connectors y-axes
+// rotate both (parent) bodies such that the connectors z-axes
 // correspond to the closest allowed rotational alignment
 // each body performs half of the necessary rotation
-void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const WbVector3 &y2) {
+void WbConnector::snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2, const dBodyID b1,
+                               const dBodyID b2) {
   // if n == 0 we don't need to mSnap
   const int n = mNumberOfRotations->value();
   if (n == 0)
     return;  // nothing to do
 
   // use dot product to find angle of rotation
-  // y1.y2 = |y1|*|y2| * cos(alpha)
-  // (but |y1| == |y2| == 1.0)
-  double alpha = unitVectorsAngle(y1, y2);
+  // z1.z2 = |z1|*|z2| * cos(alpha)
+  // (but |z1| == |z2| == 1.0)
+  double alpha = unitVectorsAngle(z1, z2);
 
   // if the vectors are collinear (parallel) there is nothing to do
   if (alpha == 0.0)
     return;
 
-  // find w rotation axis from y1 to y2
-  WbVector3 w = y1.cross(y2);
+  // find w rotation axis from z1 to z2
+  WbVector3 w = z1.cross(z2);
 
-  // special case: if y1 and y2 are anti-parallel we set w manually
+  // special case: if z1 and z2 are anti-parallel we set w manually
   if (w.isNull()) {
     w[0] = 0.0;
     w[1] = 0.0;
@@ -339,7 +339,7 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &y1, const Wb
     dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);  // rotate b1 and b2 towards each other halfway
   else
     dQFromAxisAndAngle(q, w[0], w[1], w[2], alpha - beta);  // rotate b1 or b2 towards the other
-  rotateBodies(other, q);
+  rotateBodies(other, q, b1, b2);
 }
 
 // return the vrml origin ([0 0 0] point) of the connector in world (global) coordinate system
@@ -352,18 +352,11 @@ void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
 
 // shift both connectors (parent) bodies such that the connectors VRML origins match
 // the shift is performed halfway by each body
-void WbConnector::snapOrigins(WbConnector *other) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
-
+void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2) {
   // get positions of connector 1 and 2
   dVector3 p1, p2;
   getOriginInWorldCoordinates(p1);
   other->getOriginInWorldCoordinates(p2);
-
-  // retrieve current body positions
-  const dReal *d1 = b1 ? dBodyGetPosition(b1) : matrix().translation().ptr();
-  const dReal *d2 = b2 ? dBodyGetPosition(b2) : other->matrix().translation().ptr();
 
   // each body must be shifted towards the other by half the distance
   dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
@@ -372,46 +365,54 @@ void WbConnector::snapOrigins(WbConnector *other) {
       h[i] /= 2.0;
   }
 
-  // shift bodies
-  if (b1)
+// gcc version 13, 12.1.0 and 12.2.0 is raising a false positive warning here about dangling pointers
+#pragma GCC diagnostic push
+#if (__GNUC__ == 12 && __GNUC_MINOR__ >= 1 && __GNUC_MINOR__ <= 2 && __GNUC_PATCHLEVEL__ == 0) || \
+  (__GNUC__ == 13 && __GNUC_MINOR__ == 1 && __GNUC_PATCHLEVEL__ == 0)
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
+  // retrive current body positions and shift them
+  if (b1) {
+    const dReal *d1 = dBodyGetPosition(b1);
     dBodySetPosition(b1, d1[0] + h[0], d1[1] + h[1], d1[2] + h[2]);
-  if (b2)
+  }
+  if (b2) {
+    const dReal *d2 = dBodyGetPosition(b2);
     dBodySetPosition(b2, d2[0] - h[0], d2[1] - h[1], d2[2] - h[2]);
+  }
 }
 
 // temporarily change body position and orientation so that the fixed joint
 // will be created with the adjusted ("snapped") relative position and
 // orientation between the two bodies
-void WbConnector::snapNow(WbConnector *other) {
-  // rotate bodies such that z-axes become aligned and return corresponding quaternion
+void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2) {
+  // rotate bodies such that x-axes become aligned and return corresponding quaternion
   dQuaternion qa;
-  snapZAxes(other, qa);
+  snapXAxes(other, qa, b1, b2);
 
-  // y-axes of connector 1 and 2
-  // y1 and y2 have unit length
-  WbVector3 y1 = yAxis();
-  WbVector3 y2 = other->yAxis();
+  // z-axes of connector 1 and 2
+  // z1 and z2 have unit length
+  WbVector3 z1 = zAxis();
+  WbVector3 z2 = other->zAxis();
 
   // aq = inversion of qa rotation
   dQuaternion aq = {qa[0], -qa[1], -qa[2], -qa[3]};
 
-  // rotate y vectors to take into account previous rotation carried out by snapZAxes()
-  rotateVector(qa, y1);
-  rotateVector(aq, y2);
+  // rotate y vectors to take into account previous rotation carried out by snapXAxes()
+  rotateVector(qa, z1);
+  rotateVector(aq, z2);
 
-  // now mSnap rotational alignement (y-axes)
-  snapRotation(other, y1, y2);
+  // now mSnap rotational alignement (z-axes)
+  snapRotation(other, z1, z2, b1, b2);
 
   // finally shift bodies such that the CS origins match
-  snapOrigins(other);
+  snapOrigins(other, b1, b2);
 }
 
 // this function must be called once the connectors are aligned
-void WbConnector::createFixedJoint(WbConnector *other) {
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
+void WbConnector::createFixedJoint(WbConnector *other, const dBodyID b1, const dBodyID b2) {
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has a Physics node."));
     return;
   }
 
@@ -449,10 +450,10 @@ void WbConnector::attachTo(WbConnector *other) {
   if (!(mUnilateralLock->isTrue() || other->mIsLocked->isTrue()))
     return;
 
-  dBodyID b1 = upperSolid()->bodyMerger();
-  dBodyID b2 = other->upperSolid()->bodyMerger();
+  const dBodyID b1 = WbNodeUtilities::findBodyMerger(this);
+  const dBodyID b2 = WbNodeUtilities::findBodyMerger(other);
   if (!b1 && !b2) {
-    warn(tr("Connectors could not be attached because none of their parent nodes have Physics nodes."));
+    warn(tr("Connectors could not be attached because neither of them (nor their parent nodes) has a Physics node."));
     return;
   }
 
@@ -470,9 +471,9 @@ void WbConnector::attachTo(WbConnector *other) {
     }
 
     // move the bodies to the snapped position
-    snapNow(other);
+    snapNow(other, b1, b2);
     // attach now !
-    createFixedJoint(other);
+    createFixedJoint(other, b1, b2);
     // restore original position and orientation
     if (b1) {
       dBodySetPosition(b1, p1[0], p1[1], p1[2]);
@@ -483,7 +484,7 @@ void WbConnector::attachTo(WbConnector *other) {
       dBodySetQuaternion(b2, q2);
     }
   } else
-    createFixedJoint(other);
+    createFixedJoint(other, b1, b2);
 }
 
 // destroy ODE fixed joint and remove feedback structure
@@ -542,16 +543,16 @@ void WbConnector::detachIfForceExceedStrength() {
   if (!fb)
     return;  // user does not want rupture simulation
 
-  // the tensile direction corresponds to the positive z-axis
-  // compute how much of the measured force is aligned with the z-axis
+  // the tensile direction corresponds to the positive x-axis
+  // compute how much of the measured force is aligned with the x-axis
   const WbVector3 f1(fb->f1);
-  const double zforce = mIsJointInversed ? -zAxis().dot(f1) : zAxis().dot(f1);
+  const double xforce = mIsJointInversed ? -xAxis().dot(f1) : xAxis().dot(f1);
 
   // check for tensile rupture
   double maxTension = getEffectiveTensileStrength() + mPeer->getEffectiveTensileStrength();
 
-  // we are interested only in the positive z-direction
-  double tension = zforce < 0.0 ? 0.0 : zforce;
+  // we are interested only in the positive x-direction
+  double tension = xforce < 0.0 ? 0.0 : xforce;
   if (tension > maxTension) {
     detachFromPeer();
     return;
@@ -562,7 +563,7 @@ void WbConnector::detachIfForceExceedStrength() {
   if (maxShear < MAX_STRENGTH) {
     // find shear force (using Pythagoras theorem)
     double magnitude = f1.length();
-    double shearing = sqrt(magnitude * magnitude - zforce * zforce);
+    double shearing = sqrt(magnitude * magnitude - xforce * xforce);
     if (shearing > maxShear) {
       detachFromPeer();
       return;
@@ -654,25 +655,25 @@ bool WbConnector::isCompatibleWith(const WbConnector *other) const {
   return model() == other->model();
 }
 
-// returns true if this connector and the other connectors z-axes are parallel (but with opposite directions)
+// returns true if this connector and the other connectors x-axes are parallel (but with opposite directions)
 // In other words, the angle between them must be 180° with some tolerance
-bool WbConnector::isZAlignedWith(const WbConnector *other) const {
-  // the vector [ matrix[8], matrix[9], matrix[10] ] represents a connectors z-axis
+bool WbConnector::isXAlignedWith(const WbConnector *other) const {
+  // the vector [ matrix[8], matrix[9], matrix[10] ] represents a connectors x-axis
   // orientation in global coordinate system, its length is approximately 1.0
-  return unitVectorsAngle(zAxis(), other->zAxis()) > M_PI - mAxisTolerance->value();
+  return unitVectorsAngle(xAxis(), other->xAxis()) > M_PI - mAxisTolerance->value();
 }
 
-// returns true if this connector and the other connector's y-axes are
+// returns true if this connector and the other connector's z-axes are
 // rotationally aligned according to mNumberOfRotations and mRotationTolerance
-bool WbConnector::isYAlignedWith(const WbConnector *other) const {
+bool WbConnector::isZAlignedWith(const WbConnector *other) const {
   // if n == 0 any rotational alignment is fine
   if (mNumberOfRotations->isZero())
     return true;
 
-  // compare the connectors y-axis orientation in global coordinate system
-  // (the vector [ matrix[4], matrix[5], matrix[6] ] represents a connectors y-axis
+  // compare the connectors z-axis orientation in global coordinate system
+  // (the vector [ matrix[4], matrix[5], matrix[6] ] represents a connectors z-axis
   // orientation in global coordinate system, its length is approximately 1.0)
-  double alpha = unitVectorsAngle(yAxis(), other->yAxis());
+  double alpha = unitVectorsAngle(zAxis(), other->zAxis());
 
   // search for matching alignment
   return findClosestRotationalAlignment(alpha) != -1.0;
@@ -683,7 +684,7 @@ double WbConnector::getDistance2(const WbConnector *other) const {
 }
 
 bool WbConnector::isAlignedWith(const WbConnector *other) const {
-  return isZAlignedWith(other) && isYAlignedWith(other);
+  return isXAlignedWith(other) && isZAlignedWith(other);
 }
 
 bool WbConnector::isReadyToAttachTo(const WbConnector *other) const {
@@ -735,6 +736,7 @@ void WbConnector::reset(const QString &id) {
   if (mPeer)
     detachFromPeer();
   mStartup = true;
+  mNeedToReconfigure = true;
 }
 
 void WbConnector::save(const QString &id) {
@@ -742,7 +744,7 @@ void WbConnector::save(const QString &id) {
   mIsInitiallyLocked[id] = mIsLocked->value();
 }
 
-void WbConnector::writeAnswer(QDataStream &stream) {
+void WbConnector::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     computeValue();
     stream << (unsigned short int)tag();
@@ -755,12 +757,12 @@ void WbConnector::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbConnector::writeConfigure(QDataStream &) {
+void WbConnector::writeConfigure(WbDataStream &) {
   if (robot())
     mSensor->connectToRobotSignal(robot());
 }
 
-void WbConnector::addConfigure(QDataStream &stream) {
+void WbConnector::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (unsigned char)(mIsLocked->value() ? 1 : 0);
@@ -807,18 +809,18 @@ void WbConnector::assembleAxes(WbConnector *other) {
   dQuaternion q;
   dQFromAxisAndAngle(q, solid->rotation().x(), solid->rotation().y(), solid->rotation().z(), solid->rotation().angle());
 
-  // z-axes of both connectors
-  WbVector3 z1 = zAxis();
-  WbVector3 z2 = -other->zAxis();
+  // x-axes of both connectors
+  WbVector3 x1 = xAxis();
+  WbVector3 x2 = -other->xAxis();
 
-  // find rotation axis w using cross product of z-axes
-  WbVector3 w = z1.cross(z2);
+  // find rotation axis w using cross product of x-axes
+  WbVector3 w = x1.cross(x2);
 
-  // if z1 and z2 are collinear we are already z-aligned
+  // if x1 and x2 are collinear we are already x-aligned
   if (!w.isNull()) {
     // set quaternion (r) to represent the required rotation
     dQuaternion r, k;
-    dQFromAxisAndAngle(r, w[0], w[1], w[2], unitVectorsAngle(z1, z2));
+    dQFromAxisAndAngle(r, w[0], w[1], w[2], unitVectorsAngle(x1, x2));
 
     // rotate q by r and store result in k
     dQMultiply0(k, r, q);
@@ -838,21 +840,21 @@ void WbConnector::assembleAxes(WbConnector *other) {
   // if n == 0 we don't need to rotate
   int n = mNumberOfRotations->value();
   if (n) {
-    // y-axes of connector 1 and 2
-    // y1 and y2 have unit length
-    WbVector3 y1 = yAxis();
-    WbVector3 y2 = other->yAxis();
+    // z-axes of connector 1 and 2
+    // z1 and z2 have unit length
+    WbVector3 z1 = zAxis();
+    WbVector3 z2 = other->zAxis();
 
-    // find required angle of rotation from y1 to y2
-    double alpha = unitVectorsAngle(y1, y2);
+    // find required angle of rotation from z1 to z2
+    double alpha = unitVectorsAngle(z1, z2);
 
     // if the y vectors are parallel we don't need to rotate
     if (alpha) {
-      // find w, the rotation axis from y1 to y2
-      w = y1.cross(y2);
+      // find w, the rotation axis from z1 to z2
+      w = z1.cross(z2);
 
-      // special case: if y1 and y2 are anti-parallel:
-      // rotate of 180° around z-axis
+      // special case: if z1 and z2 are anti-parallel:
+      // rotate of 180° around x-axis
       if (w.isNull()) {
         w[0] = 0.0;
         w[1] = 0.0;
@@ -901,7 +903,7 @@ void WbConnector::assembleWith(WbConnector *other) {
     mIsLocked->setValue(true);
 
   if (mIsLocked->isTrue())
-    createFixedJoint(other);
+    createFixedJoint(other, WbNodeUtilities::findBodyMerger(this), WbNodeUtilities::findBodyMerger(other));
 }
 
 void WbConnector::hasMoved() {
@@ -927,9 +929,8 @@ void WbConnector::solidHasMoved(WbSolid *solid) {
   if (connector)
     connector->hasMoved();
   else {
-    const QVector<WbSolid *> &solidChildren = solid->solidChildren();
-    foreach (WbSolid *solid, solidChildren)
-      solidHasMoved(solid);
+    foreach (WbSolid *s, solid->solidChildren())
+      solidHasMoved(s);
   }
 }
 
@@ -950,8 +951,8 @@ void WbConnector::createWrenObjects() {
   mTransform = wr_transform_new();
   mAxesTransform = wr_transform_new();
   mRotationsTransform = wr_transform_new();
-
-  const float colors[3][3] = {{0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}};
+  // Connector axes: X = red, Z = blue, Y = black
+  const float colors[3][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}};
 
   for (int i = 0; i < 3; ++i) {
     mMaterial[i] = wr_phong_material_new();
@@ -959,9 +960,9 @@ void WbConnector::createWrenObjects() {
     wr_material_set_default_program(mMaterial[i], WbWrenShaders::lineSetShader());
   }
 
-  const float axesCoordinates[2][6] = {{0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f}};
+  // Axes (X & Z only)
+  const float axesCoordinates[2][6] = {{0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f}};
 
-  // Axes (Y & Z only)
   for (int i = 0; i < 2; ++i) {
     mAxisMesh[i] = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
 
@@ -1017,24 +1018,26 @@ void WbConnector::applyOptionalRenderingToWren() {
   mRotationsMesh = NULL;
 
   // draw rotational alignments in black
-  // the first aligmnent is the y-axis so we skip it
+  // the first aligmnent is the z-axis so we skip it
   const int n = mNumberOfRotations->value();
   if (n > 1) {
     float *vertices = new float[(n - 1) * 3 * 2];
     const float angleStep = 2.0f * M_PI / n;
     for (int i = 1; i < n; ++i) {
       const float angle = angleStep * i;
-      const float x = 0.4f * sin(angle);
-      const float y = 0.4f * cos(angle);
+      const float y = 0.4f * sin(angle);
+      const float z = 0.4f * cos(angle);
 
       const int idx = (i - 1) * 6;
+      // Segment origin
       vertices[idx] = 0.0f;
       vertices[idx + 1] = 0.0f;
       vertices[idx + 2] = 0.0f;
 
-      vertices[idx + 3] = x;
+      // Segment orientation
+      vertices[idx + 3] = 0.0f;
       vertices[idx + 4] = y;
-      vertices[idx + 5] = 0.0f;
+      vertices[idx + 5] = z;
     }
 
     mRotationsMesh = wr_static_mesh_line_set_new((n - 1) * 2, vertices, NULL);

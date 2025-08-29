@@ -1,21 +1,32 @@
-import {findUpperTransform, nodeIsInBoundingObject} from './utils/utils.js';
 import WbWorld from './WbWorld.js';
+import { findUpperTransform } from './utils/node_utilities.js';
 
 export default class WbBaseNode {
+  #nodeType;
+  #upperTransformFirstTimeSearch;
+  #upperTransform;
   constructor(id) {
     this.id = id;
 
     this.wrenObjectsCreatedCalled = false;
-    this.isPreFinalizeCalled = false;
-    this.isPostFinalizeCalled = false;
-
-    this._upperTransformFirstTimeSearch = true;
-    this.upperTransform = false;
-
-    this._boundingObjectFirstTimeSearch = true;
-    this.isInBoundingObject = false;
+    this.isPreFinalizedCalled = false;
+    this.isPostFinalizedCalled = false;
 
     this.useList = [];
+
+    this.#upperTransformFirstTimeSearch = true;
+  }
+
+  get nodeType() { return undefined; }
+
+  get upperTransform() {
+    if (this.#upperTransformFirstTimeSearch) {
+      this.#upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperTransformFirstTimeSearch = false;
+    }
+
+    return this.#upperTransform;
   }
 
   createWrenObjects() {
@@ -28,58 +39,42 @@ export default class WbBaseNode {
   }
 
   delete() {
-    if (this.useList.length !== 0) {
-      let newDef;
-      let index = 0;
-      while (typeof newDef === 'undefined' && index < this.useList.length) {
-        newDef = WbWorld.instance.nodes.get(this.useList[index]);
-        this.useList.splice(index, 1);
-        index++;
-      }
-
-      if (typeof newDef !== 'undefined')
-        newDef.useList = this.useList;
-    }
-
     WbWorld.instance.nodes.delete(this.id);
   }
 
+  unfinalize() {
+    this.isPreFinalizedCalled = false;
+    this.wrenObjectsCreatedCalled = false;
+    this.isPostFinalizedCalled = false;
+    for (const useId of this.useList) { // notify USE nodes to do the same
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode?.unfinalize();
+    }
+  }
+
   finalize() {
-    if (!this.isPreFinalizeCalled)
+    if (!this.isPreFinalizedCalled)
       this.preFinalize();
 
     if (!this.wrenObjectsCreatedCalled)
       this.createWrenObjects();
 
-    if (!this.isPostFinalizeCalled)
+    if (!this.isPostFinalizedCalled)
       this.postFinalize();
-  }
 
-  isInBoundingObject() {
-    if (this._boundingObjectFirstTimeSearch) {
-      this.isInBoundingObject = nodeIsInBoundingObject(this);
-      if (this.wrenObjectsCreatedCalled)
-        this._boundingObjectFirstTimeSearch = false;
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode.finalize();
     }
-
-    return this.isInBoundingObject;
-  }
-
-  upperTransform() {
-    if (this._upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this._upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
   }
 
   preFinalize() {
-    this.isPreFinalizeCalled = true;
+    this.isPreFinalizedCalled = true;
   }
 
   postFinalize() {
-    this.isPostFinalizeCalled = true;
+    this.isPostFinalizedCalled = true;
   }
+
+  boundingSphere() {}
 }

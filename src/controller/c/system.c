@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -84,16 +84,24 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
-static const char *wbu_system_tmpdir() {
+// path to the 'webots-%d' folder computed by Webots instance
+// intern controllers only
+const char *wbu_system_webots_instance_path(bool refresh) {
+  static const char *WEBOTS_INSTANCE_PATH = NULL;
+  if (WEBOTS_INSTANCE_PATH && !refresh)
+    return WEBOTS_INSTANCE_PATH;
+  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
+  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
+    return WEBOTS_INSTANCE_PATH;
+  return NULL;
+}
+
+// compute the path to the tmp directory
+// extern controllers only
+const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
     return tmpdir;
-  // if WEBOTS_TMPDIR environment variable is defined, use it for the tmpdir
-  const char *WEBOTS_TMPDIR = getenv("WEBOTS_TMPDIR");
-  if (WEBOTS_TMPDIR && WEBOTS_TMPDIR[0]) {
-    tmpdir = (char *)WEBOTS_TMPDIR;
-    return tmpdir;
-  }
 #ifdef _WIN32
   const char *LOCALAPPDATA = getenv("LOCALAPPDATA");
   assert(LOCALAPPDATA && LOCALAPPDATA[0]);
@@ -101,107 +109,24 @@ static const char *wbu_system_tmpdir() {
   tmpdir = malloc(len);
   snprintf(tmpdir, len, "%s\\Temp", LOCALAPPDATA);
 #elif defined(__linux__)
-  // if the ~/.WEBOTS_TMPDIR directory exists and contains some webots-* files,
-  // use it as the tmpdir, otherwise fallback to /tmp
-  const char *HOME = getenv("HOME");
-  if (HOME && HOME[0]) {
-    const size_t len = strlen(HOME) + strlen("/snap/webots/common/tmp") + 1;
-    char *path = malloc(len);
-    snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
-    DIR *dir = opendir(path);
-    if (dir) {
-      struct dirent *entry;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, "webots-", 7) == 0) {
-          tmpdir = path;
-          break;
-        }
+  // choose between snap or default tmp path
+  const char *WEBOTS_HOME = getenv("WEBOTS_HOME");
+  if (WEBOTS_HOME && WEBOTS_HOME[0]) {
+    // if WEBOTS_HOME environment variable contains snap path, use snap tmp folder
+    if (strstr(WEBOTS_HOME, "/snap/webots") != NULL) {
+      const char *HOME = getenv("HOME");
+      if (HOME && HOME[0]) {
+        const size_t len = strlen(HOME) + strlen("/snap/webots/common/tmp") + 1;
+        char *path = malloc(len);
+        snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
+        tmpdir = path;
       }
-      closedir(dir);
     }
   }
   if (tmpdir == NULL)
     tmpdir = "/tmp";
 #elif defined(__APPLE__)
-  tmpdir = "/var/tmp";
+  tmpdir = "/tmp";
 #endif
   return tmpdir;
-}
-
-const char *wbu_system_webots_tmp_path(bool refresh) {
-  static const char *WEBOTS_TMP_PATH = NULL;
-  if (WEBOTS_TMP_PATH && !refresh)
-    return WEBOTS_TMP_PATH;
-  WEBOTS_TMP_PATH = getenv("WEBOTS_TMP_PATH");
-  if (WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0])
-    return WEBOTS_TMP_PATH;
-  const char *tmp = wbu_system_tmpdir();
-  const size_t l = strlen(tmp);
-  const char *WEBOTS_PID = getenv("WEBOTS_PID");
-  int webots_pid = 0;
-  char random_part[64];
-  random_part[0] = '\0';
-  if (WEBOTS_PID && strlen(WEBOTS_PID) > 0)
-    sscanf(WEBOTS_PID, "%d", &webots_pid);
-  const size_t path_buffer_size =
-    l + 8 + 9 + sizeof(random_part) + 1;  // add 8 for "/webots-", 9 for the PID and 1 for the final '\0'
-  char *path_buffer = malloc(path_buffer_size);
-  if (webots_pid == 0) {  // get the webots pid from the most recent "webots-<PID>-XXXXXX" folder
-    DIR *dir;
-    dir = opendir(tmp);
-    if (dir) {
-      struct dirent *entry;
-      time_t most_recent = 0;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, "webots-", 7) == 0) {
-          struct stat s;
-          snprintf(path_buffer, path_buffer_size, "%s/%s", tmp, entry->d_name);
-          if (stat(path_buffer, &s) < 0)
-            continue;
-          if (!S_ISDIR(s.st_mode))
-            continue;
-          if (s.st_mtime < most_recent)
-            continue;
-          if (strlen(entry->d_name) > 70)
-            continue;
-          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
-          most_recent = s.st_mtime;
-        }
-      }
-      closedir(dir);
-    }
-  } else {  // get the random part
-    DIR *dir;
-    dir = opendir(tmp);
-    if (dir) {
-      struct dirent *entry;
-      char folder_start[32];
-      sprintf(folder_start, "webots-%d", webots_pid);
-      // reset webots_pid containing the webots script process id to be able to test if the corresponding directory was actually
-      // found
-      webots_pid = 0;
-      while ((entry = readdir(dir))) {
-        if (strncmp(entry->d_name, folder_start, strlen(folder_start)) == 0) {
-          struct stat s;
-          snprintf(path_buffer, path_buffer_size, "%s/%s", tmp, entry->d_name);
-          if (stat(path_buffer, &s) < 0)
-            continue;
-          if (!S_ISDIR(s.st_mode))
-            continue;
-          if (strlen(entry->d_name) > 70)
-            continue;
-          sscanf(entry->d_name, "webots-%d%63s", &webots_pid, random_part);
-          break;
-        }
-      }
-      closedir(dir);
-    }
-  }
-  if (webots_pid == 0) {
-    free(path_buffer);
-    path_buffer = NULL;
-  } else
-    snprintf(path_buffer, path_buffer_size, "%s/webots-%d%s", tmp, webots_pid, random_part);
-  WEBOTS_TMP_PATH = path_buffer;
-  return WEBOTS_TMP_PATH;
 }

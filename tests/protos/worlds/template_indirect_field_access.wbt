@@ -1,0 +1,39 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/protos/protos/TemplateIndirectFieldAccess.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  coordinateSystem "NUE"
+  lineScale 1
+}
+Viewpoint {
+  orientation -0.8999515417256047 0.42450878383113183 0.0993957493855782 0.509061
+  position 0.303563 0.46348 0.936228
+}
+Background {
+  skyColor [
+    0 0.811765 0.992157
+  ]
+}
+DirectionalLight {
+  direction 0 0.5 -1
+}
+Robot {
+  translation 0.1 0 0.15
+  rotation 0 1 0 1.5708
+  children [
+    DEF PROTO_template_indirect_field_access TemplateIndirectFieldAccess {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "template_indirect_field_access"
+  controllerArgs [
+    "template_indirect_field_access"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

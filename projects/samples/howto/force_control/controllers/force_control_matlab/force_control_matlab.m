@@ -1,13 +1,8 @@
-%
 % Example of spring and dampers simulation implemented with force control
 % To try this example you need to change the Robot.controller field 
 % to "force_control_matlab" in the force_control.wbt example
-% 
 
-% uncomment the next two lines if you want to use
-% MATLAB's desktop to interact with the controller:
-%desktop;
-%keyboard;
+function force_control_matlab
 
 CONTROL_STEP = 4;
 SPRING_CONSTANT = 40;

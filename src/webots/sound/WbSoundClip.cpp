@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,33 +14,45 @@
 
 #include "WbSoundClip.hpp"
 
+#include "WbPreferences.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbWaveFile.hpp"
 
 #include <QtCore/QObject>
 
+#ifdef __APPLE__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 
-WbSoundClip::WbSoundClip() : mFilename(), mDevice(NULL), mBuffer(0), mSide(0), mBalance(0.0) {
+WbSoundClip::WbSoundClip() : mBuffer(0), mSide(0), mBalance(0.0) {
 }
 
 WbSoundClip::~WbSoundClip() {
-  if (mBuffer)
+  if (mBuffer && WbSoundEngine::openAL())
     alDeleteBuffers(1, &mBuffer);
 }
 
-void WbSoundClip::load(const QString &filename, QIODevice *device, double balance, int side) {
+void WbSoundClip::load(const QString &filename, const QString &extension, QIODevice *device, double balance, int side) {
+  if (!WbSoundEngine::openAL())
+    return;
   WbWaveFile wave(filename, device);
-  wave.loadFromFile(side);
+  wave.loadFromFile(extension, side);
   if (wave.nChannels() > 1)
     wave.convertToMono(balance);
   mFilename = wave.filename();
   mSide = side;
   mBalance = balance;
-  mDevice = device;
   load(&wave);
 }
 
 void WbSoundClip::load(const WbWaveFile *wave) {
+  if (!WbSoundEngine::openAL())
+    return;
+
   ALuint buffer = 0;
 
   try {
@@ -71,3 +83,7 @@ void WbSoundClip::load(const WbWaveFile *wave) {
 
   mBuffer = buffer;
 }
+
+#ifdef __APPLE__
+#pragma GCC diagnostic pop
+#endif

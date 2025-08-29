@@ -18,16 +18,15 @@ MAX_TIME = 60.0
 sensorVisualizationNodes = []
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
-    sys.path.append(includePath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                                 'include'))
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")
     sys.exit(0)
 
 
-def apply_spline_subdivison_to_path(path, subdivision):
+def apply_spline_subdivision_to_path(path, subdivision):
     """Apply spline subdivision to the list of points."""
     spline = []
     points = list(path)
@@ -121,7 +120,6 @@ def add_sumo(supervisor):
         s.close()
     nodeString = 'SumoInterface {'
     nodeString += '  gui FALSE'
-    nodeString += '  useNetconvert FALSE'
     nodeString += '  radius 200'
     nodeString += '  laneChangeDelay 4'
     nodeString += '  enableWheelsRotation TRUE'
@@ -140,7 +138,7 @@ timestep = int(supervisor.getBasicTimeStep())
 # get main vehicle node and position
 vehicleNode = supervisor.getFromDef(VEHICLE_DEF_NAME)
 initialPosition = vehicleNode.getPosition()
-initialPoint = Point((initialPosition[0], initialPosition[2]))
+initialPoint = Point((initialPosition[0], initialPosition[1]))
 
 # get first SUMO vehicle node and position
 sumoFirstVehicle = supervisor.getFromDef("SUMO_VEHICLE0")
@@ -157,12 +155,12 @@ width = roadNode.getField("width").getSFFloat()
 laneWidth = width / laneNumber
 for i in range(waypoints.getCount()):
     point = waypoints.getMFVec3f(i)
-    coordinates.append((point[0], point[2]))
+    coordinates.append((point[1], point[0]))
 subdividedCoordinates = coordinates
 if splineSubdivision > 0:
-    subdividedCoordinates = apply_spline_subdivison_to_path(coordinates, splineSubdivision)
+    subdividedCoordinates = apply_spline_subdivision_to_path(coordinates, splineSubdivision)
 roadPath = LineString(subdividedCoordinates)
-emergencyLanePath = roadPath.parallel_offset(1.5 * laneWidth, 'left')
+emergencyLanePath = roadPath.parallel_offset(1.5 * laneWidth, 'right')
 initialDistance = roadPath.project(initialPoint)
 
 # main loop
@@ -182,7 +180,7 @@ while time < MAX_TIME and not inEmergencyLane and not collided and not sumoFailu
             sumoFailure = True
     # check if robot is inside the emergency lane
     position = vehicleNode.getPosition()
-    positionPoint = Point((position[0], position[2]))
+    positionPoint = Point((position[0], position[1]))
     if emergencyLanePath.distance(positionPoint) < 0.5 * laneWidth:
         inEmergencyLane = True
     # check for collision
@@ -194,11 +192,14 @@ while time < MAX_TIME and not inEmergencyLane and not collided and not sumoFailu
     supervisor.wwiSendText("update: " + str(time) + " {0:.3f}".format(distance))
     # check if sensors visualization should be enabled/disabled
     message = supervisor.wwiReceiveText()
-    if message and message.startswith("sensors visualization:"):
-        if message.endswith("false"):
-            enable_sensors_visualization(supervisor, False)
-        elif message.endswith("true"):
-            enable_sensors_visualization(supervisor, True)
+    while message:
+        if message.startswith("sensors visualization:"):
+            if message.endswith("false"):
+                enable_sensors_visualization(supervisor, False)
+            elif message.endswith("true"):
+                enable_sensors_visualization(supervisor, True)
+        message = supervisor.wwiReceiveText()
+
 
 supervisor.wwiSendText("stop")
 
@@ -213,17 +214,18 @@ elif sumoFailure:
                         0.01, 0.85, 0.09, 0xFF0000, 0, "Lucida Console")
 
 position = vehicleNode.getPosition()
-distance = round(roadPath.project(Point((position[0], position[2]))) - initialDistance, 3)
+distance = round(roadPath.project(Point((position[0], position[1]))) - initialDistance, 3)
 
 while supervisor.step(timestep) != -1:
     # wait for record message
     message = supervisor.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             record = robotbenchmarkRecord(message, "highway_driving", distance)
             supervisor.wwiSendText(record)
             break
         elif message == "exit":
             break
+        message = supervisor.wwiReceiveText()
 
 supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

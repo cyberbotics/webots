@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,15 +29,15 @@ public:
   explicit WbInertialUnit(WbTokenizer *tokenizer = NULL);
   WbInertialUnit(const WbInertialUnit &other);
   explicit WbInertialUnit(const WbNode &other);
-  virtual ~WbInertialUnit();
+  virtual ~WbInertialUnit() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_INERTIAL_UNIT; }
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   bool refreshSensorIfNeeded() override;
 
 private:
@@ -56,7 +56,7 @@ private:
   WbNode *clone() const override { return new WbInertialUnit(*this); }
   void init();
   void computeValue();
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
 private slots:
   void updateResolution();

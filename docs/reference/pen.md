@@ -15,7 +15,7 @@ Pen {
 ### Description
 
 The [Pen](#pen) node models a pen attached to a mobile robot, typically used to show the trajectory of the robot.
-The paint direction of the [Pen](solid.md) device coincides with the *-y*-axis of the node.
+The paint direction of the [Pen](solid.md) device coincides with the *-z*-axis of the node.
 So, it can be adjusted by modifying the rotation and translation fields of the [Solid](solid.md) node.
 By setting the `maxDistance` field is possible to define the range of the [Pen](#pen) and paint only on objects close to the device.
 For example with a small value of `maxDistance` you can simulate the real behavior of a pen or pencil that writes only on physical contact.
@@ -121,14 +121,6 @@ wb_pen_write(tag, write)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/write` | `service` | [`webots_ros::set_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -199,14 +191,6 @@ public class Pen extends Device {
 ```MATLAB
 wb_pen_set_ink_color(tag, [r g b], density)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_ink_color` | `service` | `webots_ros::pen_set_ink_color` | `int32 color`<br/>`float64 density`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 

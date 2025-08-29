@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,13 +50,13 @@ public:
   bool operator==(const WbVariant &other) const;
   bool operator!=(const WbVariant &other) const;
 
-  virtual ~WbVariant();
+  virtual ~WbVariant() override;
 
   int type() const { return mType; }
   bool isEmpty() const { return mType == -1; }
   virtual void clear();
 
-  const QString toStringRepresentation(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const;
+  const QString toSimplifiedStringRepresentation(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const;
 
   // setters
   virtual void setBool(bool b);

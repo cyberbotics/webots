@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,6 +67,11 @@ std::string Field::getTypeName() const {
 
 std::string Field::getName() const {
   return string(wb_supervisor_field_get_name(fieldRef));
+}
+
+Field *Field::getActualField() const {
+  WbFieldRef actualFieldRef = wb_supervisor_field_get_actual_field(fieldRef);
+  return Field::findField(actualFieldRef);
 }
 
 int Field::getCount() const {
@@ -171,7 +176,7 @@ void Field::setSFRotation(const double values[4]) {
   wb_supervisor_field_set_sf_rotation(fieldRef, values);
 }
 
-void Field::setSFColor(const double values[4]) {
+void Field::setSFColor(const double values[3]) {
   wb_supervisor_field_set_sf_color(fieldRef, values);
 }
 
@@ -250,24 +255,10 @@ void Field::removeSF() {
   wb_supervisor_field_remove_sf(fieldRef);
 }
 
-void Field::importMFNode(int position, const std::string &filename) {
-  wb_supervisor_field_import_mf_node(fieldRef, position, filename.c_str());
-}
-
 void Field::importMFNodeFromString(int position, const std::string &nodeString) {
   wb_supervisor_field_import_mf_node_from_string(fieldRef, position, nodeString.c_str());
 }
 
-void Field::importSFNode(const std::string &filename) {
-  wb_supervisor_field_import_sf_node(fieldRef, filename.c_str());
-}
-
 void Field::importSFNodeFromString(const std::string &nodeString) {
   wb_supervisor_field_import_sf_node_from_string(fieldRef, nodeString.c_str());
-}
-
-void Field::removeMFNode(int position) {
-  fprintf(stderr, "Field::removeMFNode is deprecated, please use "
-                  "Field::removeMF instead\n");
-  wb_supervisor_field_remove_mf(fieldRef, position);
 }

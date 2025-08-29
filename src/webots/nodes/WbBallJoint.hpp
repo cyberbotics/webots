@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ class WbBallJoint : public WbHinge2Joint {
   Q_OBJECT
 
 public:
-  virtual ~WbBallJoint();
+  virtual ~WbBallJoint() override;
   explicit WbBallJoint(WbTokenizer *tokenizer = NULL);
   WbBallJoint(const WbBallJoint &other);
   explicit WbBallJoint(const WbNode &other);
@@ -74,7 +74,7 @@ protected:
   void updateOdePositionOffset() override;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
-  void writeExport(WbVrmlWriter &writer) const override;
+  void writeExport(WbWriter &writer) const override;
 
 protected slots:
   void addDevice2(int index) override;

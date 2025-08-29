@@ -1,13 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # Extracted from:
 # https://bitbucket.org/osrf/drcsim/src/c69ecab26a55/ros/atlas_description/urdf/atlas_simple_shapes.urdf
 
+EXTERNPROTO "RUlegMesh.proto"
+
 PROTO RUlegSolid [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
 ]
 {
 Solid {
@@ -20,9 +22,8 @@ Solid {
   name "RUleg"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.0179 -0.02085 -0.13
-        rotation 1.0 0.0 0.0 1.57
         children [
           Cylinder {
             radius 0.1
@@ -30,9 +31,9 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.03 -0.01 -0.23
-        rotation 0.97789509712 -0.147912128259 0.147794388741 1.59235120797
+        rotation 0.002647 1 0.0004 -0.3
         children [
           Cylinder {
             radius 0.07
@@ -40,9 +41,9 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.005 -0.01 -0.23
-        rotation 0.97789509712 0.147912128259 -0.147794388741 1.59235120797
+        rotation -0.002647 1 0.0004 0.3
         children [
           Cylinder {
             radius 0.07
@@ -50,9 +51,9 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.02 -0.03 -0.23
-        rotation 1.0 0.0 0.0 1.82
+        rotation 1 0 0 0.2492
         children [
           Cylinder {
             radius 0.07

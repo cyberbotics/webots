@@ -4,7 +4,8 @@ precision highp float;
 
 in vec3 color;
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
+layout(location = 1) out vec4 fragNormal;
 
 uniform bool colorPerVertex;
 uniform float pointSize;
@@ -33,4 +34,6 @@ void main() {
     fragColor = vec4(color, alpha);
   else
     fragColor = vec4(material.emissiveAndOpacity.xyz, alpha);
+
+  fragNormal = vec4(0, 0, 0, 0);
 }

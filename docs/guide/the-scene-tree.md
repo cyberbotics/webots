@@ -10,7 +10,7 @@ This section describes the user interface of the Scene Tree, and gives an overvi
 
 %figure "Scene Tree Window"
 
-![scene_tree1.png](images/scene_tree1.thumbnail.jpg)
+![scene_tree.png](images/scene_tree.thumbnail.jpg)
 
 %end
 
@@ -36,13 +36,24 @@ The following buttons are available in the field editor section:
 
 %end
 
-- **Show resize handles**: Displays the handles for resizing and scaling the selected node from the 3D Window.
-This option is only displayed for Geometry nodes and nodes derived from [Transform](../reference/transform.md) node.
-In case of procedural PROTO nodes, it is only available if the fields involved in the resizing or scaling are not used in template statements.
+> **Note**:
+We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
+Some search and replace operations may actually be easier that way.
+Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for more info on the available nodes and the world file format.
 
-    > **Note**:
-We recommend to use the Scene Tree to write Webots world files. However, because
-the nodes and fields are stored in a human readable form, it is also possible to
-edit world files with a regular text editor. Some search and replace operations
-may actually be easier that way. Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for
-more info on the available nodes and the world file format.
+
+### IMPORTABLE EXTERNPROTO Panel
+
+The **IMPORTABLE EXTERNPROTO** panel can be opened by clicking the similarly named button just above the scene tree.
+
+%figure "IMPORTABLE EXTERNPROTO"
+
+![importable_externproto.png](images/importable_externproto.png)
+
+%end
+
+Every world file must declare in its header the PROTO assets it relies upon using the `EXTERNPROTO` keyword, and providing a URL or path towards each PROTO used.
+This list is normally compiled automatically by Webots when a world is saved.
+If however additional PROTO nodes might be used during the execution of the simulation, typically by having a supervisor node inserting it into the world, then the user must declare these PROTO nodes as `IMPORTABLE EXTERNPROTO`.
+By pressing the *IMPORTABLE EXTERNPROTO* button, the panel shown above will appear, and using the *Insert new* button the relevant PROTO may be searched and added to the list.
+This allows webots to download the PROTO, if not already available, prior to it being summoned into the world.

@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+# template language: javascript
+
+EXTERNPROTO "webots://tests/manual_tests/protos/Parameter.proto"
+EXTERNPROTO "webots://tests/manual_tests/protos/DerivedNode.proto"
 
 PROTO Top [
   field SFNode my_parameter Parameter {}
@@ -10,12 +14,12 @@ PROTO Top [
         type "parameter"
         endPoint IS my_parameter
       }
-      %{ if fields.my_parameter.value then }%
+      %< if (fields.my_parameter.value) { >%
         Shape {
           geometry Box {
           }
         }
-      %{ end }%
+      %< } >%
     ]
   }
 }

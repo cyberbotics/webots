@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "WbBillboard.hpp"
-#include "WbTransform.hpp"
+#include "WbSFRotation.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 
@@ -69,7 +69,7 @@ void WbBillboard::applyTranslationToWren() {
 
 void WbBillboard::applyRotationToWren() {
   const WbViewpoint *viewpoint = WbWorld::instance()->viewpoint();
-  WbSFRotation *orientation = viewpoint->orientation();
+  const WbSFRotation *orientation = viewpoint->orientation();
   float rotation[4];
   orientation->value().toFloatArray(rotation);
   wr_transform_set_orientation(wrenNode(), rotation);

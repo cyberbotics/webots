@@ -67,12 +67,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-> In ROS, car library initialization and cleanup are implicit.
-
-%tab-end
-
 %end
 
 ##### Description
@@ -144,32 +138,24 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/set_steering_angle` | `service` | `webots_ros::set_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
 
-*Set and get the stearing angle*
+*Set and get the steering angle*
 
 The `wbu_driver_set_steering_angle` function is used to steer the car, it steers the front wheels according to the Ackermann geometry (left and right wheels are not steered with the exact same angle).
 The angle is set in radians, a positive angle steers right and a negative angle steers left.
-The formulas used in order to compute the right and left angles are the following (`trackFront` and `wheelbase` are the parameters of the [Car](car.md) PROTO):
+The formulas used in order to compute the right and left angles are the following (`trackFront` and `wheelbase` are the parameters of the [Car](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/Car.proto) PROTO):
 
 
 ```c
-angle_right = atan(1 / cot(steering_angle) - trackFront / (2 * wheelbase));
-angle_left = atan(1 / cot(steering_angle) + trackFront / (2 * wheelbase));
+angle_right = atan(1 / (cot(steering_angle) - trackFront / (2 * wheelbase)));
+angle_left = atan(1 / (cot(steering_angle) + trackFront / (2 * wheelbase)));
 ```
 
 The `wbu_driver_get_steering_angle` function returns the current steering angle.
+**Note**: When the steering angle of the left and right wheels is imposed directly using the [`wbu_car_set_[right/left]_steering_angle`](car-library.md#wbu_car_set_right_steering_angle) function no update is made to the overall steering angle, in other worlds, calling this function will return zero or the last value set.
 
 ---
 
@@ -232,15 +218,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_cruising_speed` | `service` | `webots_ros::set_float` | |
-| `/automobile/get_cruising_speed` | `service` | `webots_ros::get_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -249,7 +226,7 @@ public class Driver {
 
 The `wbu_driver_set_cruising_speed` function activates the control in cruising speed of the car, the rotational speed of the wheels is forced (respecting the geometric differential constraint) in order for the car to move at the speed given in argument of the function (in kilometers per hour).
 When the control in cruising speed is activated, the speed is directly applied to the wheel without any engine model simulation, therefore any call to functions like `wbu_driver_get_rpm` will raise an error.
-The acceleration of the car is computed using the `time0To100` field of the [Car](car.md) PROTO.
+The acceleration of the car is computed using the `time0To100` field of the [Car](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/Car.proto) PROTO.
 
 The `wbu_driver_get_target_cruising_speed` function simply returns the target cruising speed (argument of the last call to the `wbu_driver_set_cruising_speed` function).
 
@@ -306,14 +283,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/current_speed` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -385,15 +354,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_throttle` | `service` | `webots_ros::set_float` | |
-| `/automobile/throttle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -470,15 +430,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_brake_intensity` | `service` | `webots_ros::set_float` | |
-| `/automobile/brake_intensity` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -486,7 +437,7 @@ public class Driver {
 *Set and get the brake intensity*
 
 The `wbu_driver_set_brake_intensity` function brakes the car by increasing the `dampingConstant` coefficient of the rotational joints of each of the four wheels.
-The argument should be between 0.0 and 1.0, 0 means that no damping constant is added on the joints (no breaking), 1 means that the parameter `brakeCoefficient` of the [Car](car.md) PROTO is applied on the `dampingConstant` of each joint (the value will be linearly interpolated between 0 and `brakeCoefficient` for any arguments between 0 and 1).
+The argument should be between 0.0 and 1.0, 0 means that no damping constant is added on the joints (no breaking), 1 means that the parameter `brakeCoefficient` of the [Car](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/Car.proto) PROTO is applied on the `dampingConstant` of each joint (the value will be linearly interpolated between 0 and `brakeCoefficient` for any arguments between 0 and 1).
 
 The `wbu_driver_get_brake_intensity` function simply returns the current brake intensity (argument of the last call to the `wbu_driver_set_brake_intensity` function).
 
@@ -570,17 +521,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_indicator` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_indicator` | `service` | `webots_ros::get_bool` | |
-| `/automobile/set_hazard_flashers` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_hazard_flashers` | `service` | `webots_ros::get_bool` | |
 
 %tab-end
 
@@ -677,17 +617,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_dipped_beam` | `service` | `webots_ros::set_bool` | |
-| `/automobile/set_antifog_light` | `service` | `webots_ros::set_bool` | |
-| `/automobile/get_antifog_light` | `service` | `webots_ros::get_bool` | |
-| `/automobile/get_dipped_beam` | `service` | `webots_ros::get_bool` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -751,14 +680,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/rpm` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 
 %tab-end
 
@@ -838,16 +759,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_gear` | `service` | `webots_ros::set_int` | |
-| `/automobile/get_gear` | `service` | `webots_ros::get_int` | |
-| `/automobile/get_gear_number` | `service` | `webots_ros::get_int` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -856,7 +767,7 @@ public class Driver {
 
 The `wbu_driver_set_gear` function sets the engaged gear.
 An argument of `-1` is used in order to engage the reverse gear, an argument of `0` is used in order to disengaged the gearbox.
-Any other arguments than `0` and `-1` should be between 1 and the number of coefficients set in the `gearRatio` parameter of the [Car](car.md) PROTO.
+Any other arguments than `0` and `-1` should be between 1 and the number of coefficients set in the `gearRatio` parameter of the [Car](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/Car.proto) PROTO.
 
 The `wbu_driver_get_gear` function returns the currently engaged gear.
 
@@ -927,14 +838,6 @@ public class Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_control_mode` | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
@@ -1029,15 +932,6 @@ public class Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_wiper_mode` | `service` | `webots_ros::set_int` | |
-| `/automobile/get_wiper_mode` | `service` | `webots_ros::get_int` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -1072,7 +966,7 @@ If `a`, `b` and `c` are the values of the `engineFunctionCoefficients` parameter
 output_torque = c * rpm² + b * rpm + a
 ```
 
-> **Note**: if the rpm is below the `engineMinRPM` parameter of the [Car](car.md) PROTO, `engineMinRPM` is used instead of the real rpm, but if the rpm is above the `engineMaxRPM` parameter, then the output torque is 0.
+> **Note**: if the rpm is below the `engineMinRPM` parameter of the [Car](https://webots.cloud/run?url={{ url.github_blob }}/projects/vehicles/protos/abstract/Car.proto) PROTO, `engineMinRPM` is used instead of the real rpm, but if the rpm is above the `engineMaxRPM` parameter, then the output torque is 0.
 
 #### Electric Engine
 

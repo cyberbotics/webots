@@ -1,35 +1,81 @@
-import {findUpperTransform} from './utils/utils.js';
+import { resetIfNegative, resetVector3IfNegative } from './utils/WbFieldChecker.js';
+import { findUpperPose } from './utils/node_utilities.js';
+import WbVector3 from './utils/WbVector3.js';
+import { WbNodeType } from './wb_node_type.js';
+
 import WbLight from './WbLight.js';
 
 export default class WbPointLight extends WbLight {
+  #attenuation;
+  #location;
+  #radius;
+  #wrenLight;
   constructor(id, on, attenuation, color, intensity, location, radius, ambientIntensity, castShadows, parent) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
-    this.attenuation = attenuation;
-    this.location = location;
-    this.radius = radius;
+    this.#attenuation = attenuation;
+    this.#location = location;
+    this.#radius = radius;
 
     if (typeof parent !== 'undefined')
       this.parent = parent.id;
   }
 
+  get nodeType() {
+    return WbNodeType.WB_NODE_POINT_LIGHT;
+  }
+
+  get attenuation() {
+    return this.#attenuation;
+  }
+
+  set attenuation(newAttenuation) {
+    this.#attenuation = newAttenuation;
+
+    this.#updateAttenuation();
+  }
+
+  get location() {
+    return this.#location;
+  }
+
+  set location(newLocation) {
+    this.#location = newLocation;
+
+    this.#updateLocation();
+  }
+
+  get radius() {
+    return this.#radius;
+  }
+
+  set radius(newRadius) {
+    this.#radius = newRadius;
+
+    this.#updateRadius();
+  }
+
   clone(customID) {
     this.useList.push(customID);
-    return new WbPointLight(customID, this.on, this.attenuation, this.color, this.intensity, this.location, this.radius, this.ambientIntensity, this.castShadows);
+    return new WbPointLight(customID, this.on, this.#attenuation, this.color, this.intensity, this.#location, this.#radius,
+      this.ambientIntensity, this.castShadows);
   }
 
   createWrenObjects() {
-    this._wrenLight = _wr_point_light_new();
-    this._attachToUpperTransform();
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
+    this.#wrenLight = _wr_point_light_new();
+    this.#attachToUpperPose();
     super.createWrenObjects();
 
-    this._applyLightAttenuationToWren();
-    this._applyNodeLocationToWren();
+    this.#applyLightAttenuationToWren();
+    this.#applyNodeLocationToWren();
   }
 
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this._detachFromUpperTransform();
-      _wr_node_delete(this._wrenLight);
+      this.#detachFromUpperPose();
+      _wr_node_delete(this.#wrenLight);
     }
 
     super.delete();
@@ -37,34 +83,34 @@ export default class WbPointLight extends WbLight {
 
   // Private functions
 
-  _attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+  #attachToUpperPose() {
+    const upperPose = findUpperPose(this);
 
-    if (typeof upperTransform !== 'undefined')
-      _wr_transform_attach_child(upperTransform.wrenNode, this._wrenLight);
+    if (typeof upperPose !== 'undefined')
+      _wr_transform_attach_child(upperPose.wrenNode, this.#wrenLight);
   }
 
-  _applyLightAttenuationToWren() {
-    _wr_point_light_set_radius(this._wrenLight, this.radius);
-    _wr_point_light_set_attenuation(this._wrenLight, this.attenuation.x, this.attenuation.y, this.attenuation.z);
+  #applyLightAttenuationToWren() {
+    _wr_point_light_set_radius(this.#wrenLight, this.#radius);
+    _wr_point_light_set_attenuation(this.#wrenLight, this.#attenuation.x, this.#attenuation.y, this.#attenuation.z);
   }
 
   _applyLightColorToWren() {
     const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
 
-    _wr_point_light_set_color(this._wrenLight, pointer);
+    _wr_point_light_set_color(this.#wrenLight, pointer);
   }
 
   _applyLightIntensityToWren() {
-    _wr_point_light_set_intensity(this._wrenLight, this.intensity);
+    _wr_point_light_set_intensity(this.#wrenLight, this.intensity);
   }
 
   _applyLightShadowsToWren() {
-    _wr_point_light_set_cast_shadows(this._wrenLight, this.castShadows);
+    _wr_point_light_set_cast_shadows(this.#wrenLight, this.castShadows);
   }
 
   _applyLightVisibilityToWren() {
-    _wr_point_light_set_on(this._wrenLight, this.on);
+    _wr_point_light_set_on(this.#wrenLight, this.on);
 
     const maxCount = _wr_config_get_max_active_point_light_count();
     const activeCount = _wr_scene_get_active_point_light_count(_wr_scene_get_instance());
@@ -72,15 +118,54 @@ export default class WbPointLight extends WbLight {
       console.log("Maximum number of active point lights has been reached, newly added lights won't be rendered.");
   }
 
-  _applyNodeLocationToWren() {
-    const position = _wrjs_array3(this.location.x, this.location.y, this.location.z);
-    _wr_point_light_set_position_relative(this._wrenLight, position);
+  #applyNodeLocationToWren() {
+    const position = _wrjs_array3(this.#location.x, this.#location.y, this.#location.z);
+    _wr_point_light_set_position_relative(this.#wrenLight, position);
   }
 
-  _detachFromUpperTransform() {
-    const node = this._wrenLight;
+  #detachFromUpperPose() {
+    const node = this.#wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
       _wr_transform_detach_child(parent, node);
+  }
+
+  #checkAmbientAndAttenuationExclusivity() {
+    if (!this.#attenuation.equal(new WbVector3(1.0, 0.0, 0.0)) && this.ambientIntensity !== 0) {
+      console.warn("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' was changed to 0.");
+      this.ambientIntensity = 0;
+    }
+  }
+
+  #updateAttenuation() {
+    const newAttenuation = resetVector3IfNegative(this.#attenuation, new WbVector3());
+    if (newAttenuation !== false) {
+      this.attenuation = newAttenuation;
+      return;
+    }
+
+    if (this.#attenuation.x > 0.0 || this.attenuation.y > 0.0)
+      console.warn("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. Only the third component of the 'attenuation' field should be greater than 0.");
+
+    this.#checkAmbientAndAttenuationExclusivity();
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#applyLightAttenuationToWren();
+  }
+
+  #updateLocation() {
+    if (this.wrenObjectsCreatedCalled)
+      this.#applyNodeLocationToWren();
+  }
+
+  #updateRadius() {
+    const newRadius = resetIfNegative(this.#radius, 0);
+    if (newRadius !== false) {
+      this.radius = newRadius;
+      return;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#applyLightAttenuationToWren();
   }
 }

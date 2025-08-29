@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,6 +52,7 @@ const char *motion_files[NUMBER_OF_MOTION_FILES + 1] = {"2HV001RC_Walk_Forward.R
                                                         "2HV024RC_Startup2.RCB",                 // 23
                                                         NULL};
 
+// cppcheck-suppress constParameter
 int main(int argc, char *argv[]) {
   // init
   wb_robot_init();

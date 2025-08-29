@@ -1,10 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.611360131216239 0.7684741649376277 0.18890804054533708 0.682231
-  position 0.158802 0.277456 0.13718
+  orientation -0.1802202076961169 0.9697462783780437 -0.16465974708441075 2.138754084237774
+  position 0.1371120857122164 0.16514476093102987 0.20462068305141456
 }
 Background {
   skyColor [
@@ -15,30 +19,34 @@ PointLight {
   ambientIntensity 1
   intensity 0
 }
-DEF BOARD Solid {
+DEF BOARD Transform {
   translation -0.06 0.05 -0.11
   rotation 0.903644221406416 0.41615510196425476 0.10120302479626216 10.9956
   scale 0.65 0.65 0.65
   children [
-    Shape {
-      appearance Appearance {
-        material Material {
-          ambientIntensity 1
-          diffuseColor 1 1 1
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 1 1 1
+            }
+            texture ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 0.1
+            radius 0.05
+          }
         }
-        texture ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
-        }
-      }
-      geometry Capsule {
-        height 0.1
-        radius 0.05
-      }
+      ]
     }
   ]
-  locked TRUE
 }
 DEF WRITER Robot {
   children [
@@ -54,10 +62,10 @@ DEF WRITER Robot {
       ]
       endPoint Pen {
         translation -0.019 0.075 -0.02
-        rotation 0.34153319654250663 0.844288485863679 0.4129552376438319 3.27249
+        rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
-          Transform {
-            translation 0 0.03 0
+          Pose {
+            translation 0 0 0.03
             children [
               Shape {
                 geometry Box {
@@ -66,19 +74,25 @@ DEF WRITER Robot {
               }
             ]
           }
-          Transform {
-            translation 0 0.031 0
+          Pose {
+            translation 0 0 0.031
+            rotation 1 0 0 1.5708
             children [
-              DEF BODY Shape {
-                appearance Appearance {
-                  material Material {
-                    diffuseColor 1 0 1
+              DEF BODY Pose {
+                rotation 1 0 0 -1.57079632679
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                        diffuseColor 1 0 1
+                      }
+                    }
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.002
+                    }
                   }
-                }
-                geometry Cylinder {
-                  height 0.05
-                  radius 0.002
-                }
+                ]
               }
             ]
           }
@@ -93,7 +107,7 @@ DEF WRITER Robot {
       children [
         Camera {
           translation 0.07 0.12 0.06
-          rotation 1 0 0 -0.3927
+          rotation 0.6393405784183476 -0.6393374365646827 -0.42718996593388425 -2.3341455005842997
           children [
             Shape {
               geometry Cylinder {

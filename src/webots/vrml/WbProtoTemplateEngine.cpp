@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,8 +42,7 @@ WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : W
 }
 
 bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector<WbField *> &parameters,
-                                     const QString &protoPath, const QString &worldPath, int id,
-                                     const QString &templateLanguage) {
+                                     const QString &protoPath, const QString &worldPath, int id) {
   // generate the final script file from the template script file
   QHash<QString, QString> tags;
 
@@ -70,11 +69,11 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
 #ifdef __APPLE__
   tags["context"] = QString("os: 'mac', ");
 #endif
-  tags["context"] += QString("world: '%1', ").arg(worldPath);
-  tags["context"] += QString("proto: '%1', ").arg(protoPath);
-  tags["context"] += QString("webots_home: '%1', ").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path: '%1', ").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path: '%1', ").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("world: '%1', ").arg(escapeString(worldPath));
+  tags["context"] += QString("proto: '%1', ").arg(escapeString(protoPath));
+  tags["context"] += QString("webots_home: '%1', ").arg(escapeString(WbStandardPaths::webotsHomePath()));
+  tags["context"] += QString("project_path: '%1', ").arg(escapeString(WbProject::current()->path()));
+  tags["context"] += QString("temporary_files_path: '%1', ").arg(escapeString(WbStandardPaths::webotsTmpPath()));
   tags["context"] += QString("id: '%1', ").arg(id);
   tags["context"] += QString("coordinate_system: '%1', ").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
@@ -82,12 +81,7 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
   tags["context"] +=
     QString("webots_version: {major: '%1', revision: '%2'}").arg(version.toString(false)).arg(version.revisionNumber());
 
-  if (templateLanguage == "lua") {
-    tags["fields"] = convertStatementFromJavaScriptToLua(tags["fields"]);
-    tags["context"] = convertStatementFromJavaScriptToLua(tags["context"]);
-  }
-
-  return WbTemplateEngine::generate(tags, logHeaderName, templateLanguage);
+  return WbTemplateEngine::generate(tags, logHeaderName);
 }
 
 void WbProtoTemplateEngine::setCoordinateSystem(const QString &coordinateSystem) {
@@ -218,16 +212,4 @@ QString WbProtoTemplateEngine::convertVariantToJavaScriptStatement(const WbVaria
       assert(false);
       return "";
   }
-}
-
-QString WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(QString &statement) {
-  // begin by converting MF entries (javascript array [...] to Lua table {...})
-  statement = statement.replace("[", "{").replace("]", "}");
-
-  statement = statement.replace("value: undefined", "value = nil");
-  statement = statement.replace("defaultValue: undefined", "defaultValue = nil");
-  statement = statement.replace(": ", " = ");
-  statement = statement.replace("'", "\"");
-
-  return statement;
 }

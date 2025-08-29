@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,12 +25,30 @@
 
 using namespace webots;
 
+Driver *Driver::dInstance = NULL;
+
 Driver::Driver() {
-  wbu_driver_init();
+  if (dInstance == NULL) {
+    dInstance = this;
+    wbu_driver_init();
+  } else {
+    std::cerr << "Only one instance of the Driver class should be created" << std::endl;
+    exit(-1);
+  }
 }
 
 Driver::~Driver() {
   wbu_driver_cleanup();
+}
+
+bool Driver::isInitialisationPossible() {
+  return wbu_driver_initialization_is_possible();
+}
+
+Driver *Driver::getDriverInstance() {
+  if (dInstance)
+    return dInstance;
+  return new Driver();
 }
 
 int Driver::step() {

@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -13,9 +17,14 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE
@@ -60,16 +69,21 @@ DEF ROBOT0 Robot {
     Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Pose {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -112,16 +126,21 @@ DEF ROBOT1 Robot {
     Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Pose {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -153,25 +172,35 @@ DEF ROBOT2 Robot {
   translation 0.3 0.05 -0.3
   rotation 0 1 0 1.5708
   children [
-    Shape {
-      geometry Cylinder {
-        height 0.1
-        radius 0.07
-      }
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.1
+            radius 0.07
+          }
+        }
+      ]
     }
     Receiver {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Pose {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -200,26 +229,36 @@ DEF ROBOT2 Robot {
 DEF ROBOT3 Robot {
   translation -0.3 0.05 -0.3
   children [
-    Shape {
-      geometry Cylinder {
-        height 0.1
-        radius 0.07
-      }
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Cylinder {
+            height 0.1
+            radius 0.07
+          }
+        }
+      ]
     }
     Receiver {
       translation 0 0.11 0
       rotation 0 1 0 1.5708
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Shape {
-              geometry Cylinder {
-                height 0.05
-                radius 0.003
-              }
+            Pose {
+              rotation 1 0 0 -1.57079632679
+              children [
+                Shape {
+                  geometry Cylinder {
+                    height 0.05
+                    radius 0.003
+                  }
+                }
+              ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {

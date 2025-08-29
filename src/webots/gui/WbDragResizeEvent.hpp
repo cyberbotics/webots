@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,7 +46,7 @@ class WbDragResizeHandleEvent : public WbDragView3DEvent {
 public:
   WbDragResizeHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
                           WbGeometry *selectedGeometry);
-  virtual ~WbDragResizeHandleEvent();
+  virtual ~WbDragResizeHandleEvent() override;
   void apply(const QPoint &currentMousePosition) override = 0;
   virtual void addActionInUndoStack() = 0;
 
@@ -59,7 +59,7 @@ protected:
   int mHandleNumber;
   WbWrenAbstractResizeManipulator *mManipulator;
   double mResizeRatio;
-  double mAbsoluteScaleRatio;
+  double mTotalScaleRatio;
   double mMouseOffset;
   double mGeomCenterOffset;
   double mSizeValue;
@@ -68,7 +68,7 @@ protected:
 
   void computeRatio(const QPoint &currentMousePosition);
   WbVector3 computeLocalMousePosition(const QPoint &currentMousePosition);
-  double newSizeValue() const { return mSizeValue; }
+  double sizeValue() const { return mSizeValue; }
 };
 
 // WbRegularResizeEvent class (another abstract layer) : resize spheres, boxes, cylinders, capsules and cones

@@ -2,7 +2,13 @@
 
 % useful env variables supplied by webots
 WEBOTS_HOME = getenv('WEBOTS_HOME');
+if ismac
+  WEBOTS_HOME_PATH = [ WEBOTS_HOME '/Contents' ];
+else
+  WEBOTS_HOME_PATH = WEBOTS_HOME;
+end
 WEBOTS_CONTROLLER_NAME = getenv('WEBOTS_CONTROLLER_NAME');
+WEBOTS_CONTROLLER_ARGS = getenv('WEBOTS_CONTROLLER_ARGS');
 WEBOTS_VERSION = getenv('WEBOTS_VERSION');
 
 if isempty(WEBOTS_CONTROLLER_NAME)
@@ -10,9 +16,9 @@ if isempty(WEBOTS_CONTROLLER_NAME)
   disp(['Using MATLAB R' version('-release')]);
   if isempty(WEBOTS_HOME)
     cd('../../..');
-    WEBOTS_HOME = pwd;
+    WEBOTS_HOME_PATH = pwd;
   else
-    cd(WEBOTS_HOME)
+    cd(WEBOTS_HOME_PATH)
   end
   [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
   k = strfind(cmdout, ' Nightly Build ');
@@ -28,7 +34,7 @@ else
 end
 
 % add path to Webots API m-files
-addpath([WEBOTS_HOME '/lib/controller/matlab']);
+addpath([WEBOTS_HOME_PATH '/lib/controller/matlab']);
 
 if ispc
   setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
@@ -46,7 +52,7 @@ if ispc
 else
   libname = 'libController';
   % add path to libController
-  addpath([WEBOTS_HOME '/lib/controller']);
+  addpath([WEBOTS_HOME_PATH '/lib/controller']);
 end
 
 try
@@ -118,6 +124,7 @@ try
         'addheader','speaker.h', ...
         'addheader','supervisor.h', ...
         'addheader','touch_sensor.h', ...
+        'addheader','vacuum_gripper.h', ...
         'addheader',['utils' filesep 'motion.h'], ...
         'addheader',['utils' filesep 'system.h']);
       disp('Load Library successful');
@@ -128,8 +135,8 @@ try
         libcontrollerloaded = true;
       else
         disp('Load Library failed.');
-        rethrow(ME);
         loadlibrary = false;
+        rethrow(ME);
       end
     end
     delete(lockfile);
@@ -141,7 +148,7 @@ try
 
   if test_mode == true
     unloadlibrary('libController');
-    cd([WEBOTS_HOME '/lib/controller/matlab']);
+    cd([WEBOTS_HOME_PATH '/lib/controller/matlab']);
     disp('Test successful.');
     return
   end
@@ -159,14 +166,27 @@ try
 
   cd([WEBOTS_PROJECT '/controllers/' WEBOTS_CONTROLLER_NAME]);
 
+  % get controller args and wrap as character vectors for eval
+  % also escape the char terminator "'" inside in an argument
+  args = '';
+  if ~isempty(WEBOTS_CONTROLLER_ARGS)
+      if ispc, envsep = ';'; else, envsep = ':'; end
+      split_args = split(WEBOTS_CONTROLLER_ARGS, envsep);
+      for i=1:length(split_args)
+          args = [args,' ''', strrep(split_args{i},'''',''''''), ''''];
+      end
+  end
+
   % sanitize controller name if needed
   if ~isvarname(WEBOTS_CONTROLLER_NAME)
     newname = matlab.lang.makeValidName(WEBOTS_CONTROLLER_NAME);
     copyfile(append(WEBOTS_CONTROLLER_NAME, '.m'), append(newname, '.m'), 'f');
-    eval(newname);
+    if desktop('-inuse'), dbstop('in', newname); end
+    eval([newname, args]);
     delete(append(newname, '.m')); % delete temporary file
   else
-    eval(WEBOTS_CONTROLLER_NAME);
+    if desktop('-inuse'), dbstop('in', WEBOTS_CONTROLLER_NAME); end
+    eval([WEBOTS_CONTROLLER_NAME, args]);
   end
 
 catch ME
@@ -177,7 +197,7 @@ catch ME
   if ispc
     if libcontrollerloaded
       % only try to put the error on the console if the library has been loaded
-      calllib('libController', 'wb_console_print', err, 1);
+      calllib('libController', 'wb_console_print', err, 2);
       exit(-1);
     end
     % on Windows, exiting systematically would imply to lose the error message

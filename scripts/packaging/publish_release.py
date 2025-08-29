@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,9 +47,6 @@ now = datetime.datetime.now()
 if now.hour <= 5:
     # Publish nightly build with previous day date even if it completes in the morning
     now = now - datetime.timedelta(hours=6)
-if now.weekday() >= 5:
-    print('Skipping nightly build for Saturday and Sunday.')
-    sys.exit(0)
 
 warningMessage = '\nIt might be unstable, for a stable version of Webots, please use the [latest official release]' \
                  '(https://github.com/cyberbotics/webots/releases/latest).'
@@ -67,6 +64,10 @@ else:
     branchLink = '[%s](https://github.com/%s/blob/%s/docs/reference/changelog-r%d.md)' \
                  % (branchName, options.repo, options.commit, now.year)
     message = 'This is a nightly build of Webots from the following branch(es):\n  - %s\n%s' % (branchLink, warningMessage)
+
+if now.weekday() >= 5 and tagName.startswith("nightly_"):
+    print("Skipping nightly build for Saturday and Sunday.")
+    sys.exit(0)
 
 for release in repo.get_releases():
     match = re.match(r'Webots Nightly Build \((\d*)-(\d*)-(\d*)\)', release.title, re.MULTILINE)
@@ -93,23 +94,47 @@ for release in repo.get_releases():
 if not releaseExists:
     print('Creating release "%s" with tag "%s" on commit "%s"' % (title, tagName, options.commit))
     draft = False if tagName.startswith('nightly_') else True
-    repo.create_git_tag_and_release(tag=tagName,
-                                    tag_message=title,
-                                    release_name=title,
-                                    release_message=message,
-                                    object=options.commit,
-                                    type='commit',
-                                    draft=draft,
-                                    prerelease=True)
+    tagExists = False
+    for tag in repo.get_tags():
+        if tag.name == tagName:
+            tagExists = True
+            break
 
+    if tagExists:
+        print('Tag "%s" already exists.' % (tagName))
+        try:
+            repo.create_git_release(tag=tagName,
+                                    name=title,
+                                    message=message,
+                                    draft=draft,
+                                    prerelease=True,
+                                    target_commitish=options.commit)
+        except GithubException as e:
+            print('Creation of release failed: ', e.data)
+    else:
+        try:
+            repo.create_git_tag_and_release(tag=tagName,
+                                            tag_message=title,
+                                            release_name=title,
+                                            release_message=message,
+                                            object=options.commit,
+                                            type='commit',
+                                            draft=draft,
+                                            prerelease=True)
+        except GithubException as e:
+            print('Creation of tag and release failed: ', e.data)
+
+time.sleep(60)  # allow some delay between creating the tag and requesting the existing ones
+releaseFound = False
 for release in repo.get_releases():
     if release.title == title:
+        releaseFound = True
         assets = {}
         for asset in release.get_assets():
             assets[asset.name] = asset
         releaseCommentModified = False
         if 'WEBOTS_HOME' in os.environ:
-            rootPath = os.environ['WEBOTS_HOME']
+            rootPath = os.path.normpath(os.environ['WEBOTS_HOME'])
         else:
             rootPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         for file in os.listdir(os.path.join(rootPath, 'distribution')):
@@ -147,4 +172,8 @@ for release in repo.get_releases():
                         release.update_release(release.title, message, release.draft, release.prerelease, release.tag_name,
                                                release.target_commitish)
         break
-print('Upload finished.')
+
+if not releaseFound:  # if it does not exist, it should have been created by the script itself
+    print('Error, release "%s" should exist by now but does not.' % title)
+else:
+    print('Upload finished.')

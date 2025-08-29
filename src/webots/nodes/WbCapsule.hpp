@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,7 @@ public:
   explicit WbCapsule(WbTokenizer *tokenizer = NULL);
   WbCapsule(const WbCapsule &other);
   explicit WbCapsule(const WbNode &other);
-  virtual ~WbCapsule();
+  virtual ~WbCapsule() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CAPSULE; }
@@ -36,7 +36,6 @@ public:
   void createResizeManipulator() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  void write(WbVrmlWriter &writer) const override;
   void rescale(const WbVector3 &scale) override;
 
   // field accessors
@@ -60,9 +59,10 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
+  QStringList fieldsToSynchronizeWithW3d() const override;
+
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeFields(WbVrmlWriter &writer) const override;
 
 private:
   // user accessible fields

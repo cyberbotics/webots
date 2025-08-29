@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ class WbDragOverlayEvent : public WbDragEvent {
 public:
   enum DragOverlayType { TRANSLATE = 0, RESIZE };
   WbDragOverlayEvent(const QPoint &initialMousePosition, WbRenderingDevice *renderingDevice);
-  virtual ~WbDragOverlayEvent(){};
+  virtual ~WbDragOverlayEvent() override{};
   virtual DragOverlayType type() = 0;
   void apply(const QPoint &currentMousePosition) override = 0;
 
@@ -42,7 +42,7 @@ protected:
 class WbDragTranslateOverlayEvent : public WbDragOverlayEvent {
 public:
   WbDragTranslateOverlayEvent(const QPoint &initialMousePosition, const QPoint &windowSize, WbRenderingDevice *renderingDevice);
-  virtual ~WbDragTranslateOverlayEvent(){};
+  virtual ~WbDragTranslateOverlayEvent() override{};
   DragOverlayType type() override { return TRANSLATE; }
   void apply(const QPoint &currentMousePosition) override;
 
@@ -57,7 +57,7 @@ protected:
 class WbDragResizeOverlayEvent : public WbDragOverlayEvent {
 public:
   WbDragResizeOverlayEvent(const QPoint &initialMousePosition, WbRenderingDevice *renderingDevice);
-  virtual ~WbDragResizeOverlayEvent();
+  virtual ~WbDragResizeOverlayEvent() override;
   DragOverlayType type() override { return RESIZE; }
   void apply(const QPoint &currentMousePosition) override;
 

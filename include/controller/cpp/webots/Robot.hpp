@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <vector>
+
+#include "../../c/webots/types.h"
 
 namespace webots {
   class Accelerometer;
@@ -47,6 +49,7 @@ namespace webots {
   class Skin;
   class Speaker;
   class TouchSensor;
+  class VacuumGripper;
 
   class Robot {
   public:
@@ -67,6 +70,8 @@ namespace webots {
     virtual ~Robot();
 
     virtual int step(int duration);
+    int stepBegin(int duration);
+    int stepEnd();
     UserInputEvent waitForUserInputEvent(UserInputEvent event_type, int timeout);
     std::string getName() const;
     std::string getUrdf(std::string prefix = "") const;
@@ -84,7 +89,6 @@ namespace webots {
     int getNumberOfDevices() const;
     Device *getDeviceByIndex(int index);
     Device *getDevice(const std::string &name);
-    int getType() const;
 
     virtual void batterySensorEnable(int samplingPeriod);
     virtual void batterySensorDisable();
@@ -118,6 +122,7 @@ namespace webots {
     Skin *getSkin(const std::string &name);
     Speaker *getSpeaker(const std::string &name);
     TouchSensor *getTouchSensor(const std::string &name);
+    VacuumGripper *getVacuumGripper(const std::string &name);
 
     void *windowCustomFunction(void *arg);
     void wwiSend(const char *data, int size);
@@ -137,33 +142,34 @@ namespace webots {
     static int getDeviceTagFromName(const std::string &name);
 
   protected:
-    virtual Accelerometer *createAccelerometer(const std::string &name) const;
-    virtual Altimeter *createAltimeter(const std::string &name) const;
-    virtual Brake *createBrake(const std::string &name) const;
-    virtual Camera *createCamera(const std::string &name) const;
-    virtual Compass *createCompass(const std::string &name) const;
-    virtual Connector *createConnector(const std::string &name) const;
-    virtual Display *createDisplay(const std::string &name) const;
-    virtual DistanceSensor *createDistanceSensor(const std::string &name) const;
-    virtual Emitter *createEmitter(const std::string &name) const;
-    virtual GPS *createGPS(const std::string &name) const;
-    virtual Gyro *createGyro(const std::string &name) const;
-    virtual InertialUnit *createInertialUnit(const std::string &name) const;
-    virtual LED *createLED(const std::string &name) const;
-    virtual Lidar *createLidar(const std::string &name) const;
-    virtual LightSensor *createLightSensor(const std::string &name) const;
-    virtual Motor *createMotor(const std::string &name) const;
-    virtual Pen *createPen(const std::string &name) const;
-    virtual PositionSensor *createPositionSensor(const std::string &name) const;
-    virtual Radar *createRadar(const std::string &name) const;
-    virtual RangeFinder *createRangeFinder(const std::string &name) const;
-    virtual Receiver *createReceiver(const std::string &name) const;
-    virtual Skin *createSkin(const std::string &name) const;
-    virtual Speaker *createSpeaker(const std::string &name) const;
-    virtual TouchSensor *createTouchSensor(const std::string &name) const;
+    static Robot *cInstance;
+    virtual Accelerometer *createAccelerometer(WbDeviceTag tag) const;
+    virtual Altimeter *createAltimeter(WbDeviceTag tag) const;
+    virtual Brake *createBrake(WbDeviceTag tag) const;
+    virtual Camera *createCamera(WbDeviceTag tag) const;
+    virtual Compass *createCompass(WbDeviceTag tag) const;
+    virtual Connector *createConnector(WbDeviceTag tag) const;
+    virtual Display *createDisplay(WbDeviceTag tag) const;
+    virtual DistanceSensor *createDistanceSensor(WbDeviceTag tag) const;
+    virtual Emitter *createEmitter(WbDeviceTag tag) const;
+    virtual GPS *createGPS(WbDeviceTag tag) const;
+    virtual Gyro *createGyro(WbDeviceTag tag) const;
+    virtual InertialUnit *createInertialUnit(WbDeviceTag tag) const;
+    virtual LED *createLED(WbDeviceTag tag) const;
+    virtual Lidar *createLidar(WbDeviceTag tag) const;
+    virtual LightSensor *createLightSensor(WbDeviceTag tag) const;
+    virtual Motor *createMotor(WbDeviceTag tag) const;
+    virtual Pen *createPen(WbDeviceTag tag) const;
+    virtual PositionSensor *createPositionSensor(WbDeviceTag tag) const;
+    virtual Radar *createRadar(WbDeviceTag tag) const;
+    virtual RangeFinder *createRangeFinder(WbDeviceTag tag) const;
+    virtual Receiver *createReceiver(WbDeviceTag tag) const;
+    virtual Skin *createSkin(WbDeviceTag tag) const;
+    virtual Speaker *createSpeaker(WbDeviceTag tag) const;
+    virtual TouchSensor *createTouchSensor(WbDeviceTag tag) const;
+    virtual VacuumGripper *createVacuumGripper(WbDeviceTag tag) const;
 
   private:
-    static Robot *cInstance;
     Keyboard *mKeyboard;
     Joystick *mJoystick;
     Mouse *mMouse;

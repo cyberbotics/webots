@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,6 +47,7 @@
 #include <webots/Node.hpp>
 #include <webots/Pen.hpp>
 #include <webots/PositionSensor.hpp>
+#include <webots/Proto.hpp>
 #include <webots/radar_target.h>
 #include <webots/Radar.hpp>
 #include <webots/RangeFinder.hpp>
@@ -56,6 +57,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/VacuumGripper.hpp>
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -82,12 +84,16 @@ using namespace std;
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 6);
   else if (test == "getOrientation" || test == "virtualRealityHeadsetGetOrientation")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 9);
-  else if (test != "getLookupTable")
-    $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
-  else if (test != "getPose")
+  else if (test == "getPose")
     $result = SWIG_JavaArrayOutDouble(jenv, $1, 16);
+  else if (test != "colors" && test != "getLookupTable")
+    $result = SWIG_JavaArrayOutDouble(jenv, $1, 3);
 }
 %apply double[] {double *};
+
+%typemap(out) double *colors {
+  $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->number_of_colors*3);
+}
 
 %typemap(out) const double *getLookupTable {
   $result = SWIG_JavaArrayOutDouble(jenv, (double *) $1, arg1->getLookupTableSize()*3);
@@ -112,6 +118,9 @@ using namespace std;
 
 //handling std::string
 %include "std_string.i"
+
+//handling WbDeviceTag
+%include <webots/types.h>
 
 //----------------------------------------------------------------------------------------------
 //  ANSI Support
@@ -428,12 +437,20 @@ namespace webots {
 %ignore webots::Field::findField(WbFieldRef ref);
 %ignore webots::Field::cleanup();
 
+%rename("getActualFieldPrivate") getActualField() const;
+%javamethodmodifiers getActualField() const "private"
+
 %rename("getSFNodePrivate") getSFNode() const;
 %rename("getMFNodePrivate") getMFNode(int index) const;
 %javamethodmodifiers getSFNode() const "private"
 %javamethodmodifiers getMFNode(int index) const "private"
 
 %typemap(javacode) webots::Field %{
+  public Field getActualField() {
+    long cPtr = wrapperJNI.Field_getActualFieldPrivate(swigCPtr, this);
+    return Field.findField(cPtr);
+  }
+
   public Node getSFNode() {
     long cPtr = wrapperJNI.Field_getSFNodePrivate(swigCPtr, this);
     return Node.findNode(cPtr);
@@ -624,11 +641,20 @@ namespace webots {
 %rename("getParentNodePrivate") getParentNode() const;
 %javamethodmodifiers getParentNode() const "private"
 
+%rename("getProtoPrivate") getProto() const;
+%javamethodmodifiers getProto() const "private"
+
 %rename("getFromProtoDefPrivate") getFromProtoDef(const std::string &name) const;
 %javamethodmodifiers getFromProtoDef(const std::string &name) const "private"
 
 %rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%rename("getBaseNodeFieldPrivate") getBaseNodeField(const std::string &fieldName) const;
+%rename("getBaseNodeFieldByIndexPrivate") getBaseNodeFieldByIndex(const int index) const;
 %javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
+%javamethodmodifiers getBaseNodeField(const std::string &fieldName) const "private"
+%javamethodmodifiers getBaseNodeFieldByIndex(const int index) const "private"
 
 %apply int *OUTPUT { int *size };
 %rename(getContactPointsPrivate) getContactPoints;
@@ -664,6 +690,11 @@ namespace webots {
     return Node.findNode(cPtr);
   }
 
+  public Proto getProto() {
+    long cPtr = wrapperJNI.Node_getProtoPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
+  }
+
   public Node getFromProtoDef(String name) {
     long cPtr = wrapperJNI.Node_getFromProtoDefPrivate(swigCPtr, this, name);
     return Node.findNode(cPtr);
@@ -671,6 +702,21 @@ namespace webots {
 
   public Field getField(String fieldName) {
     long cPtr = wrapperJNI.Node_getFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getFieldByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeField(String fieldName) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getBaseNodeFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Node_getBaseNodeFieldByIndexPrivate(swigCPtr, this, index);
     return Field.findField(cPtr);
   }
 
@@ -724,6 +770,57 @@ namespace webots {
   }
 %}
 %include <webots/PositionSensor.hpp>
+
+//----------------------------------------------------------------------------------------------
+//  Proto
+//----------------------------------------------------------------------------------------------
+
+%ignore webots::Proto::findProto(WbProtoRef ref);
+%ignore webots::Proto::cleanup();
+
+%rename("getParentPrivate") getParent() const;
+%javamethodmodifiers getParent() const "private"
+
+%rename("getFieldPrivate") getField(const std::string &fieldName) const;
+%rename("getFieldByIndexPrivate") getFieldByIndex(const int index) const;
+%javamethodmodifiers getField(const std::string &fieldName) const "private"
+%javamethodmodifiers getFieldByIndex(const int index) const "private"
+
+%typemap(javacode) webots::Proto %{
+// ----- begin hand written section ----
+  public Proto getParent() {
+    long cPtr = wrapperJNI.Proto_getParentPrivate(swigCPtr, this);
+    return Proto.findProto(cPtr);
+  }
+
+  public Field getField(String fieldName) {
+    long cPtr = wrapperJNI.Proto_getFieldPrivate(swigCPtr, this, fieldName);
+    return Field.findField(cPtr);
+  }
+
+  public Field getFieldByIndex(int index) {
+    long cPtr = wrapperJNI.Proto_getFieldByIndexPrivate(swigCPtr, this, index);
+    return Field.findField(cPtr);
+  }
+
+  private static java.util.HashMap<Long,Proto> protos = new java.util.HashMap<Long,Proto>();
+
+  // DO NOT USE THIS FUNCTION: IT IS RESERVED FOR INTERNAL USE !
+  public static Proto findProto(long cPtr) {
+    if (cPtr == 0)
+      return null;
+
+    Proto proto = protos.get(new Long(cPtr));
+    if (proto != null)
+      return proto;
+
+    proto = new Proto(cPtr, false);
+    protos.put(new Long(cPtr), proto);
+    return proto;
+  }
+%}
+
+%include <webots/Proto.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Radar
@@ -816,6 +913,12 @@ namespace webots {
 %include <webots/TouchSensor.hpp>
 
 //----------------------------------------------------------------------------------------------
+//  VacuumGripper
+//----------------------------------------------------------------------------------------------
+
+%include <webots/VacuumGripper.hpp>
+
+//----------------------------------------------------------------------------------------------
 //  Robot
 //----------------------------------------------------------------------------------------------
 
@@ -825,6 +928,7 @@ namespace webots {
 %ignore webots::Robot::getCamera(const std::string &name);
 %ignore webots::Robot::getCompass(const std::string &name);
 %ignore webots::Robot::getConnector(const std::string &name);
+%ignore webots::Robot::getDevice(const std::string &name);
 %ignore webots::Robot::getDisplay(const std::string &name);
 %ignore webots::Robot::getDistanceSensor(const std::string &name);
 %ignore webots::Robot::getEmitter(const std::string &name);
@@ -846,6 +950,7 @@ namespace webots {
 %ignore webots::Robot::getSkin(const std::string &name);
 %ignore webots::Robot::getSpeaker(const std::string &name);
 %ignore webots::Robot::getTouchSensor(const std::string &name);
+%ignore webots::Robot::getVacuumGripper(const std::string &name);
 %ignore webots::Robot::windowCustomFunction(void *arg);
 %ignore webots::Robot::wwiSend(const char *data, int size);
 %ignore webots::Robot::wwiReceive(int *size);
@@ -866,8 +971,8 @@ namespace webots {
   private Keyboard keyboard = new Keyboard();
   private Mouse mouse = new Mouse();
 
-  protected Accelerometer createAccelerometer(String name) {
-    return new Accelerometer(name);
+  protected Accelerometer createAccelerometer(int tag) {
+    return new Accelerometer(tag);
   }
 
   public Accelerometer getAccelerometer(String name) {
@@ -877,8 +982,8 @@ namespace webots {
     return (Accelerometer)getOrCreateDevice(tag);
   }
 
-  protected Altimeter createAltimeter(String name) {
-    return new Altimeter(name);
+  protected Altimeter createAltimeter(int tag) {
+    return new Altimeter(tag);
   }
 
   public Altimeter getAltimeter(String name) {
@@ -888,8 +993,8 @@ namespace webots {
     return (Altimeter)getOrCreateDevice(tag);
   }
 
-  protected Brake createBrake(String name) {
-    return new Brake(name);
+  protected Brake createBrake(int tag) {
+    return new Brake(tag);
   }
 
   public Brake getBrake(String name) {
@@ -899,8 +1004,8 @@ namespace webots {
     return (Brake)getOrCreateDevice(tag);
   }
 
-  protected Camera createCamera(String name) {
-    return new Camera(name);
+  protected Camera createCamera(int tag) {
+    return new Camera(tag);
   }
 
   public Camera getCamera(String name) {
@@ -910,8 +1015,8 @@ namespace webots {
     return (Camera)getOrCreateDevice(tag);
   }
 
-  protected Compass createCompass(String name) {
-    return new Compass(name);
+  protected Compass createCompass(int tag) {
+    return new Compass(tag);
   }
 
   public Compass getCompass(String name) {
@@ -921,8 +1026,8 @@ namespace webots {
     return (Compass)getOrCreateDevice(tag);
   }
 
-  protected Connector createConnector(String name) {
-    return new Connector(name);
+  protected Connector createConnector(int tag) {
+    return new Connector(tag);
   }
 
   public Connector getConnector(String name) {
@@ -932,8 +1037,13 @@ namespace webots {
     return (Connector)getOrCreateDevice(tag);
   }
 
-  protected Display createDisplay(String name) {
-    return new Display(name);
+  public Device getDevice(String name) {
+    int tag = getDeviceTagFromName(name);
+    return getOrCreateDevice(tag);
+  }
+
+  protected Display createDisplay(int tag) {
+    return new Display(tag);
   }
 
   public Display getDisplay(String name) {
@@ -943,8 +1053,8 @@ namespace webots {
     return (Display)getOrCreateDevice(tag);
   }
 
-  protected DistanceSensor createDistanceSensor(String name) {
-    return new DistanceSensor(name);
+  protected DistanceSensor createDistanceSensor(int tag) {
+    return new DistanceSensor(tag);
   }
 
   public DistanceSensor getDistanceSensor(String name) {
@@ -954,8 +1064,8 @@ namespace webots {
     return (DistanceSensor)getOrCreateDevice(tag);
   }
 
-  protected Emitter createEmitter(String name) {
-    return new Emitter(name);
+  protected Emitter createEmitter(int tag) {
+    return new Emitter(tag);
   }
 
   public Emitter getEmitter(String name) {
@@ -965,8 +1075,8 @@ namespace webots {
     return (Emitter)getOrCreateDevice(tag);
   }
 
-  protected GPS createGPS(String name) {
-    return new GPS(name);
+  protected GPS createGPS(int tag) {
+    return new GPS(tag);
   }
 
   public GPS getGPS(String name) {
@@ -976,8 +1086,8 @@ namespace webots {
     return (GPS)getOrCreateDevice(tag);
   }
 
-  protected Gyro createGyro(String name) {
-    return new Gyro(name);
+  protected Gyro createGyro(int tag) {
+    return new Gyro(tag);
   }
 
   public Gyro getGyro(String name) {
@@ -987,8 +1097,8 @@ namespace webots {
     return (Gyro)getOrCreateDevice(tag);
   }
 
-  protected InertialUnit createInertialUnit(String name) {
-    return new InertialUnit(name);
+  protected InertialUnit createInertialUnit(int tag) {
+    return new InertialUnit(tag);
   }
 
   public InertialUnit getInertialUnit(String name) {
@@ -1006,8 +1116,8 @@ namespace webots {
     return keyboard;
   }
 
-  protected LED createLED(String name) {
-    return new LED(name);
+  protected LED createLED(int tag) {
+    return new LED(tag);
   }
 
   public LED getLED(String name) {
@@ -1017,8 +1127,8 @@ namespace webots {
     return (LED)getOrCreateDevice(tag);
   }
 
-  protected Lidar createLidar(String name) {
-    return new Lidar(name);
+  protected Lidar createLidar(int tag) {
+    return new Lidar(tag);
   }
 
   public Lidar getLidar(String name) {
@@ -1028,8 +1138,8 @@ namespace webots {
     return (Lidar)getOrCreateDevice(tag);
   }
 
-  protected LightSensor createLightSensor(String name) {
-    return new LightSensor(name);
+  protected LightSensor createLightSensor(int tag) {
+    return new LightSensor(tag);
   }
 
   public LightSensor getLightSensor(String name) {
@@ -1039,8 +1149,8 @@ namespace webots {
     return (LightSensor)getOrCreateDevice(tag);
   }
 
-  protected Motor createMotor(String name) {
-    return new Motor(name);
+  protected Motor createMotor(int tag) {
+    return new Motor(tag);
   }
 
   public Motor getMotor(String name) {
@@ -1054,8 +1164,8 @@ namespace webots {
     return mouse;
   }
 
-  protected Pen createPen(String name) {
-    return new Pen(name);
+  protected Pen createPen(int tag) {
+    return new Pen(tag);
   }
 
   public Pen getPen(String name) {
@@ -1065,8 +1175,8 @@ namespace webots {
     return (Pen)getOrCreateDevice(tag);
   }
 
-  protected PositionSensor createPositionSensor(String name) {
-    return new PositionSensor(name);
+  protected PositionSensor createPositionSensor(int tag) {
+    return new PositionSensor(tag);
   }
 
   public PositionSensor getPositionSensor(String name) {
@@ -1076,8 +1186,8 @@ namespace webots {
     return (PositionSensor)getOrCreateDevice(tag);
   }
 
-  protected Radar createRadar(String name) {
-    return new Radar(name);
+  protected Radar createRadar(int tag) {
+    return new Radar(tag);
   }
 
   public Radar getRadar(String name) {
@@ -1087,8 +1197,8 @@ namespace webots {
     return (Radar)getOrCreateDevice(tag);
   }
 
-  protected RangeFinder createRangeFinder(String name) {
-    return new RangeFinder(name);
+  protected RangeFinder createRangeFinder(int tag) {
+    return new RangeFinder(tag);
   }
 
   public RangeFinder getRangeFinder(String name) {
@@ -1098,8 +1208,8 @@ namespace webots {
     return (RangeFinder)getOrCreateDevice(tag);
   }
 
-  protected Receiver createReceiver(String name) {
-    return new Receiver(name);
+  protected Receiver createReceiver(int tag) {
+    return new Receiver(tag);
   }
 
   public Receiver getReceiver(String name) {
@@ -1109,8 +1219,8 @@ namespace webots {
     return (Receiver)getOrCreateDevice(tag);
   }
 
-  protected Skin createSkin(String name) {
-    return new Skin(name);
+  protected Skin createSkin(int tag) {
+    return new Skin(tag);
   }
 
   public Skin getSkin(String name) {
@@ -1120,8 +1230,8 @@ namespace webots {
     return (Skin)getOrCreateDevice(tag);
   }
 
-  protected Speaker createSpeaker(String name) {
-    return new Speaker(name);
+  protected Speaker createSpeaker(int tag) {
+    return new Speaker(tag);
   }
 
   public Speaker getSpeaker(String name) {
@@ -1131,8 +1241,8 @@ namespace webots {
     return (Speaker)getOrCreateDevice(tag);
   }
 
-  protected TouchSensor createTouchSensor(String name) {
-    return new TouchSensor(name);
+  protected TouchSensor createTouchSensor(int tag) {
+    return new TouchSensor(tag);
   }
 
   public TouchSensor getTouchSensor(String name) {
@@ -1140,6 +1250,17 @@ namespace webots {
     if (!Device.hasType(tag, Node.TOUCH_SENSOR))
       return null;
     return (TouchSensor)getOrCreateDevice(tag);
+  }
+
+  protected VacuumGripper createVacuumGripper(int tag) {
+    return new VacuumGripper(tag);
+  }
+
+  public VacuumGripper getVacuumGripper(String name) {
+    int tag = getDeviceTagFromName(name);
+    if (!Device.hasType(tag, Node.VACUUM_GRIPPER))
+      return null;
+    return (VacuumGripper)getOrCreateDevice(tag);
   }
 
   public Device getDeviceByIndex(int index) {
@@ -1168,33 +1289,33 @@ namespace webots {
     devices = new Device[count + 1];
     for (int i = 0; i < count; i++) {
       int otherTag = getDeviceTagFromIndex(i);
-      String name = getDeviceNameFromTag(otherTag);
       switch(getDeviceTypeFromTag(otherTag)) {
-        case Node.ACCELEROMETER:    devices[otherTag] = createAccelerometer(name); break;
-        case Node.ALTIMETER:        devices[otherTag] = createAltimeter(name); break;
-        case Node.BRAKE:            devices[otherTag] = createBrake(name); break;
-        case Node.CAMERA:           devices[otherTag] = createCamera(name); break;
-        case Node.COMPASS:          devices[otherTag] = createCompass(name); break;
-        case Node.CONNECTOR:        devices[otherTag] = createConnector(name); break;
-        case Node.DISPLAY:          devices[otherTag] = createDisplay(name); break;
-        case Node.DISTANCE_SENSOR:  devices[otherTag] = createDistanceSensor(name); break;
-        case Node.EMITTER:          devices[otherTag] = createEmitter(name); break;
-        case Node.GPS:              devices[otherTag] = createGPS(name); break;
-        case Node.GYRO:             devices[otherTag] = createGyro(name); break;
-        case Node.INERTIAL_UNIT:    devices[otherTag] = createInertialUnit(name); break;
-        case Node.LED:              devices[otherTag] = createLED(name); break;
-        case Node.LIDAR:            devices[otherTag] = createLidar(name); break;
-        case Node.LIGHT_SENSOR:     devices[otherTag] = createLightSensor(name); break;
+        case Node.ACCELEROMETER:    devices[otherTag] = createAccelerometer(otherTag); break;
+        case Node.ALTIMETER:        devices[otherTag] = createAltimeter(otherTag); break;
+        case Node.BRAKE:            devices[otherTag] = createBrake(otherTag); break;
+        case Node.CAMERA:           devices[otherTag] = createCamera(otherTag); break;
+        case Node.COMPASS:          devices[otherTag] = createCompass(otherTag); break;
+        case Node.CONNECTOR:        devices[otherTag] = createConnector(otherTag); break;
+        case Node.DISPLAY:          devices[otherTag] = createDisplay(otherTag); break;
+        case Node.DISTANCE_SENSOR:  devices[otherTag] = createDistanceSensor(otherTag); break;
+        case Node.EMITTER:          devices[otherTag] = createEmitter(otherTag); break;
+        case Node.GPS:              devices[otherTag] = createGPS(otherTag); break;
+        case Node.GYRO:             devices[otherTag] = createGyro(otherTag); break;
+        case Node.INERTIAL_UNIT:    devices[otherTag] = createInertialUnit(otherTag); break;
+        case Node.LED:              devices[otherTag] = createLED(otherTag); break;
+        case Node.LIDAR:            devices[otherTag] = createLidar(otherTag); break;
+        case Node.LIGHT_SENSOR:     devices[otherTag] = createLightSensor(otherTag); break;
         case Node.LINEAR_MOTOR:
-        case Node.ROTATIONAL_MOTOR: devices[otherTag] = createMotor(name); break;
-        case Node.PEN:              devices[otherTag] = createPen(name); break;
-        case Node.POSITION_SENSOR:  devices[otherTag] = createPositionSensor(name); break;
-        case Node.RADAR:            devices[otherTag] = createRadar(name); break;
-        case Node.RANGE_FINDER:     devices[otherTag] = createRangeFinder(name); break;
-        case Node.RECEIVER:         devices[otherTag] = createReceiver(name); break;
-        case Node.SKIN:             devices[otherTag] = createSkin(name); break;
-        case Node.SPEAKER:          devices[otherTag] = createSpeaker(name); break;
-        case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(name); break;
+        case Node.ROTATIONAL_MOTOR: devices[otherTag] = createMotor(otherTag); break;
+        case Node.PEN:              devices[otherTag] = createPen(otherTag); break;
+        case Node.POSITION_SENSOR:  devices[otherTag] = createPositionSensor(otherTag); break;
+        case Node.RADAR:            devices[otherTag] = createRadar(otherTag); break;
+        case Node.RANGE_FINDER:     devices[otherTag] = createRangeFinder(otherTag); break;
+        case Node.RECEIVER:         devices[otherTag] = createReceiver(otherTag); break;
+        case Node.SKIN:             devices[otherTag] = createSkin(otherTag); break;
+        case Node.SPEAKER:          devices[otherTag] = createSpeaker(otherTag); break;
+        case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(otherTag); break;
+        case Node.VACUUM_GRIPPER:   devices[otherTag] = createVacuumGripper(otherTag); break;
         default:                    devices[otherTag] = null; break;
       }
     }

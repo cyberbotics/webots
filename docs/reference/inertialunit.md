@@ -14,8 +14,9 @@ InertialUnit {
 
 ### Description
 
-The [InertialUnit](#inertialunit) node simulates an *Inertial Measurement Unit* (IMU).
-The [InertialUnit](#inertialunit) computes and returns its *roll*, *pitch* and *yaw* angles with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
+The [InertialUnit](#inertialunit) computes and returns its attitude (*roll*, *pitch* and *yaw* angles) with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
+Note that the returned values correspond to the ground truth attitude of the device.
+No sensor fusion or complex calculations are performed in the background to obtain the output values.
 If you would like to measure an acceleration or an angular velocity, please use the [Accelerometer](accelerometer.md) or [Gyro](gyro.md) node instead.
 The *roll*, *pitch*, and *yaw* angles for ENU and NUE coordinate systems (the `coordinateSystem` field in the [WorldInfo](worldinfo.md) node) are depicted in the picture below.
 For the NUE coordinate system, convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
@@ -35,7 +36,7 @@ The default is that all three axes are enabled (TRUE).
 
 %figure "Roll, pitch and yaw angles in Webots' Inertial Unit"
 
-![enu_nue.png](images/enu_nue.png)
+![enu_nue.png](images/enu_nue.thumbnail.jpg)
 
 %end
 
@@ -141,18 +142,6 @@ noise = wb_inertial_unit_get_noise(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/quaternion` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the orientation is filled in |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_noise` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-
-%tab-end
-
 %end
 
 ##### Description
@@ -195,7 +184,3 @@ If these values are needed for a longer period they must be copied.
 <!-- -->
 
 > **Note** [Python]: The `getRollPitchYaw` function returns the angles as a list containing three floats.
-
-<!-- -->
-
-> **Note** [ROS]: The `/<device_name>/quaternion` topic publishes quaternions that follow ROS coordinate system convention when `coordinateSystem` in [WorldInfo](worldinfo.md) is set to `ENU`.

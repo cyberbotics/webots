@@ -1,0 +1,421 @@
+<?xml version="1.0"?>
+<robot name="e-puck" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.025" rpy="3.141589 0 0"/>
+      <geometry>
+        <cylinder radius="0.037" length="0.045"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.025" rpy="3.141589 0 0"/>
+      <geometry>
+        <cylinder radius="0.037" length="0.045"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.0051" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.04 0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0051" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.04 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="ts_emitter">
+  </link>
+  <joint name="base_link_ts_emitter_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ts_emitter"/>
+    <origin xyz="-0.0095 0 0.0486" rpy="0 0 0"/>
+  </joint>
+  <link name="speaker">
+  </link>
+  <joint name="base_link_speaker_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="speaker"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="emitter">
+  </link>
+  <joint name="base_link_emitter_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="emitter"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="receiver">
+  </link>
+  <joint name="base_link_receiver_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="receiver"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="pipe">
+  </link>
+  <joint name="base_link_pipe_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="pipe"/>
+    <origin xyz="0 0 0.0393" rpy="0 0 0"/>
+  </joint>
+  <link name="gyro">
+  </link>
+  <joint name="base_link_gyro_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gyro"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="accelerometer">
+  </link>
+  <joint name="base_link_accelerometer_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="accelerometer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="led9">
+  </link>
+  <joint name="base_link_led9_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led9"/>
+    <origin xyz="0.031 -0.0125 0.0285" rpy="0 0 0"/>
+  </joint>
+  <link name="led8">
+  </link>
+  <joint name="base_link_led8_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led8"/>
+    <origin xyz="0 0 0" rpy="0 0 -1.570786"/>
+  </joint>
+  <link name="led7">
+  </link>
+  <joint name="base_link_led7_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led7"/>
+    <origin xyz="0.022 0.025 0.041" rpy="0 0 0.783185"/>
+  </joint>
+  <link name="led6">
+  </link>
+  <joint name="base_link_led6_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led6"/>
+    <origin xyz="0 0.0337 0.041" rpy="0 0 1.57"/>
+  </joint>
+  <link name="led5">
+  </link>
+  <joint name="base_link_led5_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led5"/>
+    <origin xyz="-0.027 0.0201 0.041" rpy="0 0 -0.633185"/>
+  </joint>
+  <link name="led4">
+  </link>
+  <joint name="base_link_led4_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led4"/>
+    <origin xyz="-0.033 0 0.041" rpy="0 0 0"/>
+  </joint>
+  <link name="led3">
+  </link>
+  <joint name="base_link_led3_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led3"/>
+    <origin xyz="-0.027 -0.0201 0.041" rpy="0 0 0.633185"/>
+  </joint>
+  <link name="led2">
+  </link>
+  <joint name="base_link_led2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led2"/>
+    <origin xyz="0 -0.0337 0.041" rpy="0 0 1.57"/>
+  </joint>
+  <link name="led1">
+  </link>
+  <joint name="base_link_led1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led1"/>
+    <origin xyz="0.022 -0.025 0.041" rpy="0 0 -0.783185"/>
+  </joint>
+  <link name="led0">
+  </link>
+  <joint name="base_link_led0_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="led0"/>
+    <origin xyz="0.0337 0 0.041" rpy="0 0 0"/>
+  </joint>
+  <link name="camera">
+  </link>
+  <joint name="base_link_camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera"/>
+    <origin xyz="0.03 0 0.028" rpy="-1.570796 0 -1.570796"/>
+  </joint>
+  <link name="ls7">
+  </link>
+  <joint name="base_link_ls7_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls7"/>
+    <origin xyz="0.03 0.01 0.0329" rpy="1.570806 -0.000007 0.2992"/>
+  </joint>
+  <link name="ls6">
+  </link>
+  <joint name="base_link_ls6_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls6"/>
+    <origin xyz="0.022 0.025 0.0329" rpy="1.570801 -0.00001 0.7992"/>
+  </joint>
+  <link name="ls5">
+  </link>
+  <joint name="base_link_ls5_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls5"/>
+    <origin xyz="0 0.031 0.0329" rpy="1.570793 -0.000011 1.57079"/>
+  </joint>
+  <link name="ls4">
+  </link>
+  <joint name="base_link_ls4_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls4"/>
+    <origin xyz="-0.03 0.015 0.0329" rpy="1.570787 -0.000003 2.6392"/>
+  </joint>
+  <link name="ls3">
+  </link>
+  <joint name="base_link_ls3_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls3"/>
+    <origin xyz="-0.03 -0.015 0.0329" rpy="1.570788 0.000007 -2.643986"/>
+  </joint>
+  <link name="ls2">
+  </link>
+  <joint name="base_link_ls2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls2"/>
+    <origin xyz="0 -0.031 0.0329" rpy="1.5708 0.00001 -1.5708"/>
+  </joint>
+  <link name="ls1">
+  </link>
+  <joint name="base_link_ls1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls1"/>
+    <origin xyz="0.022 -0.025 0.0329" rpy="1.570806 0.000005 -0.8008"/>
+  </joint>
+  <link name="ls0">
+  </link>
+  <joint name="base_link_ls0_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ls0"/>
+    <origin xyz="0.03 -0.01 0.0329" rpy="1.570807 0 -0.3008"/>
+  </joint>
+  <link name="ps7">
+  </link>
+  <joint name="base_link_ps7_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps7"/>
+    <origin xyz="0.03 0.01 0.033" rpy="1.570806 -0.000007 0.2992"/>
+  </joint>
+  <link name="ps7_0">
+  </link>
+  <joint name="ps7_ps7_0_joint" type="fixed">
+    <parent link="ps7"/>
+    <child link="ps7_0"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance">
+  </link>
+  <joint name="ps7_0_appearance_joint" type="fixed">
+    <parent link="ps7_0"/>
+    <child link="appearance"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps6">
+  </link>
+  <joint name="base_link_ps6_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps6"/>
+    <origin xyz="0.022 0.025 0.033" rpy="1.570801 -0.00001 0.7992"/>
+  </joint>
+  <link name="ps6_1">
+  </link>
+  <joint name="ps6_ps6_1_joint" type="fixed">
+    <parent link="ps6"/>
+    <child link="ps6_1"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_2">
+  </link>
+  <joint name="ps6_1_appearance_2_joint" type="fixed">
+    <parent link="ps6_1"/>
+    <child link="appearance_2"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps5">
+  </link>
+  <joint name="base_link_ps5_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps5"/>
+    <origin xyz="0 0.031 0.033" rpy="1.570793 -0.000011 1.57079"/>
+  </joint>
+  <link name="ps5_3">
+  </link>
+  <joint name="ps5_ps5_3_joint" type="fixed">
+    <parent link="ps5"/>
+    <child link="ps5_3"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_4">
+  </link>
+  <joint name="ps5_3_appearance_4_joint" type="fixed">
+    <parent link="ps5_3"/>
+    <child link="appearance_4"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps4">
+  </link>
+  <joint name="base_link_ps4_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps4"/>
+    <origin xyz="-0.03 0.015 0.033" rpy="1.570787 -0.000003 2.6392"/>
+  </joint>
+  <link name="ps4_5">
+  </link>
+  <joint name="ps4_ps4_5_joint" type="fixed">
+    <parent link="ps4"/>
+    <child link="ps4_5"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_6">
+  </link>
+  <joint name="ps4_5_appearance_6_joint" type="fixed">
+    <parent link="ps4_5"/>
+    <child link="appearance_6"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps3">
+  </link>
+  <joint name="base_link_ps3_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps3"/>
+    <origin xyz="-0.03 -0.015 0.033" rpy="1.570788 0.000007 -2.643986"/>
+  </joint>
+  <link name="ps3_7">
+  </link>
+  <joint name="ps3_ps3_7_joint" type="fixed">
+    <parent link="ps3"/>
+    <child link="ps3_7"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_8">
+  </link>
+  <joint name="ps3_7_appearance_8_joint" type="fixed">
+    <parent link="ps3_7"/>
+    <child link="appearance_8"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps2">
+  </link>
+  <joint name="base_link_ps2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps2"/>
+    <origin xyz="0 -0.031 0.033" rpy="1.5708 0.00001 -1.5708"/>
+  </joint>
+  <link name="ps2_9">
+  </link>
+  <joint name="ps2_ps2_9_joint" type="fixed">
+    <parent link="ps2"/>
+    <child link="ps2_9"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_10">
+  </link>
+  <joint name="ps2_9_appearance_10_joint" type="fixed">
+    <parent link="ps2_9"/>
+    <child link="appearance_10"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps1">
+  </link>
+  <joint name="base_link_ps1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps1"/>
+    <origin xyz="0.022 -0.025 0.033" rpy="1.570806 0.000005 -0.8008"/>
+  </joint>
+  <link name="ps1_11">
+  </link>
+  <joint name="ps1_ps1_11_joint" type="fixed">
+    <parent link="ps1"/>
+    <child link="ps1_11"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_12">
+  </link>
+  <joint name="ps1_11_appearance_12_joint" type="fixed">
+    <parent link="ps1_11"/>
+    <child link="appearance_12"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="ps0">
+  </link>
+  <joint name="base_link_ps0_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ps0"/>
+    <origin xyz="0.03 -0.01 0.033" rpy="1.570807 0 -0.3008"/>
+  </joint>
+  <link name="ps0_13">
+  </link>
+  <joint name="ps0_ps0_13_joint" type="fixed">
+    <parent link="ps0"/>
+    <child link="ps0_13"/>
+    <origin xyz="0 0 0" rpy="-1.570799 0 0.16"/>
+  </joint>
+  <link name="appearance_14">
+  </link>
+  <joint name="ps0_13_appearance_14_joint" type="fixed">
+    <parent link="ps0_13"/>
+    <child link="appearance_14"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="right wheel motor" type="continuous">
+    <parent link="base_link"/>
+    <child link="right wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" velocity="6.28"/>
+    <origin xyz="0 0 0.02" rpy="0 0 0"/>
+  </joint>
+  <link name="right wheel">
+    <visual>
+      <origin xyz="0 -0.026 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.026 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left wheel motor" type="continuous">
+    <parent link="base_link"/>
+    <child link="left wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" velocity="6.28"/>
+    <origin xyz="0 -0.026 0.02" rpy="0 0 0"/>
+  </joint>
+  <link name="left wheel">
+    <visual>
+      <origin xyz="0 0.026 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.026 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.02" length="0.005"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -15,9 +19,9 @@ PointLight {
   attenuation 0 0 1
   intensity 0
 }
-DEF INCLINED_PLANE Transform {
+DEF INCLINED_PLANE Pose {
   translation 1 0 -2
-  rotation 1 0 0 1
+  rotation -1 0 0 0.57079632679
   children [
     Shape {
       appearance Appearance {
@@ -31,7 +35,7 @@ DEF INCLINED_PLANE Transform {
     }
   ]
 }
-DEF CYLINDER Transform {
+DEF CYLINDER Pose {
   translation -0.5 0 -1
   children [
     Shape {
@@ -47,8 +51,9 @@ DEF CYLINDER Transform {
       }
     }
   ]
+  rotation 1 0 0 -1.57079632679
 }
-DEF GROUND Transform {
+DEF GROUND Pose {
   translation 0 -0.1 0
   children [
     Shape {
@@ -61,10 +66,12 @@ DEF GROUND Transform {
       }
     }
   ]
+  rotation 1 0 0 -1.57079632679
 }
 Robot {
   children [
     DEF FIXED_LIDAR Lidar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       horizontalResolution 256
       fieldOfView 1.57075
       verticalFieldOfView 0.1
@@ -72,7 +79,7 @@ Robot {
       maxRange 5
     }
     DEF ROTATING_LIDAR Lidar {
-      rotation 0 1 0 0.78539816
+      rotation -0.28108510281603044 0.6785992482197749 0.6785972482190434 2.59357
       name "rotating lidar"
       horizontalResolution 1024
       fieldOfView 1.57075

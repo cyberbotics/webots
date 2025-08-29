@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,7 @@ public:
   explicit WbBackground(WbTokenizer *tokenizer = NULL);
   WbBackground(const WbBackground &other);
   explicit WbBackground(const WbNode &other);
-  virtual ~WbBackground();
+  virtual ~WbBackground() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_BACKGROUND; }
@@ -58,7 +58,8 @@ signals:
   void luminosityChanged();
 
 protected:
-  void exportNodeFields(WbVrmlWriter &writer) const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   static QList<WbBackground *> cBackgroundList;
@@ -93,6 +94,7 @@ private:
   float *mIrradianceTexture[6];
   int mIrradianceWidth;
   int mIrradianceHeight;
+  int mUrlCount;
 
   // skybox related fields
   WrShaderProgram *mSkyboxShaderProgram;

@@ -1,0 +1,44 @@
+#VRML_SIM R2025a utf8
+# license: Apache License 2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Cardboard.proto
+# keywords: appearance/other
+# A cardboard material containing several types that can make a box if combined.
+# template language: javascript
+
+PROTO Cardboard [
+  field SFColor  colorOverride    1 1 1         # Defines the color to be multiplied with the texture color.
+  field SFString{"top", "bottom", "left", "right", "front", "back"}
+                 type             "back"        # Defines the cardboard face.
+  field SFNode   textureTransform NULL          # Defines an optional 2d texture transform.
+  field SFFloat  IBLStrength      1             # Defines the strength of ambient lighting from the Background node.
+]
+{
+  PBRAppearance {
+    baseColor IS colorOverride
+    baseColorMap ImageTexture {
+      url [
+        %<= '"textures/cardboard/cardboard_' + fields.type.value + '_base_color.jpg"' >%
+      ]
+    }
+	  roughness 0.7
+    roughnessMap ImageTexture {
+      url [
+        %<= '"textures/cardboard/cardboard_' + fields.type.value + '_roughness.jpg"' >%
+      ]
+    }
+    metalness 0
+    IBLStrength IS IBLStrength
+    normalMap ImageTexture {
+      url [
+        %<= '"textures/cardboard/cardboard_' + fields.type.value + '_normal.jpg"' >%
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        %<= '"textures/cardboard/cardboard_' + fields.type.value + '_occlusion.jpg"' >%
+      ]
+    }
+    textureTransform IS textureTransform
+  }
+}

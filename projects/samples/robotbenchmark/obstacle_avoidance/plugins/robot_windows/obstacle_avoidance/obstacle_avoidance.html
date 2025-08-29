@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset='UTF-8'>
-    <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
+    <link type="text/css" rel="stylesheet" href='webots://projects/samples/robotbenchmark/include/tabs.css' />
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
   </head>
   <body>
     <div id='infotabs' class='wrapper webotsTabs'>
@@ -34,15 +35,17 @@
                To combat this, the Thymio II is equipped with a Compass device, although the default controller does not make use of it.
                The compass can be enabled using the following snippet:</p>
             <pre style='background:#FEE'>
-          # import Compass module
-          from controller import Compass
-          # get robot's Compass device
-          compass = robot.getCompass("compass")
-          # enable the Compass
-          compass.enable(timestep)
 
-          # to read values
-          values = compass.getValues()</pre>
+  # import Compass module
+  from controller import Compass
+  # get robot's Compass device
+  compass = robot.getCompass("compass")
+  # enable the Compass
+  compass.enable(timestep)
+
+  # to read values
+  values = compass.getValues()
+          </pre>
           <p>Full documentation on the Compass device can be found <a target="_blank" href="https://www.cyberbotics.com/doc/reference/compass">here.</a></p>
         </div>
         <input class="radio" id="explanations" name="group" type="radio">
@@ -57,7 +60,7 @@
         </div>
       </div>
     </div>
-    <script src="obstacle_avoidance.js"></script>
+    <script type="module" src="obstacle_avoidance.js"></script>
     <script>
       let height;
       function adaptPositionOfText() {

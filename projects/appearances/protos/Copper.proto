@@ -1,6 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Copper.proto
+# keywords: appearance/metal
 # A copper material.
 
 PROTO Copper [
@@ -11,17 +13,17 @@ PROTO Copper [
   PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_base_color.jpg"
+        "textures/copper/copper_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_roughness.jpg"
+        "textures/copper/copper_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/copper/copper_metalness.jpg"
+        "textures/copper/copper_metalness.jpg"
       ]
     }
     IBLStrength IS IBLStrength

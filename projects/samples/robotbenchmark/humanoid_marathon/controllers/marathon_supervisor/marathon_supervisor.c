@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
 
   // Wait for user credentials and show benchmark score in robot window
   while (wb_robot_step(TIME_STEP) != -1) {
-    const char *message = wb_robot_wwi_receive_text();
-    if (message) {
+    const char *message;
+    while ((message = wb_robot_wwi_receive_text())) {
       if (strncmp(message, "record:", 7) == 0) {
         robotbenchmark_record(message, "humanoid_marathon", distance);
         break;

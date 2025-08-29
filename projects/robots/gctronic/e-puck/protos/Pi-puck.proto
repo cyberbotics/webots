@@ -1,14 +1,19 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/epuck
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/e-puck/protos/Pi-puck.proto
+# keywords: robot/extension
 # Raspberry pi extension for the e-puck robot model 2
 # To be inserted in the `turretSlot` of the E-puck node.
+
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
 
 PROTO Pi-puck [
 ]
 {
   Solid {
+    rotation 0.5773502692 -0.5773502692 -0.5773502692 2.0943951024
     children [
       LED {
         translation -0.0301 0.0022 -0.0258
@@ -67,26 +72,27 @@ PROTO Pi-puck [
         color []
         gradual TRUE
       }
-      DEF CYLINDER_TRANSFORM Transform {
+      DEF CYLINDER_TRANSFORM Pose {
         translation 0 0.001 -0.0094
+        rotation 1 0 0 -1.5708
         children [
           DEF TOP Shape {
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_base_color.jpg"
+                  "textures/pi-puck_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_normal.jpg"
+                  "textures/pi-puck_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_top_occlusion.jpg"
+                  "textures/pi-puck_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -104,7 +110,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/pi-puck_bottom.jpg"
+                  "textures/pi-puck_bottom.jpg"
                 ]
               }
               roughness 1
@@ -145,19 +151,19 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_base_color.jpg"
+                  "textures/raspberry_pi_top_base_color.jpg"
                 ]
               }
               roughness 1
               metalness 0
               normalMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_normal.jpg"
+                  "textures/raspberry_pi_top_normal.jpg"
                 ]
               }
               occlusionMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_top_occlusion.jpg"
+                  "textures/raspberry_pi_top_occlusion.jpg"
                 ]
               }
               textureTransform TextureTransform {
@@ -180,7 +186,7 @@ PROTO Pi-puck [
             appearance PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/gctronic/e-puck/protos/textures/raspberry_pi_bottom.jpg"
+                  "textures/raspberry_pi_bottom.jpg"
                 ]
               }
               roughness 1
@@ -224,7 +230,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF CONNECTOR Transform {
+      DEF CONNECTOR Pose {
         translation 0 0.004 -0.022
         children [
           Shape {
@@ -239,7 +245,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF SD_CARD Transform {
+      DEF SD_CARD Pose {
         translation -0.03 0.006 -0.012
         children [
           Shape {
@@ -254,7 +260,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF USB_0 Transform {
+      DEF USB_0 Pose {
         translation -0.022 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -267,7 +273,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF USB_2 Transform {
+      DEF USB_2 Pose {
         translation -0.01 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -280,7 +286,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF HDMI Transform {
+      DEF HDMI Pose {
         translation 0.02 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -295,7 +301,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation 0.02 0.002 -0.034
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         appearance PBRAppearance {
         }
         screwRadius 0.0008
@@ -303,7 +309,7 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.0005 0.002 0.0224
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(0)"
         appearance PBRAppearance {
         }
@@ -312,14 +318,14 @@ PROTO Pi-puck [
       }
       CapScrew {
         translation -0.02 0.002 -0.0347
-        rotation 1 0 0 1.5708
+        rotation 0 0 1 -1.5708
         name "cap screw(1)"
         appearance PBRAppearance {
         }
         screwRadius 0.0008
         screwLength 0.005
       }
-      DEF USB_PLUG Transform {
+      DEF USB_PLUG Pose {
         translation 0 0.002 -0.042
         rotation 0.5773509358560258 0.577349935856137 0.577349935856137 2.09439
         children [
@@ -375,8 +381,9 @@ PROTO Pi-puck [
       }
     ]
     name "pi-puck"
-    boundingObject DEF CYLINDER_TRANSFORM Transform {
+    boundingObject DEF CYLINDER_TRANSFORM Pose {
       translation 0 0.001 -0.0094
+      rotation 1 0 0 -1.5708
       children [
         Cylinder {
           height 0.002

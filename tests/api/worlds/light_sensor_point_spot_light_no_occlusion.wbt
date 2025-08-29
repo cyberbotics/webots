@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -13,9 +17,14 @@ Background {
 }
 Solid {
   children [
-    Shape {
-      geometry Plane {
-      }
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   locked TRUE
@@ -55,8 +64,8 @@ DEF ROBOT Robot {
       translation -0.05 0 0
       rotation 0 0 1 3.1415
       children [
-        DEF SENSOR_TRANSFROM Transform {
-          rotation 0 0 1 1.57
+        DEF SENSOR_POSE Pose {
+          rotation -0.577656775504144 0.577196954994953 0.57719695499778 2.09393540393697
           children [
             Shape {
               geometry Cylinder {
@@ -69,19 +78,17 @@ DEF ROBOT Robot {
       ]
       name "ls0"
       lookupTable [
-        0 0 0
-        10 1024 0
+        0 0 0        10 1024 0
       ]
     }
     LightSensor {
       translation 0.05 0 0
       children [
-        USE SENSOR_TRANSFROM
+        USE SENSOR_POSE
       ]
       name "ls1"
       lookupTable [
-        0 0 0
-        10 1024 0
+        0 0 0        10 1024 0
       ]
     }
     TestSuiteEmitter {

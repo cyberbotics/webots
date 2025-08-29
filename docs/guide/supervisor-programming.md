@@ -7,7 +7,7 @@ The programming examples provided here are in C, but same concepts apply to C++,
 If the `supervisor` field of the [Robot](../reference/robot.md) node is set to `TRUE` the `wb_supervisor_*` functions are available in addition to the regular `wb_robot_*` functions.
 
 A [Robot](../reference/robot.md) node whose `supervisor` field is set to `TRUE` can be used as any regular [Robot](../reference/robot.md) node, but in addition, the `wb_supervisor_*` functions can also be used to control the simulation process and modify the Scene Tree.
-For example the [Supervisor AP](../reference/supervisor.md) can replace human actions such as measuring the distance travelled by a robot or moving it back to its initial position, etc.
+For example the [Supervisor API](../reference/supervisor.md) can replace human actions such as measuring the distance travelled by a robot or moving it back to its initial position, etc.
 The [Supervisor API](../reference/supervisor.md) can also be used to take a screen shot or a video of the simulation, restart or terminate the simulation, etc.
 It can read or modify the value of every fields in the Scene Tree, e.g. read or change the position of robots, the color of objects, or switch on or off the light sources, and do many other useful things.
 
@@ -71,7 +71,7 @@ int main() {
   // do this once only
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
   if (robot_node == NULL) {
-    std:cerr << "No DEF MY_ROBOT node found in the current world file" << std::endl;
+    std::cerr << "No DEF MY_ROBOT node found in the current world file" << std::endl;
     exit(1);
   }
   Field *trans_field = robot_node->getField("translation");
@@ -147,6 +147,8 @@ public class SupervisorController {
 
 %tab "MATLAB"
 ```MATLAB
+function supervisor_controller
+
 TIME_STEP = 32;
 % do this once only
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
@@ -155,6 +157,7 @@ if robot_node == 0
   quit(1);
 end
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+
 while wb_robot_step(TIME_STEP) ~= -1
   % this is done repeatedly
   values = wb_supervisor_field_get_sf_vec3f(trans_field);
@@ -385,10 +388,14 @@ public class SupervisorController {
 
 %tab "MATLAB"
 ```MATLAB
+function supervisor_controller
+
 TIME_STEP = 32;
+
 % get handle to robot's translation field
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+
 for a = 0:25
   for b = 0:33
     % evaluate robot during 60 seconds (simulation time)
@@ -401,10 +408,12 @@ for a = 0:25
         quit(0);
       end
     end
+	
     % compute travelled distance
     values = wb_supervisor_field_get_sf_vec3f(trans_field);
     dist = sqrt((values(1) * values(1)) + (values(3) * values(3)));
     wb_console_print(sprintf('a=%g, b=%g -> dist=%g\n', a, b, dist), WB_STDOUT);
+	
     % reset robot position and physics
     INITIAL = [0, 0.5, 0];
     wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);

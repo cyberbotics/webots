@@ -7,8 +7,8 @@ Motor {
   SFFloat  acceleration      -1       # {-1, [0, inf)}
   SFFloat  consumptionFactor 10       # [0, inf)
   SFVec3f  controlPID        10 0 0   # any positive vector
-  SFFloat  minPosition       0        # (-inf, inf) or [-pi, pi]
-  SFFloat  maxPosition       0        # (-inf, inf) or [-pi, pi]
+  SFFloat  minPosition       0        # (-inf, inf)
+  SFFloat  maxPosition       0        # (-inf, inf)
   SFFloat  maxVelocity       10       # [0, inf)
   SFFloat  multiplier        1        # (inf, 0[ or ]0, inf)
   SFString sound             ""       # any string
@@ -22,7 +22,7 @@ A [Motor](#motor) node is an abstract node (not instantiated) whose derived clas
 These classes can be used in a mechanical simulation to power a joint hence producing a motion along, or around, one of its axes.
 
 A [RotationalMotor](rotationalmotor.md) can power a [HingeJoint](hingejoint.md) (resp. a [Hinge2Joint](hinge2joint.md)) when set inside the `device` (resp. `device` or `device2`) field of these nodes.
-It produces then a rotational motion around the choosen axis.
+It produces then a rotational motion around the chosen axis.
 Likewise, a [LinearMotor](linearmotor.md) can power a [SliderJoint](hingejoint.md), producing a sliding motion along its axis.
 
 ### Field Summary
@@ -221,9 +221,16 @@ Although each sibling motor receives the same command, what the motors actually 
 
 > **Note**: The motors are *logically* coupled together, not *mechanically*.
 If one of the motors is physically blocked, the others are in no way affected by it.
+This provides a useful side-effect: when used in force-control mode, coupled-motors allow to easily simulate a mechanical differential.
+The role of a differential is to change the speed of the wheel relatively to each other.
+But also, it splits *equally* the motor torque to each wheel.
+Therefore it suffices to apply the same torque on multiple (coupled) motors, and the physics engine will adapt the speeds accordingly.
+It works for a regular car as well as for a 4x4 vehicle, as long as they have 3 differentials (front, rear, and central).
+Using `multiplier` here also makes sense, because some differentials do not split in half: sometimes a central differential splits 40%-60% to get more torque to the rear wheels.
+This parameter doesn't depend on the actual speed and characteristics of the wheels, it's only a mechanical setting.
 
 > **Note**: Although any among the coupled motors can be controlled, commands should be given to just one among them at any given time in order to avoid confusion or conflicts.
-For instance, it isn't possible to do Position Control for one motor and Velocity Control another at the same time.
+For instance, it is not possible to do Position Control for one motor and Velocity Control another at the same time.
 Whatever command is given to a motor, it is relayed to all of its siblings hence overwriting any prior settings imposed on them.
 In other words, only the last command given is the one actually being enforced across the coupling.
 
@@ -441,30 +448,6 @@ multiplier = wb_motor_get_multiplier(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_position` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_velocity` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_acceleration` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_available_force` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_available_torque` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_control_pid` | `service` | `webots_ros::motor_set_control_pid` | `float64 controlp`<br/>`float64 controli`<br/>`float64 controld`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/get_target_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_min_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_position` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_velocity` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_velocity` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_acceleration` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_available_force` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_force` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_available_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_torque` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_multiplier` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -657,19 +640,6 @@ torque = wb_motor_get_torque_feedback(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/force_feedback` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/torque_feedback` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/force_feedback_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/force_feedback_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/torque_feedback_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/torque_feedback_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -778,15 +748,6 @@ wb_motor_set_torque(tag, torque)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_force` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_torque` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -882,14 +843,6 @@ type = wb_motor_get_type(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -981,15 +934,6 @@ public class Motor extends Device {
 tag = wb_brake_get_brake(tag)
 tag = wb_brake_get_position_sensor(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_brake_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
-| `/<device_name>/get_position_sensor_name` | `service` | [`webots_ros::get_string`](ros-api.md#common-services) | |
 
 %tab-end
 

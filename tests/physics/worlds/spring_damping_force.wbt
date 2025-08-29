@@ -1,4 +1,9 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   physics "spring_damping_force_plugin"
   coordinateSystem "NUE"
@@ -16,6 +21,7 @@ DirectionalLight {
   direction 0 -1 0
 }
 Floor {
+  rotation 1 0 0 -1.5708
 }
 DEF SLIDER_JOINT_1 Solid {
   translation 0 0.05 0
@@ -51,7 +57,7 @@ DEF SLIDER_JOINT_1 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -109,7 +115,7 @@ DEF SLIDER_JOINT_2 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -171,7 +177,7 @@ DEF HINGE_JOINT_3 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -230,7 +236,7 @@ DEF HINGE_JOINT_4 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -290,7 +296,7 @@ DEF BALL_JOINT_5 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -348,7 +354,7 @@ DEF BALL_JOINT_6 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {

@@ -1,10 +1,12 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/PerforatedMetal.proto
+# keywords: appearance/metal
 # A perforated metal material.
 
 PROTO PerforatedMetal [
-  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFColor colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
@@ -13,13 +15,13 @@ PROTO PerforatedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/perforated_metal/perforated_metal_base_color.png"
+        "textures/perforated_metal/perforated_metal_base_color.png"
       ]
     }
     roughness 0.3
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/perforated_metal/perforated_metal_normal.png"
+        "textures/perforated_metal/perforated_metal_normal.png"
       ]
     }
     textureTransform IS textureTransform

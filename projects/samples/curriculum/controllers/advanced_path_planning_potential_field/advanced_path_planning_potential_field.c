@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -176,6 +176,7 @@ static float distance_to_segment(float x, float y, float ax, float ay, float bx,
   float v1p_x = x - ax;  // vector from 1st segment point to test point
   float v1p_y = y - ay;
   float norm_v12 = sqrt(v12_x * v12_x + v12_y * v12_y);
+  // cppcheck-suppress variableScope
   float norm_v1p = sqrt(v1p_x * v1p_x + v1p_y * v1p_y);
   float dot_v12_v1p = v12_x * v1p_x + v12_y * v1p_y;
 
@@ -238,10 +239,6 @@ static float distance_to_obstacle(float x, float y, float *vec_x, float *vec_y) 
   // for each segment of the obstacle
   for (i = 0; i < OBSTACLE_SIZE; i++) {
     inObstacle = 1;
-
-    int ip = i + 1;
-    if (ip > OBSTACLE_SIZE)
-      ip = 1;
 
     float d = distance_to_segment(x, y, obstacle[i][0], obstacle[i][1], obstacle[(i + 1) % OBSTACLE_SIZE][0],
                                   obstacle[(i + 1) % OBSTACLE_SIZE][1], &cand_x, &cand_y);

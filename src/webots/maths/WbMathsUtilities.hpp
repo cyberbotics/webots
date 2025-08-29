@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,13 +25,19 @@ class WbVector3;
 
 namespace WbMathsUtilities {
 
+  static const double EPSILON = 0.0001;
+
   enum { X, Y, Z };
 
   bool isPowerOf2(unsigned int n);
   unsigned int nextPowerOf2(unsigned int n);
   int round(double n);
-  inline double discretize(double value, double resolution) { return ((int)(value / resolution + 0.5)) * resolution; }
-  inline double discretize(float value, float resolution) { return ((int)(value / resolution + 0.5f)) * resolution; }
+  inline double discretize(double value, double resolution) {
+    return ((int)(value / resolution + 0.5)) * resolution;
+  }
+  inline double discretize(float value, float resolution) {
+    return ((int)(value / resolution + 0.5f)) * ((double)resolution);
+  }
 
   // performs two Graham scan and returns the indices of points in the convex hull
   int twoStepsConvexHull(const QVector<WbVector2> &points, QVector<int> &hullIndices);
@@ -53,8 +59,13 @@ namespace WbMathsUtilities {
   // Find rational approximation of given real number
   // returns false if no approximation is found
   bool computeRationalApproximation(double value, int maxDenominator, int &numerator, int &denominator);
+  // This will clamp value between -1 and 1 to avoid NaN generation
+  inline double clampedAcos(double value);
+  // This will clamp value between -1 and 1 to avoid indefinite value being generated
+  inline double clampedAsin(double value);
 };  // namespace WbMathsUtilities
 
+// Normalize angle to be within +/-pi of lastSpot.
 inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0.0) {
   static const double INV_TWO_PI = 0.5 / M_PI;
   double d = angle - lastSpot;
@@ -63,4 +74,27 @@ inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0
     d -= 2.0 * M_PI;
   return d + lastSpot;
 }
+
+// Make sure that the value is within the valid range before calling acos
+// If not then the behavior is similar to a clamped value.
+inline double WbMathsUtilities::clampedAcos(double value) {
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAcos out of range.");
+  if (value >= 1.0)
+    return 0.0;
+  if (value <= -1.0)
+    return M_PI;
+  return acos(value);
+}
+
+// Make sure that the value is within the valid range before calling asin
+// If not then the behavior is similar to a clamped value.
+inline double WbMathsUtilities::clampedAsin(double value) {
+  assert((fabs(value) < 1.0 + EPSILON) && "Value passed to clampedAsin out of range.");
+  if (value >= 1.0)
+    return M_PI / 2;
+  if (value <= -1.0)
+    return -M_PI / 2;
+  return asin(value);
+}
+
 #endif  // WB_MATHS_UTILITIES_HPP

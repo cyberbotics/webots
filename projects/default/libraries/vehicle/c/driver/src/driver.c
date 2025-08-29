@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,7 +49,7 @@ static const double tmp = 1.0;
 #include <stdlib.h>
 #include <string.h>
 
-#define ACCELERATION_THRESHOLD 0.05  // maximum aceleration allowed for the wheels [rad/s2]
+#define ACCELERATION_THRESHOLD 50  // maximum acceleration allowed for the wheels [rad/s2]
 #define INDICATOR_AUTO_DISABLING_THRESHOLD 0.1
 #define BLINKER_SOUND_FILE "sounds/blinker.wav"
 
@@ -84,6 +84,26 @@ static driver *instance = NULL;
 //***********************************//
 //        Utility functions          //
 //***********************************//
+
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
+}
 
 static double kmh_to_rads(double kmh, double wheel_radius) {
   return kmh / 3.6 / wheel_radius;
@@ -124,8 +144,8 @@ static double differential_ratio_central() {
 }
 
 static double compute_output_torque() {
-  // Compute available torque taking into acount the current gear ratio and engine model
-  double gear_ratio = 0.0;
+  // Compute available torque taking into account the current gear ratio and engine model
+  double gear_ratio;
   if (instance->gear > 0)
     gear_ratio = instance->car->gear_ratio[instance->gear];
   else if (instance->gear < 0)  // reverse
@@ -137,7 +157,8 @@ static double compute_output_torque() {
   WbuCarEngineType engine = instance->car->engine_type;
 
   double real_rpm = instance->rpm;
-  if ((instance->gear >= 0) && (real_rpm < 0))
+  // cppcheck-suppress knownConditionTrueFalse
+  if (instance->gear > 0 && real_rpm < 0)
     real_rpm = 0;
   double engine_rpm = real_rpm;
   if ((engine_rpm < instance->car->engine_min_rpm) &&
@@ -167,8 +188,8 @@ static double compute_output_torque() {
   if (real_rpm == instance->car->engine_max_rpm)  // maximum rotation speed of the motor, we don't want to increase it !
     output_torque = 0;
 
-  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarly
-  // do not touch the ground)
+  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarily
+  // does not touch the ground)
   if (fabs(instance->car->max_acceleration) > ACCELERATION_THRESHOLD)
     output_torque *= (ACCELERATION_THRESHOLD / fabs(instance->car->max_acceleration));
 
@@ -199,7 +220,7 @@ static void update_wheels_speed(int ms) {  // Warning speed is wrong the first t
   // Compute wheels speeds
   for (i = 0; i < 4; i++) {
     instance->car->speeds[i] = 1000 * (current_position[i] - previous_position[i]) / ms;
-    const double acceleration = (instance->car->speeds[i] - previous_speed[i]) / ms;
+    const double acceleration = 1000 * (instance->car->speeds[i] - previous_speed[i]) / ms;
     if (fabs(acceleration) > fabs(instance->car->max_acceleration))
       instance->car->max_acceleration = acceleration;
     previous_position[i] = current_position[i];
@@ -269,7 +290,8 @@ static void update_slip_ratio() {
       instance->front_slip_ratio = -1;
     else if (instance->front_slip_ratio > 1)
       instance->front_slip_ratio = 1;
-  } else if (instance->car->type == WBU_CAR_PROPULSION || instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
+  }
+  if (instance->car->type == WBU_CAR_PROPULSION || instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
     // Compute and update the rear slip differential ratio (between -1 and 1)
     double real_rear_ratio = (instance->car->speeds[2] / (instance->car->speeds[2] + instance->car->speeds[3])) * 2 - 1;
     // for better result a PD controller can be used here
@@ -280,9 +302,10 @@ static void update_slip_ratio() {
       instance->rear_slip_ratio = -1;
     else if (instance->rear_slip_ratio > 1)
       instance->rear_slip_ratio = 1;
-  } else if (instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
+  }
+  if (instance->car->type == WBU_CAR_FOUR_BY_FOUR) {
     // Compute and update the central slip differential ratio (between -1 and 1)
-    double front_speed_sum = instance->car->speeds[0] + instance->car->speeds[0];
+    double front_speed_sum = instance->car->speeds[0] + instance->car->speeds[1];
     double rear_speed_sum = instance->car->speeds[2] + instance->car->speeds[3];
     double real_central_ratio = (front_speed_sum / (front_speed_sum + rear_speed_sum)) * 2 - 1;
     // for better result a PD controller can be used here
@@ -425,6 +448,7 @@ static void update_engine_sound() {
     }
     if (rpm < instance->car->engine_min_rpm)
       rpm = instance->car->engine_min_rpm;
+    // cppcheck-suppress variableScope
     double pitch = rpm / instance->car->engine_sound_rpm_reference;
     if (stop_sound)
       wb_speaker_stop(instance->engine_speaker, instance->car->engine_sound);
@@ -565,7 +589,7 @@ void wbu_driver_set_steering_angle(double steering_angle) {
   wb_motor_set_position(instance->car->steering_motors[0], right_angle);  // right
   wb_motor_set_position(instance->car->steering_motors[1], left_angle);   // left
 
-  // the differential speeds need to be recomupte
+  // the differential speeds need to be recomputed
   if (instance->control_mode == SPEED)
     wbu_driver_set_cruising_speed(instance->cruising_speed);
 

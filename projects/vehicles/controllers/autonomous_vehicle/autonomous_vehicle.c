@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -394,6 +394,10 @@ int main(int argc, char **argv) {
         double obstacle_angle;
         if (enable_collision_avoidance)
           obstacle_angle = process_sick_data(sick_data, &obstacle_dist);
+        else {
+          obstacle_angle = UNKNOWN;
+          obstacle_dist = 0;
+        }
 
         // avoid obstacles and follow yellow line
         if (enable_collision_avoidance && obstacle_angle != UNKNOWN) {

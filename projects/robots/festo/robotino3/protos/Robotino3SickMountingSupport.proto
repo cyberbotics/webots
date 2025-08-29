@@ -1,13 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3SickMountingSupport.proto
+# keywords: robot/extension
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a Sick's lidar.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bottomSlot" field of the Robotino 3 robot.
 
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+
 PROTO Robotino3SickMountingSupport [
   field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
+  field  SFRotation  rotation       0 0 1 0
   field  SFString    name           "Sick mounting support for Robotino 3"
   field  SFString    model          "Festo - Sick mounting support"
   field  MFNode      extensionSlot  []  # Extends the mounting support with an object.
@@ -38,7 +42,7 @@ PROTO Robotino3SickMountingSupport [
           creaseAngle 1
         }
       }
-      Transform {
+      Pose {
         translation -0.059 -0.0791 0.003
         rotation 0 1 0 3.14159
         children IS extensionSlot
@@ -46,7 +50,7 @@ PROTO Robotino3SickMountingSupport [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.053 -0.1024 -0.03
           children [
             Box {
@@ -54,7 +58,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.053 -0.1024 -0.03
           children [
             Box {
@@ -62,7 +66,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0733 -0.05 0.01
           children [
             Box {
@@ -70,7 +74,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0736 -0.05 0.01
           children [
             Box {
@@ -78,7 +82,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.05 -0.001
           children [
             Box {
@@ -86,7 +90,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.106 -0.0012
           children [
             Box {
@@ -94,7 +98,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.1308 0.009
           children [
             Box {

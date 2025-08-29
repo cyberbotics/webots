@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,7 +53,7 @@ int main() {
       printf("The texture URL of the robot body was changed from the supervisor to a non-existing file.\n");
     } else if (counter == 160) {
       wb_supervisor_field_set_mf_string(url, 0,
-                                        "https://raw.githubusercontent.com/cyberbotics/webots/R2021a/projects/appearances/"
+                                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/"
                                         "protos/textures/brushed_steel/brushed_steel_base_color.jpg");
       printf("The texture URL of the robot body was changed from the supervisor to an existing URL.\n");
     }

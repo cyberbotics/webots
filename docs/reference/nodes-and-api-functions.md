@@ -3,6 +3,7 @@
 ## Sections
 
 - [Accelerometer](accelerometer.md)
+- [Altimeter](altimeter.md)
 - [Appearance](appearance.md)
 - [Background](background.md)
 - [BallJoint](balljoint.md)
@@ -10,6 +11,7 @@
 - [Billboard](billboard.md)
 - [Box](box.md)
 - [Brake](brake.md)
+- [CadShape](cadshape.md)
 - [Camera](camera.md)
 - [Capsule](capsule.md)
 - [Charger](charger.md)
@@ -73,6 +75,7 @@
 - [Robot](robot.md)
 - [RotationalMotor](rotationalmotor.md)
 - [Shape](shape.md)
+- [Skin](skin.md)
 - [SliderJoint](sliderjoint.md)
 - [Slot](slot.md)
 - [Solid](solid.md)
@@ -87,6 +90,7 @@
 - [Track](track.md)
 - [TrackWheel](trackwheel.md)
 - [Transform](transform.md)
+- [VacuumGripper](vacuumgripper.md)
 - [Viewpoint](viewpoint.md)
 - [WorldInfo](worldinfo.md)
 - [Zoom](zoom.md)

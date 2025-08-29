@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -116,8 +116,7 @@ static void reset(void) {
     s[2]++;                          // increases the device number
     wb_distance_sensor_enable(ds[i], TIME_STEP);
   }
-  char *robot_name;
-  robot_name = (char *)wb_robot_get_name();
+  const char *robot_name = wb_robot_get_name();
 
   sscanf(robot_name, "epuck%d", &robot_id);  // read robot id from the robot's name
 

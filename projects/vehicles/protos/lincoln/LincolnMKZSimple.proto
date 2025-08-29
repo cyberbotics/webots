@@ -1,23 +1,39 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/lincoln/LincolnMKZSimple.proto
+# keywords: vehicle/car
 # Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
 
+EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
+EXTERNPROTO "LincolnMKZFrontLightsMesh.proto"
+EXTERNPROTO "LincolnMKZRightTurnSignalMesh.proto"
+EXTERNPROTO "LincolnMKZLeftTurnSignalMesh.proto"
+EXTERNPROTO "LincolnMKZBackLightsMesh.proto"
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "LincolnMKZCoachworkMesh.proto"
+EXTERNPROTO "LincolnMKZWindowsMesh.proto"
+EXTERNPROTO "LincolnMKZDetailsMesh.proto"
+EXTERNPROTO "LincolnMKZLeftSideMirrorMesh.proto"
+EXTERNPROTO "LincolnMKZRightSideMirrorMesh.proto"
+EXTERNPROTO "LincolnMKZPlatesMesh.proto"
+EXTERNPROTO "LincolnMKZBackLogoMesh.proto"
+
 PROTO LincolnMKZSimple [
-  field       SFVec3f    translation                    0 0.4 0
-  field       SFRotation rotation                       0 1 0 0
-  field       SFColor    color                          0.541 0.541 0.541
-  field       MFColor    recognitionColors              [ 0.541 0.541 0.541 ]
-  field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"
-  field       SFString   name                           "vehicle"
-  field       SFString   controller                     ""
-  field       MFString   controllerArgs                 [ ]
-  field       MFNode     sensorsSlotFront               [ ]
-  field       MFNode     sensorsSlotRear                [ ]
-  field       MFNode     sensorsSlotTop                 [ ]
-  field       MFNode     sensorsSlotCenter              [ ]
-  field       SFBool     wheelBoundingObject            FALSE
+  field       SFVec3f    translation                    0 0 0.4                                                 # Is `Robot.translation`.
+  field       SFRotation rotation                       0 0 1 0                                                 # Is `Robot.rotation`.
+  field       SFColor    color                          0.541 0.541 0.541                                       # Defines the car body color.
+  field       MFColor    recognitionColors              [ 0.541 0.541 0.541 ]                                   # Is `Robot.recognitionColors`.
+  field       MFString   plate                          "webots://projects/vehicles/protos/textures/plate.jpg"  # Defines the plate texture.
+  field       SFString   name                           "vehicle"                                               # Is `Robot.name`.
+  field       SFString   controller                     "<none>"                                                # Is `Robot.controller`.
+  field       MFString   controllerArgs                 [ ]                                                     # Is `Robot.controllerArgs`.
+  field       SFString   window                         "<none>"                                                # Is `Robot.window`.
+  field       MFNode     sensorsSlotFront               [ ]                                                     # Extends the robot with new nodes on the front of the car.
+  field       MFNode     sensorsSlotRear                [ ]                                                     # Extends the robot with new nodes on the back of the car.
+  field       MFNode     sensorsSlotTop                 [ ]                                                     # Extends the robot with new nodes on the roof of the car.
+  field       MFNode     sensorsSlotCenter              [ ]                                                     # Extends the robot with new nodes at the center of the car.
+  field       SFBool     wheelBoundingObject            FALSE                                                   # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f    frontRightWheelAngularVelocity 0 0 0
   hiddenField SFVec3f    frontLeftWheelAngularVelocity  0 0 0
   hiddenField SFVec3f    rearRightWheelAngularVelocity  0 0 0
@@ -29,30 +45,26 @@ PROTO LincolnMKZSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
-        translation 0 0.142 3.944
-        rotation 0 1 0 0
+      Pose {
+        translation 3.944 0 0.142
         children IS sensorsSlotFront
       }
-      Transform {
-        translation 0 0.33 -1.06
-        rotation 0 1 0 3.14159
+      Pose {
+        translation -1.06 0 0.33
+        rotation 0 0 1 3.14157
         children IS sensorsSlotRear
       }
-      Transform {
-        translation 0 1.16 1.11
-        rotation 0 1 0 3.14159
+      Pose {
+        translation 1.11 0 1.16
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         translation 0 0 0
-        rotation 0 1 0 3.14159
         children IS sensorsSlotCenter
       }
       DEF FRONT_RIGHT_WHEEL Solid {
         angularVelocity IS frontRightWheelAngularVelocity
-        translation -0.82 0 2.94
-        rotation 0 0 1 1.5708
+        translation 2.94 -0.82 0
         children [
           Slot {
             type "vehicle wheel"
@@ -75,8 +87,8 @@ PROTO LincolnMKZSimple [
       }
       DEF FRONT_LEFT_WHEEL Solid {
         angularVelocity IS frontLeftWheelAngularVelocity
-        translation 0.82 0 2.94
-        rotation 0 0 1 -1.5708
+        translation 2.94 0.82 0
+        rotation 0 0 1 -3.14159
         children [
           Slot {
             type "vehicle wheel"
@@ -98,8 +110,7 @@ PROTO LincolnMKZSimple [
       }
       DEF REAR_RIGHT_WHEEL Solid {
         angularVelocity IS rearRightWheelAngularVelocity
-        translation -0.82 0 0
-        rotation 0 0 1 1.5708
+        translation 0 -0.82 0
         children [
           Slot {
             type "vehicle wheel"
@@ -121,8 +132,8 @@ PROTO LincolnMKZSimple [
       }
       DEF REAR_LEFT_WHEEL Solid {
         angularVelocity IS rearLeftWheelAngularVelocity
-        translation 0.82 0 0
-        rotation 0 0 1 -1.5708
+        translation 0 0.82 0
+        rotation 0 0 1 -3.14159
         children [
           Slot {
             type "vehicle wheel"
@@ -142,9 +153,9 @@ PROTO LincolnMKZSimple [
         ]
         name "rear left wheel"
       }
-      Transform {
-        translation 0 -0.35 1.44
-        rotation 0 1 0 3.14159
+      Pose {
+        translation 1.44 0 -0.35
+        rotation -0.577349 0.577351 0.577351 -2.094397
         children [
           DEF HEADLIGHT Shape {
             appearance PBRAppearance {
@@ -156,30 +167,30 @@ PROTO LincolnMKZSimple [
           }
         ]
       }
-      Transform {
-        translation 0 -0.35 1.44
-        rotation 0 1 0 3.14159
+      Pose {
+        translation 1.44 0 -0.35
+        rotation -0.577349 0.577351 0.577351 -2.094397
         children [
           DEF INDICATOR_RIGHT Shape {
             appearance DEF DETAILS_APP PBRAppearance {
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_base_color.jpg"
+                  "textures/lincoln_mkz_details_base_color.jpg"
                 ]
               }
               roughnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_roughness.jpg"
+                  "textures/lincoln_mkz_details_roughness.jpg"
                 ]
               }
               metalnessMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_metalness.jpg"
+                  "textures/lincoln_mkz_details_metalness.jpg"
                 ]
               }
               normalMap ImageTexture {
                 url [
-                  "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_details_normal.jpg"
+                  "textures/lincoln_mkz_details_normal.jpg"
                 ]
               }
             }
@@ -188,9 +199,9 @@ PROTO LincolnMKZSimple [
           }
         ]
       }
-      Transform {
-        translation 0 -0.35 1.44
-        rotation 0 1 0 3.14159
+      Pose {
+        translation 1.44 0 -0.35
+        rotation -0.577349 0.577351 0.577351 -2.094397
         children [
           DEF INDICATOR_LEFT Shape {
             appearance USE DETAILS_APP
@@ -199,9 +210,9 @@ PROTO LincolnMKZSimple [
           }
         ]
       }
-      Transform {
-        translation 0 -0.35 1.44
-        rotation 0 1 0 3.14159
+      Pose {
+        translation 1.44 0 -0.35
+        rotation -0.577349 0.577351 0.577351 -2.094397
         children [
           DEF BRAKE_LIGHT Shape {
             appearance DEF BREAKING_LIGHT_APP PBRAppearance {
@@ -214,65 +225,70 @@ PROTO LincolnMKZSimple [
         ]
       }
       # vehicle shape
-      DEF COACHWORK Shape {
-        appearance DEF VEHICLE_APP GlossyPaint {
-          baseColor IS color
-        }
-        geometry LincolnMKZCoachworkMesh {
-        }
-      }
-      DEF WINDOWS Shape {
-        appearance DEF WINDOWS_APP PBRAppearance {
-          baseColor 0.2 0.2 0.2
-          metalness 0
-        }
-        geometry LincolnMKZWindowsMesh {
-        }
-      }
-      DEF DETAILS Shape {
-        appearance USE DETAILS_APP
-        geometry LincolnMKZDetailsMesh {
-        }
-      }
-      DEF LEFT_SIDE_MIRROR Shape {
-        appearance DEF MIRROR_APP PBRAppearance {
-          metalness 0
-          roughness 1
-        }
-        geometry LincolnMKZLeftSideMirrorMesh {
-        }
-      }
-      DEF RIGHT_SIDE_MIRROR Shape {
-        appearance USE MIRROR_APP
-        geometry LincolnMKZRightSideMirrorMesh {
-        }
-      }
-      DEF PLATES Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.4
-          baseColorMap ImageTexture {
-            url IS plate
+      Pose {
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          DEF COACHWORK Shape {
+            appearance DEF VEHICLE_APP GlossyPaint {
+              baseColor IS color
+            }
+            geometry LincolnMKZCoachworkMesh {
+            }
           }
-        }
-        geometry LincolnMKZPlatesMesh {
-        }
-      }
-      DEF REAR_LOGO Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_base_color.png"
-            ]
+          DEF WINDOWS Shape {
+            appearance DEF WINDOWS_APP PBRAppearance {
+              baseColor 0.2 0.2 0.2
+              metalness 0
+            }
+            geometry LincolnMKZWindowsMesh {
+            }
           }
-          normalMap ImageTexture {
-            url [
-              "webots://projects/vehicles/protos/lincoln/textures/lincoln_mkz_logo_normal.jpg"
-            ]
+          DEF DETAILS Shape {
+            appearance USE DETAILS_APP
+            geometry LincolnMKZDetailsMesh {
+            }
           }
-        }
-        geometry LincolnMKZBackLogoMesh {
-        }
+          DEF LEFT_SIDE_MIRROR Shape {
+            appearance DEF MIRROR_APP PBRAppearance {
+              metalness 0
+              roughness 1
+            }
+            geometry LincolnMKZLeftSideMirrorMesh {
+            }
+          }
+          DEF RIGHT_SIDE_MIRROR Shape {
+            appearance USE MIRROR_APP
+            geometry LincolnMKZRightSideMirrorMesh {
+            }
+          }
+          DEF PLATES Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.4
+              baseColorMap ImageTexture {
+                url IS plate
+              }
+            }
+            geometry LincolnMKZPlatesMesh {
+            }
+          }
+          DEF REAR_LOGO Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_logo_base_color.png"
+                ]
+              }
+              normalMap ImageTexture {
+                url [
+                  "textures/lincoln_mkz_logo_normal.jpg"
+                ]
+              }
+            }
+            geometry LincolnMKZBackLogoMesh {
+            }
+          }
+        ]
       }
     ]
     name IS name
@@ -281,18 +297,18 @@ PROTO LincolnMKZSimple [
     model "Lincoln MKZ"
     boundingObject Group {
       children [
-        DEF LOWER_BOX Transform {
-          translation 0 0.3 1.44
-          rotation 0 0.9998 0.0199987 3.14159
+        DEF LOWER_BOX Pose {
+          translation 1.44 0 0.3
+          rotation -0.569496 0.569497 0.592745 -2.071459
           children [
             Box {
               size 1.8 0.8 4.9
             }
           ]
         }
-        DEF CENTRAL_BOX Transform {
-          translation 0 0.85 1.44
-          rotation 0 1 0 3.14159
+        DEF CENTRAL_BOX Pose {
+          translation 1.44 0 0.85
+          rotation -0.577349 0.577351 0.577351 -2.094397
           children [
             Box {
               size 1.6 0.5 2.0
@@ -303,5 +319,6 @@ PROTO LincolnMKZSimple [
     }
     radarCrossSection 100
     physics NULL
+    window IS window
   }
 }

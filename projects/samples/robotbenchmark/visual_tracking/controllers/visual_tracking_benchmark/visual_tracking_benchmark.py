@@ -11,9 +11,8 @@ import os
 import sys
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
-    sys.path.append(includePath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                                 'include'))
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")
@@ -103,22 +102,22 @@ class MovingTarget():
             return False
 
         target2DPosition = self.trajectory[self.trajectoryStep]
-        vector = [target2DPosition[0] - self.translation[0],
-                  0.0,
-                  target2DPosition[1] - self.translation[2]]
+        vector = [-target2DPosition[0] - self.translation[0],
+                  -target2DPosition[1] - self.translation[1],
+                  0.0]
         distance = math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] +
                              vector[2] * vector[2])
         maxStep = MovingTarget.SPEED * timestep
 
         if distance < maxStep:
             self.trajectoryStep += 1
-            self.translation += vector
+            self.translation = [a + b for a, b in zip(self.translation, vector)]
             segmentChanged = True
         else:
             if math.isinf(self.rotationStep):
                 self.rotationStepsCount = 10
-                newAngle = math.acos(dotProduct([0.0, 0.0, 1.0], vector))
-                if vector[0] < 0.01:
+                newAngle = math.acos(dotProduct([1.0, 0.0, 0.0], vector))
+                if vector[1] < 0.01:
                     newAngle = -newAngle
                 diff = self.rotationAngle - newAngle
                 while diff > math.pi:
@@ -129,7 +128,7 @@ class MovingTarget():
 
             factor = maxStep / distance
             self.translation[0] += vector[0] * factor
-            self.translation[2] += vector[2] * factor
+            self.translation[1] += vector[1] * factor
             segmentChanged = False
 
         self.translationField.setSFVec3f(self.translation)
@@ -142,7 +141,7 @@ class MovingTarget():
             else:
                 self.rotationAngle += self.rotationStep
                 self.rotationStepsCount -= 1
-            self.rotationField.setSFRotation([0.0, 1.0, 0.0,
+            self.rotationField.setSFRotation([0.0, 0.0, 1.0,
                                               self.rotationAngle])
 
         if segmentChanged:
@@ -216,12 +215,13 @@ robot.wwiSendText("stop")
 timestep = int(robot.getBasicTimeStep())
 while robot.step(timestep) != -1:
     message = robot.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             record = robotbenchmarkRecord(message, "visual_tracking", hitRate)
             robot.wwiSendText(record)
             break
         elif message == "exit":
             break
+        message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

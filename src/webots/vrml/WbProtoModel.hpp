@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,8 +37,8 @@ class WbProtoModel : public QObject {
 
 public:
   // create
-  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName = QString(),
-               QStringList baseTypeList = QStringList());
+  WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url = QString(),
+               const QString &prefix = QString(), QStringList baseTypeList = QStringList());
 
   // node name, e.g. "NaoV3R", "EPuck" ...
   const QString &name() const { return mName; }
@@ -58,7 +58,7 @@ public:
   // license found at the beginning of the .proto file (after the 'license url:' string)
   const QString &licenseUrl() const { return mLicenseUrl; }
 
-  // documentation url the beginning of the .proto file (after the 'documentation url:' string)
+  // documentation URL the beginning of the .proto file (after the 'documentation url:' string)
   const QString &documentationUrl() const { return mDocumentationUrl; }
   // return the documentation book and page for this PROTO model:
   // - robot or object page matching the node name
@@ -70,11 +70,15 @@ public:
   WbFieldModel *findFieldModel(const QString &fieldName) const;
   const QList<WbFieldModel *> &fieldModels() const { return mFieldModels; }
 
-  // full .proto file name
-  const QString &fileName() const { return mFileName; }
+  const QString &url() const { return mUrl; }
+  // location on disk of the PROTO
+  const QString diskPath() const;
 
-  // path of the folder that contains this .proto file e.g. "/home/yvan/develop/webots/projects/robots/softbank/nao/protos/"
-  const QString &path() const { return mPath; }
+  // path of the parent directory
+  // for '/home/user/webots/projects/devices/sick/protos/SickS300.proto' is '/home/user/webots/projects/devices/sick/protos/'
+  // for 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/SickS300.proto' is
+  // 'https://raw.githubusercontent.com/cyberbotics/webots/projects/devices/sick/protos/'
+  const QString path() const;
 
   // path of the project that contains this .proto file
   const QString projectPath() const;
@@ -87,14 +91,16 @@ public:
   bool isDerived() const { return mDerived; }
 
   const QString &ancestorProtoName() const { return mAncestorProtoName; }
+  const WbProtoModel *ancestorProtoModel() const { return mAncestorProtoModel; }
 
   const QString &baseType() const { return mBaseType; }
 
   const QString &slotType() const { return mSlotType; }
 
+  QStringList parentProtoNames() const;
+
   QStringList parameterNames() const;
 
-  // set nested proto property based on base proto
   void setIsTemplate(bool value);
 
   // add/remove a reference to this proto model from a proto instance
@@ -121,10 +127,13 @@ private:
   WbVersion mFileVersion;
   QString mName;
   QString mInfo;
-  bool mIsDeterministic;  // i.e doesn't have the 'nonDeterministic' tag
+  bool mIsDeterministic;         // i.e doesn't have the 'nonDeterministic' tag
+  bool mHasIndirectFieldAccess;  // i.e. has the 'indirectFieldAccess' tag
   QList<WbFieldModel *> mFieldModels;
-  QString mFileName;  // .proto file name
-  QString mPath;      // path of .proto file
+
+  QString mUrl;     // how the PROTO is referenced
+  QString mPrefix;  // prefix to inject when replacing 'webots://' entries
+
   int mRefCount;
   int mAncestorRefCount;
   int mContentStartingLine;
@@ -137,7 +146,6 @@ private:
   QString mLicenseUrl;
   QString mDocumentationUrl;
   QStringList mTags;
-  QString mTemplateLanguage;
 
   ~WbProtoModel();  // called from unref()
   void verifyAliasing(WbNode *root, WbTokenizer *tokenizer) const;

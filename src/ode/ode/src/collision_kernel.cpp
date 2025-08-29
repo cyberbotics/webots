@@ -1088,6 +1088,7 @@ void dGeomSetOffsetWorldPosition (dxGeom *g, dReal x, dReal y, dReal z)
     }
     dBodyGetPosRelPoint(g->body, x, y, z, g->offset_posr->pos);
     dGeomMoved (g);
+    dGeomOffset_MT(g);
 }
 
 void dGeomSetOffsetWorldRotation (dxGeom *g, const dMatrix3 R)

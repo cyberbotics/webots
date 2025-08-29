@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,8 @@ class WbImageTexture;
 
 struct WrMaterial;
 
+struct aiMaterial;
+
 class WbPbrAppearance : public WbAbstractAppearance {
   Q_OBJECT
 
@@ -30,7 +32,8 @@ public:
   explicit WbPbrAppearance(WbTokenizer *tokenizer = NULL);
   WbPbrAppearance(const WbPbrAppearance &other);
   explicit WbPbrAppearance(const WbNode &other);
-  virtual ~WbPbrAppearance();
+  WbPbrAppearance(const aiMaterial *material, const QString &filePath);
+  virtual ~WbPbrAppearance() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_PBR_APPEARANCE; }
@@ -67,16 +70,12 @@ public:
   double transparency() const;
   double roughness() const;
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
+  void exportShallowNode(const WbWriter &writer) const;
 
 protected:
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportNodeSubNodes(WbVrmlWriter &writer) const override;
-  void exportNodeFooter(WbVrmlWriter &writer) const override;
-  const QString &vrmlName() const override {
-    static const QString name("Appearance");
-    return name;
-  }
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportNodeSubNodes(WbWriter &writer) const override;
 
 private:
   WbPbrAppearance &operator=(const WbPbrAppearance &);  // non copyable
@@ -84,6 +83,7 @@ private:
   double getRedValueInTexture(WbImageTexture *texture, const WbVector2 &uv) const;
 
   void init();
+  void sanitizeFields();
 
   WbSFColor *mBaseColor;
   WbSFNode *mBaseColorMap;

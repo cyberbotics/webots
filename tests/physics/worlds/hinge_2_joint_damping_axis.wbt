@@ -1,0 +1,159 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects//objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects//objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects//objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.21603302555552628 0.4161981327199255 0.8832377065036189 1.0896384095552925
+  position -4.162691183645749 -6.376519530609339 5.213071959373613
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+}
+DEF ROBOT Robot {
+  translation 0 0 0.06
+  children [
+    DEF HINGE2JOINT1 Solid {
+      translation -1 0 0
+      rotation 0 1 0 0
+      children [
+        DEF HINGE2JOINT_BASE Pose {
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Box {
+                size 1 1 0.1
+              }
+            }
+          ]
+        }
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor 0 0 2
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          device2 [
+            Brake {
+              name "joint1brake"
+            }
+            RotationalMotor {
+              name "joint1motor"
+              maxVelocity 6.28
+              maxTorque 137
+            }
+          ]
+          endPoint DEF HINGE2JOINT1_SHAFT Solid {
+            translation 0 0 2
+            children [
+              DEF HINGE2JOINT_SHAFT_GEOM Pose {
+                rotation 0 1 0 1.5701
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Box {
+                      size 1 1 0.215
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject USE HINGE2JOINT_SHAFT_GEOM
+            physics Physics {
+            }
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE HINGE2JOINT_BASE
+      physics Physics {
+      }
+    }
+    DEF HINGE2JOINT2 Solid {
+      translation 1 0 0
+      rotation 0 1 0 0
+      children [
+        DEF HINGE2JOINT_BASE Pose {
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Box {
+                size 1 1 0.1
+              }
+            }
+          ]
+        }
+        Hinge2Joint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor 0 0 2
+          }
+          jointParameters2 JointParameters {
+            axis 1 0 0
+          }
+          device [
+            RotationalMotor {
+              name "joint2turnmotor"
+              maxPosition 1.5707
+              maxTorque 10000
+            }
+          ]
+          device2 [
+            Brake {
+              name "joint2brake"
+            }
+            RotationalMotor {
+              name "joint2motor"
+              maxVelocity 6.28
+              maxTorque 137
+            }
+          ]
+          endPoint DEF HINGE2JOINT2_SHAFT Solid {
+            translation 0 0 2
+            children [
+              DEF HINGE2JOINT_SHAFT_GEOM Pose {
+                rotation 0 1 0 1.5701
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Box {
+                      size 1 1 0.215
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject USE HINGE2JOINT_SHAFT_GEOM
+            physics Physics {
+            }
+          }
+        }
+      ]
+      name "solid(1)"
+      boundingObject USE HINGE2JOINT_BASE
+      physics Physics {
+      }
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "hinge_2_joint_damping_axis"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

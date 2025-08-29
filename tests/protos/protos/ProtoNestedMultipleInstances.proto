@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 
 PROTO ProtoNestedMultipleInstances [
   field MFNode slot []
@@ -6,11 +6,11 @@ PROTO ProtoNestedMultipleInstances [
 {
   Solid {
     children [
-      Transform {
+      Pose {
         translation 0.5 0 0
         children IS slot
       }
-      Transform {
+      Pose {
         translation -0.5 0 0
         children IS slot
       }

@@ -13,7 +13,7 @@ namespace webotsQtUtils {
 
   public:
     explicit CompassWidget(Device *device, QWidget *parent = NULL);
-    virtual ~CompassWidget() {}
+    virtual ~CompassWidget() override {}
 
   protected slots:
     void enable(bool enable) override;

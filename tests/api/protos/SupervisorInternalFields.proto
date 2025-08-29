@@ -1,15 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 PROTO SupervisorInternalFields [
-  field       SFString   controller  ""
+  field       SFString   controller  "<none>"
   field       SFVec3f    translation 0 0 0
-  hiddenField SFRotation rotation    0 1 0 0
+  hiddenField SFRotation rotation    0 0 1 0
 ]
 {
 DEF ROBOT Robot {
   translation IS translation
   rotation IS rotation
-  scale 1 1 1
   children [
     DEF INTERNAL_SOLID Solid {
     }

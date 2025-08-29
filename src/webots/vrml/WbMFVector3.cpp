@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ void WbMFVector3::clear() {
   if (!mVector.empty()) {
     mVector.clear();
     emit changed();
+    emit cleared();  // notify that all children have been removed
   }
 }
 
@@ -60,9 +61,9 @@ void WbMFVector3::rescale(const WbVector3 &scale) {
   if (sx == 1.0 && sy == 1.0 && sz == 1.0)
     return;
 
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
 
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     const WbVector3 &previousValue = mVector[index];
     mVector[index].setXyz(sx * previousValue.x(), sy * previousValue.y(), sz * previousValue.z());
     emit itemChanged(index);
@@ -77,8 +78,8 @@ void WbMFVector3::rescaleAndTranslate(int coordinate, double scale, double trans
     return;
   }
 
-  const int size = mVector.size();
-  for (int index = 0; index < size; index++) {
+  const int vectorSize = mVector.size();
+  for (int index = 0; index < vectorSize; index++) {
     mVector[index][coordinate] = scale * mVector[index][coordinate] + translation;
     emit itemChanged(index);
   }
@@ -99,9 +100,9 @@ void WbMFVector3::rescaleAndTranslate(const WbVector3 &scale, const WbVector3 &t
   double tx = translation.x();
   double ty = translation.y();
   double tz = translation.z();
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
 
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     const WbVector3 &previousValue = mVector[index];
     mVector[index].setXyz(sx * previousValue.x() + tx, sy * previousValue.y() + ty, sz * previousValue.z() + tz);
     emit itemChanged(index);
@@ -114,8 +115,8 @@ void WbMFVector3::translate(int coordinate, double translation) {
   if (translation == 0.0)
     return;
 
-  const int size = mVector.size();
-  for (int index = 0; index < size; index++) {
+  const int vectorSize = mVector.size();
+  for (int index = 0; index < vectorSize; index++) {
     mVector[index][coordinate] = mVector[index][coordinate] + translation;
     emit itemChanged(index);
   }
@@ -131,9 +132,9 @@ void WbMFVector3::translate(const WbVector3 &translation) {
   if (x == 0.0 && y == 0.0 && z == 0.0)
     return;
 
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
 
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     const WbVector3 &previousValue = mVector[index];
     mVector[index].setXyz(previousValue.x() + x, previousValue.y() + y, previousValue.z() + z);
     emit itemChanged(index);

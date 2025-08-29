@@ -1,15 +1,14 @@
 # The IndexedFaceSet node represents a 3D shape formed by constructing faces (polygons) from vertices listed in the coord field.
 
 IndexedFaceSet {
-  vrmlField SFNode  coord           NULL
-  vrmlField SFNode  normal          NULL
-  vrmlField SFNode  texCoord        NULL
-  vrmlField SFBool  solid           TRUE      # ignored (assumed TRUE)
-  vrmlField SFBool  ccw             TRUE
-  vrmlField SFBool  convex          TRUE
-  vrmlField SFBool  normalPerVertex TRUE
-  vrmlField MFInt32 coordIndex      []        # [-1,)
-  vrmlField MFInt32 normalIndex     []        # [-1,)
-  vrmlField MFInt32 texCoordIndex   []        # [-1,)
-  vrmlField SFFloat creaseAngle     0
+  w3dField SFNode  coord           NULL
+  w3dField SFNode  normal          NULL
+  w3dField SFNode  texCoord        NULL
+  w3dField SFBool  ccw             TRUE
+  field    SFBool  convex          TRUE
+  w3dField SFBool  normalPerVertex TRUE
+  w3dField MFInt32 coordIndex      []    # [-1,)
+  w3dField MFInt32 normalIndex     []    # [-1,)
+  w3dField MFInt32 texCoordIndex   []    # [-1,)
+  w3dField SFFloat creaseAngle     0
 }

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,45 +30,21 @@
 #include <QtCore/QVector>
 #include <QtQml/QJSEngine>
 
-#include <lua.hpp>
-
 #include <cassert>
 
-static bool gValidLuaResources = true;
 static bool gValidJavaScriptResources = true;
-static QString gLuaTemplateFileContent;
 static QString gJavaScriptTemplateFileContent;
 
 namespace {
   // Note: not the default opening/closing tokens in order to allow
   //       VRML comments to comment templates
-  QString gOpeningToken("%{");  // default: "#{"
-  QString gClosingToken("}%");  // default: "}#"
+  QString gOpeningToken("%<");  // default: "#{"
+  QString gClosingToken(">%");  // default: "}#"
 };                              // namespace
-
-void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
-  QDir luaModulesPath(modulePath);
-  if (luaModulesPath.exists()) {
-    QStringList filters;
-    filters << "*.lua";
-#ifdef _WIN32
-    filters << "*.dll";
-#endif
-#ifdef __linux__
-    filters << "*.so";
-#endif
-#ifdef __APPLE__
-    filters << "*.dylib";
-#endif
-    QFileInfoList files = luaModulesPath.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
-    foreach (const QFileInfo &file, files)
-      QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
-  }
-}
 
 void WbTemplateEngine::initializeJavaScript() {
   // copy JavaScript modules to the temporary directory
-  QDirIterator it(WbStandardPaths::resourcesPath() + "javascript/", QDirIterator::Subdirectories);
+  QDirIterator it(WbStandardPaths::resourcesPath() + "web/wwi/protoVisualizer/templating/", QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QDir jsModulesPath(it.next());
 
@@ -90,45 +66,7 @@ void WbTemplateEngine::initializeJavaScript() {
   gJavaScriptTemplateFileContent = templateFile.readAll();
 }
 
-void WbTemplateEngine::initializeLua() {
-  QFileInfo luaSLT2Script(WbStandardPaths::resourcesPath() + "lua/liluat/liluat.lua");
-  if (!luaSLT2Script.exists()) {
-    gValidLuaResources = false;
-    return;
-  }
-
-  // copy Lua modules files in the temp directory
-  QDirIterator it(WbStandardPaths::resourcesPath() + "lua/modules");
-  while (it.hasNext())
-    copyModuleToTemporaryFile(it.next());
-
-  // reference:  http://www.lua.org/pil/8.1.html
-  QString LUA_PATH = qgetenv("LUA_PATH");
-  QString LUA_PATH_ADD = luaSLT2Script.absolutePath() + "/?.lua;?.lua";
-  if (LUA_PATH.isEmpty())
-    qputenv("LUA_PATH", LUA_PATH_ADD.toUtf8());
-  else
-    qputenv("LUA_PATH", (LUA_PATH + ";" + LUA_PATH_ADD).toUtf8());
-
-  // template file
-  QFile templateFile(WbStandardPaths::resourcesPath() + "lua/liluat/templateScript.lua");
-  if (!templateFile.open(QIODevice::ReadOnly)) {
-    gValidLuaResources = false;
-    return;
-  }
-  gLuaTemplateFileContent = templateFile.readAll();
-  templateFile.close();
-}
-
 WbTemplateEngine::WbTemplateEngine(const QString &templateContent) : mTemplateContent(templateContent) {
-}
-
-void WbTemplateEngine::setOpeningToken(const QString &token) {
-  gOpeningToken = token;
-}
-
-void WbTemplateEngine::setClosingToken(const QString &token) {
-  gClosingToken = token;
 }
 
 const QString &WbTemplateEngine::openingToken() {
@@ -139,34 +77,26 @@ const QString &WbTemplateEngine::closingToken() {
   return gClosingToken;
 }
 
-bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
-  bool result;
+QString WbTemplateEngine::escapeString(const QString &string) {
+  QString escaped(string);
+  return escaped.replace("\\", "\\\\").replace("\n", "\\n").replace("'", "\\'").toUtf8();
+}
 
-  if (templateLanguage == "lua") {
-    static bool firstLuaCall = true;
-    if (firstLuaCall) {
-      initializeLua();
-      firstLuaCall = false;
-    }
+bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName) {
+  bool output;
 
-    gOpeningToken = "%{";
-    gClosingToken = "}%";
-
-    result = generateLua(tags, logHeaderName);
-  } else {
-    static bool firstJavaScriptCall = true;
-    if (firstJavaScriptCall) {
-      initializeJavaScript();
-      firstJavaScriptCall = false;
-    }
-
-    gOpeningToken = "%<";
-    gClosingToken = ">%";
-
-    result = generateJavascript(tags, logHeaderName);
+  static bool firstJavaScriptCall = true;
+  if (firstJavaScriptCall) {
+    initializeJavaScript();
+    firstJavaScriptCall = false;
   }
 
-  return result;
+  gOpeningToken = "%<";
+  gClosingToken = ">%";
+
+  output = generateJavascript(tags, logHeaderName);
+
+  return output;
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
@@ -235,18 +165,18 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
+  // QRegularExpression explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      QString statement = match.captured(0);
+      QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
-      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != QString(";"))
         statement.insert(statement.size() - 2, ";");
       else
         statement.append(";\n");
@@ -265,7 +195,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
   QFile outputFile("jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-    mError = tr("Couldn't write jsTemplateFilled to disk.");
+    mError = tr("Couldn't write jsTemplateFilled in %1").arg(QDir::currentPath());
     return false;
   }
 
@@ -292,13 +222,13 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   QJSValue generateVrml = module.property("generateVrml");
-  QJSValue result = generateVrml.call();
-  if (result.isError()) {
-    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
+  QJSValue r = generateVrml.call();
+  if (r.isError()) {
+    mError = tr("failed to execute JavaScript template: %1").arg(r.property("message").toString());
     return false;
   }
 
-  mResult = result.toString().toUtf8();
+  mResult = r.toString().toUtf8();
 
   // display stream messages
   for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)
@@ -311,115 +241,6 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   // restore initial directory
   QDir::setCurrent(initialDir);
-
-  return true;
-}
-
-bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &logHeaderName) {
-  mResult.clear();
-
-  if (!gValidLuaResources) {
-    mError = tr("Installation error: Lua resources are not found");
-    return false;
-  }
-
-  mError = "";
-  QString initialDir = QDir::currentPath();
-
-  // cd to temporary directory
-  bool success = QDir::setCurrent(WbStandardPaths::webotsTmpPath());
-  if (!success) {
-    mError = tr("Cannot change directory to: '%1'").arg(WbStandardPaths::webotsTmpPath());
-    return false;
-  }
-
-// Update 'package.cpath' variable to be able to load '*.dll' and '*.dylib'
-#ifdef _WIN32
-  tags["cpath"] = "package.cpath = package.cpath .. \";?.dll\"";
-#endif
-#ifdef __linux__
-  tags["cpath"] = "";
-#endif
-#ifdef __APPLE__
-  tags["cpath"] = "package.cpath = package.cpath .. \";?.dylib\"";
-#endif
-
-  tags["templateContent"] = mTemplateContent;
-  tags["templateContent"] = tags["templateContent"].replace("\\", "\\\\");
-  tags["templateContent"] = tags["templateContent"].replace("\n", "\\n");
-  tags["templateContent"] = tags["templateContent"].replace("'", "\\'");
-  tags["templateContent"] = tags["templateContent"].toUtf8();
-
-  // make sure these key are set
-  if (!tags.contains("fields"))
-    tags["fields"] = "";
-  if (!tags.contains("context"))
-    tags["context"] = "";
-
-  tags["openingToken"] = gOpeningToken;
-  tags["closingToken"] = gClosingToken;
-  tags["templateFileName"] = logHeaderName;
-
-  QString scriptContent = gLuaTemplateFileContent;
-  QHashIterator<QString, QString> i(tags);
-  while (i.hasNext()) {
-    i.next();
-    QString keyTag = QString("") + "%" + i.key() + "%";
-    scriptContent.replace(keyTag, i.value());
-  }
-
-  // needed for procedurale PROTO using lua-gd
-  QString webotsFontsPath(QDir::toNativeSeparators(WbStandardPaths::fontsPath()));
-  QString projectFontsPath(QDir::toNativeSeparators(WbProject::current()->path() + "fonts/"));
-#ifdef _WIN32
-  QString fontsPath = projectFontsPath + ";" + webotsFontsPath;
-#else
-  QString fontsPath = projectFontsPath + ":" + webotsFontsPath;
-#endif
-
-  qputenv("GDFONTPATH", fontsPath.toUtf8());
-
-  // init lua
-  lua_State *state;
-  state = luaL_newstate();
-  luaL_openlibs(state);
-
-  // run the temporary Lua script
-  int errors = luaL_dostring(state, scriptContent.toUtf8());
-  if (errors != 0) {
-    mError = tr("luaL_dostring error : %1").arg(lua_tostring(state, -1));
-    QDir::setCurrent(initialDir);
-    return false;
-  }
-
-  // Get stderr and display it to the console
-  lua_getglobal(state, "stderrString");
-  QString stderrContent = lua_tostring(state, -1);
-  const QString newLine =
-#ifdef _WIN32
-    "\r\n";
-#else
-    "\n";
-#endif
-  QStringList stderrSplitted = stderrContent.split(newLine, Qt::SkipEmptyParts);
-  foreach (const QString &line, stderrSplitted)
-    WbLog::instance()->error(QString("'%1': Lua error: %2").arg(logHeaderName).arg(line), false, WbLog::PARSING);
-
-  // Get stdout and display it to the console
-  lua_getglobal(state, "stdoutString");
-  QString stdoutContent = lua_tostring(state, -1);
-  QStringList stdoutSplitted = stdoutContent.split(newLine, Qt::SkipEmptyParts);
-  foreach (const QString &line, stdoutSplitted)
-    WbLog::instance()->info(QString("'%1': Lua output: %2").arg(logHeaderName).arg(line), false, WbLog::PARSING);
-
-  // Get the result
-  lua_getglobal(state, "content");
-  mResult = lua_tostring(state, -1);
-
-  QDir::setCurrent(initialDir);
-
-  // cleanup lua
-  lua_close(state);
 
   return true;
 }

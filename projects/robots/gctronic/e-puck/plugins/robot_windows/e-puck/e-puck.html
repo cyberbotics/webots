@@ -3,9 +3,10 @@
   <head>
     <meta charset='UTF-8'>
     <link rel='stylesheet' type='text/css' href='e-puck.css'>
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
   </head>
   <body>
-    <div style="width:100%;height:100%;background-color:#eee" ondragstart="return false">
+    <div ondragstart="return false">
       <img id="robot image" style="margin-left:-180px;margin-top:105px;opacity:0.25" src="images/placeholder.png"/>
       <div id="tof" class="prox" style="margin-left:-15px;margin-top:88px;text-align:center;visibility:hidden" title="time-of-flight sensor">tof</div>
       <div id="ps0" class="prox" style="margin-left:58px;margin-top:103px;text-align:left" title="proximity sensor 0">ps0</div>
@@ -73,6 +74,6 @@
       </div>
       <progress id="uploadProgressBar" max="100" value="100"></progress>
     </div>
-    <script src="e-puck.js"></script>
+    <script src="e-puck.js" type="module"></script>
   </body>
 </html>

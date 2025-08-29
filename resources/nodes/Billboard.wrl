@@ -1,7 +1,8 @@
 # A Billboard node contains children nodes that rotate and translate automatically to face the viewpoint.
 # It is otherwise similar to a Group node.
+# parent: Group
 
 Billboard {
   #field that inherits from the Group node:
-  vrmlField MFNode  children           []
+  w3dField MFNode children []
 }

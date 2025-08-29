@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,7 +21,6 @@ DirectionalLight {
 }
 DEF FRONT_TARGET Solid {
   translation 0.00141908 2.42029e-14 -0.887852
-  scale 3.07454 3.07454 3.07454
   children [
     Shape {
       appearance Appearance {
@@ -26,12 +29,12 @@ DEF FRONT_TARGET Solid {
         }
       }
       geometry Sphere {
-        radius 0.1
+        radius 0.307454
       }
     }
   ]
   boundingObject Sphere {
-    radius 0.1
+    radius 0.307454
   }
   radarCrossSection 3
 }
@@ -78,11 +81,13 @@ DEF OCCLUDED_TARGET2 Solid {
 Robot {
   children [
     DEF RADAR_WITH_OCCLUSION Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar_with_occlusion"
       maxRange 5
       occlusion TRUE
     }
     DEF RADAR_WITHOUT_OCCLUSION Radar {
+      rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       name "radar_without_occlusion"
       maxRange 5
     }

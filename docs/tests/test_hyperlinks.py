@@ -66,7 +66,7 @@ class TestHyperlinks(unittest.TestCase):
     def test_tag_hyperlinks(self):
         """Test that a tag-like hyperlinks are valid."""
         for h in self.hyperlinks:
-            if h['name'] in ['C++', 'Java', 'Python', 'ROS', 'MATLAB']:
+            if h['name'] in ['C++', 'Java', 'Python', 'MATLAB']:
                 self.assertTrue(
                     '.md' in h['url'],
                     msg='Hyperlink "%s" is wrongly detected as a tag in "%s".' % (h['md'], h['file'])
@@ -76,7 +76,8 @@ class TestHyperlinks(unittest.TestCase):
         """Test that the github file pointed by the link exists."""
         for h in self.hyperlinks:
             if h['url'].startswith('https://github.com/cyberbotics/webots/tree/released'):
-                path = h['url'].replace('https://github.com/cyberbotics/webots/tree/released', os.environ['WEBOTS_HOME'])
+                path = h['url'].replace('https://github.com/cyberbotics/webots/tree/released',
+                                        os.path.normpath(os.environ['WEBOTS_HOME']))
                 self.assertTrue(
                     os.path.isfile(path) or os.path.isdir(path),
                     msg='Hyperlink "%s" is pointing to a non-existing file or directory "%s" (in file "%s").' %

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,10 @@
 #include "WbBaseNode.hpp"
 #include "WbMFDouble.hpp"
 #include "WbSFDouble.hpp"
+#include "WbSFInt.hpp"
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
+#include "WbSFVector3.hpp"
 
 class WbSoundClip;
 class WbDownloader;
@@ -32,7 +34,7 @@ public:
   explicit WbContactProperties(WbTokenizer *tokenizer = NULL);
   WbContactProperties(const WbContactProperties &other);
   explicit WbContactProperties(const WbNode &other);
-  virtual ~WbContactProperties();
+  virtual ~WbContactProperties() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CONTACT_PROPERTIES; }
@@ -46,6 +48,7 @@ public:
   int coulombFrictionSize() const { return mCoulombFriction->size(); }
   double coulombFriction(int index) const { return mCoulombFriction->item(index); }
   WbVector2 frictionRotation() const { return mFrictionRotation->value(); }
+  WbVector3 rollingFriction() const { return mRollingFriction->value(); }
   double bounce() const { return mBounce->value(); }
   double bounceVelocity() const { return mBounceVelocity->value(); }
   int forceDependentSlipSize() const { return mForceDependentSlip->size(); }
@@ -55,10 +58,15 @@ public:
   const WbSoundClip *bumpSoundClip() const { return mBumpSoundClip; }
   const WbSoundClip *rollSoundClip() const { return mRollSoundClip; }
   const WbSoundClip *slideSoundClip() const { return mSlideSoundClip; }
+  int maxContactJoints() const { return mMaxContactJoints->value(); }
 
 signals:
   void valuesChanged();
   void needToEnableBodies();
+
+protected:
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   // user accessible fields
@@ -66,6 +74,7 @@ private:
   WbSFString *mMaterial2;
   WbMFDouble *mCoulombFriction;
   WbSFVector2 *mFrictionRotation;
+  WbSFVector3 *mRollingFriction;
   WbSFDouble *mBounce;
   WbSFDouble *mBounceVelocity;
   WbMFDouble *mForceDependentSlip;
@@ -74,6 +83,7 @@ private:
   WbSFString *mBumpSound;
   WbSFString *mRollSound;
   WbSFString *mSlideSound;
+  WbSFInt *mMaxContactJoints;
   const WbSoundClip *mBumpSoundClip;
   const WbSoundClip *mRollSoundClip;
   const WbSoundClip *mSlideSoundClip;
@@ -87,6 +97,7 @@ private:
 private slots:
   void updateCoulombFriction();
   void updateFrictionRotation();
+  void updateRollingFriction();
   void updateBounce();
   void updateBounceVelocity();
   void updateSoftCfm();
@@ -96,6 +107,7 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
+  void updateMaxContactJoints();
 };
 
 #endif

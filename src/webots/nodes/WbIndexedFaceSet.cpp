@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@
 #include "WbSFNode.hpp"
 #include "WbTextureCoordinate.hpp"
 #include "WbTriangleMesh.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 void WbIndexedFaceSet::init() {
   mCoord = findSFNode("coord");
@@ -38,6 +39,7 @@ void WbIndexedFaceSet::init() {
   mNormalIndex = findMFInt("normalIndex");
   mTexCoordIndex = findMFInt("texCoordIndex");
   mCreaseAngle = findSFDouble("creaseAngle");
+  setCcw(mCcw->value());
 }
 
 WbIndexedFaceSet::WbIndexedFaceSet(WbTokenizer *tokenizer) : WbTriangleMeshGeometry("IndexedFaceSet", tokenizer) {
@@ -90,25 +92,24 @@ void WbIndexedFaceSet::postFinalize() {
 void WbIndexedFaceSet::reset(const QString &id) {
   WbTriangleMeshGeometry::reset(id);
 
-  WbNode *const coord = mCoord->value();
-  if (coord)
-    coord->reset(id);
-  WbNode *const normal = mNormal->value();
-  if (normal)
-    normal->reset(id);
-  WbNode *const texCoord = mTexCoord->value();
-  if (texCoord)
-    texCoord->reset(id);
+  WbNode *const coordNode = mCoord->value();
+  if (coordNode)
+    coordNode->reset(id);
+  WbNode *const normalNode = mNormal->value();
+  if (normalNode)
+    normalNode->reset(id);
+  WbNode *const texCoordNode = mTexCoord->value();
+  if (texCoordNode)
+    texCoordNode->reset(id);
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {
-  mTriangleMeshError =
-    mTriangleMesh->init(coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL,
-                        mNormalIndex, texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(),
-                        mCcw->value(), mNormalPerVertex->value());
+  mTriangleMeshError = mTriangleMesh->init(
+    coord() ? &(coord()->point()) : NULL, mCoordIndex, normal() ? &(normal()->vector()) : NULL, mNormalIndex,
+    texCoord() ? &(texCoord()->point()) : NULL, mTexCoordIndex, mCreaseAngle->value(), mNormalPerVertex->value());
 
   if (issueWarnings) {
-    foreach (QString warning, mTriangleMesh->warnings())
+    foreach (const QString &warning, mTriangleMesh->warnings())
       parsingWarn(warning);
 
     if (!mTriangleMeshError.isEmpty())
@@ -178,7 +179,7 @@ void WbIndexedFaceSet::createResizeManipulator() {
 
 bool WbIndexedFaceSet::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const coordinates = findField("coord", true);
-  return WbNodeUtilities::isVisible(coordinates) && !WbNodeUtilities::isTemplateRegeneratorField(coordinates);
+  return WbVrmlNodeUtilities::isVisible(coordinates) && !WbNodeUtilities::isTemplateRegeneratorField(coordinates);
 }
 
 void WbIndexedFaceSet::attachResizeManipulator() {
@@ -230,6 +231,8 @@ void WbIndexedFaceSet::updateTexCoord() {
 }
 
 void WbIndexedFaceSet::updateCcw() {
+  setCcw(mCcw->value());
+
   buildWrenMesh(true);
 
   emit changed();
@@ -277,6 +280,17 @@ void WbIndexedFaceSet::updateCreaseAngle() {
   emit changed();
 }
 
+QStringList WbIndexedFaceSet::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "ccw"
+         << "normalPerVertex"
+         << "coordIndex"
+         << "normalIndex"
+         << "texCoordIndex"
+         << "creaseAngle";
+  return fields;
+}
+
 /////////////////////////////////////////////////////////////
 //  WREN related methods for resizing by pulling handles   //
 /////////////////////////////////////////////////////////////
@@ -298,4 +312,21 @@ void WbIndexedFaceSet::rescaleAndTranslate(const WbVector3 &scale, const WbVecto
 
 void WbIndexedFaceSet::translate(const WbVector3 &v) {
   coord()->translate(v);
+}
+
+bool WbIndexedFaceSet::exportNodeHeader(WbWriter &writer) const {
+  if (!writer.isW3d())
+    return WbGeometry::exportNodeHeader(writer);
+
+  // reduce the number of exported TriangleMeshGeometrys by automatically
+  // using a def-use based on the mesh hash
+  writer << "<" << w3dName() << " id=\'n" << QString::number(uniqueId()) << "\'";
+  if (writer.indexedFaceSetDefMap().contains(mMeshKey.mHash)) {
+    writer << " USE=\'" + writer.indexedFaceSetDefMap().value(mMeshKey.mHash) + "\'></" + w3dName() + ">";
+    return true;
+  }
+
+  if (cTriangleMeshMap.at(mMeshKey).mNumUsers > 1)
+    writer.indexedFaceSetDefMap().insert(mMeshKey.mHash, QString::number(uniqueId()));
+  return false;
 }

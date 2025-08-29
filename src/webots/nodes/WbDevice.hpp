@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@
 #include "../../../include/controller/c/webots/types.h"  // WbDeviceTag definition
 
 class QDataStream;
+class WbDataStream;
 class QString;
 
 // logical device class
@@ -32,8 +33,8 @@ public:
 
   virtual double energyConsumption() const { return 0.0; }
   virtual void handleMessage(QDataStream &) {}
-  virtual void writeAnswer(QDataStream &) {}
-  virtual void writeConfigure(QDataStream &) {}
+  virtual void writeAnswer(WbDataStream &) {}
+  virtual void writeConfigure(WbDataStream &) {}
   virtual void powerOn(bool e) { mPowerOn = e; }  // power off when running out of battery
   bool isPowerOn() const { return mPowerOn; }
   bool hasTag() const { return mTag != UNASSIGNED; }
@@ -41,6 +42,7 @@ public:
   virtual const QString &deviceName() const = 0;
   virtual int deviceNodeType() const = 0;
   void setTag(WbDeviceTag tag) { mTag = tag; }
+  void setIsControllerRunning(bool isRunning) { mIsControllerRunning = isRunning; }
 
   // for sensors only
   virtual bool refreshSensorIfNeeded() { return false; }
@@ -50,12 +52,14 @@ protected:
   WbDevice();
   WbDevice(const WbDevice &other);
 
+  bool isControllerRunning() const { return mIsControllerRunning; }
   void *mWindow;  // robot window
 
 private:
   WbDeviceTag mTag;
   static const WbDeviceTag UNASSIGNED = 65535;  // maximum short int value
   bool mPowerOn;
+  bool mIsControllerRunning;
   WbDevice &operator=(const WbDevice &);  // non copyable
   void init();
 };

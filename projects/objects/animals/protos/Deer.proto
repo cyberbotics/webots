@@ -1,0 +1,240 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/animals/protos/Deer.proto
+# keywords: animal/wild
+# A static female deer.
+# Based on the model of Nyilonelycompany (https://sketchfab.com/Nyilonelycompany).
+# template language: javascript
+
+PROTO Deer [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1      # Defines the global scaling factor.
+  field SFString   name        "deer"
+  field SFColor    color        1 1 1  # Defines the color of the deer.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "deer"
+    children [
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/deer/textures/deer_basecolor.jpg"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/deer/textures/deer_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/deer/meshes/deer.obj"
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF MUZZLE Pose {
+          translation %<= scale * 0.856573 >% 0 %<= scale * 1.13678 >%
+          rotation 0 1 0 1.76974
+          children [
+            Capsule {
+              height %<= scale * 0.1 >%
+              radius %<= scale * 0.05 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF HEAD Pose {
+          translation %<= scale * 0.7 >% 0 %<= scale * 1.185 >%
+          children [
+            Sphere {
+              radius %<= scale * 0.093 >%
+            }
+          ]
+        }
+        DEF THROAT Pose {
+          translation %<= scale * 0.592772 >% 0 %<= scale * 0.960106 >%
+          rotation 0 1 0 0.40149
+          children [
+            Cylinder {
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.085 >%
+            }
+          ]
+        }
+        DEF EAR_LEFT Pose {
+          translation %<= scale * 0.68 >% %<= scale * 0.13488 >% %<= scale * 1.29141 >%
+          rotation 1 0 0 0.698493
+          children [
+            Box {
+              size %<= scale * 0.06>% %<= scale * 0.18 >% %<= scale * 0.1 >%
+            }
+          ]
+        }
+        DEF EAR_RIGHT Pose {
+          translation %<= scale * 0.68 >% %<= scale * -0.13488 >% %<= scale * 1.29141 >%
+          rotation 1 0 0 -0.698493
+          children [
+            Box {
+              size %<= scale * 0.06>% %<= scale * 0.18 >% %<= scale * 0.1 >%
+            }
+          ]
+        }
+        DEF BODY Pose {
+          translation %<= scale * 0.04 >% 0 %<= scale * 0.762 >%
+          rotation 0 1 0 1.5708
+          children [
+            Capsule {
+              height %<= scale * 0.72 >%
+              radius %<= scale * 0.18 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL Pose {
+          translation %<= scale * -0.54 >% 0 %<= scale * 0.769 >%
+          children [
+            Box {
+              size %<= scale * 0.07>% %<= scale * 0.1 >% %<= scale * 0.18 >%
+            }
+          ]
+        }
+        DEF FL_HIP Pose {
+          translation %<= scale * 0.38 >% %<= scale * 0.09 >% %<= scale * 0.55 >%
+          children [
+            Sphere {
+              radius %<= scale * 0.08 >%
+            }
+          ]
+        }
+        DEF FL_LEG Pose {
+          translation %<= scale * 0.3765 >% %<= scale * 0.103 >% %<= scale * 0.29 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.035 >%
+            }
+          ]
+        }
+        DEF FR_PAW Pose {
+          translation %<= scale * 0.40536 >% %<= scale * -0.11 >% %<= scale * 0.045 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FR_HIP Pose {
+          translation %<= scale * 0.38 >% %<= scale * -0.09 >% %<= scale * 0.55 >%
+          children [
+            Sphere {
+              radius %<= scale * 0.08 >%
+            }
+          ]
+        }
+        DEF FR_LEG Pose {
+          translation %<= scale * 0.3765 >% %<= scale * -0.103 >% %<= scale * 0.29 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.035 >%
+            }
+          ]
+        }
+        DEF FR_PAW Pose {
+          translation %<= scale * 0.40536 >% %<= scale * 0.11 >% %<= scale * 0.045 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF BR_PAW Pose {
+          translation %<= scale * -0.34 >% %<= scale * 0.085 >% %<= scale * 0.045 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.04 >%
+            }
+          ]
+        }
+        DEF BR_LEG Pose {
+          translation %<= scale * -0.389916 >% %<= scale * 0.0867239 >% %<= scale * 0.214074 >%
+          rotation 0 -1 0 0.0983495
+          children [
+            Cylinder {
+              height %<= scale * 0.25 >%
+              radius %<= scale * 0.03 >%
+            }
+          ]
+        }
+        DEF BR_HIP Pose {
+          translation %<= scale * -0.355 >% %<= scale * -0.098 >% %<= scale * 0.46598 >%
+          rotation 0 1 0 0.523599
+          children [
+            Capsule {
+              height %<= scale * 0.2 >%
+              radius %<= scale * 0.045 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF BL_PAW Pose {
+          translation %<= scale * -0.34 >% %<= scale * -0.085 >% %<= scale * 0.045 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.04 >%
+            }
+          ]
+        }
+        DEF BL_LEG Pose {
+          translation %<= scale * -0.389916 >% %<= scale * -0.0867239 >% %<= scale * 0.214074 >%
+          rotation 0 -1 0 0.0983495
+          children [
+            Cylinder {
+              height %<= scale * 0.25 >%
+              radius %<= scale * 0.03 >%
+            }
+          ]
+        }
+        DEF BL_HIP Pose {
+          translation %<= scale * -0.355 >% %<= scale * 0.098 >% %<= scale * 0.46598 >%
+          rotation 0 1 0 0.523599
+          children [
+            Capsule {
+              height %<= scale * 0.2 >%
+              radius %<= scale * 0.045 >%
+              subdivision 16
+            }
+          ]
+        }
+      ]
+    }
+
+    recognitionColors [
+      0.415 0.364 0.302
+    ]
+  }
+}

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,7 +95,9 @@ namespace wren {
     }
   }
 
-  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) { mShadowVolumes.erase(light); }
+  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) {
+    mShadowVolumes.erase(light);
+  }
 
   static glm::vec3 computeNormal(const Mesh *mesh, const unsigned int *indices) {
     const std::vector<glm::vec3> &coords = mesh->coords();
@@ -109,6 +111,10 @@ namespace wren {
     assert(mRenderable->mesh());
     const Mesh *mesh = mRenderable->mesh();
     const std::vector<Mesh::Edge> &edges = mesh->edges();
+
+    // if negative scale xor cw triangles, reverse normals
+    const glm::vec3 &scale = mRenderable->parent()->scale();
+    const bool revertNormal = (mRenderable->invertFrontFace() != (scale.x * scale.y * scale.z < 0.0));
 
     mRenderable->mesh()->bindShadowVolume();
 
@@ -167,6 +173,8 @@ namespace wren {
           glm::vec3 normal = triangle.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle.mVertexIndices);
+          if (revertNormal)
+            normal = -normal;
 
           triangle.mIsFacingLight = glm::dot(lightDirectionInModelSpace, normal) < 0.0f;
           if (triangle.mIsFacingLight) {
@@ -185,6 +193,8 @@ namespace wren {
           glm::vec3 normal = triangle0.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle0.mVertexIndices);
+          if (revertNormal)
+            normal = -normal;
 
           triangle0.mIsFacingLight = glm::dot(lightDirectionInModelSpace, normal) < 0.0f;
 
@@ -194,6 +204,8 @@ namespace wren {
             glm::vec3 triangleNormal = triangle1.mNormal;
             if (mesh->isDynamic())
               triangleNormal = computeNormal(mesh, triangle1.mVertexIndices);
+            if (revertNormal)
+              triangleNormal = -triangleNormal;
 
             triangle1.mIsFacingLight = glm::dot(lightDirectionInModelSpace, triangleNormal) < 0.0f;
           }
@@ -265,6 +277,8 @@ namespace wren {
           glm::vec3 normal = triangle.mNormal;
           if (mesh->isDynamic())
             normal = computeNormal(mesh, triangle.mVertexIndices);
+          if (revertNormal)
+            normal = -normal;
 
           const glm::vec3 lightToObject =
             glm::normalize(glm::vec3(mesh->shadowCoords()[triangle.mVertexIndices[0]]) - lightPositionInModelSpace);
@@ -289,6 +303,8 @@ namespace wren {
           glm::vec3 triangleNormal = triangle0.mNormal;
           if (mesh->isDynamic())
             triangleNormal = computeNormal(mesh, triangle0.mVertexIndices);
+          if (revertNormal)
+            triangleNormal = -triangleNormal;
 
           triangle0.mIsFacingLight =
             glm::dot(glm::vec3(mesh->shadowCoords()[triangle0.mVertexIndices[0]]) - lightPositionInModelSpace, triangleNormal) <
@@ -300,6 +316,8 @@ namespace wren {
             glm::vec3 normal = triangle1.mNormal;
             if (mesh->isDynamic())
               normal = computeNormal(mesh, triangle1.mVertexIndices);
+            if (revertNormal)
+              normal = -normal;
 
             triangle1.mIsFacingLight =
               glm::dot(glm::vec3(mesh->shadowCoords()[triangle1.mVertexIndices[0]]) - lightPositionInModelSpace, normal) < 0.0f;

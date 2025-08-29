@@ -10,7 +10,8 @@ export default class WbVector3 {
   }
 
   almostEquals(vector, tolerance) {
-    return Math.abs(this.x - vector.x) < tolerance && Math.abs(this.y - vector.y) < tolerance && Math.abs(this.z - vector.z) < tolerance;
+    return Math.abs(this.x - vector.x) < tolerance && Math.abs(this.y - vector.y) < tolerance &&
+      Math.abs(this.z - vector.z) < tolerance;
   }
 
   // angle between two vectors (in radians)
@@ -20,7 +21,12 @@ export default class WbVector3 {
   }
 
   cross(vector) {
-    return new WbVector3(this.y * vector.z - this.z * vector.y, this.z * vector.x - this.x * vector.z, this.x * vector.y - this.y * vector.x);
+    return new WbVector3(this.y * vector.z - this.z * vector.y, this.z * vector.x - this.x * vector.z,
+      this.x * vector.y - this.y * vector.x);
+  }
+
+  distance2(v) {
+    return (this.sub(v)).length2();
   }
 
   div(number) {
@@ -60,6 +66,10 @@ export default class WbVector3 {
     return new WbVector3(this.x * number, this.y * number, this.z * number);
   }
 
+  mulByVector(vector) {
+    return new WbVector3(this.x * vector.x, this.y * vector.y, this.z * vector.z);
+  }
+
   normalize() {
     const result = this.div(this.length());
     this.x = result.x;
@@ -83,5 +93,25 @@ export default class WbVector3 {
 
   clone() {
     return new WbVector3(this.x, this.y, this.z);
+  }
+
+  toString() {
+    return this.x + ' ' + this.y + ' ' + this.z;
+  }
+
+  // test if this point is on a given line segment
+  isOnEdgeBetweenVertices(lineStart, lineEnd, tolerance = 0.000001) {
+    const lineSegment = lineEnd.sub(lineStart);
+    const toPoint = this.sub(lineStart);
+
+    // the points aren't aligned
+    if (!lineSegment.cross(toPoint).almostEquals(new WbVector3(), tolerance))
+      return false;
+
+    // the point isn't on the segment
+    if (lineSegment.dot(toPoint) < 0 || lineSegment.dot(toPoint) > lineSegment.length2())
+      return false;
+
+    return true;
   }
 }

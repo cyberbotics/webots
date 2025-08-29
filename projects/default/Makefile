@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,16 +13,12 @@
 # limitations under the License.
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 .PHONY: release debug profile clean
 
-TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile resources.Makefile
-
-ifeq ($(OSTYPE),linux)
-TARGETS += controllers/ros.Makefile
-endif
+TARGETS = controllers/braitenberg.Makefile libraries/vehicle.Makefile
 
 release debug profile: $(TARGETS)
 ifneq ($(MESSAGE),)
@@ -35,8 +31,3 @@ clean: $(TARGETS)
 controllers/%.Makefile libraries/%.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
-
-
-resources.Makefile:
-	@echo "#"; echo "# *** resources ***"
-	+@make -s -C resources $(MAKECMDGOALS)

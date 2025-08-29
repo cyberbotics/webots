@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -99,18 +99,18 @@ void wb_altimeter_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter) {
     altimeter->enable = true;
     altimeter->sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_altimeter_disable(WbDeviceTag tag) {
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter)
     wb_altimeter_enable(tag, 0);
   else
@@ -119,26 +119,26 @@ void wb_altimeter_disable(WbDeviceTag tag) {
 
 int wb_altimeter_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  robot_mutex_lock();
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter)
     sampling_period = altimeter->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 double wb_altimeter_get_value(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
-  Altimeter *altimeter = altimeter_get_struct(tag);
+  robot_mutex_lock();
+  const Altimeter *altimeter = altimeter_get_struct(tag);
   if (altimeter) {
     if (altimeter->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_altimeter_enable().\n", __FUNCTION__);
     result = altimeter->altitude;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

@@ -15,7 +15,7 @@ Please refer to the [2020 changelog](../reference/changelog-r2020.md) for a comp
 
 ### Spot from Boston Dynamics
 
-Play around with a simulated [Spot robot](../guide/spot.md) from [Boston Dynamics](http://bostondynamics.com) in Webots.
+Play around with a simulated Spot robot from [Boston Dynamics](http://bostondynamics.com) in Webots.
 
 %figure "Spot Model in Webots"
 ![Spot Model in Webots](images/spot.jpg)
@@ -23,7 +23,7 @@ Play around with a simulated [Spot robot](../guide/spot.md) from [Boston Dynamic
 
 ### P-Rob 3 from F&P Robotics  
 
-[P-Rob 3](../guide/p-rob3.md) is a new collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com).
+P-Rob 3 is a new collaborative robotic arm developed by [F&P Robotics](https://www.fp-robotics.com).
 
 %figure "P-Rob 3 Model in Webots"
 ![P-Rob 3 Model in Webots](images/p-rob3.jpg)
@@ -111,7 +111,7 @@ However, it requires higher bandwidth and server CPU/GPU power.
 
 ---
 
-### Share Your Project with the Community
+### Share your Project with the Community
 
 We created a new [GitHub repository](https://github.com/cyberbotics/community-projects) for the community to share PROTO nodes, controllers, worlds, etc.
 Your [contributions](https://github.com/cyberbotics/community-projects/blob/master/CONTRIBUTING.md) are welcome!

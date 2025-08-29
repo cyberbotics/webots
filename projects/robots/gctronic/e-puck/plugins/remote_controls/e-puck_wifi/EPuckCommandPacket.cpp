@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -73,7 +73,7 @@ int EPuckCommandPacket::apply(int simulationTime) {
   // send the led commands
   mData[7] = 0;
   for (int i = 0; i < 10; i++) {
-    Led *led = DeviceManager::instance()->led(i);
+    const Led *led = DeviceManager::instance()->led(i);
     const char d = mData[7];
     const int state = led->state();
     switch (led->index()) {

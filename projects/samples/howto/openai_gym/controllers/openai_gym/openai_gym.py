@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,7 @@ try:
 except ImportError:
     sys.exit(
         'Please make sure you have all dependencies installed. '
-        'Run: "pip3 install numpy gym stable_baselines3"'
+        'Run: "pip3 install numpy gym==0.21 stable_baselines3"'
     )
 
 
@@ -83,7 +83,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         super().step(self.__timestep)
 
         # Open AI Gym generic
-        return np.array([0, 0, 0, 0])
+        return np.array([0, 0, 0, 0]).astype(np.float32)
 
     def step(self, action):
         # Execute the action
@@ -94,8 +94,8 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Observation
         robot = self.getSelf()
         endpoint = self.getFromDef("POLE_ENDPOINT")
-        self.state = np.array([robot.getPosition()[2], robot.getVelocity()[2],
-                               self.__pendulum_sensor.getValue(), endpoint.getVelocity()[3]])
+        self.state = np.array([robot.getPosition()[0], robot.getVelocity()[0],
+                               self.__pendulum_sensor.getValue(), endpoint.getVelocity()[4]])
 
         # Done
         done = bool(
@@ -108,7 +108,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Reward
         reward = 0 if done else 1
 
-        return self.state, reward, done, {}
+        return self.state.astype(np.float32), reward, done, {}
 
 
 def main():

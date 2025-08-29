@@ -1,24 +1,28 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/elisa3
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/elisa/protos/Elisa3.proto
+# keywords: robot/wheeled
 # Elisa-3: miniature Arduino robot by GCtronic.
 # The Elisa-3 is powered by an ATmega 2560 processor and features a large number of sensors.
 # More info here: http://www.gctronic.com/doc/index.php/Elisa-3.
 
+EXTERNPROTO "Elisa3DistanceSensor.proto"
+
 PROTO Elisa3 [
-  field SFVec3f    translation      0 0 0     # Is `Transform.translation`.
-  field SFRotation rotation         0 1 0 0   # Is `Transform.rotation`.
-  field SFString   name             "Elisa-3" # Is `Solid.name`.
-  field SFString   controller       "elisa3"  # Is `Robot.controller`.
-  field MFString   controllerArgs   []        # Is `Robot.controllerArgs`.
-  field SFString   customData       ""        # Is `Robot.customData`.
-  field SFBool     supervisor       FALSE     # Is `Robot.supervisor`.
-  field SFBool     synchronization  TRUE      # Is `Robot.synchronization`.
-  field SFInt32    emitter_channel  1         # Is `Emitter.channel`.
-  field SFInt32    receiver_channel 1         # Is `Receiver.channel`.
-  field MFFloat    battery          []        # Is `Robot.battery`.
-  field MFNode     extensionSlot    []        # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation      0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0     # Is `Pose.rotation`.
+  field SFString   name             "Elisa-3"   # Is `Solid.name`.
+  field SFString   controller       "elisa3"    # Is `Robot.controller`.
+  field MFString   controllerArgs   []          # Is `Robot.controllerArgs`.
+  field SFString   window           "<generic>" # Is `Robot.window`.
+  field SFString   customData       ""          # Is `Robot.customData`.
+  field SFBool     supervisor       FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization  TRUE        # Is `Robot.synchronization`.
+  field SFInt32    emitter_channel  1           # Is `Emitter.channel`.
+  field SFInt32    receiver_channel 1           # Is `Receiver.channel`.
+  field MFFloat    battery          []          # Is `Robot.battery`.
+  field MFNode     extensionSlot    []          # Extends the robot with new nodes in the extension slot.
 ]
 {
 Robot {
@@ -31,11 +35,9 @@ Robot {
     }
 
     DEF ELISA3_REFLECTIVE_SOLID Solid {
-      translation 0.0 0.0135 0.0
-      rotation 0 0 1 0
+      translation 0 0 0.0135
       children [
-        Transform {
-          rotation 0 0 0 0.0
+        Pose {
           children [
             Shape {
               appearance PBRAppearance {
@@ -58,8 +60,8 @@ Robot {
 
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor 0 0.0045 -0.02
+        axis 0 1 0
+        anchor 0 0.02 0.0045
       }
       device [
         RotationalMotor {
@@ -72,12 +74,11 @@ Robot {
       ]
       endPoint DEF ELISA3_LEFT_WHEEL Solid {
         name "left wheel"
-        translation 0.0 0.0045 -0.02
-        rotation 0 0 1 0
+        translation 0 0.02 0.0045
         children [
           DEF WHEEL_TRANSFORM Group {
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 1.57
                 children Shape {
                   appearance PBRAppearance {
@@ -91,7 +92,7 @@ Robot {
                   }
                 }
               }
-              Transform {
+              Pose {
                 rotation 1 0 0 1.57
                 children Shape {
                   appearance PBRAppearance {
@@ -116,8 +117,8 @@ Robot {
 
     HingeJoint {
       jointParameters HingeJointParameters {
-        axis 0 0 -1
-        anchor 0 0.0045 0.02
+        axis 0 1 0
+        anchor 0 -0.02 0.0045
       }
       device [
         RotationalMotor {
@@ -130,8 +131,7 @@ Robot {
       ]
       endPoint DEF ELISA3_RIGHT_WHEEL Solid {
         name "right wheel"
-        translation 0.0 0.0045 0.02
-        rotation 0 0 1 0
+        translation 0 -0.02 0.0045
         children [
           USE WHEEL_TRANSFORM
         ]
@@ -140,14 +140,14 @@ Robot {
       }
     }
 
-    DEF ELISA3_ROBOT Transform {
-      translation -0.04 0.01 -0.04
-      rotation 0 1 0 -1.57
+    DEF ELISA3_ROBOT Pose {
+      translation -0.04 0.04 0.01
+      rotation 0.577657 -0.577197 -0.577197 2.093935
       children [
         DEF ELISA3_BATTERY_FRONT Solid {
           translation 0.04 -0.003 -0.05
           children [
-            DEF BATTERY_TRANSFORM Transform {
+            DEF BATTERY_TRANSFORM Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -173,8 +173,9 @@ Robot {
         }
         DEF ELISA3_PCB Solid {
           translation 0.04 0.0 -0.04
+          rotation 1 0 0 1.5708
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -196,7 +197,7 @@ Robot {
         }
         DEF ELISA3_IR_EMITTER_FRONT_RIGHT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -223,7 +224,7 @@ Robot {
         } #end ir emitter front right
         DEF ELISA3_IR_EMITTER_BACK Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -250,7 +251,7 @@ Robot {
         } #end ir emitter back
         DEF ELISA3_IR_EMITTER_FRONT_LEFT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -277,7 +278,7 @@ Robot {
         } #end ir emitter front left
         DEF ELISA3_SWITCH Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -304,7 +305,7 @@ Robot {
         } #end switch
         DEF ELISA3_RGB_LED Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -331,7 +332,7 @@ Robot {
         } #end rgb led
         DEF ELISA3_DIFFUSER Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -359,7 +360,8 @@ Robot {
         DEF ELISA3_LED_SUPPORT_FRONT Solid {
         translation 0.04 -0.0072 -0.0615
           children [
-            DEF ELISA3_LED_SUPPORT_TRANSFORM Transform {
+            DEF ELISA3_LED_SUPPORT_TRANSFORM Pose {
+              rotation 1 0 0 1.5708
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -372,8 +374,8 @@ Robot {
                     subdivision 20
                   }
                 }
-                Transform {
-                  translation 0 -0.0009 0.0
+                Pose {
+                  translation 0 0 0.0009
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -387,8 +389,8 @@ Robot {
                     }
                   ]
                 }
-                Transform {
-                  translation -0.0005 0.004 0.0
+                Pose {
+                  translation -0.0005 0 -0.004
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -402,8 +404,8 @@ Robot {
                     }
                   ]
                 }
-                Transform {
-                  translation 0.0005 0.004 0.0
+                Pose {
+                  translation 0.0005 0 -0.004
                   children [
                     Shape {
                       appearance PBRAppearance {
@@ -431,7 +433,7 @@ Robot {
         }
         DEF ELISA3_ACCELEROMETER Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -459,7 +461,7 @@ Robot {
 
         DEF ELISA3_CHARGE_CONTACT_RIGHT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -487,7 +489,7 @@ Robot {
 
         DEF ELISA3_CHARGE_CONTACT_LEFT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -516,109 +518,112 @@ Robot {
     } #end elisa3 robot
 
     DEF ELISA3_PS0 Elisa3DistanceSensor {
-      translation 0.024 0.014 0
-      rotation 0 1 0 3.14159
+      translation 0.024 0 0.014
+      rotation 0 -0.707107 -0.707107 -3.141591
       name "ps0"
     }
     DEF ELISA3_PS1 Elisa3DistanceSensor {
-      translation 0.017 0.014 0.017
-      rotation 0 1 0 2.35
+      translation 0.017 -0.017 0.014
+      rotation  -0.283353 -0.678126 -0.678126 -2.589362
       name "ps1"
     }
     DEF ELISA3_PS2 Elisa3DistanceSensor {
-      translation 0 0.014 0.024
-      rotation 0 1 0 1.57
+      translation 0 -0.024 0.014
+      rotation 0.577657 0.577197 0.577197 2.093935
       name "ps2"
     }
     DEF ELISA3_PS3 Elisa3DistanceSensor {
-      translation -0.017 0.014 0.017
-      rotation 0 1 0 0.78
+      translation -0.017 -0.017 0.014
+      rotation 0.864536 0.355372 0.355372 1.715848
       name "ps3"
     }
     DEF ELISA3_PS4 Elisa3DistanceSensor {
-      translation -0.024 0.014 0
+      translation -0.024 0 0.014
+      rotation 1 0 0 1.570796
       name "ps4"
     }
     DEF ELISA3_PS5 Elisa3DistanceSensor {
-      translation -0.017 0.014 -0.017
-      rotation 0 1 0 -0.78
+      translation -0.017 0.017 0.014
+      rotation 0.864536 -0.355372 -0.355372 1.715848
       name "ps5"
     }
     DEF ELISA3_PS6 Elisa3DistanceSensor {
-      translation 0 0.014 -0.024
-      rotation 0 1 0 -1.57
+      translation 0 0.024 0.014
+      rotation 0.577657 -0.577197 -0.577197 2.093935
       name "ps6"
     }
     DEF ELISA3_PS7 Elisa3DistanceSensor {
-      translation 0.017 0.014 -0.017
-      rotation 0 1 0 -2.35
+      translation 0.017 0.017 0.014
+      rotation -0.283353 0.678126 0.678126 -2.589362
       name "ps7"
     }
     DEF ELISA3_LS0 LightSensor {
-      translation 0.024 0.0139 0
+      translation 0.024 0 0.014
+      rotation 1 0 0 1.5708
       name "ls0"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS1 LightSensor {
-      translation 0.017 0.014 0.017
-      rotation 0 1 0 -0.78
+      translation 0.017 -0.017 0.014
+      rotation 0.864536 -0.355372 -0.355372 1.715848
       name "ls1"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS2 LightSensor {
-      translation 0 0.014 0.024
-      rotation 0 1 0 -1.57
+      translation 0 -0.024 0.014
+      rotation 0.577657 -0.577197 -0.577197 2.093935
       name "ls2"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS3 LightSensor {
-      translation -0.017 0.014 0.017
-      rotation 0 1 0 -2.35
+      translation -0.017 -0.017 0.014
+      rotation -0.283353 0.678126 0.678126 -2.589362
       name "ls3"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS4 LightSensor {
-      translation -0.024 0.014 0
-      rotation 0 1 0 3.1415
+      translation -0.024 0 0.014
+      rotation -3.3e-05 -0.707107 -0.707107 -3.141527
       name "ls4"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS5 LightSensor {
-      translation -0.017 0.014 -0.017
-      rotation 0 1 0 2.35
+      translation -0.017 0.017 0.014
+      rotation -0.283353 -0.678126 -0.678126 -2.589362
       name "ls5"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS6 LightSensor {
-      translation 0 0.014 -0.024
-      rotation 0 1 0 1.57
+      translation 0 0.024 0.014
+      rotation 0.577657 0.577197 0.577197 2.093935
       name "ls6"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LS7 LightSensor {
-      translation 0.017 0.014 -0.017
-      rotation 0 1 0 0.78
+      translation 0.017 0.017 0.014
+      rotation 0.864536 0.355372 0.355372 1.715848
       name "ls7"
       lookupTable [
         0 4095 0.01 0.2 0 0.01
       ]
     }
     DEF ELISA3_LED0 LED {
-      translation 0.024 0.011 0
+      translation 0.024 0 0.011
+      rotation 1 0 0 1.5708
       children [
         DEF EPUCK_LED_SHAPE Shape {
           appearance DEF EPUCK_TRANSPARENT_APPEARANCE_2 PBRAppearance {
@@ -637,8 +642,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED1 LED {
-      translation 0.017 0.011 0.017
-      rotation 0 1 0 -0.78
+      translation 0.017 -0.017 0.011
+      rotation 0.864536 -0.355372 -0.355372 1.715848
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -648,8 +653,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED2 LED {
-      translation 0 0.011 0.024
-      rotation 0 1 0 -1.57
+      translation 0 -0.024 0.011
+      rotation 0.577657 -0.577197 -0.577197 2.093935
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -659,8 +664,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED3 LED {
-      translation -0.017 0.011 0.017
-      rotation 0 1 0 -2.35
+      translation -0.017 -0.017 0.011
+      rotation -0.283353 0.678126 0.678126 -2.589362
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -670,8 +675,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED4 LED {
-      translation -0.024 0.011 0
-      rotation 0 1 0 3.1415
+      translation -0.024 0 0.011
+      rotation -3.3e-05 -0.707107 -0.707107 -3.141527
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -681,8 +686,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED5 LED {
-      translation -0.017 0.011 -0.017
-      rotation 0 1 0 2.35
+      translation -0.017 0.017 0.011
+      rotation -0.283353 -0.678126 -0.678126 -2.589362
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -692,8 +697,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED6 LED {
-      translation 0 0.011 -0.024
-      rotation 0 1 0 1.57
+      translation 0 0.024 0.011
+      rotation 0.577657 0.577197 0.577197 2.093935
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -703,8 +708,8 @@ Robot {
       ]
     }
     DEF ELISA3_LED7 LED {
-      translation 0.017 0.011 -0.017
-      rotation 0 1 0 0.78
+      translation 0.017 0.017 0.011
+      rotation 0.864536 0.355372 0.355372 1.715848
       children [
         USE EPUCK_LED_SHAPE
       ]
@@ -714,8 +719,7 @@ Robot {
       ]
     }
     DEF ELISA3_RGB LED {
-      translation 0.0 0.0265 0.0
-      rotation 0 0 1 0
+      translation 0 0 0.0265
       children [
         DEF ELISA3_RGB_SHAPE Shape {
           appearance PBRAppearance {
@@ -735,8 +739,8 @@ Robot {
       gradual TRUE
     }
     DEF ELISA3_FS0 DistanceSensor {
-      translation 0.009 0.009 0.022
-      rotation -0.190223 0.190374 -0.963106 1.60758
+      translation 0.009 -0.022 0.009
+      rotation -0.48676 -0.725736 0.48618 -1.885501
       children [
         DEF EPUCK_SFH_FLOOR Group {
           children [
@@ -760,16 +764,16 @@ Robot {
       type "infra-red"
     }
     DEF ELISA3_LSFS0 LightSensor {
-      translation 0.009 0.009 0.022
-      rotation -0.190223 0.190374 -0.963106 1.60758
+      translation 0.009 -0.022 0.009
+      rotation -0.48676 -0.725736 0.48618 -1.885501
       name "lsfs0"
       lookupTable [
         0 1000 0.1 0.016 300 0.1
       ]
     }
     DEF ELISA3_FS1 DistanceSensor {
-      translation 0.022 0.009 0.009
-      rotation -0.486089 0.486476 -0.725988 1.88492
+      translation 0.022 -0.009 0.009
+      rotation -0.190998 -0.962981 0.190229 -1.608348
       children [
         USE EPUCK_SFH_FLOOR
       ]
@@ -780,16 +784,16 @@ Robot {
       type "infra-red"
     }
     DEF ELISA3_LSFS1 LightSensor {
-      translation 0.022 0.009 0.009
-      rotation -0.486089 0.486476 -0.725988 1.88492
+      translation 0.022 -0.009 0.009
+      rotation -0.190998 -0.962981 0.190229 -1.608348
       name "lsfs1"
       lookupTable [
         0 1000 0.1 0.016 300 0.1
       ]
     }
     DEF ELISA3_FS2 DistanceSensor {
-      translation 0.022 0.009 -0.009
-      rotation -0.638688 0.639197 -0.428374 2.33157
+      translation 0.022 0.009 0.009
+      rotation -0.189464 0.963284 0.190229 1.608354
       children [
         USE EPUCK_SFH_FLOOR
       ]
@@ -800,16 +804,16 @@ Robot {
       type "infra-red"
     }
     DEF ELISA3_LSFS2 LightSensor {
-      translation 0.022 0.009 -0.009
-      rotation -0.638688 0.639197 -0.428374 2.33157
+      translation 0.022 0.009 0.009
+      rotation -0.189464 0.963284 0.190229 1.608354
       name "lsfs2"
       lookupTable [
         0 1000 0.1 0.016 300 0.1
       ]
     }
     DEF ELISA3_FS3 DistanceSensor {
-      translation 0.009 0.009 -0.022
-      rotation -0.69998 0.700538 -0.138832 2.86547
+      translation 0.009 0.022 0.009
+      rotation -0.4856 0.726512 0.486181 1.8855
       children [
         USE EPUCK_SFH_FLOOR
       ]
@@ -820,16 +824,15 @@ Robot {
       type "infra-red"
     }
     DEF ELISA3_LSFS3 LightSensor {
-      translation 0.009 0.009 -0.022
-      rotation -0.69998 0.700538 -0.138832 2.86547
+      translation 0.009 0.022 0.009
+      rotation -0.4856 0.726512 0.486181 1.8855
       name "lsfs3"
       lookupTable [
         0 1000 0.1 0.016 300 0.1
       ]
     }
     DEF EPUCK_ACCELEROMETER Accelerometer {
-      translation 0.0 0.01 0.008
-      rotation 0 0 0 0.0
+      translation 0 -0.008 0.01
       children [
         DEF ELISA3_ACC_SHAPE Shape {
           appearance DEF ELISA3_TRANSPARENT_APPEARANCE_2 PBRAppearance {
@@ -855,8 +858,8 @@ Robot {
   description "Miniature Arduino robot by GCtronic"
   boundingObject Group {
     children [
-      Transform {
-        translation 0 0.016 0
+      Pose {
+        translation 0 0 0.016
         children [
           Cylinder {
             height 0.03
@@ -870,11 +873,16 @@ Robot {
   physics Physics {
     density -1
     mass 0.039
-    centerOfMass [0 0.015 0]
-    inertiaMatrix [4.37e-05 4.89e-05 4.32e-05, 0 0 0]
+    centerOfMass [
+      0 0 0.015
+    ]
+    inertiaMatrix [
+      4.32e-05 4.37e-05 4.89e-05, 0 0 0
+    ]
   }
   controller IS controller
   controllerArgs IS controllerArgs
+  window IS window
   customData IS customData
   supervisor IS supervisor
   synchronization IS synchronization

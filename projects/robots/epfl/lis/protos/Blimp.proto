@@ -1,19 +1,21 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/blimp
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/epfl/lis/protos/Blimp.proto
+# keywords: robot/flying
 # The "Blimp" robot is a Zeppelin-like aerial robot developed by the EPFL LIS laboratory.
 
 PROTO Blimp [
-  field SFVec3f    translation     0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0 # Is `Transform.rotation`.
-  field SFString   name            "Blimp" # Is `Solid.name`.
-  field SFString   controller      "blimp" # Is `Robot.controller`.
-  field MFString   controllerArgs  []      # Is `Robot.controllerArgs`.
-  field SFString   customData      ""      # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE   # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE    # Is `Robot.synchronization`.
-  field MFNode     extensionSlot   []      # Extends the robot with new nodes in the extension slot.
+  field SFVec3f    translation     0 0 0.4     # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
+  field SFString   name            "Blimp"     # Is `Solid.name`.
+  field SFString   controller      "blimp"     # Is `Robot.controller`.
+  field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>" # Is `Robot.window`.
+  field SFString   customData      ""          # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
+  field MFNode     extensionSlot   []          # Extends the robot with new nodes in the extension slot.
 ]
 {
   Robot {
@@ -39,19 +41,19 @@ PROTO Blimp [
         ]
       }
       DEF DS6 DistanceSensor {
-        translation 0 0 -0.26
-        rotation 0 1 0 1.57
+        translation 0 0.26 0
+        rotation 0 0 1 1.57
         name "ds6"
         lookupTable [
           0 255 0
           0.25 0 0
         ]
       }
-      DEF SUPPORT Transform {
+      DEF SUPPORT Pose {
         children [
-          DEF Support1 Transform {
-            translation 0 -0.33 0
-            rotation 0 0 1 1.5707
+          DEF Support1 Pose {
+            translation 0 0 -0.33
+            rotation 0 1 0 1.5707
             children [
               Shape {
                 appearance PBRAppearance {
@@ -66,8 +68,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support2 Transform {
-            translation -0.49 -0.18 0
+          DEF Support2 Pose {
+            translation -0.49 0 -0.18
             children [
               Shape {
                 appearance PBRAppearance {
@@ -82,8 +84,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support3 Transform {
-            translation 0.01 -0.34 0
+          DEF Support3 Pose {
+            translation 0.01 0 -0.34
             children [
               Shape {
                 appearance PBRAppearance {
@@ -98,8 +100,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support4 Transform {
-            translation -0.49 -0.2 -0.005
+          DEF Support4 Pose {
+            translation -0.49 0.005 -0.2
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -115,8 +117,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support5 Transform {
-            translation 0.48 -0.18 -0.07
+          DEF Support5 Pose {
+            translation 0.48 0.07 -0.18
             rotation 1 0 0 -0.25
             children [
               Shape {
@@ -132,8 +134,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support6 Transform {
-            translation 0.48 -0.18 0.07
+          DEF Support6 Pose {
+            translation 0.48 -0.07 -0.18
             rotation 1 0 0 0.25
             children [
               Shape {
@@ -149,8 +151,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support7 Transform {
-            translation 0.48 -0.33 0
+          DEF Support7 Pose {
+            translation 0.48 0 -0.33
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -166,8 +168,8 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support8 Transform {
-            translation 0.48 -0.26 0
+          DEF Support8 Pose {
+            translation 0.48 0 -0.26
             rotation 1 0 0 1.57
             children [
               Shape {
@@ -183,9 +185,9 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support9 Transform {
-            translation 0.495 -0.26 0
-            rotation 0 0 1 1.57
+          DEF Support9 Pose {
+            translation 0.495 0 -0.26
+            rotation 0 1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -200,11 +202,11 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support10 Transform {
-            translation 0.3815 -0.366 0
-            rotation 0 1 0 1.57
+          DEF Support10 Pose {
+            translation 0.3815 0 -0.366
+            rotation 0 0 1 1.57
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 -0.2
                 children [
                   Shape {
@@ -222,9 +224,9 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support11 Transform {
-            translation 0.4 -0.4 0
-            rotation 0 0 1 1.57
+          DEF Support11 Pose {
+            translation 0.4 0 -0.4
+            rotation 0 1 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -241,8 +243,8 @@ PROTO Blimp [
           }
         ]
       }
-      DEF PROCESSOR Transform {
-        translation 0.14 -0.337 0
+      DEF PROCESSOR Pose {
+        translation 0.14 0 -0.337
         children [
           Shape {
             appearance PBRAppearance {
@@ -250,13 +252,13 @@ PROTO Blimp [
               roughness 0.6
             }
             geometry Box {
-              size 0.05 0.01 0.05
+              size 0.05 0.05 0.01
             }
           }
         ]
       }
-      DEF BATTERY Transform {
-        translation -0.18 -0.337 0
+      DEF BATTERY Pose {
+        translation -0.18 0 -0.337
         children [
           Shape {
             appearance PBRAppearance {
@@ -264,14 +266,14 @@ PROTO Blimp [
               roughness 0.6
             }
             geometry Box {
-              size 0.05 0.01 0.025
+              size 0.05 0.025 0.01
             }
           }
         ]
       }
       DEF CAMERA Camera {
-        translation 0.5 -0.33 0
-        rotation 0 1 0 -1.57
+        translation 0.5 0 -0.33
+        rotation 1 0 0 0.000796322
         children [
           Shape {
             appearance PBRAppearance {
@@ -307,13 +309,13 @@ PROTO Blimp [
       }
       GPS {
       }
-      DEF MOTORS Transform {
+      DEF MOTORS Pose {
         children [
-          DEF Motor1 Transform {
+          DEF Motor1 Pose {
             children [
-              Transform {
-                translation 0.51 -0.26 0
-                rotation 0 0 1 1.57
+              Pose {
+                translation 0.51 0 -0.26
+                rotation 0 1 0 1.57
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -331,10 +333,10 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Motor2 Transform {
+          DEF Motor2 Pose {
             children [
-              Transform {
-                translation -0.49 -0.2 -0.01
+              Pose {
+                translation -0.49 0.01 -0.2
                 rotation 1 0 0 1.57
                 children [
                   Shape {
@@ -353,11 +355,10 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Motor3 Transform {
+          DEF Motor3 Pose {
             children [
-              DEF PROPELLER3 Transform {
-                translation 0.01 -0.355 0
-                rotation 0 0 1 0
+              DEF PROPELLER3 Pose {
+                translation 0.01 0 -0.355
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -383,7 +384,7 @@ PROTO Blimp [
     contactMaterial "blimp"
     boundingObject Group {
       children [
-        DEF ForwardSphere Transform {
+        DEF ForwardSphere Pose {
           translation 0.36 0 0
           children [
             Sphere {
@@ -391,14 +392,14 @@ PROTO Blimp [
             }
           ]
         }
-        DEF MiddleSphere Transform {
+        DEF MiddleSphere Pose {
           children [
             Sphere {
               radius 0.27
             }
           ]
         }
-        DEF BackwardSphere Transform {
+        DEF BackwardSphere Pose {
           translation -0.36 0 0
           children [
             Sphere {
@@ -406,19 +407,19 @@ PROTO Blimp [
             }
           ]
         }
-        DEF MiddleBox Transform {
-          translation -0.1 -0.2 0
+        DEF MiddleBox Pose {
+          translation -0.1 0 -0.2
           children [
             Box {
-              size 0.8 0.3 0.02
+              size 0.8 0.02 0.3
             }
           ]
         }
-        DEF ForwardBox Transform {
-          translation 0.38 -0.25 0
+        DEF ForwardBox Pose {
+          translation 0.38 0 -0.25
           children [
             Box {
-              size 0.16 0.4 0.02
+              size 0.16 0.02 0.4
             }
           ]
         }
@@ -437,6 +438,7 @@ PROTO Blimp [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@
 #include <QtCore/QVector>
 
 class WbAbstractCamera;
+class WbDataStream;
 class WbDevice;
 class WbJoystickInterface;
 class WbKinematicDifferentialWheels;
@@ -48,7 +49,7 @@ public:
   explicit WbRobot(WbTokenizer *tokenizer = NULL);
   WbRobot(const WbRobot &other);
   explicit WbRobot(const WbNode &other);
-  virtual ~WbRobot();
+  virtual ~WbRobot() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_ROBOT; }
@@ -58,9 +59,16 @@ public:
   void save(const QString &id) override;
 
   // controller
+  void notifyExternControllerChanged();
+  void newRemoteExternController();
+  void removeRemoteExternController();
+  bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
-  void setControllerStarted(bool started) { mControllerStarted = started; }
+  void setControllerStarted(bool started) {
+    mControllerStarted = started;
+    mControllerTerminated = false;
+  }
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
@@ -69,6 +77,7 @@ public:
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
   void addNewlyInsertedDevice(WbNode *node);
+  void fixMissingResources() const override;
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
@@ -79,10 +88,10 @@ public:
   bool isPowerOn() { return mPowerOn; }
   void dispatchMessage(QDataStream &);
   virtual void handleMessage(QDataStream &);
-  virtual void writeAnswer(QDataStream &);
+  virtual void writeAnswer(WbDataStream &);
   virtual bool hasImmediateAnswer() const;
-  virtual void writeImmediateAnswer(QDataStream &);
-  void dispatchAnswer(QDataStream &, bool includeDevices = true);
+  virtual void writeImmediateAnswer(WbDataStream &);
+  void dispatchAnswer(WbDataStream &, bool includeDevices = true);
   void setConfigureRequest(bool b) { mConfigureRequest = b; }
 
   // device children
@@ -90,7 +99,7 @@ public:
   WbDevice *device(int index) const { return mDevices[index]; }
   WbDevice *findDevice(WbDeviceTag tag) const;
   void descendantNodeInserted(WbBaseNode *decendant) override;
-  QList<WbRenderingDevice *> renderingDevices() { return mRenderingDevices; }
+  const QList<WbRenderingDevice *> &renderingDevices() { return mRenderingDevices; }
 
   // update sensors in case of no answer needs to be written at this step
   virtual void updateSensors();
@@ -123,10 +132,8 @@ public:
 
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
-
-  bool isShowWindowFieldEnabled() const { return mShowWindow->value(); }
   // return the absolute file name of the robot window file, if it exists
-  QString windowFile(const QString &extension = "html");
+  QString windowFile(const QString &extension = "html") const;
   void showWindow();  // show the Qt-based controller robot window (to be deprecated)
   void updateControllerWindow();
 
@@ -136,15 +143,19 @@ public:
 
   WbKinematicDifferentialWheels *kinematicDifferentialWheels() { return mKinematicDifferentialWheels; }
 
+  QString encodedName() const;  // name used for controller connections
+
 public slots:
   void receiveFromJavascript(const QByteArray &message);
+  void updateControllerDir();
 
 signals:
   void startControllerRequest(WbRobot *robot);
   void immediateMessageAdded();
+  void externControllerChanged();
   void controllerChanged();
-  void controllerRestarted();
   void controllerExited();
+  void windowChanged();
   void wasReset();
   void toggleRemoteMode(bool enable);
   void sendToJavascript(const QByteArray &);
@@ -159,10 +170,9 @@ protected:
   // reimplemented protected functions
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
-  virtual void writeConfigure(QDataStream &);
+  virtual void writeConfigure(WbDataStream &);
 
   // export
-  void exportNodeFields(WbVrmlWriter &writer) const override;
   const QString urdfName() const override;
 
   WbKinematicDifferentialWheels *mKinematicDifferentialWheels;
@@ -177,7 +187,6 @@ private:
   WbMFDouble *mBattery;
   WbSFDouble *mCpuConsumption;
   WbSFBool *mSelfCollision;
-  WbSFBool *mShowWindow;
   WbSFString *mWindow;
   WbSFString *mRemoteControl;
 
@@ -186,12 +195,13 @@ private:
   bool mShowWindowMessage;
   bool mUpdateWindowMessage;
   bool mWaitingForWindow;
-  const QByteArray *mMessageFromWwi;
+  QByteArray *mMessageFromWwi;
   bool mDataNeedToWriteAnswer;
   bool mSupervisorNeedToWriteAnswer;
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mControllerTerminated;
   bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
@@ -264,9 +274,10 @@ private:
   // if reset is TRUE reassign tags to devices (when device config changed)
   // if reset is FALSE, only tag of newly added devices will be assigned
   void assignDeviceTags(bool reset);
-  void writeDeviceConfigure(QList<WbDevice *> devices, QDataStream &stream) const;
+  void writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
+  void updateControllerStatusInDevices();
   void pinToStaticEnvironment(bool pin);
   double energyConsumption() const;
   void clearDevices();
@@ -278,10 +289,10 @@ private slots:
   void updateWindow();
   void updateRemoteControl();
   void updateSimulationMode();
-  void updateControllerDir();
   void updateData();
   void updateSupervisor();
   void updateModel();
+  void updateBattery(bool itemInserted);
   void removeRenderingDevice();
   void handleMouseChange();
   void handleJoystickChange();

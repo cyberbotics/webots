@@ -1,28 +1,13 @@
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
 /* global setup */
 /* global showdown */
-/* global hljs */
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods.js';
-import {webots} from './webots.js';
-
-import WbImageTexture from './nodes/WbImageTexture.js';
-import WbPBRAppearance from './nodes/WbPBRAppearance.js';
-import WbShape from './nodes/WbShape.js';
-import WbSphere from './nodes/WbSphere.js';
-import WbTransform from './nodes/WbTransform.js';
-import WbVector3 from './nodes/utils/WbVector3.js';
-import WbVector4 from './nodes/utils/WbVector4.js';
-import WbWorld from './nodes/WbWorld.js';
-import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
+import { getGETQueryValue, getGETQueriesMatchingRegularExpression } from './request_methods.js';
+import { setupModalWindow, renderGraphs, highlightCode, updateModalEvents } from './proto_viewer.js';
 
 let handle;
-let webotsView;
-let pointer;
-let imageTexture;
-let sizeOfMarker;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function(prefix) {
@@ -35,11 +20,6 @@ if (typeof String.prototype.endsWith !== 'function') {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
 }
-
-function isInternetExplorer() {
-  const userAgent = navigator.userAgent;
-  return userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident') !== -1;
-};
 
 const localSetup = (typeof setup === 'undefined') ? {} : setup;
 const isCyberboticsUrl = location.href.indexOf('cyberbotics.com/doc') !== -1;
@@ -124,7 +104,8 @@ function setupUrl(url) {
     tabsQuery += option + '=' + localSetup.tabs[option];
   }
   tabsQuery = '[' + tabsQuery + ']';
-  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch + ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
+  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch +
+    ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
 }
 
 function computeTargetPath() {
@@ -187,7 +168,8 @@ function collapseMovies(node) {
       let src = iframe.getAttribute('src');
       if (src && src.indexOf('youtube')) { // if the iframe is a youtube frame:
         // then, replace the iframe by a text and an hyperlink to the youtube page.
-        src = src.replace(/embed\/(.*)\?rel=0/, 'watch?v=$1'); // e.g. https://www.youtube.com/embed/vFwNwT8dZTU?rel=0 to https://www.youtube.com/watch?v=vFwNwT8dZTU
+        // e.g. https://www.youtube.com/embed/vFwNwT8dZTU?rel=0 to https://www.youtube.com/watch?v=vFwNwT8dZTU
+        src = src.replace(/embed\/(.*)\?rel=0/, 'watch?v=$1');
         let p = document.createElement('p');
         p.innerHTML = '<a href="' + src + '">Click here to see the youtube movie.</a>';
         iframe.parentNode.replaceChild(p, iframe);
@@ -307,112 +289,6 @@ function redirectImages(node) {
   }
 }
 
-function setupModalWindow() {
-  const doc = document.querySelector('#webots-doc');
-
-  // Create the following HTML tags:
-  // <div id="modal-window" class="modal-window">
-  //   <span class="modal-window-close-button">&times;</span>
-  //   <img class="modal-window-image-content" />
-  //   <div class="modal-window-caption"></div>
-  // </div>
-
-  const close = document.createElement('span');
-  close.classList.add('modal-window-close-button');
-  close.innerHTML = '&times;';
-  close.onclick = function() {
-    modal.style.display = 'none';
-  };
-
-  const loadImage = document.createElement('img');
-  loadImage.classList.add('modal-window-load-image');
-  loadImage.setAttribute('src', computeTargetPath() + '../css/images/load_animation.gif');
-
-  const image = document.createElement('img');
-  image.classList.add('modal-window-image-content');
-
-  const caption = document.createElement('div');
-  caption.classList.add('modal-window-caption');
-
-  const modal = document.createElement('div');
-  modal.setAttribute('id', 'modal-window');
-  modal.classList.add('modal-window');
-
-  modal.appendChild(close);
-  modal.appendChild(loadImage);
-  modal.appendChild(image);
-  modal.appendChild(caption);
-  doc.appendChild(modal);
-
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-      loadImage.style.display = 'block';
-      image.style.display = 'none';
-    }
-  };
-}
-
-function updateModalEvents(view) {
-  const modal = document.querySelector('#modal-window');
-  const image = modal.querySelector('.modal-window-image-content');
-  const loadImage = modal.querySelector('.modal-window-load-image');
-  const caption = modal.querySelector('.modal-window-caption');
-
-  // Add the modal events on each image.
-  const imgs = view.querySelectorAll('img');
-  for (let i = 0; i < imgs.length; i++) {
-    imgs[i].onclick = function(event) {
-      const img = event.target;
-      // The modal window is only enabled on big enough images and on thumbnail.
-      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
-        return;
-
-      // Show the modal window and the caption.
-      modal.style.display = 'block';
-      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
-
-      if (img.src.indexOf('.thumbnail.') === -1) {
-        // this is not a thumbnail => show the image directly.
-        image.src = img.src;
-        loadImage.style.display = 'none';
-        image.style.display = 'block';
-      } else {
-        // this is a thumbnail => load the actual image.
-        let url = img.src.replace('.thumbnail.', '.');
-        if (image.src === url) {
-          // The image has already been loaded.
-          loadImage.style.display = 'none';
-          image.style.display = 'block';
-          return;
-        } else {
-          // The image has to be loaded: show the loading image.
-          loadImage.style.display = 'block';
-          image.style.display = 'none';
-        }
-        // In case of thumbnail, search for the original png or jpg
-        image.onload = function() {
-          // The original image has been loaded successfully => show it.
-          loadImage.style.display = 'none';
-          image.style.display = 'block';
-        };
-        image.onerror = function() {
-          // The original image has not been loaded successfully => try to change the extension and reload it.
-          image.onerror = function() {
-            // The original image has not been loaded successfully => abort.
-            modal.style.display = 'none';
-            loadImage.style.display = 'block';
-            image.style.display = 'none';
-          };
-          url = img.src.replace('.thumbnail.jpg', '.png');
-          image.src = url;
-        };
-        image.src = url;
-      }
-    };
-  }
-}
-
 function applyAnchor() {
   const firstAnchor = document.querySelector("[name='" + localSetup.anchor + "']");
   if (firstAnchor) {
@@ -454,13 +330,13 @@ function addContributionBanner() {
 
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
-                                                 'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
-                                                 'Contribute on GitHub!' +
-                                                 '<span class=github-logo />' +
-                                                 '</a>' +
-                                                 '<p id="contribution-close">X</p>' +
-                                                 '</div>';
+    'Found an error?' +
+    '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
+    'Contribute on GitHub!' +
+    '<span class=github-logo />' +
+    '</a>' +
+    '<p id="contribution-close">X</p>' +
+    '</div>';
   updateContributionBannerUrl();
 
   const contributionBanner = document.querySelector('.contribution-banner');
@@ -472,8 +348,10 @@ function addContributionBanner() {
 
 function updateContributionBannerUrl() {
   const contributionBanner = document.querySelector('.contribution-banner-url');
-  if (contributionBanner)
-    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/released/docs/' + localSetup.book + '/' + localSetup.page + '.md';
+  if (contributionBanner) {
+    contributionBanner.href = 'https://github.com/cyberbotics/webots/edit/released/docs/' + localSetup.book + '/' +
+      localSetup.page + '.md';
+  }
 }
 
 function addNavigationToBlogIfNeeded() {
@@ -543,7 +421,8 @@ function createIndex(view) {
 
   // Do not create too small indexes.
   const content = document.querySelector('#content');
-  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && (localSetup.book !== 'discord' || headings.length < 2))
+  if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) &&
+    (localSetup.book !== 'discord' || headings.length < 2))
     return;
 
   let level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
@@ -590,7 +469,7 @@ function getWebotsVersion() {
     return localSetup.branch;
   // Get the Webots version from the showdown wbVariables extension
   const version = '{{ webots.version.full }}';
-  const converter = new showdown.Converter({extensions: ['wbVariables']});
+  const converter = new showdown.Converter({ extensions: ['wbVariables'] });
   const html = converter.makeHtml(version);
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
@@ -625,7 +504,13 @@ function populateViewDiv(mdContent) {
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
-  const converter = new showdown.Converter({tables: 'True', extensions: ['wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors', 'wbIllustratedSection', 'youtube']});
+  const converter = new showdown.Converter({
+    tables: 'True',
+    extensions: [
+      'wbTabComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
+      'wbIllustratedSection', 'youtube'
+    ]
+  });
   const html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
@@ -633,7 +518,6 @@ function populateViewDiv(mdContent) {
 
   view.innerHTML = html;
 
-  createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
   updateModalEvents(view);
@@ -665,7 +549,7 @@ function updateBrowserUrl() {
   const url = forgeUrl(localSetup.book, localSetup.page, localSetup.tabs, localSetup.anchor);
   if (history.pushState) {
     try {
-      history.pushState({state: 'new'}, null, url);
+      history.pushState({ state: 'new' }, null, url);
     } catch (err) {
     }
   }
@@ -680,441 +564,6 @@ window.onpopstate = function(event) {
   setupUrl(document.location.href);
   getMDFile();
 };
-
-function highlightCode(view) {
-  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml', 'javascript'];
-
-  for (let i = 0; i < supportedLanguages.length; i++) {
-    const language = supportedLanguages[i];
-    hljs.configure({languages: [ language ]});
-    const codes = document.querySelectorAll('.' + language);
-    for (let j = 0; j < codes.length; j++) {
-      const code = codes[j];
-      hljs.highlightBlock(code);
-    }
-  }
-}
-
-function resetRobotComponent(robot) {
-  unhighlightX3DElement(robot);
-  const robotComponent = getRobotComponentByRobotName(robot);
-  // Reset the Viewpoint
-  if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
-    WbWorld.instance.viewpoint.resetViewpoint();
-  // Reset the motor sliders.
-  let sliders = robotComponent.querySelectorAll('.motor-slider');
-  for (let s = 0; s < sliders.length; s++) {
-    let slider = sliders[s];
-    slider.value = slider.getAttribute('webots-position');
-    let id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(WbWorld.instance.nodes.get(id), slider);
-  }
-  robotComponent.webotsView.x3dScene.render();
-}
-
-function updateRobotComponentDimension(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  if (typeof robotComponent === 'undefined')
-    return;
-  const deviceMenu = robotComponent.querySelector('.device-component');
-  const robotView = robotComponent.querySelector('.robot-view');
-
-  if (typeof robotComponent.showDeviceComponent === 'undefined')
-    robotComponent.showDeviceComponent = true;
-  if (robotComponent.showDeviceComponent === true) {
-    deviceMenu.style.display = '';
-    robotView.style.width = '70%';
-  } else {
-    deviceMenu.style.display = 'none';
-    robotView.style.width = '100%';
-  }
-
-  robotComponent.webotsView.x3dScene.resize();
-}
-
-function toggleDeviceComponent(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  if (typeof robotComponent.showDeviceComponent === 'undefined')
-    robotComponent.showDeviceComponent = true;
-  robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
-  updateRobotComponentDimension(robot);
-
-  let arrow = document.getElementById('arrow');
-  if (arrow) {
-    if (arrow.className === 'arrow-right')
-      arrow.className = 'arrow-left';
-    else if (arrow.className === 'arrow-left')
-      arrow.className = 'arrow-right';
-  }
-}
-
-function toggleRobotComponentFullScreen(robot) { // eslint-disable-line no-unused-lets
-  // Source: https://stackoverflow.com/questions/7130397/how-do-i-make-a-div-full-screen
-  let element = getRobotComponentByRobotName(robot);
-  if (
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.mozFullScreenElement ||
-    document.msFullscreenElement
-  ) {
-    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
-
-    if (document.exitFullscreen)
-      document.exitFullscreen();
-    else if (document.mozCancelFullScreen)
-      document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen)
-      document.webkitExitFullscreen();
-    else if (document.msExitFullscreen)
-      document.msExitFullscreen();
-  } else {
-    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = '';
-
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-      document.addEventListener('fullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-      document.addEventListener('mozfullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      document.addEventListener('webkitfullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-      document.addEventListener('msfullscreenchange', function() {
-        updateRobotComponentDimension(robot);
-      });
-    }
-  }
-}
-
-function sliderMotorCallback(transform, slider) {
-  if (typeof transform === 'undefined')
-    return;
-
-  if (typeof transform.firstRotation === 'undefined' && typeof transform.rotation !== 'undefined')
-    transform.firstRotation = transform.rotation.clone();
-
-  if (typeof transform.firstPosition === 'undefined' && typeof transform.translation !== 'undefined')
-    transform.firstPosition = transform.translation.clone();
-
-  let axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
-  axis = glm.vec3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
-
-  let value = parseFloat(slider.value);
-  let position = parseFloat(slider.getAttribute('webots-position'));
-
-  if (slider.getAttribute('webots-type') === 'LinearMotor') {
-    // Compute translation
-    let translation = new WbVector3();
-    if (typeof transform.initialTranslation !== 'undefined')
-      translation = transform.initialTranslation.clone();
-    else {
-      translation = transform.translation;
-      transform.initialTranslation = translation.clone();
-    }
-    translation = translation.add(axis.mul(value - position));
-    // Apply the new position.
-    transform.translation = translation;
-    transform.applyTranslationToWren();
-  } else {
-    // extract anchor
-    let anchor = slider.getAttribute('webots-anchor').split(/[\s,]+/);
-    anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-
-    // Compute angle.
-    let angle = value - position;
-
-    // Apply the new axis-angle.
-    let q = glm.angleAxis(angle, axis);
-
-    if (typeof transform.firstRotation !== 'undefined')
-      q = q.mul(vec4ToQuaternion(transform.firstRotation));
-
-    if (typeof transform.firstPosition !== 'undefined')
-      transform.translation = transform.firstPosition.clone();
-
-    transform.translation = transform.translation.sub(anchor); // remove the offset
-
-    let quat = glm.angleAxis(angle, axis); // rotate the POSITION
-
-    transform.translation = applyQuaternion(transform.translation, quat);
-    transform.translation = transform.translation.add(anchor); // re-add the offset
-    transform.rotation = quaternionToVec4(q);
-    transform.applyTranslationToWren();
-    transform.applyRotationToWren();
-  }
-}
-
-function applyQuaternion(vec3, q) {
-  const x = vec3.x;
-  const y = vec3.y;
-  const z = vec3.z;
-  const qx = q.x;
-  const qy = q.y;
-  const qz = q.z;
-  const qw = q.w;
-
-  // calculate quat * vector
-
-  const ix = qw * x + qy * z - qz * y;
-  const iy = qw * y + qz * x - qx * z;
-  const iz = qw * z + qx * y - qy * x;
-  const iw = -qx * x - qy * y - qz * z;
-
-  // calculate result * inverse quat
-
-  vec3.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-  vec3.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-  vec3.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-
-  return vec3;
-}
-
-function removePointer() {
-  if (typeof pointer !== 'undefined') {
-    pointer.delete();
-    pointer = undefined;
-  }
-}
-
-function unhighlightX3DElement(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  const scene = robotComponent.webotsView.x3dScene;
-  removePointer();
-  scene.render();
-}
-
-function highlightX3DElement(robot, deviceElement) {
-  if (typeof imageTexture === 'undefined') {
-    imageTexture = new WbImageTexture(getAnId(), undefined, computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    imageTexture.updateUrl().then(() => {
-      // highlight again when the texture is loaded
-      highlightX3DElement(robot, deviceElement);
-    });
-  }
-  unhighlightX3DElement(robot);
-
-  let robotComponent = getRobotComponentByRobotName(robot);
-  let scene = robotComponent.webotsView.x3dScene;
-  let id = deviceElement.getAttribute('webots-transform-id');
-  if (typeof WbWorld.instance === 'undefined')
-    return;
-  let object = WbWorld.instance.nodes.get(id);
-  if (object) {
-    if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
-      if (typeof sizeOfMarker === 'undefined') {
-        // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
-        let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
-        let viewpointPosition = WbWorld.instance.viewpoint.position;
-        sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
-      }
-      let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
-      WbWorld.instance.nodes.set(sphere.id, sphere);
-      let baseColorMap = imageTexture.clone(getAnId());
-      baseColorMap.type = 'baseColorMap';
-      WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPBRAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
-        20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
-      baseColorMap.parent = pbr.id;
-      WbWorld.instance.nodes.set(pbr.id, pbr);
-      let shape = new WbShape(getAnId(), false, false, sphere, pbr);
-      WbWorld.instance.nodes.set(shape.id, shape);
-      sphere.parent = shape.id;
-      pbr.parent = shape.id;
-      pointer = new WbTransform(getAnId(), false, new WbVector3(0, 0, 0), new WbVector3(1, 1, 1), new WbVector4());
-      pointer.children.push(shape);
-      WbWorld.instance.nodes.set(pointer.id, pointer);
-      shape.parent = pointer.id;
-    }
-
-    if (deviceElement.hasAttribute('webots-transform-offset')) {
-      let offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
-      pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-    }
-
-    object.children.push(pointer);
-    pointer.parent = object.id;
-    pointer.children[0].geometry.isMarker = true;
-    pointer.finalize();
-
-    scene.render();
-  }
-}
-
-function getRobotComponentByRobotName(robotName) {
-  return document.querySelector('#' + robotName + '-robot-component');
-}
-
-function createRobotComponent(view) {
-  const robotComponents = document.querySelectorAll('.robot-component');
-  for (let c = 0; c < robotComponents.length; c++) { // foreach robot components of this page.
-    const robotComponent = robotComponents[c];
-    const webotsViewElement = document.querySelectorAll('.robot-webots-view')[0];
-    const robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
-
-    if (typeof webotsView === 'undefined') {
-      webotsView = new webots.View(webotsViewElement);
-      webotsView.branch = localSetup.branch;
-      webotsView.repository = localSetup.repository;
-    } else {
-      webotsView.x3dScene.destroyWorld();
-      sizeOfMarker = undefined;
-      pointer = undefined;
-      webotsView.view3D = webotsViewElement;
-    }
-    robotComponent.webotsView = webotsView; // Store the Webots view in the DOM element for a simpler access.
-
-    // Load the robot X3D file.
-    webotsView.open(
-      computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d',
-      undefined,
-      computeTargetPath() + 'scenes/' + robotName + '/'
-    );
-
-    // Load the robot meta JSON file.
-    fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
-      .then(response => response.json())
-      .then(function(data) {
-        // Populate the device component from the JSON file.
-        let deviceComponent = view.querySelector('#' + robotName + '-device-component');
-        let categories = {};
-        robotComponent.setAttribute('robot-node-id', data['robotID']);
-        if (data['devices'].length === 0)
-          toggleDeviceComponent(robotName);
-        for (let d = 0; d < data['devices'].length; d++) {
-          const device = data['devices'][d];
-          const deviceName = device['name'];
-          const deviceType = device['type'];
-
-          // Create or retrieve the device category container.
-          let category = null;
-          if (deviceType in categories)
-            category = categories[deviceType];
-          else {
-            category = document.createElement('div');
-            category.classList.add('device-category');
-            category.innerHTML = '<div class="device-title">' + deviceType + '</div>';
-            deviceComponent.appendChild(category);
-            categories[deviceType] = category;
-          }
-
-          // Create the new device.
-          let deviceDiv = document.createElement('div');
-          deviceDiv.classList.add('device');
-          deviceDiv.addEventListener('mouseover', () => highlightX3DElement(robotName, deviceDiv));
-          deviceDiv.setAttribute('webots-type', deviceType);
-          deviceDiv.setAttribute('webots-transform-id', device['transformID']);
-          if ('transformOffset' in device) // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
-            deviceDiv.setAttribute('webots-transform-offset', device['transformOffset']);
-          deviceDiv.innerHTML = '<div class="device-name">' + deviceName + '</div>';
-
-          // Create the new motor.
-          if (deviceType.endsWith('Motor') && !device['track']) {
-            const minLabel = document.createElement('div');
-            minLabel.classList.add('motor-label');
-            const maxLabel = document.createElement('div');
-            maxLabel.classList.add('motor-label');
-            const slider = document.createElement('input');
-            slider.classList.add('motor-slider');
-            slider.setAttribute('type', 'range');
-            slider.setAttribute('step', 'any');
-            if (device['minPosition'] === device['maxPosition']) { // infinite range.
-              slider.setAttribute('min', -Math.PI);
-              slider.setAttribute('max', Math.PI);
-              minLabel.innerHTML = -3.14; // 2 decimals.
-              maxLabel.innerHTML = 3.14;
-            } else { // fixed range.
-              const epsilon = 0.000001; // To solve Windows browser bugs on slider when perfectly equals to 0.
-              slider.setAttribute('min', device['minPosition'] - epsilon);
-              slider.setAttribute('max', device['maxPosition'] + epsilon);
-              minLabel.innerHTML = Math.round(device['minPosition'] * 100) / 100; // 2 decimals.
-              maxLabel.innerHTML = Math.round(device['maxPosition'] * 100) / 100;
-            }
-            slider.setAttribute('value', device['position']);
-            slider.setAttribute('webots-position', device['position']);
-            slider.setAttribute('webots-transform-id', device['transformID']);
-            slider.setAttribute('webots-axis', device['axis']);
-            slider.setAttribute('webots-anchor', device['anchor']);
-            slider.setAttribute('webots-type', deviceType);
-            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', _ => {
-              if (typeof WbWorld.instance === 'undefined')
-                return;
-              let id = _.target.getAttribute('webots-transform-id');
-              sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
-              webotsView.x3dScene.render();
-            });
-
-            const motorDiv = document.createElement('div');
-            motorDiv.classList.add('motor-component');
-            motorDiv.appendChild(minLabel);
-            motorDiv.appendChild(slider);
-            motorDiv.appendChild(maxLabel);
-            deviceDiv.appendChild(motorDiv);
-            deviceDiv.setAttribute('device-anchor', device['anchor']);
-          }
-
-          category.appendChild(deviceDiv);
-        }
-      })
-      .catch(error => {
-        console.log('Error: ' + error);
-      });
-
-    if (document.getElementsByClassName('menu-button').length !== 0)
-      document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
-    if (document.getElementsByClassName('fullscreen-button').length !== 0)
-      document.getElementsByClassName('fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
-    if (document.getElementsByClassName('exit-fullscreen-button').length !== 0) {
-      document.getElementsByClassName('exit-fullscreen-button')[0].onclick = () => toggleRobotComponentFullScreen(robotName);
-      document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
-    }
-    if (document.getElementsByClassName('reset-button').length !== 0)
-      document.getElementsByClassName('reset-button')[0].onclick = () => resetRobotComponent(robotName);
-
-    if (document.getElementsByClassName('robot-component').length !== 0) {
-      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showButtons();
-      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideButtons(robotName);
-    }
-  }
-}
-
-function showButtons() {
-  if (document.getElementsByClassName('reset-button').length !== 0)
-    document.getElementsByClassName('reset-button')[0].style.display = '';
-
-  if (document.getElementsByClassName('fullscreen-button').length !== 0)
-    document.getElementsByClassName('fullscreen-button')[0].style.display = '';
-
-  if (document.getElementsByClassName('menu-button').length !== 0)
-    document.getElementsByClassName('menu-button')[0].style.display = '';
-}
-
-function hideButtons(robot) {
-  if (document.getElementsByClassName('reset-button').length !== 0)
-    document.getElementsByClassName('reset-button')[0].style.display = 'none';
-
-  if (document.getElementsByClassName('fullscreen-button').length !== 0)
-    document.getElementsByClassName('fullscreen-button')[0].style.display = 'none';
-
-  if (document.getElementsByClassName('exit-fullscreen-button').length !== 0)
-    document.getElementsByClassName('exit-fullscreen-button')[0].style.display = 'none';
-
-  if (document.getElementsByClassName('menu-button').length !== 0)
-    document.getElementsByClassName('menu-button')[0].style.display = 'none';
-
-  removePointer();
-  const robotComponent = getRobotComponentByRobotName(robot);
-  robotComponent.webotsView.x3dScene.render();
-}
 
 // Open a tab component tab
 function openTabFromEvent(evt, option, name) {
@@ -1174,18 +623,6 @@ function applyTabs() {
       if (openTab(tabComponents[k], localSetup.tabs[tabName]))
         break;
     }
-  }
-}
-
-function renderGraphs() {
-  for (let id in window.mermaidGraphs) {
-    window.mermaidAPI.render(id, window.mermaidGraphs[id], function(svgCode, bindFunctions) {
-      document.querySelector('#' + id + 'Div').innerHTML = svgCode;
-      // set min-width to be 2/3 of the max-width otherwise the text might become too small
-      const element = document.querySelector('#' + id);
-      const style = element.getAttribute('style');
-      element.setAttribute('style', style + ' min-width:' + Math.floor(0.66 * parseInt(style.split('max-width:')[1].split('px'))) + 'px;');
-    });
   }
 }
 
@@ -1507,7 +944,7 @@ function getMDFile() {
     .then(response => response.text())
     .then(content => populateViewDiv(content))
     .catch(error => {
-      console.log('Error: ' + error);
+      console.error('Error: ' + error);
       const mainPage = 'index';
       // get the main page instead
       if (localSetup.page !== mainPage) {
@@ -1523,7 +960,7 @@ function getMenuFile() {
   fetch(target)
     .then(response => response.text())
     .then(content => receiveMenuContent(content))
-    .catch(error => console.log('Error: ' + error));
+    .catch(error => console.error('Error: ' + error));
 }
 
 function extractAnchor(url) {
@@ -1625,7 +1062,7 @@ window.onscroll = function() {
   updateMenuScrollbar();
 };
 
-window.mermaidAPI.initialize({startOnLoad: false});
+window.mermaidAPI.initialize({ startOnLoad: false });
 initializeHandle();
 
 if (!isCyberboticsUrl) {
@@ -1659,7 +1096,7 @@ if (localSetup.book === 'blog') {
 }
 
 addContributionBanner();
-setupModalWindow();
+setupModalWindow('#webots-doc');
 applyToTitleDiv();
 getMDFile();
 getMenuFile();

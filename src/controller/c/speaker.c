@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,6 +40,8 @@ struct Sound {
   bool need_update;
   bool need_stop;
   bool is_playing;
+  unsigned char *upload_data;  // sound data for uploading to webots
+  int upload_size;             // size of sound data
   struct Sound *next;
 };
 
@@ -205,8 +207,10 @@ static void speaker_read_answer(WbDevice *d, WbRequest *r) {
     }
     case C_SPEAKER_SPEAK_OVER: {
       Speaker *speaker = (Speaker *)d->pdata;
-      ROBOT_ASSERT(speaker != NULL);
+      ROBOT_ASSERT(speaker);
+      // cppcheck-suppress nullPointerRedundantCheck
       free(speaker->text);
+      // cppcheck-suppress nullPointerRedundantCheck
       speaker->text = NULL;
       break;
     }
@@ -254,7 +258,19 @@ static void speaker_write_request(WbDevice *d, WbRequest *r) {
           request_write_char(r, 1);
         else
           request_write_char(r, 0);
+
+        request_write_int32(r, sound->upload_size);
+        if (sound->upload_size) {
+          /* Sound data available to stream, send it one time and discard it.
+           * Webots will cache the data inside the device.
+           */
+          request_write_data(r, sound->upload_data, sound->upload_size);
+          free(sound->upload_data);
+          sound->upload_data = NULL;
+          sound->upload_size = 0;
+        }
       }
+
       sound->need_update = false;
       sound = sound->next;
     }
@@ -296,6 +312,43 @@ static void speaker_toggle_remote(WbDevice *d, WbRequest *r) {
   // nothing to do.
 }
 
+/* Try to read sound file contents if it is found by given path. */
+static void speaker_try_load_sound_local(Sound *sound, const char *sound_file_name) {
+  FILE *fp;
+
+  sound->upload_data = NULL;
+  sound->upload_size = 0;
+
+  if ((fp = fopen(sound_file_name, "rb")) != NULL) {
+    if (fseek(fp, 0L, SEEK_END) == 0) {
+      const long file_size = ftell(fp);
+      if (file_size != -1) {
+        if (fseek(fp, 0L, SEEK_SET) == 0) {
+          size_t consumed = 0U;
+          sound->upload_data = malloc(file_size);
+          sound->upload_size = (int)file_size;
+          while (consumed < file_size) {
+            const size_t read = fread(&sound->upload_data[consumed], sizeof(unsigned char), file_size - consumed, fp);
+            if (ferror(fp)) {
+              free(sound->upload_data);
+              sound->upload_data = NULL;
+              sound->upload_size = 0;
+              break;
+            }
+            consumed += read;
+          }
+        }
+      }
+    }
+
+    if (sound->upload_data == NULL) {
+      fprintf(stderr, "Warning: %s() failed to read sound file '%s' :", __FUNCTION__, sound_file_name);
+      perror(NULL);
+    }
+    fclose(fp);
+  }
+}
+
 static void speaker_play_sound(WbDevice *device, const char *sound_name, double volume, double pitch, double balance, bool loop,
                                int side) {
   Sound *sound = speaker_get_sound_if_exist(device, sound_name);
@@ -307,6 +360,8 @@ static void speaker_play_sound(WbDevice *device, const char *sound_name, double 
     memcpy(sound->sound_file, sound_name, l);
     sound->next = ((Speaker *)device->pdata)->sound_list;
     ((Speaker *)device->pdata)->sound_list = sound;
+
+    speaker_try_load_sound_local(sound, sound_name);
   }
   sound->volume = volume;
   sound->pitch = pitch;
@@ -512,7 +567,7 @@ bool wb_speaker_set_language(WbDeviceTag tag, const char *language) {
 }
 
 const char *wb_speaker_get_engine(WbDeviceTag tag) {
-  Speaker *speaker = speaker_get_struct(tag);
+  const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;
@@ -521,7 +576,7 @@ const char *wb_speaker_get_engine(WbDeviceTag tag) {
 }
 
 const char *wb_speaker_get_language(WbDeviceTag tag) {
-  Speaker *speaker = speaker_get_struct(tag);
+  const Speaker *speaker = speaker_get_struct(tag);
   if (!speaker) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     return NULL;

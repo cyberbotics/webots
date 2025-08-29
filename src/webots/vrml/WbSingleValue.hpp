@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,12 +29,12 @@ class WbSingleValue : public WbValue {
   Q_OBJECT
 
 public:
-  virtual ~WbSingleValue();
+  virtual ~WbSingleValue() override;
 
   // return generic value
   virtual WbVariant variantValue() const = 0;
   QString toString(WbPrecision::Level level = WbPrecision::DOUBLE_MAX) const override {
-    return variantValue().toStringRepresentation(level);
+    return variantValue().toSimplifiedStringRepresentation(level);
   }
 
 protected:

@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ WbDeviceTag left_motor, right_motor;
 // This function returns the position
 // of the peak contained in the array given
 // in argument
-int find_middle(int tab[], int sizeTab) {
+int find_middle(const int tab[], int sizeTab) {
   int i, j;
   int *copy = (int *)malloc(sizeof(int) * sizeTab);
   int mean = 0;

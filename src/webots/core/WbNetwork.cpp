@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +13,17 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
+
+#include "WbLog.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QCryptographicHash>
+#include <QtCore/QDateTime>
+#include <QtCore/QDirIterator>
 #include <QtCore/QStandardPaths>
 #include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkDiskCache>
 #include <QtNetwork/QNetworkProxy>
 
 static WbNetwork *gInstance = NULL;
@@ -35,6 +40,21 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
+
+  // delete previous caching system folder (< R2022b)
+  QDir oldCache(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network/");
+  if (oldCache.exists())
+    oldCache.removeRecursively();
+
+  QDir dir(WbStandardPaths::cachedAssetsPath());
+  if (!dir.exists())
+    dir.mkpath(".");
+
+  // calculate cache size
+  recomputeCacheSize();
+  // if necessary purge part of it to enforce maximal cache size defined in the preferences
+  reduceCacheUsage();
+
   qAddPostRoutine(WbNetwork::cleanup);
 }
 
@@ -46,19 +66,9 @@ WbNetwork::~WbNetwork() {
 QNetworkAccessManager *WbNetwork::networkAccessManager() {
   if (mNetworkAccessManager == NULL) {
     mNetworkAccessManager = new QNetworkAccessManager();
-    updateCache();
-    connect(WbPreferences::instance(), &WbPreferences::changedByUser, this, &WbNetwork::updateCache);
     setProxy();
   }
   return mNetworkAccessManager;
-}
-
-void WbNetwork::updateCache() {
-  QNetworkDiskCache *diskCache = new QNetworkDiskCache();
-  diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network");
-  int value = 1024 * 1024 * WbPreferences::instance()->value("Network/cacheSize", 1024).toInt();
-  diskCache->setMaximumCacheSize(value);
-  mNetworkAccessManager->setCache(diskCache);
 }
 
 void WbNetwork::setProxy() {
@@ -93,6 +103,117 @@ void WbNetwork::setProxy() {
     mNetworkAccessManager->setProxy(proxy);
 }
 
+void WbNetwork::save(const QString &url, const QByteArray &content) {
+  if (!isCachedWithMapUpdate(url)) {
+    // save to file
+    const QString path(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly)) {
+      file.write(content);
+      mCacheSizeInBytes += file.size();
+      file.close();
+      // save reference in internal representation
+      mCacheMap.insert(url, path);
+    }
+  }
+}
+
+const QString &WbNetwork::get(const QString &url) {
+  if (!mCacheMap.contains(url)) {
+    const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+    mCacheMap.insert(url, filePath);
+    assert(QFileInfo(filePath).exists());  // the 'get' function should not be called unless we know that the file is cached
+  }
+  return mCacheMap[url];
+}
+
+bool WbNetwork::isCachedWithMapUpdate(const QString &url) {
+  if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+    return true;
+
+  // if URL is not in the internal representation, check for file existence on disk
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+  if (QFileInfo(filePath).exists()) {
+    mCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
+    return true;
+  }
+
+  return false;
+}
+
+bool WbNetwork::isCachedNoMapUpdate(const QString &url) const {
+  if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+    return true;
+
+  // if URL is not in the internal representation, check for file existence on disk
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+  if (QFileInfo(filePath).exists())
+    return true;
+
+  return false;
+}
+
+const QString WbNetwork::urlToHash(const QString &url) {
+  return QString(QCryptographicHash::hash(url.toUtf8(), QCryptographicHash::Sha1).toHex());
+}
+
+void WbNetwork::reduceCacheUsage() {
+  const qint64 maxCacheSizeInBytes = WbPreferences::instance()->value("Network/cacheSize", 1024).toInt() * 1024 * 1024;
+  if (maxCacheSizeInBytes > mCacheSizeInBytes)
+    return;  // unnecessary to purge any cached assets
+
+  QFileInfoList assets;
+
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    assets << it.fileInfo();
+  }
+
+  // sort the files based on lastRead metadata, from oldest to newest
+  std::sort(assets.begin(), assets.end(), lastReadLessThan);
+
+  QListIterator<QFileInfo> i(assets);
+  while (i.hasNext() && mCacheSizeInBytes > maxCacheSizeInBytes) {
+    const QFileInfo fi = i.next();
+
+    QDir().remove(fi.absoluteFilePath());  // remove the file from disk
+
+    // find key (url) corresponding to path, and remove it from the internal representation
+    const QString key = mCacheMap.key(fi.absoluteFilePath());
+    mCacheMap.remove(key);
+
+    mCacheSizeInBytes -= fi.size();
+  }
+}
+
+bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
+  return f1.lastRead() < f2.lastRead();
+}
+
 void WbNetwork::clearCache() {
-  mNetworkAccessManager->cache()->clear();
+  QDir dir(WbStandardPaths::cachedAssetsPath());
+  if (dir.exists()) {
+    dir.removeRecursively();
+    // recreate cache directory since it gets removed as well by removeRecursively
+    dir.mkpath(".");
+  }
+
+  mCacheSizeInBytes = 0;
+  mCacheMap.clear();
+}
+
+void WbNetwork::recomputeCacheSize() {
+  mCacheSizeInBytes = 0;
+
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
+  while (it.hasNext()) {
+    it.next();
+    mCacheSizeInBytes += it.fileInfo().size();
+  }
+}
+
+const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) const {
+  assert(mCacheMap.values().contains(cachePath));  // should not attempt to get the URL from the hash unless it's available
+  return mCacheMap.key(cachePath);
 }

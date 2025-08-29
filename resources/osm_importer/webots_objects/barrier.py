@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ from osm_objects import OSMCoord
 from utils.misc_utils import extract_float_from_string, length2D
 
 
-RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
+RED_BRICK_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/default/worlds/textures/red_brick_wall.jpg'  # noqa: E501
 
 
 class Barrier(WebotsObject):
@@ -46,8 +46,8 @@ class Barrier(WebotsObject):
         for index in range(len(self.ref)):
             if index > 0:
                 x = OSMCoord.coordDictionnary[self.ref[index]].x - OSMCoord.coordDictionnary[self.ref[index - 1]].x
-                z = OSMCoord.coordDictionnary[self.ref[index]].z - OSMCoord.coordDictionnary[self.ref[index - 1]].z
-                length = length + length2D(x, z)
+                y = OSMCoord.coordDictionnary[self.ref[index]].y - OSMCoord.coordDictionnary[self.ref[index - 1]].y
+                length = length + length2D(x, y)
         return length
 
     @staticmethod
@@ -108,7 +108,7 @@ class Barrier(WebotsObject):
                 file.write('}\n')
             elif barrier.type == 'wall':
                 file.write('Solid {\n')
-                file.write('  translation 0 %.2f 0\n' % (barrier.height / 2))
+                file.write('  translation 0 0 %.2f\n' % (barrier.height / 2))
                 file.write('  children [\n')
                 file.write('    DEF SHAPE Shape {\n')
                 file.write('      appearance PBRAppearance {\n')

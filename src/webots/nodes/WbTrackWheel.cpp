@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,23 +24,22 @@ void WbTrackWheel::init() {
   mRadius = findSFDouble("radius");
   mInner = findSFBool("inner");
 
-  // define Transform fields
+  // define Pose fields
   mTranslation = new WbSFVector3(WbVector3());
-  mRotation = new WbSFRotation(WbRotation());
-  mScale = new WbSFVector3(WbVector3(1, 1, 1));
+  mRotation = findSFRotation("rotation");
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
 }
 
-WbTrackWheel::WbTrackWheel(WbTokenizer *tokenizer) : WbTransform("TrackWheel", tokenizer) {
+WbTrackWheel::WbTrackWheel(WbTokenizer *tokenizer) : WbPose("TrackWheel", tokenizer) {
   init();
 }
 
-WbTrackWheel::WbTrackWheel(const WbTrackWheel &other) : WbTransform(other) {
+WbTrackWheel::WbTrackWheel(const WbTrackWheel &other) : WbPose(other) {
   init();
 }
 
-WbTrackWheel::WbTrackWheel(const WbNode &other) : WbTransform(other) {
+WbTrackWheel::WbTrackWheel(const WbNode &other) : WbPose(other) {
   init();
 }
 
@@ -48,14 +47,14 @@ WbTrackWheel::~WbTrackWheel() {
 }
 
 void WbTrackWheel::preFinalize() {
-  WbTransform::preFinalize();
+  WbPose::preFinalize();
 
   updatePosition();
   updateRadius();
 }
 
 void WbTrackWheel::postFinalize() {
-  WbTransform::postFinalize();
+  WbPose::postFinalize();
 
   connect(mPosition, &WbSFVector2::changed, this, &WbTrackWheel::updatePosition);
   connect(mRadius, &WbSFDouble::changed, this, &WbTrackWheel::updateRadius);
@@ -65,7 +64,7 @@ void WbTrackWheel::postFinalize() {
 }
 
 void WbTrackWheel::updatePosition() {
-  setTranslation(mPosition->x(), mPosition->y(), 0);
+  setTranslation(mPosition->x(), 0, mPosition->y());
   updateTranslation();
   if (isPostFinalizedCalled())
     emit changed();
@@ -76,36 +75,39 @@ void WbTrackWheel::updateRadius() {
     emit changed();
 }
 
-void WbTrackWheel::rotate(double travelledDistance) {
-  double angle = travelledDistance / radius();
+void WbTrackWheel::rotate(double traveledDistance) {
+  double angle = traveledDistance / radius();
   if (mInner->value())
     angle = -angle;
 
-  WbMatrix3 currentRotation(rotation());
-  WbRotation newRotation(WbMatrix3(0, 0, 1, angle) * currentRotation);
+  WbRotation newRotation(WbMatrix3(0, -1, 0, angle) * rotation().toMatrix3());
   newRotation.normalize();
   setRotation(newRotation);
   updateRotation();
 }
 
-void WbTrackWheel::write(WbVrmlWriter &writer) const {
-  if (writer.isUrdf())
-    return;
-  WbTransform::write(writer);
+bool WbTrackWheel::shallExport() const {
+  return true;
 }
 
-void WbTrackWheel::exportNodeFields(WbVrmlWriter &writer) const {
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("translation", true);
-  translationFieldValue()->write(writer);
-  writer.writeFieldEnd(true);
+void WbTrackWheel::write(WbWriter &writer) const {
+  if (writer.isUrdf())
+    return;
+  WbPose::write(writer);
+}
 
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("rotation", true);
-  rotationFieldValue()->write(writer);
-  writer.writeFieldEnd(true);
+QStringList WbTrackWheel::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "position"
+         << "radius"
+         << "rotation"
+         << "inner";
+  return fields;
+}
 
-  WbTransform::exportNodeFields(writer);
+void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  if (writer.isW3d())
+    writer << " rotation=\'" << mRotation->value() << "\'";
 }

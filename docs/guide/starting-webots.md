@@ -56,19 +56,27 @@ Options:
   --batch
     Prevent Webots from creating blocking pop-up windows.
 
+  --clear-cache
+    Clear the cache of Webots on startup.
+
   --stdout
     Redirect the stdout of the controllers to the terminal.
 
   --stderr
     Redirect the stderr of the controllers to the terminal.
 
-  --stream[="key[=value];..."]
-    Start the Webots streaming server. Parameters may be
-    given as an option:
-      port=1234          - Start the streaming server on port 1234.
-      mode=<x3d|mjpeg>   - Specify the streaming mode: x3d (default) or mjpeg.
-      monitorActivity    - Print a dot '.' on stdout every 5 seconds.
-      disableTextStreams - Disable the streaming of stdout and stderr.
+  --port
+    Change the TCP port used by Webots (default value is 1234).
+
+  --stream[=<mode>]
+    Start the Webots streaming server. The <mode> argument should be either
+    w3d (default) or mjpeg.
+
+  --extern-urls
+    Print on stdout the URL of extern controllers that should be started.
+
+  --heartbeat[=<time>]
+    Print a dot (.) on stdout every second or <time> milliseconds if specified.
 
   --log-performance=<file>[,<steps>]
     Measure the performance of Webots and log it in the file specified in the
@@ -95,32 +103,17 @@ The four possible simulation modes are: `pause`, `realtime`, `run` and `fast`; t
 This option overrides, but does not modify, the startup mode saved in Webots' preferences.
 For example, type `webots --mode=pause filename.wbt` to start Webots in `pause` mode.
 
-The `--sysinfo` option displays misc information about the current system on the standard output stream and quits Webots.
-
 The `--stdout` and `--stderr` options have the effect of redirecting Webots console output to the calling terminal or process.
 For example, this can be used to redirect the controllers output to a file or to pipe it to a shell command.
 `--stdout` redirects the *stdout* stream of the controllers, while `--stderr` redirects the *stderr* stream.
 Note that the *stderr* stream may also contain Webots error or warning messages.
 
-The `--stream` option starts the Webots streaming server.
-An option can be given to change the default parameters of the streaming server.
-This option is a string containing a list of parameter keys and their values separated by semicolons.
-The supported options are described in [this table](#streaming-server-options).
+The `--port` option changes the default TCP port used by Webots for serving robot windows, web streaming and extern controllers. By default, Webots sets up its TCP server on port 1234. When starting multiple Webots instances, the ports are configured with consecutive values of 1234.
 
-%figure "Streaming server options"
-
-| Key                | Value example | Description                                      |
-| ------------------ | ------------- | ------------------------------------------------ |
-| port               | 1234          | The port on which the streaming server is open.  |
-| mode               | x3d or mjpeg  | The streaming mode used by the streaming server. |
-| monitorActivity    |               | Print a dot '.' on stdout every 5 seconds.       |
-| disableTextStreams |               | Disable the streaming of stdout and stderr.      |
-
-%end
-
-For example, the following command will start Webots with the streaming server enabled on the TCP port '1234' and will disable the streaming of stdout and stderr: `webots --stream="port:1234;disableTextStreams"`
-
+The `--stream` option enables the Webots streaming server in either `w3d` (default) or `mjpeg` mode.
 You can get more information about web streaming in [this section](web-streaming.md).
+
+For example, the following command will start Webots with the streaming server enabled on the TCP port '1235' in 'mjpeg' mode: `webots --port=1235 --stream=mjpeg`
 
 The `convert` subcommand allows conversion of a PROTO file to a URDF, WBO, or WRL file.
 You can use a `-p` flag to override default PROTO parameters.

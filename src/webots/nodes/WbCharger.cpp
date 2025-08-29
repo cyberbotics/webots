@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,12 +21,12 @@
 #include "WbMFDouble.hpp"
 #include "WbMFNode.hpp"
 #include "WbMaterial.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbRobot.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
 #include "WbShape.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 struct VisualElement {
@@ -49,7 +49,6 @@ void WbCharger::init() {
   mGradual = findSFBool("gradual");
   mParentRobot = NULL;
   mRobot = NULL;
-  mDone = true;
   mElementsUpdateRequired = true;
   if (mBattery->size() > CURRENT_ENERGY)
     mSavedEnergies[stateId()] = mBattery->item(CURRENT_ENERGY);
@@ -73,7 +72,7 @@ WbCharger::~WbCharger() {
 void WbCharger::postFinalize() {
   WbSolid::postFinalize();
 
-  const WbNode *topNode = WbNodeUtilities::findTopNode(this);
+  const WbNode *topNode = WbVrmlNodeUtilities::findTopNode(this);
   mParentRobot = dynamic_cast<const WbRobot *>(topNode);
 }
 
@@ -104,7 +103,10 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
     const WbRgb color(cr, cg, cb);
-    assert(!WbRgb(cr, cg, cb).clampValuesIfNeeded());
+#ifndef NDEBUG
+    const bool clampNeeded = WbRgb(cr, cg, cb).clampValuesIfNeeded();
+    assert(!clampNeeded);
+#endif
     if (material)
       material->setEmissiveColor(color);
     else if (appearance)
@@ -120,8 +122,10 @@ bool WbCharger::isAnyMaterialOrLightFound() const {
 
 void WbCharger::findMaterialsAndLights(const WbGroup *const g) {
   int size = g->children().size();
-  if (size < 1)
+  if (size < 1) {
+    clearMaterialsAndLights();
     return;
+  }
 
   if (g == this) {
     clearMaterialsAndLights();
@@ -182,43 +186,40 @@ void WbCharger::prePhysicsStep(double ms) {
   foreach (WbRobot *const robot, robots)
     checkContact(robot);
 
-  double currentEnergy = mBattery->item(CURRENT_ENERGY);
+  const double currentEnergy = mBattery->item(CURRENT_ENERGY);
   const double maxEnergy = mBattery->item(MAX_ENERGY);
   const double energyUploadSpeed = mBattery->item(ENERGY_UPLOAD_SPEED);
+  double newEnergy = currentEnergy;
 
   // The Charger collects energy from the Nature (Sun, Earth, Water, etc.)
   if (mRobot == NULL || mRobot->battery().size() < 3) {
-    currentEnergy += energyUploadSpeed * ms / 1000;
-    if (currentEnergy > maxEnergy)
-      currentEnergy = maxEnergy;
+    newEnergy += energyUploadSpeed * ms / 1000;
+    if (newEnergy > maxEnergy)
+      newEnergy = maxEnergy;
   } else {  // exchange of energy from the Charger to the Robot
     double e = (mRobot->energyUploadSpeed() * ms) / 1000.0;
     if (e > currentEnergy) {  // robot cannot take more than available
       e = currentEnergy;
-      currentEnergy = 0.0;
+      newEnergy = 0.0;
     } else
-      currentEnergy -= e;  // transfer
+      newEnergy = currentEnergy - e;  // transfer
 
-    if (mDone == false && mRobot->battery().size() > 2) {  // else energy is wasted
-      double robotCurrentEnergy = mRobot->currentEnergy();
-      // special case:
-      //   if the current energy of the robot is already bigger that its max energy
-      //   the robot battery cannot be filled (useful for ratslife)
+    double robotCurrentEnergy = mRobot->currentEnergy();
+    // special case:
+    //   if the current energy of the robot is already bigger that its max energy
+    //   the robot battery cannot be filled
+    if (robotCurrentEnergy >= mRobot->maxEnergy())
+      newEnergy = currentEnergy;  // no energy is transferred
+    else {
+      robotCurrentEnergy += e;
       if (robotCurrentEnergy > mRobot->maxEnergy())
-        mDone = true;
-      else {
-        robotCurrentEnergy += e;
-        if (robotCurrentEnergy > mRobot->maxEnergy()) {
-          robotCurrentEnergy = mRobot->maxEnergy();
-          mDone = true;
-        }
-      }
-      mRobot->setCurrentEnergy(robotCurrentEnergy);
+        robotCurrentEnergy = mRobot->maxEnergy();
     }
+    mRobot->setCurrentEnergy(robotCurrentEnergy);
   }
 
   // store value in battery
-  mBattery->setItem(CURRENT_ENERGY, currentEnergy);
+  mBattery->setItem(CURRENT_ENERGY, newEnergy);
 
   // energy level
   const double r = currentEnergy / maxEnergy;
@@ -240,24 +241,19 @@ void WbCharger::checkContact(WbRobot *const r) {
     r2 *= 1.1;  // tolerance to maintain contact
   r2 *= r2;
   // printf("range^2: %g <= %g\n", norm2, r2);
-  if (norm2 > r2) {
-    // test if current robot is leaving
-    if (mRobot == r)
-      mBattery->setItem(CURRENT_ENERGY, 0.0);  // emtpy the Charger
+  if (norm2 > r2)
+    // current robot is leaving
     mRobot = NULL;
-    mDone = true;
-  } else if (mRobot == NULL && mBattery->item(CURRENT_ENERGY) == mBattery->item(MAX_ENERGY)) {
+  else if (mRobot == NULL) {
     mRobot = r;
-    mDone = false;
+    // now Charger is busy with that robot...
+    // printf("found one robot %p\n", (void *)robot);
   }
-  // now Charger is busy with that robot...
-  // printf("found one robot %p\n", (void *)robot);
 }
 
 void WbCharger::reset(const QString &id) {
   WbSolid::reset(id);
   mRobot = NULL;
-  mDone = true;
   if (mBattery->size() > CURRENT_ENERGY)
     mBattery->setItem(CURRENT_ENERGY, mSavedEnergies[id]);
   if (mBattery->size() > MAX_ENERGY)

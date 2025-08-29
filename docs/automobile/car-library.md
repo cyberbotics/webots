@@ -66,16 +66,7 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-> In ROS, car library initialization and cleanup are implicit.
-
-%tab-end
-
 %end
-
-> **Note** [ROS]: To enable synchronous simulation you will have to call the `/robot/time_step` service with a positive `step` argument.
-Then each time this service is called a car step will be executed (set the `step` argument to 0 to disable synchronization).
 
 ##### Description
 
@@ -164,15 +155,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| [`/automobile/get_type`](car-library.md#wbu_car_get_type) | `service` | `webots_ros::get_int` | |
-| [`/automobile/get_engine_type`](car-library.md#wbu_car_get_type) | `service` | `webots_ros::get_int` | |
 
 %tab-end
 
@@ -266,15 +248,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/set_indicator_period` | `service` | `webots_ros::set_float` | |
-| `/automobile/get_indicator_period` | `service` | `webots_ros::get_float` | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -344,15 +317,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_backwards_light` | `service` | `webots_ros::get_bool` | |
-| `/automobile/get_brake_light` | `service` | `webots_ros::get_bool` | |
 
 %tab-end
 
@@ -440,14 +404,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/get_dimensions` | `service` | `webots_ros::automobile_get_dimensions` | `uint8 ask`<br/>---<br/>`float64 trackFront`<br/>`float64 trackRear`<br/>`float64 wheelBase`<br/>`float64 frontWheelRadius`<br/>`float64 rearWheelRadius` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -531,15 +487,6 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/front_right_wheel_encoder`<br/>`/automobile/front_left_wheel_encoder`<br/>`/automobile/rear_right_wheel_encoder`<br/>`/automobile/rear_left_wheel_encoder`<br/> | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/front_right_wheel_speed`<br/>`/automobile/front_left_wheel_speed`<br/>`/automobile/rear_right_wheel_speed`<br/>`/automobile/rear_left_wheel_speed`<br/> | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -563,7 +510,9 @@ The `wheel_index` argument should match a value of the `WbuCarWheelIndex` enum.
 
 ---
 
+#### `wbu_car_set_right_steering_angle`
 #### `wbu_car_get_right_steering_angle`
+#### `wbu_car_set_left_steering_angle`
 #### `wbu_car_get_left_steering_angle`
 
 %tab-component "language"
@@ -573,7 +522,9 @@ The `wheel_index` argument should match a value of the `WbuCarWheelIndex` enum.
 ```c
 #include <webots/vehicle/car.h>
 
+void wbu_car_set_right_steering_angle(double angle);
 double wbu_car_get_right_steering_angle();
+void wbu_car_set_left_steering_angle(double angle);
 double wbu_car_get_left_steering_angle();
 ```
 
@@ -586,7 +537,9 @@ double wbu_car_get_left_steering_angle();
 
 namespace webots {
   class Car : public Driver {
+    void setRightSteeringAngle(double angle);
     double getRightSteeringAngle();
+    void setLeftSteeringAngle(double angle);
     double getLeftSteeringAngle();
     // ...
   }
@@ -601,7 +554,9 @@ namespace webots {
 from vehicle import Car
 
 class Car (Driver):
+    def setRightSteeringAngle(self, angle):
     def getRightSteeringAngle(self):
+    def setLeftSteeringAngle(self, angle):
     def getLeftSteeringAngle(self):
     # ...
 ```
@@ -614,7 +569,9 @@ class Car (Driver):
 import com.cyberbotics.webots.controller.vehicle.Car;
 
 public class Car extends Driver {
+  public void setRightSteeringAngle(double angle);
   public double getRightSteeringAngle();
+  public void setLeftSteeringAngle(double angle);
   public double getLeftSteeringAngle();
   // ...
 }
@@ -622,22 +579,17 @@ public class Car extends Driver {
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/right_steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/automobile/left_steering_angle` | `topic` | `webots_ros::Float64Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-
-%tab-end
-
 %end
 
 ##### Description
 
-*Get the right/left steering angle*
+*Set/get the right/left steering angle*
 
-These two functions return respectively the right and left steering angles (because of the Ackermann steering geometry, the two angles are slightly different).
+Functions `wbu_car_set_right_steering_angle` and `wbu_car_set_left_steering_angle` allow for direct setting of the steering angle for respectively the right and left wheel.
+The difference between these setter functions and the usage of [`wbu_driver_set_steering_angle`](driver-library.md#wbu_driver_set_steering_angle) is that the latter computes and imposes a left and right steering angle based on the Ackermann steering geometry (which can yield different angles for left and right wheel), whereas these setters allow to specify the angle directly.
+Functions `wbu_car_get_right_steering_angle` and `wbu_car_get_left_steering_angle` return the corresponding right and left steering angles, irrespective if these have been set directly or indirectly.
+
+**Note**: Direct setting of the steering angles is useful especially for vehicles controlled in torque, for velocity control it is responsibility of the user to update the left and right speeds accordingly when changing the wheel angles as no automatic adaptation is made (contrary to the usage of [`wbu_driver_set_steering_angle`](driver-library.md#wbu_driver_set_steering_angle) where it does occur automatically).
 
 ---
 
@@ -692,14 +644,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/enable_limited_slip_differential` | `service` | `webots_ros::set_bool` | |
 
 %tab-end
 
@@ -766,14 +710,6 @@ public class Car extends Driver {
   // ...
 }
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/automobile/enable_indicator_auto_disabling` | `service` | `webots_ros::set_bool` | |
 
 %tab-end
 

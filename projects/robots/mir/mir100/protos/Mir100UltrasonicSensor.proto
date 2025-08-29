@@ -1,12 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/mir/mir100/protos/Mir100UltrasonicSensor.proto
+# keywords: robot/extension, sensor/distance sensor
 # Model of a generic ultrasonic sensor used for the MiR100 robot.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
+
 PROTO Mir100UltrasonicSensor [
   field   SFVec3f    translation    0 0 0
-  field   SFRotation rotation       0 1 0 0
+  field   SFRotation rotation       0 0 1 0
   field   SFString   name           "Mir100UltrasonicSensor"
   field   MFVec3f    lookupTable    [0.01 1000 0, 0.35 0 0]   # Defines the `lookupTable` field of the `DistanceSensor`.
   field   SFBool     enablePhysics  TRUE                      # Defines whether the sensor should have physics.
@@ -24,9 +29,9 @@ PROTO Mir100UltrasonicSensor [
           size 0.001 0.05 0.0223
         }
       }
-      DEF LEFT_CYLINDER Transform {
+      DEF LEFT_CYLINDER Pose {
         translation 0.0057 0.0128 0
-        rotation 0 0 1 -1.5708
+        rotation 0 1 0 1.5708
         children [
           DEF SENSOR_CYLINDER Group {
             children [
@@ -56,7 +61,7 @@ PROTO Mir100UltrasonicSensor [
                   }
                   texture ImageTexture {
                     url [
-                      "webots://projects/robots/mir/mir100/protos/textures/grid.png"
+                      "textures/grid.png"
                     ]
                   }
                   textureTransform TextureTransform {
@@ -69,20 +74,13 @@ PROTO Mir100UltrasonicSensor [
                   radius 0.0065
                 }
               }
-              Shape {
-                appearance PBRAppearance {
-                  roughness 0.2
-                }
-              }
-              Shape {
-              }
             ]
           }
         ]
       }
-      DEF RIGHT_CYLINDER Transform {
+      DEF RIGHT_CYLINDER Pose {
         translation 0.0057 -0.0128 0
-        rotation 0 0 1 -1.5708
+        rotation 0 1 0 1.5708
         children [
           USE SENSOR_CYLINDER
         ]
@@ -93,16 +91,16 @@ PROTO Mir100UltrasonicSensor [
     boundingObject Group {
       children [
         USE SENSOR_BASE
-        DEF LEFT_CYLINDER_BO Transform {
+        DEF LEFT_CYLINDER_BO Pose {
           translation 0.0057 0.0128 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             USE SENSOR_CYLINDER_EXT
           ]
         }
-        DEF RIGHT_CYLINDER_BO Transform {
+        DEF RIGHT_CYLINDER_BO Pose {
           translation 0.0057 -0.0128 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             USE SENSOR_CYLINDER_EXT
           ]

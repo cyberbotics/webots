@@ -40,7 +40,7 @@ enum {
 };
 
 // default fluid plane's normal for a non-dxPlane geometry
-#define FLUID_PLANE_NORMAL (1)
+#define FLUID_PLANE_NORMAL (2)
 
 // threshold used to avoid buoyancy center computations based on a too small volume
 #define VOLUME_ZERO_THRESHOLD 1e-10

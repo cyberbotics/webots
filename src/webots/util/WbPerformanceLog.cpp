@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,7 @@
 
 #include "WbOdeContext.hpp"
 #include "WbPreferences.hpp"
+#include "WbSoundEngine.hpp"
 #include "WbSysInfo.hpp"
 
 #include <QtCore/QElapsedTimer>
@@ -134,6 +135,7 @@ void WbPerformanceLog::worldClosed(const QString &worldName, const QString &worl
     out << "System: " << WbSysInfo::sysInfo() << "\n";
     out << "Processor: " << WbSysInfo::processor() << "\n";
     out << "Number of cores: " << WbSysInfo::coreCount() << "\n";
+    out << "OpenAL devices: " << WbSoundEngine::device() << "\n";
     out << "OpenGL vendor: " << WbSysInfo::openGLVendor() << "\n";
     out << "OpenGL renderer: " << WbSysInfo::openGLRenderer() << "\n";
     out << "OpenGL version: " << WbSysInfo::openGLVersion() << "\n";
@@ -191,9 +193,9 @@ void WbPerformanceLog::writeTotalValues() {
     headers.append(s);
   }
   headers.append("<mainFPS>");
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     headers.append("<device:" + key + "(ms)>");
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     headers.append("<controller:" + key + "(ms)>");
   out << "<mode> <stepsCount> " << headers.join(" ");
 
@@ -211,9 +213,9 @@ void WbPerformanceLog::writeTotalValues() {
     out << justifiedNumber(value, headers[i].size()) << " ";
   }
   out << justifiedNumber(mAverageFPS, headers[i++].size()) << " ";
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     out << justifiedNumber(mRenderingDevicesValues.value(key)->averageValue(), headers[i++].size()) << " ";
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     out << justifiedNumber(mControllersValues.value(key)->averageValue(), headers[i++].size()) << " ";
 
   // total
@@ -227,9 +229,9 @@ void WbPerformanceLog::writeTotalValues() {
     out << justifiedNumber(value, headers[i].size()) << " ";
   }
   out << justifiedNumber(mAverageFPS, headers[i++].size()) << " ";
-  foreach (QString key, devicesKeys)
+  foreach (const QString &key, devicesKeys)
     out << justifiedNumber(mRenderingDevicesValues.value(key)->totalValue(), headers[i++].size()) << " ";
-  foreach (QString key, controllersKeys)
+  foreach (const QString &key, controllersKeys)
     out << justifiedNumber(mControllersValues.value(key)->totalValue(), headers[i++].size()) << " ";
   out << "\n";
   out << "\n";

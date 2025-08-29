@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   title "Detach locked connectors"
   physics "connector_apply_force"
@@ -23,8 +27,9 @@ DEF ACTIVE_ROBOT Robot {
   children [
     TestSuiteEmitter {
     }
-    DEF LIGHT_BODY Transform {
+    DEF LIGHT_BODY Pose {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -51,7 +56,7 @@ DEF ACTIVE_ROBOT Robot {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0.049 0.025 0
                 children [
                   DEF SIDE_PART Shape {
@@ -67,13 +72,13 @@ DEF ACTIVE_ROBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.049 0.025 0
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
                 children [
                   Shape {
@@ -90,7 +95,7 @@ DEF ACTIVE_ROBOT Robot {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1 9.5897933e-09 9.5974328e-09 4.7131853
+            rotation 0.70710678 0.70710678 0 -3.14159
             model "magnetic"
             type "active"
             autoLock TRUE
@@ -106,8 +111,9 @@ DEF ACTIVE_ROBOT Robot {
     }
   ]
   name "MyBot 1"
-  boundingObject DEF MYBOT_BOUNDING Transform {
+  boundingObject DEF MYBOT_BOUNDING Pose {
     translation 0 0.0415 0
+    rotation 1 0 0 -1.5708
     children [
       USE BODY
     ]
@@ -123,8 +129,9 @@ DEF PASSIVE_ROBOT Solid {
   translation -0.0081323259 0 0.0038990259
   rotation 0 1 0 -1.57
   children [
-    DEF MAIN_BODY Transform {
+    DEF MAIN_BODY Pose {
       translation 0 0.0415 0
+      rotation 1 0 0 -1.5708
       children [
         Shape {
           appearance Appearance {
@@ -147,7 +154,7 @@ DEF PASSIVE_ROBOT Solid {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0.049 0.025 0
                 children [
                   DEF SIDE_PART Shape {
@@ -163,13 +170,13 @@ DEF PASSIVE_ROBOT Solid {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.049 0.025 0
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
                 children [
                   Shape {
@@ -186,7 +193,7 @@ DEF PASSIVE_ROBOT Solid {
           }
           DEF CONNECTOR_DEVICE Connector {
             translation 0 0.055 0
-            rotation 1.0167461001954058e-08 -0.706825180135843 -0.7073882701359512 3.1415927
+            rotation 0 0 -1 -1.5708
             model "magnetic"
             type "passive"
             tensileStrength 1
@@ -209,6 +216,7 @@ DEF PASSIVE_ROBOT Solid {
 }
 Solid {
   translation 0.28 0 0
+  rotation 1 0 0 -1.5708
   children [
     Shape {
       appearance Appearance {

@@ -1,6 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Pavement.proto
+# keywords: appearance/mineral
 # A pavement material.
 # The type of pavement can be set using the `type` field.
 # The color can be overridden using the `colorOverride` field.
@@ -9,7 +11,7 @@
 PROTO Pavement [
   field SFString{"black stone", "braun stone", "braun square stone", "grid", "slate", "tiles"}
                  type             "braun square stone" # Defines the pavement type.
-  field SFColor  colorOverride     1 1 1               # Defines the default color multiplied with the texture color.
+  field SFColor  colorOverride     1 1 1               # Defines the color to be multiplied with the texture color.
   field SFNode   textureTransform  NULL                # Defines an optional 2d texture transform.
   field SFFloat  IBLStrength       1                   # Defines the strength of ambient lighting from the Background node.
 ]
@@ -21,7 +23,7 @@ PROTO Pavement [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_base_color.jpg"' >%
       ]
       filtering 5
     }
@@ -29,20 +31,20 @@ PROTO Pavement [
     %< if (fields.type.value !== 'grid') { >%
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_roughness.jpg"' >%
       ]
     }
     %< } >%
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_normal.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
+        %<= '"textures/pavement/' + textureName + '_pavement_occlusion.jpg"' >%
       ]
     }
     textureTransform IS textureTransform

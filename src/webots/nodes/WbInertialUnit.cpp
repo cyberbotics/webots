@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbInertialUnit.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMFVector3.hpp"
 #include "WbMathsUtilities.hpp"
@@ -91,7 +92,7 @@ void WbInertialUnit::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbInertialUnit::writeAnswer(QDataStream &stream) {
+void WbInertialUnit::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_INERTIAL_UNIT_DATA;
@@ -104,7 +105,7 @@ void WbInertialUnit::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbInertialUnit::addConfigure(QDataStream &stream) {
+void WbInertialUnit::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (double)mNoise->value();
@@ -113,7 +114,7 @@ void WbInertialUnit::addConfigure(QDataStream &stream) {
   mNeedToReconfigure = false;
 }
 
-void WbInertialUnit::writeConfigure(QDataStream &stream) {
+void WbInertialUnit::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }
@@ -136,15 +137,15 @@ void WbInertialUnit::computeValue() {
   }
 
   if (!mXAxis->isTrue() || !mYAxis->isTrue() || !mZAxis->isTrue()) {
-    WbAxisAngle aa = e.toAxisAngle();
+    WbRotation rotation(e);
     if (!mXAxis->isTrue())
-      aa.axis().setX(0);
+      rotation.setX(0);
     if (!mYAxis->isTrue())
-      aa.axis().setZ(0);
+      rotation.setZ(0);
     if (!mZAxis->isTrue())
-      aa.axis().setY(0);
-    aa.axis().normalize();
-    e = WbMatrix3(aa.axis(), aa.angle());
+      rotation.setY(0);
+    rotation.normalizeAxis();
+    e = rotation.toMatrix3();
   }
 
   mQuaternion = e.toQuaternion();

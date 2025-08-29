@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,13 +50,14 @@ static const double UNDEFINED_POSITION = -9999999.9;
 static WbMotionRef head = NULL;
 static const char *HEADER = "#WEBOTS_MOTION";
 static const char *VERSION = "V1.0";
+static int cleanup_done = 0;
 
 // string to time conversion
 // acceptable input format: [[Minutes:]Seconds:]:Milliseconds
 // returns UNDEFINED_TIME in case of syntax error
 static int str_to_time(const char *token) {
   // check for illegal characters
-  char cset[] = "0123456789:";
+  const char cset[] = "0123456789:";
   if (strspn(token, cset) < strlen(token))
     return UNDEFINED_TIME;
 
@@ -109,7 +110,7 @@ static bool motion_check_file(FILE *file, const char *filename, int *n_joints, i
     return false;
   }
 
-  char *token = next_token(buffer);
+  const char *token = next_token(buffer);
   if (!token) {
     fprintf(stderr, "Error: wbu_motion_new(): unexpected end of file '%s'.\n", filename);
     return false;
@@ -216,7 +217,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
   rewind(file);
 
   char buffer[MAX_LINE];
-  char *r = fgets(buffer, MAX_LINE, file);
+  const char *r = fgets(buffer, MAX_LINE, file);
   if (r == NULL)
     return;  // should never happen
 
@@ -226,7 +227,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
 
   int i;
   for (i = 0; i < ref->n_joints; i++) {
-    char *token = next_token(NULL);
+    const char *token = next_token(NULL);
     ref->joint_names[i] = malloc(strlen(token) + 1);
     strcpy(ref->joint_names[i], token);
   }
@@ -235,7 +236,7 @@ static void motion_load(WbMotionRef ref, FILE *file) {
     r = fgets(buffer, MAX_LINE, file);
     if (r == NULL)
       return;  // should never happen
-    char *token = next_token(buffer);
+    const char *token = next_token(buffer);
     ref->times[i] = str_to_time(token);
     next_token(NULL);  // skip pose name
     int j;
@@ -263,7 +264,7 @@ static WbDeviceTag motion_find_device_tag(const char *joint_name) {
 
 static double motion_compute_joint_pos(WbMotionRef ref, int joint) {
   ROBOT_ASSERT(ref && joint >= 0 && joint < ref->n_joints);
-
+  // cppcheck-suppress nullPointerRedundantCheck
   if (ref->n_poses == 0)
     return UNDEFINED_POSITION;
 
@@ -297,6 +298,7 @@ static void motion_actuate(WbMotionRef ref) {
   ROBOT_ASSERT(ref);
 
   int j;
+  // cppcheck-suppress nullPointerRedundantCheck
   for (j = 0; j < ref->n_joints; j++) {
     if (ref->tags[j]) {
       double pos = motion_compute_joint_pos(ref, j);
@@ -381,6 +383,7 @@ void motion_cleanup() {
     wbu_motion_delete(head);
 
   ROBOT_ASSERT(head == NULL);
+  cleanup_done = 1;
 }
 
 // Webots API functions below
@@ -450,10 +453,12 @@ WbMotionRef wbu_motion_new(const char *filename) {
 void wbu_motion_delete(WbMotionRef motion) {
   if (!motion)
     return;
-
   // dequeue self
   if (!motion_dequeue(motion)) {
-    fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
+    if (cleanup_done) {            // the Python API calls first motion_cleanup and then tries to delete motion files.
+      ROBOT_ASSERT(head == NULL);  // no new motion should have been created after the cleanup.
+    } else
+      fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
   }
 

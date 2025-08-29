@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,17 +13,14 @@
 // limitations under the License.
 
 #include "WbMatrix3.hpp"
+
+#include "WbMathsUtilities.hpp"
 #include "WbQuaternion.hpp"
-#include "WbRotation.hpp"
 
 static const double IDENTITY[9] = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
 
 void WbMatrix3::setIdentity() {
   memcpy(mM, IDENTITY, sizeof(mM));
-}
-
-void WbMatrix3::fromAxisAngle(const WbRotation &r) {
-  fromAxisAngle(r.x(), r.y(), r.z(), r.angle());
 }
 
 void WbMatrix3::fromQuaternion(const WbQuaternion &q) {
@@ -80,7 +77,7 @@ WbVector3 WbMatrix3::toEulerAnglesZYX() const {
   if (mM[6] < 1) {
     if (mM[6] > -1) {
       angles.setX(atan2(mM[7], mM[8]));
-      angles.setY(asin(-mM[6]));
+      angles.setY(WbMathsUtilities::clampedAsin(-mM[6]));
       angles.setZ(atan2(mM[3], mM[0]));
     } else {
       angles.setX(0);
@@ -93,67 +90,4 @@ WbVector3 WbMatrix3::toEulerAnglesZYX() const {
     angles.setZ(atan2(-mM[5], mM[4]));
   }
   return angles;
-}
-
-WbAxisAngle WbMatrix3::toAxisAngle() const {
-  // Reference: https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
-
-  const double sqrt2Half = sqrt(2) / 2;
-  const double epsilon = 0.01;
-  const double epsilon2 = 0.1;
-
-  double angle, x, y, z;
-  if ((abs(mM[1] - mM[3]) < epsilon) && (abs(mM[2] - mM[6]) < epsilon) && (abs(mM[5] - mM[7]) < epsilon)) {
-    if ((abs(mM[1] + mM[3]) < epsilon2) && (abs(mM[2] + mM[6]) < epsilon2) && (abs(mM[5] + mM[7]) < epsilon2) &&
-        (abs(mM[0] + mM[4] + mM[8] - 3) < epsilon2)) {
-      return WbAxisAngle(1, 0, 0, 0);
-    }
-    angle = M_PI;
-    double xx = (mM[0] + 1) / 2;
-    double yy = (mM[4] + 1) / 2;
-    double zz = (mM[8] + 1) / 2;
-    double xy = (mM[1] + mM[3]) / 4;
-    double xz = (mM[2] + mM[6]) / 4;
-    double yz = (mM[5] + mM[7]) / 4;
-    if ((xx > yy) && (xx > zz)) {
-      if (xx < epsilon) {
-        x = 0;
-        y = sqrt2Half;
-        z = sqrt2Half;
-      } else {
-        x = sqrt(xx);
-        y = xy / x;
-        z = xz / x;
-      }
-    } else if (yy > zz) {
-      if (yy < epsilon) {
-        x = sqrt2Half;
-        y = 0;
-        z = sqrt2Half;
-      } else {
-        y = sqrt(yy);
-        x = xy / y;
-        z = yz / y;
-      }
-    } else {
-      if (zz < epsilon) {
-        x = sqrt2Half;
-        y = sqrt2Half;
-        z = 0;
-      } else {
-        z = sqrt(zz);
-        x = xz / z;
-        y = yz / z;
-      }
-    }
-    return WbAxisAngle(x, y, z, angle);
-  }
-  double s = sqrt((mM[7] - mM[5]) * (mM[7] - mM[5]) + (mM[2] - mM[6]) * (mM[2] - mM[6]) + (mM[3] - mM[1]) * (mM[3] - mM[1]));
-  if (abs(s) < 0.001)
-    s = 1;
-  angle = acos((mM[0] + mM[4] + mM[8] - 1) / 2);
-  x = (mM[7] - mM[5]) / s;
-  y = (mM[2] - mM[6]) / s;
-  z = (mM[3] - mM[1]) / s;
-  return WbAxisAngle(x, y, z, angle);
 }

@@ -46,6 +46,7 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Update application and documentation version..."
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/src/webots/core/WbApplicationInfo.cpp
+$CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/src/webots/gui/WbUpdatedDialog.cpp
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/resources/version.txt
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/scripts/packaging/webots_version.txt
 $CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/Contents/Info.plist
@@ -61,25 +62,68 @@ $CURRENT_DIR/new_version_file.sh "package:\\s'.*'" "package: '"$new_package"'" $
 if [ $new_version_year -ne $old_version_year ]; then
   $CURRENT_DIR/new_version_file.sh "year:\\s[0-9]\+" "year: "$new_version_year $WEBOTS_HOME/docs/js/showdown-extensions.js
 fi
-# projects
-$CURRENT_DIR/new_version_file.sh $old_package $new_package $WEBOTS_HOME/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window/c3d_viewer_window.html
-
 
 if [ $new_version_without_revision != $old_version_without_revision ];
 then
   echo "Update file headers.."
   $CURRENT_DIR/new_version_file_headers.sh $old_version_without_revision $new_version_without_revision
-  $CURRENT_DIR/new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision $WEBOTS_HOME//docs/reference/proto-example.md
+  $CURRENT_DIR/new_version_file.sh "#VRML_SIM\\s"$old_version_without_revision "#VRML_SIM "$new_version_without_revision $WEBOTS_HOME/docs/reference/proto-example.md
 
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/index.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/streaming_viewer/setup_viewer.js
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/templates/x3d_playback.html
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/templates/w3d_playback.html
   $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/AnimationSlider.js
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/WebotsAnimation.js
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/WebotsStreaming.js
-  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/utils/misc_utils.py
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/NodeSelectorWindow.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/WebotsView.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/Progress.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/proto_viewer.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/viewer.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/web/wwi/ProtoManager.js
+
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/vehicles/plugins/robot_windows/automobile/automobile.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/pick_and_place/plugins/robot_windows/pick_and_place/pick_and_place.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/humanoid_sprint/plugins/robot_windows/humanoid_sprint/humanoid_sprint.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/humanoid_marathon/plugins/robot_windows/humanoid_marathon/humanoid_marathon.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/wall_following/plugins/robot_windows/wall_following/wall_following.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/highway_driving/plugins/robot_windows/highway_driving/highway_driving.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/pit_escape/plugins/robot_windows/pit_escape/pit_escape.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/obstacle_avoidance/plugins/robot_windows/obstacle_avoidance/obstacle_avoidance.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/inverted_pendulum/plugins/robot_windows/inverted_pendulum/inverted_pendulum.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/square_path/plugins/robot_windows/square_path/square_path.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/robot_programming/plugins/robot_windows/robot_programming/robot_programming.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/maze_runner/plugins/robot_windows/maze_runner/maze_runner.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/visual_tracking/plugins/robot_windows/pan_tilt_camera_view/pan_tilt_camera_view.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/robotbenchmark/visual_tracking/plugins/robot_windows/visual_tracking/visual_tracking.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/howto/custom_robot_window/plugins/robot_windows/custom_robot_window/custom_robot_window.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/howto/custom_robot_window_simple/plugins/robot_windows/custom_robot_window_simple/custom_robot_window_simple.html
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/humans/c3d/plugins/robot_windows/c3d_viewer_window/c3d_viewer_window.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/robots/mobsya/thymio/plugins/robot_windows/thymio2/thymio2.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/robots/gctronic/e-puck/plugins/robot_windows/e-puck/e-puck.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/tests/api/plugins/robot_windows/info/info.js
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/projects/plugins/robot_windows/generic/generic.js
+
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/howto/docker/README.md
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/projects/samples/howto/docker/launcher.py
+
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/utils/misc_utils.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/config.ini
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/webots_objects/barrier.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/webots_objects/road.py
+  # $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/resources/osm_importer/elevation.py
 
   $CURRENT_DIR/new_version_file.sh "wwi\/$old_version_without_revision\/" "wwi\/$new_version_without_revision\/" $WEBOTS_HOME/docs/dependencies.txt
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/index.template.html
+  $CURRENT_DIR/new_version_file.sh $old_version_without_revision $new_version_without_revision $WEBOTS_HOME/docs/css/webots-doc.css
 
   echo "wwi resources on the cyberbotics FTP should be updated."
+
+  echo "tests/cache/worlds/backwards_compatibility.wbt should not be modified by this script"
+fi
+# metainfo
+echo "Update metainfo file..."
+$CURRENT_DIR/new_version_file.sh $old_version $new_version $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+$CURRENT_DIR/new_version_file.sh "[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}" "$(date +%F)" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+$CURRENT_DIR/new_version_file.sh "Copyright [0-9]\{4\}" "Copyright ${new_version_year}" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
+if [ $new_version_year -ne $old_version_year ]; then
+  $CURRENT_DIR/new_version_file.sh "changelog-r${old_version_year}" "changelog-r${new_version_year}" $WEBOTS_HOME/scripts/packaging/webots.metainfo.xml
 fi

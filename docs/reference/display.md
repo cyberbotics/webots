@@ -132,14 +132,6 @@ height = wb_display_get_height(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_info` | `service` | `webots_ros::display_get_info` | `uint8 ask`<br/>`---`<br/>`uint32 width`<br/>`uint32 height` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -227,17 +219,6 @@ wb_display_set_alpha(tag, alpha)
 wb_display_set_opacity(tag, opacity)
 wb_display_set_font(tag, font, size, anti_aliasing)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/set_color` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/set_alpha` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_opacity` | `service` | [`webots_ros::set_float`](ros-api.md#common-services) | |
-| `/<device_name>/set_font` | `service` | `webots_ros::display_set_font` | `string font`<br/>`int32 size`<br/>`uint8 antiAliasing`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -365,15 +346,6 @@ wb_display_detach_camera(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/attach_camera` | `service` | [`webots_ros::set_string`](ros-api.md#common-services) | |
-| `/<device_name>/detach_camera` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -498,22 +470,6 @@ wb_display_fill_polygon(tag, [x1 x2 ... xn], [y1 y2 ... yn])
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/draw_pixel` | `service` | `webots_ros::display_draw_pixel` | `int32 x`<br/>`int32 y`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/draw_line` | `service` | `webots_ros::display_draw_line` | `int32 x1`<br/>`int32 y1`<br/>`int32 x2`<br/>`int32 y2`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/draw_rectangle` | `service` | `webots_ros::display_draw_rectangle` | `int32 x`<br/>`int32 y`<br/>`int32 width`<br/>`int32 height`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/draw_oval` | `service` | `webots_ros::display_draw_oval` | `int32 cx`<br/>`int32 cy`<br/>`int32 a`<br/>`int32 b`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/draw_polygon` | `service` | `webots_ros::display_draw_polygon` | `int32[] x`<br/>`int32[] y`<br/>`int32 size`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/draw_text` | `service` | `webots_ros::display_draw_text` | `string text`<br/>`int32 x`<br/>`int32 y`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/fill_rectangle` | `service` | `webots_ros::display_draw_rectangle` | `int32 x`<br/>`int32 y`<br/>`int32 width`<br/>`int32 height`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/fill_oval` | `service` | `webots_ros::display_draw_oval` | `int32 cx`<br/>`int32 cy`<br/>`int32 a`<br/>`int32 b`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/fill_polygon` | `service` | `webots_ros::display_draw_polygon` | `int32[] x`<br/>`int32[] y`<br/>`int32 size`<br/>`---`<br/>`int8 success` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -621,10 +577,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Display, ImageRef
-
-class ImageRef:
-    # ...
+from controller import Display
 
 class Display (Device):
     RGB, RGBA, ARGB, BGRA, ABGR
@@ -677,19 +630,6 @@ wb_display_image_paste(tag, image, x, y, blend)
 wb_display_image_save(tag, image, 'filename')
 wb_display_image_delete(tag, image)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/image_new` | `service` | `webots_ros::display_image_new` | `int32 width`<br/>`int32 height`<br/>`char[] data`<br/>`int32 format`<br/>`---`<br/>`uint64 ir` |
-| `/<device_name>/image_load` | `service` | `webots_ros::display_image_load` | `string filename`<br/>`---`<br/>`uint64 ir` |
-| `/<device_name>/image_copy` | `service` | `webots_ros::display_image_copy` | `int32 x`<br/>`int32 y`<br/>`int32 width`<br/>`int32 height`<br/>`---`<br/>`uint64 ir` |
-| `/<device_name>/image_paste` | `service` | `webots_ros::display_image_paste` | `uint64 ir`<br/>`int32 x`<br/>`int32 y`<br/>`uint8 blend`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/image_save` | `service` | `webots_ros::display_image_save` | `string filename`<br/>`uint64 ir`<br/>`---`<br/>`int8 success` |
-| `/<device_name>/image_delete` | `service` | `webots_ros::display_image_delete` | `uint64 ir`<br/>`---`<br/>`int8 success` |
 
 %tab-end
 
@@ -757,7 +697,7 @@ int main() {
   while(wb_robot_step(time_step) != -1) {
     const unsigned char *data = wb_camera_get_image(camera);
     if (data) {
-      WbImageRef ir = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
+      WbImageRef ir = wb_display_image_new(display, width, height, data, WB_IMAGE_BGRA);
       wb_display_image_paste(display, ir, 0, 0, false);
       wb_display_image_delete(display, ir);
     }
@@ -790,7 +730,7 @@ int main() {
   while (robot->step(timeStep) != -1) {
     const unsigned char *data = camera->getImage();
     if (data) {
-      ImageRef *ir = display->imageNew(width, height, data, Display::ARGB);
+      ImageRef *ir = display->imageNew(width, height, data, Display::BGRA);
       display->imagePaste(ir, 0, 0, false);
       display->imageDelete(ir);
     }
@@ -818,7 +758,7 @@ display = robot.getDisplay('display');
 while robot.step(32) != -1:
     data = camera.getImage()
     if data:
-        ir = display.imageNew(data, Display.ARGB, width, height)
+        ir = display.imageNew(data, Display.BGRA, width, height)
         display.imagePaste(ir, 0, 0, False)
         display.imageDelete(ir)
 ```
@@ -869,7 +809,7 @@ display = wb_robot_get_device("display");
 while wb_robot_step(time_step) ~= -1
   data = wb_camera_get_image(camera);
   if data
-    ir = wb_display_image_new(display, width, height, data, ARGB);
+    ir = wb_display_image_new(display, width, height, data, BGRA);
     wb_display_image_paste(display, ir, 0, 0, false);
     wb_display_image_delete(display, ir);
   end
@@ -878,4 +818,5 @@ end
 %tab-end
 %end
 
-> **Note**: The `wb_display_image_new` function can display the image returned by the [`wb_camera_get_image`](camera.md#wb_camera_get_image) function directly if the pixel format argument is set to ARGB.
+ **Note**: The Java `Display.imageNew` function can display the image returned by the `Camera.getImage` function directly if the pixel format argument is set to ARGB.
+In the other programming languages the pixel format should be set to BGRA.

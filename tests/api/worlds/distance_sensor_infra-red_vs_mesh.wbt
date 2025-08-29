@@ -1,4 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MarbleTiles.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -10,7 +17,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF MESH Transform {
+DEF MESH Pose {
   translation -0.972322 -0.75 -0.476789
   rotation 0 1 0 1.5708
   children [
@@ -26,7 +33,7 @@ DEF MESH Transform {
     }
   ]
 }
-DEF MESH Transform {
+DEF MESH Pose {
   translation 0.763081 -0.75 0.204459
   rotation 0 -1 0 1.8325953071795864
   children [
@@ -48,9 +55,9 @@ Robot {
   children [
     DistanceSensor {
       children [
-        DEF DS_SHAPE Transform {
+        DEF DS_SHAPE Pose {
           translation -0.026 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -74,9 +81,9 @@ Robot {
       translation -0.11 0 -5.30718e-08
       rotation 0 1 0 3.14159
       children [
-        DEF DS_SHAPE Transform {
+        DEF DS_SHAPE Pose {
           translation -0.026 0 0
-          rotation 0 0 1 -1.5708
+          rotation 0 1 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {

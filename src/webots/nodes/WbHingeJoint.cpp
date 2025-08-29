@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,24 +23,47 @@
 #include "WbSolid.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
+#include "WbWrenShaders.hpp"
 
+#include <wren/config.h>
+#include <wren/material.h>
+#include <wren/node.h>
+#include <wren/renderable.h>
+#include <wren/static_mesh.h>
+#include <wren/transform.h>
 #include <cassert>
 
-// Constructors
+void WbHingeJoint::init() {
+  mAnchorTransform = NULL;
+  mAnchorRenderable = NULL;
+  mAnchorMesh = NULL;
+  mAnchorMaterial = NULL;
+}
 
+// Constructors
 WbHingeJoint::WbHingeJoint(const QString &modelName, WbTokenizer *tokenizer) : WbJoint(modelName, tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(WbTokenizer *tokenizer) : WbJoint("HingeJoint", tokenizer) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbHingeJoint &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::WbHingeJoint(const WbNode &other) : WbJoint(other) {
+  init();
 }
 
 WbHingeJoint::~WbHingeJoint() {
+  if (areWrenObjectsInitialized()) {
+    wr_static_mesh_delete(mAnchorMesh);
+    wr_material_delete(mAnchorMaterial);
+    wr_node_delete(WR_NODE(mAnchorRenderable));
+    wr_node_delete(WR_NODE(mAnchorTransform));
+  }
 }
 
 WbHingeJointParameters *WbHingeJoint::hingeJointParameters() const {
@@ -163,7 +186,7 @@ void WbHingeJoint::applyToOdeStopCfm() {
 void WbHingeJoint::applyToOdeAxis() {
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(axis());
   if (mIsReverseJoint)
     a = -a;  // the axis should be inverted when the upper solid has no physics node
@@ -177,7 +200,7 @@ void WbHingeJoint::applyToOdeSuspensionAxis() {
   const WbHingeJointParameters *const hp = hingeJointParameters();
   if (hp == NULL)
     return;
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(hp->suspensionAxis());
   if (mIsReverseJoint)
     a = -a;  // the axis should be inverted when the upper solid has no physics node
@@ -193,7 +216,7 @@ void WbHingeJoint::applyToOdeAnchor() {
 
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
@@ -233,13 +256,6 @@ void WbHingeJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID par
     return;
   }
 
-  // Handles scale
-  const double scale = upperTransform()->absoluteScale().x();
-  double s4 = scale * scale;
-  s4 *= scale;
-  s *= s4;
-  d *= s4;
-
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   double cfm, erp;
   WbOdeUtilities::convertSpringAndDampingConstants(s, d, wi->basicTimeStep() * 0.001, cfm, erp);
@@ -254,7 +270,7 @@ void WbHingeJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID par
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
 
   // Axis setting
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(axis());
   if (mIsReverseJoint)
     a = -a;
@@ -279,11 +295,8 @@ void WbHingeJoint::applyToOdeSuspension() {
   if (hp == NULL)
     return;
 
-  const WbSolid *const solid = solidEndPoint();
-  double s2 = solid == NULL ? 1.0 : solid->absoluteScale().x();
-  s2 *= s2;
-  const double s = s2 * hp->suspensionSpringConstant();
-  const double d = s2 * hp->suspensionDampingConstant();
+  const double s = hp->suspensionSpringConstant();
+  const double d = hp->suspensionDampingConstant();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   double erp = 0.2, cfm = 0.0;
   if (s == 0.0 && d == 0.0) {
@@ -318,10 +331,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      const double s = upperTransform()->absoluteScale().x();
-      double s4 = s * s;
-      s4 *= s4;
-      dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);
+      dJointSetHingeParam(mJoint, dParamFMax, fMax);
       dJointSetHingeParam(mJoint, dParamVel, currentVelocity);
     }
     // eventually add spring and damping forces
@@ -348,20 +358,19 @@ void WbHingeJoint::prePhysicsStep(double ms) {
 
 void WbHingeJoint::postPhysicsStep() {
   assert(mJoint);
-  WbRotationalMotor *const rm = rotationalMotor();
-  if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
-    double angle = dJointGetHingeAngle(mJoint);
-    if (!mIsReverseJoint)
-      angle = -angle;
-    mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
-  } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    double angleRate = dJointGetHingeAngleRate(mJoint);
-    if (mIsReverseJoint)
-      angleRate = -angleRate;
-    mPosition -= angleRate * mTimeStep / 1000.0;
-  }
+  const WbRotationalMotor *const rm = rotationalMotor();
+
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  double angleRate = dJointGetHingeAngleRate(mJoint);
+  if (mIsReverseJoint)
+    angleRate = -angleRate;
+  mPosition -= angleRate * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi]
+  double angle = dJointGetHingeAngle(mJoint);
+  if (!mIsReverseJoint)
+    angle = -angle;
+  mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
+
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
@@ -426,7 +435,7 @@ void WbHingeJoint::updateMinAndMaxStop(double min, double max) {
   if (max >= M_PI)
     p->parsingWarn(tr("HingeJoint 'maxStop' must be less than pi to be effective."));
 
-  WbRotationalMotor *const rm = rotationalMotor();
+  const WbRotationalMotor *const rm = rotationalMotor();
   if (rm) {
     const double minPos = rm->minPosition();
     const double maxPos = rm->maxPosition();
@@ -461,8 +470,40 @@ void WbHingeJoint::updateAnchor() {
   if (mJoint)
     applyToOdeAnchor();
 
-  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES)) {
     updateJointAxisRepresentation();
+    updateJointAnchorRepresentation();
+  }
+}
+
+void WbHingeJoint::createWrenObjects() {
+  WbJoint::createWrenObjects();
+
+  // anchor
+  float color[3] = {0.7f, 0.0f, 0.1f};
+  mAnchorMaterial = wr_phong_material_new();
+  wr_phong_material_set_color(mAnchorMaterial, color);
+  wr_material_set_default_program(mAnchorMaterial, WbWrenShaders::lineSetShader());
+
+  mAnchorRenderable = wr_renderable_new();
+  wr_renderable_set_cast_shadows(mAnchorRenderable, false);
+  wr_renderable_set_receive_shadows(mAnchorRenderable, false);
+  wr_renderable_set_material(mAnchorRenderable, mAnchorMaterial, NULL);
+  wr_renderable_set_visibility_flags(mAnchorRenderable, WbWrenRenderingContext::VF_JOINT_AXES);
+  wr_renderable_set_drawing_mode(mAnchorRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+  wr_renderable_set_drawing_order(mAnchorRenderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+
+  mAnchorTransform = wr_transform_new();
+  wr_node_set_visible(WR_NODE(mAnchorTransform), false);
+  wr_transform_attach_child(mAnchorTransform, WR_NODE(mAnchorRenderable));
+  wr_transform_attach_child(wrenNode(), WR_NODE(mAnchorTransform));
+
+  if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(WbWrenRenderingContext::VF_JOINT_AXES))
+    wr_node_set_visible(WR_NODE(mAnchorTransform), true);
+
+  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this,
+          &WbHingeJoint::updateJointAnchorRepresentation);
+  updateJointAnchorRepresentation();
 }
 
 WbVector3 WbHingeJoint::axis() const {
@@ -480,7 +521,7 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   if (!mJoint || !isPostFinalizedCalled())
     return;
 
-  WbHingeJointParameters *p = hingeJointParameters();
+  const WbHingeJointParameters *p = hingeJointParameters();
   if (p && (p->suspensionSpringConstant() != 0.0 || p->suspensionDampingConstant() != 0.0))
     // remove suspension effect by resetting the endPoint solid position
     updatePosition(mPosition);
@@ -489,4 +530,35 @@ void WbHingeJoint::updateOdeWorldCoordinates() {
   applyToOdeAnchor();
   if (p)
     applyToOdeSuspensionAxis();
+}
+
+void WbHingeJoint::updateJointAnchorRepresentation() {
+  if (!areWrenObjectsInitialized())
+    return;
+
+  wr_static_mesh_delete(mAnchorMesh);
+
+  float anchorArray[3];
+  anchor().toFloatArray(anchorArray);
+
+  mAnchorMesh = wr_static_mesh_unit_sphere_new(2, true, true);
+  wr_renderable_set_mesh(mAnchorRenderable, WR_MESH(mAnchorMesh));
+
+  float scaling = 0.004f * wr_config_get_line_scale();
+  scaling = scaling > 0.002f ? 0.002f : scaling;
+  const float scale[3] = {scaling, scaling, scaling};
+  wr_transform_set_scale(mAnchorTransform, scale);
+  wr_transform_set_position(mAnchorTransform, anchorArray);
+}
+
+void WbHingeJoint::updateOptionalRendering(int option) {
+  WbJoint::updateOptionalRendering(option);
+
+  if (option == WbWrenRenderingContext::VF_JOINT_AXES) {
+    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option)) {
+      updateJointAnchorRepresentation();
+      wr_node_set_visible(WR_NODE(mAnchorTransform), true);
+    } else
+      wr_node_set_visible(WR_NODE(mAnchorTransform), false);
+  }
 }

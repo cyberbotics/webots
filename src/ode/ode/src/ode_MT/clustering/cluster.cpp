@@ -2042,3 +2042,7 @@ void dxClusteredWorldAndSpace::propagatePlaneParams(dxGeom *g, dReal a, dReal b,
     }
     updateClusterAABBsAndTable(staticGeomClusterIDMap[g]);
 }
+
+void dxClusteredWorldAndSpace::propagateOffsetChange(dxGeom *g) {
+  updateClusterAABBsAndTable(staticGeomClusterIDMap[g]);
+}

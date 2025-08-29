@@ -17,7 +17,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v3.3.0
+        uses: fkirc/skip-duplicate-actions@v5.3.0
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths: '["docs/**"]'
@@ -25,20 +25,18 @@ jobs:
 
   test-doc:
     needs: job-skipper
+    if: needs.job-skipper.outputs.should_skip != 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
-      if: needs.job-skipper.outputs.should_skip != 'true'
+    - uses: actions/checkout@v3
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      if: needs.job-skipper.outputs.should_skip != 'true'
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Tests
-      if: needs.job-skipper.outputs.should_skip != 'true'
       run: |
         pip install -r docs/tests/requirements.txt
         export WEBOTS_HOME=$PWD

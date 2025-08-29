@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,12 +21,15 @@
 //
 
 #include <QtCore/QString>
+#include <WbFieldValueRestriction.hpp>
+#include <WbNodeModel.hpp>
+#include <WbProtoModel.hpp>
 #include <WbValue.hpp>
 #include <WbVariant.hpp>
 
 class WbTokenizer;
 class WbToken;
-class WbVrmlWriter;
+class WbWriter;
 
 class WbFieldModel {
 public:
@@ -36,9 +39,9 @@ public:
   // field name
   const QString &name() const { return mName; }
 
-  // VRML export
-  bool isVrml() const { return mIsVrml; }
-  void write(WbVrmlWriter &writer) const;
+  // W3D export
+  bool isW3d() const { return mIsW3d; }
+  void write(WbWriter &writer) const;
 
   bool isDeprecated() const { return mIsDeprecated; }
 
@@ -54,7 +57,7 @@ public:
   // accepted values
   bool isValueAccepted(const WbValue *value, int *refusedIndex) const;
   bool hasRestrictedValues() const { return !mAcceptedValues.isEmpty(); }
-  const QList<WbVariant> acceptedValues() const { return mAcceptedValues; }
+  const QList<WbFieldValueRestriction> &acceptedValues() const { return mAcceptedValues; }
 
   // field type
   WbFieldType type() const { return mDefaultValue->type(); }
@@ -83,19 +86,20 @@ private:
   ~WbFieldModel();
 
   QString mName;
-  bool mIsVrml;
+  bool mIsW3d;
   bool mIsHiddenField, mIsHiddenParameter;
   bool mIsTemplateRegenerator;
   bool mIsDeprecated;
   bool mIsUnconnected;
   WbValue *mDefaultValue;
-  QList<WbVariant> mAcceptedValues;  // TODO: const WbVariant
+  QList<WbFieldValueRestriction> mAcceptedValues;  // TODO: const WbVariant
   WbToken *mNameToken;
 
   mutable int mRefCount;
 
-  WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
-  QList<WbVariant> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  static WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  static QList<WbFieldValueRestriction> getAcceptedValues(const QString &type, WbTokenizer *tokenizer,
+                                                          const QString &worldPath);
 };
 
 #endif

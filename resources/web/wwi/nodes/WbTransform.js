@@ -1,41 +1,54 @@
-import WbGroup from './WbGroup.js';
+import WbPose from './WbPose.js';
 import WbWorld from './WbWorld.js';
 
-import {getAnId} from './utils/utils.js';
+import { getAnId } from './utils/id_provider.js';
+import { WbNodeType } from './wb_node_type.js';
 
-// Also used to represent a solid
-export default class WbTransform extends WbGroup {
-  constructor(id, isSolid, translation, scale, rotation) {
-    super(id);
-    this.isSolid = isSolid;
-    this.translation = translation;
-    this.scale = scale;
-    this.rotation = rotation;
-
-    this.children = [];
+export default class WbTransform extends WbPose {
+  #scale;
+  constructor(id, translation, rotation, scale) {
+    super(id, translation, rotation);
+    this.#scale = scale;
+    this._absoluteScaleNeedUpdate = true;
   }
 
-  applyRotationToWren() {
-    const rotation = _wrjs_array4(this.rotation.w, this.rotation.x, this.rotation.y, this.rotation.z);
-    _wr_transform_set_orientation(this.wrenNode, rotation);
+  get nodeType() {
+    return WbNodeType.WB_NODE_TRANSFORM;
   }
 
-  applyScaleToWren() {
-    const scale = _wrjs_array3(this.scale.x, this.scale.y, this.scale.z);
-    _wr_transform_set_scale(this.wrenNode, scale);
+  get scale() {
+    return this.#scale;
   }
 
-  applyTranslationToWren() {
-    const translation = _wrjs_array3(this.translation.x, this.translation.y, this.translation.z);
-    _wr_transform_set_position(this.wrenNode, translation);
+  set scale(newScale) {
+    this.#scale = newScale;
+
+    this.#updateScale();
   }
 
-  async clone(customID) {
-    const transform = new WbTransform(customID, this.isSolid, this.translation, this.scale, this.rotation);
+  absoluteScale() {
+    if (this._absoluteScaleNeedUpdate)
+      this._updateAbsoluteScale();
+
+    return this._absoluteScale;
+  }
+
+  _updateAbsoluteScale() {
+    this._absoluteScale = this.#scale;
+    // multiply with upper transform scale if any
+    const up = this.upperTransform;
+    if (typeof up !== 'undefined')
+      this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
+
+    this._absoluteScaleNeedUpdate = false;
+  }
+
+  clone(customID) {
+    const transform = new WbTransform(customID, this.translation, this.rotation, this.#scale);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
-      const cloned = await this.children[i].clone(getAnId());
+      const cloned = this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
       transform.children.push(cloned);
@@ -45,52 +58,29 @@ export default class WbTransform extends WbGroup {
     return transform;
   }
 
+  vrmlMatrix() {
+    if (this._vrmlMatrixNeedUpdate) {
+      this._vrmlMatrix.fromVrml(this.translation, this.rotation, this.#scale);
+      this._vrmlMatrixNeedUpdate = false;
+    }
+
+    return this._vrmlMatrix;
+  }
+
   createWrenObjects() {
-    super.createWrenObjects(true);
-    const transform = _wr_transform_new();
-
-    _wr_transform_attach_child(this.wrenNode, transform);
-    this.wrenNode = transform;
-    this.children.forEach(child => {
-      child.createWrenObjects();
-    });
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.createWrenObjects();
-
-    this.applyTranslationToWren();
-    this.applyRotationToWren();
-    this.applyScaleToWren();
+    super.createWrenObjects();
+    this.#applyScaleToWren();
   }
 
-  delete(isBoundingObject) {
+  #applyScaleToWren() {
+    const scale = _wrjs_array3(this.#scale.x, this.#scale.y, this.#scale.z);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+  #updateScale() {
     if (this.wrenObjectsCreatedCalled)
-      _wr_node_delete(this.wrenNode);
+      this.#applyScaleToWren();
 
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.delete(true);
-
-    super.delete(isBoundingObject);
-  }
-
-  preFinalize() {
-    super.preFinalize();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.preFinalize();
-  }
-
-  postFinalize() {
-    super.postFinalize();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.postFinalize();
-  }
-
-  updateBoundingObjectVisibility() {
-    super.updateBoundingObjectVisibility();
-
-    if (typeof this.boundingObject !== 'undefined')
-      this.boundingObject.updateBoundingObjectVisibility();
+    this._matrixNeedUpdate = true;
   }
 }

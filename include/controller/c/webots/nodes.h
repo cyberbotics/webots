@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ typedef enum {
   WB_NODE_BACKGROUND,
   WB_NODE_BILLBOARD,
   WB_NODE_BOX,
+  WB_NODE_CAD_SHAPE,
   WB_NODE_CAPSULE,
   WB_NODE_COLOR,
   WB_NODE_CONE,
@@ -48,6 +49,7 @@ typedef enum {
   WB_NODE_PLANE,
   WB_NODE_POINT_LIGHT,
   WB_NODE_POINT_SET,
+  WB_NODE_POSE,
   WB_NODE_SHAPE,
   WB_NODE_SPHERE,
   WB_NODE_SPOT_LIGHT,
@@ -81,8 +83,10 @@ typedef enum {
   WB_NODE_RANGE_FINDER,
   WB_NODE_RECEIVER,
   WB_NODE_ROTATIONAL_MOTOR,
+  WB_NODE_SKIN,
   WB_NODE_SPEAKER,
   WB_NODE_TOUCH_SENSOR,
+  WB_NODE_VACUUM_GRIPPER,
   // misc
   WB_NODE_BALL_JOINT,
   WB_NODE_BALL_JOINT_PARAMETERS,
@@ -110,8 +114,7 @@ typedef enum {
   WB_NODE_ZOOM,
   // experimental
   WB_NODE_MICROPHONE,
-  WB_NODE_RADIO,
-  WB_NODE_SKIN
+  WB_NODE_RADIO
 } WbNodeType;
 
 const char *wb_node_get_name(WbNodeType t);

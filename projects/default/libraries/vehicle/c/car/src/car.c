@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,7 +57,7 @@ static const char *wheelsBrakesNames[] = {"right_front_brake", "left_front_brake
 
 static const char *lightNames[NB_LIGHTS] = {
   "front_lights",     "antifog_lights", "right_indicators",          "left_indicators",         "rear_lights",
-  "backwards_lights", "brake_ligths",   "interior_right_indicators", "interior_left_indicators"};
+  "backwards_lights", "brake_lights",   "interior_right_indicators", "interior_left_indicators"};
 
 static const char *displayNames[NB_MIRRORS] = {"rear_display", "left_wing_display", "right_wing_display"};
 
@@ -138,7 +138,7 @@ void wbu_car_init() {
   // Parse vehicle caracteristics from the beginning of the data string
   char engine_type;
   int engine_sound_length;
-  char *sub_data_string = (char *)wb_robot_get_custom_data();
+  const char *sub_data_string = wb_robot_get_custom_data();
   i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d",
              &instance->wheelbase, &instance->track_front, &instance->track_rear, &instance->front_wheel_radius,
              &instance->rear_wheel_radius, &instance->brake_coefficient, &instance->defaultDampingConstant, &engine_type,
@@ -148,7 +148,7 @@ void wbu_car_init() {
              &instance->gear_number, &engine_sound_length);
 
   if (i < 20) {
-    fprintf(stderr, "Error: Only nodes based on the 'Car' node can used the car library.\n");
+    fprintf(stderr, "Error: Only nodes based on the 'Car' node can use the car library.\n");
     exit(-1);
   }
 
@@ -416,6 +416,32 @@ double wbu_car_get_wheel_speed(WbuCarWheelIndex wheel_index) {
     return 0.0;
   }
   return instance->speeds[wheel_index];
+}
+
+void wbu_car_set_right_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_right_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->right_angle = angle;
+  wb_motor_set_position(instance->steering_motors[0], angle);
+}
+
+void wbu_car_set_left_steering_angle(double angle) {
+  if (!_wbu_car_check_initialisation("wbu_car_init()", "wbu_car_set_left_steering_angle()"))
+    return;
+
+  if (isnan(angle)) {
+    fprintf(stderr, "Warning: %s() called with an invalid 'angle' argument (NaN)\n", __FUNCTION__);
+    return;
+  }
+
+  instance->left_angle = angle;
+  wb_motor_set_position(instance->steering_motors[1], angle);
 }
 
 double wbu_car_get_right_steering_angle() {

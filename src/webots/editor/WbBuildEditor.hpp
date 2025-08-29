@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@ public:
   static WbBuildEditor *instance();
 
   explicit WbBuildEditor(QWidget *parent, const QString &toolBarAlign);
-  virtual ~WbBuildEditor();
+  virtual ~WbBuildEditor() override;
 
   // open specified file, show line if specified, show exact word if column specified
   void jumpToError(QString fileName, int line = -1, int column = -1);

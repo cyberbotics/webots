@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,7 @@
 
 #include "WbRotation.hpp"
 
-#include "WbMatrix3.hpp"
-#include "WbQuaternion.hpp"
+#include "WbMathsUtilities.hpp"
 
 #include <cassert>
 
@@ -33,8 +32,8 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
   if (mAngle < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
     // if the angle is close to zero, then the direction of the axis is not important
     mX = 0.0;
-    mY = 1.0;
-    mZ = 0.0;
+    mY = 0.0;
+    mZ = 1.0;
     mAngle = 0.0;
     return;
   }
@@ -48,7 +47,7 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
 
 void WbRotation::fromMatrix3(const WbMatrix3 &M) {
   // Reference: https://www.geometrictools.com/Documentation/RotationRepresentations.pdf
-  const double theta = acos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
+  const double theta = WbMathsUtilities::clampedAcos((M(0, 0) + M(1, 1) + M(2, 2) - 1) / 2);
   if (theta < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {  // If `theta == 0`
     mX = 1;
     mY = 0;
@@ -94,25 +93,6 @@ void WbRotation::fromBasisVectors(const WbVector3 &vx, const WbVector3 &vy, cons
   }
 }
 
-WbQuaternion WbRotation::toQuaternion() const {
-  const double halfAngle = 0.5 * mAngle;
-  const double sinusHalfAngle = sin(halfAngle), cosinusHalfAngle = cos(halfAngle);
-  return WbQuaternion(cosinusHalfAngle, mX * sinusHalfAngle, mY * sinusHalfAngle, mZ * sinusHalfAngle);
-}
-
-WbMatrix3 WbRotation::toMatrix3() const {
-  // Assuming that (x, y, z) is normalized
-  // Apply Rodrigues' formula: rotation matrix = cos(Angle) * I_3 + (1 - cos(Angle)) * r * r^{transpose} + sin(Angle) r_{cross
-  // product 3*3 matix}
-  const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
-  const double tTimesX = t * mX, tTimesY = t * mY, tTimesZ = t * mZ;
-  const double sTimesX = s * mX, sTimesY = s * mY, sTimesZ = s * mZ;
-  const double squareX = tTimesX * mX + c, squareY = tTimesY * mY + c, squareZ = tTimesZ * mZ + c;
-  const double tXY = tTimesX * mY, tXZ = tTimesX * mZ, tYZ = tTimesY * mZ;
-  return WbMatrix3(squareX, tXY - sTimesZ, tXZ + sTimesY, tXY + sTimesZ, squareY, tYZ - sTimesX, tXZ - sTimesY, tYZ + sTimesX,
-                   squareZ);
-}
-
 void WbRotation::toFloatArray(float *rotation) const {
   rotation[0] = static_cast<float>(mAngle);
   rotation[1] = static_cast<float>(mX);
@@ -120,19 +100,19 @@ void WbRotation::toFloatArray(float *rotation) const {
   rotation[3] = static_cast<float>(mZ);
 }
 
-WbVector3 WbRotation::right() const {
+WbVector3 WbRotation::direction() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesX = t * mX;
   return WbVector3(tTimesX * mX + c, tTimesX * mY + s * mZ, tTimesX * mZ - s * mY);
 }
 
-WbVector3 WbRotation::up() const {
+WbVector3 WbRotation::right() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesY = t * mY;
   return WbVector3(tTimesY * mX - s * mZ, tTimesY * mY + c, tTimesY * mZ + s * mX);
 }
 
-WbVector3 WbRotation::direction() const {
+WbVector3 WbRotation::up() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesZ = t * mZ;
   return WbVector3(tTimesZ * mX + s * mY, tTimesZ * mY - s * mX, tTimesZ * mZ + c);

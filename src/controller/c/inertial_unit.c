@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,13 +66,13 @@ static void inertial_unit_read_answer(WbDevice *d, WbRequest *r) {
 
 double wb_inertial_unit_get_noise(WbDeviceTag tag) {
   double result = 0;
-  robot_mutex_lock_step();
-  InertialUnit *dev = inertial_unit_get_struct(tag);
+  robot_mutex_lock();
+  const InertialUnit *dev = inertial_unit_get_struct(tag);
   if (dev)
     result = dev->noise;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -113,18 +113,18 @@ void wb_inertial_unit_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     inertial_unit->enable = true;
     inertial_unit->sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_inertial_unit_disable(WbDeviceTag tag) {
-  InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
+  const InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit)
     wb_inertial_unit_enable(tag, 0);
   else
@@ -133,20 +133,20 @@ void wb_inertial_unit_disable(WbDeviceTag tag) {
 
 int wb_inertial_unit_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
-  InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
+  robot_mutex_lock();
+  const InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit)
     sampling_period = inertial_unit->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
   static double result[3];
-  robot_mutex_lock_step();
-  InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
+  robot_mutex_lock();
+  const InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     if (inertial_unit->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
@@ -176,20 +176,20 @@ const double *wb_inertial_unit_get_roll_pitch_yaw(WbDeviceTag tag) {
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const double *wb_inertial_unit_get_quaternion(WbDeviceTag tag) {
   const double *result = NULL;
-  robot_mutex_lock_step();
-  InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
+  robot_mutex_lock();
+  const InertialUnit *inertial_unit = inertial_unit_get_struct(tag);
   if (inertial_unit) {
     if (inertial_unit->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_inertial_unit_enable().\n", __FUNCTION__);
     result = inertial_unit->quaternion;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

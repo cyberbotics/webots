@@ -1,6 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Soil.proto
+# keywords: appearance/mineral
 # A soil material.
 # template language: javascript
 
@@ -15,23 +17,23 @@ PROTO Soil [
     baseColor IS color
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_base_color.jpg"' >%
+        %<= '"textures/soil/' + fields.type.value + '_soil_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_roughness.jpg"' >%
+        %<= '"textures/soil/' + fields.type.value + '_soil_roughness.jpg"' >%
       ]
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_normal.jpg"' >%
+        %<= '"textures/soil/' + fields.type.value + '_soil_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/soil/' + fields.type.value + '_soil_occlusion.jpg"' >%
+        %<= '"textures/soil/' + fields.type.value + '_soil_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

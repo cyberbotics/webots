@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,14 +20,12 @@
 //  WbVector3 can be multiplied (=rotated) by this kind of matrix
 //
 
-#include "WbAxisAngle.hpp"
 #include "WbVector3.hpp"
 
 #include <cmath>
 #include <cstring>
 
 class WbQuaternion;
-class WbRotation;
 
 class WbMatrix3 {
 public:
@@ -54,7 +52,6 @@ public:
   WbMatrix3(double rx, double ry, double rz, double angle) { fromAxisAngle(rx, ry, rz, angle); }
   WbMatrix3(const WbVector3 &r, double angle) { fromAxisAngle(r.x(), r.y(), r.z(), angle); }
   WbMatrix3(double rx, double ry, double rz) { fromEulerAngles(rx, ry, rz); };
-  explicit WbMatrix3(const WbRotation &r) { fromAxisAngle(r); }
   explicit WbMatrix3(const WbQuaternion &q) { fromQuaternion(q); }
 
   // construct from a set column vectors
@@ -118,7 +115,6 @@ public:
   // to other rotation types
   WbQuaternion toQuaternion() const;
   WbVector3 toEulerAnglesZYX() const;
-  WbAxisAngle toAxisAngle() const;
 
   QString toString(WbPrecision::Level level) const;
 
@@ -127,7 +123,6 @@ public:
   void fromAxisAngle(double rx, double ry, double rz, double angle);
   void fromEulerAngles(double rx, double ry, double rz);
   void fromAxisAngle(const WbVector3 &axis, double angle) { fromAxisAngle(axis.x(), axis.y(), axis.z(), angle); }
-  void fromAxisAngle(const WbRotation &r);
   void fromQuaternion(const WbQuaternion &q);
 
 private:
@@ -158,13 +153,13 @@ inline WbVector3 operator*(const WbVector3 &v, const WbMatrix3 &m) {
 
 // rotate (assuming the rotation vector is normalized)
 inline void WbMatrix3::fromAxisAngle(double rx, double ry, double rz, double angle) {
-  double c = cos(angle);
-  double s = sin(angle);
+  const double c = cos(angle);
+  const double s = sin(angle);
 
-  double t1 = 1.0 - c;
-  double t2 = rx * rz * t1;
-  double t3 = rx * ry * t1;
-  double t4 = ry * rz * t1;
+  const double t1 = 1.0 - c;
+  const double t2 = rx * rz * t1;
+  const double t3 = rx * ry * t1;
+  const double t4 = ry * rz * t1;
 
   mM[0] = rx * rx * t1 + c;
   mM[1] = t3 - rz * s;

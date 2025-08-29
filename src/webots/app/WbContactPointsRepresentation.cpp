@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -145,9 +145,7 @@ void WbContactPointsRepresentation::updateRendering() {
   const double L = 0.2 * world->worldInfo()->lineScale();
   for (int i = 0; i < contactSize; ++i) {
     const dContactGeom &cg = odeContacts[i].contactGeom();
-    if (boxVersusPlane(cg.g1, cg.g2))
-      continue;
-    dReal H[3] = {cg.normal[0] * L, cg.normal[1] * L, cg.normal[2] * L};
+    const dReal H[3] = {cg.normal[0] * L, cg.normal[1] * L, cg.normal[2] * L};
     const dReal *const pos = cg.pos;
     addVertex(mContactMesh, index++, pos[0] - H[0], pos[1] - H[1], pos[2] - H[2]);
     addVertex(mContactMesh, index++, pos[0] + H[0], pos[1] + H[1], pos[2] + H[2]);
@@ -184,9 +182,9 @@ void WbContactPointsRepresentation::updateRendering() {
                   odeContacts[cg0 + 3].contactGeom().pos[2]);
         addVertex(mContactMesh, index++, odeContacts[cg0 + 3].contactGeom().pos[0], odeContacts[cg0 + 3].contactGeom().pos[1],
                   odeContacts[cg0 + 3].contactGeom().pos[2]);
-        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 1].contactGeom().pos[1],
+        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 2].contactGeom().pos[1],
                   odeContacts[cg0 + 2].contactGeom().pos[2]);
-        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 1].contactGeom().pos[1],
+        addVertex(mContactMesh, index++, odeContacts[cg0 + 2].contactGeom().pos[0], odeContacts[cg0 + 2].contactGeom().pos[1],
                   odeContacts[cg0 + 2].contactGeom().pos[2]);
         addVertex(mContactMesh, index++, odeContacts[cg0].contactGeom().pos[0], odeContacts[cg0].contactGeom().pos[1],
                   odeContacts[cg0].contactGeom().pos[2]);

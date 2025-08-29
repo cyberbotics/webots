@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@
 //               Starting webots.exe from the icon is fine, but will open a DOS command prompt in the background.
 //               (a similar naming convention is used for python.exe / pythonw.exe, java.exe / javaw.exe, etc.)
 
+#include <shlwapi.h>
 #include <stdio.h>
 #include <windows.h>
 
@@ -52,30 +53,6 @@ static int fail(const char *function, const char *info) {
 
 int main(int argc, char *argv[]) {
   // We retrieve the command line in wchar_t from the Windows system.
-  const wchar_t *original_command_line = GetCommandLineW();
-  // It should look like:
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webotsw.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"' or
-  // '"C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" "C:\Users\Paul\Documents\my_project\worlds\my_project.wbt"'
-  // (notice: webots.exe instead of webotsw.exe)
-  wchar_t command_line[wcslen(original_command_line)];
-  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
-  const wchar_t *find = wcsstr(original_command_line, L"\\msys64\\mingw64\\bin\\webots");
-  int index = find - original_command_line;
-  index += 26;
-  wcsncpy(command_line, original_command_line, index);
-  command_line[index++] = '-';
-  command_line[index++] = 'b';
-  command_line[index++] = 'i';
-  command_line[index++] = 'n';
-#ifdef WEBOTSW
-  const int offset = 3;  // strlen("webots-bin") - strlen("webotsw")
-#else
-  const int offset = 4;  // strlen("webots-bin") - strlen("webots")
-#endif
-  for (; original_command_line[index - offset - 1]; index++)  // we use (index - offset - 1) to include the final '\0'
-    command_line[index] = original_command_line[index - offset];
-
-  // compute the full command line with absolute path for webots-bin.exe, options and arguments
   const int LENGTH = 4096;
   wchar_t *module_path = malloc(LENGTH * sizeof(wchar_t));
   if (!GetModuleFileNameW(NULL, module_path, LENGTH))
@@ -85,6 +62,17 @@ int main(int argc, char *argv[]) {
                 - 1  // webotsw.exe (we need to remove the final 'w')
 #endif
     ;
+  wchar_t *command_line = malloc(LENGTH * sizeof(wchar_t));
+  // In order to launch Webots, we simply need to replace 'webotsw.exe'/'webots.exe' with 'webots-bin.exe'
+  const int index = l - 4;  // don't copy the ".exe"
+  wcsncpy(command_line, module_path, index);
+  command_line[index] = L'\0';
+  wcscat(command_line, L"-bin.exe");
+  const wchar_t *arguments = PathGetArgsW(GetCommandLineW());
+  if (arguments && arguments[0] != L'\0') {
+    wcscat(command_line, L" ");
+    wcscat(command_line, arguments);
+  }
   // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
   wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
@@ -108,6 +96,9 @@ int main(int argc, char *argv[]) {
   free(new_path);
   if (!SetEnvironmentVariableW(L"QT_ENABLE_HIGHDPI_SCALING", L"1"))
     fail("SetEnvironmentVariableW", "QT_ENABLE_HIGHDPI_SCALING=1");
+
+  // if set, we need to remove this environment variable set by Qt5 which conflicts with Qt6
+  SetEnvironmentVariableW(L"QT_QPA_PLATFORM_PLUGIN_PATH", NULL);
 
   // start the webots-bin.exe process, wait for completion and return exit code
   STARTUPINFOW info = {sizeof(info)};
@@ -138,5 +129,6 @@ int main(int argc, char *argv[]) {
     if (exit_code != 3030)  // special return code to restart Webots, see WbGuiApplication.cpp
       return exit_code;
   }
+  free(command_line);
   return 0;
 }

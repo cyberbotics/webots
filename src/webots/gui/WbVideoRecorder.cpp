@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -345,8 +345,7 @@ void WbVideoRecorder::stopRecording(bool canceled) {
 
 void WbVideoRecorder::writeSnapshot(unsigned char *frame) {
   QString fileName = nextFileName();
-  FrameWriterThread *thread =
-    new FrameWriterThread(frame, fileName, mVideoResolution * mScreenPixelRatio, mScreenPixelRatio, mVideoQuality);
+  FrameWriterThread *thread = new FrameWriterThread(frame, fileName, mVideoResolution, 1, mVideoQuality);
   connect(thread, &QThread::finished, this, &WbVideoRecorder::terminateSnapshotWrite);
   thread->start();
 }
@@ -460,11 +459,11 @@ QString WbVideoRecorder::nextFileName() {
 
 void WbVideoRecorder::createMpeg() {
 #ifdef __linux__
-  static const QString ffmpeg("ffmpeg");
+  static const QString ffmpeg("LD_LIBRARY_PATH=\"$WEBOTS_ORIGINAL_LD_LIBRARY_PATH\" ffmpeg");
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #elif defined(__APPLE__)
-  static const QString ffmpeg(QString("\"%1util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
+  static const QString ffmpeg(QString("\"%1Contents/util/ffmpeg\"").arg(WbStandardPaths::webotsHomePath()));
   static const QString percentageChar = "%";
   mScriptPath = "ffmpeg_script.sh";
 #else  // _WIN32
@@ -480,8 +479,8 @@ void WbVideoRecorder::createMpeg() {
   if (ffmpegScript.open(QIODevice::WriteOnly)) {
     // bitrate range between 4 and 24000000
     // cast into 'long long int' is mandatory on 32-bit machine
-    long long int bitrate = (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() /
-                            256 / (mScreenPixelRatio * mScreenPixelRatio);
+    long long int bitrate =
+      (long long int)mVideoQuality * mMovieFPS * mVideoResolution.width() * mVideoResolution.height() / 256;
 
     QTextStream stream(&ffmpegScript);
 #ifndef _WIN32
@@ -536,17 +535,18 @@ void WbVideoRecorder::createMpeg() {
     ffmpegScript.close();
 
     // change file properties
-    QFile::setPermissions(mScriptPath, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadGroup |
-                                         QFile::WriteGroup | QFile::ExeGroup | QFile::ReadOther | QFile::WriteOther |
-                                         QFile::ExeOther);
+    QFile::setPermissions(mScriptPath, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
     // run script
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("AV_LOG_FORCE_COLOR", "1");  // force output message to use ANSI Escape sequences
     mScriptProcess = new QProcess();
     mScriptProcess->setProcessEnvironment(env);
     mScriptProcess->start("./" + mScriptPath, QStringList());
+    // clang-format off
     connect(mScriptProcess, (void (QProcess::*)(int, QProcess::ExitStatus)) & QProcess::finished, this,
             &WbVideoRecorder::terminateVideoCreation);
+    // clang-format on
     connect(mScriptProcess, &QProcess::readyReadStandardOutput, this, &WbVideoRecorder::readStdout);
     connect(mScriptProcess, &QProcess::readyReadStandardError, this, &WbVideoRecorder::readStderr);
   } else {

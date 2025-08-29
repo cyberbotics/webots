@@ -1,15 +1,17 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/toys/protos/RubberDuck.proto
+# keywords: household/toy
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 # template language: javascript
 
 PROTO RubberDuck [
-  field SFVec3f    translation         0 0 0
-  field SFRotation rotation            0 1 0 0
+  field SFVec3f    translation         0 0 0.02
+  field SFRotation rotation            0 0 1 0
   field SFString   name                "rubber duck"
   field SFFloat    scale               1                          # Defines the global scaling factor.
-  field SFColor    bodyColor           0.87451 0.756863 0.113725  # Defines the color of the rubber duck.
+  field SFColor    bodyColor           1 0.8 0                    # Defines the color of the rubber duck.
   field SFFloat    density             400                        # Defines density of the rubber duck in kg / m^3.
   field MFNode     immersionProperties [                          # Is `Solid.immersionProperties`.
       ImmersionProperties {
@@ -30,63 +32,63 @@ PROTO RubberDuck [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %<= scale >% %<= scale >% %<= scale >%
     recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
-      DEF BEAK Transform {
-        translation 0 0.05868 0.0394
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
         children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0.901961 0.431373 0.109804
-              metalness 0
-              roughness 0.7
-            }
-            geometry Mesh {
-              url "webots://projects/objects/toys/protos/RubberDuck/meshes/beak.obj"
-            }
+          DEF BEAK Pose {
+            translation 0.0394 0 0.05868
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.901961 0.431373 0.109804
+                  metalness 0
+                  roughness 0.7
+                }
+                geometry Mesh {
+                  url "RubberDuck/meshes/beak.obj"
+                }
+              }
+            ]
           }
-        ]
-      }
-      DEF BODY Transform {
-        children [
           DEF GEOM Shape {
             appearance PBRAppearance {
-              baseColor 1 0.8 0
+              baseColor IS bodyColor
               metalness 0
               roughness 0.7
             }
             geometry Mesh {
-              url "webots://projects/objects/toys/protos/RubberDuck/meshes/body.obj"
+              url "RubberDuck/meshes/body.obj"
             }
           }
-        ]
-      }
-      DEF EYE Transform {
-        translation 0.012248128 0.069200846 0.026677002
-        rotation 0.2243469404613964 0.8684495417860707 0.4421129309092583 3.6008355
-        children [
-          DEF EYE_GEOM Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "webots://projects/objects/toys/protos/RubberDuck/textures/eye.jpg"
-                ]
+          DEF EYE Pose {
+            translation 0.026677002 0.012248128 0.069200846
+            rotation -0.181173 0.491896 0.851596 -1.18424
+            children [
+              DEF EYE_GEOM Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "RubberDuck/textures/eye.jpg"
+                    ]
+                  }
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Mesh {
+                  url "RubberDuck/meshes/eye.obj"
+                }
               }
-              metalness 0
-              roughness 0.4
-            }
-            geometry Mesh {
-              url "webots://projects/objects/toys/protos/RubberDuck/meshes/eye.obj"
-            }
+            ]
           }
-        ]
-      }
-      DEF EYE Transform {
-        translation -0.012243724 0.069238147 0.026708849
-        rotation 0.25259601984259955 -0.8762724294539674 -0.4102948697443325 3.3023367
-        children [
-          USE EYE_GEOM
+          DEF EYE Pose {
+            translation 0.026708849 -0.012243724 0.069238147
+            rotation -0.230567 0.188914 0.954542 -2.20978
+            children [
+              USE EYE_GEOM
+            ]
+          }
         ]
       }
     ]
@@ -95,76 +97,76 @@ PROTO RubberDuck [
     immersionProperties IS immersionProperties
     boundingObject Group {
       children [
-        Transform {
-          translation 0 -0.018 0
+        Pose {
+          translation 0 0 %<= scale * -0.018 >%
           children [
             Box {
-              size 0.05 0.005 0.06
+              size %<= scale * 0.06 >% %<= scale * 0.05 >% %<= scale * 0.005 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.06 0.037
+        Pose {
+          translation %<= scale * 0.037 >% 0 %<= scale * 0.06 >%
           children [
             Box {
-              size 0.025 0.015 0.014
+              size %<= scale * 0.014 >% %<= scale * 0.025 >% %<= scale * 0.015 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.059 0.01
+        Pose {
+          translation %<= scale * 0.01 >% 0 %<= scale * 0.059 >%
           children [
             Sphere {
-              radius 0.025
+              radius %<= scale * 0.025 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.013 -0.042
-          rotation 1 0 0 -0.13089969
+        Pose {
+          translation %<= scale * -0.042 >% 0 %<= scale * 0.013 >%
+          rotation -0.065264 -0.065264 0.995732 1.575074
           children [
             Capsule {
-              height 0.04
-              radius 0.008
+              height %<= scale * 0.04 >%
+              radius %<= scale * 0.008 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.005 0
-          rotation 1 0 0 1.5707997
+        Pose {
+          translation 0 0 %<= scale * 0.005 >%
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
-              height 0.05
-              radius 0.025
+              height %<= scale * 0.05 >%
+              radius %<= scale * 0.025 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.034 0.013
+        Pose {
+          translation %<= scale * 0.013 >% 0 %<= scale * 0.034 >%
           children [
             Cylinder {
-              height 0.013
-              radius 0.018
+              height %<= scale * 0.013 >%
+              radius %<= scale * 0.018 >%
             }
           ]
         }
-        Transform {
-          translation 0.02 0 0
-          rotation 1 0 0 1.5707997
+        Pose {
+          translation 0 %<= scale * 0.02 >% 0
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
-              height 0.036
-              radius 0.018
+              height %<= scale * 0.036 >%
+              radius %<= scale * 0.018 >%
             }
           ]
         }
-        Transform {
-          translation -0.02 0 0
-          rotation 1 0 0 1.5707997
+        Pose {
+          translation 0 %<= scale * -0.02 >% 0
+          rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             Capsule {
-              height 0.036
-              radius 0.018
+              height %<= scale * 0.036 >%
+              radius %<= scale * 0.018 >%
             }
           ]
         }

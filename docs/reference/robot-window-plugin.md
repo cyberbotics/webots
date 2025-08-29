@@ -115,7 +115,7 @@ update {
 }
 ```
 Devices update data depends on the type:
-* [Accelerometer](accelerometer.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md):
+* [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Compass](compass.md), [DistanceSensor](distancesensor.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LightSensor](lightsensor.md), [Motor](motor.md), [PositionSensor](positionsensor.md), [TouchSensor](touchsensor.md):
     ```
   {
     "update": [

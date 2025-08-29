@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,7 @@ void RandomizeLayer(layer_t *l) {
   }
 }
 
-void InputToLayer(layer_t *l, float *values) {
+static void InputToLayer(layer_t *l, const float *values) {
   int i;
   float *x;
 
@@ -99,7 +99,7 @@ void WeightedGradient(layer_t *l, float *Wg) {
   }
 }
 
-void PrintLayerOutput(layer_t *l) {
+void PrintLayerOutput(const layer_t *l) {
   int i;
   char *main_buffer = (char *)malloc(sizeof(char) * (10 * l->depth + 1));
   main_buffer[0] = '\0';
@@ -114,12 +114,12 @@ void PrintLayerOutput(layer_t *l) {
   free(main_buffer);
 }
 
-void SaveLayerWeights(layer_t *l, FILE *fp) {
+void SaveLayerWeights(const layer_t *l, FILE *fp) {
   if (fwrite(l->W, (sizeof(float) * (l->depth) * (l->width)), 1, fp) != 1)
     printf("error writing to file\n");
 }
 
-void SaveLayerWeightsHDT(layer_t *l, FILE *fp) {
+void SaveLayerWeightsHDT(const layer_t *l, FILE *fp) {
   int i, j;
   float *W;
 
@@ -151,7 +151,7 @@ void LoadLayerWeights(layer_t *l, FILE *fp) {
  * Network Manipulation functions
  ************************************/
 
-void InputToNetwork(network_t *n, float *values) {
+void InputToNetwork(network_t *n, const float *values) {
   InputToLayer(&n->layers[0], values);
 }
 
@@ -181,7 +181,7 @@ void RandomizeNetwork(network_t *n) {
     RandomizeLayer(&n->layers[i]);
 }
 
-float TrainNetwork(network_t *n, float *yd) {
+float TrainNetwork(network_t *n, const float *yd) {
   int i, j, k;
   float error;
   float *W;

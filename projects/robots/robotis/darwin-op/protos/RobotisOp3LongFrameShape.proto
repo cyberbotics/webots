@@ -1,5 +1,7 @@
-#VRML_SIM R2021b utf8
-#tags: hidden
+#VRML_SIM R2025a utf8
+# tags: hidden
+
+EXTERNPROTO "RobotisOp3GrayPaintedMetalAppearance.proto"
 
 PROTO RobotisOp3LongFrameShape [
 ]

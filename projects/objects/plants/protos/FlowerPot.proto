@@ -1,0 +1,87 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/plants/protos/FlowerPot.proto
+# keywords: household/potted plant
+# A flower pot.
+
+PROTO FlowerPot [
+  field SFVec3f    translation          0 0 0
+  field SFRotation rotation             0 0 1 0
+  field SFString   name                 "flower pot"
+  field SFNode     physics              NULL                # Is `Solid.physics`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Pose {
+        translation -0.01 0 0
+        rotation 0 0 1 1.5708
+        children [
+          DEF FLOWERS Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/flower_pot_flowers_base_color.jpg"
+                ]
+              }
+              roughness 1
+              roughnessMap ImageTexture {
+                url [
+                  "textures/flower_pot_flowers_roughness.jpg"
+                ]
+              }
+              metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/flower_pot_flowers_normal.jpg"
+                ]
+              }
+            }
+            geometry Mesh {
+              url "meshes/flowers.obj"
+            }
+            castShadows FALSE
+          }
+          DEF VASE Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url [
+                  "textures/flower_pot_vase_base_color.png"
+                ]
+              }
+              roughness 1
+              roughnessMap ImageTexture {
+                url [
+                  "textures/flower_pot_vase_roughness.png"
+                ]
+              }
+              metalness 0
+              normalMap ImageTexture {
+                url [
+                  "textures/flower_pot_vase_normal.png"
+                ]
+              }
+            }
+            geometry Mesh {
+              url "meshes/vase.obj"
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Pose {
+      translation 0 0 0.0425
+      children [
+        Cylinder {
+          height 0.085
+          radius 0.055
+        }
+      ]
+    }
+    physics IS physics
+  }
+}

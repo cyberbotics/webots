@@ -1,10 +1,13 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/protos/protos/SlotContainer.proto"
+EXTERNPROTO "webots://tests/protos/protos/BoxShape.proto"
 
 PROTO ProtoNestedInternal_2 [
   field SFVec3f boxSize 1 1 1
 ]
 {
-  Transform {
+  Pose {
     children [
       SlotContainer {
         slot [

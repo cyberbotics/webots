@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,10 +18,11 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <QtCore/QStack>
 #include <cassert>
@@ -39,29 +40,24 @@ WbNodeReader::WbNodeReader(Mode mode) : mMode(mode), mIsReadingBoundingObject(fa
   gCallStack.push(this);
 }
 
-// Since Qt 5.6.0, QStack::pop() gives a warning on Windows and recent versions of Ubuntu which we want to silence
-// FIXME: these pragma should be removed when the problem is fixed in Qt
-#ifndef __APPLE__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-overflow"
-#endif
 WbNodeReader::~WbNodeReader() {
   assert(!gCallStack.isEmpty());
   gCallStack.pop();
 }
-#ifndef __APPLE__
-#pragma GCC diagnostic pop
-#endif
 
-WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath) {
+WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath,
+                                 const QString &fileName) {
   if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
 
-  WbNodeModel *const model = WbNodeModel::findModel(modelName);
-  if (model)
-    return new WbNode(modelName, worldPath, tokenizer);
-
-  WbProtoModel *const proto = WbProtoList::current()->findModel(modelName, worldPath);
+  if (modelName == "Transform")
+    return WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer) ? new WbNode("Pose", worldPath, tokenizer) :
+                                                                            new WbNode("Transform", worldPath, tokenizer);
+  else {
+    if (WbNodeModel::findModel(modelName))
+      return new WbNode(modelName, worldPath, tokenizer);
+  }
+  WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
 
@@ -101,7 +97,8 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
     previousDefNode = NULL;
 
   const QString &modelName = tokenizer->nextWord();
-  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath);
+  const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+  WbNode *const node = createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer, worldPath, parentFilePath);
   if (!node) {
     if (tokenizer->lastWord() != "}")
       tokenizer->skipNode();
@@ -121,6 +118,11 @@ WbNode *WbNodeReader::readNode(WbTokenizer *tokenizer, const QString &worldPath)
 
 QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &worldPath) {
   tokenizer->rewind();
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
+    parser.skipExternProto();
+
   QList<WbNode *> nodes;
   while (!tokenizer->peekToken()->isEof()) {
     emit readNodesHasProgressed(100 * tokenizer->pos() / tokenizer->totalTokensNumber());
@@ -128,6 +130,7 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
       mReadNodesCanceled = false;
       return nodes;
     }
+    // cppcheck-suppress constVariablePointer
     WbNode *node = readNode(tokenizer, worldPath);
     if (node)
       nodes.append(node);
@@ -138,22 +141,6 @@ QList<WbNode *> WbNodeReader::readNodes(WbTokenizer *tokenizer, const QString &w
 
 void WbNodeReader::cancelReadNodes() {
   mReadNodesCanceled = true;
-}
-
-QList<WbNode *> WbNodeReader::readVrml(WbTokenizer *tokenizer, const QString &worldPath) {
-  tokenizer->rewind();
-  QList<WbNode *> nodes;
-  while (!tokenizer->peekToken()->isEof()) {
-    if (tokenizer->peekWord() == "PROTO")
-      WbParser::skipProtoDefinition(tokenizer);
-    else {
-      WbNode *const node = readNode(tokenizer, worldPath);
-      if (node)
-        nodes.append(node);
-    }
-  }
-
-  return nodes;
 }
 
 void WbNodeReader::addDefNode(WbNode *defNode) {

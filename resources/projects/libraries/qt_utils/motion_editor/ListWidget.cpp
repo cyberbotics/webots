@@ -45,7 +45,7 @@ ListWidget::ListWidget(bool showAddRemove, bool showUpDown, bool showReset, bool
   mDuplicateButton->setVisible(showDuplicate);
   mDuplicateButton->setIcon(QIcon("icons:duplicate_button.png"));
   mDuplicateButton->setToolTip(tr("Duplicate selected item"));
-  mDuplicateButton->setShortcut(Qt::CTRL + Qt::Key_D);
+  mDuplicateButton->setShortcut(Qt::CTRL | Qt::Key_D);
   connect(mDuplicateButton, &QPushButton::pressed, this, &ListWidget::duplicate);
 
   mAddButton = new QPushButton(this);

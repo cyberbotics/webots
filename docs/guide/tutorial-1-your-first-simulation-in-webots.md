@@ -21,7 +21,7 @@ The guided tour is also available from the *Help* menu of Webots.
 
 ### Create a New World
 
-A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, how is defined the gravity, friction, masses of the objects, etc.
+A **World** is a file containing information like where the objects are, what they look like, how they interact with each other, what is the color of the sky, and the definitions of gravity, friction, masses of the objects, etc.
 It defines the initial state of a simulation.
 The different objects are called **Nodes** and are organized hierarchically in a **Scene Tree**.
 Therefore, a node may contain sub-nodes.
@@ -31,7 +31,7 @@ The world files must be stored directly in a directory called `worlds`.
 
 > **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button ![](images/pause-button.png =26x26) of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
-Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+Create a new project from the **File / New / New Project Directory...** menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
 2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
@@ -51,9 +51,9 @@ It should currently list the following nodes:
 
 - [WorldInfo](../reference/worldinfo.md): contains global parameters of the simulation.
 - [Viewpoint](../reference/viewpoint.md): defines the main viewpoint camera parameters.
-- [TexturedBackground](object-backgrounds.md#texturedbackground): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
-- [TexturedBackgroundLight](object-backgrounds.md#texturedbackgroundlight): defines the light associated with the above background.
-- [RectangleArena](object-floors.md#rectanglearena): define the only object you see so far in this scene.
+- [TexturedBackground](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/backgrounds/protos/TexturedBackground.proto): defines the background of the scene (you should see mountains far away if you rotate a little bit the viewpoint)
+- [TexturedBackgroundLight](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto): defines the light associated with the above background.
+- [RectangleArena](https://webots.cloud/run?url={{ url.github_blob }}/projects/objects/floors/protos/RectangleArena.proto): define the only object you see so far in this scene.
 
 Each node has some customizable properties called **Fields**.
 Let's modify these fields to change the rectangle arena:
@@ -74,14 +74,14 @@ In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factor
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
 1. Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
-2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
-Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
+2. Change its `translation` to `0 0 0.05` instead of `0 0 0.3`.
+Alternatively, you may use the blue arrow that appears in the 3D view to adjust its `translation.z` field.
 3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
 4. Select the box and press <kbd>ctrl</kbd>-<kbd>C</kbd>, <kbd>ctrl</kbd>-<kbd>V</kbd> (Windows, Linux) or <kbd>⌘ command</kbd>-<kbd>C</kbd>, <kbd>⌘ command</kbd>-<kbd>V</kbd> (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 5. Move the boxes, so that no box is at the center of the arena.
-You may also use the green rotation arrows to rotate the boxes along the vertical axis.
+You may also use the blue rotation arrows to rotate the boxes along the vertical axis.
 This can be done also by shift-click and drag with the right mouse button.
 Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
 6. Once you are satisfied with the result, save the world using the save button.
@@ -145,7 +145,7 @@ Then save the simulation.
 We will now program a simple controller that will just make the robot move forwards.
 
 A **controller** is a program that defines the behavior of a robot.
-Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, ROS, etc.
+Webots controllers can be written in the following programming languages: C, C++, Java, Python, MATLAB, etc.
 C, C++ and Java controllers need to be compiled before they can be run as robot controllers.
 Python and MATLAB controllers are interpreted languages so they will run without being compiled.
 In this tutorial, we are going to use C as a reference language but all the code snippets are also available in C++, Java, Python and MATLAB.
@@ -156,7 +156,7 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
+> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the **File / New / New Robot Controller...** menu item.
 This will create a new `epuck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 
@@ -300,6 +300,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >% get the motor devices
@@ -465,6 +467,8 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab "MATLAB"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >MAX_SPEED = 6.28;

@@ -618,7 +618,7 @@ Released on June 29th, 2015.
 Released on June 25th, 2015.
 
   - New Features
-    - Implemented the VRML97 Background's url fields in order to create sky boxes.
+    - Implemented the VRML97 Background's URL fields in order to create sky boxes.
     - Added PositionSensor and Brake functionalities for Track node: **motor SFNode field replaced by device MFNode field in Track node.**
     - Added a TrackWheel node to define the auto-rotating wheels of the track system.
     - Added new function called `wb_supervisor_load_world` to the Supervisor API to change the current world.
@@ -742,7 +742,7 @@ Released on January 22th, 2015.
     - Matlab: Added `wb_console_print()` function to display messages in the Webots console.
     - Linux: Added libjpeg8 library in tarball package to solve conflicts.
     - Fixed copy of libraries and PROTO's controller during project relocation.
-    - Fixed issues with textures url path not exported correctly when exporting the world in X3DOM.
+    - Fixed issues with textures URL path not exported correctly when exporting the world in X3DOM.
     - Improved robustness and error messages when importing invalid WBO and VRML97 files.
     - Sped up the `Open Sample World` and `Add a node` dialogs.
     - Fixed WBO export (thanks to Boxing).

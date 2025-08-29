@@ -36,6 +36,12 @@ if [ ! -e /usr/share/applications/webots.desktop ] && [ ! -e ~/.local/share/appl
   echo "Type=Application" >> $FILE
 fi
 
+#prevent CI Warnings
+if [[ -z "$XDG_RUNTIME_DIR" ]]
+then
+export XDG_RUNTIME_DIR="/tmp/runtime-runner"
+fi
+
 # we need this to start webots from snap
 if [[ ! -z "$SNAP" ]]
 then
@@ -60,20 +66,29 @@ fi
 fi
 
 export TMPDIR=$WEBOTS_TMPDIR
-
-# safely create a temporary directory.
-# Note that the following two lines cannot be merged into one because `export` would "hide" the return status of `mktemp`.
-WEBOTS_TMP_PATH="$(mktemp -d $TMPDIR/webots-$$-XXXXXX)/" || exit 1
-export WEBOTS_TMP_PATH
-
-# create temporary lib directory
-TMP_LIB_DIR="$WEBOTS_TMP_PATH/lib"
-mkdir -p $TMP_LIB_DIR
+export WEBOTS_TMPDIR=$WEBOTS_TMPDIR
 
 # add the "lib" directory into LD_LIBRARY_PATH as the first entry
-export LD_LIBRARY_PATH="$webots_home/lib/webots":$TMP_LIB_DIR:$LD_LIBRARY_PATH
+export WEBOTS_ORIGINAL_LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$webots_home/lib/webots":$LD_LIBRARY_PATH
 
-export QT_ENABLE_HIGHDPI_SCALING=1
+# set the QT platform to use the X11 server for compatibility with Wayland
+export QT_QPA_PLATFORM="xcb"
+
+# Fix for i3 window manager not working with Qt6
+if [ "$XDG_CURRENT_DESKTOP" == "i3" ]; then
+  DPI=`xrdb -query -all | grep Xft.dpi | awk '{print $2}'`
+  if [[ "$DPI" -gt 96 ]]; then
+    export QT_ENABLE_HIGHDPI_SCALING=0
+    export QT_SCALE_FACTOR=2
+    export QT_FONT_DPI=80
+  fi
+# Fix for MATE desktop
+elif [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
+  export QT_ENABLE_HIGHDPI_SCALING=0
+else
+  export QT_ENABLE_HIGHDPI_SCALING=1
+fi
 
 # execute the real Webots binary in a child process
 if command -v primusrun >/dev/null 2>&1; then
@@ -92,9 +107,5 @@ trap - TERM INT
 wait ${webots_pid}
 
 webots_return_code=$?
-
-# clean-up tmp folder and pipe files in case webots crashed without clean-up
-rm -rf $WEBOTS_TMP_PATH
-rm -f ${TMPDIR}/webots_${webots_pid}_*
 
 exit $webots_return_code

@@ -1,0 +1,18 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "./depth_2/NestedExposedTextureWithParameter.proto"
+
+PROTO HighlyNestedProtoWithParameter [
+  field MFString highly_nested_url "../colors/orange_texture.jpg"
+  field SFString name ""
+]
+{
+  Pose {
+    children[
+      NestedExposedTextureWithParameter {
+        name IS name
+        nested_url IS highly_nested_url
+      }
+    ]
+  }
+}

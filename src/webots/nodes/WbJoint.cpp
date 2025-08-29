@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbRobot.hpp"
+#include "WbSolidReference.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -89,6 +90,7 @@ void WbJoint::postFinalize() {
       device(i)->postFinalize();
   }
 
+  connect(mDevice, &WbMFNode::itemChanged, this, &WbJoint::addDevice);
   connect(mDevice, &WbMFNode::itemInserted, this, &WbJoint::addDevice);
   if (brake())
     connect(brake(), &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
@@ -150,9 +152,9 @@ void WbJoint::addDevice(int index) {
     WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice->item(index));
     r->descendantNodeInserted(decendant);
   }
-  WbBrake *brake = dynamic_cast<WbBrake *>(mDevice->item(index));
-  if (brake)
-    connect(brake, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
+  WbBrake *b = dynamic_cast<WbBrake *>(mDevice->item(index));
+  if (b)
+    connect(b, &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);
 }
 
 void WbJoint::updateParameters() {
@@ -319,14 +321,19 @@ const QString WbJoint::urdfName() const {
   return WbBaseNode::urdfName();
 }
 
-void WbJoint::writeExport(WbVrmlWriter &writer) const {
+void WbJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
+    if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
+      this->warn("Exporting a Joint node with a SolidReference endpoint to URDF is not supported.");
+      return;
+    }
+
     const WbNode *const parentRoot = findUrdfLinkRoot();
     const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
     const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
     writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
-    const WbVector3 rotationEuler = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
-    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperTransform(this));
+    const WbVector3 eulerRotation = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
+    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperPose(this));
 
     writer.increaseIndent();
     writer.indent();
@@ -358,7 +365,7 @@ void WbJoint::writeExport(WbVrmlWriter &writer) const {
     }
     writer << QString("<origin xyz=\"%1\" rpy=\"%2\"/>\n")
                 .arg(translation.toString(WbPrecision::FLOAT_ROUND_6))
-                .arg(rotationEuler.toString(WbPrecision::FLOAT_ROUND_6));
+                .arg(eulerRotation.toString(WbPrecision::FLOAT_ROUND_6));
     writer.decreaseIndent();
 
     writer.indent();

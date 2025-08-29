@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,6 @@ WbDragViewpointEvent::WbDragViewpointEvent(WbViewpoint *viewpoint) : WbDragKinem
 WbTranslateViewpointEvent::WbTranslateViewpointEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, double scale) :
   WbDragViewpointEvent(viewpoint),
   mInitialMousePosition(initialMousePosition),
-  mDifference(),
   mInitialCameraPosition(viewpoint->position()->value()),
   mScaleFactor(scale) {
 }
@@ -48,7 +47,7 @@ void WbTranslateViewpointEvent::apply(const QPoint &currentMousePosition) {
   if (mViewpoint->isLocked())
     return;
   mDifference = currentMousePosition - mInitialMousePosition;
-  const double targetRight = -mScaleFactor * mDifference.x();
+  const double targetRight = mScaleFactor * mDifference.x();
   const double targetUp = mScaleFactor * mDifference.y();
   const WbRotation &orientation = mViewpoint->orientation()->value();
   const WbVector3 target = targetRight * orientation.right() + targetUp * orientation.up();
@@ -86,7 +85,7 @@ void WbRotateViewpointEvent::apply(const QPoint &currentMousePosition) {
 
 void WbRotateViewpointEvent::applyToViewpoint(const QPoint &delta, const WbVector3 &rotationCenter,
                                               const WbVector3 &worldUpVector, bool objectPicked, WbViewpoint *viewpoint) {
-  double halfPitchAngle = -0.005 * delta.y();
+  double halfPitchAngle = 0.005 * delta.y();
   double halfYawAngle = -0.005 * delta.x();
   if (!objectPicked) {
     halfPitchAngle /= -8;

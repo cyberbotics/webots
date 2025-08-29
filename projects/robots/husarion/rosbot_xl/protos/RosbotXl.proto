@@ -1,0 +1,266 @@
+#VRML_SIM R2025a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto
+# keywords: robot/wheeled
+# This is a proto file for Webots for the RosbotXl
+
+EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
+EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
+
+PROTO RosbotXl [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "rosbot_xl" # Is `Robot.name`.
+  field  SFString    controller      "<generic>" # Is `Robot.controller`.
+  field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""          # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE        # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE       # Is `Robot.selfCollision`.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "laser" } ] # Extends the robot with a RpLidar A2 lidar.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    physics Physics {
+      density -1
+      mass 3.5
+      centerOfMass [ -0.016319 -0.004036 0.028190 ]
+      inertiaMatrix [
+        2.540425e-02 2.874642e-02 4.622710e-02
+        -2.000608e-04 -9.754257e-04 -2.603326e-04
+      ]
+    }
+    boundingObject DEF BODY_COLLISION Group {
+      children [
+        DEF LEFT_BODY_COLLISION Pose {
+          translation -0.005 0.115 0.117
+          children [
+            DEF SIDE_BODY_BOX Box {
+              size 0.27 0.02 0.03
+            }
+          ]
+        }
+        DEF RIGHT_BODY_COLLISION Pose {
+          translation -0.005 -0.115 0.117
+          children [
+            USE SIDE_BODY_BOX
+          ]
+        }
+        DEF CENTER_BODY_COLLISION Pose {
+          translation -0.005 0 0.082
+          children [
+            Box {
+              size 0.27 0.21 0.099
+            }
+          ]
+        }
+        DEF FRONT_BODY_COLLISION Pose {
+          translation 0.146 0 0.074
+          children [
+            Box {
+              size 0.032 0.21 0.069
+            }
+          ]
+        }
+        DEF BACK_BODY_COLLISION Pose {
+          translation -0.1536 0 0.082
+          children [
+            Box {
+              size 0.027 0.27 0.099
+            }
+          ]
+        }
+      ]
+    }
+    children [
+      DEF MAIN_BODY Pose {
+        translation 0 0 0.048
+        children [
+          CadShape {
+              url "meshes/body.dae"
+          }
+        ]
+      }
+
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.085 0.135 0.048
+          dampingConstant 5
+          staticFriction 1
+        }
+        device [
+          RotationalMotor {
+            name "fl_wheel_joint"
+            maxVelocity 26
+            maxTorque 100
+          }
+          PositionSensor {
+            name "front left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.085 0.135 0.048
+          children [
+            DEF WHEEL_SHAPE_B CadShape {
+              url "meshes/mecanum_b.dae"
+            }
+          ]
+          name "front left wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
+            rotation 1 0 0 -1.5708
+            children [
+              DEF WHEEL_CYLINDER Cylinder {
+                radius 0.05
+                height 0.05
+              }
+            ]
+          }
+          physics DEF WHEEL_PHYSICS Physics {
+            density -1
+            mass 0.051
+            centerOfMass [ 0 0 0 ]
+            inertiaMatrix [
+              3.954000e-05 7.116000e-05 4.032000e-05
+              0 0 0
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor 0.085 -0.135 0.048
+          dampingConstant 5
+          staticFriction 1
+        }
+        device [
+          RotationalMotor {
+            name "fr_wheel_joint"
+            maxVelocity 26
+            maxTorque 100
+          }
+          PositionSensor {
+            name "front right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.085 -0.135 0.048
+          children [
+            Pose {
+              rotation 0 0 1 3.141592
+              children [
+                DEF WHEEL_SHAPE_A CadShape {
+                  url "meshes/mecanum_a.dae"
+                }
+              ]
+            }
+          ]
+          name "front right wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
+            rotation 1 0 0 -1.5708
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.085 0.135 0.048
+          dampingConstant 5
+          staticFriction 1
+        }
+        device [
+          RotationalMotor {
+            name "rl_wheel_joint"
+            maxVelocity 26
+            maxTorque 100
+          }
+          PositionSensor {
+            name "rear left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.085 0.135 0.048
+          children [
+            Pose {
+              children [
+                USE WHEEL_SHAPE_A
+              ]
+            }
+          ]
+          name "rear left wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Pose {
+            rotation 1 0 0 -1.5708
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.085 -0.135 0.048
+          dampingConstant 5
+          staticFriction 1
+        }
+        device [
+          RotationalMotor {
+            name "rr_wheel_joint"
+            maxVelocity 26
+            maxTorque 100
+          }
+          PositionSensor {
+            name "rear right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.085 -0.135 0.048
+          children [
+            Pose {
+              rotation 0 0 1 3.141592
+              children [
+                USE WHEEL_SHAPE_B
+              ]
+            }
+          ]
+          name "rear right wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Pose {
+            rotation 1 0 0 -1.5708
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      DEF LIDAR_SLOT Pose {
+        translation 0 0 0.13145
+        children IS lidarSlot
+      }
+      Mpu-9250 {
+        translation -0.1369 -0.0419 0.037
+        rotation 1 0 0 3.14159
+        name "imu"
+        includeInertialUnit TRUE
+      }
+    ]
+  }
+}

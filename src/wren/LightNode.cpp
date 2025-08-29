@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,7 @@ namespace wren {
     // debug::printVec4(LightNode::cActiveLights.mAmbientLight, "ambient light");
 
     glm::int32 lightCount = 0;
-    for (DirectionalLight *l : directionalLights) {
+    for (const DirectionalLight *l : directionalLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mDirectionalLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mDirectionalLights[lightCount].mDirection =
@@ -65,7 +65,7 @@ namespace wren {
     // DEBUG(lightCount << " active directional lights");
 
     lightCount = 0;
-    for (PointLight *l : pointLights) {
+    for (const PointLight *l : pointLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mPointLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mPointLights[lightCount].mPosition = camera->view() * glm::vec4(l->position(), 1.0);
@@ -86,7 +86,7 @@ namespace wren {
 
     LightNode::cActiveLights.mLightCount[1] = lightCount;
     lightCount = 0;
-    for (SpotLight *l : spotLights) {
+    for (const SpotLight *l : spotLights) {
       if (!l->parent() || l->parent()->isVisible()) {
         LightNode::cActiveLights.mSpotLights[lightCount].mColorAndIntensity = glm::vec4(l->color(), l->intensity()),
         LightNode::cActiveLights.mSpotLights[lightCount].mPosition = camera->view() * glm::vec4(l->position(), 1.0f);
@@ -131,7 +131,9 @@ namespace wren {
     }
   }
 
-  void LightNode::setColor(const glm::vec3 &color) { mColor = colorutils::srgbToLinear(glm::vec4(color, 1.0)); }
+  void LightNode::setColor(const glm::vec3 &color) {
+    mColor = colorutils::srgbToLinear(glm::vec4(color, 1.0));
+  }
 
   void LightNode::setCastShadows(bool castShadows) {
     if (mCastShadows == castShadows)
@@ -146,7 +148,8 @@ namespace wren {
     }
   }
 
-  LightNode::LightNode() : mOn(true), mCastShadows(false), mIntensity(1.0f), mAmbientIntensity(0.0f), mColor(gVec3Ones) {}
+  LightNode::LightNode() : mOn(true), mCastShadows(false), mIntensity(1.0f), mAmbientIntensity(0.0f), mColor(gVec3Ones) {
+  }
 
   LightNode::~LightNode() {
     if (mOn && mCastShadows) {
@@ -155,7 +158,9 @@ namespace wren {
     }
   }
 
-  void LightNode::enableShadowCasting() { ++LightNode::cActiveLightsCastingShadows[this->type()]; }
+  void LightNode::enableShadowCasting() {
+    ++LightNode::cActiveLightsCastingShadows[this->type()];
+  }
 
   void LightNode::disableShadowCasting() {
     --LightNode::cActiveLightsCastingShadows[this->type()];

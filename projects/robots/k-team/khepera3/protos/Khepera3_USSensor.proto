@@ -1,12 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/k-team/khepera3/protos/Khepera3_USSensor.proto
+# keywords: robot/extension, sensor/distance sensor
 # Ultrasound sensor of a Khepera III robot.
 # Electronic parts: Midas 400ST100 (transmitter) and 400SR100 (receiver)
 
 PROTO Khepera3_USSensor [
   field SFVec3f translation 0 0 0
-  field SFRotation rotation  0 1 0 0
+  field SFRotation rotation  0 0 1 0
   field SFString name "ds"
 ]
 {
@@ -18,7 +20,7 @@ PROTO Khepera3_USSensor [
     children [
       Group {
         children [
-          Transform {
+          Pose {
             translation -0.0025 0 0
             children [
               Shape {
@@ -33,9 +35,9 @@ PROTO Khepera3_USSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0025 0 0.007
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE BLACK
@@ -46,9 +48,9 @@ PROTO Khepera3_USSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0025 0 -0.007
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE BLACK
@@ -56,9 +58,9 @@ PROTO Khepera3_USSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.0045
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance DEF GRAY PBRAppearance {
@@ -72,9 +74,9 @@ PROTO Khepera3_USSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 -0.0045
-            rotation 0 0 1 1.57
+            rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
                 appearance USE GRAY

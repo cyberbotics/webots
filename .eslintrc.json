@@ -1,7 +1,7 @@
 {
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 8
+    "ecmaVersion": 13
   },
 
   "env": {
@@ -11,9 +11,18 @@
   },
 
   "globals": {
+    "AnsiUp": false,
+    "assimpjs": false,
+    "canvas": false,
+    "Enum": false,
     "document": false,
+    "glm": false,
+    "libtess": false,
+    "Module": false,
     "navigator": false,
-    "window": false
+    "Quaternion": false,
+    "window": false,
+    "_free": false
   },
 
   "rules": {
@@ -42,6 +51,7 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
+    "max-len": ["error", { "code": 128, "ignoreUrls": true }],
     "new-cap": ["error", { "newIsCap": true, "capIsNew": false }],
     "new-parens": "error",
     "no-array-constructor": "error",

@@ -1,4 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/joints/protos/Hinge2JointWithBacklash.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Sanity check for the behavior of the Hinge2JointWithBacklash PROTO."
@@ -24,7 +31,7 @@ DEF ROBOT Robot {
     }
     Solid {
       children [
-        DEF SHOULDER Transform {
+        DEF SHOULDER Pose {
           translation 0 0.02 -0.5
           children [
             Shape {
@@ -60,7 +67,7 @@ DEF ROBOT Robot {
           endPoint Solid {
             translation 0 -0.05 0
             children [
-              DEF END_POINT_CASE_BACKLASH_ON_BOTH Transform {
+              DEF END_POINT_CASE_BACKLASH_ON_BOTH Pose {
                 translation 0 -0.05 0
                 children [
                   Shape {
@@ -88,7 +95,7 @@ DEF ROBOT Robot {
             }
           }
         }
-        DEF CASE_BACKLASH_ON_AXIS Transform {
+        DEF CASE_BACKLASH_ON_AXIS Pose {
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -113,7 +120,7 @@ DEF ROBOT Robot {
               endPoint Solid {
                 translation 0 -0.05 -0.25
                 children [
-                  DEF END_POINT_CASE_BACKLASH_ON_AXIS Transform {
+                  DEF END_POINT_CASE_BACKLASH_ON_AXIS Pose {
                     translation 0 -0.05 0
                     children [
                       Shape {
@@ -143,7 +150,7 @@ DEF ROBOT Robot {
             }
           ]
         }
-        DEF CASE_BACKLASH_ON_AXIS2 Transform {
+        DEF CASE_BACKLASH_ON_AXIS2 Pose {
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -168,7 +175,7 @@ DEF ROBOT Robot {
               endPoint Solid {
                 translation 0 -0.05 -0.5
                 children [
-                  DEF END_POINT_CASE_BACKLASH_ON_AXIS2 Transform {
+                  DEF END_POINT_CASE_BACKLASH_ON_AXIS2 Pose {
                     translation 0 -0.05 0
                     children [
                       Shape {
@@ -198,7 +205,7 @@ DEF ROBOT Robot {
             }
           ]
         }
-        DEF CASE_BACKLASH_ON_NEITHER Transform {
+        DEF CASE_BACKLASH_ON_NEITHER Pose {
           children [
             Hinge2JointWithBacklash {
               jointParameters HingeJointParameters {
@@ -223,7 +230,7 @@ DEF ROBOT Robot {
               endPoint Solid {
                 translation 0 -0.05 -0.75
                 children [
-                  DEF END_POINT_CASE_BACKLASH_ON_NEITHER Transform {
+                  DEF END_POINT_CASE_BACKLASH_ON_NEITHER Pose {
                     translation 0 -0.05 0
                     children [
                       Shape {
@@ -253,7 +260,7 @@ DEF ROBOT Robot {
             }
           ]
         }
-        DEF CASE_REFERENCE_HINGE2JOINT Transform {
+        DEF CASE_REFERENCE_HINGE2JOINT Pose {
           children [
             Hinge2Joint {
               jointParameters HingeJointParameters {
@@ -282,7 +289,7 @@ DEF ROBOT Robot {
               endPoint Solid {
                 translation 0 -0.05 -1
                 children [
-                  DEF END_POINT_CASE_REFERENCE_HINGE2JOINT Transform {
+                  DEF END_POINT_CASE_REFERENCE_HINGE2JOINT Pose {
                     translation 0 -0.05 0
                     children [
                       Shape {

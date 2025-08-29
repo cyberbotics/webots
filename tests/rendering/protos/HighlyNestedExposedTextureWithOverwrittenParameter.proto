@@ -1,0 +1,16 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "./depth_2/NestedExposedTextureWithParameter.proto"
+
+PROTO HighlyNestedExposedTextureWithOverwrittenParameter [
+]
+{
+  Pose {
+    children[
+      NestedExposedTextureWithParameter {
+        name "HighlyNestedExposedTextureWithOverwrittenParameter"
+        nested_url "../colors/cyan_texture.jpg"
+      }
+    ]
+  }
+}

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2024 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,10 +47,10 @@ duplicatedTextures = [
 ]
 
 duplicatedTexturePaths = [
-    'projects' + os.sep + 'samples' + os.sep + 'robotbenchmark',  # we don't want to change anything to robotbenchmark
-    'projects' + os.sep + 'objects' + os.sep + 'buildings' + os.sep + 'protos' + os.sep + 'textures' + os.sep +
-    'colored_textures'
+    'projects/samples/robotbenchmark',  # we don't want to change anything to robotbenchmark
+    'projects/objects/buildings/protos/textures/colored_textures'
 ]
+duplicatedTexturePaths = [os.path.normpath(path) for path in duplicatedTexturePaths]
 
 
 def cmpHash(file1, file2):
@@ -74,11 +74,14 @@ class TestTextures(unittest.TestCase):
         # 1. Get all the images from projects and resources
         images = []
         for directory in ['projects', 'resources']:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), directory)):
                 for fileName in fnmatch.filter(fileNames, '*.png'):
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
                 for fileName in fnmatch.filter(fileNames, '*.jpg'):
+                    # Ignore thumbnails
+                    if fileName.startswith('.'):
+                        continue
                     image = os.path.join(rootPath, fileName)
                     images.append(image)
         # 2. filter-out the images which are not textures
@@ -86,13 +89,14 @@ class TestTextures(unittest.TestCase):
         for image in images:
             if not (
                 'controllers' in image or
+                'docs' in image or
                 'icons' in image or
                 'libraries' in image or
                 'plugins' in image or
                 'simulator-sdk' in image or
-                'resources' + os.sep + 'images' in image or
-                'resources' + os.sep + 'web' in image or
-                'resources' + os.sep + 'wren' in image
+                os.path.join('resources', 'images') in image or
+                os.path.join('resources', 'web') in image or
+                os.path.join('resources', 'wren') in image
             ):
                 self.textures.append(image)
 

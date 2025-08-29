@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,10 +44,8 @@ public:
   // check if the loading of the world was canceled by the user
   bool wasWorldLoadingCanceled() const;
 
-  // load a world .wbt file
-  // worldName must be absolute or specified with respect to WEBOTS_HOME
-  // return true on success, false otherwise
-  bool loadWorld(QString worldName, bool reloading);
+  // delete the progress dialog and eventually load empty world
+  void cancelWorldLoading(bool loadEmpty, bool deleteWorld = false);
   bool isValidWorldFileName(const QString &worldName);
 
   // take a sceenshot of the 3d view
@@ -75,14 +73,11 @@ public:
   // reset physics on all solids in the world
   void resetPhysics();
 
-  // create links to the project dynamic libraries
-  void linkLibraries(QString projectLibrariesPath);
-
 signals:
   void preWorldLoaded(bool reloading);
   void postWorldLoaded(bool reloading, bool firstLoad);
 
-  void worldLoadRequested(QString filename);
+  void worldLoadRequested(const QString &filename);
 
   void requestScreenshot(const QString &fileName, int quality);
   void simulationQuitRequested(int exitStatus);
@@ -103,8 +98,14 @@ signals:
   void worldLoadingHasProgressed(const int progress);
   void worldLoadingStatusHasChanged(const QString &status);
   void worldLoadingWasCanceled();
+  void worldLoadCompleted();
 
 public slots:
+  // load a world .wbt file
+  // worldName must be absolute or specified with respect to WEBOTS_HOME
+  // return true on success, false otherwise
+  void loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
+
   void setWorldLoadingCanceled();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);
@@ -120,12 +121,6 @@ private:
 
   bool mWorldLoadingCanceled;
   bool mWorldLoadingProgressDialogCreated;
-
-  // remove links to the project dynamic libraries
-  void removeOldLibraries();
-
-  // delete the progress dialog and eventually load empty world
-  bool cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld = false);
 };
 
 #endif

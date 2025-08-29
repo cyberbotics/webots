@@ -1,10 +1,12 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2025a/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Visual tracking';
 let hitRateString;
 let hitRate;
 
-webots.window('visual_tracking').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('hits:')) {
     const rate = message.substr(5);
     const hitValues = rate.split('/');
@@ -44,3 +46,15 @@ webots.window('visual_tracking').receive = function(message, robot) {
     return (100 * value).toFixed(2) + '%';
   }
 };
+
+window.addEventListener('load', (event) => {
+  if (document.readyState === 'complete' && navigator.userAgent.indexOf('Chrome') > -1) {
+    // use MathJax to correctly render MathML not natively supported by Chrome
+    let script = document.createElement('script');
+    script.setAttribute('type','text/javascript');
+    script.setAttribute('id','MathJax-script');
+    script.setAttribute('async','');
+    script.setAttribute('src','https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js');
+    document.head.appendChild(script);
+  }
+});

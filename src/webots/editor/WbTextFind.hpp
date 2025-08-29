@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 // Description: a class for managing find and replace actions in a text document
 //
 
+#include <QtCore/QRegularExpression>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 
@@ -40,12 +41,12 @@ public:
   void replace(const QString &before, const QString &after, FindFlags findFlags);
   void replaceAll(const QString &before, const QString &after, FindFlags findFlags);
 
-  static QStringList findStringList() { return cFindStringList; }
-  static QStringList replaceStringList() { return cReplaceStringList; }
+  static QStringList &findStringList() { return cFindStringList; }
+  static QStringList &replaceStringList() { return cReplaceStringList; }
   static FindFlags lastFindFlags() { return cLastFindFlags; }
 
 signals:
-  void findStringChanged(QRegExp regExp);
+  void findStringChanged(QRegularExpression regularExpression);
 
 private:
   QPlainTextEdit *mEditor;
@@ -57,9 +58,9 @@ private:
   void addStringToList(const QString &s, QStringList &list);
 
   bool findText(const QString &text, int position, FindFlags flags, bool backwards);
-  QString expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts);
-  QTextCursor find(QTextDocument *document, const QRegExp &expr, int from, QTextDocument::FindFlags options) const;
-  static QRegExp computeRegExp(const QString &pattern, FindFlags flags);
+  QString expandRegularExpressionReplacement(const QString &replaceText, const QStringList &capturedTexts);
+  QTextCursor find(QTextDocument *document, const QRegularExpression &expr, int from, QTextDocument::FindFlags options) const;
+  static QRegularExpression computeRegularExpression(const QString &pattern, FindFlags flags);
 };
 
 #endif

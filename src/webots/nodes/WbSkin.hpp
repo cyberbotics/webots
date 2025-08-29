@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,13 @@
 #ifndef WB_SKIN_HPP
 #define WB_SKIN_HPP
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbBaseNode.hpp"
 #include "WbDevice.hpp"
 #include "WbSFString.hpp"
 
+class WbBoundingSphere;
+class WbDownloader;
 class WbMFNode;
 
 struct WrDynamicMesh;
@@ -28,14 +30,14 @@ struct WrRenderable;
 struct WrSkeleton;
 struct WrStaticMesh;
 
-class WbSkin : public WbBaseNode, public WbAbstractTransform, public WbDevice {
+class WbSkin : public WbBaseNode, public WbAbstractPose, public WbDevice {
   Q_OBJECT
 
 public:
   explicit WbSkin(WbTokenizer *tokenizer = NULL);
   WbSkin(const WbSkin &other);
   explicit WbSkin(const WbNode &other);
-  virtual ~WbSkin();
+  virtual ~WbSkin() override;
 
   WbMFNode *appearanceField() const { return mAppearanceField; }
 
@@ -45,36 +47,29 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   const QString &deviceName() const override { return mName->value(); }
   int deviceNodeType() const override { return nodeType(); }
   void reset(const QString &id) override;
+  void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
-  void setScaleNeedUpdate() override { WbAbstractTransform::setScaleNeedUpdateFlag(); }
-  void setMatrixNeedUpdate() override { WbAbstractTransform::setMatrixNeedUpdateFlag(); }
-  int constraintType() const override;
-
-  // resize/scale manipulator
-  bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  virtual void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
-  }
-
-  // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
+  void setScaleNeedUpdate() override;
+  void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
 
   void emitTranslationOrRotationChangedByUser() override {}
 
+  // ray tracing
+  WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
+  void recomputeBoundingSphere() const;
+
 signals:
   void wrenMaterialChanged();
+
+protected:
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   WbSkin &operator=(const WbSkin &);  // non copyable
@@ -82,19 +77,24 @@ private:
   void init();
 
   WbSFString *mName;
-  WbSFString *mModelName;
+  WbSFString *mModelUrl;
   WbMFNode *mAppearanceField;
   WbMFNode *mBonesField;
   WbSFBool *mCastShadows;
 
-  QString mModelPath;
+  WbDownloader *mDownloader;
+  bool mIsModelUrlValid;
   WrSkeleton *mSkeleton;
   WrTransform *mSkeletonTransform;
   WrTransform *mRenderablesTransform;
+  QList<WbRotation> mInitialSkeletonOrientation;
+  QList<WbVector3> mInitialSkeletonPosition;
 
   QVector<WrRenderable *> mRenderables;
   QStringList mMaterialNames;
   QVector<WrMaterial *> mMaterials;
+  QVector<WrMaterial *> mSegmentationMaterials;
+  QVector<WrMaterial *> mEncodeDepthMaterials;
   QVector<WrDynamicMesh *> mMeshes;
 
   WrStaticMesh *mBoneMesh;
@@ -107,6 +107,17 @@ private:
   WbRotation *mBoneOrientationRequest;
   bool mBonesWarningPrinted;
 
+  WbSFVector3 *mScale;
+  double mPreviousXscaleValue;
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
+
+  // WREN manipulators
+  void sanitizeScale();
+
+  // Ray tracing
+  mutable WbBoundingSphere *mBoundingSphere;
+
   void createWrenSkeleton();
   void deleteWrenSkeleton();
 
@@ -114,22 +125,30 @@ private:
   void setBonePosition(int boneIndex, double x, double y, double z, bool absolute);
 
   bool createSkeletonFromWebotsNodes();
-  WrTransform *createBoneRepresentation(WrRenderable **renderable, const float *scale);
+  WrTransform *createBoneRepresentation(const float *scale, const float *orientation, bool visible);
 
-  void applyToScale() override;
+  QString modelPath() const;
+  void updateModel();
+  void applyToScale();
+  void applyScaleToWren();
+
+  void setSegmentationColor(const WbRgb &color);
+
+  void updateAbsoluteScale() const;
+  const WbVector3 &absoluteScale() const;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  virtual void updateScale(bool warning = false);
-  void updateModel();
+  virtual void updateScale();
+  void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  void showResizeManipulator(bool enabled) override;
   void updateOptionalRendering(int option);
+  void downloadUpdate();
 };
 
 #endif

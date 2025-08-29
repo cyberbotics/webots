@@ -1,13 +1,18 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto
+# keywords: robot/extension
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a webcam.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "cameraSlot" field of the Robotino 3 robot.
 
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
+
 PROTO Robotino3WebcamMountingSupport [
   field  SFVec3f     translation    0 0 0
-  field  SFRotation  rotation       0 1 0 0
+  field  SFRotation  rotation       0 0 1 0
   field  SFString    name           "Webcam mounting support for Robotino 3"
   field  SFString    model          "Festo - Webcam mounting support"
   field  MFNode      extensionSlot  []  # Extends the mounting support with an object.
@@ -19,7 +24,7 @@ PROTO Robotino3WebcamMountingSupport [
     name IS name
     model IS model
     children [
-      Transform {
+      Pose {
         translation 0.035 -0.082 0.212
         rotation -0.57735 0.57735 0.57735 -2.09439
         children [
@@ -37,15 +42,15 @@ PROTO Robotino3WebcamMountingSupport [
               ]
             }
           }
-          Transform {
+          Pose {
             translation 0 0.122 0.03
             children IS extensionSlot
           }
         ]
       }
-      DEF SCREW_1 Transform {
+      DEF SCREW_1 Pose {
         translation 0.0003 -0.033 0.268
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(7)"
@@ -54,9 +59,9 @@ PROTO Robotino3WebcamMountingSupport [
           }
         ]
       }
-      DEF SCREW_2 Transform {
+      DEF SCREW_2 Pose {
         translation 0.0003 -0.033 0.22
-        rotation 1 0 0 -1.5708
+        rotation 0 0 1 1.570796
         children [
           CapScrew {
             name "cap screw(8)"
@@ -68,7 +73,7 @@ PROTO Robotino3WebcamMountingSupport [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.013 -0.032 0.2785
           children [
             Box {
@@ -76,7 +81,7 @@ PROTO Robotino3WebcamMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.034 -0.0563 0.3342
           children [
             Box {
@@ -84,7 +89,7 @@ PROTO Robotino3WebcamMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0049 -0.081 0.3341
           children [
             Box {

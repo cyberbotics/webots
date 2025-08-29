@@ -16,7 +16,7 @@ Possibly followed by comments, such as:
 
 ```
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # This is the description of the sample PROTO node.
 ```
 
@@ -49,7 +49,7 @@ Here is how a PROTO file looks like:
 
 PROTO MyProto [
   field SFVec3f    translation   0 0 0
-  field SFRotation rotation      0 1 0 0
+  field SFRotation rotation      0 0 1 0
   field SFString   name          "my proto"
   field SFColor    color         0.5 0.5 0.5
   field SFNode     physics       NULL
@@ -73,15 +73,19 @@ If a field should have only a limited set of possible values, it is possible to 
 ```
 PROTO MyProto [
   field SFVec3f                             translation   0 0 0
-  field SFRotation                          rotation      0 1 0 0
+  field SFRotation                          rotation      0 0 1 0
   field SFString                            name          "my proto"
   field SFColor{0 0 0, 0.5 0.5 0.5, 1 1 1}  color         0.5 0.5 0.5
   field SFNode                              physics       NULL
-  field MFNode{Solid{}, Transform{}}        extensionSlot []
+  field MFNode{Solid{}+, Pose{}}            extensionSlot []
 ]
 ```
 
-In this example, the `color` field value can only be `0 0 0`, `0.5 0.5 0.5` or `1 1 1` and the `extensionSlot` field can only accept [Solid](../reference/solid.md) and [Transform](../reference/transform.md) nodes.
+For `SFNode`/`MFNode` fields, the `<NodeType>{}+` syntax allows the field to also accept nodes which derive from a specific node type.
+
+In this example, the `color` field value can only be `0 0 0`, `0.5 0.5 0.5` or `1 1 1`, and the `extensionSlot` field can only accept [Pose](pose.md) nodes, PROTOs whose base type is [Pose](pose.md), [Solid](solid.md) nodes, nodes derived from [Solid](solid.md), and PROTOs derived from [Solid](solid.md) or a type that inherits from [Solid](../reference/solid.md). Note that because  `Pose{}` is not followed by a `+`, `extensionSlot` does not accept nodes that derive from [Pose](pose.md) (e.g. [Transform](transform.md) or [Fluid](fluid.md)) or PROTOs whose base type is not [Pose](pose.md).
+
+Because [Solid](solid.md) derives from [Pose](pose.md), we could have allowed all the same node types by using `MFNode{Pose{}+}`, but this would also allow other descendants of [Pose](pose.md) such as [Transform](transform.md) or [Fluid](fluid.md).
 
 ### IS Statements
 
@@ -94,7 +98,7 @@ For example:
 ```
 PROTO Bicycle [
   field SFVec3f    position   0 0 0
-  field SFRotation rotation   0 1 0 0
+  field SFRotation rotation   0 0 1 0
   field SFString   name       "bicycle"
   field SFColor    frameColor 0.5 0.5 0.5
   field SFBool     hasBrakes  TRUE

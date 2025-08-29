@@ -1,7 +1,14 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/NaoChallengeRoom.proto
+# keywords: building/component
 # The room of the Nao challenge
+
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "VisualArmature.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO NaoChallengeRoom [
   field SFString name "Nao challenge room"
@@ -18,13 +25,7 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.25 0 -1
-            -0.25 0 1
-            -1 0 1
-            -1 0 2
-            0.2 0 2
-            1 0 1.2
-            1 0 -1
+            -1 -0.25 0 1 -0.25 0 1 -1 0 2 -1 0 2 0.2 0 1.2 1 0 -1 1 0
           ]
         }
         texCoord TextureCoordinate {
@@ -54,13 +55,7 @@ Solid {
       geometry IndexedFaceSet {
         coord Coordinate {
           point [
-            -0.25 2 -1
-            -0.25 2 1
-            -1 2 1
-            -1 2 2
-            0.2 2 2
-            1 2 1.2
-            1 2 -1
+            -1 -0.25 2 1 -0.25 2 1 -1 2 2 -1 2 2 0.2 2 1.2 1 2 -1 1 2
           ]
         }
         coordIndex [
@@ -69,9 +64,9 @@ Solid {
         ]
       }
     }
-    DEF NORTH Transform {
-      translation 1 1 0.1
-      rotation 0 0 1 1.5708
+    DEF NORTH Pose {
+      translation 0.1 1 1
+      rotation 0.577354 -0.577352 0.577344 2.094401
       children [
         Shape {
           appearance DEF WALL_APPEARANCE Roughcast {
@@ -85,9 +80,9 @@ Solid {
         }
       ]
     }
-    DEF SOUTH1 Transform {
-      translation -0.25 1 0
-      rotation 0 0 1 -1.5708
+    DEF SOUTH1 Pose {
+      translation 0 -0.25 1
+      rotation -0.577349 0.577347 0.577355 2.094397
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -97,9 +92,9 @@ Solid {
         }
       ]
     }
-    DEF SOUTH2 Transform {
-      translation -1 1 1.5
-      rotation 0 0 1 -1.5708
+    DEF SOUTH2 Pose {
+      translation 1.5 -1 1
+      rotation -0.577349 0.577347 0.577355 2.094397
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -109,9 +104,9 @@ Solid {
         }
       ]
     }
-    DEF EAST Transform {
-      translation -0.4 1 2
-      rotation 1 0 0 -1.5708
+    DEF EAST Pose {
+      translation 2 -0.4 1
+      rotation 0.577348 0.577356 -0.577347 -2.094393
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -121,9 +116,9 @@ Solid {
         }
       ]
     }
-    DEF WEST1 Transform {
-      translation 0.375 1 -1
-      rotation 1 0 0 1.5708
+    DEF WEST1 Pose {
+      translation -1 0.375 1
+      rotation 0.57735 0.57734 0.57735 2.0944
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -133,9 +128,9 @@ Solid {
         }
       ]
     }
-    DEF WEST2 Transform {
-      translation -0.625 1 1
-      rotation 1 0 0 1.5708
+    DEF WEST2 Pose {
+      translation 1 -0.625 1
+      rotation 0.57735 0.57734 0.57735 2.0944
       children [
         Shape {
           appearance USE WALL_APPEARANCE
@@ -145,15 +140,15 @@ Solid {
         }
       ]
     }
-    DEF WARDROBE Transform {
-      translation 0.6 1 1.6
-      rotation -0.281052 0.678604 -0.678606 3.68956
+    DEF WARDROBE Pose {
+      translation 1.6 0.6 1
+      rotation 0.86283 -0.357434 -0.357441 1.71781
       children [
         Shape {
           appearance PBRAppearance {
             baseColorMap ImageTexture {
               url [
-                "webots://projects/robots/softbank/nao/protos/textures/wardrobe.jpg"
+                "textures/wardrobe.jpg"
               ]
             }
             metalness 0
@@ -165,12 +160,12 @@ Solid {
         }
       ]
     }
-    DEF WHITE_LINE Transform {
-      translation 0 0.001 0
+    DEF WHITE_LINE Pose {
+      translation 0 0 0.001
       children [
-        Transform {
-          translation 0.325 0.0001 -0.83
-          rotation 0 1 0 1.57078
+        Pose {
+          translation -0.83 0.325 0.0001
+          rotation 0 0 1 3.141581
           children [
             Shape {
               appearance DEF LINE_APPEARANCE PBRAppearance {
@@ -183,8 +178,9 @@ Solid {
             }
           ]
         }
-        Transform {
-          translation 0.21 0 -0.375
+        Pose {
+          translation -0.375 0.21 0
+          rotation 0 0 1 1.5708
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -194,9 +190,9 @@ Solid {
             }
           ]
         }
-        Transform {
-          translation 0.37 0.0001 0.08
-          rotation 0 1 0 1.57078
+        Pose {
+          translation 0.08 0.37 0.0001
+          rotation 0 0 1 3.141581
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -206,8 +202,9 @@ Solid {
             }
           ]
         }
-        Transform {
-          translation 0.5275 0 0.5164
+        Pose {
+          translation 0.5164 0.5275 0
+          rotation 0 0 1 1.5708
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -217,9 +214,9 @@ Solid {
             }
           ]
         }
-        Transform {
-          translation 0.26 0.0001 1.232
-          rotation 0 1 0 -0.7854
+        Pose {
+          translation 1.232 0.26 0.0001
+          rotation 0 0 1 0.7854
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -229,9 +226,9 @@ Solid {
             }
           ]
         }
-        Transform {
-          translation -0.5 0 1.5
-          rotation 0 1 0 1.5708
+        Pose {
+          translation 1.5 -0.5 0
+          rotation 0 0 1 -3.141586
           children [
             Shape {
               appearance USE LINE_APPEARANCE
@@ -242,21 +239,22 @@ Solid {
           ]
         }
         DEF DOOR_SOUTH VisualArmature {
-          translation -1 0.9 1.5
-          rotation 0 1 0 1.5708
-          dimension 0.8 1.8 0.01
+          translation 1.5 -1 0.9
+          rotation 0 0 1 1.5708
+          dimension 0.01 0.8 1.8
           textureUrl [
-            "webots://projects/robots/softbank/nao/protos/textures/living_room_door.jpg"
+            "textures/living_room_door.jpg"
           ]
         }
-        DEF SOUTH_DOOR_HANDLE Transform {
-          translation -1 0.9 1.82
-          rotation 0 0 1 -1.5708
+        DEF SOUTH_DOOR_HANDLE Pose {
+          translation 1.82 -1 0.9
+          rotation 0 1 0 1.5708
           children [
             DEF DOOR_HANDLE Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0.01 0
+                  rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -268,8 +266,9 @@ Solid {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0.04 0
+                  rotation 1 0 0 -1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -281,9 +280,8 @@ Solid {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0.07 -0.05
-                  rotation 1 0 0 1.5708
                   children [
                     Shape {
                       appearance BrushedAluminium {}
@@ -299,15 +297,15 @@ Solid {
           ]
         }
         DEF DOOR_WEST VisualArmature {
-          translation 0.5 0.9 -1
-          dimension 0.8 1.8 0.01
+          translation -1 0.5 0.9
+          dimension 0.01 0.8 1.8
           textureUrl [
-            "webots://projects/robots/softbank/nao/protos/textures/entree_door.jpg"
+            "textures/entree_door.jpg"
           ]
         }
-        DEF WEST_DOOR_HANDLE Transform {
-          translation 0.17 0.9 -1
-          rotation 0.57735 -0.57735 -0.57735 2.0944
+        DEF WEST_DOOR_HANDLE Pose {
+          translation -1 0.17 0.9
+          rotation -0.577349 -0.577353 0.577348 -2.094403
           children [
             USE DOOR_HANDLE
           ]
@@ -319,70 +317,72 @@ Solid {
   model "Nao room"
   boundingObject Group {
     children [
-      DEF FLOOR Transform {
-        translation 0 0 0.5
-        children [
-          Plane {
-            size 2 3
-          }
-        ]
-      }
-      DEF CEIL Transform {
-        translation 0 2 0.5
-        rotation 1 0 0 3.1415
-        children [
-          Plane {
-            size 2 3
-          }
-        ]
-      }
-      DEF NORTH Transform {
-        translation 1 1 0.1
+      DEF FLOOR Pose {
+        translation 0.5 0 0
         rotation 0 0 1 1.5708
+        children [
+          Plane {
+            size 2 3
+          }
+        ]
+      }
+      DEF CEIL Pose {
+        translation 0.5 0 2
+        rotation 0.707106 0.707108 0 -3.14158
+        children [
+          Plane {
+            size 2 3
+          }
+        ]
+      }
+      DEF NORTH Pose {
+        translation 0.1 1 1
+        rotation 0.577354 -0.577352 0.577344 2.094401
         children [
           Plane {
             size 2 2.2
           }
         ]
       }
-      DEF SOUTH Transform {
-        translation -1 1 1.5
-        rotation 0 0 1 -1.5708
+      DEF SOUTH Pose {
+        translation 1.5 -1 1
+        rotation -0.577349 0.577347 0.577355 2.094397
         children [
           Plane {
             size 2 1
           }
         ]
       }
-      DEF EAST Transform {
-        translation -0.4 1 2
-        rotation 1 0 0 -1.5708
+      DEF EAST Pose {
+        translation 2 -0.4 1
+        rotation -0.577346 -0.577354 0.577351 2.094389
         children [
           Plane {
             size 1.2 2
           }
         ]
       }
-      DEF WEST Transform {
-        translation 0.375 1 -1
-        rotation 1 0 0 1.5708
+      DEF WEST Pose {
+        translation -1 0.375 1
+        rotation 0.577351 0.577347 0.577351 2.094405
         children [
           Plane {
             size 1.25 2
           }
         ]
       }
-      DEF BOX_LIMITER Transform {
-        translation -0.625 1 0
+      DEF BOX_LIMITER Pose {
+        translation 0 -0.625 1
+        rotation 0.577351 0.577347 0.577351 2.094405
         children [
           Box {
             size 0.75 2 2
           }
         ]
       }
-      DEF WARDROBE Transform {
-        translation 0.6 1 1.6
-        rotation -0.281052 0.678604 -0.678606 3.68956
+      DEF WARDROBE Pose {
+        translation 1.6 0.6 1
+        rotation 0.86283 -0.357434 -0.357441 1.71781
         children [
           Plane {
             size 1.1314 2

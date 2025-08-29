@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,25 +72,25 @@ static void light_sensor_read_answer(WbDevice *d, WbRequest *r) {
 
 int wb_light_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
-  LightSensor *dev = light_sensor_get_struct(tag);
+  robot_mutex_lock();
+  const LightSensor *dev = light_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const double *wb_light_sensor_get_lookup_table(WbDeviceTag tag) {
   double *result = NULL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   LightSensor *dev = light_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -141,18 +141,18 @@ void wb_light_sensor_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   LightSensor *ls = light_sensor_get_struct(tag);
   if (ls) {
     ls->sampling_period = sampling_period;
     ls->enable = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_light_sensor_disable(WbDeviceTag tag) {
-  LightSensor *ls = light_sensor_get_struct(tag);
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls)
     wb_light_sensor_enable(tag, 0);
   else
@@ -161,26 +161,26 @@ void wb_light_sensor_disable(WbDeviceTag tag) {
 
 int wb_light_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
-  LightSensor *ls = light_sensor_get_struct(tag);
+  robot_mutex_lock();
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls)
     sampling_period = ls->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 double wb_light_sensor_get_value(WbDeviceTag tag) {
   double value = NAN;
-  robot_mutex_lock_step();
-  LightSensor *ls = light_sensor_get_struct(tag);
+  robot_mutex_lock();
+  const LightSensor *ls = light_sensor_get_struct(tag);
   if (ls) {
     if (ls->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_light_sensor_enable().\n", __FUNCTION__);
     value = ls->value;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return value;
 }

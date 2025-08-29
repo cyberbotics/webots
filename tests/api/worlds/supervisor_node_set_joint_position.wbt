@@ -1,10 +1,15 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.06939904725079878 -0.971070299644096 -0.22848686043141994 2.754925037543292
-  position -2.0283276380481268 2.5016408245438226 -4.162447135542576
+  orientation -0.5773502691896258 0.5773502691896257 0.5773502691896258 2.0943951023931953
+  position 0.03403387498495089 0.40499999999999703 4.818609101677204
 }
 Background {
   skyColor [
@@ -17,23 +22,29 @@ PointLight {
   location 0 0.3 0
 }
 DEF FLOOR Solid {
-  translation -1 0 -1
+  translation -1 0 1.1
   children [
-    Shape {
-      geometry ElevationGrid {
-        xDimension 20
-        xSpacing 0.12
-        zDimension 20
-        zSpacing 0.12
-      }
+    Pose {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry ElevationGrid {
+            xDimension 20
+            xSpacing 0.12
+            yDimension 20
+            ySpacing 0.12
+          }
+        }
+      ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.5 0 0.5
     children [
       Plane {
       }
     ]
+    rotation 1 0 0 -1.57079632679
   }
 }
 DEF TEST Robot {
@@ -45,32 +56,28 @@ DEF TEST Robot {
       translation -0.61 0.366 -0.4
       name "slider sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation 0.87 0.3 -0.84
       name "hinge sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation 0.69 0.29 1
       name "hinge2 sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
     DistanceSensor {
       translation -0.82 0.29 0.99
       name "ball joint sensor"
       lookupTable [
-        0 0 0
-        0.2 1000 0
+        0 0 0        0.2 1000 0
       ]
     }
   ]
@@ -81,7 +88,7 @@ DEF TEST Robot {
 Robot {
   translation -0.39 0.005 0
   children [
-    DEF SLIDER_TRANSFORM Transform {
+    DEF SLIDER_POSE Pose {
       translation -0.5 0 -1
       children [
         DEF SLIDER_JOINT SliderJoint {
@@ -105,7 +112,7 @@ Robot {
         }
       ]
     }
-    DEF HINGE_TRANSFORM Transform {
+    DEF HINGE_POSE Pose {
       translation 1 0 -1
       children [
         DEF HINGE_JOINT HingeJoint {
@@ -132,7 +139,7 @@ Robot {
         }
       ]
     }
-    DEF HINGE2_TRANSFORM Transform {
+    DEF HINGE2_POSE Pose {
       translation 1 0 1
       children [
         DEF HINGE2_JOINT Hinge2Joint {
@@ -156,7 +163,7 @@ Robot {
         }
       ]
     }
-    DEF BALL_JOINT_TRANSFORM Transform {
+    DEF BALL_JOINT_POSE Pose {
       translation -0.5 0 1
       children [
         DEF BALL_JOINT BallJoint {
@@ -190,9 +197,10 @@ Robot {
     density -1
     mass 100
   }
-  controller ""
+  controller "<none>"
 }
 UR5e {
+  rotation 1 0 0 4.712388966
   controller "supervisor_node_set_joint_position_ur5e"
   supervisor TRUE
   toolSlot [

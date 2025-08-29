@@ -6,7 +6,7 @@ Derived from [Device](device.md) and [Solid](solid.md).
 Radar {
   SFFloat minRange               1       # [0, maxRange)
   SFFloat maxRange               50.0    # (minRange, inf)
-  SFFloat horizontalFieldOfView  0.78    # [0, 2*pi]
+  SFFloat horizontalFieldOfView  0.78    # [0, pi]
   SFFloat verticalFieldOfView    0.1     # [0, pi]
   SFFloat minAbsoluteRadialSpeed 0.0     # [0, inf)
   SFFloat minRadialSpeed         1       # [0, maxRadialSpeed]
@@ -25,6 +25,12 @@ Radar {
 ```
 
 ### Description
+
+%figure "Radar Coordinate System"
+
+![radar.png](images/radar.thumbnail.jpg)
+
+%end
 
 The [Radar](#radar) node is used to model a radar sensor.
 
@@ -104,12 +110,6 @@ structs.WbRadarTarget.members = struct(
   'azimuth', 'double'
 );
 ```
-
-%tab-end
-
-%tab "ROS"
-
-> `RadarTarget` data is directly accessible from the related [`/<device_name>/targets`](#wb_radar_get_targets) topic.
 
 %tab-end
 
@@ -271,15 +271,6 @@ period = wb_radar_get_sampling_period(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -364,15 +355,6 @@ max_range = wb_radar_get_max_range(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_min_range` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_max_range` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -451,15 +433,6 @@ vertical_fov = wb_radar_get_vertical_fov(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_vertical_fov` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_horizontal_fov` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -532,14 +505,6 @@ targets_number = wb_radar_get_number_of_targets(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/number_of_targets` | `topic` | webots_ros::Int8Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int8 data` |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -609,14 +574,6 @@ public class Radar extends Device {
 ```MATLAB
 targets = wb_radar_get_targets(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/targets` | `topic` | `webots_ros::RadarTarget` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 distance`<br/>`float64 receivedPower`<br/>`float64 speed`<br/>`float64 azimuth` |
 
 %tab-end
 

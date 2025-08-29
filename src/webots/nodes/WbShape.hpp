@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,7 @@ public:
   explicit WbShape(WbTokenizer *tokenizer = NULL);
   WbShape(const WbShape &other);
   explicit WbShape(const WbNode &other);
-  virtual ~WbShape();
+  virtual ~WbShape() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SHAPE; }
@@ -47,6 +47,7 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
   void propagateSelection(bool selected) override;
   void reset(const QString &id) override;
+  QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
 
   // field accessors
   WbAppearance *appearance() const;
@@ -72,10 +73,12 @@ public:
   void setAppearance(WbAppearance *appearance);
   void setPbrAppearance(WbPbrAppearance *appearance);
   void setGeometry(WbGeometry *geometry);
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // export
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
+  void exportBoundingObjectToW3d(WbWriter &writer) const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void wrenMaterialChanged();

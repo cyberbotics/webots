@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,12 +16,13 @@
 
 #include "WbBaseNode.hpp"
 #include "WbDictionary.hpp"
-#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRgb.hpp"
 #include "WbRotation.hpp"
 #include "WbVector2.hpp"
 #include "WbVector3.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
@@ -151,27 +152,29 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo = new WbClipboardNodeInfo();
   mNodeInfo->modelName = n->modelName();
   mNodeInfo->nodeModelName = n->nodeModelName();
+  mNodeInfo->protoParentList = n->proto() ? n->proto()->parentProtoNames() : QStringList();
   mNodeInfo->slotType = WbNodeUtilities::slotType(n);
-  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n);
+  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
+  mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);
   WbNode::enableDefNodeTrackInWrite(false);
-  mNodeExportString = WbNodeOperations::exportNodeToString(n);
-  QList<QPair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
+  mNodeExportString = WbVrmlNodeUtilities::exportNodeToString(n);
+  QList<std::pair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
   WbNode::disableDefNodeTrackInWrite();
   // store all the required external DEF nodes data in order to work correctly
   // independently if other nodes are deleted
   for (int i = 0; i < externalDefNodes.size(); ++i) {
-    WbBaseNode *node = dynamic_cast<WbBaseNode *>(externalDefNodes[i].first);
+    const WbBaseNode *node = dynamic_cast<WbBaseNode *>(externalDefNodes[i].first);
     LinkedDefNodeDefinitions *data = new LinkedDefNodeDefinitions();
     data->position = externalDefNodes[i].second;
     data->type = node->nodeType();
     data->defName = node->defName();
     WbNode::enableDefNodeTrackInWrite(false);
-    data->definition = WbNodeOperations::exportNodeToString(node);
+    data->definition = WbVrmlNodeUtilities::exportNodeToString(node);
     WbNode::disableDefNodeTrackInWrite();
     mLinkedDefNodeDefinitions.append(data);
   }
 
-  mStringValue = n->usefulName();
+  mStringValue = n->fullName();
   mSystemClipboard->blockSignals(true);
   mSystemClipboard->setText(mStringValue, QClipboard::Clipboard);
   mSystemClipboard->blockSignals(false);
@@ -210,7 +213,7 @@ QString WbClipboard::computeNodeExportStringForInsertion(WbNode *parentNode, WbF
   for (int i = mLinkedDefNodeDefinitions.size() - 1; i >= 0; --i) {
     bool found = false;
     for (int j = 0; j < existingDefNodesSize && !found; ++j) {
-      WbBaseNode *node = dynamic_cast<WbBaseNode *>(existingDefNodes[j]);
+      const WbBaseNode *node = dynamic_cast<WbBaseNode *>(existingDefNodes[j]);
       found =
         node->defName() == mLinkedDefNodeDefinitions[i]->defName && node->nodeType() == mLinkedDefNodeDefinitions[i]->type;
     }

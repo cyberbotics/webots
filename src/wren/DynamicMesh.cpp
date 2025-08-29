@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -117,7 +117,9 @@ namespace wren {
     updateGlShadow();
   }
 
-  void DynamicMesh::releaseShadowVolume() { glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow); }
+  void DynamicMesh::releaseShadowVolume() {
+    glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow);
+  }
 
   void DynamicMesh::render(unsigned int drawingMode) {
     bind();
@@ -128,33 +130,27 @@ namespace wren {
 
   void DynamicMesh::clear(bool vertices, bool normals, bool textureCoordinates, bool colors) {
     if (vertices) {
-      if (mCoords.size() > 0) {
+      if (mCoords.size() > 0)
         mCoords.clear();
-        mCoordsDirty = true;
-      }
       if (mShadowCoords.size() > 0) {
         mShadowCoords.clear();
         mSupportShadows = true;
       }
     }
 
-    if (normals && mNormals.size() > 0) {
+    if (normals && mNormals.size() > 0)
       mNormals.clear();
-      mNormalsDirty = true;
-    }
 
-    if (textureCoordinates && mTexCoords.size() > 0) {
+    if (textureCoordinates && mTexCoords.size() > 0)
       mTexCoords.clear();
-      mTexCoordsDirty = true;
-    }
 
-    if (colors && mColors.size() > 0) {
+    if (colors && mColors.size() > 0)
       mColors.clear();
-      mColorsDirty = true;
-    }
   }
 
-  size_t DynamicMesh::sortingId() const { return mMeshId.id(); }
+  size_t DynamicMesh::sortingId() const {
+    return mMeshId.id();
+  }
 
   primitive::Aabb DynamicMesh::recomputeAabb(const glm::vec3 &scale) {
     if (!mCoords.size())
@@ -399,11 +395,19 @@ namespace wren {
   void DynamicMesh::updateGl() {
     applySkeletonTransform();
 
-    if (mIndicesDirty) {
+    if (mIndicesDirty && mIndices.size() > 0) {
       // Indices buffer is set to GL_STATIC_DRAW as we expect the mesh topology not to change
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, mIndices.size() * sizeof(unsigned int), NULL, GL_STATIC_DRAW);
+
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
                                     GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
+
       memcpy(data, &mIndices[0], mIndices.size() * sizeof(unsigned int));
       glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
       mIndicesDirty = false;
@@ -418,11 +422,18 @@ namespace wren {
         mSupportShadows = false;
     }
 
-    if (mCoordsDirty) {
+    if (mCoordsDirty && mCoords.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
       glBufferData(GL_ARRAY_BUFFER, mCoords.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mCoords.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mCoords.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mCoords[0], mCoords.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mCoordsDirty = false;
@@ -433,8 +444,14 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferNormals);
       glBufferData(GL_ARRAY_BUFFER, mNormals.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mNormals.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mNormals.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mNormals[0], mNormals.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mNormalsDirty = false;
@@ -445,8 +462,13 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferTexCoords);
       glBufferData(GL_ARRAY_BUFFER, mTexCoords.size() * sizeof(glm::vec2), NULL, GL_STREAM_DRAW);
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mTexCoords.size() * sizeof(glm::vec2),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mTexCoords.size() * sizeof(glm::vec2),
                                     GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mTexCoords[0], mTexCoords.size() * sizeof(glm::vec2));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mTexCoordsDirty = false;
@@ -457,8 +479,13 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferColors);
       glBufferData(GL_ARRAY_BUFFER, mColors.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mColors.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mColors.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mColors[0], mColors.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mColorsDirty = false;
@@ -495,7 +522,7 @@ namespace wren {
 
   static void createOrCompleteEdge(size_t triangleIndex, unsigned int vertexIndex0, unsigned int vertexIndex1,
                                    std::unordered_map<std::pair<size_t, size_t>, Mesh::Edge> &edgeMap,
-                                   std::vector<Mesh::Triangle> &triangles, std::vector<Mesh::Edge> &edges) {
+                                   const std::vector<Mesh::Triangle> &triangles, std::vector<Mesh::Edge> &edges) {
     // Either add the edge to the edge map if it isn't present, or complete
     // an existing edge if it is already present in the edge map.
     auto itEdgeInverse = edgeMap.find(std::make_pair(vertexIndex1, vertexIndex0));

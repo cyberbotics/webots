@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,10 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbGeometry.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbOdeContext.hpp"
 #include "WbSlot.hpp"
+#include "WbSolid.hpp"
 
 using namespace WbHiddenKinematicParameters;
 
@@ -66,8 +68,14 @@ void WbGroup::downloadAssets() {
 void WbGroup::preFinalize() {
   WbBaseNode::preFinalize();
 
+  if (isWorldRoot()) {
+    emit worldLoadingStatusHasChanged(tr("Pre-finalizing nodes"));
+    mLoadProgress = 0;
+  }
+
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
+    mLoadProgress++;
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
     if (!mHasNoSolidAncestor) {
       WbGroup *group = dynamic_cast<WbGroup *>(n);
@@ -75,16 +83,23 @@ void WbGroup::preFinalize() {
         group->mHasNoSolidAncestor = false;
     }
     n->preFinalize();
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
 void WbGroup::postFinalize() {
   WbBaseNode::postFinalize();
 
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Post-finalizing nodes"));
+
   recomputeBoundingSphere();
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
+  connect(mChildren, &WbMFNode::itemChanged, this, &WbGroup::insertChildPrivate);
   // if parent is a slot, it needs to be notified when a new node is inserted
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)
@@ -102,16 +117,20 @@ void WbGroup::postFinalize() {
     connect(mChildren, &WbMFNode::changed, this, &WbGroup::topLevelListsUpdateRequested);
 }
 
-void WbGroup::recomputeBoundingSphere() const {
+void WbGroup::recomputeBoundingSphere() {
   mBoundingSphere = new WbBoundingSphere(this);
   mBoundingSphere->empty();
 
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
+    mLoadProgress++;
     WbBaseNode *const n = static_cast<WbBaseNode *>(it.next());
-    n->postFinalize();
-    if (mBoundingSphere)
-      mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    if (!n->isPostFinalizedCalled())
+      n->postFinalize();
+    mBoundingSphere->addSubBoundingSphere(n->boundingSphere());
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
   }
 }
 
@@ -130,14 +149,6 @@ void WbGroup::addChild(WbNode *child) {
   mChildren->addItem(child);
 }
 
-bool WbGroup::removeChild(WbNode *node) {
-  if (mChildren->removeNode(node)) {
-    node->setParentNode(NULL);
-    return true;
-  } else
-    return false;
-}
-
 void WbGroup::clear() {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
@@ -151,6 +162,25 @@ void WbGroup::deleteAllChildren() {
   mChildren->clear();
 }
 
+void WbGroup::deleteAllSolids() {
+  WbMFNode::Iterator it(mChildren);
+  QList<WbSolid *> solids;
+  while (it.hasNext()) {
+    WbNode *const n = it.next();
+    // cppcheck-suppress constVariablePointer
+    WbSolid *s = dynamic_cast<WbSolid *const>(n);
+    if (s)
+      solids << s;
+    else {
+      WbGroup *g = dynamic_cast<WbGroup *>(n);
+      if (g)
+        g->deleteAllSolids();
+    }
+  }
+  foreach (WbSolid *s, solids)
+    WbNodeOperations::instance()->deleteNode(s);
+}
+
 WbBaseNode *WbGroup::child(int index) const {
   return static_cast<WbBaseNode *>(mChildren->item(index));
 }
@@ -162,20 +192,30 @@ int WbGroup::nodeIndex(WbNode *child) const {
 void WbGroup::createOdeObjects() {
   WbBaseNode::createOdeObjects();
 
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Creating ODE objects"));
+
   WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext())
+  while (it.hasNext()) {
+    mLoadProgress++;
     static_cast<WbBaseNode *>(it.next())->createOdeObjects();
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
+    if (mFinalizationCanceled)
+      return;
+  }
 }
 
 void WbGroup::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
+  if (isWorldRoot())
+    emit worldLoadingStatusHasChanged(tr("Creating WREN objects"));
+
   WbMFNode::Iterator it(*mChildren);
-  int index = 0;
   while (it.hasNext()) {
-    index++;
+    mLoadProgress++;
     static_cast<WbBaseNode *>(it.next())->createWrenObjects();
-    emit childFinalizationHasProgressed(index * 100 / childCount());
+    emit childFinalizationHasProgressed(mLoadProgress * 100 / (4 * childCount()));
     if (mFinalizationCanceled)
       return;
   }
@@ -266,14 +306,14 @@ void WbGroup::insertChildFromSlotOrJoint(WbBaseNode *decendant) {
 }
 
 void WbGroup::insertChildPrivate(int index) {
-  WbBaseNode *child = static_cast<WbBaseNode *>(mChildren->item(index));
-  if (child->isPostFinalizedCalled() && mBoundingSphere)
-    mBoundingSphere->addSubBoundingSphere(child->boundingSphere());
-  emit childAdded(child);
-  descendantNodeInserted(child);
+  WbBaseNode *childNode = static_cast<WbBaseNode *>(mChildren->item(index));
+  if (childNode->isPostFinalizedCalled() && mBoundingSphere)
+    mBoundingSphere->addSubBoundingSphere(childNode->boundingSphere());
+  emit childAdded(childNode);
+  descendantNodeInserted(childNode);
 
   if (isPostFinalizedCalled())
-    connect(child, &WbBaseNode::finalizationCompleted, this, &WbGroup::monitorChildFinalization);
+    connect(childNode, &WbBaseNode::finalizationCompleted, this, &WbGroup::monitorChildFinalization);
 }
 
 void WbGroup::monitorChildFinalization(WbBaseNode *child) {
@@ -304,9 +344,29 @@ void WbGroup::save(const QString &id) {
 void WbGroup::forwardJerk() {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    WbGroup *const child = dynamic_cast<WbGroup *>(it.next());
-    if (child)
-      child->forwardJerk();
+    WbGroup *const childGroup = dynamic_cast<WbGroup *>(it.next());
+    if (childGroup)
+      childGroup->forwardJerk();
+  }
+}
+
+QList<const WbBaseNode *> WbGroup::findClosestDescendantNodesWithDedicatedWrenNode() const {
+  QList<const WbBaseNode *> list;
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    const WbBaseNode *const childNode = static_cast<WbBaseNode *>(it.next());
+    assert(childNode);
+    list << childNode->findClosestDescendantNodesWithDedicatedWrenNode();
+  }
+  return list;
+}
+
+void WbGroup::updateSegmentationColor(const WbRgb &color) {
+  WbMFNode::Iterator it(*mChildren);
+  while (it.hasNext()) {
+    WbBaseNode *const childNode = dynamic_cast<WbBaseNode *>(it.next());
+    if (childNode)
+      childNode->updateSegmentationColor(color);
   }
 }
 
@@ -344,13 +404,13 @@ bool WbGroup::resetHiddenKinematicParameters() {
 void WbGroup::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map, int &counter) const {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {
-    WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
+    const WbGroup *const g = dynamic_cast<WbGroup *>(it.next());
     if (g)
       g->collectHiddenKinematicParameters(map, counter);
   }
 }
 
-void WbGroup::writeParameters(WbVrmlWriter &writer) const {
+void WbGroup::writeParameters(WbWriter &writer) const {
   if (!isProtoParameterNode()) {
     HiddenKinematicParametersMap map;
     int counter = 0;
@@ -422,24 +482,21 @@ void WbGroup::readHiddenKinematicParameter(WbField *field) {
 // Export //
 ////////////
 
-void WbGroup::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
-  assert(writer.isX3d());
+void WbGroup::exportBoundingObjectToW3d(WbWriter &writer) const {
+  assert(writer.isW3d());
 
-  writer << "<Group>";
+  if (isUseNode() && defNode())
+    writer << "<" << w3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << "<Group role='boundingObject'"
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
 
-  WbMFNode::Iterator it(*mChildren);
-  while (it.hasNext()) {
-    const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
+    WbMFNode::Iterator it(*mChildren);
+    while (it.hasNext()) {
+      const WbNode *const childNode = static_cast<WbNode *>(it.next());
+      childNode->write(writer);
+    }
 
-    if (childGeom)
-      writer << "<Shape>";
-
-    childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
+    writer << "</Group>";
   }
-
-  writer << "</Group>";
 }

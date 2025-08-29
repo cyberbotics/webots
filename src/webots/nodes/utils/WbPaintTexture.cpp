@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,8 +80,8 @@ void WbPaintTexture::cleanup() {
 }
 
 void WbPaintTexture::clearAllTextures() {
-  foreach (WbPaintTexture *const paintTexture, gPaintTextures)
-    paintTexture->clearTexture();
+  foreach (WbPaintTexture *const pt, gPaintTextures)
+    pt->clearTexture();
   gEvaporationTextures.clear();
 }
 
@@ -105,8 +105,8 @@ WbPaintTexture::WbPaintTexture(const WbShape *shape) : mShape(shape), mEvaporati
   mTexture = wr_drawable_texture_new();
 
   // add painting layer
-  WbAppearance *appearance = shape->appearance();
-  WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
+  const WbAppearance *appearance = shape->appearance();
+  const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
   if (appearance && appearance->texture() && appearance->texture()->wrenTexture())
     mTextureSize = computeTextureSize(appearance->texture()->width(), appearance->texture()->height());
   else if (pbrAppearance && pbrAppearance->baseColorMap() && pbrAppearance->baseColorMap()->wrenTexture())
@@ -156,7 +156,7 @@ WbPaintTexture::~WbPaintTexture() {
 }
 
 void WbPaintTexture::prePhysicsStep(double ms) {
-  WbWorldInfo *wi = WbWorld::instance()->worldInfo();
+  const WbWorldInfo *wi = WbWorld::instance()->worldInfo();
   double ie = wi->inkEvaporation();
 
   if (ie) {
@@ -212,7 +212,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
 
   WbBoundingSphere *bs = mShape->geometry()->boundingSphere();
   bs->recomputeIfNeeded();
-  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->radius());
+  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->scaledRadius());
   if (size < 1)
     size = 1;
 
@@ -306,7 +306,7 @@ WbVector2 WbPaintTexture::computeDefaultTextureSize() {
 
   // Compute size based on bounding sphere radius
   // If the sphere radius is greater than 10 (arbitrary value), then we use the max size
-  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->radius();
+  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->scaledRadius();
   const WbVector2 size =
     sphereRadius > 10.0 ? MAX_TEXTURE_SIZE : MIN_TEXTURE_SIZE + (MAX_TEXTURE_SIZE - MIN_TEXTURE_SIZE) * sphereRadius / 10.0;
 

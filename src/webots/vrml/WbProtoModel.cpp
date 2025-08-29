@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,28 +16,32 @@
 
 #include "WbField.hpp"
 #include "WbFieldModel.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
 #include "WbParser.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoTemplateEngine.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
 #include <QtCore/QTemporaryFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QUrl>
 
 #include <cassert>
 
-WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName,
+WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, const QString &url, const QString &prefix,
                            QStringList baseTypeList) {
   // nodes in proto parameters or proto body should not be instantiated
   assert(!WbNode::instantiateMode());
@@ -50,11 +54,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mInfo.clear();
   const QString &tokenizerInfo = tokenizer->info();
   if (!tokenizerInfo.isEmpty() && !tokenizerInfo.trimmed().isEmpty()) {
-    const QStringList info = tokenizerInfo.split("\n");  // .wrl # comments
-    for (int i = 0; i < info.size(); ++i) {
-      if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
-        mInfo += info.at(i) + "\n";
+    const QStringList headerInfo = tokenizerInfo.split("\n");  // # comments
+    for (int i = 0; i < headerInfo.size(); ++i) {
+      if (!headerInfo.at(i).startsWith("tags:") && !headerInfo.at(i).startsWith("license:") &&
+          !headerInfo.at(i).startsWith("license url:") && !headerInfo.at(i).startsWith("documentation url:") &&
+          !headerInfo.at(i).startsWith("template language:") && !headerInfo.at(i).startsWith("keywords:"))
+        mInfo += headerInfo.at(i) + "\n";
     }
     mInfo.chop(1);
   }
@@ -62,8 +67,15 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mLicense = tokenizer->license();
   mLicenseUrl = tokenizer->licenseUrl();
   mDocumentationUrl = tokenizer->documentationUrl();
-  mTemplateLanguage = tokenizer->templateLanguage();
   mIsDeterministic = !mTags.contains("nonDeterministic");
+  mHasIndirectFieldAccess = mTags.contains("indirectFieldAccess");
+
+  WbParser parser(tokenizer);
+  while (tokenizer->peekWord() == "EXTERNPROTO" || tokenizer->peekWord() == "IMPORTABLE")  // consume EXTERNPROTO declarations
+    parser.skipExternProto();
+
+  while (tokenizer->hasMoreTokens() && tokenizer->peekWord() != "PROTO")
+    tokenizer->nextToken();
   tokenizer->skipToken("PROTO");
   mName = tokenizer->nextWord();
   // check recursive definition
@@ -80,23 +92,15 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mRefCount = 0;
   mAncestorRefCount = 0;
 
-  // check that the proto name corresponds to the file name
-  // fileName is empty if the PROTO is inlined in a .wrl file
-  // in this case we don't need to check that
-  if (fileName.isEmpty()) {
-    mFileName = "";
-    mPath = "";
-  } else {
-    mFileName = fileName;
-    QFileInfo fi(fileName);
+  mPrefix = prefix;
+  mUrl = url;
 
-    // proto name and proto file name have to match
-    if (fi.baseName() != mName) {
-      tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
-      throw 0;
-    }
+  assert(mUrl.endsWith(".proto", Qt::CaseInsensitive));      // mUrl needs to be the full reference, including file name
+  assert(WbUrl::isWeb(mUrl) || QDir::isAbsolutePath(mUrl));  // by this point, all urls must be resolved
 
-    mPath = fi.absolutePath() + "/";
+  if (!mUrl.endsWith(mName + ".proto", Qt::CaseInsensitive)) {
+    tokenizer->reportFileError(tr("'%1' PROTO identifier does not match filename").arg(mName));
+    throw 0;
   }
 
   // start proto parameters list
@@ -134,7 +138,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   const QString &open = WbProtoTemplateEngine::openingToken();
   const QString &close = WbProtoTemplateEngine::closingToken();
 
-  QFile file(fileName);
+  QFile file(diskPath());
   if (file.open(QIODevice::ReadOnly)) {
     for (int i = 0; i < contentLine; i++)
       file.readLine();
@@ -165,9 +169,8 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
           insideTemplateStatement = false;
         else if (c == '"' && pc != '\\')
           insideDoubleQuotes = !insideDoubleQuotes;
-        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes && mTemplateLanguage == "lua")
+        else if (!insideTemplateStatement && c == '#' && !insideDoubleQuotes)
           // ignore VRML comments
-          // but '#' is the lua length operator and has to be kept if found inside a template statement
           break;
         lineWithoutComments.append(c);
         pc = c;
@@ -185,7 +188,11 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     file.close();
   }
 
-  // read the remainings tokens in order to
+  // inject the prefix prior to tokenizing the content
+  if (!mPrefix.isEmpty() && mPrefix != "webots://")
+    mContent.replace(QString("webots://").toUtf8(), mPrefix.toUtf8());
+
+  // read the remaining tokens in order to
   // - determine if it's a template
   // - check which parameter need to regenerate the template instance
   mTemplate = false;
@@ -201,16 +208,23 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     previousToken = token;
     token = tokenizer->nextToken();
 
+    if (mHasIndirectFieldAccess) {
+      foreach (WbFieldModel *model, mFieldModels)
+        model->setTemplateRegenerator(true);
+    }
+
     if (token->isTemplateStatement()) {
       mTemplate = true;
 
-      foreach (WbFieldModel *model, mFieldModels) {
-        // condition explanation: if (token contains modelName and not a Lua identifier containing modelName such as
-        // "my_awesome_modelName")
-        if (token->word().contains(
-              QRegExp(QString("(^|[^a-zA-Z0-9_])fields\\.%1($|[^a-zA-Z0-9_])").arg(QRegExp::escape(model->name()))))) {
-          // qDebug() << "TemplateRegenerator" << mName << model->name();
-          model->setTemplateRegenerator(true);
+      if (!mHasIndirectFieldAccess) {  // If the proto has indirect field access, we've already set the fields as template
+                                       // regenerators
+        foreach (WbFieldModel *model, mFieldModels) {
+          // condition explanation: if (token contains modelName and not an identifier containing modelName such as
+          // "my_awesome_modelName") or (token contains fields and not an identifier containing fields such as "my_fields")
+          if (token->word().contains(
+                QRegularExpression(QString("(^|\\W)fields\\.%1($|\\W)").arg(QRegularExpression::escape(model->name()))))) {
+            model->setTemplateRegenerator(true);
+          }
         }
       }
     } else if (readBaseType) {
@@ -228,11 +242,10 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       readBaseType = false;
 
       if (mDerived) {
-        QString protoInfo, baseNodeType;
         bool error = false;
         try {
           baseTypeList.append(mName);
-          WbProtoModel *baseProtoModel = WbProtoList::current()->findModel(mBaseType, worldPath, baseTypeList);
+          WbProtoModel *baseProtoModel = WbProtoManager::instance()->findModel(mBaseType, worldPath, url, baseTypeList);
           mAncestorProtoModel = baseProtoModel;
           if (baseProtoModel) {
             mAncestorProtoName = mBaseType;
@@ -240,9 +253,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             QStringList derivedParameterNames = parameterNames();
             QStringList baseParameterNames = baseProtoModel->parameterNames();
             baseTypeSlotType = baseProtoModel->slotType();
-            foreach (QString name, derivedParameterNames) {
-              if (baseParameterNames.contains(name))
-                sharedParameterNames.append(name);
+            foreach (const QString &derivedName, derivedParameterNames) {
+              if (baseParameterNames.contains(derivedName))
+                sharedParameterNames.append(derivedName);
             }
           } else
             error = true;
@@ -259,6 +272,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       }
     } else if (sharedParameterNames.contains(token->word()) && !previousRedirectedFieldName.isEmpty()) {
       // check that derived parameter is only redirected to corresponding base parameter
+      // cppcheck-suppress variableScope
       QString parameterName = token->word();
       if (previousRedirectedFieldName != token->word()) {
         tokenizer->reportError(
@@ -267,26 +281,29 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
         throw 0;
       }
     } else if (token->isString()) {
-      // check which parameter need to regenerate the template instance from inside a string
-      foreach (WbFieldModel *model, mFieldModels) {
-        // regex test cases:
-        // "You know nothing, John Snow."  => false
-        // "%{=fields.model->name()}%"  => false
-        // "%{= fields.model->name().value.x }% %{= fields.model->name().value.y }%"  => true
-        // "abc %{= fields.model->name().value.y }% def"  => true
-        // "%{= 17 % fields.model->name().value.y * 88 }%"  => true
-        // "fields.model->name().value.y"  => false
-        // "%{}% fields.model->name().value.y %{}%"  => false
-        // "%{ a = \"fields.model->name().value.y\" }%"  => false
-        // "%{= \"fields.model->name().value.y\" }%"  => false
-        // "%{= fields.model->name().value.y }%"  => true
-        if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
-                                                        .arg(open)
-                                                        .arg(close)
-                                                        .arg(QRegularExpression::escape(model->name()))
-                                                        .arg(close)
-                                                        .arg(close))))
-          model->setTemplateRegenerator(true);
+      if (!mHasIndirectFieldAccess) {  // If the proto has indirect field access, we've already set the fields as template
+                                       // regenerators
+        // check which parameter need to regenerate the template instance from inside a string
+        foreach (WbFieldModel *model, mFieldModels) {
+          // regex test cases:
+          // "You know nothing, John Snow."  => false
+          // "%<=fields.model->name()>%"  => true
+          // "%<= fields.model->name().value.x >% %<= fields.model->name().value.y >%"  => true
+          // "abc %<= fields.model->name().value.y >% def"  => true
+          // "%<= 17 % fields.model->name().value.y * 88 >%"  => true
+          // "fields.model->name().value.y"  => false
+          // "%<>% fields.model->name().value.y %<>%"  => false
+          // "%< a = \"fields.model->name().value.y\" >%"  => false
+          // "%<= \"fields.model->name().value.y\" >%"  => false
+          // "%<= fields.model->name().value.y >%"  => true
+          if (token->word().contains(QRegularExpression(QString("%1(?:(?!%2|\").)*fields\\.%3(?:(?!%4|\").)*%5")
+                                                          .arg(open)
+                                                          .arg(close)
+                                                          .arg(QRegularExpression::escape(model->name()))
+                                                          .arg(close)
+                                                          .arg(close))))
+            model->setTemplateRegenerator(true);
+        }
       }
     }
 
@@ -324,7 +341,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
 }
 
 WbProtoModel::~WbProtoModel() {
-  foreach (WbFieldModel *model, mFieldModels)
+  foreach (const WbFieldModel *model, mFieldModels)
     model->unref();
   mFieldModels.clear();
   mDeterministicContentMap.clear();
@@ -341,24 +358,21 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
 
   int rootUniqueId = -1;
   QString content = mContent;
-  QString key;
   if (mTemplate) {
+    QString key;
     if (mIsDeterministic) {
-      foreach (WbField *parameter, parameters) {
+      foreach (const WbField *parameter, parameters) {
         if (parameter->isTemplateRegenerator()) {
           QString statement = WbProtoTemplateEngine::convertFieldValueToJavaScriptStatement(parameter);
-          if (mTemplateLanguage == "lua")
-            statement = WbProtoTemplateEngine::convertStatementFromJavaScriptToLua(statement);
           key += statement;
         }
       }
     }
-
     if (!mIsDeterministic || (!mDeterministicContentMap.contains(key) || mDeterministicContentMap.value(key).isEmpty())) {
       WbProtoTemplateEngine te(mContent);
       rootUniqueId = uniqueId >= 0 ? uniqueId : WbNode::getFreeUniqueId();
-      if (!te.generate(name() + ".proto", parameters, mFileName, worldPath, rootUniqueId, mTemplateLanguage)) {
-        tokenizer.setErrorPrefix(mFileName);
+      if (!te.generate(name() + ".proto", parameters, mUrl, worldPath, rootUniqueId)) {
+        tokenizer.setReferralFile(mUrl);
         tokenizer.reportFileError(tr("Template engine error: %1").arg(te.error()));
         return NULL;
       }
@@ -370,7 +384,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   } else
     mIsDeterministic = true;
 
-  tokenizer.setErrorPrefix(mFileName);
+  tokenizer.setReferralFile(mUrl);
   if (tokenizer.tokenizeString(content) > 0) {
     tokenizer.reportFileError(tr("Failed to load due to syntax error(s)"));
     return NULL;
@@ -412,6 +426,14 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
   return root;
 }
 
+QStringList WbProtoModel::parentProtoNames() const {
+  QStringList parents;
+  const WbProtoModel *parentProtoModel = this;
+  while ((parentProtoModel = parentProtoModel->ancestorProtoModel()))
+    parents << parentProtoModel->name();
+  return parents;
+}
+
 void WbProtoModel::ref(bool isFromProtoInstanceCreation) {
   mRefCount++;
   if (isFromProtoInstanceCreation)
@@ -443,12 +465,27 @@ WbFieldModel *WbProtoModel::findFieldModel(const QString &fieldName) const {
 }
 
 const QString WbProtoModel::projectPath() const {
-  if (!mPath.isEmpty()) {
-    QDir protoProjectDir(mPath);
-    while (protoProjectDir.dirName() != "protos" && protoProjectDir.cdUp()) {
+  QString protoPath = path();
+
+  if (!protoPath.isEmpty()) {
+    if (WbUrl::isWeb(protoPath))
+      protoPath.replace(QRegularExpression(WbUrl::remoteWebotsAssetRegex(false)), WbStandardPaths::webotsHomePath());
+#ifdef __APPLE__
+    if (WbFileUtil::isLocatedInInstallationDirectory(protoPath, true))
+      protoPath.insert(WbStandardPaths::webotsHomePath().length(), "Contents/");
+#endif
+
+    QDir protoProjectDir(protoPath);
+    while (protoProjectDir.dirName() != "protos") {
+      QString dir = protoProjectDir.path();
+      // cd up (we don't use QDir::cdUp() as it doesn't cd up if the upper folder doesn't exist which may happen here)
+      dir.chop(protoProjectDir.dirName().size());
+      assert(!dir.isEmpty());
+      protoProjectDir.setPath(dir);
       if (protoProjectDir.isRoot())
         return QString();
     }
+    // cppcheck-suppress ignoredReturnErrorCode
     protoProjectDir.cdUp();
     return protoProjectDir.absolutePath();
   }
@@ -457,16 +494,16 @@ const QString WbProtoModel::projectPath() const {
 
 QStringList WbProtoModel::parameterNames() const {
   QStringList names;
-  foreach (WbFieldModel *fieldModel, mFieldModels)
+  foreach (const WbFieldModel *fieldModel, mFieldModels)
     names.append(fieldModel->name());
   return names;
 }
 
 void WbProtoModel::setIsTemplate(bool value) {
   mTemplate = value;
-  if (mTemplate && mIsDeterministic) {  // if ancestor is nonDeterministic this proto can't be either
+  if (mTemplate && mIsDeterministic)
+    // if ancestor is nonDeterministic this proto can't be either
     mIsDeterministic = mAncestorProtoModel->isDeterministic();
-  }
 }
 
 void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
@@ -478,7 +515,7 @@ void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbToken
     fields = node->fields();
 
   // search self
-  foreach (WbField *field, fields) {
+  foreach (const WbField *field, fields) {
     if (field->alias() == param->name()) {
       if (field->type() == param->type())
         ok = true;
@@ -519,37 +556,37 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   QStringList bookAndPage;
   if (isRobot) {
     // check for robot doc
-    const QString &name = mName.toLower();
+    const QString &nodeName = mName.toLower();
 
-    const QString page("guide/" + name + ".md");
+    const QString page("guide/" + nodeName + ".md");
     if (checkIfDocumentationPageExist(page)) {
-      bookAndPage << "guide" << name;
+      bookAndPage << "guide" << nodeName;
       return bookAndPage;
     }
   } else {
     // check for object doc
     const QDir &objectsDir(WbStandardPaths::projectsPath() + "objects");
     QDir dir(projectPath());
-    QString name = dir.dirName().replace('_', '-');
+    QString directoryName = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        const QString page("guide/object-" + name + ".md");
+        const QString page("guide/object-" + directoryName + ".md");
         if (checkIfDocumentationPageExist(page)) {
           bookAndPage << "guide"
-                      << "object-" + name;
+                      << "object-" + directoryName;
           return bookAndPage;
         }
         break;
       }
-      name = dir.dirName().replace('_', '-');
+      directoryName = dir.dirName().replace('_', '-');
       if (!dir.cdUp())
         break;
     }
   }
   if (!skipProtoTag) {
-    const QString &documentationUrl = mDocumentationUrl;
-    if (!documentationUrl.isEmpty()) {
-      const QStringList &splittedPath = documentationUrl.split("doc/");
+    const QString &rawDocumentationUrl = mDocumentationUrl;
+    if (!rawDocumentationUrl.isEmpty()) {
+      const QStringList &splittedPath = rawDocumentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
         const QString page(file + ".md");
@@ -584,4 +621,18 @@ bool WbProtoModel::checkIfDocumentationPageExist(const QString &page) const {
   file.close();
 
   return exist;
+}
+
+const QString WbProtoModel::diskPath() const {
+  if (WbUrl::isWeb(mUrl))
+    return WbNetwork::instance()->get(mUrl);
+
+  return mUrl;
+}
+
+const QString WbProtoModel::path() const {
+  if (WbUrl::isWeb(mUrl))
+    return QUrl(mUrl).adjusted(QUrl::RemoveFilename).toString();
+
+  return QFileInfo(mUrl).absolutePath() + "/";
 }

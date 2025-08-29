@@ -10,13 +10,7 @@
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
   double value;
-  double initValue;
   double newPosition[3] = {-0.03, 0.0, 0.0};
-
-  if (ts_webots_major_version() == 7)
-    initValue = NAN;
-  else
-    initValue = -1.0;
 
   WbNodeRef robotNode = wb_supervisor_node_get_self();
   WbFieldRef translationField = wb_supervisor_node_get_field(robotNode, "translation");
@@ -28,20 +22,19 @@ int main(int argc, char **argv) {
 
   // test: get the value of a sensor which has not been enabled yet
   value = wb_distance_sensor_get_value(ds_generic);
-  ts_assert_double_equal(value, initValue,
-                         "The distance sensor in generic mode doesn't return NAN when it has not been enabled yet.");
+  ts_assert_double_equal(value, NAN,
+                         "The distance sensor in generic mode doesn't return NAN when it has not been enabled yet. %lf != %lf",
+                         NAN, value);
 
   value = wb_distance_sensor_get_value(ds_sonar);
-  ts_assert_double_equal(value, initValue,
-                         "The distance sensor in sonar mode doesn't return NAN when it has not been enabled yet.");
+  ts_assert_double_equal(value, NAN, "The distance sensor in sonar mode doesn't return NAN when it has not been enabled yet.");
 
   value = wb_distance_sensor_get_value(ds_infra_red);
-  ts_assert_double_equal(value, initValue,
+  ts_assert_double_equal(value, NAN,
                          "The distance sensor in infra-red mode doesn't return NAN when it has not been enabled yet.");
 
   value = wb_distance_sensor_get_value(ds_laser);
-  ts_assert_double_equal(value, initValue,
-                         "The distance sensor in laser mode doesn't return NAN when it has not been enabled yet.");
+  ts_assert_double_equal(value, NAN, "The distance sensor in laser mode doesn't return NAN when it has not been enabled yet.");
 
   wb_distance_sensor_enable(ds_generic, 3 * TIME_STEP);
   wb_distance_sensor_enable(ds_sonar, TIME_STEP);

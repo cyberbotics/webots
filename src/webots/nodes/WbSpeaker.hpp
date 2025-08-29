@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@
 #include <QtCore/QMap>
 
 class WbSoundSource;
+class QDataStream;
 
 class WbSpeaker : public WbSolidDevice {
   Q_OBJECT
@@ -29,22 +30,49 @@ public:
   explicit WbSpeaker(WbTokenizer *tokenizer = NULL);
   WbSpeaker(const WbSpeaker &other);
   explicit WbSpeaker(const WbNode &other);
-  virtual ~WbSpeaker();
+  virtual ~WbSpeaker() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SPEAKER; }
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
   void postPhysicsStep() override;
 
 private:
+  // private data types
+
+  // Data from wb_speaker_play_sound() API
+  class SoundPlayData {
+  public:
+    explicit SoundPlayData(QDataStream &);
+
+    const QString &file() const { return mFile; }
+    double volume() const { return mVolume; }
+    double pitch() const { return mPitch; }
+    double balance() const { return mBalance; }
+    bool loop() const { return mLoop; }
+    short side() const { return mSide; }
+    int rawLength() const { return mRawLength; }
+    QByteArray &rawData() { return mRawData; }
+
+  private:
+    QString mFile;
+    double mVolume;
+    double mPitch;
+    double mBalance;
+    bool mLoop;
+    short mSide;
+    int mRawLength;
+    QByteArray mRawData;
+  };
+
   // private functions
   WbSpeaker &operator=(const WbSpeaker &);  // non copyable
   WbNode *clone() const override { return new WbSpeaker(*this); }
   void init();
 
-  void playSound(const char *file, double volume, double pitch, double balance, bool loop, int side);
+  void playSound(SoundPlayData &playData);
   void playText(const char *text, double volume);
   void stop(const char *sound);
   void stopAll();
@@ -53,6 +81,7 @@ private:
 
   QMap<QString, WbSoundSource *> mSoundSourcesMap;
   QMap<QString, const WbSoundSource *> mPlayingSoundSourcesMap;
+  QMap<QString, QByteArray *> mStreamedSoundDataMap;
 
   QString mControllerDir;
   QString mEngine;

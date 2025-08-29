@@ -45,11 +45,11 @@ namespace webotsQtUtils {
 
   private slots:
     void updateButtons();
-    void up();
-    void down();
-    void add();
-    void remove();
-    void duplicate();
+    virtual void up();
+    virtual void down();
+    virtual void add();
+    virtual void remove();
+    virtual void duplicate();
   };
 }  // namespace webotsQtUtils
 

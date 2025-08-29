@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@
 
 WbWebotsUpdateManager *WbWebotsUpdateManager::cInstance = NULL;
 
-WbWebotsUpdateManager::WbWebotsUpdateManager() : mVersion(), mTargetVersionAvailable(false), mError() {
+WbWebotsUpdateManager::WbWebotsUpdateManager() : mTargetVersionAvailable(false) {
   sendRequest();
 }
 
@@ -60,12 +60,13 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
   if (!reply)
     return;
 
+  disconnect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished);
+
   if (reply->error()) {
     mError = tr("Cannot get the Webots current version due to: \"%1\"").arg(reply->errorString());
+    reply->deleteLater();
     return;
   }
-
-  disconnect(reply, &QNetworkReply::finished, this, &WbWebotsUpdateManager::downloadReplyFinished);
 
   bool success = false;
   QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
@@ -76,6 +77,8 @@ void WbWebotsUpdateManager::downloadReplyFinished() {
         success = mVersion.fromString(obj.value("tag_name").toString());
     }
   }
+
+  reply->deleteLater();
 
   if (!success) {
     mError = tr("Invalid answer from the GitHub REST API.");

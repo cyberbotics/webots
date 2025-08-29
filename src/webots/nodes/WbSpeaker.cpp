@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,20 @@
 
 #include "WbSpeaker.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbNodeUtilities.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSoundClip.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSoundSource.hpp"
+#include "WbStandardPaths.hpp"
 
 #include "../../controller/c/messages.h"
 
+#include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>
 
@@ -59,11 +62,15 @@ WbSpeaker::~WbSpeaker() {
   }
   mSoundSourcesMap.clear();
   mPlayingSoundSourcesMap.clear();
+
+  foreach (QByteArray *buffer, mStreamedSoundDataMap)
+    delete buffer;
+  mStreamedSoundDataMap.clear();
 }
 
 void WbSpeaker::postFinalize() {
   WbSolidDevice::postFinalize();
-  WbRobot *robot = const_cast<WbRobot *>(static_cast<const WbRobot *>(WbNodeUtilities::findTopNode(this)));
+  WbRobot *robot = WbNodeUtilities::findRobotAncestor(this);
   if (robot)
     mControllerDir = robot->controllerDir();
 }
@@ -77,21 +84,8 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
       int numberOfSound = 0;
       stream >> numberOfSound;
       for (int i = 0; i < numberOfSound; ++i) {
-        short size;
-        short side;
-        double volume;
-        double pitch;
-        double balance;
-        unsigned char loop;
-        stream >> size;
-        char soundFile[size];
-        stream.readRawData(soundFile, size);
-        stream >> volume;
-        stream >> pitch;
-        stream >> balance;
-        stream >> side;
-        stream >> loop;
-        playSound(soundFile, volume, pitch, balance, (bool)loop, (int)side);
+        SoundPlayData playData(stream);
+        playSound(playData);
       }
       return;
     }
@@ -143,7 +137,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSpeaker::writeAnswer(QDataStream &stream) {
+void WbSpeaker::writeAnswer(WbDataStream &stream) {
   foreach (const WbSoundSource *source, mPlayingSoundSourcesMap) {
     if (!source->isPlaying()) {
       if (mPlayingSoundSourcesMap.key(source) == TEXT_TO_SPEECH_KEY) {
@@ -177,12 +171,11 @@ void WbSpeaker::playText(const char *text, double volume) {
   WbSoundSource *source = mSoundSourcesMap.value(TEXT_TO_SPEECH_KEY, NULL);
   if (source) {
     source->stop();
-    // cd to the controller directory (because some tags in the text
-    // may refeer to file relatively to the controller)
+    // cd to the controller directory (because some tags in the text may refeer to file relatively to the controller)
     QDir initialDir = QDir::current();
     if (!QDir::setCurrent(mControllerDir))
       this->warn(tr("Cannot change directory to: '%1'").arg(mControllerDir));
-    WbSoundClip *soundClip = WbSoundEngine::soundFromText(text, mEngine, mLanguage);
+    const WbSoundClip *soundClip = WbSoundEngine::soundFromText(text, mEngine, mLanguage);
     QDir::setCurrent(initialDir.path());
     if (soundClip) {
       source->setSoundClip(soundClip);
@@ -193,53 +186,55 @@ void WbSpeaker::playText(const char *text, double volume) {
   }
 }
 
-void WbSpeaker::playSound(const char *file, double volume, double pitch, double balance, bool loop, int side) {
-  QString filename = QString(file);
-  QString key = filename;
-  if (side == -1)
+void WbSpeaker::playSound(SoundPlayData &playData) {
+  const QString filename(playData.file());
+  QString key(filename);
+  if (playData.side() == -1)
     key += "_left";
-  else if (side == 1)
+  else if (playData.side() == 1)
     key += "_right";
 
-  if (!mSoundSourcesMap.contains(key)) {  // this sound was never played
-    QString path = "";
-    if (QFile::exists(mControllerDir + filename))  // check if path is relative to the controller
-      path = mControllerDir;
-    else {  // check if path is relative to the PROTO (or any ancestor PROTO)
-      WbRobot *robot = const_cast<WbRobot *>(static_cast<const WbRobot *>(WbNodeUtilities::findTopNode(this)));
-      if (robot && robot->isProtoInstance()) {
-        WbProtoModel *protoModel = robot->proto();
-        do {
-          if (!protoModel->path().isEmpty()) {
-            path = protoModel->path();
-            if (QFile::exists(path + filename))
-              break;
-          }
-          protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
-        } while (protoModel);
-      }
-    }
+  // Controller streamed sound data available ?
+  if (playData.rawLength() && !mStreamedSoundDataMap.contains(filename))
+    mStreamedSoundDataMap[filename] = new QByteArray(playData.rawData());
+  QByteArray *cachedSoundData = NULL;
+  if (mStreamedSoundDataMap.contains(key))
+    cachedSoundData = mStreamedSoundDataMap[key];
 
-    if (!QFile::exists(path + filename)) {  // sound file not found relatively to the PROTOs or controller
-      if (!QFile::exists(filename)) {       // check if path is absolute
-        this->warn(tr("Sound file '%1' not found. The sound file should be defined relatively to the controller, the PROTO or "
-                      "absolutely.\n")
-                     .arg(filename));
-        return;
-      }
-      path = "";
-    }
+  if (!mSoundSourcesMap.contains(key)) {  // this sound was never played
+    QString path;
+    // check if sound data was streamed from controller
+    if (cachedSoundData)
+      path = filename;
+    // check if the path is absolute
+    if (path.isEmpty() && QDir::isAbsolutePath(filename) && QFile::exists(filename))
+      path = filename;
+    // check if the path is relative to the controller
+    if (path.isEmpty() && QFile::exists(mControllerDir + filename))
+      path = mControllerDir + filename;
+    // check default location for vehicle sounds
+    if (path.isEmpty() && QFile::exists(WbStandardPaths::vehicleLibraryPath() + filename))
+      path = WbStandardPaths::vehicleLibraryPath() + filename;
+    if (path.isEmpty())
+      this->warn(
+        tr("Sound file '%1' not found. The sound file should be defined relatively to the controller, or absolutely.\n")
+          .arg(filename));
+
     WbSoundSource *source = WbSoundEngine::createSource();
     updateSoundSource(source);
-    // cd to the path directory if required
-    QDir initialDir = QDir::current();
-    if (!path.isEmpty()) {
-      if (!QDir::setCurrent(path))
-        this->warn(tr("Cannot change directory to: '%1'").arg(path));
+    const QString extension = filename.mid(filename.lastIndexOf('.') + 1).toLower();
+
+    // Use controller streamed sound data if available.
+    QBuffer *device = NULL;
+    if (cachedSoundData) {
+      device = new QBuffer(cachedSoundData);
+      device->open(QBuffer::ReadOnly);
     }
-    WbSoundClip *soundClip = WbSoundEngine::sound(filename, NULL, balance, side);
-    if (!path.isEmpty())
-      QDir::setCurrent(initialDir.path());
+
+    const WbSoundClip *soundClip = WbSoundEngine::sound(path, extension, device, playData.balance(), playData.side());
+    delete device;
+    device = NULL;
+
     if (!soundClip) {
       this->warn(tr("Impossible to play '%1'. Make sure the file format is supported (8 or 16 bits, mono or stereo wave).\n")
                    .arg(filename));
@@ -255,9 +250,9 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
     mPlayingSoundSourcesMap[key] = source;
     if (!source->isPlaying())  // this sound was already played but is over
       source->play();
-    source->setLooping(loop);
-    source->setGain(volume);
-    source->setPitch(pitch);
+    source->setLooping(playData.loop());
+    source->setGain(playData.volume());
+    source->setPitch(playData.pitch());
     if (WbSimulationState::instance()->isPaused() || WbSimulationState::instance()->isStep())
       source->pause();
   }
@@ -297,4 +292,25 @@ void WbSpeaker::updateSoundSource(WbSoundSource *source) {
   source->setPosition(position());
   source->setVelocity(linearVelocity());
   source->setDirection(rotationMatrix() * WbVector3(0, 1, 0));
+}
+
+WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData() {
+  short size;
+  unsigned char loopByte;
+  stream >> size;
+  char soundFile[size];
+  stream.readRawData(soundFile, size);
+  mFile = QString(soundFile);
+
+  stream >> mVolume;
+  stream >> mPitch;
+  stream >> mBalance;
+  stream >> mSide;
+  stream >> loopByte;
+  mLoop = (bool)loopByte;
+  stream >> mRawLength;
+  if (mRawLength) {
+    mRawData.resize(mRawLength);
+    stream.readRawData(mRawData.data(), mRawLength);
+  }
 }

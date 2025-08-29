@@ -1,4 +1,5 @@
 % Description: MATLAB controller example for Webots
+function nao_matlab
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop and interact with the controller
@@ -6,7 +7,7 @@
 %keyboard;
 
 % control step
-TIME_STEP=40;
+TIME_STEP = 40;
 
 % Laplacian edge detection matrix
 conv_matrix = [

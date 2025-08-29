@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,15 +42,15 @@ public:
   explicit WbDistanceSensor(WbTokenizer *tokenizer = NULL);
   WbDistanceSensor(const WbDistanceSensor &other);
   explicit WbDistanceSensor(const WbNode &other);
-  virtual ~WbDistanceSensor();
+  virtual ~WbDistanceSensor() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_DISTANCE_SENSOR; }
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void createOdeObjects() override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
@@ -62,7 +62,6 @@ public:
   void rayCollisionCallback(WbGeometry *object, dGeomID rayGeom, const dContactGeom *);
 
 protected:
-  void propagateScale() override;
   void updateLineScale() override;
 
 private slots:
@@ -84,7 +83,7 @@ private:
   void computeValue();
   void applyLaserBeamToWren();
   void applyOptionalRenderingToWren();
-  void addConfigure(QDataStream &stream);
+  void addConfigure(WbDataStream &stream);
   void updateRaysSetupIfNeeded() override;
 
   // user accessible fields

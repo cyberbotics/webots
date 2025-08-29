@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,27 +22,34 @@
 namespace wren {
 
   Font::Font() : mFaceIsInitialized(false), mError(WR_FONT_ERROR_NONE), mFontSize(0) {
-    FT_Error error = FT_Init_FreeType(&mLibrary);
-    if (error)
+    FT_Error fontError = FT_Init_FreeType(&mLibrary);
+    if (fontError)
       mError = WR_FONT_ERROR_FREETYPE_LOADING;
+#ifdef _WIN32
+    mFileBuffer = NULL;
+#endif
   }
 
   Font::~Font() {
-    if (mFaceIsInitialized)
+    if (mFaceIsInitialized) {
       FT_Done_Face(mFace);
+#ifdef _WIN32
+      delete[] mFileBuffer;
+#endif
+    }
     FT_Done_FreeType(mLibrary);
   }
 
   unsigned char *Font::generateCharBuffer(unsigned long character, bool antiAliasing, int *width, int *rows,
                                           int *verticalOffset, int *horizontalOffset, int *transparencyFactor,
                                           int *horizontalAdvance, int *pitch) {
-    FT_Error error;
+    FT_Error fontError;
     if (antiAliasing)
-      error = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL);
+      fontError = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL);
     else
-      error = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO);
+      fontError = FT_Load_Char(mFace, character, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO);
 
-    if (error) {
+    if (fontError) {
       mError = WR_FONT_ERROR_CHARACTER_LOADING;
       return NULL;
     }
@@ -66,25 +73,56 @@ namespace wren {
     if (mFaceIsInitialized)
       FT_Done_Face(mFace);
 
-    FT_Error error = FT_New_Face(mLibrary, filename, 0, &mFace);
-    if (error == FT_Err_Unknown_File_Format)
-      mError = WR_FONT_ERROR_UNKNOWN_FILE_FORMAT;
-    else if (error)
+#ifdef _WIN32
+    // on Windows, we cannot call FT_New_Face directly as it doesn't support multi byte characters
+    // thus, we have to convert the multi byte file name into a wchar_t array to open it
+    // and load its contents into the memory before calling FT_Open_Face
+    const int l = strlen(filename) + 1;  // include the final '\0'
+    wchar_t *wfilename = new wchar_t[l];
+    MultiByteToWideChar(CP_UTF8, 0, filename, -1, wfilename, l);
+    FILE *fp = _wfopen(wfilename, L"rb");
+    delete[] wfilename;
+    if (fp == NULL) {
       mError = WR_FONT_ERROR_FONT_LOADING;
+      return;
+    }
+    fseek(fp, 0, SEEK_END);
+    const long size = ftell(fp);
+    rewind(fp);
+    delete[] mFileBuffer;
+    mFileBuffer = new unsigned char[size + 1];
+    fread(mFileBuffer, 1, size, fp);
+    mFileBuffer[size] = '\0';
+    fclose(fp);
+    FT_Open_Args args;
+    args.flags = FT_OPEN_MEMORY;
+    args.memory_base = mFileBuffer;
+    args.memory_size = size;
+    FT_Error fontError = FT_Open_Face(mLibrary, &args, 0, &mFace);
+#else
+    FT_Error fontError = FT_New_Face(mLibrary, filename, 0, &mFace);
+#endif
 
-    mFaceIsInitialized = true;
+    if (fontError == FT_Err_Unknown_File_Format)
+      mError = WR_FONT_ERROR_UNKNOWN_FILE_FORMAT;
+    else if (fontError)
+      mError = WR_FONT_ERROR_FONT_LOADING;
+    else
+      mFaceIsInitialized = true;
   }
 
   void Font::setFontSize(unsigned int size) {
     mFontSize = size;
 
     // Size is multiplied by 64 because FreeType measures font sizes in 1/64 of pixels
-    FT_Error error = FT_Set_Char_Size(mFace, mFontSize << 6, 0, 72, 0);
-    if (error)
+    FT_Error fontError = FT_Set_Char_Size(mFace, mFontSize << 6, 0, 72, 0);
+    if (fontError)
       mError = WR_FONT_ERROR_FONT_SIZE;
   }
 
-  unsigned int Font::verticalSpace() const { return mFace->size->metrics.height >> 6; }
+  unsigned int Font::verticalSpace() const {
+    return mFace->size->metrics.height >> 6;
+  }
 
   void Font::getBoundingBox(const char *text, int *width, int *height) {
     *height = 0;

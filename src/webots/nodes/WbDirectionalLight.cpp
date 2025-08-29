@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,16 +98,17 @@ void WbDirectionalLight::applyLightShadowsToWren() {
 }
 
 void WbDirectionalLight::applyLightDirectionToWren() {
-  float direction[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()),
-                       static_cast<float>(mDirection->z())};
-  wr_directional_light_set_direction(mWrenLight, direction);
+  float d[] = {static_cast<float>(mDirection->x()), static_cast<float>(mDirection->y()), static_cast<float>(mDirection->z())};
+  wr_directional_light_set_direction(mWrenLight, d);
 }
 
 const WbVector3 &WbDirectionalLight::direction() const {
   return mDirection->value();
 }
 
-void WbDirectionalLight::exportNodeFields(WbVrmlWriter &writer) const {
-  findField("direction", true)->write(writer);
-  WbLight::exportNodeFields(writer);
+QStringList WbDirectionalLight::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "direction" << WbLight::fieldsToSynchronizeWithW3d();
+
+  return fields;
 }

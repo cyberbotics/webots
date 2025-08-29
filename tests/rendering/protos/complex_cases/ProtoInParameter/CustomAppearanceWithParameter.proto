@@ -1,0 +1,12 @@
+#VRML_SIM R2025a utf8
+
+PROTO CustomAppearanceWithParameter [
+  field MFString url "../../../colors/red_texture.jpg"
+]
+{
+  PBRAppearance {
+    baseColorMap ImageTexture {
+      url IS url
+    }
+  }
+}

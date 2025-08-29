@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,9 +33,8 @@
 
 static WbView3D *gView3D = NULL;
 
-WbMultimediaStreamingServer::WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl,
-                                                         bool controllerEdit) :
-  WbStreamingServer(monitorActivity, disableTextStreams, ssl, controllerEdit),
+WbMultimediaStreamingServer::WbMultimediaStreamingServer() :
+  WbTcpServer(true),
   mImageWidth(-1),
   mImageHeight(-1),
   mImageUpdateTimeStep(50),
@@ -59,7 +58,7 @@ void WbMultimediaStreamingServer::setView3D(WbView3D *view3D) {
 }
 
 void WbMultimediaStreamingServer::start(int port) {
-  WbStreamingServer::start(port);
+  WbTcpServer::start(port);
   WbLog::info(
     tr("Webots multimedia streamer started: resolution %1x%2 on port %3").arg(mImageWidth).arg(mImageHeight).arg(port));
   mWriteTimer.setSingleShot(true);
@@ -67,9 +66,10 @@ void WbMultimediaStreamingServer::start(int port) {
   connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimeout);
 }
 
-void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) {
+void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host,
+                                                      QTcpSocket *socket) {
   if (requestedUrl != "mjpeg") {
-    WbStreamingServer::sendTcpRequestReply(requestedUrl, etag, socket);
+    WbTcpServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
     return;
   }
   socket->readAll();
@@ -99,7 +99,7 @@ int WbMultimediaStreamingServer::bytesToWrite() {
 }
 
 void WbMultimediaStreamingServer::removeTcpClient() {
-  QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
+  const QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
   if (client)
     mTcpClients.removeAll(client);
   if (mTcpClients.isEmpty())
@@ -153,7 +153,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
     return;
   }
   if (mSentImagesCount == 0) {
-    if (WbSimulationState::instance()->isPaused() && mFullResolutionOnPause != 2 && mLimiter->resolutionFactor() > 1) {
+    if (WbSimulationState::instance()->isPaused() && mLimiter->resolutionFactor() > 1) {
       // nothing sent since a while
       // send one image in full resolution
       mFullResolutionOnPause = 2;
@@ -201,11 +201,11 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     clients << client;
   else
     clients = mTcpClients;
-  foreach (QTcpSocket *client, clients) {
-    client->write(boundaryString);
-    client->write(mSceneImage);
-    client->write(QByteArray("\r\n"));
-    client->flush();
+  foreach (QTcpSocket *c, clients) {
+    c->write(boundaryString);
+    c->write(mSceneImage);
+    c->write(QByteArray("\r\n"));
+    c->flush();
   }
 }
 
@@ -278,7 +278,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         } else
           type = QEvent::MouseMove;
       }
-      QMouseEvent event(type, point, buttonPressed, buttonsPressed, keyboardModifiers);
+      QMouseEvent event(type, point, QCursor::pos(), buttonPressed, buttonsPressed, keyboardModifiers);
       if (gView3D) {
         const WbMatter *contextMenuNode = gView3D->remoteMouseEvent(&event);
         if (contextMenuNode)
@@ -387,33 +387,27 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
       viewpoint->setFollowType(mode.toInt());
       viewpoint->startFollowUp(solid, true);
     }
-  } else if (message.startsWith("x3d")) {
-    WbLog::error(tr("Streaming server received unsupported X3D message: '%1'. You should run Webots with the "
-                    "'--stream=\"mode=x3d\"' command line option.")
+  } else if (message.startsWith("w3d")) {
+    WbLog::error(tr("Streaming server received unsupported W3D message: '%1'. You should run Webots with the "
+                    "'--stream=\"mode=w3d\"' command line option.")
                    .arg(message));
     return;
   } else
-    WbStreamingServer::processTextMessage(message);
+    WbTcpServer::processTextMessage(message);
 }
 
 void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
-
   const WbWorldInfo *currentWorldInfo = WbWorld::instance()->worldInfo();
   QJsonObject infoObject;
   infoObject.insert("window", currentWorldInfo->window());
   infoObject.insert("title", currentWorldInfo->title());
   const QJsonDocument infoDocument(infoObject);
   client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
+  WbTcpServer::sendWorldToClient(client);
 
-  WbStreamingServer::sendWorldToClient(client);
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots)
+    WbTcpServer::sendRobotWindowInformation(client, robot);
+
+  client->sendTextMessage("scene load completed");
 }

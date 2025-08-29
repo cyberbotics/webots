@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,15 +28,15 @@ public:
   explicit WbMicrophone(WbTokenizer *tokenizer = NULL);
   WbMicrophone(const WbMicrophone &other);
   explicit WbMicrophone(const WbNode &other);
-  virtual ~WbMicrophone();
+  virtual ~WbMicrophone() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MICROPHONE; }
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &stream) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &stream) override;
 
   // field accessors
   double aperture() const { return mAperture->value(); }

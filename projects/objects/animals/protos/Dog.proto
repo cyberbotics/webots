@@ -1,0 +1,152 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/animals/protos/Dog.proto
+# keywords: animal/pet
+# A static dog.
+# template language: javascript
+
+PROTO Dog [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1      # Defines the global scaling factor.
+  field SFString   name        "dog"
+  field SFColor    color        1 1 1  # Defines the color of the dog.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "dog"
+    children [
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/dog/textures/dog_basecolor.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/dog/meshes/dog.obj"
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF BODY Pose {
+          translation %<= scale * 0.036 >% 0 %<= scale * 0.387 >%
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height %<= scale * 0.37 >%
+              radius %<= scale * 0.133 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF BR_LEG Pose {
+          translation %<= scale * -0.23 >% %<= scale * -0.075 >% %<= scale * 0.15 >%
+          children [
+            DEF LEG Cylinder {
+              height %<= scale * 0.3 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FL_LEG Pose {
+          translation %<= scale * 0.23 >% %<= scale * 0.08 >% %<= scale * 0.15 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.29 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FR_LEG Pose {
+          translation %<= scale * 0.23 >% %<= scale * -0.08 >% %<= scale * 0.15 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.29 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF BL_LEG Pose {
+          translation %<= scale * -0.23 >% %<= scale * 0.075 >% %<= scale * 0.15 >%
+          children [
+            USE LEG
+          ]
+        }
+        DEF TAIL Pose {
+          translation %<= scale * -0.398873 >% 0 %<= scale * 0.43 >%
+          rotation 0 1 0 1.36607
+          children [
+            Capsule {
+              height %<= scale * 0.23 >%
+              radius %<= scale * 0.027 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF NECK Pose {
+          translation %<= scale * 0.32768 >% 0 %<= scale * 0.5667 >%
+          rotation 0 1 0 0.523599
+          children [
+            Capsule {
+              height %<= scale * 0.12 >%
+              radius %<= scale * 0.09 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF MUZZLE Pose {
+          translation %<= scale * 0.46 >% 0 %<= scale * 0.61 >%
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height %<= scale * 0.04 >%
+              radius %<= scale * 0.055 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF EAR_LEFT Pose {
+          translation %<= scale * 0.315 >% %<= scale * 0.100341 >% %<= scale * 0.603 >%
+          rotation -0.7040620978698309 0.7040630978699699 0.09269151288480479 -0.3697053071795864
+          children [
+            Box {
+              size %<= scale * 0.1>% %<= scale * 0.05 >% %<= scale * 0.14 >%
+            }
+          ]
+        }
+        DEF EAR_RIGHT Pose {
+          translation %<= scale * 0.315 >% %<= scale * -0.100341 >% %<= scale * 0.603 >%
+          rotation 0.7040620485144065 0.7040631463844521 0.09269151927184703 -0.3697053071795864
+          children [
+            Box {
+              size %<= scale * 0.1>% %<= scale * 0.05 >% %<= scale * 0.14 >%
+            }
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.937 0.921 0.862
+    ]
+  }
+}

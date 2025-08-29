@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 class QVBoxLayout;
 class QComboBox;
 class QLabel;
-class WbTransform;
+class WbPose;
 
 class WbPositionViewer : public QWidget {
   Q_OBJECT
@@ -33,7 +33,7 @@ public:
   explicit WbPositionViewer(QWidget *parent = NULL);
   virtual ~WbPositionViewer();
 
-  void show(WbTransform *transform);
+  void show(WbPose *pose);
 
   void stopUpdating();
   void setSelected(bool selected);
@@ -47,7 +47,7 @@ public slots:
 private:
   void updateRelativeToComboBox();
 
-  WbTransform *mTransform;
+  WbPose *mPose;
   bool mIsSelected;
 
   // relative to boxes
@@ -59,6 +59,8 @@ private:
   // Labels
   QVector<QLabel *> mPositionLabels;
   QVector<QLabel *> mRotationLabels;
+  QVector<QLabel *> mScaleLabels;
+  QLabel *mScaleTitleLabel;
 
 private slots:
   void updateRelativeTo(int index);

@@ -15,7 +15,7 @@ TouchSensor {
 A [TouchSensor](#touchsensor) node is used to model a bumper or a force sensor.
 The [TouchSensor](#touchsensor) comes in three different types.
 The "bumper" type simply detects collisions and returns a boolean status.
-The "force" type measures the force exerted on the sensor's body on one axis (z-axis).
+The "force" type measures the force exerted on the sensor's body on one axis (x-axis).
 The "force-3d" type measures the 3d force vector exerted by external object on the sensor's body.
 
 Examples of using the [TouchSensor](#touchsensor) are provided by the "hoap2\_sumo.wbt" and "hoap2\_walk.wbt" worlds (located in the "projects/robots/hoap2/worlds" directory of Webots) and by the "force\_sensor.wbt" and "bumper.wbt" worlds (located in the "projects/samples/devices/worlds" directory of Webots).
@@ -42,11 +42,11 @@ The [Physics](physics.md) node of a "bumper" sensor is not required.
 
 #### "force" Sensors
 
-A "force" [TouchSensor](#touchsensor) computes the (scalar) amount of force currently exerted on the sensor's body along the z-axis.
-The sensor uses this equation: *r=|f|*cos(α)*, where *r* is the return value, *f* is the cumulative force currently exerted on the sensor's body, and *α* is the angle between *f* and the sensor's z-axis.
-So the "force" sensor returns the projection of the force on its z-axis; a force perpendicular to the z-axis yields zero.
-For this reason, a "force" sensor must be oriented such that its positive z-axis points outside of the robot, in the direction where the force needs to me measured.
-For example if the [TouchSensor](#touchsensor) is used as foot sensor then the z-axis should be oriented downwards.
+A "force" [TouchSensor](#touchsensor) computes the (scalar) amount of force currently exerted on the sensor's body along the x-axis.
+The sensor uses this equation: *r=|f|*cos(α)*, where *r* is the return value, *f* is the cumulative force currently exerted on the sensor's body, and *α* is the angle between *f* and the sensor's x-axis.
+So the "force" sensor returns the projection of the force on its x-axis; a force perpendicular to the x-axis yields zero.
+For this reason, a "force" sensor must be oriented such that its positive x-axis points outside of the robot, in the direction where the force needs to be measured.
+For example, if the [TouchSensor](#touchsensor) is used as a foot sensor then the x-axis should be oriented downwards.
 The scalar force value must be read using the `wb_touch_sensor_get_value` function.
 
 #### "force-3d" Sensors
@@ -99,7 +99,15 @@ Therefore, it is necessary that the sensor's `boundingObject` extend below any o
 
 It is easy to check the orientation of the coordinate system of a [TouchSensor](#touchsensor): if you select the [TouchSensor](#touchsensor) object in the Scene Tree, then only the bounding object of this [TouchSensor](#touchsensor) should be shown in the 3D window.
 If you zoom in on this bounding object, you should see the red/green/blue depiction of the [TouchSensor](#touchsensor)'s coordinate system (the color coding is: *x/y/z* = red/green/blue).
-For a "force" sensor, the blue (*z*) component should point in the direction where the collision is expected.
+For a "force" sensor, the red (*x*) component should point in the direction where the collision is expected.
+
+%figure "Coordinate system of a TouchSensor."
+
+![touchsensor_force.png](images/touchsensor_force.png)
+
+%end
+
+
 
 ### Accuracy
 
@@ -203,19 +211,6 @@ lookup_table_array = wb_touch_sensor_get_lookup_table(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/values` | `topic` | [`geometry_msgs::WrenchStamped`](http://docs.ros.org/api/geometry_msgs/html/msg/WrenchStamped.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`Wrench`](http://docs.ros.org/api/geometry_msgs/html/msg/Wrench.html) wrench |
-| `/<device_name>/value` | `topic` | `webots_ros::BoolStamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`bool data` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -310,14 +305,6 @@ WB_TOUCH_SENSOR_BUMPER, WB_TOUCH_SENSOR_FORCE, WB_TOUCH_SENSOR_FORCE3D
 
 type = wb_touch_sensor_get_type(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
 %tab-end
 

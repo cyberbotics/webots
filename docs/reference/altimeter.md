@@ -2,20 +2,24 @@
 
 Derived from [Device](device.md) and [Solid](solid.md).
 
-```
-Altimeter {
-  SFFloat  accuracy         0             # [0, inf)
-  SFFloat  resolution       -1            # {-1, [0, inf)}
-}
-```
-
 ### Description
 
 The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can obtain information about its height above the global reference plane from the controller program.
 
 ### Field Summary
 
--  `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
+```
+Altimeter {
+  SFString name             "altimeter"   # used by wb_robot_get_device()
+  SFFloat  accuracy         0             # [0, inf)
+  SFFloat  resolution       -1            # {-1, [0, inf)}
+}
+```
+**Note**: The above description lists only the fields specific to the Altimeter node. The complete field list can be found in the [Altimeter.wrl]({{ url.github_tree }}/resources/nodes/Altimeter.wrl) definition file.
+
+- `name`: This field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` handle of this sensor. Its default value is "altimeter".
+
+- `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
 
 - `resolution`: This field allows the user to define the resolution of the sensor. The resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
@@ -100,16 +104,6 @@ wb_altimeter_disable(tag)
 period = wb_altimeter_get_sampling_period(tag)
 altitude = wb_altimeter_get_value(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | webots_ros::Float64stamped | [`Header`](https://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | | 
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
 %tab-end
 

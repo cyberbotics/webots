@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,21 +19,19 @@
 // Description: 3D rotation (VRML-like) angle/axis representation
 //
 
+#include "WbMatrix3.hpp"
 #include "WbPrecision.hpp"
+#include "WbQuaternion.hpp"
 #include "WbVector3.hpp"
 
-#include <QtCore/QString>
-#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
 
 #include <cassert>
-
-class WbQuaternion;
-class WbMatrix3;
 
 class WbRotation {
 public:
   // construct as identity rotation
-  WbRotation() : mX(0.0), mY(1.0), mZ(0.0), mAngle(0.0) {}
+  WbRotation() : mX(0.0), mY(0.0), mZ(1.0), mAngle(0.0) {}
 
   // construct from other types of rotations
   WbRotation(const WbRotation &r) : mX(r.x()), mY(r.y()), mZ(r.z()), mAngle(r.angle()) {}
@@ -58,8 +56,9 @@ public:
   void fromOpenGlMatrix(const double m[16]);
 
   // conversion into other types
-  WbQuaternion toQuaternion() const;
-  WbMatrix3 toMatrix3() const;
+  WbQuaternion toQuaternion() const { return WbQuaternion(axis(), mAngle); }
+  WbMatrix3 toMatrix3() const { return WbMatrix3(mX, mY, mZ, mAngle); }
+
   void toFloatArray(float *rotation) const;
 
   // set |axis| = 1.0
@@ -82,7 +81,7 @@ public:
   }
 
   // invalid only if |axis| == 0.0
-  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0); }
+  bool isValid() const { return !(mX == 0.0 && mY == 0.0 && mZ == 0.0) && !isnan(mAngle); }
 
   // identity
   bool isIdentity() const { return mAngle == 0.0; }
@@ -133,14 +132,13 @@ public:
   bool operator!=(const WbRotation &r) const { return mX != r.mX || mY != r.mY || mZ != r.mZ || mAngle != r.mAngle; }
 
   // text conversion
-  QString toString(WbPrecision::Level level) const {
+  QString toString(WbPrecision::Level level = WbPrecision::Level::DOUBLE_MAX) const {
     return QString("%1 %2 %3 %4")
       .arg(WbPrecision::doubleToString(mX, level))
       .arg(WbPrecision::doubleToString(mY, level))
       .arg(WbPrecision::doubleToString(mZ, level))
       .arg(WbPrecision::doubleToString(mAngle, level));
   }
-  friend QTextStream &operator<<(QTextStream &stream, const WbRotation &r);
 
 private:
   double mX, mY, mZ, mAngle;
@@ -149,8 +147,8 @@ private:
 inline void WbRotation::normalizeAxis() {
   if (!isValid()) {
     mX = 0.0;
-    mY = 1.0;
-    mZ = 0.0;
+    mY = 0.0;
+    mZ = 1.0;
     return;
   }
   double invl = 1.0 / sqrt(mX * mX + mY * mY + mZ * mZ);
@@ -167,11 +165,6 @@ inline void WbRotation::normalizeAngle() {
     mAngle += 2.0 * M_PI;
   while (mAngle > M_PI)
     mAngle -= 2.0 * M_PI;
-}
-
-inline QTextStream &operator<<(QTextStream &stream, const WbRotation &r) {
-  stream << r.toString(WbPrecision::DOUBLE_MAX);
-  return stream;
 }
 
 inline bool WbRotation::almostEquals(const WbRotation &r, double tolerance = WbPrecision::DOUBLE_EQUALITY_TOLERANCE) const {

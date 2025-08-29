@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset='UTF-8'>
-    <link type="text/css" rel="stylesheet" href='../../../../include/tabs.css' />
+    <link type="text/css" rel="stylesheet" href='webots://projects/samples/robotbenchmark/include/tabs.css' />
+    <link rel="icon" type="image/png" href="https://cyberbotics.com/assets/images/webots.png">
   </head>
   <body>
     <div id='infotabs' class='wrapper webotsTabs'>
@@ -124,8 +125,10 @@
           <p>Once the target object position in the camera image is detected, you have to move the camera motors so that the object remains at the center of the image.
           The sample controller uses the following functions to move the camera</p>
           <pre style='background:#FEE'>
-        panHeadMotor.setVelocity(-1.5 * dx / width)
-        tiltHeadMotor.setVelocity(-1.5 * dy / height))</pre>
+
+  panHeadMotor.setVelocity(-1.5 * dx / width)
+  tiltHeadMotor.setVelocity(-1.5 * dy / height))
+          </pre>
           <p> where <em>width</em> and <em>height</em> are the camera width and camera height, <em>dx</em> and <em>dy</em> are the distance in pixels between the detected object
           center and the camera center.
           <br>
@@ -135,7 +138,7 @@
         </div>
       </div>
     </div>
-    <script src="visual_tracking.js"></script>
+    <script type="module" src="visual_tracking.js"></script>
     <script>
       let height;
       function adaptPositionOfText() {

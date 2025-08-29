@@ -2,16 +2,6 @@
 
 Derived from [Device](device.md) and [Solid](solid.md).
 
-```
-Accelerometer {
-  MFVec3f lookupTable [ ]    # lookup table
-  SFBool  xAxis       TRUE   # {TRUE, FALSE}
-  SFBool  yAxis       TRUE   # {TRUE, FALSE}
-  SFBool  zAxis       TRUE   # {TRUE, FALSE}
-  SFFloat resolution  -1     # [0, inf)
-}
-```
-
 ### Description
 
 The [Accelerometer](#accelerometer) node can be used to model accelerometer devices such as those commonly found in mobile electronics, robots and game input devices.
@@ -20,6 +10,20 @@ It can be used for example to detect fall, the up/down direction, etc.
 The parent node of an [Accelerometer](#accelerometer) node should have a [Physics](physics.md) node defined in its `physics` field, so that correct measurements can be performed.
 
 ### Field Summary
+
+```
+Accelerometer {
+  SFString name       "accelerometer" # used by wb_robot_get_device()
+  MFVec3f lookupTable [ ]             # lookup table
+  SFBool  xAxis       TRUE            # {TRUE, FALSE}
+  SFBool  yAxis       TRUE            # {TRUE, FALSE}
+  SFBool  zAxis       TRUE            # {TRUE, FALSE}
+  SFFloat resolution  -1              # [0, inf)
+}
+```
+**Note**: The above description lists only the fields specific to the Accelerometer node. The complete field list can be found in the [Accelerometer.wrl]({{ url.github_tree }}/resources/nodes/Accelerometer.wrl) definition file.
+
+- `name`: This field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` handle of this sensor. Its default value is "accelerometer".
 
 - `lookupTable`: This field optionally specifies a lookup table that can be used for mapping the raw acceleration values [m/s²] to device specific output values.
 By default the lookup table is empty and therefore the raw acceleration values are returned (no mapping).
@@ -124,17 +128,6 @@ period = wb_accelerometer_get_sampling_period(tag)
 x_y_z_array = wb_accelerometer_get_values(tag)
 lookup_table_array = wb_accelerometer_get_lookup_table(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/values` | `topic` | [`sensor_msgs::Imu`](http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`geometry_msgs/Quaternion`](http://docs.ros.org/api/geometry_msgs/html/msg/Quaternion.html) `orientation`<br/>`float64[9] orientation_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `angular_velocity`<br/>`float64[9] angular_velocity_covariance`<br/>[`geometry_msgs/Vector3`](http://docs.ros.org/api/geometry_msgs/html/msg/Vector3.html) `linear_acceleration`<br/>`float64[9] linear_acceleration_covariance`<br/><br/>Note: only the linear_acceleration is filled in |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
 
 %tab-end
 

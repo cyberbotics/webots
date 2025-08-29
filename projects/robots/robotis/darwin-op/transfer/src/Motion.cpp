@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -199,7 +199,7 @@ void Motion::playStep() {
     for (poseIt = mPoses.begin(); poseIt != mPoses.end(); ++poseIt) {
       Pose *pose = *poseIt;
       if (pose->time <= mElapsed) {
-        MotorCommand *command = pose->commands[i];
+        const MotorCommand *command = pose->commands[i];
         if (command->defined) {
           beforeTime = pose->time;
           beforeValue = command->value;
@@ -213,7 +213,7 @@ void Motion::playStep() {
     for (poseRIt = mPoses.rbegin(); poseRIt != mPoses.rend(); ++poseRIt) {
       Pose *pose = *poseRIt;
       if (pose->time >= mElapsed) {
-        MotorCommand *command = pose->commands[i];
+        const MotorCommand *command = pose->commands[i];
         if (command->defined) {
           afterTime = pose->time;
           afterValue = command->value;

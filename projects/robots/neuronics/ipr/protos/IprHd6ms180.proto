@@ -1,24 +1,27 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/ipr
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6ms180.proto
+# keywords: robot/arm
 # The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 # It was developed by Neuronics.
+# More information on: [Ipr](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto)
 
 PROTO IprHd6ms180 [
-  field SFVec3f    translation      0 0.61 0 # Is `Transform.translation`.
-  field SFRotation rotation         0 1 0 0  # Is `Transform.rotation`.
-  field SFString   name             "IPR"    # Is `Solid.name`.
-  field SFString   controller       "void"   # Is `Robot.controller`.
-  field MFString   controllerArgs   []       # Is `Robot.controllerArgs`.
-  field SFString   customData       ""       # Is `Robot.customData`.
-  field SFBool     supervisor       FALSE    # Is `Robot.supervisor`.
-  field SFBool     synchronization  TRUE     # Is `Robot.synchronization`.
-  field MFNode     sensorsSlot      []       # Extends the robot with new nodes in the sensors slot.
-  field MFNode     tableSlot        []       # Extends the robot with new nodes in the table slot.
-  field MFNode     wristSlot        []       # Extends the robot with new nodes in the wrist slot.
-  field MFNode     leftGripperSlot  []       # Extends the robot with new nodes in the left gripper slot.
-  field MFNode     rightGripperSlot []       # Extends the robot with new nodes in the right gripper slot.
+  field SFVec3f    translation      0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0      # Is `Pose.rotation`.
+  field SFString   name             "IPR"        # Is `Solid.name`.
+  field SFString   controller       "<generic>"  # Is `Robot.controller`.
+  field MFString   controllerArgs   []           # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"   # Is `Robot.window`.
+  field SFString   customData       ""           # Is `Robot.customData`.
+  field SFBool     supervisor       FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization  TRUE         # Is `Robot.synchronization`.
+  field MFNode     sensorsSlot      []           # Extends the robot with new nodes in the sensors slot.
+  field MFNode     tableSlot        []           # Extends the robot with new nodes in the table slot.
+  field MFNode     wristSlot        []           # Extends the robot with new nodes in the wrist slot.
+  field MFNode     leftGripperSlot  []           # Extends the robot with new nodes in the left gripper slot.
+  field MFNode     rightGripperSlot []           # Extends the robot with new nodes in the right gripper slot.
 ]
 {
   Robot {
@@ -33,8 +36,8 @@ PROTO IprHd6ms180 [
       }
       DEF PEDESTAL Group {
         children [
-          Transform {
-            translation 0 0.007 0
+          Pose {
+            translation 0 0 0.007
             children [
               Shape {
                 appearance DEF ALUMINIUM PBRAppearance {
@@ -47,8 +50,8 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
-            translation 0 0.0405 0
+          Pose {
+            translation 0 0 0.0405
             children [
               Shape {
                 appearance USE ALUMINIUM
@@ -60,8 +63,8 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
-            translation 0 0.072 0
+          Pose {
+            translation 0 0 0.072
             children [
               Shape {
                 appearance USE ALUMINIUM
@@ -73,8 +76,8 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
-            translation 0 0.109 0
+          Pose {
+            translation 0 0 0.109
             children [
               Shape {
                 appearance USE ALUMINIUM
@@ -88,8 +91,8 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
-            translation 0 0.1525 0
+          Pose {
+            translation 0 0 0.1525
             children [
               Shape {
                 appearance USE ALUMINIUM
@@ -103,8 +106,9 @@ PROTO IprHd6ms180 [
         ]
       }
       DEF LOGO Transform {
-        translation 0.002 0.106 0
-        rotation 0 1 0 -1.57
+        translation 0 -0.002 0.106
+        rotation 0 0 1 -1.57
+        scale 1 1.04 1
         children [
           Shape {
             appearance PBRAppearance {
@@ -112,7 +116,7 @@ PROTO IprHd6ms180 [
               roughness 0.2
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/robots/neuronics/ipr/protos/textures/neuronics_logo.jpg"
+                  "textures/neuronics_logo.jpg"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -121,20 +125,20 @@ PROTO IprHd6ms180 [
             geometry IndexedFaceSet {
               coord Coordinate {
                 point [
-                  -0.038 0 0
-                  -0.033 0 -0.019
-                  -0.019 0 -0.033
-                  0 0 -0.038
-                  0.019 0 -0.033
-                  0.033 0 -0.019
-                  0.038 0 0
-                  0.038 0.013 0
-                  0.033 0.013 -0.019
-                  0.019 0.013 -0.033
-                  0 0.013 -0.038
-                  -0.019 0.013 -0.033
-                  -0.033 0.013 -0.019
-                  -0.038 0.013 0
+                  0.0 0.038 0.0
+                  0.019 0.033 0.0
+                  0.033 0.019 0.0
+                  0.038 0.0 0.0
+                  0.033 -0.019 0.0
+                  0.019 -0.033 0.0
+                  0.0 -0.038 0.0
+                  0.0 -0.038 0.013
+                  0.019 -0.033 0.013
+                  0.033 -0.019 0.013
+                  0.038 0.0 0.013
+                  0.033 0.019 0.013
+                  0.019 0.033 0.013
+                  0.0 0.038 0.013
                 ]
               }
               texCoord TextureCoordinate {
@@ -198,8 +202,8 @@ PROTO IprHd6ms180 [
       }
       DEF ROBOT HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0 1 0
-          anchor 0 0.2265 0
+          axis 0 0 1
+          anchor 0 0 0.2265
         }
         device [
           RotationalMotor {
@@ -214,11 +218,11 @@ PROTO IprHd6ms180 [
           }
         ]
         endPoint Solid {
-          translation 0 0.2265 0
-          rotation 0 1 0 0.124791
+          translation 0 0 0.2265
+          rotation 0 0 1 0.124791
           children [
             Transform {
-              translation 0 -0.0627 0.0275
+              translation -0.0275 0 -0.0627
               scale 1 1 0.99
               children [
                 DEF UPPER_BASE Shape {
@@ -226,75 +230,75 @@ PROTO IprHd6ms180 [
                   geometry IndexedFaceSet {
                     coord Coordinate {
                       point [
-                        -0.034 0 0.001
-                        -0.047 0.021 0.006
-                        0.047 0.017 0
-                        -0.047 0.017 0
-                        -0.038 0.017 0.014
-                        -0.028 0.014 0.019
-                        -0.02 0.013 0.022
-                        -0.012 0.012 0.024
-                        -0.002 0.011 0.025
-                        -0.007 0.011 0.025
-                        0.008 0.011 0.025
-                        0.003 0.011 0.025
-                        0.015 0.012 0.024
-                        0.021 0.013 0.022
-                        0.029 0.015 0.019
-                        0.037 0.017 0.014
-                        0.047 0.021 0.006
-                        0.034 0 0
-                        -0.034 0 0
-                        0.028 0 0.007
-                        0.033 0 0.001
-                        0.022 0 0.012
-                        0.015 0 0.015
-                        -0.022 0 0.012
-                        -0.029 0 0.007
-                        0 0 0.018
-                        -0.008 0 0.018
-                        0.008 0 0.018
-                        -0.016 0 0.015
-                        0.044 0.076 0.009
-                        0.045 0.075 0
-                        0.032 0.096 0.017
-                        0.032 0.097 0
-                        0.023 0.104 0
-                        -0.04 0.087 0.012
-                        -0.04 0.087 0
-                        -0.024 0.103 0.021
-                        0.023 0.103 0.021
-                        -0.033 0.096 0
-                        -0.033 0.096 0.017
-                        0.046 0.063 0.007
-                        0.046 0.063 0
-                        0 0.063 0
-                        -0.012 0.108 0.024
-                        -0.012 0.108 0
-                        0.012 0.108 0
-                        0 0.11 0.025
-                        0.012 0.108 0.024
-                        0 0.11 0
-                        -0.046 0.063 0.007
-                        -0.047 0.063 0
-                        -0.038 0.063 0.014
-                        0.038 0.063 0.014
-                        -0.028 0.063 0.019
-                        0.028 0.063 0.019
-                        -0.02 0.063 0.022
-                        0.02 0.063 0.022
-                        0.013 0.063 0.024
-                        -0.011 0.063 0.024
-                        -0.007 0.063 0.025
-                        0.009 0.063 0.025
-                        -0.002 0.063 0.025
-                        0.004 0.063 0.025
-                        -0.045 0.075 0.008
-                        0.04 0.087 0.012
-                        -0.023 0.104 0
-                        -0.045 0.075 0
-                        0.04 0.087 0
-                        0 0 0
+                        -0.001 0.034 0.0
+                        -0.006 0.047 0.021
+                        0.0 -0.047 0.017
+                        0.0 0.047 0.017
+                        -0.014 0.038 0.017
+                        -0.019 0.028 0.014
+                        -0.022 0.02 0.013
+                        -0.024 0.012 0.012
+                        -0.025 0.002 0.011
+                        -0.025 0.007 0.011
+                        -0.025 -0.008 0.011
+                        -0.025 -0.003 0.011
+                        -0.024 -0.015 0.012
+                        -0.022 -0.021 0.013
+                        -0.019 -0.029 0.015
+                        -0.014 -0.037 0.017
+                        -0.006 -0.047 0.021
+                        0.0 -0.034 0.0
+                        0.0 0.034 0.0
+                        -0.007 -0.028 0.0
+                        -0.001 -0.033 0.0
+                        -0.012 -0.022 0.0
+                        -0.015 -0.015 0.0
+                        -0.012 0.022 0.0
+                        -0.007 0.029 0.0
+                        -0.018 0.0 0.0
+                        -0.018 0.008 0.0
+                        -0.018 -0.008 0.0
+                        -0.015 0.016 0.0
+                        -0.009 -0.044 0.076
+                        0.0 -0.045 0.075
+                        -0.017 -0.032 0.096
+                        0.0 -0.032 0.097
+                        0.0 -0.023 0.104
+                        -0.012 0.04 0.087
+                        0.0 0.04 0.087
+                        -0.021 0.024 0.103
+                        -0.021 -0.023 0.103
+                        0.0 0.033 0.096
+                        -0.017 0.033 0.096
+                        -0.007 -0.046 0.063
+                        0.0 -0.046 0.063
+                        0.0 0.0 0.063
+                        -0.024 0.012 0.108
+                        0.0 0.012 0.108
+                        0.0 -0.012 0.108
+                        -0.025 0.0 0.11
+                        -0.024 -0.012 0.108
+                        0.0 0.0 0.11
+                        -0.007 0.046 0.063
+                        0.0 0.047 0.063
+                        -0.014 0.038 0.063
+                        -0.014 -0.038 0.063
+                        -0.019 0.028 0.063
+                        -0.019 -0.028 0.063
+                        -0.022 0.02 0.063
+                        -0.022 -0.02 0.063
+                        -0.024 -0.013 0.063
+                        -0.024 0.011 0.063
+                        -0.025 0.007 0.063
+                        -0.025 -0.009 0.063
+                        -0.025 0.002 0.063
+                        -0.025 -0.004 0.063
+                        -0.008 0.045 0.075
+                        -0.012 -0.04 0.087
+                        0.0 0.023 0.104
+                        0.0 0.045 0.075
+                        0.0 -0.04 0.087
+                        0.0 0.0 0.0
                       ]
                     }
                     ccw FALSE
@@ -359,25 +363,25 @@ PROTO IprHd6ms180 [
                 }
               ]
             }
-            Transform {
-              translation 0 -0.0627 -0.0275
-              rotation 0 1 0 3.1415
+            Pose {
+              translation 0.0275 0 -0.0627
+              rotation 0 0 1 3.1415
               children [
                 USE UPPER_BASE
               ]
             }
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance USE ALUMINIUM
                   geometry Box {
-                    size 0.054 0.054 0.117
+                    size 0.117 0.054 0.054
                   }
                 }
               ]
             }
-            Transform {
-              rotation 1 0 0 1.57
+            Pose {
+              rotation 0 -1 0 1.57
               children [
                 Shape {
                   appearance USE ALUMINIUM
@@ -390,9 +394,9 @@ PROTO IprHd6ms180 [
             }
             DEF BASE_PROTECTIONS Group {
               children [
-                Transform {
-                  translation 0 0 0.062
-                  rotation 1 0 0 1.57
+                Pose {
+                  translation -0.062 0 0
+                  rotation 0 -1 0 1.57
                   children [
                     DEF PROTECTION_PAD Shape {
                       appearance DEF BLACK PBRAppearance {
@@ -407,36 +411,36 @@ PROTO IprHd6ms180 [
                     }
                   ]
                 }
-                Transform {
-                  translation 0 0 -0.062
-                  rotation 1 0 0 -1.57
+                Pose {
+                  translation 0.062 0 0
+                  rotation 0 -1 0 -1.57
                   children [
                     USE PROTECTION_PAD
                   ]
                 }
-                Transform {
-                  translation 0 -0.0295 0.03
-                  rotation 1 0 0 -1.57
+                Pose {
+                  translation -0.03 0 -0.0295
+                  rotation 0 -1 0 -1.57
                   children [
                     Shape {
                       appearance USE BLACK
                       geometry IndexedFaceSet {
                         coord Coordinate {
                           point [
-                            -0.04 0 0.029
-                            0.04 0 0.029
-                            0.04 0 -0.004
-                            0.025 0 -0.033
-                            -0.025 0 -0.033
-                            -0.04 0 -0.004
-                            -0.04 0 0.029
-                            -0.04 0.06 0.029
-                            0.04 0.06 0.029
-                            0.04 0.06 -0.004
-                            0.025 0.06 -0.033
-                            -0.025 0.06 -0.033
-                            -0.04 0.06 -0.004
-                            -0.04 0.06 0.029
+                            -0.029 0.04 0.0
+                            -0.029 -0.04 0.0
+                            0.004 -0.04 0.0
+                            0.033 -0.025 0.0
+                            0.033 0.025 0.0
+                            0.004 0.04 0.0
+                            -0.029 0.04 0.0
+                            -0.029 0.04 0.06
+                            -0.029 -0.04 0.06
+                            0.004 -0.04 0.06
+                            0.033 -0.025 0.06
+                            0.033 0.025 0.06
+                            0.004 0.04 0.06
+                            -0.029 0.04 0.06
                           ]
                         }
                         coordIndex [
@@ -449,8 +453,8 @@ PROTO IprHd6ms180 [
                     }
                   ]
                 }
-                Transform {
-                  rotation 1 0 0 1.57
+                Pose {
+                  rotation 0 -1 0 1.57
                   children [
                     Shape {
                       appearance USE BLACK
@@ -465,7 +469,7 @@ PROTO IprHd6ms180 [
             }
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 0 1
+                axis -1 0 0
               }
               device [
                 RotationalMotor {
@@ -480,10 +484,10 @@ PROTO IprHd6ms180 [
                 }
               ]
               endPoint Solid {
-                rotation 0 0 1 0.597775
+                rotation -1 0 0 0.597775
                 children [
-                  Transform {
-                    translation 0 0.095 0
+                  Pose {
+                    translation 0 0 0.095
                     children [
                       Shape {
                         appearance USE ALUMINIUM
@@ -496,9 +500,9 @@ PROTO IprHd6ms180 [
                       }
                     ]
                   }
-                  DEF BIG_PLATE Transform {
-                    translation -0.001 0.07 0
-                    rotation 0 1 0 -1.57
+                  DEF BIG_PLATE Pose {
+                    translation 0 0.001 0.07
+                    rotation 0 0 1 -1.57
                     children [
                       Shape {
                         appearance DEF DARK_ALUMINIUM PBRAppearance {
@@ -508,36 +512,36 @@ PROTO IprHd6ms180 [
                         geometry IndexedFaceSet {
                           coord Coordinate {
                             point [
-                              -0.012 0 0.012
-                              -0.0085 0 0.0147
-                              -0.0044 0 0.0164
-                              0 0 0.017
-                              0.0044 0 0.0164
-                              0.0085 0 0.0147
-                              0.012 0 0.012
-                              0.0106 0 0.0106
-                              0.0075 0 0.013
-                              0.0039 0 0.0145
-                              0 0 0.015
-                              -0.0039 0 0.0145
-                              -0.0075 0 0.013
-                              -0.0106 0 0.0106
-                              -0.012 0 0.012
-                              -0.012 0.06 0.012
-                              -0.0085 0.06 0.0147
-                              -0.0044 0.06 0.0164
-                              0 0.06 0.017
-                              0.0044 0.06 0.0164
-                              0.0085 0.06 0.0147
-                              0.012 0.06 0.012
-                              0.0106 0.06 0.0106
-                              0.0075 0.06 0.013
-                              0.0039 0.06 0.0145
-                              0 0.06 0.015
-                              -0.0039 0.06 0.0145
-                              -0.0075 0.06 0.013
-                              -0.0106 0.06 0.0106
-                              -0.012 0.06 0.012
+                              -0.012 0.012 0.0
+                              -0.0147 0.0085 0.0
+                              -0.0164 0.0044 0.0
+                              -0.017 0.0 0.0
+                              -0.0164 -0.0044 0.0
+                              -0.0147 -0.0085 0.0
+                              -0.012 -0.012 0.0
+                              -0.0106 -0.0106 0.0
+                              -0.013 -0.0075 0.0
+                              -0.0145 -0.0039 0.0
+                              -0.015 0.0 0.0
+                              -0.0145 0.0039 0.0
+                              -0.013 0.0075 0.0
+                              -0.0106 0.0106 0.0
+                              -0.012 0.012 0.0
+                              -0.012 0.012 0.06
+                              -0.0147 0.0085 0.06
+                              -0.0164 0.0044 0.06
+                              -0.017 0.0 0.06
+                              -0.0164 -0.0044 0.06
+                              -0.0147 -0.0085 0.06
+                              -0.012 -0.012 0.06
+                              -0.0106 -0.0106 0.06
+                              -0.013 -0.0075 0.06
+                              -0.0145 -0.0039 0.06
+                              -0.015 0.0 0.06
+                              -0.0145 0.0039 0.06
+                              -0.013 0.0075 0.06
+                              -0.0106 0.0106 0.06
+                              -0.012 0.012 0.06
                             ]
                           }
                           coordIndex [
@@ -560,8 +564,8 @@ PROTO IprHd6ms180 [
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 0 1
-                      anchor 0 0.19 0
+                      axis -1 0 0
+                      anchor 0 0 0.19
                     }
                     device [
                       RotationalMotor {
@@ -576,13 +580,13 @@ PROTO IprHd6ms180 [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 0.19 0
-                      rotation 0 0 1 -2.2218
+                      translation 0 0 0.19
+                      rotation -1 0 0 -2.2218
                       children [
                         DEF OVIFORM_METAL Group {
                           children [
-                            Transform {
-                              rotation 1 0 0 1.57
+                            Pose {
+                              rotation 0 -1 0 1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -593,8 +597,8 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              rotation 0 -1 0 -1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -605,69 +609,69 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
-                              translation 0 0 0.037
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              translation -0.037 0 0
+                              rotation 0 -1 0 -1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
                                   geometry DEF OVIFORM_SIDE IndexedFaceSet {
                                     coord Coordinate {
                                       point [
-                                        0 0 -0.038
-                                        -0.0098 0 -0.0367
-                                        -0.019 0 -0.0329
-                                        -0.0269 0 -0.0269
-                                        -0.0329 0 -0.019
-                                        -0.0367 0 -0.0098
-                                        -0.038 0 0
-                                        -0.035 0 0.042
-                                        -0.0338 0 0.0511
-                                        -0.0303 0 0.0595
-                                        -0.0248 0 0.0668
-                                        -0.0175 0 0.0723
-                                        -0.0091 0 0.0758
-                                        0 0 0.077
-                                        0.0091 0 0.0758
-                                        0.0175 0 0.0723
-                                        0.0248 0 0.0668
-                                        0.0303 0 0.0595
-                                        0.0338 0 0.0511
-                                        0.035 0 0.042
-                                        0.038 0 0
-                                        0.0367 0 -0.0098
-                                        0.0329 0 -0.019
-                                        0.0269 0 -0.0269
-                                        0.019 0 -0.0329
-                                        0.0098 0 -0.0367
-                                        0 0 -0.038
-                                        0 0.01 -0.038
-                                        -0.0098 0.01 -0.0367
-                                        -0.019 0.01 -0.0329
-                                        -0.0269 0.01 -0.0269
-                                        -0.0329 0.01 -0.019
-                                        -0.0367 0.01 -0.0098
-                                        -0.038 0.01 0
-                                        -0.035 0.01 0.042
-                                        -0.0338 0.01 0.0511
-                                        -0.0303 0.01 0.0595
-                                        -0.0248 0.01 0.0668
-                                        -0.0175 0.01 0.0723
-                                        -0.0091 0.01 0.0758
-                                        0 0.01 0.077
-                                        0.0091 0.01 0.0758
-                                        0.0175 0.01 0.0723
-                                        0.0248 0.01 0.0668
-                                        0.0303 0.01 0.0595
-                                        0.0338 0.01 0.0511
-                                        0.035 0.01 0.042
-                                        0.038 0.01 0
-                                        0.0367 0.01 -0.0098
-                                        0.0329 0.01 -0.019
-                                        0.0269 0.01 -0.0269
-                                        0.019 0.01 -0.0329
-                                        0.0098 0.01 -0.0367
-                                        0 0.01 -0.038
+                                        0.038 0.0 0.0
+                                        0.0367 0.0098 0.0
+                                        0.0329 0.019 0.0
+                                        0.0269 0.0269 0.0
+                                        0.019 0.0329 0.0
+                                        0.0098 0.0367 0.0
+                                        0.0 0.038 0.0
+                                        -0.042 0.035 0.0
+                                        -0.0511 0.0338 0.0
+                                        -0.0595 0.0303 0.0
+                                        -0.0668 0.0248 0.0
+                                        -0.0723 0.0175 0.0
+                                        -0.0758 0.0091 0.0
+                                        -0.077 0.0 0.0
+                                        -0.0758 -0.0091 0.0
+                                        -0.0723 -0.0175 0.0
+                                        -0.0668 -0.0248 0.0
+                                        -0.0595 -0.0303 0.0
+                                        -0.0511 -0.0338 0.0
+                                        -0.042 -0.035 0.0
+                                        0.0 -0.038 0.0
+                                        0.0098 -0.0367 0.0
+                                        0.019 -0.0329 0.0
+                                        0.0269 -0.0269 0.0
+                                        0.0329 -0.019 0.0
+                                        0.0367 -0.0098 0.0
+                                        0.038 0.0 0.0
+                                        0.038 0.0 0.01
+                                        0.0367 0.0098 0.01
+                                        0.0329 0.019 0.01
+                                        0.0269 0.0269 0.01
+                                        0.019 0.0329 0.01
+                                        0.0098 0.0367 0.01
+                                        0.0 0.038 0.01
+                                        -0.042 0.035 0.01
+                                        -0.0511 0.0338 0.01
+                                        -0.0595 0.0303 0.01
+                                        -0.0668 0.0248 0.01
+                                        -0.0723 0.0175 0.01
+                                        -0.0758 0.0091 0.01
+                                        -0.077 0.0 0.01
+                                        -0.0758 -0.0091 0.01
+                                        -0.0723 -0.0175 0.01
+                                        -0.0668 -0.0248 0.01
+                                        -0.0595 -0.0303 0.01
+                                        -0.0511 -0.0338 0.01
+                                        -0.042 -0.035 0.01
+                                        0.0 -0.038 0.01
+                                        0.0098 -0.0367 0.01
+                                        0.019 -0.0329 0.01
+                                        0.0269 -0.0269 0.01
+                                        0.0329 -0.019 0.01
+                                        0.0367 -0.0098 0.01
+                                        0.038 0.0 0.01
                                       ]
                                     }
                                     coordIndex [
@@ -696,9 +700,9 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
-                              translation 0 0 -0.027
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              translation 0.027 0 0
+                              rotation 0 -1 0 -1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
@@ -706,43 +710,43 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
-                              translation 0 0 0.028
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              translation -0.028 0 0
+                              rotation 0 -1 0 -1.57
                               children [
                                 Shape {
                                   appearance USE ALUMINIUM
                                   geometry IndexedFaceSet {
                                     coord Coordinate {
                                       point [
-                                        -0.035 0 0.042
-                                        -0.0338 0 0.0511
-                                        -0.0303 0 0.0595
-                                        -0.0248 0 0.0668
-                                        -0.0175 0 0.0723
-                                        -0.0091 0 0.0758
-                                        0 0 0.077
-                                        0.0091 0 0.0758
-                                        0.0175 0 0.0723
-                                        0.0248 0 0.0668
-                                        0.0303 0 0.0595
-                                        0.0338 0 0.0511
-                                        0.035 0 0.042
-                                        -0.035 0 0.042
-                                        -0.035 0.056 0.042
-                                        -0.0338 0.056 0.0511
-                                        -0.0303 0.056 0.0595
-                                        -0.0248 0.056 0.0668
-                                        -0.0175 0.056 0.0723
-                                        -0.0091 0.056 0.0758
-                                        0 0.056 0.077
-                                        0.0091 0.056 0.0758
-                                        0.0175 0.056 0.0723
-                                        0.0248 0.056 0.0668
-                                        0.0303 0.056 0.0595
-                                        0.0338 0.056 0.0511
-                                        0.035 0.056 0.042
-                                        -0.035 0.056 0.042
+                                        -0.042 0.035 0.0
+                                        -0.0511 0.0338 0.0
+                                        -0.0595 0.0303 0.0
+                                        -0.0668 0.0248 0.0
+                                        -0.0723 0.0175 0.0
+                                        -0.0758 0.0091 0.0
+                                        -0.077 0.0 0.0
+                                        -0.0758 -0.0091 0.0
+                                        -0.0723 -0.0175 0.0
+                                        -0.0668 -0.0248 0.0
+                                        -0.0595 -0.0303 0.0
+                                        -0.0511 -0.0338 0.0
+                                        -0.042 -0.035 0.0
+                                        -0.042 0.035 0.0
+                                        -0.042 0.035 0.056
+                                        -0.0511 0.0338 0.056
+                                        -0.0595 0.0303 0.056
+                                        -0.0668 0.0248 0.056
+                                        -0.0723 0.0175 0.056
+                                        -0.0758 0.0091 0.056
+                                        -0.077 0.0 0.056
+                                        -0.0758 -0.0091 0.056
+                                        -0.0723 -0.0175 0.056
+                                        -0.0668 -0.0248 0.056
+                                        -0.0595 -0.0303 0.056
+                                        -0.0511 -0.0338 0.056
+                                        -0.042 -0.035 0.056
+                                        -0.042 0.035 0.056
                                       ]
                                     }
                                     coordIndex [
@@ -761,8 +765,8 @@ PROTO IprHd6ms180 [
                             }
                           ]
                         }
-                        Transform {
-                          translation 0 0.1 0
+                        Pose {
+                          translation 0 0 0.1
                           children [
                             Shape {
                               appearance USE ALUMINIUM
@@ -775,45 +779,45 @@ PROTO IprHd6ms180 [
                             }
                           ]
                         }
-                        DEF SMALL_PLATE Transform {
-                          translation -0.001 0.075 0
-                          rotation 0 1 0 -1.57
+                        DEF SMALL_PLATE Pose {
+                          translation 0 0.001 0.075
+                          rotation 0 0 1 -1.57
                           children [
                             Shape {
                               appearance USE DARK_ALUMINIUM
                               geometry IndexedFaceSet {
                                 coord Coordinate {
                                   point [
-                                    -0.012 0 0.012
-                                    -0.0085 0 0.0147
-                                    -0.0044 0 0.0164
-                                    0 0 0.017
-                                    0.0044 0 0.0164
-                                    0.0085 0 0.0147
-                                    0.012 0 0.012
-                                    0.0106 0 0.0106
-                                    0.0075 0 0.013
-                                    0.0039 0 0.0145
-                                    0 0 0.015
-                                    -0.0039 0 0.0145
-                                    -0.0075 0 0.013
-                                    -0.0106 0 0.0106
-                                    -0.012 0 0.012
-                                    -0.012 0.04 0.012
-                                    -0.0085 0.04 0.0147
-                                    -0.0044 0.04 0.0164
-                                    0 0.04 0.017
-                                    0.0044 0.04 0.0164
-                                    0.0085 0.04 0.0147
-                                    0.012 0.04 0.012
-                                    0.0106 0.04 0.0106
-                                    0.0075 0.04 0.013
-                                    0.0039 0.04 0.0145
-                                    0 0.04 0.015
-                                    -0.0039 0.04 0.0145
-                                    -0.0075 0.04 0.013
-                                    -0.0106 0.04 0.0106
-                                    -0.012 0.04 0.012
+                                    -0.012 0.012 0.0
+                                    -0.0147 0.0085 0.0
+                                    -0.0164 0.0044 0.0
+                                    -0.017 0.0 0.0
+                                    -0.0164 -0.0044 0.0
+                                    -0.0147 -0.0085 0.0
+                                    -0.012 -0.012 0.0
+                                    -0.0106 -0.0106 0.0
+                                    -0.013 -0.0075 0.0
+                                    -0.0145 -0.0039 0.0
+                                    -0.015 0.0 0.0
+                                    -0.0145 0.0039 0.0
+                                    -0.013 0.0075 0.0
+                                    -0.0106 0.0106 0.0
+                                    -0.012 0.012 0.0
+                                    -0.012 0.012 0.04
+                                    -0.0147 0.0085 0.04
+                                    -0.0164 0.0044 0.04
+                                    -0.017 0.0 0.04
+                                    -0.0164 -0.0044 0.04
+                                    -0.0147 -0.0085 0.04
+                                    -0.012 -0.012 0.04
+                                    -0.0106 -0.0106 0.04
+                                    -0.013 -0.0075 0.04
+                                    -0.0145 -0.0039 0.04
+                                    -0.015 0.0 0.04
+                                    -0.0145 0.0039 0.04
+                                    -0.013 0.0075 0.04
+                                    -0.0106 0.0106 0.04
+                                    -0.012 0.012 0.04
                                   ]
                                 }
                                 coordIndex [
@@ -836,61 +840,61 @@ PROTO IprHd6ms180 [
                         }
                         DEF OVIFORM_PROTECTIONS Group {
                           children [
-                            Transform {
-                              translation 0 0 0.057
-                              rotation 1 0 0 1.57
+                            Pose {
+                              translation -0.057 0 0
+                              rotation 0 -1 0 1.57
                               children [
                                 USE PROTECTION_PAD
                               ]
                             }
-                            Transform {
-                              translation 0 0 -0.057
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              translation 0.057 0 0
+                              rotation 0 -1 0 -1.57
                               children [
                                 USE PROTECTION_PAD
                               ]
                             }
-                            Transform {
-                              translation 0 0 0.03
-                              rotation 1 0 0 -1.57
+                            Pose {
+                              translation -0.03 0 0
+                              rotation 0 -1 0 -1.57
                               children [
                                 Shape {
                                   appearance USE BLACK
                                   geometry DEF OVIFORM_FULL IndexedFaceSet {
                                     coord Coordinate {
                                       point [
-                                        0 0 -0.032
-                                        -0.0083 0 -0.0309
-                                        -0.016 0 -0.0277
-                                        -0.0226 0 -0.0226
-                                        -0.0277 0 -0.016
-                                        -0.0309 0 -0.0083
-                                        -0.032 0 0
-                                        -0.029 0 0.042
-                                        0.029 0 0.042
-                                        0.032 0 0
-                                        0.0309 0 -0.0083
-                                        0.0277 0 -0.016
-                                        0.0226 0 -0.0226
-                                        0.016 0 -0.0277
-                                        0.0083 0 -0.0309
-                                        0 0 -0.032
-                                        0 0.06 -0.032
-                                        -0.0083 0.06 -0.0309
-                                        -0.016 0.06 -0.0277
-                                        -0.0226 0.06 -0.0226
-                                        -0.0277 0.06 -0.016
-                                        -0.0309 0.06 -0.0083
-                                        -0.032 0.06 0
-                                        -0.029 0.06 0.042
-                                        0.029 0.06 0.042
-                                        0.032 0.06 0
-                                        0.0309 0.06 -0.0083
-                                        0.0277 0.06 -0.016
-                                        0.0226 0.06 -0.0226
-                                        0.016 0.06 -0.0277
-                                        0.0083 0.06 -0.0309
-                                        0 0.06 -0.032
+                                        0.032 0.0 0.0
+                                        0.0309 0.0083 0.0
+                                        0.0277 0.016 0.0
+                                        0.0226 0.0226 0.0
+                                        0.016 0.0277 0.0
+                                        0.0083 0.0309 0.0
+                                        0.0 0.032 0.0
+                                        -0.042 0.029 0.0
+                                        -0.042 -0.029 0.0
+                                        0.0 -0.032 0.0
+                                        0.0083 -0.0309 0.0
+                                        0.016 -0.0277 0.0
+                                        0.0226 -0.0226 0.0
+                                        0.0277 -0.016 0.0
+                                        0.0309 -0.0083 0.0
+                                        0.032 0.0 0.0
+                                        0.032 0.0 0.06
+                                        0.0309 0.0083 0.06
+                                        0.0277 0.016 0.06
+                                        0.0226 0.0226 0.06
+                                        0.016 0.0277 0.06
+                                        0.0083 0.0309 0.06
+                                        0.0 0.032 0.06
+                                        -0.042 0.029 0.06
+                                        -0.042 -0.029 0.06
+                                        0.0 -0.032 0.06
+                                        0.0083 -0.0309 0.06
+                                        0.016 -0.0277 0.06
+                                        0.0226 -0.0226 0.06
+                                        0.0277 -0.016 0.06
+                                        0.0309 -0.0083 0.06
+                                        0.032 0.0 0.06
                                       ]
                                     }
                                     coordIndex [
@@ -915,8 +919,8 @@ PROTO IprHd6ms180 [
                         }
                         HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 0 1
-                            anchor 0 0.139 0
+                            axis -1 0 0
+                            anchor 0 0 0.139
                           }
                           device [
                             RotationalMotor {
@@ -931,15 +935,15 @@ PROTO IprHd6ms180 [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 0.139 0
-                            rotation 0 0 1 2.03331
+                            translation 0 0 0.139
+                            rotation -1 0 0 2.03331
                             children [
                               Group {
                                 children IS wristSlot
                               }
                               USE OVIFORM_METAL
-                              Transform {
-                                translation 0 0.086 0
+                              Pose {
+                                translation 0 0 0.086
                                 children [
                                   Shape {
                                     appearance USE ALUMINIUM
@@ -952,9 +956,8 @@ PROTO IprHd6ms180 [
                                 ]
                               }
                               USE OVIFORM_PROTECTIONS
-                              DEF WRIST_PROTECTION Transform {
-                                translation 0 0.11 0
-                                rotation 1 0 0 0
+                              DEF WRIST_PROTECTION Pose {
+                                translation 0 0 0.11
                                 children [
                                   Shape {
                                     appearance USE BLACK
@@ -967,8 +970,8 @@ PROTO IprHd6ms180 [
                               }
                               HingeJoint {
                                 jointParameters HingeJointParameters {
-                                  axis 0 1 0
-                                  anchor 0 0.1185 0
+                                  axis 0 0 1
+                                  anchor 0 0 0.1185
                                 }
                                 device [
                                   RotationalMotor {
@@ -983,11 +986,11 @@ PROTO IprHd6ms180 [
                                   }
                                 ]
                                 endPoint Solid {
-                                  translation 0 0.1185 0
-                                  rotation 0 1 0 2.99319
+                                  translation 0 0 0.1185
+                                  rotation 0 0 1 2.99319
                                   children [
-                                    Transform {
-                                      translation 0 0.0009 0
+                                    Pose {
+                                      translation 0 0 0.0009
                                       children [
                                         Shape {
                                           appearance USE ALUMINIUM
@@ -999,8 +1002,8 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
-                                      translation 0 0.03405 0
+                                    Pose {
+                                      translation 0 0 0.03405
                                       children [
                                         Shape {
                                           appearance USE ALUMINIUM
@@ -1012,9 +1015,9 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
-                                      translation -0.0135 0.0318 0
-                                      rotation 0 0 1 1.57
+                                    Pose {
+                                      translation 0 0.0135 0.0318
+                                      rotation -1 0 0 1.57
                                       children [
                                         Shape {
                                           appearance USE ALUMINIUM
@@ -1028,7 +1031,7 @@ PROTO IprHd6ms180 [
                                       ]
                                     }
                                     Transform {
-                                      translation -0.0269 0.0319 0
+                                      translation 0 0.0269 0.0319
                                       scale 1.15 1.15 1.15
                                       children [
                                         Shape {
@@ -1036,55 +1039,55 @@ PROTO IprHd6ms180 [
                                           geometry IndexedFaceSet {
                                             coord Coordinate {
                                               point [
-                                                0 -0.015 0.015
-                                                0 -0.011 0.019
-                                                0 -0.006 0.021
-                                                0 0 0.022
-                                                0 0.006 0.021
-                                                0 0.011 0.019
-                                                0 0.015 0.015
-                                                0 0.019 0.011
-                                                0 0.021 0.006
-                                                0 0.022 0
-                                                0 0.021 -0.006
-                                                0 0.019 -0.011
-                                                0 0.015 -0.015
-                                                0 0.011 -0.019
-                                                0 0.006 -0.021
-                                                0 0 -0.021
-                                                0 -0.006 -0.021
-                                                0 -0.011 -0.019
-                                                0 -0.015 -0.015
-                                                0 -0.019 -0.011
-                                                0 -0.021 -0.006
-                                                0 -0.022 0
-                                                0 -0.021 0.006
-                                                0 -0.019 0.011
-                                                -0.004 -0.017 0.007
-                                                -0.004 -0.007 0.017
-                                                -0.004 0.007 0.017
-                                                -0.004 0.017 0.007
-                                                -0.008 -0.01 0.004
-                                                -0.008 -0.004 0.01
-                                                -0.008 0.004 0.01
-                                                -0.008 0.01 0.004
-                                                -0.009 -0.006 0.002
-                                                -0.009 -0.003 0.006
-                                                -0.009 0.003 0.006
-                                                -0.009 0.006 0.002
-                                                -0.004 0.017 -0.006
-                                                -0.004 0.007 -0.016
-                                                -0.004 -0.007 -0.016
-                                                -0.004 -0.017 -0.006
-                                                -0.008 0.01 -0.004
-                                                -0.008 0.004 -0.01
-                                                -0.008 -0.004 -0.01
-                                                -0.008 -0.01 -0.004
-                                                -0.009 0.006 -0.002
-                                                -0.009 0.003 -0.006
-                                                -0.009 -0.003 -0.006
-                                                -0.009 -0.006 -0.002
-                                                -0.009 0 0
+                                                -0.015 0.0 -0.015
+                                                -0.019 0.0 -0.011
+                                                -0.021 0.0 -0.006
+                                                -0.022 0.0 0.0
+                                                -0.021 0.0 0.006
+                                                -0.019 0.0 0.011
+                                                -0.015 0.0 0.015
+                                                -0.011 0.0 0.019
+                                                -0.006 0.0 0.021
+                                                0.0 0.0 0.022
+                                                0.006 0.0 0.021
+                                                0.011 0.0 0.019
+                                                0.015 0.0 0.015
+                                                0.019 0.0 0.011
+                                                0.021 0.0 0.006
+                                                0.021 0.0 0.0
+                                                0.021 0.0 -0.006
+                                                0.019 0.0 -0.011
+                                                0.015 0.0 -0.015
+                                                0.011 0.0 -0.019
+                                                0.006 0.0 -0.021
+                                                0.0 0.0 -0.022
+                                                -0.006 0.0 -0.021
+                                                -0.011 0.0 -0.019
+                                                -0.007 0.004 -0.017
+                                                -0.017 0.004 -0.007
+                                                -0.017 0.004 0.007
+                                                -0.007 0.004 0.017
+                                                -0.004 0.008 -0.01
+                                                -0.01 0.008 -0.004
+                                                -0.01 0.008 0.004
+                                                -0.004 0.008 0.01
+                                                -0.002 0.009 -0.006
+                                                -0.006 0.009 -0.003
+                                                -0.006 0.009 0.003
+                                                -0.002 0.009 0.006
+                                                0.006 0.004 0.017
+                                                0.016 0.004 0.007
+                                                0.016 0.004 -0.007
+                                                0.006 0.004 -0.017
+                                                0.004 0.008 0.01
+                                                0.01 0.008 0.004
+                                                0.01 0.008 -0.004
+                                                0.004 0.008 -0.01
+                                                0.002 0.009 0.006
+                                                0.006 0.009 0.003
+                                                0.006 0.009 -0.003
+                                                0.002 0.009 -0.006
+                                                0.0 0.009 0.0
                                               ]
                                             }
                                             ccw FALSE
@@ -1124,8 +1127,8 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
-                                      translation 0 0.06855 0
+                                    Pose {
+                                      translation 0 0 0.06855
                                       children [
                                         Shape {
                                           appearance USE ALUMINIUM
@@ -1138,89 +1141,88 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
-                                      translation 0 0.0708 0
-                                      rotation 0 0 1 -1.57
+                                    Pose {
+                                      translation 0 0 0.0708
+                                      rotation -1 0 0 -1.57
                                       children [
                                         Shape {
                                           appearance USE ALUMINIUM
                                           geometry IndexedFaceSet {
                                             coord Coordinate {
                                               point [
-                                                0 0.012 -0.012
-                                                0 0.009 -0.015
-                                                0 0.005 -0.017
-                                                0 0 -0.017
-                                                0 -0.004 -0.017
-                                                0 -0.009 -0.015
-                                                0 -0.012 -0.012
-                                                0 -0.015 -0.009
-                                                0 -0.017 -0.004
-                                                0 -0.017 0
-                                                0 -0.017 0.005
-                                                0 -0.015 0.009
-                                                0 -0.012 0.012
-                                                0 -0.009 0.015
-                                                0 -0.004 0.017
-                                                0 0 0.018
-                                                0 0.005 0.017
-                                                0 0.009 0.015
-                                                0 0.012 0.012
-                                                0 0.015 0.009
-                                                0 0.017 0.005
-                                                0 0.018 0
-                                                0 0.017 -0.004
-                                                0 0.015 -0.009
-                                                -0.042 -0.016 -0.007
-                                                -0.031 -0.017 -0.01
-                                                -0.02 -0.019 -0.006
-                                                -0.042 -0.016 0.007
-                                                -0.031 -0.017 0.01
-                                                -0.019 -0.019 0.006
-                                                -0.014 -0.02 0
-                                                -0.042 -0.016 0
-                                                -0.042 0.016 0
-                                                -0.042 0.016 -0.007
-                                                -0.031 0.018 -0.01
-                                                -0.031 0.018 0.01
-                                                -0.003 -0.019 -0.005
-                                                -0.003 -0.017 -0.01
-                                                -0.003 -0.02 0
-                                                -0.003 -0.019 0.005
-                                                -0.003 0.018 0.01
-                                                -0.003 0.02 0.005
-                                                -0.003 0.02 0
-                                                -0.003 0.02 -0.005
-                                                -0.019 0.019 0.006
-                                                -0.013 0.02 0
-                                                -0.019 0.019 -0.006
-                                                -0.003 -0.01 -0.017
-                                                -0.016 -0.014 -0.014
-                                                -0.003 -0.014 -0.014
-                                                -0.001 0.005 -0.019
-                                                0 0 0
-                                                -0.003 0.01 -0.017
-                                                -0.001 -0.005 -0.019
-                                                -0.003 0.014 0.014
-                                                -0.003 0.01 0.018
-                                                -0.003 0.018 -0.01
-                                                -0.003 0.014 -0.014
-                                                -0.003 -0.017 0.01
-                                                -0.003 -0.014 0.014
-                                                -0.001 0.005 0.019
-                                                -0.016 -0.014 0.014
-                                                -0.005 0.01 0.017
-                                                -0.003 -0.01 0.018
-                                                -0.001 -0.005 0.019
-                                                -0.005 -0.01 0.018
-                                                -0.016 0.014 0.014
-                                                -0.016 0.014 -0.014
-                                                -0.005 -0.01 -0.017
-                                                -0.005 0.01 -0.017
-                                                -0.042 0.016 0.007
+                                                0.012 0.0 0.012
+                                                0.015 0.0 0.009
+                                                0.017 0.0 0.005
+                                                0.017 0.0 0.0
+                                                0.017 0.0 -0.004
+                                                0.015 0.0 -0.009
+                                                0.012 0.0 -0.012
+                                                0.009 0.0 -0.015
+                                                0.004 0.0 -0.017
+                                                0.0 0.0 -0.017
+                                                -0.005 0.0 -0.017
+                                                -0.009 0.0 -0.015
+                                                -0.012 0.0 -0.012
+                                                -0.015 0.0 -0.009
+                                                -0.017 0.0 -0.004
+                                                -0.018 0.0 0.0
+                                                -0.017 0.0 0.005
+                                                -0.015 0.0 0.009
+                                                -0.012 0.0 0.012
+                                                -0.009 0.0 0.015
+                                                -0.005 0.0 0.017
+                                                0.0 0.0 0.018
+                                                0.004 0.0 0.017
+                                                0.009 0.0 0.015
+                                                0.007 0.042 -0.016
+                                                0.01 0.031 -0.017
+                                                0.006 0.02 -0.019
+                                                -0.007 0.042 -0.016
+                                                -0.01 0.031 -0.017
+                                                -0.006 0.019 -0.019
+                                                0.0 0.014 -0.02
+                                                0.0 0.042 -0.016
+                                                0.0 0.042 0.016
+                                                0.007 0.042 0.016
+                                                0.01 0.031 0.018
+                                                -0.01 0.031 0.018
+                                                0.005 0.003 -0.019
+                                                0.01 0.003 -0.017
+                                                0.0 0.003 -0.02
+                                                -0.005 0.003 -0.019
+                                                -0.01 0.003 0.018
+                                                -0.005 0.003 0.02
+                                                0.0 0.003 0.02
+                                                0.005 0.003 0.02
+                                                -0.006 0.019 0.019
+                                                0.0 0.013 0.02
+                                                0.006 0.019 0.019
+                                                0.017 0.003 -0.01
+                                                0.014 0.016 -0.014
+                                                0.014 0.003 -0.014
+                                                0.019 0.001 0.005
+                                                0.0 0.0 0.0
+                                                0.017 0.003 0.01
+                                                0.019 0.001 -0.005
+                                                -0.014 0.003 0.014
+                                                -0.018 0.003 0.01
+                                                0.01 0.003 0.018
+                                                0.014 0.003 0.014
+                                                -0.01 0.003 -0.017
+                                                -0.014 0.003 -0.014
+                                                -0.019 0.001 0.005
+                                                -0.014 0.016 -0.014
+                                                -0.017 0.005 0.01
+                                                -0.018 0.003 -0.01
+                                                -0.019 0.001 -0.005
+                                                -0.018 0.005 -0.01
+                                                -0.014 0.016 0.014
+                                                0.014 0.016 0.014
+                                                0.017 0.005 -0.01
+                                                0.017 0.005 0.01
+                                                -0.007 0.042 0.016
                                               ]
                                             }
-                                            solid FALSE
                                             ccw FALSE
                                             coordIndex [
                                               33, 32, 31, -1, 33, 24, 34, -1, 27, 70
@@ -1284,69 +1286,69 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    DEF SENSOR_BOARD_PROTECTION Transform {
-                                      translation -0.026 0.0318 0
-                                      rotation 0 0 1 1.57
+                                    DEF SENSOR_BOARD_PROTECTION Pose {
+                                      translation 0 0.026 0.0318
+                                      rotation -1 0 0 1.57
                                       children [
                                         Shape {
                                           appearance USE BLACK
                                           geometry IndexedFaceSet {
                                             coord Coordinate {
                                               point [
-                                                -0.03 0 0
-                                                -0.025981 0 0.015
-                                                -0.015 0 0.025981
-                                                0 0 0.03
-                                                0.015 0 0.025981
-                                                0.025981 0 0.015
-                                                0.03 0 0
-                                                0.025891 0 -0.015
-                                                0.015 0 -0.025891
-                                                0 0 -0.03
-                                                -0.015 0 -0.025891
-                                                -0.025891 0 -0.015
-                                                -0.03 0 0
-                                                -0.02 0 0
-                                                -0.017321 0 -0.01
-                                                -0.01 0 -0.017321
-                                                0 0 -0.02
-                                                0.01 0 -0.017321
-                                                0.017321 0 -0.01
-                                                0.02 0 0
-                                                0.017321 0 0.01
-                                                0.01 0 0.017321
-                                                0 0 0.02
-                                                -0.01 0 0.017321
-                                                -0.017321 0 0.01
-                                                -0.02 0 0
-                                                -0.03 0 0
-                                                -0.03 0.012 0
-                                                -0.025981 0.012 0.015
-                                                -0.015 0.012 0.025981
-                                                0 0.012 0.03
-                                                0.015 0.012 0.025981
-                                                0.025981 0.012 0.015
-                                                0.03 0.012 0
-                                                0.025891 0.012 -0.015
-                                                0.015 0.012 -0.025891
-                                                0 0.012 -0.03
-                                                -0.015 0.012 -0.025891
-                                                -0.025891 0.012 -0.015
-                                                -0.03 0.012 0
-                                                -0.02 0.012 0
-                                                -0.017321 0.012 -0.01
-                                                -0.01 0.012 -0.017321
-                                                0 0.012 -0.02
-                                                0.01 0.012 -0.017321
-                                                0.017321 0.012 -0.01
-                                                0.02 0.012 0
-                                                0.017321 0.012 0.01
-                                                0.01 0.012 0.017321
-                                                0 0.012 0.02
-                                                -0.01 0.012 0.017321
-                                                -0.017321 0.012 0.01
-                                                -0.02 0.012 0
-                                                -0.03 0.012 0
+                                                0.0 0.03 0.0
+                                                -0.015 0.025981 0.0
+                                                -0.025981 0.015 0.0
+                                                -0.03 0.0 0.0
+                                                -0.025981 -0.015 0.0
+                                                -0.015 -0.025981 0.0
+                                                0.0 -0.03 0.0
+                                                0.015 -0.025891 0.0
+                                                0.025891 -0.015 0.0
+                                                0.03 0.0 0.0
+                                                0.025891 0.015 0.0
+                                                0.015 0.025891 0.0
+                                                0.0 0.03 0.0
+                                                0.0 0.02 0.0
+                                                0.01 0.017321 0.0
+                                                0.017321 0.01 0.0
+                                                0.02 0.0 0.0
+                                                0.017321 -0.01 0.0
+                                                0.01 -0.017321 0.0
+                                                0.0 -0.02 0.0
+                                                -0.01 -0.017321 0.0
+                                                -0.017321 -0.01 0.0
+                                                -0.02 0.0 0.0
+                                                -0.017321 0.01 0.0
+                                                -0.01 0.017321 0.0
+                                                0.0 0.02 0.0
+                                                0.0 0.03 0.0
+                                                0.0 0.03 0.012
+                                                -0.015 0.025981 0.012
+                                                -0.025981 0.015 0.012
+                                                -0.03 0.0 0.012
+                                                -0.025981 -0.015 0.012
+                                                -0.015 -0.025981 0.012
+                                                0.0 -0.03 0.012
+                                                0.015 -0.025891 0.012
+                                                0.025891 -0.015 0.012
+                                                0.03 0.0 0.012
+                                                0.025891 0.015 0.012
+                                                0.015 0.025891 0.012
+                                                0.0 0.03 0.012
+                                                0.0 0.02 0.012
+                                                0.01 0.017321 0.012
+                                                0.017321 0.01 0.012
+                                                0.02 0.0 0.012
+                                                0.017321 -0.01 0.012
+                                                0.01 -0.017321 0.012
+                                                0.0 -0.02 0.012
+                                                -0.01 -0.017321 0.012
+                                                -0.017321 -0.01 0.012
+                                                -0.02 0.0 0.012
+                                                -0.017321 0.01 0.012
+                                                -0.01 0.017321 0.012
+                                                0.0 0.02 0.012
+                                                0.0 0.03 0.012
                                               ]
                                             }
                                             coordIndex [
@@ -1377,65 +1379,65 @@ PROTO IprHd6ms180 [
                                     }
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor 0 0.0983 0
+                                        axis 0 1 0
+                                        anchor 0 0 0.0983
                                       }
                                       device [
                                         RotationalMotor {
-                                          name "left_gripper"
+                                          name "gripper::left"
                                           controlPID 20 0 0
                                           maxVelocity 2.20894
-                                          minPosition -1.22171
+                                          maxPosition 1.22171
                                           maxTorque 20
                                         }
                                         PositionSensor {
-                                          name "left_gripper_sensor"
+                                          name "gripper::left_sensor"
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 0.0983 0
-                                        rotation 1 0 0 0
+                                        translation 0 0 0.0983
                                         children [
                                           Group {
                                             children IS leftGripperSlot
                                           }
-                                          Transform {
-                                            translation 0 0.008 -0.01
-                                            rotation 1 0 0 -0.192
+                                          Pose {
+                                            translation 0.01 0 0.008
+                                            rotation 0 -1 0 -0.192
                                             children [
                                               DEF SUPPORT Shape {
                                                 appearance USE ALUMINIUM
                                                 geometry Box {
-                                                  size 0.02 0.03 0.002
+                                                  size 0.002 0.02 0.03
                                                 }
                                               }
                                             ]
                                           }
-                                          Transform {
-                                            translation 0 0.072 -0.0062
+                                          Pose {
+                                            translation 0.0062 0 0.072
                                             children [
                                               Shape {
                                                 appearance USE BLACK
                                                 geometry IndexedFaceSet {
                                                   coord Coordinate {
                                                     point [
-                                                      0.013 -0.059 -0.02
-                                                      -0.013 -0.059 -0.02
-                                                      -0.013 -0.009 -0.03
-                                                      0.013 -0.009 -0.03
-                                                      -0.013 -0.052 0.001
-                                                      -0.012 -0.015 -0.006
-                                                      0.012 -0.052 0.001
-                                                      0.013 -0.015 -0.006
-                                                      -0.012 -0.006 0.006
-                                                      -0.012 0.024 0.006
-                                                      0.012 0.008 0.006
-                                                      0.012 -0.006 0.006
-                                                      0.002 0.03 -0.011
-                                                      0.013 0.004 -0.011
-                                                      -0.012 0.004 -0.011
-                                                      -0.013 0.024 -0.011
-                                                      0.002 0.03 0.006
-                                                      0.012 0.008 -0.011
+                                                      0.02 -0.013 -0.059
+                                                      0.02 0.013 -0.059
+                                                      0.03 0.013 -0.009
+                                                      0.03 -0.013 -0.009
+                                                      -0.001 0.013 -0.052
+                                                      0.006 0.012 -0.015
+                                                      -0.001 -0.012 -0.052
+                                                      0.006 -0.013 -0.015
+                                                      -0.006 0.012 -0.006
+                                                      -0.006 0.012 0.024
+                                                      -0.006 -0.012 0.008
+                                                      -0.006 -0.012 -0.006
+                                                      0.011 -0.002 0.03
+                                                      0.011 -0.013 0.004
+                                                      0.011 0.012 0.004
+                                                      0.011 0.013 0.024
+                                                      -0.006 -0.002 0.03
+                                                      0.011 -0.012 0.008
                                                     ]
                                                   }
                                                   ccw FALSE
@@ -1459,8 +1461,8 @@ PROTO IprHd6ms180 [
                                             ]
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0325 -0.007
-                                            rotation 0 -0.981417 0.191886 1.57
+                                            translation 0.007 0 0.0325
+                                            rotation 0.0611366556 0.7705049439 0.6344954221 -2.9921258059
                                             name "ds0"
                                             lookupTable [
                                               0 255 0
@@ -1471,8 +1473,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0837 0
-                                            rotation 0 1 0 -1.57
+                                            translation 0 0 0.0837
+                                            rotation -0.000281544 0.7071067532 0.7071067532 -3.1410295655
                                             name "ds1"
                                             lookupTable [
                                               0 255 0
@@ -1483,8 +1485,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0837 -0.015
-                                            rotation 0 1 0 1.57
+                                            translation 0.015 0 0.0837
+                                            rotation 0.9999998415 -0.0003981634 -0.0003981634 1.5707964853
                                             name "ds2"
                                             lookupTable [
                                               0 255 0
@@ -1495,8 +1497,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0988 0
-                                            rotation 0 0 1 1.57
+                                            translation 0 0 0.0988
+                                            rotation 0.0003981634 -0.9999998415 -0.0003981634 1.5707964853
                                             name "ds3"
                                             lookupTable [
                                               0 255 0
@@ -1507,17 +1509,16 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           TouchSensor {
-                                            translation 0 0.0325 -0.0057
-                                            rotation 1 0 0 -0.192
+                                            translation 0.0057 0 0.0325
+                                            rotation 0 -1 0 -0.192
                                             name "ts0"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
-                                              translation 0 0.01 -0.013
-                                              rotation 1 0 0 0
+                                            boundingObject Pose {
+                                              translation 0.013 0 0.01
                                               children [
                                                 DEF BOUNDING_FINGER_BASE Shape {
                                                   geometry Box {
-                                                    size 0.025 0.049 0.02
+                                                    size 0.02 0.025 0.049
                                                   }
                                                 }
                                               ]
@@ -1526,7 +1527,7 @@ PROTO IprHd6ms180 [
                                               density -1
                                               mass 0.05
                                               centerOfMass [
-                                                0 0 -0.00687
+                                                0.00687 0 0
                                               ]
                                             }
                                             type "force"
@@ -1536,15 +1537,15 @@ PROTO IprHd6ms180 [
                                             ]
                                           }
                                           TouchSensor {
-                                            translation 0 0.0837 0
+                                            translation 0 0 0.0837
                                             name "ts1"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
-                                              translation 0 0 -0.0085
+                                            boundingObject Pose {
+                                              translation 0.0085 0 0
                                               children [
                                                 DEF BOUNDING_FINGER_END Shape {
                                                   geometry Box {
-                                                    size 0.025 0.034 0.0165
+                                                    size 0.0165 0.025 0.034
                                                   }
                                                 }
                                               ]
@@ -1553,7 +1554,7 @@ PROTO IprHd6ms180 [
                                               density -1
                                               mass 0.05
                                               centerOfMass [
-                                                0 0 -0.0049
+                                                0.0049 0 0
                                               ]
                                             }
                                             type "force"
@@ -1567,13 +1568,13 @@ PROTO IprHd6ms180 [
                                         contactMaterial "gripper"
                                         boundingObject Group {
                                           children [
-                                            Transform {
-                                              translation 0 0.064 -0.018
-                                              rotation 1 0 0 0.951
+                                            Pose {
+                                              translation 0.018 0 0.064
+                                              rotation 0 -1 0 0.951
                                               children [
                                                 DEF BOUNDING_FINGER_CENTER Shape {
                                                   geometry Box {
-                                                    size 0.025 0.029 0.016
+                                                    size 0.016 0.025 0.029
                                                   }
                                                 }
                                               ]
@@ -1584,14 +1585,14 @@ PROTO IprHd6ms180 [
                                           density -1
                                           mass 0.035
                                           centerOfMass [
-                                            0 0.054 -0.008
+                                            0.008 0 0.054
                                           ]
                                         }
                                       }
                                     }
                                     DistanceSensor {
-                                      translation 0 0.1128 0
-                                      rotation 0 0 1 1.57
+                                      translation 0 0 0.1128
+                                      rotation 0.0003981634 -0.9999998415 -0.0003981634 1.5707964853
                                       name "ds4"
                                       lookupTable [
                                         0 255 0
@@ -1603,60 +1604,60 @@ PROTO IprHd6ms180 [
                                     }
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        anchor 0 0.0983 0
+                                        axis 0 -1 0
+                                        anchor 0 0 0.0983
                                       }
                                       device [
                                         RotationalMotor {
-                                          name "right_gripper"
+                                          name "gripper::right"
                                           controlPID 20 0 0
                                           maxVelocity 2.20894
                                           maxPosition 1.22171
                                           maxTorque 20
                                         }
                                         PositionSensor {
-                                          name "right_gripper_sensor"
+                                          name "gripper::right_sensor"
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 0.0983 0
-                                        rotation 1 0 0 0
+                                        translation 0 0 0.0983
                                         children [
                                           Group {
                                             children IS rightGripperSlot
                                           }
-                                          Transform {
-                                            translation 0 0.008 0.01
-                                            rotation 1 0 0 0.192
+                                          Pose {
+                                            translation -0.01 0 0.008
+                                            rotation 0 -1 0 0.192
                                             children [
                                               USE SUPPORT
                                             ]
                                           }
-                                          Transform {
-                                            translation 0 0.072 0.03
+                                          Pose {
+                                            translation -0.03 0 0.072
                                             children [
                                               Shape {
                                                 appearance USE BLACK
                                                 geometry IndexedFaceSet {
                                                   coord Coordinate {
                                                     point [
-                                                      0.013 -0.059 -0.004
-                                                      -0.013 -0.059 -0.004
-                                                      -0.013 -0.009 0.006
-                                                      0.013 -0.009 0.006
-                                                      -0.013 -0.052 -0.025
-                                                      -0.012 -0.015 -0.017
-                                                      0.012 -0.052 -0.025
-                                                      0.013 -0.015 -0.017
-                                                      -0.012 -0.006 -0.03
-                                                      -0.012 0.024 -0.03
-                                                      0.012 0.008 -0.03
-                                                      0.012 -0.006 -0.03
-                                                      0.002 0.03 -0.012
-                                                      0.013 0.004 -0.012
-                                                      -0.012 0.004 -0.012
-                                                      -0.013 0.024 -0.012
-                                                      0.002 0.03 -0.03
-                                                      0.012 0.008 -0.012
+                                                      0.004 -0.013 -0.059
+                                                      0.004 0.013 -0.059
+                                                      -0.006 0.013 -0.009
+                                                      -0.006 -0.013 -0.009
+                                                      0.025 0.013 -0.052
+                                                      0.017 0.012 -0.015
+                                                      0.025 -0.012 -0.052
+                                                      0.017 -0.013 -0.015
+                                                      0.03 0.012 -0.006
+                                                      0.03 0.012 0.024
+                                                      0.03 -0.012 0.008
+                                                      0.03 -0.012 -0.006
+                                                      0.012 -0.002 0.03
+                                                      0.012 -0.013 0.004
+                                                      0.012 0.012 0.004
+                                                      0.012 0.013 0.024
+                                                      0.03 -0.002 0.03
+                                                      0.012 -0.012 0.008
                                                     ]
                                                   }
                                                   coordIndex [
@@ -1679,8 +1680,8 @@ PROTO IprHd6ms180 [
                                             ]
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0325 0.007
-                                            rotation 0 -0.981417 -0.191886 -1.57
+                                            translation -0.007 0 0.0325
+                                            rotation -0.9885936022 0.1166577944 -0.0952557016 -1.3890610018
                                             name "ds5"
                                             lookupTable [
                                               0 255 0
@@ -1691,8 +1692,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0837 0
-                                            rotation 0 1 0 1.57
+                                            translation 0 0 0.0837
+                                            rotation 0.0003981634 -0.9999998415 -0.0003981634 1.5707964853
                                             name "ds6"
                                             lookupTable [
                                               0 255 0
@@ -1703,8 +1704,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0837 0.015
-                                            rotation 0 1 0 -1.57
+                                            translation -0.015 0 0.0837
+                                            rotation -0.000281544 0.7071067532 0.7071067532 -3.1410295655
                                             name "ds7"
                                             lookupTable [
                                               0 255 0
@@ -1715,8 +1716,8 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           DistanceSensor {
-                                            translation 0 0.0988 0
-                                            rotation 0 0 1 1.57
+                                            translation 0 0 0.0988
+                                            rotation 0.0003981634 -0.9999998415 -0.0003981634 1.5707964853
                                             name "ds8"
                                             lookupTable [
                                               0 255 0
@@ -1727,13 +1728,12 @@ PROTO IprHd6ms180 [
                                             type "infra-red"
                                           }
                                           TouchSensor {
-                                            translation 0 0.0325 0.0077
-                                            rotation 1 0 0 3.3335
+                                            translation -0.0077 0 0.0325
+                                            rotation 0 -1 0 3.3335
                                             name "ts2"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
-                                              translation 0 -0.01 -0.011
-                                              rotation 1 0 0 0
+                                            boundingObject Pose {
+                                              translation 0.011 0 -0.01
                                               children [
                                                 USE BOUNDING_FINGER_BASE
                                               ]
@@ -1742,7 +1742,7 @@ PROTO IprHd6ms180 [
                                               density -1
                                               mass 0.05
                                               centerOfMass [
-                                                0 0 -0.00687
+                                                0.00687 0 0
                                               ]
                                             }
                                             type "force"
@@ -1752,12 +1752,12 @@ PROTO IprHd6ms180 [
                                             ]
                                           }
                                           TouchSensor {
-                                            translation 0 0.0837 0
-                                            rotation 1 0 0 3.1415
+                                            translation 0 0 0.0837
+                                            rotation 0 -1 0 3.1415
                                             name "ts3"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
-                                              translation 0 0 -0.0085
+                                            boundingObject Pose {
+                                              translation 0.0085 0 0
                                               children [
                                                 USE BOUNDING_FINGER_END
                                               ]
@@ -1766,7 +1766,7 @@ PROTO IprHd6ms180 [
                                               density -1
                                               mass 0.05
                                               centerOfMass [
-                                                0 0 -0.0049
+                                                0.0049 0 0
                                               ]
                                             }
                                             type "force"
@@ -1780,9 +1780,9 @@ PROTO IprHd6ms180 [
                                         contactMaterial "gripper"
                                         boundingObject Group {
                                           children [
-                                            Transform {
-                                              translation 0 0.064 0.018
-                                              rotation 1 0 0 -0.951
+                                            Pose {
+                                              translation -0.018 0 0.064
+                                              rotation 0 -1 0 -0.951
                                               children [
                                                 USE BOUNDING_FINGER_CENTER
                                               ]
@@ -1793,7 +1793,7 @@ PROTO IprHd6ms180 [
                                           density -1
                                           mass 0.035
                                           centerOfMass [
-                                            0 0.054 0.008
+                                            -0.008 0 0.054
                                           ]
                                         }
                                       }
@@ -1801,8 +1801,8 @@ PROTO IprHd6ms180 [
                                   ]
                                   boundingObject Group {
                                     children [
-                                      Transform {
-                                        translation 0 0.0009 0
+                                      Pose {
+                                        translation 0 0 0.0009
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1813,8 +1813,8 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
-                                        translation 0 0.03405 0
+                                      Pose {
+                                        translation 0 0 0.03405
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1825,9 +1825,9 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
-                                        translation -0.0125 0.0318 0
-                                        rotation 0 0 1 1.57
+                                      Pose {
+                                        translation 0 0.0125 0.0318
+                                        rotation -1 0 0 1.57
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1839,8 +1839,8 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
-                                        translation 0 0.06855 0
+                                      Pose {
+                                        translation 0 0 0.06855
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1852,8 +1852,8 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
-                                        translation 0 0.0918 0
+                                      Pose {
+                                        translation 0 0 0.0918
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1863,9 +1863,9 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      DEF BOUNDING_SENSOR_BOARD_PROTECTION Transform {
-                                        translation -0.032 0.0318 0
-                                        rotation 0 0 1 1.57
+                                      DEF BOUNDING_SENSOR_BOARD_PROTECTION Pose {
+                                        translation 0 0.032 0.0318
+                                        rotation -1 0 0 1.57
                                         children [
                                           Shape {
                                             geometry Cylinder {
@@ -1881,7 +1881,7 @@ PROTO IprHd6ms180 [
                                     density -1
                                     mass 0.4
                                     centerOfMass [
-                                      0 0.038 0
+                                      0 0 0.038
                                     ]
                                   }
                                 }
@@ -1889,8 +1889,8 @@ PROTO IprHd6ms180 [
                             ]
                             boundingObject Group {
                               children [
-                                DEF BOUNDING_AXE Transform {
-                                  rotation 1 0 0 1.57
+                                DEF BOUNDING_AXE Pose {
+                                  rotation 0 -1 0 1.57
                                   children [
                                     Shape {
                                       geometry Cylinder {
@@ -1900,8 +1900,8 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_LOWER Transform {
-                                  rotation 1 0 0 1.57
+                                DEF BOUNDING_OVIFORM_LOWER Pose {
+                                  rotation 0 -1 0 1.57
                                   children [
                                     Shape {
                                       geometry Cylinder {
@@ -1911,19 +1911,19 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_CENTER Transform {
-                                  translation 0 0.021 0
+                                DEF BOUNDING_OVIFORM_CENTER Pose {
+                                  translation 0 0 0.021
                                   children [
                                     Shape {
                                       geometry Box {
-                                        size 0.073 0.042 0.074
+                                        size 0.074 0.073 0.042
                                       }
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_UPPER Transform {
-                                  translation 0 0.042 0
-                                  rotation 1 0 0 1.57
+                                DEF BOUNDING_OVIFORM_UPPER Pose {
+                                  translation 0 0 0.042
+                                  rotation 0 -1 0 1.57
                                   children [
                                     Shape {
                                       geometry Cylinder {
@@ -1933,8 +1933,8 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                Transform {
-                                  translation 0 0.086 0
+                                Pose {
+                                  translation 0 0 0.086
                                   children [
                                     Shape {
                                       geometry Cylinder {
@@ -1946,9 +1946,8 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_WRIST_PROTECTION Transform {
-                                  translation 0 0.11 0
-                                  rotation 1 0 0 0
+                                DEF BOUNDING_WRIST_PROTECTION Pose {
+                                  translation 0 0 0.11
                                   children [
                                     Shape {
                                       geometry Cylinder {
@@ -1964,7 +1963,7 @@ PROTO IprHd6ms180 [
                               density -1
                               mass 0.92
                               centerOfMass [
-                                0 0.0465 0.0007
+                                -0.0007 0 0.0465
                               ]
                             }
                           }
@@ -1976,8 +1975,8 @@ PROTO IprHd6ms180 [
                           USE BOUNDING_OVIFORM_LOWER
                           USE BOUNDING_OVIFORM_CENTER
                           USE BOUNDING_OVIFORM_UPPER
-                          Transform {
-                            translation 0 0.1 0
+                          Pose {
+                            translation 0 0 0.1
                             children [
                               Shape {
                                 geometry Cylinder {
@@ -1995,7 +1994,7 @@ PROTO IprHd6ms180 [
                         density -1
                         mass 0.8
                         centerOfMass [
-                          0 0.057 0.0016
+                          -0.0016 0 0.057
                         ]
                       }
                     }
@@ -2003,8 +2002,8 @@ PROTO IprHd6ms180 [
                 ]
                 boundingObject Group {
                   children [
-                    Transform {
-                      translation 0 0.095 0
+                    Pose {
+                      translation 0 0 0.095
                       children [
                         Shape {
                           geometry Cylinder {
@@ -2022,7 +2021,7 @@ PROTO IprHd6ms180 [
                   density -1
                   mass 0.19
                   centerOfMass [
-                    0 0.0925 0.0011
+                    -0.0011 0 0.0925
                   ]
                 }
               }
@@ -2031,9 +2030,9 @@ PROTO IprHd6ms180 [
           name "base"
           boundingObject Group {
             children [
-              Transform {
-                translation 0 0.001 0
-                rotation 1 0 0 1.57
+              Pose {
+                translation 0 0 0.001
+                rotation 0 -1 0 1.57
                 children [
                   Shape {
                     geometry Cylinder {
@@ -2043,27 +2042,27 @@ PROTO IprHd6ms180 [
                   }
                 ]
               }
-              Transform {
-                translation 0 -0.031 0
+              Pose {
+                translation 0 0 -0.031
                 children [
                   Shape {
                     geometry Box {
-                      size 0.092 0.061 0.103
+                      size 0.103 0.092 0.061
                     }
                   }
                 ]
               }
-              Transform {
+              Pose {
                 children [
                   Shape {
                     geometry Box {
-                      size 0.054 0.054 0.117
+                      size 0.117 0.054 0.054
                     }
                   }
                 ]
               }
-              Transform {
-                rotation 1 0 0 1.57
+              Pose {
+                rotation 0 -1 0 1.57
                 children [
                   Shape {
                     geometry Cylinder {
@@ -2079,7 +2078,7 @@ PROTO IprHd6ms180 [
             density -1
             mass 1.25
             centerOfMass [
-              0.0004 0 0.0001
+              -0.0001 -0.0004 0
             ]
           }
         }
@@ -2090,8 +2089,8 @@ PROTO IprHd6ms180 [
     description "model by Simon Blanchoud"
     boundingObject DEF STRONG_BOUNDING_SUPPORT Group {
       children [
-        Transform {
-          translation 0 0.007 0
+        Pose {
+          translation 0 0 0.007
           children [
             Shape {
               geometry Cylinder {
@@ -2101,8 +2100,8 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
-          translation 0 0.0405 0
+        Pose {
+          translation 0 0 0.0405
           children [
             Shape {
               geometry Cylinder {
@@ -2113,8 +2112,8 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
-          translation 0 0.072 0
+        Pose {
+          translation 0 0 0.072
           children [
             Shape {
               geometry Cylinder {
@@ -2125,8 +2124,8 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
-          translation 0 0.109 0
+        Pose {
+          translation 0 0 0.109
           children [
             Shape {
               geometry Cylinder {
@@ -2138,8 +2137,8 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
-          translation 0 0.1525 0
+        Pose {
+          translation 0 0 0.1525
           children [
             Shape {
               geometry Cylinder {
@@ -2153,6 +2152,7 @@ PROTO IprHd6ms180 [
     }
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization

@@ -1,4 +1,10 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/joints/protos/HingeJointWithBacklash.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Test world for HingeJointWithBacklash PROTO."
@@ -9,7 +15,7 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0 1 0 0
+  orientation 0 0 1 0
   position -0.001946948025796533 -0.1940202612037421 1.103779867296235
 }
 TexturedBackground {
@@ -30,8 +36,7 @@ DEF PENDULUM_ROBOT Robot {
         }
       ]
       startPoint [
-        Transform {
-          rotation 1 0 0 1.5708
+        Pose {
           children [
             Shape {
               appearance PBRAppearance {
@@ -49,21 +54,16 @@ DEF PENDULUM_ROBOT Robot {
         translation 0 -0.2 0
         rotation 0 0 1 0
         children [
-          DEF PENDULUM_BAR Transform {
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.203922 0.396078 0.643137
-                }
-                geometry Box {
-                  size 0.02 0.4 0.02
-                }
-              }
-            ]
+          DEF PENDULUM_BAR Shape {
+            appearance PBRAppearance {
+              baseColor 0.203922 0.396078 0.643137
+            }
+            geometry Box {
+              size 0.02 0.4 0.02
+            }
           }
-          DEF PENDULUM_BOB Transform {
+          DEF PENDULUM_BOB Pose {
             translation 0 -0.2 0
-            rotation 1 0 0 1.5708
             children [
               Shape {
                 appearance PBRAppearance {

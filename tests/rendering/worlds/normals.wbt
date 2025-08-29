@@ -1,4 +1,11 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/rendering/protos/IndexedFaceSetWithNormals.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,49 +24,49 @@ Robot {
   children [
     Camera {
       translation 0 1.3 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 1"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 2"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 -3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 3"
       width 256
       height 256
     }
     Camera {
       translation 0 1.3 -3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 4"
       width 256
       height 256
     }
     Camera {
       translation 0 1.3 3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 5"
       width 256
       height 256
     }
     Camera {
       translation 0 0.3 3
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 6"
       width 256
       height 256
     }
     Camera {
       translation 0 -0.7 0
-      rotation 1 0 0 -1.5707963071795863
+      rotation 0.7071078227087468 -0.7071057396616216 0.0 3.1415910849505178
       name "camera 7"
       width 256
       height 256
@@ -69,7 +76,7 @@ Robot {
   ]
   controller "normals"
 }
-DEF NORMAL_PER_VERTEX Transform {
+DEF NORMAL_PER_VERTEX Pose {
   translation 0 0.5 -3
   children [
     Shape {
@@ -102,7 +109,7 @@ DEF NORMAL_PER_VERTEX Transform {
     }
   ]
 }
-DEF CREASE_ANGLE Transform {
+DEF CREASE_ANGLE Pose {
   translation 0 -0.5 -3
   children [
     Shape {
@@ -125,7 +132,7 @@ DEF CREASE_ANGLE Transform {
     }
   ]
 }
-DEF NORMAL_PER_VERTEX_FLAT Transform {
+DEF NORMAL_PER_VERTEX_FLAT Pose {
   translation 0 0.5 0
   children [
     Shape {
@@ -155,7 +162,7 @@ DEF NORMAL_PER_VERTEX_FLAT Transform {
     }
   ]
 }
-DEF NORMAL_PER_FACE_FLAT Transform {
+DEF NORMAL_PER_FACE_FLAT Pose {
   translation 0 -0.5 0
   children [
     Shape {
@@ -186,7 +193,7 @@ DEF NORMAL_PER_FACE_FLAT Transform {
     }
   ]
 }
-DEF NO_NORMAL Transform {
+DEF NO_NORMAL Pose {
   translation 0 -1.5 0
   children [
     Shape {
@@ -208,14 +215,14 @@ DEF NO_NORMAL Transform {
     }
   ]
 }
-DEF NORMAL_PER_VERTEX Transform {
+DEF NORMAL_PER_VERTEX Pose {
   translation 0 0.5 3
   children [
     IndexedFaceSetWithNormals {
     }
   ]
 }
-DEF NORMAL_PER_FACE Transform {
+DEF NORMAL_PER_FACE Pose {
   translation 0 -0.5 3
   children [
     Shape {

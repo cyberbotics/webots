@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ public:
   explicit WbMaterial(WbTokenizer *tokenizer = NULL);
   WbMaterial(const WbMaterial &other);
   explicit WbMaterial(const WbNode &other);
-  virtual ~WbMaterial();
+  virtual ~WbMaterial() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_MATERIAL; }
@@ -46,7 +46,7 @@ public:
   void modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured);
 
   // export
-  QStringList fieldsToSynchronizeWithX3D() const override;
+  QStringList fieldsToSynchronizeWithW3d() const override;
 
 signals:
   void changed();

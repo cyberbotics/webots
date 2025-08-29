@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   info [
     "Test world to validate correct reset of transforms"
@@ -15,9 +19,9 @@ Background {
     0 0 1
   ]
 }
-DEF OUTER_T1_NODE Transform {
+DEF OUTER_T1_NODE Pose {
   children [
-    DEF INNER_T1_NODE Transform {
+    DEF INNER_T1_NODE Pose {
       translation 0 0 1
       children [
         Shape {
@@ -29,7 +33,7 @@ DEF OUTER_T1_NODE Transform {
     }
   ]
 }
-DEF OUTER_T2_NODE Transform {
+DEF OUTER_T2_NODE Pose {
   translation 2 0 0
   children [
     DEF INNER_S2_NODE Solid {
@@ -46,7 +50,7 @@ DEF OUTER_T2_NODE Transform {
 }
 Group {
   children [
-    DEF OUTER_T3_NODE Transform {
+    DEF OUTER_T3_NODE Pose {
       translation 4 0 0
       children [
         DEF INNER_S3_NODE Solid {

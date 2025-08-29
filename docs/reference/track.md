@@ -6,7 +6,7 @@ Derived from [Solid](solid.md).
 Track {
   MFNode  device           [ ]    # {LinearMotor, PositionSensor, Brake, PROTO}
   SFVec2f textureAnimation 0 0    # any vector
-  SFNode  animatedGeometry NULL   # {Shape, Group, Slot, Transform, PROTO}
+  SFNode  animatedGeometry NULL   # {Shape, CadShape, Group, Pose, Transform, Slot, PROTO}
   SFInt32 geometriesCount  10     # [0, inf)
 }
 ```
@@ -20,8 +20,8 @@ A simple example is shown in the [following figure](#tracks-bounding-object-exam
 
 Additionally, in order to work correctly, the [Track](#track) node has to fulfill these conditions:
 
-- the y-axis of the [Track](#track) node is parallel to the world up vector.
-- the belt and wheels are aligned on a plane perpendicular to the [Track](#track) node's z-axis.
+- the z-axis of the [Track](#track) node is parallel to the world up vector.
+- the belt and wheels are aligned on a plane perpendicular to the [Track](#track) node's y-axis.
 
 %figure "Track's bounding object example"
 
@@ -64,7 +64,7 @@ Note that the geometries animation is enabled only if the `geometriesCount` valu
 
 The belt path along which the animated geometries move is shaped to the [TrackWheel](trackwheel.md) nodes contained in the `children` field.
 Each wheel contains the information about its center position, its radius and if it is inside or outside the belt.
-By convention the wheels are all aligned on a plane perpendicular to the [Track](#track) node's z-axis and have to be defined in clockwise order starting from the one with the smallest x-axis position component.
+By convention the wheels are all aligned on a plane perpendicular to the [Track](#track) node's y-axis and have to be defined in clockwise order starting from the one with the smallest x-axis position component.
 
 The following code fragment shows the belt path definition for the convex track example shown in [this figure](#convex-tracks-belt-shape-example):
 

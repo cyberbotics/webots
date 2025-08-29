@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,7 +95,7 @@ bool WbVirtualRealityHeadset::isInUse() {
 
 WbVirtualRealityHeadset::WbVirtualRealityHeadset() :
   mViewpointPosition(WbVector3(0.0, 0.0, 0.0)),
-  mViewpointOrientation(WbRotation(0.0, 1.0, 0.0, 0.0)) {
+  mViewpointOrientation(WbRotation(0.0, 0.0, 1.0, 0.0)) {
   mSystem = NULL;
   mWrenCameras[LEFT] = NULL;
   mWrenCameras[RIGHT] = NULL;
@@ -335,7 +335,7 @@ void WbVirtualRealityHeadset::createWrenObjects(WrTransform *node, bool antiAlia
 
     connect(mTimer, &QTimer::timeout, this, &WbVirtualRealityHeadset::renderRequired);
 
-    WbSimulationState *simulationState = WbSimulationState::instance();
+    const WbSimulationState *simulationState = WbSimulationState::instance();
     connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbVirtualRealityHeadset::updateTimer);
     if (simulationState->isPaused() || simulationState->isStep())
       mTimer->start(1000.0 / WbWorld::instance()->worldInfo()->fps());
@@ -406,7 +406,7 @@ void WbVirtualRealityHeadset::updateOrientationAndPosition() {
 
   if (mWrenViewports[0] && mSystem) {
     WbWrenOpenGlContext::makeWrenCurrent();
-    wr_scene_render_to_viewports(wr_scene_get_instance(), 2, mWrenViewports, NULL, true);
+    wr_scene_render_to_viewports(wr_scene_get_instance(), 2, mWrenViewports, NULL, true, false);
     WbWrenOpenGlContext::doneWren();
     vr::VRCompositor()->Submit(vr::Eye_Left, mTextureReferences[LEFT], mTextureBounds);
     vr::VRCompositor()->Submit(vr::Eye_Right, mTextureReferences[RIGHT], mTextureBounds);
@@ -419,7 +419,7 @@ void WbVirtualRealityHeadset::updateOrientationAndPosition() {
 }
 
 void WbVirtualRealityHeadset::updateTimer() {
-  WbSimulationState *simulationState = WbSimulationState::instance();
+  const WbSimulationState *simulationState = WbSimulationState::instance();
   if (simulationState->isPaused() || simulationState->isStep())
     mTimer->start(1000.0 / WbWorld::instance()->worldInfo()->fps());
   else

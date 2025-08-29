@@ -1,12 +1,16 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/HighwaySign.proto
+# keywords: traffic/sign
 # Resizable sign with front texture option.
 # template language: javascript
 
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
+
 PROTO HighwaySign [
   field SFVec3f     translation        0 0 0
-  field SFRotation  rotation           0 1 0 0
+  field SFRotation  rotation           0 0 1 0
   field SFString    name               "highway sign"
   field SFFloat     height             3                                     # Defines the height of the sign.
   field SFFloat     length             4.5                                   # Defines the lenght of the sign.
@@ -40,17 +44,17 @@ PROTO HighwaySign [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      DEF SIGN_BOARD Transform {
+      DEF SIGN_BOARD Pose {
         translation %<= thickness * 0.5 >% 0 0
         children [
           TexturedBoxShape {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
             textureUrl IS texture
             textureMapping "default"
             faceColor IS color
-            frontFace FALSE
             backFace FALSE
             leftFace FALSE
+            rightFace FALSE
             topFace FALSE
             bottomFace FALSE
           }
@@ -59,12 +63,12 @@ PROTO HighwaySign [
     ]
     name IS name
     model "highway sign"
-    boundingObject Transform {
+    boundingObject Pose {
       translation %<= thickness * 0.5 >% 0 0
       children [
         Shape {
           geometry Box {
-            size %<= thickness >% %<= height >% %<= length >%
+            size %<= thickness >% %<= length >% %<= height >%
           }
         }
       ]

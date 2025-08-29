@@ -3,11 +3,7 @@
 %                This MATLAB code reads the current robot and ball positions and plots them in 2d soccer field depiction
 % Prerequisite: -This works only for nao2_matlab.wbt file or .wbt files that do contain the corresponding robot and the ball
 %               -MATLAB must be installed and the "matlab" command must be in the PATH environment variable
-
-% uncomment the next two lines if you want to use
-% MATLAB's desktop to interact with this controller:
-%desktop;
-%keyboard;
+function supervisor_matlab
 
 % controller time step
 TIME_STEP = 40;

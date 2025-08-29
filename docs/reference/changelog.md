@@ -2,6 +2,9 @@
 
 ## Versions
 
+- [Webots R2025](changelog-r2025.md)
+- [Webots R2023](changelog-r2023.md)
+- [Webots R2022](changelog-r2022.md)
 - [Webots R2021](changelog-r2021.md)
 - [Webots R2020](changelog-r2020.md)
 - [Webots R2019](changelog-r2019.md)

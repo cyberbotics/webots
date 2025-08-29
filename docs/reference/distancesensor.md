@@ -137,15 +137,18 @@ Two different methods are used for calculating the distance from an object.
 
 %figure "Summary of DistanceSensor types"
 
-| type (field)             | "generic" | "infra-red" | "sonar" | "laser" |
-| ------------------------ | --------- | ----------- | ------- | ------- |
-| numberOfRays (field)     | `>` 0     | `>` 0       | `>` 0   | 1       |
-| Distance calculation     | Average   | Average     | Nearest | Nearest |
-| gaussianWidth (field)    | Used      | Used        | Ignored | Ignored |
-| Sensitive to red objects | No        | Yes         | No      | No      |
-| Draws a red spot         | No        | No          | No      | Yes     |
+| type (field)               | "generic" | "infra-red" | "sonar" | "laser" |
+| -------------------------- | --------- | ----------- | ------- | ------- |
+| numberOfRays (field)       | `>` 0     | `>` 0       | `>` 0   | 1       |
+| Distance calculation       | Average   | Average     | Nearest | Nearest |
+| gaussianWidth (field)      | Used      | Used        | Ignored | Ignored |
+| Sensitive to red objects   | No        | Yes         | No      | No      |
+| Draws a red spot           | No        | No          | No      | Yes     |
+| Ignore transparent objects | No        | Yes         | No      | Yes     |
 
 %end
+
+A transparent object is not perceived by "laser" and "infra-red" distance sensors if its bounding object has transparency set to 1.0.
 
 ### Infra-Red Sensors
 
@@ -260,16 +263,6 @@ value = wb_distance_sensor_get_value(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/value` | `topic` | [`sensor_msgs::Range`](http://docs.ros.org/api/sensor_msgs/html/msg/Range.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`uint8 ULTRASOUND=0`<br/>`uint8 INFRARED=1`<br/>`uint8 radiation_type`<br/>`float32 field_of_view`<br/>`float32 min_range`<br/>`float32 max_range`<br/>`float32 range` |
-| `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
-| `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -373,17 +366,6 @@ lookup_table_array = wb_distance_sensor_get_lookup_table(tag)
 
 %tab-end
 
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_max_value` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_min_value` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_aperture` | `service` | [`webots_ros::get_float`](ros-api.md#common-services) | |
-| `/<device_name>/get_lookup_table` | `service` | [`webots_ros::get_float_array`](ros-api.md#common-services) | |
-
-%tab-end
-
 %end
 
 ##### Description
@@ -478,14 +460,6 @@ WB_DISTANCE_SENSOR_GENERIC, WB_DISTANCE_SENSOR_INFRA_RED, WB_DISTANCE_SENSOR_SON
 
 type = wb_distance_sensor_get_type(tag)
 ```
-
-%tab-end
-
-%tab "ROS"
-
-| name | service/topic | data type | data type definition |
-| --- | --- | --- | --- |
-| `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
 %tab-end
 

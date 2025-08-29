@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ public:
   explicit WbRadar(WbTokenizer *tokenizer = NULL);
   WbRadar(const WbRadar &other);
   explicit WbRadar(const WbNode &other);
-  virtual ~WbRadar();
+  virtual ~WbRadar() override;
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_RADAR; }
@@ -42,8 +42,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
@@ -58,10 +58,6 @@ public:
   double horizontalFieldOfView() const { return mHorizontalFieldOfView->value(); }
   double verticalFieldOfView() const { return mVerticalFieldOfView->value(); }
   double wavelength() const { return 0.299792458 / mFrequency->value(); }
-
-  bool computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &radarRotation, const WbMatrix3 &radarInverseRotation,
-                     const WbVector3 &radarAxis, const WbAffinePlane &radarPlane, const WbAffinePlane *frustumPlanes,
-                     WbRadarTarget *radarTarget, bool fromRayUpdate);
 
 private:
   // user accessible fields
@@ -115,6 +111,8 @@ private:
   void updateRaysSetupIfNeeded() override;
   void updateReceivedPowerFactor();
   void computeTargets(bool finalSetup, bool needCollisionDetection);
+  bool setTargetProperties(const WbVector3 &radarPosition, const WbMatrix3 &radarRotation, const WbVector3 &radarAxis,
+                           const WbAffinePlane &radarPlane, WbRadarTarget *radarTarget);
 
 private slots:
   void updateMinRange();

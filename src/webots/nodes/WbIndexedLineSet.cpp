@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -228,7 +228,7 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  if (!coord())
+  if (!coord() || mCoordIndex->isEmpty())
     return;
 
   const WbMFVector3 &points = coord()->point();
@@ -264,6 +264,12 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
     if (index >= 0 && index < points.size())  // skip '-1' or other invalid indices.
       mBoundingSphere->enclose(points.item(index));
   }
+}
+
+QStringList WbIndexedLineSet::fieldsToSynchronizeWithW3d() const {
+  QStringList fields;
+  fields << "coordIndex";
+  return fields;
 }
 
 ////////////////////////

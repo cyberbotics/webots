@@ -1,6 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2025a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/MattePaint.proto
+# keywords: appearance/paint
 # A matte paint material. The color can be selected in the `baseColor` field.
 
 PROTO MattePaint [
@@ -13,13 +15,13 @@ PROTO MattePaint [
     baseColor IS baseColor
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/matte_car_paint/matte_car_paint_base_color.jpg"
+        "textures/matte_car_paint/matte_car_paint_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/matte_car_paint/matte_car_paint_roughness.jpg"
+        "textures/matte_car_paint/matte_car_paint_roughness.jpg"
       ]
       filtering 5
     }

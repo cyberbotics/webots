@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,9 +60,13 @@ namespace wren {
     }
   }
 
-  void Viewport::attachOverlay(Overlay *overlay) { mOverlays.push_back(overlay); }
+  void Viewport::attachOverlay(Overlay *overlay) {
+    mOverlays.push_back(overlay);
+  }
 
-  void Viewport::detachOverlay(Overlay *overlay) { containerutils::removeElementFromVector(mOverlays, overlay); }
+  void Viewport::detachOverlay(Overlay *overlay) {
+    containerutils::removeElementFromVector(mOverlays, overlay);
+  }
 
   void Viewport::renderOverlay(Overlay *overlay) {
     assert(std::find(mOverlays.begin(), mOverlays.end(), overlay) != mOverlays.end());
@@ -176,10 +180,6 @@ namespace wren {
         }
       }
 
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
-
       for (size_t i = 0; i < mPostProcessingEffects.size(); ++i)
         mPostProcessingEffects[i]->apply();
     }
@@ -198,9 +198,6 @@ namespace wren {
         mAmbientOcclusionEffect->setResultFrameBuffer(mFrameBuffer);
         mAmbientOcclusionEffect->firstPass()->setInputTexture(0, mFrameBuffer->outputTexture(0));
       }
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
 
       mAmbientOcclusionEffect->apply();
     }
@@ -219,10 +216,6 @@ namespace wren {
         mAntiAliasingEffect->setResultFrameBuffer(mFrameBuffer);
         mAntiAliasingEffect->firstPass()->setInputTexture(0, mFrameBuffer->outputTexture(0));
       }
-
-      glstate::bindDrawFrameBuffer(0);
-
-      clear();
 
       mAntiAliasingEffect->apply();
     }
@@ -270,9 +263,11 @@ namespace wren {
     mAreShadowsEnabled(true),
     mIsSkyboxEnabled(true),
     mAmbientOcclusionEffect(NULL),
-    mAntiAliasingEffect(NULL) {}
+    mAntiAliasingEffect(NULL) {
+  }
 
-  Viewport::~Viewport() {}
+  Viewport::~Viewport() {
+  }
 
   void Viewport::sortOverlays() {
     std::sort(mOverlays.begin(), mOverlays.end(),

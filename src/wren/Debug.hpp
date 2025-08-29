@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,36 +38,42 @@
 namespace wren {
 
 #ifndef WREN_DEBUG
-  inline void PhongMaterial::printCacheContents() {}
-  inline void PbrMaterial::printCacheContents() {}
-  inline void StaticMesh::printCacheContents() {}
-  inline void Texture2d::printCacheContents() {}
-  inline void PostProcessingEffect::printPasses() const { assert(this); }
+  inline void PhongMaterial::printCacheContents() {
+  }
+  inline void PbrMaterial::printCacheContents() {
+  }
+  inline void StaticMesh::printCacheContents() {
+  }
+  inline void Texture2d::printCacheContents() {
+  }
+  inline void PostProcessingEffect::printPasses() const {
+    assert(this);
+  }
 #else
   inline void PhongMaterial::printCacheContents() {
     std::cerr << "PhongMaterial cache, number of entries: " << PhongMaterial::cCache.size() << std::endl;
-    for (auto &data : PhongMaterial::cCache) {
+    for (const auto &data : PhongMaterial::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void PbrMaterial::printCacheContents() {
     std::cerr << "PbrMaterial cache, number of entries: " << PbrMaterial::cCache.size() << std::endl;
-    for (auto &data : PbrMaterial::cCache) {
+    for (const auto &data : PbrMaterial::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void StaticMesh::printCacheContents() {
     std::cerr << "Mesh cache, number of entries: " << StaticMesh::cCache.size() << std::endl;
-    for (auto &data : StaticMesh::cCache) {
+    for (const auto &data : StaticMesh::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
 
   inline void Texture2d::printCacheContents() {
     std::cerr << "Texture2d cache, number of entries: " << Texture2d::cCache.size() << std::endl;
-    for (auto &data : Texture2d::cCache) {
+    for (const auto &data : Texture2d::cCache) {
       std::cerr << "Hash: " << data.first.mHash << ", users: " << data.second.mNumUsers << std::endl;
     }
   }
@@ -99,17 +105,28 @@ namespace wren {
 #define DEBUGONE(x) \
   do {              \
   } while (0)
-    inline void printVec2(const glm::vec2 &vec, const std::string &name) {}
-    inline void printVec3(const glm::vec3 &vec, const std::string &name) {}
-    inline void printVec4(const glm::vec4 &vec, const std::string &name) {}
-    inline void printQuat(const glm::quat &quat, const std::string &name) {}
-    inline void printMat4(const glm::mat4 &mat, const std::string &name) {}
-    inline void printSphere(const primitive::Sphere &sphere, const std::string &name) {}
-    inline void printRay(const primitive::Ray &ray, const std::string &name) {}
-    inline void printPlane(const primitive::Plane &plane, const std::string &name) {}
-    inline void printAabb(const primitive::Aabb &aabb, const std::string &name) {}
-    inline void printCacheContents() {}
-    inline void printSceneTree() {}
+    inline void printVec2(const glm::vec2 &vec, const std::string &name) {
+    }
+    inline void printVec3(const glm::vec3 &vec, const std::string &name) {
+    }
+    inline void printVec4(const glm::vec4 &vec, const std::string &name) {
+    }
+    inline void printQuat(const glm::quat &quat, const std::string &name) {
+    }
+    inline void printMat4(const glm::mat4 &mat, const std::string &name) {
+    }
+    inline void printSphere(const primitive::Sphere &sphere, const std::string &name) {
+    }
+    inline void printRay(const primitive::Ray &ray, const std::string &name) {
+    }
+    inline void printPlane(const primitive::Plane &plane, const std::string &name) {
+    }
+    inline void printAabb(const primitive::Aabb &aabb, const std::string &name) {
+    }
+    inline void printCacheContents() {
+    }
+    inline void printSceneTree() {
+    }
 #else
 #define DEBUG(x)                 \
   do {                           \

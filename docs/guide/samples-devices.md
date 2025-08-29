@@ -126,7 +126,7 @@ Then both robots rotate their handles simultaneously, hence the light robot gets
 Then the light robot gets passed over another time by the second heavy robot and so on...
 All the robots in this simulation use the same controller; the different behaviors are selected according to the robot's name.
 
-### [coupled\_motor.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motor.wbt)
+### [coupled\_motors.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motors.wbt)
 
 **Keywords**: [Motor](../reference/motor.md), coupled motor, multiplier
 
@@ -229,7 +229,7 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 
 **Keywords**: Backlash, [HingeJoint](../reference/hingejoint.md)
 
-![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hinge-joint-with-backlash.md).
+![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](https://webots.cloud/run?url={{ url.github_blob }}/projects/joints/protos/HingeJointWithBacklash.proto).
 The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
 When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
 
@@ -237,8 +237,8 @@ When the rotor is motorized, the output axis lags behind due to the effect of ba
 
 **Keywords**: Backlash, [Hinge2Joint](../reference/hinge2joint.md)
 
-![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md).
-The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) with a large backlash.
+![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_blob }}/projects/joints/protos/Hinge2JointWithBacklash.proto).
+The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_blob }}/projects/joints/protos/Hinge2JointWithBacklash.proto) with a large backlash.
 Given the added joint play, in the presence of gravity, at rest the end-point is unstable and therefore slumps down compared to the case without backlash.
 In a real scenario, this is analogous to having a large clearance in between the driving and driven gear.
 
@@ -249,6 +249,15 @@ In a real scenario, this is analogous to having a large clearance in between the
 ![hokuyo.png](images/samples/hokuyo.thumbnail.jpg) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
+
+### [imu.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/imu.wbt)
+
+**Keywords**: [Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md), [Compass](../reference/compass.md), [InertialUnit](../reference/inertialunit.md), IMU, roll/pitch/yaw angles
+
+![imu.png](images/samples/imu.thumbnail.jpg) This example demonstrates the difference between [InertialUnit](../reference/inertialunit.md) measurements and the fusion of multiple sensors of an IMU ([Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md) and [Compass](../reference/compass.md)) to estimate the attitude (roll, pitch and yaw angles).
+The sensors are mounted on a 3 DOF (Degrees Of Freedom) arm which moves from one random target to another.
+After the 100th target is reached, the attitude is compared between the ground truth ([InertialUnit](../reference/inertialunit.md)), absolute estimation ([Accelerometer](../reference/accelerometer.md) and [Compass](../reference/compass.md)) and relative estimation ([Gyro](../reference/gyro.md)).
+The drift on relative estimation is clearly visible.
 
 ### [inertial\_unit.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/inertial_unit.wbt)
 
@@ -364,7 +373,7 @@ This noisy position is compared to the actual [Emitter](../reference/emitter.md)
 
 ### [sick.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick.wbt)
 
-**Keywords**: [Sick LMS 291](lidar-sensors.md#sick-lms-291), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
+**Keywords**: [Sick LMS 291](https://webots.cloud/run?url={{ url.github_blob }}/projects/devices/sick/protos/SickLms291.proto), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
 
 ![sick.png](images/samples/sick.thumbnail.jpg) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
 The robot use the lidar depth output to avoid collisions.
@@ -372,10 +381,17 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 
 ### [sick\_point\_cloud.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick_point_cloud.wbt)
 
-**Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
+**Keywords**: [Sick LD MRS](https://webots.cloud/run?url={{ url.github_blob }}/projects/devices/sick/protos/SickLdMrs.proto), [Lidar](../reference/lidar.md), cloud point
 
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
 A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
+
+### [skin.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/skin.wbt)
+
+**Keywords**: [Skin](../reference/skin.md) animation
+
+![skin.png](images/samples/skin.thumbnail.jpg) In this example, a human rigged model is animated using the [Skin](../reference/skin.md) device.
+In this case the animation is purely graphical and just the left leg bone orientation and the root bone position are modified by the controller.
 
 ### [speaker.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/speaker.wbt)
 

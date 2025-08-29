@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@
 #include "WbNodeReader.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -60,7 +60,8 @@ void WbMFNode::clear() {
   QVector<WbNode *> tmp = mVector;
   mVector.clear();
   emit changed();
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
+
+  // We don't want to use qDeleteAll(tmp) because we need to delete USE nodes before DEF nodes
   const int n = tmp.size() - 1;
   for (int i = n; i >= 0; --i)
     delete tmp[i];
@@ -132,9 +133,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
   if (mVector == other.mVector)
     return *this;
 
-  // QVector<WbNode*> tmp = mVector;
-  // mVector.clear();
-
   while (mVector.size() > 0)
     removeItem(0);
 
@@ -144,17 +142,6 @@ WbMFNode &WbMFNode::operator=(const WbMFNode &other) {
     assert(copy);  // test clone() function
     addItem(copy);
   }
-
-  // foreach (WbNode *node, other.mVector) {
-  //   WbNode *copy = node->clone();
-  //   assert(copy);  // test clone() function
-  //   mVector.append(copy);
-  // }
-
-  // qDeleteAll(tmp);  // Delete always USE nodes before DEF nodes
-  // const int n = tmp.size() - 1;
-  // for (int i = n; i >= 0; i--)
-  //   delete tmp[i];
 
   emit changed();
   return *this;
@@ -167,8 +154,8 @@ bool WbMFNode::operator==(const WbMFNode &other) const {
   if (size() != other.size())
     return false;
 
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i) {
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i) {
     const WbNode *const n1 = mVector[i];
     const WbNode *const n2 = other.mVector[i];
     if (*n1 != *n2)
@@ -188,14 +175,14 @@ void WbMFNode::copyFrom(const WbValue *other) {
   *this = *that;
 }
 
-void WbMFNode::writeItem(WbVrmlWriter &writer, int index) const {
+void WbMFNode::writeItem(WbWriter &writer, int index) const {
   assert(index >= 0 && index < size());
   mVector[index]->write(writer);
 }
 
 void WbMFNode::defHasChanged() {
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i)
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i)
     mVector[i]->defHasChanged();
 }
 
@@ -205,13 +192,14 @@ int WbMFNode::nodeIndex(const WbNode *node) const {
   return -1;
 }
 
-void WbMFNode::write(WbVrmlWriter &writer) const {
+void WbMFNode::write(WbWriter &writer) const {
   writer.writeMFStart();
   int c = 0;
-  const int size = mVector.size();
-  for (int i = 0; i < size; ++i) {
+  const int vectorSize = mVector.size();
+  for (int i = 0; i < vectorSize; ++i) {
     if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
-      writer.writeMFSeparator(c == 0, smallSeparator(i));
+      if (!writer.isW3d())
+        writer.writeMFSeparator(c == 0, smallSeparator(i));
       writeItem(writer, i);
       ++c;
     }

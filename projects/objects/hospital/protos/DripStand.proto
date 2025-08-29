@@ -1,0 +1,437 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/hospital/protos/DripStand.proto
+# keywords: household/hospital
+# A drip stand.
+
+PROTO DripStand [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 0 1 0
+  field SFString   name            "drip stand"
+  field SFNode     physics         NULL                # Is `Solid.physics`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Solid {
+        translation -0.00305469 -0.00200824 0.613931
+        rotation 1 0 0 1.5707965
+        children [
+          Transform {
+            scale 0.0228675 0.0228675 0.0228675
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/lower_tube.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "lower tube"
+      }
+      Solid {
+        translation -0.00218309 -0.00265712 1.12455
+        rotation 1 0 0 1.5707964
+        children [
+          Transform {
+            scale 0.0157904 0.0157904 0.0157904
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/connector.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "connector"
+      }
+      Solid {
+        translation 0.0196652 -0.0104804 1.13172
+        rotation 0.9998917053966855 -0.010406189056165012 -0.010406186056164994 1.5709049
+        children [
+          Transform {
+            scale 0.0246291 0.0246291 0.0246291
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/knob.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "knob"
+      }
+      Solid {
+        translation -0.00167235 -0.0027572 0.104999
+        rotation 1 0 0 1.5707965
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/metal_plate.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "metal plate"
+      }
+      Solid {
+        translation 0.00668002 -0.00505816 0.0864856
+        rotation 0.9758308301987285 -0.15452216686448172 -0.15452213686448235 1.5952601
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.04202518 0.04202518 0.04202518
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/base.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "base"
+      }
+      Solid {
+        translation -0.222596 0.0882875 0.046483
+        rotation 0.9758308301987285 -0.15452216686448172 -0.15452213686448235 1.5952601
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              DEF CASTER_WHEEL Shape {
+                appearance PBRAppearance {
+                  baseColor 0.04202518 0.04202518 0.04202518
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/caster_wheel.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "caster wheel"
+      }
+      Solid {
+        translation -0.15106 -0.191547 0.0464829
+        rotation 0.5974737581552185 0.567020770481946 0.567020770481946 2.06447
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              USE CASTER_WHEEL
+            ]
+          }
+        ]
+        name "caster wheel 1"
+      }
+      Solid {
+        translation 0.243787 0.0604183 0.0464782
+        rotation -0.7557269207321852 0.46307495142830235 0.46307495142830235 -1.8472753071795864
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              USE CASTER_WHEEL
+            ]
+          }
+        ]
+        name "caster wheel 2"
+      }
+      Solid {
+        translation 0.13755 -0.209135 0.046483
+        rotation -0.2619790245418032 0.6824110639272478 0.6824090639270606 -2.629145307179586
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              USE CASTER_WHEEL
+            ]
+          }
+        ]
+        name "caster wheel 3"
+      }
+      Solid {
+        translation 0.0204492 0.243653 0.046483
+        rotation 0.9891257131990845 0.10399596984595694 0.10399596984595694 1.58173
+        children [
+          Transform {
+            scale 0.02309 0.02309 0.02309
+            children [
+              USE CASTER_WHEEL
+            ]
+          }
+        ]
+        name "caster wheel 4"
+      }
+      Solid {
+        translation -0.00325908 0.0395559 1.01611
+        rotation 1 0 0 1.5707964
+        children [
+          Transform {
+            scale 0.0159938 0.0159938 0.0159938
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.4902262 0.4902262 0.4902262
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/bottle.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "bottle"
+      }
+      Solid {
+        translation -0.00256556 0.0208984 1.04024
+        rotation -1.3767868217809848e-07 0.7071067811865409 0.7071067811865409 3.141593
+        children [
+          Transform {
+            scale 0.0161747 0.0161747 0.0161747
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.01691505 0.01691505 0.01691505
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/bottle_holder.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "bottle holder"
+      }
+      Solid {
+        translation -0.00301763 -0.00180831 0.97
+        rotation 0.6542559139496509 0.5347659296654506 0.5347659296654506 1.98287
+        children [
+          Transform {
+            scale 0.0254385 0.0254385 0.0254385
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/upper_tube.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "upper tube"
+      }
+      Solid {
+        translation -0.00304224 -0.0018392 1.50911
+        rotation 5.8237181978564963e-08 0.7071067811865465 0.7071067811865465 3.14159
+        children [
+          Transform {
+            scale 0.0222493 0.0222493 0.0222493
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/top_button.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "top button"
+      }
+      Solid {
+        translation -0.0230884 0.0689117 1.50424
+        rotation 1 0 0 1.5707964
+        children [
+          Transform {
+            scale 0.0185621 0.0185621 0.0185621
+            children [
+              DEF HOOK Shape {
+                appearance PBRAppearance {
+                  baseColor 0.8 0.8 0.8
+                  roughness 1
+                  metalness 0
+                }
+                geometry Mesh {
+                  url "meshes/hook.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "hook 1"
+      }
+      Solid {
+        translation 0.0175858 -0.0715799 1.50424
+        rotation 0 0.70710528118436 0.707108281185553 3.14159
+        children [
+          Transform {
+            scale 0.0185621 0.0185621 0.0185621
+            children [
+              USE HOOK
+            ]
+          }
+        ]
+        name "hook 2"
+      }
+    ]
+    boundingObject Group {
+      children [
+        Pose {
+          translation 0.251702 0.0545638 0.0250728
+          rotation 0.8776498490670578 -0.33891794171493084 -0.33891794171493084 1.70094
+          children [
+            DEF WHEEL_BO Cylinder {
+              height 0.04
+              radius 0.024
+            }
+          ]
+        }
+        Pose {
+          translation 0.132816 -0.218437 0.0250728
+          rotation 0.7332307949703677 0.4808168655516028 0.480819865550764 1.87623
+          children [
+            USE WHEEL_BO
+          ]
+        }
+        Pose {
+          translation -0.155751 -0.181637 0.0250728
+          rotation 0.41626397568747886 0.6429309624486539 0.6429339624484787 2.3527
+          children [
+            USE WHEEL_BO
+          ]
+        }
+        Pose {
+          translation -0.212361 0.0895674 0.025074
+          rotation -0.03734609985147064 0.7066119971897299 0.7066149971897179 -3.066935307179586
+          children [
+            USE WHEEL_BO
+          ]
+        }
+        Pose {
+          translation 0.0294657 0.249174 0.025074
+          rotation -0.22568900109831555 0.688861003352342 0.6888650033523616 -2.6976553071795863
+          children [
+            USE WHEEL_BO
+          ]
+        }
+        Pose {
+          translation -0.002 -0.002 0.81
+          children [
+            Cylinder {
+              height 1.4
+              radius 0.01
+            }
+          ]
+        }
+        Pose {
+          translation 0.0151203 0.148093 0.0766664
+          rotation -0.7431819195771637 0.01018209889815232 -0.66901192760341 0.0409523
+          children [
+            DEF LEG Box {
+              size 0.05 0.23 0.05
+            }
+          ]
+        }
+        Pose {
+          translation 0.153437 0.0351924 0.0766316
+          rotation -0.034935590843865647 -0.003412999105500219 -0.9993837380753681 1.30846
+          children [
+            USE LEG
+          ]
+        }
+        Pose {
+          translation -0.130064 0.0535756 0.0751732
+          rotation 0.004573772024847599 -0.03762551665713478 -0.9992814423903551 1.96575
+          children [
+            USE LEG
+          ]
+        }
+        Pose {
+          translation 0.0878628 -0.130135 0.0772281
+          rotation -0.001403070661765151 0.015462007292731483 -0.9998794715980509 2.53219
+          children [
+            USE LEG
+          ]
+        }
+        Pose {
+          translation -0.0823609 -0.115632 0.0740354
+          rotation 0.003440381616009836 -0.03173271490543351 0.9994904694788573 2.46327
+          children [
+            USE LEG
+          ]
+        }
+        Pose {
+          translation -0.003 0.04 1.015
+          children [
+            Cylinder {
+              height 0.06
+              radius 0.016
+            }
+          ]
+        }
+        Pose {
+          translation 0.0219843 -0.0118171 1.13156
+          rotation 0.19342207866351813 0.9618603911824485 -0.19342307866392483 1.60968
+          children [
+            Cylinder {
+              height 0.012
+              radius 0.017
+            }
+          ]
+        }
+      ]
+    }
+    physics IS physics
+  }
+}

@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2024 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,14 +22,23 @@
 // (3) handling basic robot requests
 // (4) initialization of the remote scene if any (textures, download)
 
+#include <assert.h>
+#include <dirent.h>  // struct dirent
+#include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
 #include <stdarg.h>
-#include <stdio.h>   // snprintf
-#include <stdlib.h>  // exit
-#include <string.h>  // strlen
-#include <unistd.h>  // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <stdio.h>     // snprintf
+#include <stdlib.h>    // exit
+#include <string.h>    // strlen
+#include <sys/stat.h>  // stat
+#include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
+#if defined(__APPLE__) || defined(_WIN32)
+#define st_mtim st_mtimespec
+#endif
+
+#include <webots/console.h>
 #include <webots/joystick.h>
 #include <webots/keyboard.h>
 #include <webots/mouse.h>
@@ -37,21 +46,24 @@
 #include <webots/supervisor.h>
 #include <webots/types.h>
 #include <webots/utils/system.h>
+
+#include "default_robot_window_private.h"
 #include "device_private.h"
+#include "html_robot_window_private.h"
 #include "joystick_private.h"
 #include "keyboard_private.h"
 #include "messages.h"
 #include "motion_private.h"
 #include "mouse_private.h"
+#include "percent.h"
+#include "remote_control_private.h"
 #include "request.h"
 #include "robot_private.h"
-#include "scheduler.h"
-#include "supervisor_private.h"
-
-#include "default_robot_window_private.h"
-#include "html_robot_window_private.h"
-#include "remote_control_private.h"
 #include "robot_window_private.h"
+#include "scheduler.h"
+#include "sha1.h"
+#include "supervisor_private.h"
+#include "tcp_client.h"
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
@@ -62,6 +74,10 @@
 #define WEBOTS_EXIT_FALSE 0
 #define WEBOTS_EXIT_NOW 1
 #define WEBOTS_EXIT_LATER 2
+
+#ifndef LIBCONTROLLER_VERSION
+#error "Missing declaration of LIBCONTROLLER_VERSION preprocessor macro in the Makefile."
+#endif
 
 typedef struct {
   WbDevice **device;  // array of devices
@@ -76,8 +92,8 @@ typedef struct {
   unsigned char client_exit;
   unsigned char webots_exit;  // WEBOTS_EXIT_FALSE, WEBOTS_EXIT_NOW or WEBOTS_EXIT_LATER
   double basic_time_step;
-  char console_stream;
-  char *console_text;
+  char *console_stdout;
+  char *console_stderr;
   char *project_path;
   char *world_path;
   char *model;
@@ -101,19 +117,61 @@ typedef struct {
   int pin;
   int wwi_message_to_send_size;
   const char *wwi_message_to_send;
-  int wwi_message_received_size;
-  char *wwi_message_received;
+  int wwi_received_messages_size;
+  int wwi_reception_buffer_size;
+  char *wwi_reception_buffer;
+  bool wwi_reset_reading_head;
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
+static char *WEBOTS_VERSION;
 static bool robot_init_was_done = false;
 static WbRobot robot;
 static WbMutexRef robot_step_mutex;
 static double simulation_time = 0.0;
 static unsigned int current_step_duration = 0;
 static bool should_abort_simulation_waiting = false;
+static bool waiting_for_step_begin = false;
+static bool waiting_for_step_end = false;
+static int stdout_read = -1;
+static int stderr_read = -1;
 
 // Static functions
+static int stream_pipe_create(int stream) {
+  int fds[2];
+#ifdef WIN32
+  _pipe(fds, 1024, O_TEXT);
+#else
+  if (pipe(fds) == -1) {
+    fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT.\n");
+    exit(EXIT_FAILURE);
+  }
+  fcntl(fds[0], F_SETFL, O_NONBLOCK);
+#endif
+  dup2(fds[1], stream);
+  return fds[0];
+}
+
+void stream_pipe_read(int fd, char **buffer) {
+  if (fd == -1)
+    return;
+  assert(*buffer == NULL);
+  *buffer = malloc(1024);  // FIXME: buffer is limited to 1024 bytes
+#ifdef _WIN32
+  int len = eof(fd) ? 0 : read(fd, *buffer, 1023);
+#else
+  int len = read(fd, *buffer, 1023);
+  if (len == -1)
+    len = 0;
+#endif
+  if (len != 0)
+    (*buffer)[len] = '\0';
+  else {
+    free(*buffer);
+    *buffer = NULL;
+  }
+}
+
 static void init_robot_window_library() {
   if (robot_window_is_initialized())
     return;
@@ -174,10 +232,12 @@ static void robot_quit() {  // called when Webots kills a controller
   robot.controller_name = NULL;
   free(robot.custom_data);
   robot.custom_data = NULL;
-  free(robot.console_text);
-  robot.console_text = NULL;
-  free(robot.wwi_message_received);
-  robot.wwi_message_received = NULL;
+  free(robot.console_stdout);
+  robot.console_stdout = NULL;
+  free(robot.console_stderr);
+  robot.console_stderr = NULL;
+  free(robot.wwi_reception_buffer);
+  robot.wwi_reception_buffer = NULL;
   robot_window_cleanup();
   remote_control_cleanup();
   free(robot.urdf);
@@ -200,13 +260,21 @@ void robot_write_request(WbDevice *dev, WbRequest *req) {
     request_write_string(req, robot.custom_data);
     robot.dataNeedToWriteRequest = false;
   }
-  if (robot.console_text) {
+  if (robot.console_stdout && robot.console_stdout[0]) {
     request_write_uchar(req, C_CONSOLE_MESSAGE);
-    request_write_uchar(req, robot.console_stream);
-    request_write_uint32(req, strlen(robot.console_text) + 1);
-    request_write_string(req, robot.console_text);
-    free(robot.console_text);
-    robot.console_text = NULL;
+    request_write_uchar(req, 1);
+    request_write_uint32(req, strlen(robot.console_stdout) + 1);
+    request_write_string(req, robot.console_stdout);
+    free(robot.console_stdout);
+    robot.console_stdout = NULL;
+  }
+  if (robot.console_stderr && robot.console_stderr[0]) {
+    request_write_uchar(req, C_CONSOLE_MESSAGE);
+    request_write_uchar(req, 2);
+    request_write_uint32(req, strlen(robot.console_stderr) + 1);
+    request_write_string(req, robot.console_stderr);
+    free(robot.console_stderr);
+    robot.console_stderr = NULL;
   }
   if (robot.client_exit) {
     request_write_uchar(req, C_ROBOT_CLIENT_EXIT_NOTIFY);
@@ -279,13 +347,23 @@ static void robot_send_request(unsigned int step_duration) {
     remote_control_step(step_duration);
   }
 
-  if (scheduler_is_local() || request_get_size(req) != 8)
+  if (scheduler_is_ipc() || scheduler_is_tcp() || request_get_size(req) != 8)
     scheduler_send_request(req);
   request_delete(req);
 }
 
 // rebuild the device list
 static void robot_configure(WbRequest *r) {
+  free(robot.device[0]->name);
+  robot.device[0]->name = request_read_string(r);
+
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, 6)))
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
+
   // delete all the devices except the robot
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++)
@@ -304,8 +382,6 @@ static void robot_configure(WbRequest *r) {
   robot.device[0] = d;  // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
-  free(robot.device[0]->name);
-  robot.device[0]->name = request_read_string(r);
 
   // printf("robot.is_supervisor = %d\n", robot.is_supervisor);
   // printf("robot.synchronization = %d\n", robot.synchronization);
@@ -346,9 +422,7 @@ static char robot_read_data() {
   bool immediate = false;
 
   do {
-    robot_mutex_unlock_step();
     robot_window_update_gui();
-    robot_mutex_lock_step();
 
     WbRequest *r = scheduler_read_data();
     while (r == NULL) {
@@ -369,19 +443,15 @@ static char robot_read_data() {
 
     if (immediate) {
       if (robot.show_window && !robot.has_html_robot_window) {  // Qt-based robot window
-        robot_mutex_unlock_step();
         // initialize first the remote control library in order
         // to have access to the real robot at the window creation
         // to get custom data
         init_robot_window_library();
         robot_window_show();
-        robot_mutex_lock_step();
         robot.show_window = false;
       }
       if (robot.update_window) {  // HTML robot window
-        robot_mutex_unlock_step();
         html_robot_window_step(0);
-        robot_mutex_lock_step();
         robot.update_window = false;
       }
       robot_window_pre_update_gui();
@@ -445,17 +515,18 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       break;
     case C_ROBOT_WWI_MESSAGE:
       n = request_read_int32(r);
-      if (n > robot.wwi_message_received_size)
-        robot.wwi_message_received = realloc(robot.wwi_message_received, n);
-      robot.wwi_message_received_size = n;
-      memcpy(robot.wwi_message_received, request_read_data(r, n), n);
+      const int new_size = robot.wwi_received_messages_size + n;
+      if (robot.wwi_reception_buffer_size < new_size) {
+        robot.wwi_reception_buffer = realloc(robot.wwi_reception_buffer, new_size);
+        robot.wwi_reception_buffer_size = new_size;
+      }
+      memcpy(robot.wwi_reception_buffer + robot.wwi_received_messages_size, request_read_data(r, n), n);
+      robot.wwi_received_messages_size += n;
       break;
     case C_ROBOT_SIMULATION_CHANGE_MODE:
       robot.simulation_mode = request_read_int32(r);
-      robot_mutex_unlock_step();
       if (robot.simulation_mode == WB_SUPERVISOR_SIMULATION_MODE_PAUSE && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL)
         remote_control_stop_actuators();
-      robot_mutex_lock_step();
       break;
     case C_ROBOT_QUIT:
       robot.webots_exit = WEBOTS_EXIT_NOW;
@@ -474,7 +545,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
-// Protected funtions available from other files of the client library
+// Protected functions available from other files of the client library
 
 const char *robot_get_device_name(WbDeviceTag tag) {
   if (tag < robot.n_device)
@@ -498,22 +569,11 @@ WbDevice *robot_get_robot_device() {
   return robot.device[0];
 }
 
-static const char *robot_get_type_name() {
-  switch (robot.device[0]->node) {
-    case WB_NODE_ROBOT:
-      return "Robot";
-    default:
-      ROBOT_ASSERT(0);
-  }
-
-  return NULL;
-}
-
 int robot_check_supervisor(const char *func_name) {
   if (robot.is_supervisor)
     return 1;  // OK
 
-  fprintf(stderr, "Error: ignoring illegal call to %s() in a '%s' controller.\n", func_name, robot_get_type_name());
+  fprintf(stderr, "Error: ignoring illegal call to %s() in a 'Robot' controller.\n", func_name);
   fprintf(stderr, "Error: this function can only be used in a 'Supervisor' controller.\n");
   return 0;
 }
@@ -528,6 +588,15 @@ WbDevice *robot_get_device_with_node(WbDeviceTag tag, WbNodeType node, bool warn
   }
   if (warning)
     fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
+  return NULL;
+}
+
+WbDevice *robot_get_device(WbDeviceTag tag) {
+  if (tag < robot.n_device) {  // exists
+    WbDevice *d = robot.device[tag];
+    return d;
+  }
+  fprintf(stderr, "Error: device with tag=%d not found.\n", (int)tag);
   return NULL;
 }
 
@@ -546,30 +615,15 @@ void wb_robot_cleanup() {  // called when the client quits
   robot_quit();
 }
 
-void robot_mutex_lock_step() {
+void robot_mutex_lock() {
   wb_robot_mutex_lock(robot_step_mutex);
 }
 
-void robot_mutex_unlock_step() {
+void robot_mutex_unlock() {
   wb_robot_mutex_unlock(robot_step_mutex);
 }
 
-void robot_step_begin(int duration) {
-  motion_step_all(duration);
-  robot_send_request(duration);
-}
-
-int robot_step_end() {
-  keyboard_step_end();
-  joystick_step_end();
-  robot_read_data();
-  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
-    return scheduler_actual_step;
-
-  return -1;
-}
-
-WbDeviceTag robot_get_device_tag(WbDevice *d) {
+WbDeviceTag robot_get_device_tag(const WbDevice *d) {
   WbDeviceTag tag;
   for (tag = 0; tag < robot.n_device; tag++) {
     if (robot.device[tag] == d)
@@ -584,16 +638,15 @@ void robot_abort(const char *format, ...) {
   va_start(args, format);
   vsprintf(message, format, args);
   va_end(args);
-  fprintf(stderr, "abort: %s\n", message);
+  fprintf(stderr, "Abort: %s\n", message);
   robot_send_request(0);
   robot_read_data();
   exit(EXIT_FAILURE);
 }
 
 WbNodeType robot_get_device_type(WbDeviceTag tag) {
-  int ti = (int)tag;
-  if (ti >= 0 && ti < robot.n_device)
-    return robot.device[ti]->node;
+  if (tag < robot.n_device)
+    return robot.device[tag]->node;
   return WB_NODE_NO_NODE;
 }
 
@@ -615,9 +668,13 @@ void robot_toggle_remote(WbDevice *d, WbRequest *r) {
 
 void robot_console_print(const char *text, int stream) {
   const int n = strlen(text) + 1;
-  robot.console_text = malloc(n);
-  memcpy(robot.console_text, text, n);
-  robot.console_stream = stream;
+  if (stream == WB_STDOUT) {
+    robot.console_stdout = malloc(n);
+    memcpy(robot.console_stdout, text, n);
+  } else if (stream == WB_STDERR) {
+    robot.console_stderr = malloc(n);
+    memcpy(robot.console_stderr, text, n);
+  }
   if (wb_robot_step(0) == -1) {
     robot_quit();
     exit(EXIT_SUCCESS);
@@ -651,8 +708,15 @@ WbMutexRef wb_robot_mutex_new() {
 #ifdef _WIN32
   HANDLE m = CreateMutex(NULL, false, NULL);
 #else
+  // create a recursive mutex -> same thread can lock it multiple times
+  pthread_mutexattr_t attributes;
+  pthread_mutexattr_init(&attributes);
+  pthread_mutexattr_settype(&attributes, PTHREAD_MUTEX_RECURSIVE);
+
   pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
-  pthread_mutex_init(m, NULL);
+  pthread_mutex_init(m, &attributes);
+
+  pthread_mutexattr_destroy(&attributes);
 #endif
   // cppcheck-suppress resourceLeak
   return (WbMutexRef)m;
@@ -687,10 +751,6 @@ void wb_robot_mutex_delete(WbMutexRef m) {
 
 // end of multi-task API
 
-WbNodeType wb_robot_get_type() {
-  return robot.device[0]->node;
-}
-
 void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
   if (mode != WB_MODE_SIMULATION && mode != WB_MODE_REMOTE_CONTROL) {
     fprintf(stderr, "Error: %s() cannot set mode to %d.\n", __FUNCTION__, mode);
@@ -707,7 +767,7 @@ void wb_robot_set_mode(WbRobotMode mode, const char *arg) {
       robot.toggle_remote_first_step = true;
       return;
     } else
-      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s(): starting the remote control library (wbr_start) failed.\n", __FUNCTION__);
   }
   robot.mode = WB_MODE_SIMULATION;
 }
@@ -776,10 +836,10 @@ const char *wb_robot_get_name() {
 }
 
 void wb_robot_battery_sensor_enable(int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.battery_value = -1.0;  // need to enable or disable
   robot.battery_sampling_period = sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_robot_battery_sensor_disable() {
@@ -790,17 +850,17 @@ double wb_robot_battery_sensor_get_value() {
   if (robot.battery_sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_robot_battery_sensor_enable().\n", __FUNCTION__);
   double result;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   result = robot.battery_value;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_robot_battery_sensor_get_sampling_period() {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   sampling_period = robot.battery_sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
@@ -811,11 +871,15 @@ void wbr_robot_battery_sensor_set_value(double value) {
     robot.battery_value = value;
 }
 
-int wb_robot_step(int duration) {
+static int robot_step_begin(int duration) {
+  if (waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_end().\n", __FUNCTION__);
+
+  robot.wwi_reset_reading_head = true;
+
   if (!robot.client_exit)
     html_robot_window_step(duration);
 
-  robot_mutex_lock_step();
   // transfer state to/from remote (but not when client exit)
   if (robot.toggle_remote_first_step && !robot.client_exit) {
     robot.toggle_remote_first_step = false;
@@ -834,27 +898,87 @@ int wb_robot_step(int duration) {
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   } else if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
-    robot_mutex_unlock_step();
     return -1;
   }
 
-  robot_mutex_unlock_step();
   robot_window_write_actuators();
   robot_window_pre_update_gui();
-  robot_mutex_lock_step();
 
-  robot_step_begin(duration);
-  int e = robot_step_end();
+  motion_step_all(duration);
+  robot_send_request(duration);
+
+  waiting_for_step_begin = false;
+  waiting_for_step_end = true;
+
+  return 0;
+}
+
+static int robot_step_end() {
+  if (waiting_for_step_begin)
+    fprintf(stderr, "Warning: %s() called multiple times before calling wb_robot_step_begin().\n", __FUNCTION__);
+
+  if (robot.webots_exit == WEBOTS_EXIT_NOW)
+    return -1;
+
+  keyboard_step_end();
+  joystick_step_end();
+  robot_read_data();
+
+  int e = -1;
+  if (robot.webots_exit == WEBOTS_EXIT_FALSE)
+    e = scheduler_actual_step;
 
   if (e != -1 && wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL && remote_control_has_failed())
     wb_robot_set_mode(0, NULL);
 
-  robot_mutex_unlock_step();
   robot_window_read_sensors();
+
+  waiting_for_step_begin = true;
+  waiting_for_step_end = false;
+
+  return e;
+}
+
+int wb_robot_step_begin(int duration) {
+  if (stdout_read != -1 || stderr_read != -1) {
+    fflush(NULL);  // we need to flush the pipes
+    stream_pipe_read(stdout_read, &(robot.console_stdout));
+    stream_pipe_read(stderr_read, &(robot.console_stderr));
+  }
+
+  robot_mutex_lock();
+  const int e = robot_step_begin(duration);
+  robot_mutex_unlock();
+
+  return e;
+}
+
+int wb_robot_step_end() {
+  robot_mutex_lock();
+  const int e = robot_step_end();
+  robot_mutex_unlock();
+
+  return e;
+}
+
+int wb_robot_step(int duration) {
+  if (stdout_read != -1 || stderr_read != -1) {
+    fflush(NULL);  // we need to flush the pipes
+    stream_pipe_read(stdout_read, &(robot.console_stdout));
+    stream_pipe_read(stderr_read, &(robot.console_stderr));
+  }
+
+  robot_mutex_lock();
+  if (waiting_for_step_end)
+    fprintf(stderr, "Warning: %s() called before calling wb_robot_step_end().\n", __FUNCTION__);
+  int e = robot_step_begin(duration);
+  if (e != -1)
+    e = robot_step_end();
+  robot_mutex_unlock();
 
   return e;
 }
@@ -893,34 +1017,43 @@ WbUserInputEvent wb_robot_wait_for_user_input_event(WbUserInputEvent event_type,
   if (!valid)
     return WB_EVENT_NO_EVENT;
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.is_waiting_for_user_input_event = true;
   robot.user_input_event_type = event_type;
   robot.user_input_event_timeout = timeout;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   while (robot.is_waiting_for_user_input_event && !robot_is_quitting())
     robot_read_data();
 
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   }
 
   if (robot.webots_exit == WEBOTS_EXIT_LATER) {
     robot.webots_exit = WEBOTS_EXIT_NOW;
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return WB_EVENT_QUIT;
   }
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return robot.user_input_event_type;
 }
 
-void wb_robot_flush_unlocked() {
+void wb_robot_flush_unlocked(const char *function) {
+  if (function && waiting_for_step_end) {
+    fprintf(
+      stderr,
+      "Warning: %s(): functions with immediate requests to Webots cannot be implemented in-between wb_robot_step_begin() and "
+      "wb_robot_step_end()!\n",
+      function);
+    return;
+  }
+
   if (robot.webots_exit == WEBOTS_EXIT_NOW) {
     robot_quit();
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     exit(EXIT_SUCCESS);
   }
   if (robot.webots_exit == WEBOTS_EXIT_LATER)
@@ -937,7 +1070,7 @@ int wb_robot_init_msvc() {
   return wb_robot_init();
 }
 
-static void wb_robot_cleanup_shm() {
+static void wb_robot_cleanup_devices() {
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++) {
     WbDevice *d = robot.device[tag];
@@ -946,6 +1079,318 @@ static void wb_robot_cleanup_shm() {
     wb_device_cleanup(d);
     robot.device[tag] = NULL;
   }
+}
+
+static char *encode_robot_name(const char *robot_name, int chars_used) {
+  if (!robot_name)
+    return NULL;
+
+  char *encoded_name = percent_encode(robot_name);
+  int length = strlen(encoded_name);
+  // the robot name is used to connect to the libController and in this process there are indirect
+  // limitations such as QLocalServer only accepting strings up to 91 characters long for server names
+  // on some platforms.
+  // Since the server name also contains the tmp path and that includes the user's username and,
+  // in the case of a Snap, the user's home directory, we need to limit the length of the encoded
+  // robot name based on the tmp path. If it is longer than that, then we compute a hashed version
+  // of the name and use as much of it as we can. If that would be less than 4 chars, we try to use
+  // 4 chars and hope we are on a platform where QLocalServer accepts longer names. 4 chars makes the
+  // chance of a name collision 1/65536.
+  // Note: It is critical that the same logic is used in WbRobot.cpp
+  int max_name_length = 91 - chars_used;
+  if (max_name_length < 4)
+    max_name_length = 4;
+  // Round down to the next multiple of 2 because it makes the code easier.
+  max_name_length = max_name_length / 2 * 2;
+  if (length > max_name_length) {
+    char hash[21];
+    char *output = malloc(max_name_length + 1);
+    SHA1(hash, encoded_name, length);
+    free(encoded_name);
+    for (size_t i = 0; i < max_name_length / 2 && i < 20; i++)
+      sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
+    return output;
+  }
+
+  return encoded_name;
+}
+
+static char *compute_socket_filename(char *error_buffer) {
+  const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
+  char *robot_name = NULL;
+  const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
+  char *socket_filename;
+  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
+    robot_name = encode_robot_name(WEBOTS_ROBOT_NAME, strlen(WEBOTS_INSTANCE_PATH) + strlen("ipc//intern"));
+#ifndef _WIN32
+    const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "%sipc/%s/intern", WEBOTS_INSTANCE_PATH, robot_name);
+#else
+    int i = 0;
+    int last = -1;
+    while (WEBOTS_INSTANCE_PATH[i] != 0) {
+      if (WEBOTS_INSTANCE_PATH[i++] == '-')
+        last = i;
+    }
+    int number = -1;
+    sscanf(&WEBOTS_INSTANCE_PATH[last], "%d", &number);
+    assert(number != -1);
+    const int length = 28 + strlen(robot_name);  // "\\.\pipe\webots-XXXX-robot_name"
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
+#endif
+    free(robot_name);
+    return socket_filename;
+  }
+
+#ifndef _WIN32
+  const char *username = wbu_system_getenv("USER");
+  if (username == NULL || username[0] == '\0') {
+    username = wbu_system_getenv("USERNAME");
+    if (username == NULL || username[0] == '\0') {
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.\n");
+      username = "default";
+    }
+  }
+#endif
+
+  // extern controller case
+  // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
+  const char *TMP_DIR = wbu_system_tmpdir();
+  char *WEBOTS_CONTROLLER_URL = (char *)wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+  // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
+  // default to the most recent /tmp/webots/username/* folder (/tmp/webots-* on Windows)
+  if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
+#ifndef _WIN32
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR) + strlen(username) + 9;  // TMP_DIR + '/webots/' + username
+    char *WEBOTS_TMP_DIR = malloc(WEBOTS_TMP_DIR_length);
+    snprintf(WEBOTS_TMP_DIR, WEBOTS_TMP_DIR_length, "%s/webots/%s", TMP_DIR, username);
+#else
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR);
+    char *WEBOTS_TMP_DIR = strdup(TMP_DIR);
+#endif
+    DIR *dr = opendir(WEBOTS_TMP_DIR);
+    if (dr == NULL) {
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot open directory %s", WEBOTS_TMP_DIR);
+      free(WEBOTS_TMP_DIR);
+      return NULL;
+    }
+    struct stat filestat;
+    double timestamp = 0.0;
+    int number = -1;
+    const struct dirent *de;
+    while ((de = readdir(dr)) != NULL) {
+#ifndef _WIN32
+      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
+#else
+      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..") && !strncmp(de->d_name, "webots-", 7)) {
+#endif
+        const int length = WEBOTS_TMP_DIR_length + strlen(de->d_name) + 2;
+        char *filename = malloc(length);
+        snprintf(filename, length, "%s/%s", WEBOTS_TMP_DIR, de->d_name);
+        if (stat(filename, &filestat) == 0) {
+#ifdef _WIN32
+          double ts = (double)filestat.st_mtime;
+#else
+          double ts = filestat.st_mtim.tv_sec + (filestat.st_mtim.tv_nsec / 1000000000.0);  // last modification time
+#endif
+          // printf("ts = %.17lg\n", ts);
+          if (ts > timestamp) {
+            timestamp = ts;
+#ifndef _WIN32
+            sscanf(de->d_name, "%d", &number);
+#else
+            sscanf(de->d_name, "webots-%d", &number);
+#endif
+          }
+        }
+        free(filename);
+      }
+    }
+    closedir(dr);
+    free(WEBOTS_TMP_DIR);
+    // No Webots instance has been started
+    if (number == -1) {
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot find any instance of Webots");
+      return NULL;
+    }
+    if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
+      const int length = 19 + strlen(WEBOTS_CONTROLLER_URL);
+      char *tmp = malloc(length);
+      snprintf(tmp, length, "ipc://%d/%s", number, WEBOTS_CONTROLLER_URL);
+      WEBOTS_CONTROLLER_URL = tmp;
+    } else {
+      WEBOTS_CONTROLLER_URL = malloc(18);
+      snprintf(WEBOTS_CONTROLLER_URL, 18, "ipc://%d", number);
+    }
+  } else
+    WEBOTS_CONTROLLER_URL = strdup(WEBOTS_CONTROLLER_URL);  // it will be free
+  if (strncmp(WEBOTS_CONTROLLER_URL, "ipc://", 6) != 0) {
+    fprintf(stderr, "Error: unsupported protocol in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
+  // fprintf(stderr, "WEBOTS_CONTROLLER_URL=%s\n", WEBOTS_CONTROLLER_URL);
+  int number = -1;
+  sscanf(&WEBOTS_CONTROLLER_URL[6], "%d", &number);
+  if (number == -1) {
+    fprintf(stderr, "Error: invalid WEBOTS_CONTROLLER_URL: %s (missing or wrong port value)\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
+#ifdef _WIN32
+  const int webots_instance_path_length = strlen(TMP_DIR) + 20;  // TMP_DIR + "/webots-12345678901"
+  const int ipc_path_length = webots_instance_path_length + 4;   // TMP_DIR + "/webots-12345678901/ipc"
+#else
+  const int webots_instance_path_length =
+    strlen(TMP_DIR) + strlen(username) + 21;                    // TMP_DIR + '/webots/' + username + '/12345678901'
+  const int ipc_path_length = webots_instance_path_length + 4;  // TMP_DIR + '/webots/' + username + '/12345678901/ipc'
+#endif
+  char *webots_instance_folder = malloc(webots_instance_path_length);
+  char *ipc_folder = malloc(ipc_path_length);
+#ifdef _WIN32
+  snprintf(webots_instance_folder, webots_instance_path_length, "%s/webots-%d", TMP_DIR, number);
+  snprintf(ipc_folder, ipc_path_length, "%s/ipc", webots_instance_folder);
+#else
+  snprintf(webots_instance_folder, webots_instance_path_length, "%s/webots/%s/%d", TMP_DIR, username, number);
+  snprintf(ipc_folder, ipc_path_length, "%s/ipc", webots_instance_folder);
+#endif
+
+  // check if the Webots instance has been started
+  DIR *dr = opendir(webots_instance_folder);
+  if (dr == NULL) {
+    snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot connect to Webots instance");
+    free(webots_instance_folder);
+    free(ipc_folder);
+    return NULL;
+  }
+  closedir(dr);
+  size_t path_length = strlen(webots_instance_folder) + 9;
+  // check if Webots is currently loading
+  char *loading_file_path = malloc(strlen(webots_instance_folder) + 9);  // webots_instance_folder + '/loading'
+  int written = snprintf(loading_file_path, path_length, "%s/loading", webots_instance_folder);
+  if (written < 0 || (size_t)written >= path_length) {
+    fprintf(stderr, "Error: Constructing loading_file_path failed or truncated.\n");
+    free(loading_file_path);
+    exit(EXIT_FAILURE);
+  }
+  FILE *loading_file = fopen(loading_file_path, "r");
+  if (loading_file) {
+    fclose(loading_file);
+    snprintf(error_buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not yet ready");
+    free(webots_instance_folder);
+    free(ipc_folder);
+    free(loading_file_path);
+    return NULL;
+  }
+  free(webots_instance_folder);
+  free(loading_file_path);
+
+  free(robot_name);
+  const char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL, strlen(ipc_folder) + strlen("//extern"));
+  if (robot_name) {
+#ifndef _WIN32
+    // socket file name is like: folder + robot_name + "/extern"
+    const int length = ipc_path_length + strlen(robot_name) + 8;
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "%s/%s/extern", ipc_folder, robot_name);
+#else
+    // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
+    const int length = 28 + strlen(robot_name);
+    socket_filename = malloc(length);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
+#endif
+    free(robot_name);
+  } else {  // check if a single extern robot is present in the ipc folder
+    dr = opendir(ipc_folder);
+    if (dr == NULL) {  // the ipc folder was not yet created
+      free(ipc_folder);
+      snprintf(error_buffer, ERROR_BUFFER_SIZE,
+               "The Webots simulation has not yet started or there is no robot in the simulation");
+      return NULL;
+    }
+    char **filenames = NULL;
+    int count = 0;
+    const struct dirent *de;
+    while ((de = readdir(dr)) != NULL) {
+      if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+        continue;
+      bool found = false;
+      // search the robot folder for a file named "extern"
+      const int l = ipc_path_length + strlen(de->d_name) + 1;
+      char *subfolder = malloc(l);
+      snprintf(subfolder, l, "%s/%s", ipc_folder, de->d_name);
+      DIR *d = opendir(subfolder);
+      free(subfolder);
+      if (d) {
+        const struct dirent *sub;
+        while ((sub = readdir(d)) != NULL) {
+          if (strcmp(sub->d_name, "extern") == 0) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (!found)
+        continue;
+      char **r = realloc(filenames, (count + 1) * sizeof(char *));
+      if (!r) {
+        fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", ipc_folder);
+        exit(EXIT_FAILURE);
+      }
+      filenames = r;
+      filenames[count++] = strdup(de->d_name);
+    }
+    closedir(dr);
+    if (count == 0) {
+      snprintf(error_buffer, ERROR_BUFFER_SIZE,
+               "The Webots simulation has not yet started or there is no robot with an <extern> controller");
+      socket_filename = NULL;
+    } else if (count > 1) {  // more than one extern controller in the current instance of Webots
+      fprintf(stderr,
+              "No robot name provided, Webots instance %d should have exactly one robot set with an <extern> controller.\n",
+              number);
+      fprintf(stderr, "Available robots with <extern> controllers are:\n");
+      for (int i = 0; i < count; i++)
+        fprintf(stderr, " * %s\n", filenames[i]);
+      exit(EXIT_FAILURE);
+    } else {
+#ifndef _WIN32
+      const int l = ipc_path_length + strlen(filenames[0] + 1) + 8;  // folder + robot_name + "/extern"
+      socket_filename = malloc(l);
+      snprintf(socket_filename, l, "%s/%s/extern", ipc_folder, filenames[0]);
+#else
+      const int l = 28 + strlen(filenames[0] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
+      socket_filename = malloc(l);
+      snprintf(socket_filename, l, "\\\\.\\pipe\\webots-%d-%s", number, filenames[0]);
+#endif
+    }
+    for (int i = 0; i < count; i++)
+      free(filenames[i]);
+    free(filenames);
+  }
+  free(ipc_folder);
+  free(WEBOTS_CONTROLLER_URL);
+  return socket_filename;
+}
+
+static void compute_remote_info(char **host, int *port, char **robot_name) {
+  const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+  const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
+
+  if (url_suffix == NULL) {  // assuming only the IP address was provided
+    fprintf(stderr, "Error: Missing port in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  } else if (WEBOTS_CONTROLLER_URL[6] == ':') {
+    fprintf(stderr, "Error: Missing IP address in WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+    exit(EXIT_FAILURE);
+  }
+  const int host_length = strlen(&WEBOTS_CONTROLLER_URL[6]) - strlen(url_suffix) + 1;
+  *host = malloc(host_length);
+  snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
+  sscanf(url_suffix, ":%d", port);
+  const char *rn = strstr(url_suffix, "/");
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1, 0) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
@@ -985,7 +1430,8 @@ int wb_robot_init() {  // API initialization
   robot.webots_exit = WEBOTS_EXIT_FALSE;
   robot.battery_value = NAN;
   robot.battery_sampling_period = 0;  // initially disabled
-  robot.console_text = NULL;
+  robot.console_stdout = NULL;
+  robot.console_stderr = NULL;
   robot.urdf = NULL;
   robot.urdf_prefix = NULL;
   robot.need_urdf = false;
@@ -996,52 +1442,65 @@ int wb_robot_init() {  // API initialization
   wb_joystick_init();
   wb_mouse_init();
 
-  const char *WEBOTS_SERVER = getenv("WEBOTS_SERVER");
-  char *pipe;
-  int success = 0;
-  if (WEBOTS_SERVER && WEBOTS_SERVER[0]) {
-    pipe = strdup(WEBOTS_SERVER);
-    success = scheduler_init(pipe);
-  } else {
-    pipe = NULL;
-    int trial = 0;
-    while (!should_abort_simulation_waiting) {
-      trial++;
-      const char *WEBOTS_TMP_PATH = wbu_system_webots_tmp_path(true);
-      char retry[256];
-      snprintf(retry, sizeof(retry), "Retrying in %d second%s.", trial, trial > 1 ? "s" : "");
-      if (!WEBOTS_TMP_PATH) {
-        fprintf(stderr, "Webots doesn't seems to be ready yet: (retry count %d)\n", trial);
-        sleep(1);
-      } else {
-        char buffer[1024];
-        snprintf(buffer, sizeof(buffer), "%s/WEBOTS_SERVER", WEBOTS_TMP_PATH);
-        FILE *fd = fopen(buffer, "r");
-        if (fd) {
-          if (!fscanf(fd, "%1023s", buffer))
-            fprintf(stderr, "Cannot read %s/WEBOTS_SERVER content. %s\n", WEBOTS_TMP_PATH, retry);
-          else {
-            success = scheduler_init(buffer);
-            if (success) {
-              pipe = strdup(buffer);
-              break;
-            } else
-              fprintf(stderr, "Cannot open %s. %s\nDelete %s to clear this warning.\n", buffer, retry, WEBOTS_TMP_PATH);
-          }
-          fclose(fd);
-        } else
-          fprintf(stderr, "Cannot open file: %s (retry count %d)\n", buffer, trial);
-        sleep(1);
+  int retry = 0;
+  while (true) {
+    bool success;
+    bool is_simulation_loading;
+    const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+    const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
+    const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
+    char *error_message = malloc(ERROR_BUFFER_SIZE);
+    char *socket_filename = NULL;
+    if ((WEBOTS_CONTROLLER_URL != NULL) &&
+        !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
+        strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
+      char *host, *robot_name;
+      int port = -1;
+      compute_remote_info(&host, &port, &robot_name);
+      success = scheduler_init_remote(host, port, robot_name, error_message);
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not yet ready", 44) == 0;
+      if (success) {
+        free(host);
+        free(robot_name);
+        free(error_message);
+        break;
+      }
+      free(host);
+      free(robot_name);
+    } else {  // Intern or IPC extern controller
+      socket_filename = compute_socket_filename(error_message);
+      success = socket_filename ? scheduler_init_local(socket_filename) : false;
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not yet ready", 44) == 0;
+      if (success) {
+        free(socket_filename);
+        free(error_message);
+        break;
       }
     }
+    if (retry % 5 == 0 && retry != 50) {
+      if (is_simulation_loading) {
+        retry -= 5;
+        fprintf(stderr, "%s, pending until loading is done...\n", error_message);
+      } else if (socket_filename) {
+        fprintf(stderr,
+                "The specified robot (at %s) is not in the list of robots with <extern> controllers, retrying for another %d "
+                "seconds...\n",
+                socket_filename, 50 - retry);
+        free(socket_filename);
+      } else
+        fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
+    }
+    free(error_message);
+    if (retry++ > 50) {
+      fprintf(stderr, "Giving up...\n");
+      exit(EXIT_FAILURE);
+    }
+    sleep(1);
   }
-  if (!success) {
-    if (!pipe)
-      fprintf(stderr, "Cannot connect to Webots: no valid pipe found.\n");
-    free(pipe);
-    exit(EXIT_FAILURE);
-  }
-  free(pipe);
+  if (getenv("WEBOTS_STDOUT_REDIRECT"))
+    stdout_read = stream_pipe_create(1);
+  if (getenv("WEBOTS_STDERR_REDIRECT"))
+    stderr_read = stream_pipe_create(2);
 
   // robot device
   robot.n_device = 1;
@@ -1062,8 +1521,10 @@ int wb_robot_init() {  // API initialization
   robot.has_html_robot_window = false;
   robot.wwi_message_to_send = NULL;
   robot.wwi_message_to_send_size = 0;
-  robot.wwi_message_received = NULL;
-  robot.wwi_message_received_size = 0;
+  robot.wwi_reception_buffer = NULL;
+  robot.wwi_received_messages_size = 0;
+  robot.wwi_reception_buffer_size = 0;
+  robot.wwi_reset_reading_head = true;
   robot.simulation_mode = -1;
 
   // receive a configure message for the robot and devices
@@ -1085,7 +1546,7 @@ int wb_robot_init() {  // API initialization
 
   robot.configure = 0;
 
-  atexit(wb_robot_cleanup_shm);
+  atexit(wb_robot_cleanup_devices);
 
   already_done = true;
 
@@ -1134,24 +1595,44 @@ void wb_robot_pin_to_static_environment(bool pin) {
 }
 
 void wb_robot_wwi_send(const char *data, int size) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   robot.wwi_message_to_send_size = size;
   robot.wwi_message_to_send = data;
-  wb_robot_flush_unlocked();
-  robot_mutex_unlock_step();
+  wb_robot_flush_unlocked(__FUNCTION__);
+  robot_mutex_unlock();
 }
 
 const char *wb_robot_wwi_receive(int *size) {
-  if (robot.wwi_message_received_size) {
+  if (robot.wwi_received_messages_size) {
     if (size)
-      *size = robot.wwi_message_received_size;
-    robot.wwi_message_received_size = 0;
-    return robot.wwi_message_received;
+      *size = robot.wwi_received_messages_size;
+    robot.wwi_received_messages_size = 0;
+    return robot.wwi_reception_buffer;
   } else {
     if (size)
       *size = 0;
     return NULL;
   }
+}
+
+const char *wb_robot_wwi_receive_text() {
+  static int length;
+  static int character_read = 0;
+  static const char *message;
+  if (robot.wwi_reset_reading_head) {
+    robot.wwi_reset_reading_head = false;
+    character_read = 0;
+    message = wb_robot_wwi_receive(&length);
+  }
+
+  if (character_read < length && message) {
+    const int current_message_length = strlen(message) + 1;
+    character_read += current_message_length;
+    const char *current_message = message;
+    message += current_message_length;
+    return current_message;
+  } else
+    return NULL;
 }
 
 WbSimulationMode robot_get_simulation_mode() {
@@ -1163,16 +1644,16 @@ void robot_set_simulation_mode(WbSimulationMode mode) {
 }
 
 const char *wb_robot_get_urdf(const char *prefix) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
 
   robot.need_urdf = true;
   free(robot.urdf_prefix);
   robot.urdf_prefix = malloc(strlen(prefix) + 1);
   strcpy(robot.urdf_prefix, prefix);
 
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
   robot.need_urdf = false;
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return robot.urdf;
 }

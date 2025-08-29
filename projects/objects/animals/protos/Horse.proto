@@ -1,0 +1,221 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/animals/protos/Horse.proto
+# keywords: animal/farm
+# A static brown horse.
+# Based on the model of BlueMesh (https://sketchfab.com/VapTor).
+# template language: javascript
+
+PROTO Horse [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1      # Defines the global scaling factor.
+  field SFString   name        "horse"
+  field SFColor    colorBody   1 1 1  # Defines the color of the body of the horse.
+  field SFColor    colorHair   1 1 1  # Defines the color of the hair of the horse.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "horse"
+    children [
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              baseColor IS colorBody
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_basecolor.jpg"
+              }
+              roughnessMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_roughness.jpg"
+              }
+              occlusionMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_occlusion.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/horse/meshes/horse.obj"
+            }
+          }
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 1
+              baseColor IS colorHair
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_hair_basecolor.png"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/horse/meshes/horse_hair.obj"
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF BODY Pose {
+          translation %<= scale * 0.0194159 >% 0 %<= scale * 1.03 >%
+          rotation 0 -1 0 1.5708
+          children [
+            Capsule {
+              height %<= scale * 0.8 >%
+              radius %<= scale * 0.239 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF NECK Pose {
+          translation %<= scale * 0.648661 >% 0 %<= scale * 1.43191 >%
+          rotation 0 1 0 0.785405
+          children [
+            DEF NECK Capsule {
+              height %<= scale * 0.3 >%
+              radius %<= scale * 0.14 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF HEAD Pose {
+          translation %<= scale * 1.01717 >% 0 %<= scale * 1.48016 >%
+          rotation 0 -1 0 0.785414
+          children [
+            DEF HEAD Capsule {
+              height %<= scale * 0.3 >%
+              radius %<= scale * 0.09 >%
+              subdivision 16
+            }
+          ]
+        }
+        DEF FL_LEG Pose {
+          translation %<= scale * 0.49 >% %<= scale * 0.115 >% %<= scale * 0.46 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.75 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FL_HOOF Pose {
+          translation %<= scale * 0.56 >% %<= scale * 0.115 >% %<= scale * 0.05 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FR_LEG Pose {
+          translation %<= scale * 0.49 >% %<= scale * -0.115 >% %<= scale * 0.46 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.75 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF FR_HOOF Pose {
+          translation %<= scale * 0.56 >% %<= scale * -0.115 >% %<= scale * 0.05 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF BL_HOOF Pose {
+          translation %<= scale * -0.532512 >% %<= scale * 0.130006 >% %<= scale * 0.0370717 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.06 >%
+            }
+          ]
+        }
+        DEF BL_ANKLE Pose {
+          translation %<= scale * -0.603599 >% %<= scale * 0.137146 >% %<= scale * 0.267333 >%
+          rotation 0 -1 0 0.199363
+          children [
+            Cylinder {
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF BL_LEG Pose {
+          translation %<= scale * -0.513983 >% %<= scale * 0.137146 >% %<= scale * 0.650213 >%
+          rotation 0 1 0 0.515974
+          children [
+            Cylinder {
+              height %<= scale * 0.5 >%
+              radius %<= scale * 0.07 >%
+            }
+          ]
+        }
+        DEF BR_HOOF Pose {
+          translation %<= scale * -0.532512 >% %<= scale * -0.130006 >% %<= scale * 0.0370717 >%
+          children [
+            Cylinder {
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.06 >%
+            }
+          ]
+        }
+        DEF BR_ANKLE Pose {
+          translation %<= scale * -0.603599 >% %<= scale * -0.137146 >% %<= scale * 0.267333 >%
+          rotation 0 -1 0 0.199363
+          children [
+            Cylinder {
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.05 >%
+            }
+          ]
+        }
+        DEF BR_LEG Pose {
+          translation %<= scale * -0.513983 >% %<= scale * -0.137146 >% %<= scale * 0.650213 >%
+          rotation 0 1 0 0.515974
+          children [
+            Cylinder {
+              height %<= scale * 0.5 >%
+              radius %<= scale * 0.07 >%
+            }
+          ]
+        }
+        DEF TAIL Pose {
+          translation %<= scale * -0.655612 >% 0 %<= scale * 1.27065 >%
+          rotation 0 -1 0 0.0789151
+          children [
+            Box {
+              size %<= scale * 0.25>% %<= scale * 0.1 >% %<= scale * 0.08 >%
+            }
+          ]
+        }
+        DEF TAIL_END Pose {
+          translation %<= scale * -0.775364 >% 0 %<= scale * 0.89433 >%
+          children [
+            Box {
+              size %<= scale * 0.1>% %<= scale * 0.1 >% %<= scale * 0.65 >%
+            }
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.333 0.290 0.243
+    ]
+  }
+}

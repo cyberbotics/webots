@@ -1,8 +1,9 @@
+
 #####################################################################################################
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"  # Defines the path to Java home.
+# export JAVA_HOME="$(/usr/libexec/java_home -v 16)"  # Defines the path to Java home.
 
 # source $HOME/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
 
@@ -17,4 +18,5 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are 
 # These environment variables are necessaries to compile and run Webots #
 #########################################################################
 
-export WEBOTS_HOME=$HOME/webots          # Defines the path to Webots home.
+export WEBOTS_HOME=$HOME/webots                        # Defines the path to Webots home.
+export JAVA_HOME="$(/usr/libexec/java_home)"

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,20 +36,20 @@ public:
   explicit WbCamera(WbTokenizer *tokenizer = NULL);
   WbCamera(const WbCamera &other);
   explicit WbCamera(const WbNode &other);
-  virtual ~WbCamera();
+  virtual ~WbCamera() override;
 
   // reimplemented public functions
   void downloadAssets() override;
   void preFinalize() override;
   void postFinalize() override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void handleMessage(QDataStream &) override;
   int nodeType() const override { return WB_NODE_CAMERA; }
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void reset(const QString &id) override;
-  void resetSharedMemory() override;
+  void resetMemoryMappedFile() override;
   bool isEnabled() const override;
   void updateTextureUpdateNotifications(bool enabled) override;
 
@@ -63,9 +63,12 @@ public:
   virtual WrTexture *getWrenTexture();
 
 protected:
+  WbVector3 urdfRotation(const WbMatrix3 &rotationMatrix) const override;
   void setup() override;
   void render() override;
   bool needToRender() const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   WbSFNode *mFocus;
@@ -80,7 +83,7 @@ private:
   WbSFDouble *mExposure;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   WbFocus *focus() const;
   WbZoom *zoom() const;
@@ -90,7 +93,7 @@ private:
   WbCamera &operator=(const WbCamera &);  // non copyable
   WbNode *clone() const override { return new WbCamera(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override { return 4 * width() * height(); }
   double minRange() const override { return mNear->value(); }
@@ -108,9 +111,9 @@ private:
   bool refreshRecognitionSensorIfNeeded();
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
-  void computeObjects(bool finalSetup, bool needCollisionDetection);
-  bool computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation, const WbMatrix3 &cameraInverseRotation,
-                     const WbAffinePlane *frustumPlanes, WbRecognizedObject *recognizedObject, bool fromRayUpdate);
+  WbVector2 applyCameraDistortionToImageCoordinate(const WbVector2 &uv);  // uv coordinates expected in range [0, 1]
+  void computeRecognizedObjects();
+  bool setRecognizedObjectProperties(WbRecognizedObject *recognizedObject);
   void updateRaysSetupIfNeeded() override;
   short mRecognitionRefreshRate;
   bool mNeedToDeleteRecognizedObjectsRays;
@@ -119,14 +122,15 @@ private:
   QList<WbRecognizedObject *> mRecognizedObjects;
   QList<WbRecognizedObject *> mInvalidRecognizedObjects;
   WrTexture *mRecognizedObjectsTexture;
+  bool mIsSubscribedToRayTracing;
   // smart camera segmentation
-  void initializeSegmentationSharedMemory();
+  void initializeSegmentationMemoryMappedFile();
   void createSegmentationCamera();
   bool mSegmentationEnabled;
   bool mSegmentationChanged;
   WbWrenCamera *mSegmentationCamera;
-  WbSharedMemory *mSegmentationShm;
-  bool mHasSegmentationSharedMemoryChanged;
+  WbMemoryMappedFile *mSegmentationMemoryMappedFile;
+  bool mHasSegmentationMemoryMappedFileChanged;
   bool mSegmentationImageChanged;
   // URL downloader
   WbDownloader *mDownloader;
@@ -142,11 +146,14 @@ private slots:
   void updateBloomThreshold();
   void updateNoiseMaskUrl();
   void updateLensFlare();
+  void updateCameraOrientation();
+  void updateSegmentationCameraOrientation();
   void applyFocalSettingsToWren();
   void applyFarToWren();
   void applyNearToWren() override;
   void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
+  void applyLensToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
 };

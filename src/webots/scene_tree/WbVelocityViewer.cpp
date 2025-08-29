@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2024 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,6 @@
 #include "WbGuiRefreshOracle.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLabel>
@@ -101,7 +100,7 @@ void WbVelocityViewer::requestUpdate() {
 
 void WbVelocityViewer::update() {
   if (mIsSelected && mSolid) {
-    WbSolid *solid = mSolid;
+    const WbSolid *solid = mSolid;
     if (mRelativeToComboBox->currentIndex() == 0)
       solid = NULL;
     else {
