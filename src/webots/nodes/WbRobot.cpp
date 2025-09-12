@@ -270,7 +270,8 @@ void WbRobot::addDevices(WbNode *node) {
   if (!node)
     return;
 
-  if (node != this && dynamic_cast<const WbRobot *>(node))
+  const WbRobot *robotNode = dynamic_cast<const WbRobot *>(node);
+  if (node != this && robotNode)
     return;  // do not recurse through child robots, their devices are hidden
 
   WbGroup *group = dynamic_cast<WbGroup *>(node);
@@ -286,7 +287,7 @@ void WbRobot::addDevices(WbNode *node) {
       if (renderingDevice) {
         connect(renderingDevice, &WbNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice, Qt::UniqueConnection);
         mRenderingDevices.append(renderingDevice);
-        WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
+        const WbAbstractCamera *camera = dynamic_cast<WbAbstractCamera *>(renderingDevice);
         if (camera) {
           connect(camera, &WbAbstractCamera::enabled, this, &WbRobot::updateActiveCameras, Qt::UniqueConnection);
           if (camera->isEnabled())
@@ -311,7 +312,7 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbSkin *const skin = dynamic_cast<WbSkin *>(node);
+  const WbSkin *skin = dynamic_cast<WbSkin *>(node);
   if (skin) {
     mDevices.append(skin);
     connect(static_cast<WbBaseNode *>(skin), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction,
@@ -330,7 +331,7 @@ void WbRobot::addDevices(WbNode *node) {
     const WbJoint *const joint = dynamic_cast<WbJoint *>(basicJoint);
     if (joint) {
       const QVector<WbLogicalDevice *> &jointDevices = joint->devices();
-      foreach (WbLogicalDevice *const jointDevice, jointDevices) {
+      foreach (const WbLogicalDevice *const jointDevice, jointDevices) {
         if (jointDevice == NULL)
           continue;
         mDevices.append(jointDevice);
@@ -343,9 +344,9 @@ void WbRobot::addDevices(WbNode *node) {
     return;
   }
 
-  WbPropeller *const propeller = dynamic_cast<WbPropeller *>(node);
+  const WbPropeller *const propeller = dynamic_cast<const WbPropeller *>(node);
   if (propeller) {
-    WbLogicalDevice *const propellerDevice = propeller->device();
+    const WbLogicalDevice *const propellerDevice = propeller->device();
     if (propellerDevice) {
       mDevices.append(propellerDevice);
       connect(static_cast<WbBaseNode *>(propellerDevice), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction,
