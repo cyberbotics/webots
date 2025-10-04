@@ -198,6 +198,7 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &
   const QString folder = WbStandardPaths::webotsTmpPath() + "ipc/" + QUrl::toPercentEncoding(robot()->name());
   const QString memoryMappedFileName = folder + "/snap.webots." + QUrl::toPercentEncoding(name()) + id;
   QDir().mkdir(folder);
+  info(tr("Allocating memory mapped file '%1'").arg(memoryMappedFileName));
   WbMemoryMappedFile *imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName);
   // A controller of the previous simulation may have not released cleanly the memory mapped file (e.g. when the controller
   // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
