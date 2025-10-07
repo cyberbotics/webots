@@ -191,8 +191,8 @@ void WbSimulationWorld::step() {
     // How long should we have slept to be in real-time?
     double idealSleepTime = timeStep - (elapsed - mSleepRealTime);
     // Limit to timeStep to avoid weird behavior on large pauses (e.g., on startup)
-    if (idealSleepTime > timeStep)
-      idealSleepTime = timeStep;
+    // We also can't wait less than 0 ms.
+    idealSleepTime = qBound(0.0, idealSleepTime, timeStep);
     // computing the mean of an history of several time values
     // improves significantly the stability of the algorithm.
     // Moreover it improves the stability of simulations where
@@ -205,8 +205,6 @@ void WbSimulationWorld::step() {
       mean += v;
     mean /= mIdealSleepTimeHistory.size();
     mSleepRealTime = mean;
-    if (mSleepRealTime < 0.0)
-      mSleepRealTime = 0.0;
 
     mTimer->start(mSleepRealTime);
   }
