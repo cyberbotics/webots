@@ -78,7 +78,7 @@ private:
   QTimer *mTimer;
   QElapsedTimer mRealTimeTimer;
   double mSleepRealTime;
-  QList<int> mElapsedTimeHistory;
+  QList<double> mIdealSleepTimeHistory;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started
 
   void storeLastSaveTime() override;
