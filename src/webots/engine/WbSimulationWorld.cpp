@@ -188,30 +188,25 @@ void WbSimulationWorld::step() {
   if (WbSimulationState::instance()->isRealTime()) {
     const int elapsed = mRealTimeTimer.restart();
 
-    // computing the mean of an history of several elapsedTime
-    // improves significantly the stability of the algorithm
-    // in case of simulations where elapsedTime oscillates often
-    // above and below basicTimeStep.
+    // How long should we have slept to be in real-time?
+    double idealSleepTime = timeStep - (elapsed - mSleepRealTime);
+    // Limit to timeStep to avoid weird behavior on large pauses (e.g., on startup)
+    if (idealSleepTime > timeStep)
+      idealSleepTime = timeStep;
+    // computing the mean of an history of several time values
+    // improves significantly the stability of the algorithm.
     // Moreover it improves the stability of simulations where
     // basicTimeStep contains significant decimals
-    mElapsedTimeHistory.append(elapsed);
-    if (mElapsedTimeHistory.size() > qMax(4.0, 128.0 / timeStep))  // history size found empirically
-      mElapsedTimeHistory.pop_front();
+    mIdealSleepTimeHistory.append(idealSleepTime);
+    if (mIdealSleepTimeHistory.size() > qMax(4.0, 128.0 / timeStep))  // history size found empirically
+      mIdealSleepTimeHistory.pop_front();
     double mean = 0.0;
-    foreach (const int &v, mElapsedTimeHistory)
+    foreach (const double &v, mIdealSleepTimeHistory)
       mean += v;
-    mean /= mElapsedTimeHistory.size();
-
-    // useful hack: uncomment to run Webots at 90% of the real-time
-    //              (if the real-time mode is enabled, of course)
-    // mean *= 0.90;
-
-    if (mean > timeStep && mSleepRealTime > 0.0) {
-      mSleepRealTime -= 0.03 * timeStep;
-      if (mSleepRealTime < 0)
-        mSleepRealTime = 0.0;
-    } else if (mean < timeStep)
-      mSleepRealTime += 0.03 * timeStep;
+    mean /= mIdealSleepTimeHistory.size();
+    mSleepRealTime = mean;
+    if (mSleepRealTime < 0.0)
+      mSleepRealTime = 0.0;
 
     mTimer->start(mSleepRealTime);
   }
