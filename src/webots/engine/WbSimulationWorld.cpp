@@ -73,8 +73,6 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
     }
   }
 
-  mSleepRealTime = basicTimeStep();
-
   WbPerformanceLog *log = WbPerformanceLog::instance();
   if (log)
     log->setTimeStep(basicTimeStep());
@@ -128,6 +126,7 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
   if (log)
     log->stopMeasure(WbPerformanceLog::LOADING);
 
+  mTimer->setTimerType(Qt::PreciseTimer);
   connect(mTimer, &QTimer::timeout, this, &WbSimulationWorld::triggerStepFromTimer);
   const WbSimulationState *const s = WbSimulationState::instance();
   connect(s, &WbSimulationState::rayTracingEnabled, this, &WbSimulationWorld::rayTracingEnabled);
@@ -184,30 +183,6 @@ void WbSimulationWorld::step() {
     log->stepChanged();
 
   const double timeStep = basicTimeStep();
-
-  if (WbSimulationState::instance()->isRealTime()) {
-    const int elapsed = mRealTimeTimer.restart();
-
-    // How long should we have slept to be in real-time?
-    double idealSleepTime = timeStep - (elapsed - mSleepRealTime);
-    // Limit to timeStep to avoid weird behavior on large pauses (e.g., on startup)
-    // We also can't wait less than 0 ms.
-    idealSleepTime = qBound(0.0, idealSleepTime, timeStep);
-    // computing the mean of an history of several time values
-    // improves significantly the stability of the algorithm.
-    // Moreover it improves the stability of simulations where
-    // basicTimeStep contains significant decimals
-    mIdealSleepTimeHistory.append(idealSleepTime);
-    if (mIdealSleepTimeHistory.size() > qMax(4.0, 128.0 / timeStep))  // history size found empirically
-      mIdealSleepTimeHistory.pop_front();
-    double mean = 0.0;
-    foreach (const double &v, mIdealSleepTimeHistory)
-      mean += v;
-    mean /= mIdealSleepTimeHistory.size();
-    mSleepRealTime = mean;
-
-    mTimer->start(mSleepRealTime);
-  }
 
   emit physicsStepStarted();
 
@@ -310,10 +285,9 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       break;
     case WbSimulationState::REALTIME:
-      mRealTimeTimer.start();
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
-      mTimer->start(mSleepRealTime);
+      mTimer->start(basicTimeStep());
       break;
     case WbSimulationState::FAST:
       WbSoundEngine::setPause(false);
