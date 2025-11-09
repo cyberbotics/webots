@@ -14,7 +14,9 @@
 
 #include "WbPosixMemoryMappedFile.hpp"
 
+#include <errno.h>
 #include <fcntl.h>
+#include <string.h>
 #include <sys/mman.h>
 #include <unistd.h>
 
@@ -30,14 +32,20 @@ WbPosixMemoryMappedFile::~WbPosixMemoryMappedFile() {
 bool WbPosixMemoryMappedFile::create(int size) {
   unlink(mName.toUtf8());                                 // delete a possibly existing memory mapped file with the same name
   int fd = open(mName.toUtf8(), O_CREAT | O_RDWR, 0666);  // returns -1 in case of failure
-  if (fd < 0)
+  if (fd < 0) {
+    mErrorString = QString("Cannot open file: %1 (%2)").arg(mName).arg(strerror(errno));
     return false;
-  if (ftruncate(fd, size) == -1)
+  }
+  if (ftruncate(fd, size) == -1) {
+    mErrorString = QString("Cannot truncate file: %1 (%2)").arg(mName).arg(strerror(errno));
     return false;
+  }
   mData = mmap(0, size, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
   close(fd);
-  if (mData == MAP_FAILED)
+  if (mData == MAP_FAILED) {
+    mErrorString = QString("Cannot map file: %1 (%2)").arg(mName).arg(strerror(errno));
     return false;
+  }
   mSize = size;
   return true;
 }

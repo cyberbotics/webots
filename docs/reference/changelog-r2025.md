@@ -9,6 +9,7 @@ Released on ??.
     - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
     - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+    - Webots now prints the cause when it fails to create a memory-mapped file for a camera node ([#6896](https://github.com/cyberbotics/webots/pull/6896)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
