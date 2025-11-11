@@ -61,10 +61,10 @@ endif
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0 -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
-LD_FLAGS    = -shared -mwindows --def Controller.def -lws2_32
-PLATFORM    = win32
+LD_FLAGS    = -shared -mwindows -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
+SHARED_LIBS = -lws2_32
 CC          = gcc
-TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
+TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll
 endif
 
 ifeq ($(MAKECMDGOALS),debug)
@@ -122,27 +122,6 @@ endif
 
 debug profile release: $(TARGET)
 
-ifeq ($(OSTYPE),windows)
-
-MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
-
-$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
-	@echo "# linking  "$@
-	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
-	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
-
-$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
-ifeq ($(VISUAL_STUDIO_PATH),)
-	@$(ECHO) "# \033[0;33m'VISUAL_STUDIO_PATH' not set, skipping Controller.lib\033[0m"
-else
-	@echo "# creating "$@
-	@PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:Controller.def /out:Controller.lib > /dev/null
-	@mv Controller.lib "$(WEBOTS_CONTROLLER_LIB_PATH)"
-	@rm Controller.exp
-endif
-
-endif
-
 ifeq ($(OSTYPE),darwin)
 X86_64_OBJECTS = $(addprefix $(OBJDIR)/x86_64/, $(OBJECTS))
 ARM64_OBJECTS = $(addprefix $(OBJDIR)/arm64/, $(OBJECTS))
@@ -163,9 +142,7 @@ $(OBJDIR)/arm64/libController.dylib: $(ARM64_OBJECTS)
 	@$(CC) $(LD_FLAGS) -target arm64-apple-macos12 -o $@ $(ARM64_OBJECTS) $(SHARED_LIBS)
 	@chmod a-x $@
 
-endif
-
-ifeq ($(OSTYPE),linux)
+else
 $(TARGET): $(OBJECTS)
 	@echo "# linking "$@
 	@$(CC) $(LD_FLAGS) -o $(TARGET) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(SHARED_LIBS)
@@ -193,5 +170,4 @@ $(OBJDIR)/%.d:%.c
 	@$(CC) $(CFLAGS) -MM -w $(INCLUDE) $< >> $(OBJDIR)/$(notdir $@)
 
 FILES_TO_REMOVE = $(TARGET)
-FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
-FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/libController.lib
+FILES_TO_REMOVE += $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
