@@ -53,7 +53,7 @@ jobs:
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
         export PATH=/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin/:$PATH
-        make distrib -j4
+        make debug -j4
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |

@@ -65,7 +65,7 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
-        xvfb-run --auto-servernum make distrib -j4
+        xvfb-run --auto-servernum make debug -j4
     - name: Create/Update GitHub release
       if: ${{ matrix.os == 'ubuntu-22.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
