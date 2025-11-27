@@ -48,4 +48,11 @@
       <url>https://cyberbotics.com/doc/reference/changelog-r2025</url>
     </release>
   </releases>
+  <keywords>
+    <keyword>robot simulator</keyword>
+    <keyword>robot development</keyword>
+    <keyword>robotics education</keyword>
+    <keyword>open source robotics</keyword>
+    <keyword>simulation software</keyword>
+  </keywords>
 </component>
