@@ -1,0 +1,24 @@
+from controller import Robot
+
+# إنشاء كائن من الفئة Robot
+robot = Robot()
+
+# الحصول على الوقت الذي يمكن للروبوت العمل فيه (محدد بالثانية)
+time_step = int(robot.getBasicTimeStep())
+
+# الحصول على المحركات (في هذا المثال محركين للتحرك للأمام والخلف)
+left_motor = robot.getMotor("left wheel motor")
+right_motor = robot.getMotor("right wheel motor")
+
+# تعيين سرعة المحركات
+left_motor.setPosition(float('inf'))  # تعيين المحرك للعمل بشكل مستمر
+right_motor.setPosition(float('inf'))  # تعيين المحرك للعمل بشكل مستمر
+
+left_motor.setVelocity(0.5)  # تعيين سرعة المحرك الأيسر
+right_motor.setVelocity(0.5)  # تعيين سرعة المحرك الأيمن
+
+# تكرار تنفيذ الكود في كل خطوة زمنية
+while robot.step(time_step) != -1:
+    # يمكن إضافة كود مستشعرات هنا لتحكم أفضل
+    # في هذا المثال، سنجعل الروبوت يستمر في التحرك للأمام
+    pass
