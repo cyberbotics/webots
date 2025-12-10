@@ -74,6 +74,7 @@ public:
 signals:
   void restartRequested();
   void splashScreenCloseRequested();
+  void worldCreated();
 
 public slots:
   void loadDifferentWorld(const QString &fileName);
