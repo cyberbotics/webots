@@ -1,0 +1,341 @@
+#VRML_SIM R2025a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# keywords: robot/wheeled
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robolab/p3bot/protos/P3Bot.proto
+# The P3Bot is a mobile manipulation platform by the Robolab research group.
+
+EXTERNPROTO "KinovaGen3.proto"
+
+PROTO P3Bot [
+  field SFVec3f           translation     0 0 0.03        # Is `Pose.translation`.
+  field SFRotation        rotation        0 0 1 0         # Is `Pose.rotation`.
+  field SFString          name            "P3Bot"         # Is `Solid.name`.
+  field SFString          controller      "<none>"      # Is `Robot.controller`.
+  field MFString          controllerArgs  []              # Is `Robot.controllerArgs`. 
+  field SFString          customData      ""           # Is `Robot.customData`.
+  field SFBool            supervisor      FALSE        # Is `Robot.supervisor`.
+  field SFBool            synchronization TRUE         # Is `Robot.synchronization`.
+  field MFNode            extensionSlot   []           # Extends the robot with new nodes located in the body center.   
+  field MFNode            sensors         
+  [
+    DEF CAMERA_360 Group {
+      children [
+        Camera {
+          translation -0.05 1.3255e-07 1.42
+          rotation 0 0 1 -1.5707953071795862
+          name "camera_360_2"
+          fieldOfView 3.14
+          width 960
+          height 960
+          projection "cylindrical"
+        }
+        Camera {
+          translation -0.05 1.3255e-07 1.42
+          rotation 0 0 -1 -1.5708053071795867
+          name "camera_360_1"
+          fieldOfView 3.14
+          width 960
+          height 960
+          projection "cylindrical"
+        }
+      ]
+    }
+    Camera {
+          translation 0.01 0 1.32
+          children[
+            RangeFinder{
+              name "zed-ranger"
+              fieldOfView 2.09
+              width 1920
+              height 1080
+              maxRange 20
+            }
+          ]
+          rotation 0 0 -1 0
+          name "zed"
+          fieldOfView 2.09
+          width 1920
+          height 1080
+          projection "planar"
+    }
+    Lidar {
+      translation -0.0535264 0.00230873 1.24
+      rotation 0 0 1 0.34
+      name "helios"
+      tiltAngle -0.34
+      horizontalResolution 900
+      fieldOfView 6.28
+      verticalFieldOfView 3.141592653589793
+      numberOfLayers 82
+      maxRange 8
+      noise 0.005
+      defaultFrequency 20
+    }
+    Accelerometer {
+      name "imu_accelerometer"
+      resolution 0.001
+    }
+  ] # Is `Robot.children.GROUP_SENSORS.children`. 
+  field MFNode            wheels
+  [
+    DEF WHEEL1 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.125 -0.24 0.08
+        position 0
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel1"
+          maxVelocity 30
+        }
+        PositionSensor {
+          name "wheel1sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.125 -0.24 0.08
+        rotation 0 -1 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.75 0.75 0.75
+              roughness 0.3
+            }
+            geometry Mesh {
+              url [
+                "P3Bot/meshes/omnidirectional_wheel.stl"
+              ]
+            }
+          }
+        ]
+        name "wheel1"
+        contactMaterial "InteriorWheelMat"
+        boundingObject Pose {
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              height 0.04
+              radius 0.08
+              subdivision 24
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.4
+        }
+      }
+    }
+    DEF WHEEL2 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.125 0.24 0.08
+        position 0
+        axis 0 -1 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel2"
+          maxVelocity 30
+        }
+        PositionSensor {
+          name "wheel2sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.125 0.24 0.08
+        rotation 0 0 1 3.1459
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.75 0.75 0.75
+              roughness 0.3
+            }
+            geometry Mesh {
+              url [
+                "P3Bot/meshes/omnidirectional_wheel.stl"
+              ]
+            }
+          }
+        ]
+        name "wheel2"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject Pose {
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              height 0.04
+              radius 0.08
+              subdivision 24
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.4
+        }
+      }
+    }
+    DEF WHEEL3 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.125 -0.24 0.08
+        position 0
+        axis 0 1 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel3"
+          maxVelocity 30
+        }
+        PositionSensor {
+          name "wheel3sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.125 -0.24 0.08
+        rotation 0 -1 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.75 0.75 0.75
+              roughness 0.3
+            }
+            geometry Mesh {
+              url [
+                "P3Bot/meshes/omnidirectional_wheel.stl"
+              ]
+            }
+          }
+        ]
+        name "wheel3"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject Pose {
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              height 0.04
+              radius 0.08
+              subdivision 24
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.4
+        }
+      }
+    }
+    DEF WHEEL4 HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.125 0.24 0.08
+        position 0
+        axis 0 -1 0
+      }
+      device [
+        RotationalMotor {
+          name "wheel4"
+          maxVelocity 30
+        }
+        PositionSensor {
+          name "wheel4sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.125 0.24 0.08
+        rotation 0 0 1 3.1459
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.75 0.75 0.75
+              roughness 0.3
+            }
+            geometry Mesh {
+              url [
+                "P3Bot/meshes/omnidirectional_wheel.stl"
+              ]
+            }
+          }
+        ]
+        name "wheel4"
+        contactMaterial "InteriorWheelMat"
+        boundingObject Pose {
+          rotation 1 0 0 1.5708
+          children [
+            Cylinder {
+              height 0.04
+              radius 0.08
+              subdivision 24
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.4
+        }
+      }
+    }
+    
+  ] # Is `Robot.children.GROUP_WHEELS.children
+  field MFNode arms [
+    KinovaGen3 {
+      name "kinova_arm_r"
+      translation 0 -0.0517612 1.04883
+      rotation 1 0 0 2.01001
+    }
+    KinovaGen3 {
+      name "kinova_arm_l"
+      translation 0.002 0.055 1.052
+      rotation 1 0 0 -2.0100053071795863
+      prefix "Left_"
+    }
+  ]
+] 
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  name IS name
+  controllerArgs IS controllerArgs
+  customData IS customData
+  supervisor IS supervisor
+  synchronization IS synchronization
+  controller IS controller
+  model "P3Bot"
+  children [
+    Group {
+      children IS extensionSlot
+    }
+    DEF GROUP_ARMS Group {
+      children IS arms
+    }
+    DEF GROUP_SENSORS Group { children IS sensors }
+    DEF GROUP_WHEELS Group { children IS wheels }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.870588 0.866667 0.854902
+        roughness 1
+        metalness 0.3
+      }
+      geometry Mesh {
+        url [
+          "P3Bot/meshes/p3bot_body.stl"
+        ]
+      }
+    }
+  ]
+  description "Robolab P3Bot manipulation platform"
+  boundingObject Mesh {
+    url [
+      "P3Bot/meshes/p3bot_body_collision.stl"
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 49.5
+    centerOfMass [ -0.00415 -0.00327 0.20432 ]
+
+  }
+  }
+}
+
