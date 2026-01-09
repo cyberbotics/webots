@@ -1,36 +1,36 @@
 from controller import Robot, Keyboard
 
-# --- Inicialización del robot ---
+# --- Robot initialization ---
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 
-# --- Motores de las ruedas ---
+# --- Wheels motors ---
 wheel_names = ["wheel1", "wheel2", "wheel3", "wheel4"]
 wheels = [robot.getDevice(name) for name in wheel_names]
 for wheel in wheels:
-    wheel.setPosition(float('inf'))  # velocidad infinita
+    wheel.setPosition(float('inf')) 
 
-# --- Inicializar teclado ---
+# --- Keyboard initialization ---
 keyboard = Keyboard()
 keyboard.enable(timestep)
 
-# --- Constantes del robot ---
+# --- Robot parameters ---
 WHEEL_RADIUS = 0.08
 LX = 0.125
 LY = 0.24
 ROTATION_INCREMENT_COEFFICIENT = 1.0
 SumLxLyOverRadius = (LX + LY) / WHEEL_RADIUS * ROTATION_INCREMENT_COEFFICIENT
 
-# --- Velocidades ---
+# --- Velicities ---
 V_LINEAR = 0.5   # m/s
 V_ANGULAR = 1.0  # rad/s
 
-# --- Loop principal ---
+# --- Main loop ---
 while robot.step(timestep) != -1:
-    # Velocidades deseadas
-    vx = 0.0     # adelante/atrás
+    # Desired velocities
+    vx = 0.0     # forward/backward
     vy = 0.0     # lateral
-    omega = 0.0  # rotación
+    omega = 0.0  # rotation
 
     key = keyboard.getKey()
     while key != -1:
@@ -48,13 +48,13 @@ while robot.step(timestep) != -1:
             omega = -V_ANGULAR
         key = keyboard.getKey()
 
-    # Cinemática mecanum
+    # Mecanum cinematics
     w1 =  ( vx / WHEEL_RADIUS) - ( vy / WHEEL_RADIUS) + ( omega * SumLxLyOverRadius)
     w2 = -( vx / WHEEL_RADIUS) - ( vy / WHEEL_RADIUS) + ( omega * SumLxLyOverRadius)
     w3 =  ( vx / WHEEL_RADIUS) + ( vy / WHEEL_RADIUS) + ( omega * SumLxLyOverRadius)
     w4 = -( vx / WHEEL_RADIUS) + ( vy / WHEEL_RADIUS) + ( omega * SumLxLyOverRadius)
 
-    # Aplicar velocidades
+    # Apply velocities to wheels
     wheels[0].setVelocity(w1)
     wheels[1].setVelocity(w2)
     wheels[2].setVelocity(w3)
