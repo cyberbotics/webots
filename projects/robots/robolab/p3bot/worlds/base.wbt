@@ -46,4 +46,6 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 3 3
 }
-P3Bot {}
+P3Bot {
+  translation 0.05 0 0.03
+}
