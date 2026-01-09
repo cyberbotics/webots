@@ -29,6 +29,18 @@ PROTO P3Bot [
           width 960
           height 960
           projection "cylindrical"
+          children[
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.8
+                metalness 0
+              }
+              geometry Box {
+                size 0.048 0.019 0.15
+              }
+            }
+          ]
         }
         Camera {
           translation -0.05 1.3255e-07 1.42
@@ -42,7 +54,8 @@ PROTO P3Bot [
       ]
     }
     Camera {
-          translation 0.01 0 1.32
+          translation 0.04 0 1.15
+          rotation 0 1 0 0.261799
           children[
             RangeFinder{
               name "zed-ranger"
@@ -50,6 +63,16 @@ PROTO P3Bot [
               width 1920
               height 1080
               maxRange 20
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 0
+                roughness 0.8
+                metalness 0
+              }
+              geometry Box {
+                size 0.03 0.15 0.03
+              }
             }
           ]
           rotation 0 0 -1 0
@@ -71,6 +94,20 @@ PROTO P3Bot [
       maxRange 8
       noise 0.005
       defaultFrequency 20
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 0.8
+            metalness 0
+          }
+          geometry Cylinder {
+            radius 0.05    
+            height 0.1      
+            subdivision 32
+          }
+        }
+      ]
     }
     Accelerometer {
       name "imu_accelerometer"
