@@ -1,7 +1,7 @@
 # P3Bot
 
 Designed by the [Robolab](https://robolab.unex.es/) **research group**, **P3Bot** is a mobile manipulation platform equipped with omnidirectional wheels, multiple perception sensors, and dual articulated robotic arms.  
-It is intended for research in mobile manipulation, perception, and human–robot interaction.
+It is intended for research in mobile manipulation, perception, and human-robot interaction.
 
 The robot features a four-wheel omnidirectional base, a rich sensor suite including 360° vision, stereo vision, lidar, and IMU, as well as two **Kinova Gen3 7DoF** robotic arms mounted on the upper body.
 
