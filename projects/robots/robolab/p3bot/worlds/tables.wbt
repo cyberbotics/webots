@@ -10,7 +10,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 
 WorldInfo {
   info [
-    "Simulation of the ROBOLAB P3Bot manilation platform."
+    "Simulation of the ROBOLAB P3Bot manipulation platform."
   ]
   title "P3Bot world with 2 tables and glasses"
   basicTimeStep 16
