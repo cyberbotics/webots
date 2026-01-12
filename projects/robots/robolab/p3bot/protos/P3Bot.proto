@@ -5,7 +5,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robolab/p3bot/protos/P3Bot.proto
 # The P3Bot is a mobile manipulation platform by the Robolab research group.
 
-EXTERNPROTO "KinovaGen3.proto"
+EXTERNPROTO "KinovaGen3_7DoF.proto"
 
 PROTO P3Bot [
   field SFVec3f           translation     0 0 0.03        # Is `Pose.translation`.
@@ -75,7 +75,6 @@ PROTO P3Bot [
               }
             }
           ]
-          rotation 0 0 -1 0
           name "zed"
           fieldOfView 2.09
           width 1920
@@ -315,12 +314,12 @@ PROTO P3Bot [
     
   ] # Is `Robot.children.GROUP_WHEELS.children
   field MFNode arms [
-    KinovaGen3 {
+    KinovaGen3_7DoF {
       name "kinova_arm_r"
       translation 0 -0.0517612 1.04883
       rotation 1 0 0 2.01001
     }
-    KinovaGen3 {
+    KinovaGen3_7DoF {
       name "kinova_arm_l"
       translation 0.002 0.055 1.052
       rotation 1 0 0 -2.0100053071795863

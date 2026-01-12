@@ -1,4 +1,4 @@
-# KinovaGen3
+# KinovaGen3_7DoF
 
 Designed by **Kinova Robotics**, the **Kinova Gen3 7 DoF** is a lightweight 7-degree-of-freedom robotic manipulator designed for research, service robotics and advanced manipulation tasks.
 It features a compact design, high precision joints and an integrated parallel gripper, making it suitable for mobile manipulation platforms and fixed-base applications.
@@ -7,15 +7,15 @@ More information about the Kinova Gen3 manipulator can be found on the official
 [Kinova website](https://www.kinovarobotics.com/product/gen3-robot) or in the
 [Kinova Gen3 technical documentation](https://www.kinovarobotics.com/resources).
 
-## KinovaGen3 PROTO
+## KinovaGen3_7DoF PROTO
 
 Derived from [`Solid`](https://cyberbotics.com/doc/reference/solid).
 
 ```proto
-KinovaGen3 {
+KinovaGen3_7DoF {
     SFVec3f translation 0 0 0
     SFRotation rotation 0 0 1 0
-    SFString name "KinovaGen3"
+    SFString name "KinovaGen3_7DoF"
     SFBool invertWrist FALSE
     SFString prefix "Right_"
     SFFloat armsMinPosition -0.032
@@ -23,7 +23,7 @@ KinovaGen3 {
 }
 ```
 
-## KinovaGen3 Field Summary
+## KinovaGen3_7DoF Field Summary
 
 - **`translation`**  
   Defines the initial position of the manipulator base.
