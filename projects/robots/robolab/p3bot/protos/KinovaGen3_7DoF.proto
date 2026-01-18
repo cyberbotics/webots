@@ -27,7 +27,7 @@ PROTO KinovaGen3_7DoF [
           metalness 0
         }
         geometry DEF base_link Mesh {
-          url "KinovaGen3_7DoF/meshes/base_link.STL"
+          url "KinovaGen3_7DoF/meshes/base_link.stl"
         }
       }
       HingeJoint {
@@ -56,7 +56,7 @@ PROTO KinovaGen3_7DoF [
                 metalness 0
               }
               geometry DEF Shoulder_Link Mesh {
-                url "KinovaGen3_7DoF/meshes/shoulder_link.STL"
+                url "KinovaGen3_7DoF/meshes/shoulder_link.stl"
               }
             }
             HingeJoint {
@@ -87,7 +87,7 @@ PROTO KinovaGen3_7DoF [
                       metalness 0
                     }
                     geometry DEF HalfArm1_Link Mesh {
-                      url "KinovaGen3_7DoF/meshes/half_arm_1_link.STL"
+                      url "KinovaGen3_7DoF/meshes/half_arm_1_link.stl"
                     }
                   }
                   HingeJoint {
@@ -116,7 +116,7 @@ PROTO KinovaGen3_7DoF [
                             metalness 0
                           }
                           geometry DEF HalfArm2_Link Mesh {
-                            url "KinovaGen3_7DoF/meshes/half_arm_2_link.STL"
+                            url "KinovaGen3_7DoF/meshes/half_arm_2_link.stl"
                           }
                         }
                         HingeJoint {
@@ -147,7 +147,7 @@ PROTO KinovaGen3_7DoF [
                                   metalness 0
                                 }
                                 geometry DEF ForeArm_Link Mesh {
-                                  url "KinovaGen3_7DoF/meshes/forearm_link.STL"
+                                  url "KinovaGen3_7DoF/meshes/forearm_link.stl"
                                 }
                               }
                               HingeJoint {
@@ -180,7 +180,7 @@ PROTO KinovaGen3_7DoF [
                                         metalness 0
                                       }
                                       geometry DEF SphericalWrist1_Link Mesh {
-                                        url "KinovaGen3_7DoF/meshes/spherical_wrist_1_link.STL"
+                                        url "KinovaGen3_7DoF/meshes/spherical_wrist_1_link.stl"
                                       }
                                     }
                                     HingeJoint {
@@ -211,7 +211,7 @@ PROTO KinovaGen3_7DoF [
                                               metalness 0
                                             }
                                             geometry DEF SphericalWrist2_Link Mesh {
-                                              url "KinovaGen3_7DoF/meshes/spherical_wrist_2_link.STL"
+                                              url "KinovaGen3_7DoF/meshes/spherical_wrist_2_link.stl"
                                             }
                                           }
                                           HingeJoint {
@@ -297,7 +297,7 @@ PROTO KinovaGen3_7DoF [
                                                     metalness 0
                                                   }
                                                   geometry DEF Bracelet_Link Mesh {
-                                                    url "KinovaGen3_7DoF/meshes/bracelet_with_vision_link.STL"
+                                                    url "KinovaGen3_7DoF/meshes/bracelet_with_vision_link.stl"
                                                   }
                                                 }
                                               ]
