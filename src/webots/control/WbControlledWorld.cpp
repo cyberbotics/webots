@@ -46,7 +46,7 @@ WbControlledWorld::WbControlledWorld(WbTokenizer *tokenizer) :
     return;
 
   mNeedToYield = false;
-  foreach (WbRobot *const robot, robots())
+  foreach (const WbRobot *const robot, robots())
     connect(robot, &WbRobot::startControllerRequest, this, &WbControlledWorld::startController);
 }
 
@@ -76,7 +76,7 @@ void WbControlledWorld::setUpControllerForNewRobot(WbRobot *robot) {
   connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
 }
 
-void WbControlledWorld::startController(WbRobot *robot) {
+void WbControlledWorld::startController(const WbRobot *robot) {
   if (robot->controllerName() == "<none>") {
     connect(robot, &WbRobot::controllerChanged, this, &WbControlledWorld::updateCurrentRobotController, Qt::UniqueConnection);
     return;
@@ -145,7 +145,7 @@ void WbControlledWorld::retryStepLater() {
     emit stepBlocked(true);
   }
   // call the step() function again when a WbController received some data from the libController
-  foreach (WbController *const controller, mControllers)
+  foreach (const WbController *const controller, mControllers)
     connect(controller, &WbController::requestReceived, this, &WbControlledWorld::step, Qt::UniqueConnection);
 }
 
@@ -195,7 +195,7 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
 
 void WbControlledWorld::step() {
   if (mFirstStep && !mRetryEnabled) {
-    foreach (WbRobot *const robot, robots()) {
+    foreach (const WbRobot *const robot, robots()) {
       if (!robot->isControllerStarted())
         startController(robot);
     }

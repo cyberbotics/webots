@@ -32,7 +32,7 @@ int main(void) {
   char name[] = "ds0";
   double speed[2];
   double sensor_value[NB_SENSORS];
-  double matrix[2][NB_SENSORS] = {{11, 12, 8, -2, -3, -5, -7, -9}, {-9, -8, -5, -1, -2, 6, 12, 11}};
+  const double matrix[2][NB_SENSORS] = {{11, 12, 8, -2, -3, -5, -7, -9}, {-9, -8, -5, -1, -2, 6, 12, 11}};
 
   wb_robot_init();
 

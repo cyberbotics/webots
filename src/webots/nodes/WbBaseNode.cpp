@@ -284,7 +284,7 @@ bool WbBaseNode::isUrdfRootLink() const {
 }
 
 void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
-  if (!parentNode() || dynamic_cast<WbBasicJoint *>(parentNode()))
+  if (dynamic_cast<WbBasicJoint *>(parentNode()))
     return;
 
   WbVector3 translation;
@@ -292,7 +292,8 @@ void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   const WbNode *const upperLinkRoot = findUrdfLinkRoot();
   assert(upperLinkRoot);
 
-  if (dynamic_cast<const WbPose *>(this) && dynamic_cast<const WbPose *>(upperLinkRoot)) {
+  const WbPose *pose = dynamic_cast<const WbPose *>(this);
+  if (pose && dynamic_cast<const WbPose *>(upperLinkRoot)) {
     const WbPose *const upperLinkRootPose = static_cast<const WbPose *>(this);
     translation = upperLinkRootPose->translationFrom(upperLinkRoot);
     eulerRotation = urdfRotation(upperLinkRootPose->rotationMatrixFrom(upperLinkRoot));

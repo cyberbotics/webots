@@ -25,7 +25,7 @@
 WbWebotsUpdateDialog::WbWebotsUpdateDialog(bool displayCheckBox, QWidget *parent) : QDialog(parent) {
   setWindowTitle(tr("Check for updates"));
 
-  QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this);
+  const QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this);
   connect(buttonBox, &QDialogButtonBox::accepted, this, &WbWebotsUpdateDialog::accept);
 
   mLabel = new QLabel(tr("Check for updates..."), this);

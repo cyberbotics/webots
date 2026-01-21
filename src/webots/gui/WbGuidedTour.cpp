@@ -97,7 +97,7 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   mNextButton = new QPushButton(tr("Next"), this);
   mNextButton->setDefault(true);
   mNextButton->setAutoDefault(true);
-  QPushButton *closeButton = new QPushButton(tr("Close"), this);
+  const QPushButton *closeButton = new QPushButton(tr("Close"), this);
 
   connect(closeButton, &QPushButton::pressed, this, &WbGuidedTour::close);
   connect(mPrevButton, &QPushButton::pressed, this, &WbGuidedTour::prev);

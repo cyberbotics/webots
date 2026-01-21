@@ -49,7 +49,7 @@ namespace wren {
       mIsDirectionDirty = true;
     }
 
-    LightNode::Type type() override { return TYPE_SPOT; }
+    LightNode::Type type() const override { return TYPE_SPOT; }
 
     void update() const override {
       PositionalLight::update();
