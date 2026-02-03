@@ -565,22 +565,26 @@ static void setDarkTitlebar(HWND hwnd) {
 void WbGuiApplication::updateStyleSheet() {
   mThemeLoaded = WbPreferences::instance()->value("General/theme").toString();
   QFile qssFile(WbStandardPaths::resourcesPath() + mThemeLoaded);
-  qssFile.open(QFile::ReadOnly);
+  if (!qssFile.open(QFile::ReadOnly))
+    WbLog::warning(tr("Could not open theme file: '%1'.").arg(qssFile.fileName()));
   QString styleSheet = QString::fromUtf8(qssFile.readAll());
 
 #ifdef __APPLE__
   QFile macOSQssFile(WbStandardPaths::resourcesPath() + "stylesheet.macos.qss");
-  macOSQssFile.open(QFile::ReadOnly);
+  if (!macOSQssFile.open(QFile::ReadOnly))
+    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(macOSQssFile.fileName()));
   styleSheet += QString::fromUtf8(macOSQssFile.readAll());
 
 #elif defined(__linux__)
   QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
-  linuxQssFile.open(QFile::ReadOnly);
+  if (!linuxQssFile.open(QFile::ReadOnly))
+    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(linuxQssFile.fileName()));
   styleSheet += QString::fromUtf8(linuxQssFile.readAll());
 
 #elif _WIN32
   QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
-  windowsQssFile.open(QFile::ReadOnly);
+  if (!windowsQssFile.open(QFile::ReadOnly))
+    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(windowsQssFile.fileName()));
   styleSheet += QString::fromUtf8(windowsQssFile.readAll());
 #endif
 

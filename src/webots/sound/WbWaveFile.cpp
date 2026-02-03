@@ -14,6 +14,7 @@
 
 #include "WbWaveFile.hpp"
 
+#include "WbLog.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
@@ -216,7 +217,10 @@ void WbWaveFile::loadFromFile(const QString &extension, int side) {
   if (mDevice) {
     inputFilename = WbStandardPaths::webotsTmpPath() + "input." + extension;
     QFile input(inputFilename);
-    input.open(QFile::WriteOnly);
+    if (!input.open(QFile::WriteOnly)) {
+      WbLog::error(QObject::tr("Could not create temporary audio file: '%1'.").arg(inputFilename));
+      return;
+    }
     input.write(mDevice->readAll());
     input.close();
   } else
