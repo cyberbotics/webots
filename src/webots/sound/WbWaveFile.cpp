@@ -188,8 +188,11 @@ void WbWaveFile::loadConvertedFile(int side) {
 void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   assert(mDevice == NULL);
   mDevice = new QFile(filename);
-  if (!mDevice->open(QIODevice::ReadOnly))
+  if (!mDevice->open(QIODevice::ReadOnly)) {
+    delete mDevice;
+    mDevice = NULL;
     throw QObject::tr("Could not open audio device: '%1'.").arg(filename);
+  }
   loadConvertedFile(side);
   mDevice->close();
   delete mDevice;
