@@ -572,26 +572,18 @@ void WbGuiApplication::updateStyleSheet() {
     WbLog::warning(tr("Could not open theme file: '%1'.").arg(qssFile.fileName()));
 
 #ifdef __APPLE__
-  QFile macOSQssFile(WbStandardPaths::resourcesPath() + "stylesheet.macos.qss");
-  if (macOSQssFile.open(QFile::ReadOnly))
-    styleSheet += QString::fromUtf8(macOSQssFile.readAll());
-  else
-    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(macOSQssFile.fileName()));
-
+  const QString platformStylesheet = "stylesheet.macos.qss";
 #elif defined(__linux__)
-  QFile linuxQssFile(WbStandardPaths::resourcesPath() + "stylesheet.linux.qss");
-  if (linuxQssFile.open(QFile::ReadOnly))
-    styleSheet += QString::fromUtf8(linuxQssFile.readAll());
-  else
-    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(linuxQssFile.fileName()));
-
+  const QString platformStylesheet = "stylesheet.linux.qss";
 #elif _WIN32
-  QFile windowsQssFile(WbStandardPaths::resourcesPath() + "stylesheet.windows.qss");
-  if (windowsQssFile.open(QFile::ReadOnly))
-    styleSheet += QString::fromUtf8(windowsQssFile.readAll());
-  else
-    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(windowsQssFile.fileName()));
+  const QString platformStylesheet = "stylesheet.windows.qss";
 #endif
+
+  QFile platformQssFile(WbStandardPaths::resourcesPath() + platformStylesheet);
+  if (platformQssFile.open(QFile::ReadOnly))
+    styleSheet += QString::fromUtf8(platformQssFile.readAll());
+  else
+    WbLog::warning(tr("Could not open stylesheet file: '%1'.").arg(platformQssFile.fileName()));
 
   qApp->setStyleSheet(styleSheet);
 #ifdef _WIN32
