@@ -1593,7 +1593,10 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   tmpDir.mkdir(generatedProtos);
   QFile file(
     QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
-  file.open(QIODevice::WriteOnly | QIODevice::Text);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    WbLog::error(tr("Could not create temporary file: '%1'.").arg(file.fileName()));
+    return;
+  }
   file.write(node->protoInstanceTemplateContent());
   file.close();
   if (!file.fileName().isEmpty())
