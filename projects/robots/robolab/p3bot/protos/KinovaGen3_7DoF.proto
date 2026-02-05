@@ -1,0 +1,414 @@
+#VRML_SIM R2025b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robolab/p3bot/protos/KinovaGen3_7DoF.proto
+# keywords: robot/arm
+# template language: javascript
+# This is a webots definition for the Kinova Gen3 7DoF manipulator
+
+PROTO KinovaGen3_7DoF [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "KinovaGen3_7DoF"  # Is `Robot.name`.
+  field  SFBool      invertWrist     FALSE
+  field  SFString    prefix          "Right_"
+  field  SFFloat     armsMinPosition -0.032
+  field  SFFloat     armsMaxPosition 0.01
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance DEF base_link_material PBRAppearance {
+          baseColor 0.752940 0.752940 0.752940
+          roughness 1.000000
+          metalness 0
+        }
+        geometry DEF base_link Mesh {
+          url "KinovaGen3_7DoF/meshes/base_link.stl"
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -0.000000 0.000007 -1.000000
+          anchor 0.000000 0.000000 0.156430
+        }
+        device [
+          RotationalMotor {
+            name %<= '"' + fields.prefix.value + "Actuator1" + '"'; >%
+            maxVelocity 0.8727
+            maxTorque 39.0
+          }
+          PositionSensor {
+            name %<= '"' + fields.prefix.value + "Actuator1_sensor" + '"'; >%
+          }
+        ]
+        endPoint Solid {
+          translation 0.000000 0.000000 0.156430
+          rotation 1.000000 -0.000000 -0.000000 3.141600
+          children [
+            Shape {
+              appearance DEF Shoulder_Link_material PBRAppearance {
+                baseColor 0.752940 0.752940 0.752940
+                roughness 1.000000
+                metalness 0
+              }
+              geometry DEF Shoulder_Link Mesh {
+                url "KinovaGen3_7DoF/meshes/shoulder_link.stl"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis -0.000000 -1.000000 -0.000004
+                anchor 0.000000 0.005375 -0.128380
+              }
+              device [
+                RotationalMotor {
+                  name %<= '"' + fields.prefix.value + "Actuator2" + '"'; >%
+                  maxVelocity 0.8727
+                  minPosition -2.41
+                  maxPosition 2.41
+                  maxTorque 39.0
+                }
+                PositionSensor {
+                  name %<= '"' + fields.prefix.value + "Actuator2_sensor" + '"'; >%
+                }
+              ]
+              endPoint Solid {
+                translation 0.000000 0.005375 -0.128380
+                rotation 1.000000 -0.000000 -0.000000 1.570800
+                children [
+                  Shape {
+                    appearance DEF HalfArm1_Link_material PBRAppearance {
+                      baseColor 0.752940 0.752940 0.752940
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF HalfArm1_Link Mesh {
+                      url "KinovaGen3_7DoF/meshes/half_arm_1_link.stl"
+                    }
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 1.000000 -0.000004
+                      anchor 0.000000 -0.210380 -0.006375
+                    }
+                    device [
+                      RotationalMotor {
+                        name %<= '"' + fields.prefix.value + "Actuator3" + '"'; >%
+                        maxVelocity 0.8727
+                        maxTorque 39.0
+                      }
+                      PositionSensor {
+                        name %<= '"' + fields.prefix.value + "Actuator3_sensor" + '"'; >%
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.000000 -0.210380 -0.006375
+                      rotation -1.000000 0.000000 -0.000000 1.570800
+                      children [
+                        Shape {
+                          appearance DEF HalfArm2_Link_material PBRAppearance {
+                            baseColor 0.752940 0.752940 0.752940
+                            roughness 1.000000
+                            metalness 0
+                          }
+                          geometry DEF HalfArm2_Link Mesh {
+                            url "KinovaGen3_7DoF/meshes/half_arm_2_link.stl"
+                          }
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis -0.000000 -1.000000 -0.000004
+                            anchor 0.000000 0.006375 -0.210380
+                          }
+                          device [
+                            RotationalMotor {
+                              name %<= '"' + fields.prefix.value + "Actuator4" + '"'; >%
+                              maxVelocity 0.8727
+                              minPosition -2.66
+                              maxPosition 2.66
+                              maxTorque 39.0
+                            }
+                            PositionSensor {
+                              name %<= '"' + fields.prefix.value + "Actuator4_sensor" + '"'; >%
+                            }
+                          ]
+                          endPoint Solid {
+                            translation 0.000000 0.006375 -0.210380
+                            rotation 1.000000 -0.000000 -0.000000 1.570800
+                            children [
+                              Shape {
+                                appearance DEF ForeArm_Link_material PBRAppearance {
+                                  baseColor 0.752940 0.752940 0.752940
+                                  roughness 1.000000
+                                  metalness 0
+                                }
+                                geometry DEF ForeArm_Link Mesh {
+                                  url "KinovaGen3_7DoF/meshes/forearm_link.stl"
+                                }
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 1.000000 -0.000004
+                                  anchor 0.000000 -0.208430 -0.006375
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name %<= '"' + fields.prefix.value + "Actuator5" + '"'; >%
+                                    maxVelocity 0.8727
+                                    maxTorque 9.0
+                                  }
+                                  PositionSensor {
+                                    name %<= '"' + fields.prefix.value + "Actuator5_sensor" + '"'; >%
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation 0.000000 -0.208430 -0.006375
+                                  %< if (fields.invertWrist.value) { >%
+                                      rotation -6.781012696521093e-09 0.7071062811861719 0.7071072811865696 3.14159
+                                  %< } else { >%
+                                      rotation -1.000000 0.000000 0.000000 1.570800
+                                  %< } >%
+                                  children [
+                                    Shape {
+                                      appearance DEF SphericalWrist1_Link_material PBRAppearance {
+                                        baseColor 0.752940 0.752940 0.752940
+                                        roughness 1.000000
+                                        metalness 0
+                                      }
+                                      geometry DEF SphericalWrist1_Link Mesh {
+                                        url "KinovaGen3_7DoF/meshes/spherical_wrist_1_link.stl"
+                                      }
+                                    }
+                                    HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis -0.000000 -1.000000 -0.000004
+                                        anchor 0.000000 0.000175 -0.105930
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name %<= '"' + fields.prefix.value + "Actuator6" + '"'; >%
+                                          maxVelocity 0.8727
+                                          minPosition -2.23
+                                          maxPosition 2.23
+                                          maxTorque 9.0
+                                        }
+                                        PositionSensor {
+                                          name %<= '"' + fields.prefix.value + "Actuator6_sensor" + '"'; >%
+                                        }
+                                      ]
+                                      endPoint Solid {
+                                        translation 0.000000 0.000175 -0.105930
+                                        rotation 1.000000 -0.000000 -0.000000 1.570800
+                                        children [
+                                          Shape {
+                                            appearance DEF SphericalWrist2_Link_material PBRAppearance {
+                                              baseColor 0.752940 0.752940 0.752940
+                                              roughness 1.000000
+                                              metalness 0
+                                            }
+                                            geometry DEF SphericalWrist2_Link Mesh {
+                                              url "KinovaGen3_7DoF/meshes/spherical_wrist_2_link.stl"
+                                            }
+                                          }
+                                          HingeJoint {
+                                            jointParameters HingeJointParameters {
+                                              axis -0.000000 1.000000 -0.000004
+                                              anchor 0.000000 -0.105930 -0.000175
+                                            }
+                                            device [
+                                              RotationalMotor {
+                                                name %<= '"' + fields.prefix.value + "Actuator7" + '"'; >%
+                                                maxVelocity 0.8727
+                                                maxTorque 9.0
+                                              }
+                                              PositionSensor {
+                                                name %<= '"' + fields.prefix.value + "Actuator7_sensor" + '"'; >%
+                                              }
+                                            ]
+                                            endPoint Solid {
+                                              translation 0.000000 -0.105930 -0.000175
+                                              rotation -1.000000 -0.000000 0.000000 1.570800
+                                              children [
+                                                Solid {
+                                                        translation 0 0 -0.09
+                                                        children [
+                                                          SliderJoint {
+                                                            jointParameters JointParameters {
+                                                              position 0.01
+                                                              axis 1 0 0
+                                                              minStop IS armsMinPosition
+                                                              maxStop IS armsMaxPosition
+                                                            }
+                                                            device [
+                                                              PositionSensor {
+                                                              }
+                                                              LinearMotor {
+                                                                name %<= '"' + fields.prefix.value + "Hand_LinearMotor_Right" + '"'; >%
+                                                              }
+                                                            ]
+                                                            endPoint Solid {
+                                                              translation 0.05 0 -0.0625
+                                                              children [
+                                                                DEF Finger Shape {
+                                                                  appearance USE base_link_material
+                                                                  geometry DEF basic_finger Box {
+                                                                    size 0.01 0.02 0.035
+                                                                  }
+                                                                }
+                                                              ]
+                                                              name %<= '"' + fields.prefix.value + "Hand_Finger_Right" + '"'; >%
+                                                              boundingObject USE basic_finger
+                                                            }
+                                                          }
+                                                          SliderJoint {
+                                                            jointParameters JointParameters {
+                                                              position 0.01
+                                                              axis -1 0 0
+                                                              minStop IS armsMinPosition
+                                                              maxStop IS armsMaxPosition
+                                                            }
+                                                            device [
+                                                              PositionSensor {
+                                                              }
+                                                              LinearMotor {
+                                                                name %<= '"' + fields.prefix.value + "Hand_LinearMotor_Left" + '"'; >%
+                                                              }
+                                                            ]
+                                                            endPoint Solid {
+                                                              translation -0.05 0 -0.0625
+                                                              children [
+                                                                USE Finger
+                                                              ]
+                                                              name %<= '"' + fields.prefix.value + "Hand_Finger_Left" + '"'; >%
+                                                              boundingObject USE basic_finger
+                                                            }
+                                                          }
+                                                        ]
+                                                        name "fingers_holder"
+                                                      }
+                                                Shape {
+                                                  appearance DEF Bracelet_Link_material PBRAppearance {
+                                                    baseColor 0.752940 0.752940 0.752940
+                                                    roughness 1.000000
+                                                    metalness 0
+                                                  }
+                                                  geometry DEF Bracelet_Link Mesh {
+                                                    url "KinovaGen3_7DoF/meshes/bracelet_with_vision_link.stl"
+                                                  }
+                                                }
+                                              ]
+                                              name "Bracelet_Link"
+                                              boundingObject USE Bracelet_Link
+                                              physics Physics {
+                                                density -1
+                                                mass 0.500600
+                                                centerOfMass [ -0.000281 -0.011402 -0.029798 ]
+                                                inertiaMatrix [
+                                                  5.870000e-04 3.690000e-04 6.090000e-04
+                                                  3.000000e-06 3.000000e-06 1.180000e-04
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                        name "SphericalWrist2_Link"
+                                        boundingObject USE SphericalWrist2_Link
+                                        physics Physics {
+                                          density -1
+                                          mass 0.678100
+                                          centerOfMass [ 0.000001 -0.045483 -0.009650 ]
+                                          inertiaMatrix [
+                                            1.641000e-03 4.100000e-04 1.641000e-03
+                                            0.000000e+00 0.000000e+00 -2.780000e-04
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                  name "SphericalWrist1_Link"
+                                  boundingObject USE SphericalWrist1_Link
+                                  physics Physics {
+                                    density -1
+                                    mass 0.678100
+                                    centerOfMass [ 0.000001 -0.009432 -0.063883 ]
+                                    inertiaMatrix [
+                                      1.596000e-03 1.607000e-03 3.990000e-04
+                                      0.000000e+00 0.000000e+00 2.560000e-04
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "ForeArm_Link"
+                            boundingObject USE ForeArm_Link
+                            physics Physics {
+                              density -1
+                              mass 0.930200
+                              centerOfMass [ -0.000018 -0.075478 -0.015006 ]
+                              inertiaMatrix [
+                                8.147000e-03 6.310000e-04 8.316000e-03
+                                -1.000000e-06 0.000000e+00 -5.000000e-04
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      name "HalfArm2_Link"
+                      boundingObject USE HalfArm2_Link
+                      physics Physics {
+                        density -1
+                        mass 1.163600
+                        centerOfMass [ -0.000044 -0.006641 -0.117892 ]
+                        inertiaMatrix [
+                          1.093200e-02 1.112700e-02 1.043000e-03
+                          0.000000e+00 -7.000000e-06 6.060000e-04
+                        ]
+                      }
+                    }
+                  }
+                ]
+                name "HalfArm1_Link"
+                boundingObject USE HalfArm1_Link
+                physics Physics {
+                  density -1
+                  mass 1.163600
+                  centerOfMass [ -0.000044 -0.099580 -0.013278 ]
+                  inertiaMatrix [
+                    1.108800e-02 1.072000e-03 1.125500e-02
+                    5.000000e-06 0.000000e+00 -6.910000e-04
+                  ]
+                }
+              }
+            }
+          ]
+          name "Shoulder_Link"
+          boundingObject USE Shoulder_Link
+          physics Physics {
+            density -1
+            mass 1.377300
+            centerOfMass [ -0.000023 -0.010364 -0.073360 ]
+            inertiaMatrix [
+              4.570000e-03 4.831000e-03 1.409000e-03
+              1.000000e-06 2.000000e-06 4.480000e-04
+            ]
+          }
+        }
+      }
+    ]
+    name IS name
+    boundingObject USE base_link
+    physics Physics {
+      density -1
+      mass 1.697000
+      centerOfMass [ -0.000648 -0.000166 0.084487 ]
+      inertiaMatrix [
+        4.622000e-03 4.495000e-03 2.079000e-03
+        9.000000e-06 6.000000e-05 9.000000e-06
+      ]
+    }
+  }
+}
