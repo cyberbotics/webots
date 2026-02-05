@@ -640,7 +640,7 @@ void WbBackground::applySkyBoxToWren() {
       size = 2;
       const int size2 = size * size;
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-      unsigned int data[size2];
+      unsigned int *data = new unsigned int[size2];
       const WbRgb &c = skyColor();
       unsigned int color = c.redByte() * 0x10000 + c.greenByte() * 0x100 + c.blueByte();
       for (int i = 0; i < size2; i++)
@@ -649,6 +649,7 @@ void WbBackground::applySkyBoxToWren() {
         wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
       wr_texture_set_size(WR_TEXTURE(cm), size, size);
       wr_texture_setup(WR_TEXTURE(cm));
+      delete[] data;
     }
     mIrradianceCubeTexture =
       wr_texture_cubemap_bake_specular_irradiance(cm, WbWrenShaders::iblSpecularIrradianceBakingShader(), size);
