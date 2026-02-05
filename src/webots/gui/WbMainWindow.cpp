@@ -2432,7 +2432,10 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const QString webotsRepo = fileName.mid(0, index);
 
       QFile localFile(fileToOpen);
-      localFile.open(QIODevice::ReadWrite);
+      if (!localFile.open(QIODevice::ReadWrite)) {
+        WbLog::error(tr("Could not open file for editing: '%1'.").arg(fileToOpen));
+        return;
+      }
       const QString contents = QString(localFile.readAll());
       QStringList lines = contents.split('\n');
       for (QString &line : lines) {

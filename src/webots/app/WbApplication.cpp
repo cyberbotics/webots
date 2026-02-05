@@ -271,7 +271,8 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   emit preWorldLoaded(reloading);
   // create a file in tmp path for ipc extern controllers
   QFile loading_file(WbStandardPaths::webotsTmpPath() + "loading");
-  loading_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
+  if (!loading_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    WbLog::warning(tr("Could not create loading signal file: '%1'.").arg(loading_file.fileName()));
 
   bool isFirstLoad = (mWorld == NULL);
   delete mWorld;
