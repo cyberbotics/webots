@@ -638,12 +638,11 @@ void WbBackground::applySkyBoxToWren() {
     } else {  // otherwise, use a small uniform texture with the color of the sky
       cm = wr_texture_cubemap_new();
       size = 2;
-      const int size2 = size * size;
       wr_texture_set_internal_format(WR_TEXTURE(cm), WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-      unsigned int data[size2];
+      unsigned int data[4];
       const WbRgb &c = skyColor();
       unsigned int color = c.redByte() * 0x10000 + c.greenByte() * 0x100 + c.blueByte();
-      for (int i = 0; i < size2; i++)
+      for (int i = 0; i < 4; i++)
         data[i] = color;
       for (int i = 0; i < 6; i++)
         wr_texture_cubemap_set_data(cm, reinterpret_cast<const char *>(data), static_cast<WrTextureOrientation>(i));
