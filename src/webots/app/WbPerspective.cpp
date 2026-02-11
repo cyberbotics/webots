@@ -284,12 +284,15 @@ bool WbPerspective::save() const {
     out << "renderingDevicePerspectives: " << it.key() << ";" << it.value().join(";") << "\n";
 
   outputFile.close();
-
 #ifdef _WIN32
   // set hidden attribute to WBPROJ file
-  const QByteArray nativePathByteArray = QDir::toNativeSeparators(fileName()).toUtf8();
-  const LPCSTR nativePath = nativePathByteArray.constData();
-  SetFileAttributes(nativePath, GetFileAttributes(nativePath) | FILE_ATTRIBUTE_HIDDEN);
+  const QString nativePath = QDir::toNativeSeparators(fileName());
+#ifdef UNICODE
+  SetFileAttributes((LPCWSTR)nativePath.utf16(), GetFileAttributes((LPCWSTR)nativePath.utf16()) | FILE_ATTRIBUTE_HIDDEN);
+#else
+  SetFileAttributes((LPCSTR)nativePath.toLocal8Bit().constData(),
+                    GetFileAttributes((LPCSTR)nativePath.toLocal8Bit().constData()) | FILE_ATTRIBUTE_HIDDEN);
+#endif
 #endif
 
   return true;
