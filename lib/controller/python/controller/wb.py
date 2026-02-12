@@ -36,7 +36,7 @@ elif sys.platform == 'win32':
     mingw_bin = os.path.join(os.environ.get('MSYS2_HOME', os.path.join(os.path.splitdrive(sys.executable)[0] + os.sep,
                              'msys64')), 'mingw64', 'bin')
     if os.path.isdir(mingw_bin):
-       os.add_dll_directory(mingw_bin)
+        os.add_dll_directory(mingw_bin)
 elif sys.platform == 'darwin':
     path = os.path.join('Contents', 'lib', 'controller', 'libController.dylib')
 
