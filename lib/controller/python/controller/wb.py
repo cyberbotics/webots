@@ -16,6 +16,9 @@ import ctypes
 import os
 import sys
 
+# Keep DLL directory handles alive to prevent garbage collection (Windows only)
+_dll_directory_handles = []
+
 if sys.platform == 'linux' or sys.platform == 'linux2':
     path = os.path.join('lib', 'controller', 'libController.so')
 elif sys.platform == 'win32':
@@ -31,14 +34,14 @@ elif sys.platform == 'win32':
         os.path.join(webots_home, 'msys64', 'mingw64', 'bin'),
     ]:
         if os.path.isdir(dll_dir):
-            os.add_dll_directory(dll_dir)
+            _dll_directory_handles.append(os.add_dll_directory(dll_dir))
     # For development builds running from source, also check the system MSYS2 installation.
     mingw_bin = os.path.join(os.environ.get('MSYS2_HOME',
                              os.path.splitdrive(sys.executable)[0] + os.sep + 'msys64'),
                              'mingw64',
                              'bin')
     if os.path.isdir(mingw_bin):
-        os.add_dll_directory(mingw_bin)
+        _dll_directory_handles.append(os.add_dll_directory(mingw_bin))
 elif sys.platform == 'darwin':
     path = os.path.join('Contents', 'lib', 'controller', 'libController.dylib')
 
