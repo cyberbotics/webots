@@ -33,8 +33,10 @@ elif sys.platform == 'win32':
         if os.path.isdir(dll_dir):
             os.add_dll_directory(dll_dir)
     # For development builds running from source, also check the system MSYS2 installation.
-    mingw_bin = os.path.join(os.environ.get('MSYS2_HOME', os.path.join(os.path.splitdrive(sys.executable)[0] + os.sep,
-                             'msys64')), 'mingw64', 'bin')
+    mingw_bin = os.path.join(os.environ.get('MSYS2_HOME',
+                             os.path.splitdrive(sys.executable)[0] + os.sep + 'msys64'),
+                             'mingw64',
+                             'bin')
     if os.path.isdir(mingw_bin):
         os.add_dll_directory(mingw_bin)
 elif sys.platform == 'darwin':
