@@ -92,7 +92,7 @@ class WebotsObject(object):
                                                     WebotsObject.elevation.elevationArray[currentYGridIndex]['y'] +
                                                     WebotsObject.elevation.yStep)
             if newCoordX is not None and newCoordY is not None:  # add point if intersect the triangle
-                newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordy)
+                newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordY)
                 newRefs.insert(i, newOSMID)
                 return cls.add_intermediate_point_where_needed(newRefs, i + 2)
             previousXGridIndex = currentXGridIndex
