@@ -76,7 +76,7 @@ class WebotsObject(object):
                     # need to add an intermediate point if none of the points are already very close from the border
                     newCoordX = (d2y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i]].x +\
                         (d1y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i - 1]].x
-                    newCoordy = (d2y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i]].y +\
+                    newCoordY = (d2y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i]].y +\
                         (d1y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i - 1]].y
                     newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordY)
                     newRefs.insert(i, newOSMID)
