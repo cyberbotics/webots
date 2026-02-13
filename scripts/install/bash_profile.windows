@@ -18,7 +18,7 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are 
 
 
 ########################################################################
-# Bash function to start your favorite source code editor from  MSYS64 #
+# Bash function to start your favorite source code editor from MSYS2 #
 ########################################################################
 
 code() {
