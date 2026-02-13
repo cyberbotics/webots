@@ -10,7 +10,7 @@ A complete description of these functions can be found in the reference guide wh
 
 ### Java and Java Compiler Installation
 
-In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 1.8 or later.
+In order to develop and run Java controllers for Webots it is necessary to have the 64-bit version of the Java Development Kit (JDK) version 16 or later.
 
 The Java Development Kit (JDK) is free for personal and development use and it can be downloaded from the [Oracle Technology Network](http://www.oracle.com/technetwork/java/javase/downloads).
 Make sure you choose the most recent 64-bit release of the Standard Edition (SE) of the JDK version 8 or later.
