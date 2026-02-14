@@ -3,7 +3,7 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "../protos/P3Bot.proto"
+EXTERNPROTO "webots://projects/robots/robolab/p3bot/protos/P3Bot.proto"
 
 WorldInfo {
   info [
