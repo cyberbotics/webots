@@ -53,13 +53,15 @@ const QString &WbLanguageTools::javaCommand() {
 }
 
 const QStringList WbLanguageTools::javaArguments() {
+  QStringList arguments;
 #ifdef __APPLE__
   // In order to run the robot window on the gui thread (thread 0)
   // which is a requirement of Qt, this option is required
-  return QStringList("-XstartOnFirstThread");
-#else
-  return QStringList();
+  arguments << "-XstartOnFirstThread";
 #endif
+  // Allow JNI native access without warnings (Java 22+)
+  arguments << "--enable-native-access=ALL-UNNAMED";
+  return arguments;
 }
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
