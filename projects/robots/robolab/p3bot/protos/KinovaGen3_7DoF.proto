@@ -245,6 +245,7 @@ PROTO KinovaGen3_7DoF [
                                                             }
                                                             device [
                                                               PositionSensor {
+                                                                name %<= '"' + fields.prefix.value + "Hand_PositionSensor_Right" + '"'; >%
                                                               }
                                                               LinearMotor {
                                                                 name %<= '"' + fields.prefix.value + "Hand_LinearMotor_Right" + '"'; >%
@@ -273,6 +274,7 @@ PROTO KinovaGen3_7DoF [
                                                             }
                                                             device [
                                                               PositionSensor {
+                                                                name %<= '"' + fields.prefix.value + "Hand_PositionSensor_Left" + '"'; >%
                                                               }
                                                               LinearMotor {
                                                                 name %<= '"' + fields.prefix.value + "Hand_LinearMotor_Left" + '"'; >%
