@@ -5,7 +5,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robolab/p3bot/protos/P3Bot.proto
 # The P3Bot is a mobile manipulation platform by the Robolab research group.
 
-EXTERNPROTO "KinovaGen3_7DoF.proto"
+EXTERNPROTO "webots://projects/robots/robolab/p3bot/protos/KinovaGen3_7DoF.proto"
 
 PROTO P3Bot [
   field SFVec3f           translation     0 0 0.03        # Is `Pose.translation`.
