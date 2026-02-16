@@ -3,8 +3,8 @@
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
-# export PYTHON_HOME="C:\Program Files\Python310"                                  # Optionally defines the path to Python home.
-# export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`        # Optionally defines the path to Java home.
+# export PYTHON_HOME="/C/Program Files/Python3xx"                                  # Optionally defines the path to Python home.
+# export JAVA_HOME="/C/Program Files/Microsoft/jdk-25.0.2.10-hotspot"              # Optionally defines the path to Java home.
 # export MATLAB_HOME=/C/Program\ Files/MATLAB/R2018b                               # Optionally defines the path to MATLAB home.
 # export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"                     # Optionally defines the path to Inno Setup home.
 
@@ -15,6 +15,16 @@
 
 export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save screen specific perspective changes when closed.
 export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are allowed to modify files in the Webots home using Webots.
+
+
+########################################################################
+# Bash function to start your favorite source code editor from MSYS2 #
+########################################################################
+
+# code() {
+#    "/C/Program Files/VSCodium/VSCodium.exe" "$@" &>/dev/null &
+#    disown
+# }
 
 
 ####################################################################################################
