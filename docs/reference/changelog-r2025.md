@@ -25,6 +25,7 @@
     - Fixed Python controllers on Windows ([#6933](https://github.com/cyberbotics/webots/pull/6933)).
     - OSM importer no longer crashes when run in 3d mode ([#6935](https://github.com/cyberbotics/webots/pull/6935)).
     - Fixed Java compilation deprecation warning and run-time warning ([#6936](https://github.com/cyberbotics/webots/pull/6936)).
+    - Fixed controller signal handlers not restoring the original handler (e.g. CPython's) on exit ([#6945](https://github.com/cyberbotics/webots/pull/6945)).
 
 ## Webots R2025a
 Released on January 31st, 2025.
