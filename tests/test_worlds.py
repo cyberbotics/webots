@@ -48,7 +48,9 @@ class TestWorldsWarnings(unittest.TestCase):
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
             'Cannot initialize the sound engine',
-            self.crashError  # To remove once #6125 is fixed
+            self.crashError,  # To remove once #6125 is fixed
+            # fontconfig tries to restore system font directory mtimes after scanning; fails without write permission on CI
+            'Unable to revert mtime:'
         ]
         # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
         self.worlds = [os.path.join(WEBOTS_HOME, 'resources', 'projects', 'worlds', 'empty.wbt')]
