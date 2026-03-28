@@ -184,6 +184,12 @@ void WbSimulationWorld::step() {
 
   const double timeStep = basicTimeStep();
 
+  // Update the timer's timestep if it's been changed
+  if (timeStep != mOldTimeStep && WbSimulationState::instance()->isRealTime()) {
+    mOldTimeStep = timeStep;
+    mTimer->start(timeStep);
+  }
+
   emit physicsStepStarted();
 
   if (log)
@@ -287,7 +293,9 @@ void WbSimulationWorld::modeChanged() {
     case WbSimulationState::REALTIME:
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
-      mTimer->start(basicTimeStep());
+      const double timeStep = basicTimeStep();
+      mOldTimeStep = timeStep;
+      mTimer->start(timeStep);
       break;
     case WbSimulationState::FAST:
       WbSoundEngine::setPause(false);
