@@ -277,6 +277,7 @@ void WbSimulationWorld::restartStepTimer() {
 
 void WbSimulationWorld::modeChanged() {
   WbPerformanceLog *log = WbPerformanceLog::instance();
+  const double timeStep = basicTimeStep();
 
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
@@ -293,7 +294,6 @@ void WbSimulationWorld::modeChanged() {
     case WbSimulationState::REALTIME:
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
-      const double timeStep = basicTimeStep();
       mOldTimeStep = timeStep;
       mTimer->start(timeStep);
       break;
