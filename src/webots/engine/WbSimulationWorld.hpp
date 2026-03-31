@@ -76,9 +76,7 @@ private:
   WbOdeContext *mOdeContext;
   WbPhysicsPlugin *mPhysicsPlugin;
   QTimer *mTimer;
-  QElapsedTimer mRealTimeTimer;
-  double mSleepRealTime;
-  QList<int> mElapsedTimeHistory;
+  double mOldTimeStep;
   QVector<WbNode *> mAddedNode;  // list of nodes added since the simulation started
 
   void storeLastSaveTime() override;
