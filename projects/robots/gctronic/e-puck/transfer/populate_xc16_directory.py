@@ -98,6 +98,8 @@ for f in files:
         basename = os.path.basename(path)
         try:
             shutil.copy(path, os.path.join(dstdirpath, basename))
+            if platform.system() != 'Windows':
+                os.chmod(os.path.join(dstdirpath, basename), 0o644)
         except IOError as e:
             raise RuntimeError("Unable to copy file. %s" % e)
 
