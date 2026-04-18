@@ -1,4 +1,4 @@
-# Copyright 1996-2024 Cyberbotics Ltd.
+# Copyright 1996-2025 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -380,6 +380,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbProtoModel.cpp \
   WbProtoTemplateEngine.cpp \
   WbProtoTreeItem.cpp \
+  WbQjsEnv.cpp \
   WbQjsFile.cpp \
   WbRadar.cpp \
   WbRadio.cpp \
