@@ -60,6 +60,8 @@ For example, the following systems are a very good configurations:
 
 It is recommended to [configure the BIOS of the computer for automatic reboot after power outage](session-server.md#hardware-requirements).
 
+Using a dummy HDMI plug may be convenient to setup RDP (remote desktop) with hardware acceleration.
+
 ### Network Requirements
 
 The simulation machines don't need to have their own fully qualified domain name.
