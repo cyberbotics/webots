@@ -60,7 +60,7 @@ For example, the following systems are a very good configurations:
 
 It is recommended to [configure the BIOS of the computer for automatic reboot after power outage](session-server.md#hardware-requirements).
 
-Using a dummy HDMI plug may be convenient to setup RDP (remote desktop) with hardware acceleration.
+Using a dummy HDMI plug may be convenient to set up RDP (remote desktop) with hardware acceleration.
 
 ### Network Requirements
 
