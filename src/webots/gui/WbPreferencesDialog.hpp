@@ -66,8 +66,8 @@ private:
   QComboBox *mNumberOfThreadsCombo;
 
   QDialogButtonBox *mButtonBox;
-  QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mAmbientOcclusionCombo, *mTextureQualityCombo,
-    *mTextureFilteringCombo;
+  QComboBox *mLanguageCombo, *mThemeCombo, *mStartupModeCombo, *mMouseModeCombo, *mAmbientOcclusionCombo,
+    *mTextureQualityCombo, *mTextureFilteringCombo;
   WbLineEdit *mEditorFontEdit, *mPythonCommand, *mMatlabCommand, *mExtraProjectPath, *mHttpProxyHostName, *mHttpProxyPort,
     *mHttpProxyUsername, *mHttpProxyPassword, *mUploadUrl, *mBrowserProgram;
   QCheckBox *mDisableSaveWarningCheckBox, *mThumnailCheckBox, *mCheckWebotsUpdateCheckBox, *mTelemetryCheckBox,

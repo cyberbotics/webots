@@ -86,6 +86,7 @@ WbPreferencesDialog::WbPreferencesDialog(QWidget *parent, const QString &default
   // general tab
   int index = gStartupModes.indexOf(prefs->value("General/startupMode").toString());
   mStartupModeCombo->setCurrentIndex(index != -1 ? index : 0);
+  mMouseModeCombo->setCurrentIndex(prefs->value("View3d/mouseMode").toString().toLower() == "blender" ? 1 : 0);
   mEditorFontEdit->setText(prefs->value("Editor/font").toString());
   mNumberOfThreads = prefs->value("General/numberOfThreads", 1).toInt();
   mNumberOfThreadsCombo->setCurrentIndex(mNumberOfThreads - 1);
@@ -168,6 +169,7 @@ void WbPreferencesDialog::accept() {
                      prefs->value("OpenGL/GTAO").toInt() != mAmbientOcclusionCombo->currentIndex());
   // general tab
   prefs->setValue("General/startupMode", gStartupModes.value(mStartupModeCombo->currentIndex()));
+  prefs->setValue("View3d/mouseMode", mMouseModeCombo->currentIndex() == 1 ? "blender" : "webots");
   prefs->setValue("Editor/font", mEditorFontEdit->text());
   prefs->setValue("General/language", languageKey);
   prefs->setValue("General/theme", mValidThemeFilenames.at(mThemeCombo->currentIndex()));
@@ -307,6 +309,15 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   foreach (const QString &mode, gStartupModes)
     mStartupModeCombo->addItem(mode);
 
+  // 3D viewport navigation scheme.
+  mMouseModeCombo = new QComboBox(this);
+  mMouseModeCombo->addItem(tr("Webots (default)"));
+  mMouseModeCombo->addItem(tr("Blender"));
+  mMouseModeCombo->setToolTip(
+    tr("Selects the mouse navigation scheme used in the 3D view.\n"
+       "  - Webots (default): left = orbit, right = pan, middle = zoom + rotate, wheel = zoom.\n"
+       "  - Blender: middle = orbit, Shift+middle = pan, Ctrl+middle = zoom, wheel = zoom."));
+
   mNumberOfThreadsCombo = new QComboBox(this);
   int max = qMax(1, QThread::idealThreadCount());
   int def = WbSysInfo::coreCount();
@@ -439,6 +450,10 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
                                             "download\nat every startup. If available, it will inform you about it."));
   layout->addWidget(new QLabel(tr("Update policy:"), this), 13, 0);
   layout->addWidget(mCheckWebotsUpdateCheckBox, 13, 1);
+
+  // row 14
+  layout->addWidget(new QLabel(tr("Mouse mode:"), this), 14, 0);
+  layout->addWidget(mMouseModeCombo, 14, 1);
 
   setTabOrder(mStartupModeCombo, mEditorFontEdit);
   setTabOrder(mEditorFontEdit, chooseFontButton);

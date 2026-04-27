@@ -48,6 +48,23 @@ Alternatively, the mouse wheel alone can also be used for zooming.
 > If you are on a desktop Mac with a single button mouse, hold the <kbd>⌥ option</kbd> key (<kbd>⌥ alt</kbd> on some keyboards) and press the mouse button to translate the camera according to the mouse motion.
 Hold the <kbd>ctrl</kbd> key down and press the mouse button to zoom in and out and rotate the camera.
 
+#### Blender-style Mouse Mode
+
+Users coming from Blender, FreeCAD or similar 3D applications can switch the 3D
+viewport to a Blender-style navigation scheme via `Tools > Preferences > General`,
+field **Mouse mode**. When set to **Blender**, the middle mouse button drives the
+camera regardless of the modifier key:
+
+- **Middle drag** rotates (orbits) the viewpoint.
+- <kbd>Shift</kbd> + **middle drag** translates (pans) the viewpoint.
+- <kbd>Ctrl</kbd> + **middle drag** zooms (combined with rotation around the viewing axis, since Webots does not yet have a pure zoom drag).
+- The **mouse wheel** alone still zooms in and out, in both modes.
+
+The other shortcuts (<kbd>Shift</kbd> + left/right click to move solids,
+<kbd>Alt</kbd> + click to apply forces / torques, etc.) keep their default
+Webots semantics in both modes. The default value of this preference is
+**Webots**, so existing users see no change unless they opt in.
+
 ### Moving a Solid Object
 
 Currently Webots provides two different ways to move solid objects: axis-aligned handles and keyboard shortcuts.
