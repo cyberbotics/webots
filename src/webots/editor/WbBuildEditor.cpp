@@ -36,6 +36,128 @@
 
 static WbBuildEditor *gInstance = NULL;
 
+static QStringList splitCommandLine(const QString &commandLine) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  return QProcess::splitCommand(commandLine);
+#else
+  QStringList arguments;
+  QString current;
+  bool inSingleQuotes = false;
+  bool inDoubleQuotes = false;
+  bool escaped = false;
+
+  for (const QChar &character : commandLine) {
+    if (escaped) {
+      current += character;
+      escaped = false;
+      continue;
+    }
+
+    if (character == '\\' && !inSingleQuotes) {
+      escaped = true;
+      continue;
+    }
+
+    if (character == '\'' && !inDoubleQuotes) {
+      inSingleQuotes = !inSingleQuotes;
+      continue;
+    }
+
+    if (character == '"' && !inSingleQuotes) {
+      inDoubleQuotes = !inDoubleQuotes;
+      continue;
+    }
+
+    if (character.isSpace() && !inSingleQuotes && !inDoubleQuotes) {
+      if (!current.isEmpty()) {
+        arguments << current;
+        current.clear();
+      }
+      continue;
+    }
+
+    current += character;
+  }
+
+  if (escaped)
+    current += '\\';
+  if (!current.isEmpty())
+    arguments << current;
+
+  return arguments;
+#endif
+}
+
+static QString configuredBuildCommandLine() {
+  if (qEnvironmentVariableIsSet("WEBOTS_BUILD_COMMAND"))
+    return QString::fromLocal8Bit(qgetenv("WEBOTS_BUILD_COMMAND")).trimmed();
+
+  return WbPreferences::instance()->value("General/buildCommand").toString().trimmed();
+}
+
+static bool expandedBuildCommand(const QString &commandLine, const QString &target, QString &command, QStringList &arguments) {
+  QStringList configuredArguments = splitCommandLine(commandLine);
+  if (configuredArguments.isEmpty())
+    return false;
+
+  const QStringList targetArguments = splitCommandLine(target);
+  QStringList expandedArguments;
+  bool hasTargetPlaceholder = false;
+
+  foreach (const QString &argument, configuredArguments) {
+    if (argument == "{target}") {
+      hasTargetPlaceholder = true;
+      expandedArguments << targetArguments;
+    } else if (argument.contains("{target}")) {
+      hasTargetPlaceholder = true;
+      QString expandedArgument = argument;
+      expandedArgument.replace("{target}", target);
+      if (!expandedArgument.isEmpty())
+        expandedArguments << expandedArgument;
+    } else
+      expandedArguments << argument;
+  }
+
+  if (!hasTargetPlaceholder && !target.isEmpty())
+    expandedArguments << targetArguments;
+
+  if (expandedArguments.isEmpty())
+    return false;
+
+  command = expandedArguments.takeFirst();
+  arguments = expandedArguments;
+  return true;
+}
+
+static QString quoteProcessArgument(const QString &argument) {
+  if (argument.isEmpty())
+    return "\"\"";
+
+  bool needsQuotes = false;
+  for (const QChar &character : argument) {
+    if (character.isSpace() || character == '"' || character == '\\') {
+      needsQuotes = true;
+      break;
+    }
+  }
+
+  if (!needsQuotes)
+    return argument;
+
+  QString quoted = argument;
+  quoted.replace("\\", "\\\\");
+  quoted.replace("\"", "\\\"");
+  return QString("\"") + quoted + "\"";
+}
+
+static QString processCommandLineForLog(const QString &command, const QStringList &arguments) {
+  QStringList commandLine;
+  commandLine << quoteProcessArgument(command);
+  foreach (const QString &argument, arguments)
+    commandLine << quoteProcessArgument(argument);
+  return commandLine.join(' ');
+}
+
 WbBuildEditor *WbBuildEditor::instance() {
   return gInstance;
 }
@@ -371,22 +493,30 @@ void WbBuildEditor::make(const QString &target) {
     list.removeFirst();
     arguments = list;
   } else {
-    command = "make";
-
     addMakefileIfNecessary(compilePath);
 
-    int numberOfThreads = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
-    if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused()) {
-      arguments << "-j";
-      arguments << QString::number(numberOfThreads);
+    const QString buildCommandLine = configuredBuildCommandLine();
+    if (!buildCommandLine.isEmpty()) {
+      if (!expandedBuildCommand(buildCommandLine, target, command, arguments)) {
+        WbLog::appendStderr(tr("Invalid build command: '%1'.\n").arg(buildCommandLine), WbLog::COMPILATION);
+        return;
+      }
+    } else {
+      command = "make";
+
+      int numberOfThreads = WbPreferences::instance()->value("General/numberOfThreads", 1).toInt();
+      if (numberOfThreads > 1 && target != "clean" && WbSimulationState::instance()->isPaused()) {
+        arguments << "-j";
+        arguments << QString::number(numberOfThreads);
+      }
+      if (!target.isEmpty())
+        arguments << splitCommandLine(target);
     }
-    if (!target.isEmpty())
-      arguments << target;
   }
 
   if (command.isEmpty())
     return;
-  WbLog::appendStdout(command + " " + arguments.join(" ") + "\n", WbLog::COMPILATION);
+  WbLog::appendStdout(processCommandLineForLog(command, arguments) + "\n", WbLog::COMPILATION);
 
   // create mProcess
   mProcess = new QProcess(this);

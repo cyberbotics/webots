@@ -79,6 +79,7 @@ public:
   // enable redirecting messages to the terminal
   static void enableStdOutRedirectToTerminal();
   static void enableStdErrRedirectToTerminal();
+  static void enableStdErrMirrorToStdOut();
 
   // controller or compilation output
   // the 'message' argument can contain newlines (multi-line output)
