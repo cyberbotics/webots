@@ -54,6 +54,22 @@ const QString &WbStandardPaths::webotsHomePath() {
   const int depth = 3;
 #endif
   if (path.isEmpty()) {
+    const QString envHome = QProcessEnvironment::systemEnvironment().value("WEBOTS_HOME");
+    if (!envHome.isEmpty()) {
+      QString candidate = QDir::cleanPath(envHome);
+#ifdef __APPLE__
+      const QString resourcesDir = candidate + "/Contents/Resources";
+#else
+      const QString resourcesDir = candidate + "/resources";
+#endif
+      if (QDir(resourcesDir).exists()) {
+        if (!candidate.endsWith('/'))
+          candidate += '/';
+        path = candidate;
+        return path;
+      }
+    }
+
     QString exePath;
 
 // Get absolute path to executable
@@ -97,8 +113,21 @@ const QString &WbStandardPaths::webotsHomePath() {
       path = installDir.absolutePath() + "/../";  // Go up to share/webots
       // qDebug() << "Using install_dir path:" << path;
     }
+    if (path.isEmpty()) {
+      // Fall back to a source tree if we're in a build directory
+      QDir probe(dir);
+      for (int i = 0; i < 5; ++i) {
+        if (probe.exists("resources") && probe.exists("projects")) {
+          path = probe.absolutePath() + "/";
+          // qDebug() << "Using source tree path:" << path;
+          return path;
+        }
+        if (!probe.cdUp())
+          break;
+      }
+    }
     // Fall back to standard path calculation
-    else {
+    if (path.isEmpty()) {
       for (int i = 0; i < depth; i++) {
         if (!dir.cdUp()) {
           QString error = QString("Failed to find Webots home directory. Current path: %1\nExecutable path: %2")

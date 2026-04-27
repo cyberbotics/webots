@@ -44,6 +44,7 @@ WbLog *WbLog::instance() {
 
 static bool gStdoutRedirect = false;
 static bool gStderrRedirect = false;
+static bool gStderrMirrorToStdout = false;
 
 void WbLog::enableStdOutRedirectToTerminal() {
   gStdoutRedirect = true;
@@ -51,6 +52,10 @@ void WbLog::enableStdOutRedirectToTerminal() {
 
 void WbLog::enableStdErrRedirectToTerminal() {
   gStderrRedirect = true;
+};
+
+void WbLog::enableStdErrMirrorToStdOut() {
+  gStderrMirrorToStdout = true;
 };
 
 void WbLog::debug(const QString &message, bool popup, Filter filter) {
@@ -104,6 +109,8 @@ void WbLog::warning(const QString &message, const QString &name, bool popup) {
   const char *header = "WARNING: ";
   if (gStderrRedirect)
     std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
+  if (gStderrMirrorToStdout)
+    std::cout << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
     return;
@@ -121,6 +128,8 @@ void WbLog::error(const QString &message, const QString &name, bool popup) {
   const char *header = "ERROR: ";
   if (gStderrRedirect || numberOfReceivers == 0)
     std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
+  if (gStderrMirrorToStdout)
+    std::cout << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
     return;
@@ -197,6 +206,8 @@ void WbLog::appendStdout(const QString &message, const QString &name) {
 void WbLog::appendStderr(const QString &message, const QString &name) {
   if (gStderrRedirect)
     std::cerr << message.toUtf8().constData() << std::flush;
+  if (gStderrMirrorToStdout)
+    std::cout << message.toUtf8().constData() << std::flush;
   emit instance()->logEmitted(STDERR, message, false, name);
 }
 

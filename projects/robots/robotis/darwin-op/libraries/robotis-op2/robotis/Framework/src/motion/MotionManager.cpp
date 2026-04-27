@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <unistd.h>
 #include "FSR.h"
 #include "MX28.h"
 #include "MotionManager.h"
