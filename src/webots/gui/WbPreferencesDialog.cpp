@@ -313,10 +313,9 @@ QWidget *WbPreferencesDialog::createGeneralTab() {
   mMouseModeCombo = new QComboBox(this);
   mMouseModeCombo->addItem(tr("Webots (default)"));
   mMouseModeCombo->addItem(tr("Blender"));
-  mMouseModeCombo->setToolTip(
-    tr("Selects the mouse navigation scheme used in the 3D view.\n"
-       "  - Webots (default): left = orbit, right = pan, middle = zoom + rotate, wheel = zoom.\n"
-       "  - Blender: middle = orbit, Shift+middle = pan, Ctrl+middle = zoom, wheel = zoom."));
+  mMouseModeCombo->setToolTip(tr("Selects the mouse navigation scheme used in the 3D view.\n"
+                                 "  - Webots (default): left = orbit, right = pan, middle = zoom + rotate, wheel = zoom.\n"
+                                 "  - Blender: middle = orbit, Shift+middle = pan, Ctrl+middle = zoom, wheel = zoom."));
 
   mNumberOfThreadsCombo = new QComboBox(this);
   int max = qMax(1, QThread::idealThreadCount());

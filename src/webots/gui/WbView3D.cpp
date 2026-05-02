@@ -1948,8 +1948,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       distanceToPickPosition = viewpoint->position()->value().length();
     if (distanceToPickPosition < 0.001)
       distanceToPickPosition = 0.001;
-    const double scale =
-      distanceToPickPosition * 2 * tan(viewpoint->fieldOfView()->value() / 2) / std::max(width(), height());
+    const double scale = distanceToPickPosition * 2 * tan(viewpoint->fieldOfView()->value() / 2) / std::max(width(), height());
 
     if (event->modifiers() & Qt::ShiftModifier)
       mDragKinematics = new WbTranslateViewpointEvent(position, viewpoint, scale);
