@@ -7,7 +7,7 @@ The bounding object of a selected solid is represented by white lines.
 These lines turn pink if the solid is colliding with another one and blue when the solid is idle, i.e., it comes to rest and it does not interact with any other active solid.
 Double-clicking on a [Robot](../reference/robot.md) opens the Robot Window.
 
-If an object has a solid subpart, then it is also possible to select only this subpart by clicking on it once the whole object is already selected, or by clicking on it while holding down the <kbd>alt</kbd> key.
+If an object has a solid subpart, then it is also possible to select only this subpart by clicking on it once the whole object is already selected, or by clicking on it while holding down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key.
 
 #### Context Menu
@@ -50,20 +50,16 @@ Hold the <kbd>ctrl</kbd> key down and press the mouse button to zoom in and out 
 
 #### Blender-style Mouse Mode
 
-Users coming from Blender, FreeCAD or similar 3D applications can switch the 3D
-viewport to a Blender-style navigation scheme via `Tools > Preferences > General`,
-field **Mouse mode**. When set to **Blender**, the middle mouse button drives the
-camera regardless of the modifier key:
+Users coming from Blender, FreeCAD or similar 3D applications can switch the 3D viewport to a Blender-style navigation scheme via `Tools > Preferences > General`, field **Mouse mode**.
+When set to **Blender**, the middle mouse button drives the camera regardless of the modifier key:
 
 - **Middle drag** rotates (orbits) the viewpoint.
 - <kbd>Shift</kbd> + **middle drag** translates (pans) the viewpoint.
 - <kbd>Ctrl</kbd> + **middle drag** zooms (combined with rotation around the viewing axis, since Webots does not yet have a pure zoom drag).
 - The **mouse wheel** alone still zooms in and out, in both modes.
 
-The other shortcuts (<kbd>Shift</kbd> + left/right click to move solids,
-<kbd>Alt</kbd> + click to apply forces / torques, etc.) keep their default
-Webots semantics in both modes. The default value of this preference is
-**Webots**, so existing users see no change unless they opt in.
+The other shortcuts (<kbd>Shift</kbd> + left/right click to move solids, <kbd>Alt</kbd> + click to apply forces / torques, etc.) keep their default Webots semantics in both modes.
+The default value of this preference is **Webots**, so existing users see no change unless they opt in.
 
 ### Moving a Solid Object
 
@@ -125,9 +121,9 @@ Camera rotation can be useful when checking wether your force / torque vector ha
 By default for each Camera, Display and RangeFinder device, an overlay showing the recorded or displayed image is visible in the 3D view.
 The device type is indicated by the border color: magenta for Camera devices, cyan for Display devices and yellow for RangeFinder devices, see [this figure](#camera-display-and-rangefinder-overlays).
 This overlay can be moved to the desired position on the view by clicking on it and dragging the mouse.
-In order to resize the overlay the user has to click on the icon located at the bottom right corner and drag the mouse, during this action the original not scaled image size will be indicated using darker areas, as depicted in [this figure](#camera-overlay-resizing).
+In order to resize the overlay the user has to click on the icon located at the bottom right corner and drag the mouse, during this action the original not scaled image size will be indicated using a white rectangle.
 Additionally, a close button is available on the top right corner to hide the overlay.
-Once the [Robot](../reference/robot.md) is selected, it is also possible to show or hide the overlay images from the `Camera Devices`, `Display Devices` and `RangeFinder Devices` items in the `Overlays` menu or from the [context menu](#context-menu).
+Once the [Robot](../reference/robot.md) is selected, it is also possible to show or hide the overlay images from the `Camera Devices`, `Display Devices` and `RangeFinder Devices` items in the `Overlays` menu.
 
 %figure "Camera, Display and RangeFinder overlays"
 
