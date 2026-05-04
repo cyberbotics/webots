@@ -1929,6 +1929,36 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     return;
   }
 
+  // Optional Blender-style viewpoint navigation (discussion #6966).
+  // When enabled, the middle mouse button drives the camera regardless of Shift/Ctrl
+  // modifiers, matching the Blender / FreeCAD industry convention:
+  //   middle drag       -> orbit (rotate viewpoint)
+  //   Shift+middle drag -> pan   (translate viewpoint)
+  //   Ctrl+middle drag  -> zoom  (zoom + rotate, since no zoom-only drag class exists)
+  // Left/right buttons keep their Webots semantics (selection, force/torque, Shift+left
+  // to move solids, etc.) so existing object-manipulation shortcuts are preserved.
+  const bool blenderMouseMode =
+    WbPreferences::instance()->value("View3d/mouseMode").toString().compare("blender", Qt::CaseInsensitive) == 0;
+  if (blenderMouseMode && (event->buttons() & Qt::MiddleButton) &&
+      !mDisabledUserInteractionsMap.value(WbAction::LOCK_VIEWPOINT, false)) {
+    double distanceToPickPosition;
+    if (mPicker->selectedId() != -1)
+      distanceToPickPosition = (viewpoint->position()->value() - viewpoint->rotationCenter()).length();
+    else
+      distanceToPickPosition = viewpoint->position()->value().length();
+    if (distanceToPickPosition < 0.001)
+      distanceToPickPosition = 0.001;
+    const double scale = distanceToPickPosition * 2 * tan(viewpoint->fieldOfView()->value() / 2) / std::max(width(), height());
+
+    if (event->modifiers() & Qt::ShiftModifier)
+      mDragKinematics = new WbTranslateViewpointEvent(position, viewpoint, scale);
+    else if (event->modifiers() & Qt::ControlModifier)
+      mDragKinematics = new WbZoomAndRotateViewpointEvent(position, viewpoint, 5 * scale);
+    else
+      mDragKinematics = new WbRotateViewpointEvent(position, viewpoint, mPicker->selectedId() != -1);
+    return;
+  }
+
   // Cases 1 SHIFT + CLICK
   // - LEFT CLICK  -> move the selected solid along horizontal plane
   // - RIGHT CLICK -> rotate the selected solid around world vertical axis
