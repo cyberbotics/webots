@@ -16,6 +16,7 @@ Released on ??.
     - Webots now prints the cause when it fails to create a memory-mapped file for a camera node ([#6896](https://github.com/cyberbotics/webots/pull/6896)).
     - Made the timestep algorithm more consistent when running in realtime mode ([#6898](https://github.com/cyberbotics/webots/pull/6898)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
+    - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
