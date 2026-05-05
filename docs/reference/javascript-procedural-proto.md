@@ -70,12 +70,12 @@ Sphere {
 
 %end
 
-- Although not mandatory, the usage of semi-colons for JavaScript statements is highly encouraged.
+- Although not mandatory, the usage of semicolons for JavaScript statements is highly encouraged.
 Which tokens will be considered depends on whether the comment line `# template language: javascript` is present.
-- The `wbfile` module for file manipulation does not need to, and should not, be imported as it is added automatically to each instance of the engine.
-- Performance degradation has been observed when the number of evaluations requested (i.e expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.
+- The modules `wbfile` for file manipulation and `wbenv` for environment variables do not need to, and should not, be imported as they are added automatically to each instance of the engine.
+- Performance degradation has been observed when the number of evaluations requested (i.e. expressions of the form `%<= ... >%`) is large, generally in the tens of thousands.
 This is typically the case when expressions of this form are used to define the coordinates or indexes of, for instance, a [IndexedFaceSet](indexedfaceset.md).
-To greatly speed-up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
+To greatly speed up the generation of this sort of PROTO file, it is highly suggested to use a string buffer to which the coordinates are progressively appended and to only evaluate this buffer once at the end, as shown in the following snippet.
 
 %tab-component "generic"
 
@@ -183,12 +183,14 @@ The available modules are the following:
 
 - `wbutility`: provides commonly needed functions.
 
-Additionally, the following module is automatically loaded to the engine and therefore does not need to be imported:
+Additionally, the following modules are automatically loaded to the engine and therefore do not need to be imported:
 
 - `wbfile`: provides functions for the reading and writing of files.
 
-> **Note:**: contrary to the other JavaScript modules, `wbfile` is a C++ wrapped class and therefore cannot and should not be imported manually, attempting to do so will return an error.
-The functions exported by this module are available globally.
+- `wbenv`: provides functions to get environment variables.
+
+> **Note:**: contrary to the other JavaScript modules, `wbfile` and `wbenv` are C++-wrapped classes and therefore cannot and should not be imported manually, attempting to do so will return an error.
+The functions exported by these modules are available globally.
 
 The functions exported by each module are:
 
@@ -818,6 +820,20 @@ wbfile.writeTextFile(fileName, content);
 Writes the provided string to a file of name `fileName`.
 The file will be saved in the temporary file path.
 The location of this path can be retrieved from the `context` field object, see [this table](#content-of-the-context-object).
+
+%tab-end
+
+%tab "wbenv"
+
+```javascript
+/**
+ * @param {String} variableName;
+ * @returns {String}
+ */
+wbenv.getFromEnv(variableName);
+```
+
+Returns the value of the environment variable `variableName` or an empty string if it does not exist.
 
 %tab-end
 
