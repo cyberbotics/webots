@@ -38,6 +38,7 @@
 #include "WbNewProjectWizard.hpp"
 #include "WbNewProtoWizard.hpp"
 #include "WbNewWorldWizard.hpp"
+#include "WbNodeEditor.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeDebugger.hpp"
@@ -1342,6 +1343,10 @@ void WbMainWindow::updateAfterWorldLoading(bool reloading, bool firstLoad) {
   const WbWorld *world = WbWorld::instance();
   if (world->fileName() != WbProject::newWorldPath())
     mRecentFiles->makeRecent(world->fileName());
+
+  connect(this, &WbMainWindow::worldCreated, WbNodeEditor::instance(), &WbNodeEditor::tryConnectToWorld);
+  emit worldCreated();
+  disconnect(this, &WbMainWindow::worldCreated, WbNodeEditor::instance(), &WbNodeEditor::tryConnectToWorld);
 
   mSimulationView->setWorld(WbSimulationWorld::instance());
 
