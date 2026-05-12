@@ -200,7 +200,7 @@ void WbSimulationWorld::step() {
     dImmersionOutlineDestroy(mImmersionGeoms.at(i).outline);
   mImmersionGeoms.clear();
 
-  foreach (WbRobot *const robot, robots()) {
+  foreach (const WbRobot *const robot, robots()) {
     if (robots().contains(robot))  // the 'processImmediateMessages' of another robot may have removed/regenerated this robot
       robot->processImmediateMessages();
   }
@@ -375,7 +375,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
   dImmersionLinkGroupEmpty(mCluster->immersionLinkGroup());
   WbSoundEngine::stopAllSources();
   if (restartControllers) {
-    foreach (WbRobot *const robot, robots()) {
+    foreach (const WbRobot *const robot, robots()) {
       if (robot->isControllerStarted())
         robot->restartController();
     }

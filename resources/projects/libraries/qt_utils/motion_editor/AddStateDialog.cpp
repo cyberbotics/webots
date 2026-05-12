@@ -32,7 +32,7 @@ AddStateDialog::AddStateDialog(Motion *motion, QWidget *parent) : QDialog(parent
   populateListWidget();
 
   QWidget *buttonsWidget = new QWidget(this);
-  QPushButton *cancelButton = new QPushButton(tr("Cancel"), buttonsWidget);
+  const QPushButton *cancelButton = new QPushButton(tr("Cancel"), buttonsWidget);
   QPushButton *okButton = new QPushButton(tr("Ok"), buttonsWidget);
   QHBoxLayout *hBoxLayout = new QHBoxLayout(buttonsWidget);
   hBoxLayout->addStretch();

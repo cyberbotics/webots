@@ -224,7 +224,7 @@ struct ImageData {
   unsigned long *target_data_size;
 };
 
-void g_image_save_to_jpeg_buffer_callback(void *context, void *data, int size) {
+void g_image_save_to_jpeg_buffer_callback(void *context, const void *data, int size) {
   if (!*(((struct ImageData *)context)->target_data))
     *(((struct ImageData *)context)->target_data) = (unsigned char *)malloc(size);
   else

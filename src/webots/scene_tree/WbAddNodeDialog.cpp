@@ -538,7 +538,7 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
   QStringList protoList;
   QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
   while (it.hasNext()) {
-    WbProtoInfo *info = it.next().value();
+    const WbProtoInfo *info = it.next().value();
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
     const QStringList tags = info->tags();

@@ -105,7 +105,7 @@ namespace wren {
     mScaleRelative(glm::vec3(1.0)) {
   }
 
-  TransformNode::TransformNode(TransformNode *source) :
+  TransformNode::TransformNode(const TransformNode *source) :
     Node(source),
     mIsMatrixDirty(source->mIsMatrixDirty),
     mPositionRelative(source->mPositionRelative),

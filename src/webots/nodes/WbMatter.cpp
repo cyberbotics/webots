@@ -361,12 +361,12 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
     if (insertedGeom)
       setGeomMatter(insertedGeom);
   } else {  // no Pose in the boundingObject is a parent of this Shape
-    WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
+    const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
     if (ifs)
       connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, shape, &WbShape::geometryInShapeInserted,
               Qt::UniqueConnection);
 
-    WbElevationGrid *const eg = dynamic_cast<WbElevationGrid *>(geometry);
+    const WbElevationGrid *const eg = dynamic_cast<WbElevationGrid *>(geometry);
     if (eg)
       connect(eg, &WbElevationGrid::validElevationGridInserted, shape, &WbShape::geometryInShapeInserted, Qt::UniqueConnection);
 
