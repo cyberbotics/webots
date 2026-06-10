@@ -130,24 +130,37 @@ void WbTcpServer::create(int port) {
   // - a websocket on "/"
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
-  // See if a server is already running on port by trying to connect to it.
-  // This is needed because in some environments QTcpServer::listen() uses a socket that is configured to reuse a port [1]
-  // and Qt does not provide a way to configure the socket before calling listen() [2].
-  // [1] https://doc.qt.io/qt-6/qabstractsocket.html#BindFlag-enum
-  // [2] https://stackoverflow.com/questions/47268023/how-to-set-so-reuseaddr-on-the-socket-used-by-qtcpserver
+  // =====================================================
+  // TEMPORARY PATCH FOR macOS 27
+  // -----------------------------------------------------
+  // Webots R2025a performs a pre-check by connecting to
+  // localhost:port and assumes the port is already in use
+  // if the connection succeeds.
+  //
+  // On macOS 27 this check appears to incorrectly report
+  // every port as occupied.
+  //
+  // We disable the pre-check and rely on the real
+  // QTcpServer::listen() call below.
+  // =====================================================
+
+  /*
   QTcpSocket socket;
   socket.connectToHost("localhost", port);
   if (socket.waitForConnected(100)) {
     socket.disconnectFromHost();
     throw tr("Port %1 is already in use").arg(port);
   }
+  */
 
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
   mTcpServer = new QTcpServer();
+
   if (!mTcpServer->listen(QHostAddress::Any, port))
     throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
+
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
   connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
