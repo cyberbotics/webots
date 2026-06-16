@@ -2,11 +2,15 @@
 
 ## Webots R2025b
   - Enhancements
+    - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
     - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
     - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Webots now prints the cause when it fails to create a memory-mapped file for a camera node ([#6896](https://github.com/cyberbotics/webots/pull/6896)).
+    - Made the timestep algorithm more consistent when running in realtime mode ([#6898](https://github.com/cyberbotics/webots/pull/6898)).
+    - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
+    - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
   - Bug Fixes
