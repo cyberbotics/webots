@@ -905,11 +905,10 @@ unsigned int *WbDisplay::imageCopy(short int x, short int y, short int &w, short
   if (mAttachedCamera) {
     // blend camera background image and display image
     const unsigned int *const cameraImage = reinterpret_cast<const unsigned int *>(mAttachedCamera->constImage());
-    int destIndex = 0;
     int displayPixel, displayAlpha, oneMinusDisplayAlpha, cameraPixel;
     for (int j = 0; j < h; j++) {
       int srcRowIndex = (clippedY + j) * width();
-      for (int i = 0; i < w; i++, destIndex++) {
+      for (int i = 0; i < w; i++) {
         int srcPixelIndex = srcRowIndex + clippedX + i;
         displayPixel = mImage[srcPixelIndex];
         displayAlpha = SHIFT(displayPixel, 24);
