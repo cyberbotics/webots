@@ -11,7 +11,7 @@
 #define ODE_INFO(...) do {} while(0)
 #define ODE_IMPORTANT(...) do {} while(0)
 #else
-// Debug logging is disabled, but the arguments are still referenced in dead code that
+// We've disabled ODE's debug logging, but the arguments are still referenced in dead code that
 // the optimizer removes. This keeps variables used only for debug logging from being
 // reported as unused, without evaluating the arguments at runtime or producing output.
 inline void ode_debug_noop(...) {}
