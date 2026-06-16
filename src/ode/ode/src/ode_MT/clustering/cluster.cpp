@@ -543,12 +543,17 @@ void dxClusteredWorldAndSpace::makeClusters()
     }
 
     clusterCount = 0;
+#ifndef dNODEBUG
+    // counters used only by the ODE_INFO/ODE_PRINT debug logging below
     int tableCount = 0;
     int firstaabbCount = 0;
     int oldNodeCount = 0, newNodeCount = 0;
+#endif
     // add each AABB to the hash table (may need to add it to up to 8 cells)
     for (aabb = first_aabb; aabb; aabb = aabb->next) {
+#ifndef dNODEBUG
     ++firstaabbCount;
+#endif
 
     ClusterNode *head = NULL;
     ClusterNode *tail = NULL;
@@ -569,7 +574,9 @@ void dxClusteredWorldAndSpace::makeClusters()
       // get the hash index
       dVector3 pos = { (dReal)xi, (dReal)yi, (dReal)zi};
       unsigned long hi = getVirtualAddress (pos) % sz;
+#ifndef dNODEBUG
       ++tableCount;
+#endif
 
       dxClusterNode *node = NULL;
       // first check to see if we have a free node
@@ -579,7 +586,9 @@ void dxClusteredWorldAndSpace::makeClusters()
           table[hi]->nextFreeNode = node->next;
 
           if (node->next) node->next->count = node->count + 1;
+#ifndef dNODEBUG
           ++oldNodeCount;
+#endif
       }
       // add a new node to the hash table if required
       else
@@ -592,7 +601,9 @@ void dxClusteredWorldAndSpace::makeClusters()
 
           node->next = table[hi];
           table[hi] = node;
+#ifndef dNODEBUG
           ++newNodeCount;
+#endif
       }
 
       node->x = xi;
@@ -636,13 +647,17 @@ void dxClusteredWorldAndSpace::makeClusters()
     // if 2 neighboring cells in the hashspace have objects inside,
     // they belong to the same cluster. In this way, we only need to traverse
     // the hashspace once and come with a list of clusters. Pretty fast.
+#ifndef dNODEBUG
     int nodeCount = 0;
+#endif
     for (int i = 0; i < sz; ++i)
     {
         dxClusterNode *node = table[i];
         if (node && node->isStatic==false && node->tagged == false  && table[i]->nextFreeNode != table[i])
         {
+#ifndef dNODEBUG
             ++nodeCount;
+#endif
             node->tagged = true;
 
             ClusterNode *head = NULL;
@@ -665,6 +680,7 @@ void dxClusteredWorldAndSpace::makeClusters()
 {
     ODE_INFO("Geom count: %d\n", algoN);
     ODE_INFO("Big box count: %d\n", bigboxCount);
+    ODE_INFO("AABB count: %d\n", firstaabbCount);
     ODE_INFO("Limits: (%f, %f), (%f, %f), (%f, %f)\n", xmin, xmax, ymin, ymax, zmin, zmax);
     ODE_INFO("%d out of %d table additions\n", tableCount, sz);
     ODE_IMPORTANT("dxClusterNode Count: %d\n", nodeCount);
@@ -1100,8 +1116,11 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
     }
 
     // then go through each cluster AABB and update dbounds and table
+#ifndef dNODEBUG
+    // counters used only by the ODE_PRINT debug logging below
     int tableCount = 0, newNodeCount = 0, oldNodeCount = 0;
     int updateCount = 0;
+#endif
     for (dxClusterNode *node = clusterAABBs[kid]; node; node = node->next)
     {
         dxClusterAABB *aabb = node->aabb;
@@ -1125,7 +1144,9 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
             joint = joint->next;
         }
 
+#ifndef dNODEBUG
         updateCount++;
+#endif
 
         // if geom was found, use absolute position of geom to update node aabb
         if (geom) // discretize AABB position to cell size
@@ -1156,7 +1177,9 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
           if (bCalculateNewSZ == true)
               ODE_PRINT("SCENE SIZE CHANGED! Aborting current frame\n");
 
+#ifndef dNODEBUG
           tableCount++;
+#endif
 
           dxClusterNode *node2 = NULL;
           // first check to see if we have a free node
@@ -1165,7 +1188,9 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
               node2 = clusterTables[kid][hi]->nextFreeNode;
               clusterTables[kid][hi]->nextFreeNode = node2->next;
 
+#ifndef dNODEBUG
               oldNodeCount++;
+#endif
           }
           else
           {
@@ -1178,7 +1203,9 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
 
               node2->next = clusterTables[kid][hi];
               clusterTables[kid][hi] = node2;
+#ifndef dNODEBUG
               newNodeCount++;
+#endif
           }
 
           node2->x = xi;
@@ -1197,6 +1224,7 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
     }
     ODE_PRINT("%d geoms updated\n", updateCount);
     ODE_PRINT("%d table additions\n", tableCount);
+    ODE_PRINT("%d nodes reused\n", oldNodeCount);
 
     return bCalculateNewSZ;
 }
