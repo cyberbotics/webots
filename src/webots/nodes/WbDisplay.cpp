@@ -914,9 +914,9 @@ unsigned int *WbDisplay::imageCopy(short int x, short int y, short int &w, short
         displayAlpha = SHIFT(displayPixel, 24);
         oneMinusDisplayAlpha = 0xFF - displayAlpha;
         cameraPixel = cameraImage[srcPixelIndex];
-        clippedImage[srcPixelIndex] = 0xFF000000;
+        clippedImage[j * w + i] = 0xFF000000;
         for (int k = 0; k < 3; k++)
-          clippedImage[srcPixelIndex] +=
+          clippedImage[j * w + i] +=
             (((oneMinusDisplayAlpha * SHIFT(cameraPixel, 8 * k) + displayAlpha * SHIFT(displayPixel, 8 * k)) / 0xFF) << 8 * k);
       }
     }
