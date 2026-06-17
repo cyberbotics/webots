@@ -641,7 +641,9 @@ void dxClusteredWorldAndSpace::makeClusters()
     }
 
     }
+#ifndef dNODEBUG
     ODE_INFO("%d new nodes, %d old nodes\n", newNodeCount, oldNodeCount);
+#endif
 
     // Finally, separate clusters based on proximity of hashspace cells
     // if 2 neighboring cells in the hashspace have objects inside,
@@ -1222,10 +1224,11 @@ bool dxClusteredWorldAndSpace::updateClusterAABBsAndTable(int kid)
         }
         }
     }
+#ifndef dNODEBUG
     ODE_PRINT("%d geoms updated\n", updateCount);
     ODE_PRINT("%d table additions\n", tableCount);
     ODE_PRINT("%d nodes reused\n", oldNodeCount);
-
+#endif
     return bCalculateNewSZ;
 }
 
