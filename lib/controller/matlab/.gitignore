@@ -371,6 +371,8 @@ wbu_motion_set_time.m
 wbu_motion_stop.m
 wbu_system_getenv.m
 wbu_system_short_path.m
+wbu_system_tmpdir.m
+wbu_system_webots_instance_path.m
 WB_STDOUT.m
 WB_STDERR.m
 WB_CHANNEL_BROADCAST.m

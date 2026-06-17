@@ -401,31 +401,15 @@ void WbMesh::updateMaterialIndex() {
 }
 
 void WbMesh::exportNodeFields(WbWriter &writer) const {
-  if (!(writer.isW3d() || writer.isProto()))
-    return;
-
-  if (mUrl->size() == 0)
-    return;
-
-  WbField urlFieldCopy(*findField("url", true));
-  for (int i = 0; i < mUrl->size(); ++i) {
-    const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, i);
-    WbMFString *urlFieldValue = dynamic_cast<WbMFString *>(urlFieldCopy.value());
-    if (WbUrl::isLocalUrl(completeUrl))
-      urlFieldValue->setItem(i, WbUrl::computeLocalAssetUrl(completeUrl, writer.isW3d()));
-    else if (WbUrl::isWeb(completeUrl))
-      urlFieldValue->setItem(i, completeUrl);
-    else {
-      if (writer.isWritingToFile())
-        urlFieldValue->setItem(i, WbUrl::exportMesh(this, mUrl, i, writer));
-      else
-        urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
-    }
-  }
-
-  urlFieldCopy.write(writer);
-
   WbGeometry::exportNodeFields(writer);
+
+  exportMFResourceField("url", mUrl, writer.relativeMeshesPath(), writer);
+}
+
+QStringList WbMesh::customExportedFields() const {
+  QStringList fields;
+  fields << "url";
+  return fields;
 }
 
 QStringList WbMesh::fieldsToSynchronizeWithW3d() const {

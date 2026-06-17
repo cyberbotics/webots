@@ -30,6 +30,9 @@ ifeq ($(OSTYPE),darwin)
 INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype2 -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 else ifeq ($(OSTYPE),linux)
 INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
+ifeq ($(OSDIST), fedora)
+INCLUDE += -idirafter/usr/include
+endif
 else ifeq ($(OSTYPE),windows)
 INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include -I$(WEBOTS_DEPENDENCY_PATH)
 endif

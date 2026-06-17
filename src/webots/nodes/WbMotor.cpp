@@ -853,3 +853,15 @@ QList<const WbBaseNode *> WbMotor::findClosestDescendantNodesWithDedicatedWrenNo
     list << static_cast<WbBaseNode *>(it.next());
   return list;
 }
+
+void WbMotor::exportNodeFields(WbWriter &writer) const {
+  WbJointDevice::exportNodeFields(writer);
+
+  exportSFResourceField("sound", mSound, writer.relativeSoundsPath(), writer);
+}
+
+QStringList WbMotor::customExportedFields() const {
+  QStringList fields;
+  fields << "sound";
+  return fields;
+}

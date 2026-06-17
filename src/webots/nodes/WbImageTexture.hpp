@@ -80,6 +80,7 @@ signals:
 protected:
   bool exportNodeHeader(WbWriter &writer) const override;
   void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   // user accessible fields

@@ -1,0 +1,53 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
+WorldInfo {
+  info [
+    "Test that fields do not return stale values after reset"
+  ]
+  basicTimeStep 8
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.3011392881427894 -0.8944857953945254 -0.3304698034227591 4.845225060401701
+  position 8.056890161252701 5.15602094221405 0.024334960209242112
+}
+Background {
+  skyColor [
+    0 0 1
+  ]
+}
+DirectionalLight {
+  direction 0 -1 0
+}
+DEF SOLID Solid {
+  translation 0 0 1
+}
+TestSuiteSupervisor {
+}
+Robot {
+  controller "supervisor_reset_simulation_fields"
+  controllerArgs [
+    "supervisor_reset_simulation_fields_checker"
+  ]
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "checker robot"
+  supervisor TRUE
+}
+Robot {
+  controller "supervisor_reset_simulation_fields"
+  controllerArgs [
+    "supervisor_reset_simulation_fields_resetter"
+  ]
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  name "receiver robot"
+  supervisor TRUE
+}

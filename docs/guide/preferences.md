@@ -22,7 +22,7 @@ Note that this is the maximum number of threads allowed, but the actual number o
 - The **Python command** defines which Python command is invoked by Webots when starting a Python controller.
 The default value is `python`.
 It should work on most systems assuming that `python` is installed and available from the command line.
-On some systems, it may be useful to set it to `python3.7` for example if you want to launch the controllers with this specific version of Python.
+On some systems, it may be useful to set it to `python3.14` for example if you want to launch the controllers with this specific version of Python.
 Bear in mind that this value may be overridden by the content of a `runtime.ini` file of a Python controller that may redefine a specific Python command to launch that controller.
 - The **Extra project path** defines the paths to user folders similar to the `WEBOTS_HOME/projects` folder.
 These user folders should contain projects resources that can be used in the current project (such as PROTO nodes, controllers, textures, etc.).

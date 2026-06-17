@@ -21,7 +21,10 @@ WbIniParser::WbIniParser(const QString &filename) {
   QFile file(filename);
   QString line;
   QString section;
-  file.open(QIODevice::ReadOnly);
+  if (!file.open(QIODevice::ReadOnly)) {
+    mValid = false;
+    return;
+  }
   mValid = true;
   while (!file.atEnd()) {
     line = file.readLine();

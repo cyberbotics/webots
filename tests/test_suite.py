@@ -35,11 +35,18 @@ import contextlib
 from command import Command
 from cache.cache_environment import update_cache_urls
 
+is_ubuntu_22_04 = False
 if sys.platform == 'linux':
-    result = subprocess.run(['lsb_release', '-sr'], stdout=subprocess.PIPE)
-    is_ubuntu_22_04 = result.stdout.decode().strip() == '22.04'
-else:
-    is_ubuntu_22_04 = False
+    try:
+        with open('/etc/os-release') as releaseInfo:
+            for var in releaseInfo.readlines():
+                var = var.strip()
+                if var.startswith('VERSION_ID'):
+                    is_ubuntu_22_04 = var == 'VERSION_ID="22.04"'
+                    break
+    except OSError:
+        print('WARNING: /etc/os-release not found! Assuming not Ubuntu 22.04.')
+
 
 # monitor failures
 failures = 0
@@ -199,17 +206,17 @@ def generateWorldsList(groupName):
         # to file
         for filename in filenames:
             # speaker test not working on github action because of missing sound drivers
-            # robot window and movie recording test not working on BETA Ubuntu 22.04 GitHub Action environment
+            # robot window test cannot open a browser for the robot window in a headless environment
+            #       on non-mac operating systems
             # billboard test not working in macos GitHub Action environment
             # billboard and robot window not working on windows GitHub Action environment.
             if (not filename.endswith('_temp.wbt') and
                     not ('GITHUB_ACTIONS' in os.environ and (
                         filename.endswith('speaker.wbt') or
                         filename.endswith('local_proto_with_texture.wbt') or
-                        (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
-                        (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('billboard.wbt') and sys.platform == 'darwin') or
                         (filename.endswith('billboard.wbt') and sys.platform == 'win32') or
+                        (filename.endswith('robot_window_html.wbt') and sys.platform == 'linux') or
                         (filename.endswith('robot_window_html.wbt') and sys.platform == 'win32')
                     ))):
                 worldsList.append(filename)

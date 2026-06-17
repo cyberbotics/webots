@@ -1017,6 +1017,18 @@ WbVector3 WbCamera::urdfRotation(const WbMatrix3 &rotationMatrix) const {
   return eulerRotation;
 }
 
+void WbCamera::exportNodeFields(WbWriter &writer) const {
+  WbAbstractCamera::exportNodeFields(writer);
+
+  exportSFResourceField("noiseMaskUrl", mNoiseMaskUrl, writer.relativeMeshesPath(), writer);
+}
+
+QStringList WbCamera::customExportedFields() const {
+  QStringList fields;
+  fields << "noiseMaskUrl";
+  return fields;
+}
+
 /////////////////////
 //  Update methods //
 /////////////////////

@@ -64,10 +64,9 @@ lib/controller/ [windows,linux]
 
 lib/controller/Controller [dll,windows,linux]
 lib/controller/Controller.lib [windows]
-lib/controller/libController.a [windows]
 
 lib/controller/CppController [dll,windows,linux]
-lib/controller/libCppController.a [windows]
+lib/controller/CppController.lib [windows]
 
 lib/controller/java/ [windows,linux]
 lib/controller/java/*.jar [windows,linux]
@@ -81,8 +80,11 @@ lib/controller/CppDriver [dll,windows,linux]
 lib/controller/driver [dll,windows,linux]
 lib/controller/car.lib [windows]
 lib/controller/driver.lib [windows]
+lib/controller/CppCar.lib [windows]
+lib/controller/CppDriver.lib [windows]
 
 lib/controller/generic_robot_window [dll,windows,linux]
+lib/controller/generic_robot_window.lib [windows]
 
 lib/controller/python/ [windows,linux]
 lib/controller/python/controller/ [windows,linux]

@@ -28,6 +28,7 @@
 #include "../../../include/controller/c/webots/utils/ansi_codes.h"
 
 #include <QtGui/QAction>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
 
@@ -268,12 +269,16 @@ void WbBuildEditor::reloadMessageBoxIfNeeded() {
       if (WbMessageBox::enabled()) {
         QMessageBox messageBox(QMessageBox::Question, tr("Compilation successful"),
                                tr("Do you want to reset or reload the world?"), QMessageBox::Cancel, this);
-        messageBox.addButton(tr("Reload"), QMessageBox::AcceptRole);
-        messageBox.setDefaultButton(messageBox.addButton(tr("Reset"), QMessageBox::AcceptRole));
-        const int ret = messageBox.exec();
-        if (ret == 0)
+        const QPushButton *reloadButton = messageBox.addButton(tr("Reload"), QMessageBox::AcceptRole);
+        QPushButton *resetButton = messageBox.addButton(tr("Reset"), QMessageBox::AcceptRole);
+        messageBox.setDefaultButton(resetButton);
+
+        messageBox.exec();
+
+        const QAbstractButton *clickedButton = messageBox.clickedButton();
+        if (clickedButton == reloadButton)
           emit reloadRequested();
-        else if (ret == 1)
+        else if (clickedButton == resetButton)
           emit resetRequested();
       }
     } else

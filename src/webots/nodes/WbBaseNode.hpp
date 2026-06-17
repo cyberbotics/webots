@@ -129,7 +129,6 @@ public:
   QString documentationUrl() const;
 
 signals:
-  void isBeingDestroyed(WbBaseNode *node);
   void visibleHandlesChanged(bool resizeHandlesEnabled);
   void finalizationCompleted(WbBaseNode *node);
 

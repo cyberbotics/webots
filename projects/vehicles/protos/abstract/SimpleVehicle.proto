@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/abstract/SimpleVehicle.proto
 # keywords: vehicle/other
-# Simple example shwoing how to inherit from AckermannVehicle to build any other vehicle.
+# Simple example showing how to inherit from AckermannVehicle to build any other vehicle.
 # This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 

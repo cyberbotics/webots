@@ -258,17 +258,17 @@ static void speaker_write_request(WbDevice *d, WbRequest *r) {
           request_write_char(r, 1);
         else
           request_write_char(r, 0);
-      }
 
-      request_write_int32(r, sound->upload_size);
-      if (sound->upload_size) {
-        /* Sound data available to stream, send it one time and discard it.
-         * Webots will cache the data inside the device.
-         */
-        request_write_data(r, sound->upload_data, sound->upload_size);
-        free(sound->upload_data);
-        sound->upload_data = NULL;
-        sound->upload_size = 0;
+        request_write_int32(r, sound->upload_size);
+        if (sound->upload_size) {
+          /* Sound data available to stream, send it one time and discard it.
+           * Webots will cache the data inside the device.
+           */
+          request_write_data(r, sound->upload_data, sound->upload_size);
+          free(sound->upload_data);
+          sound->upload_data = NULL;
+          sound->upload_size = 0;
+        }
       }
 
       sound->need_update = false;
