@@ -39,9 +39,7 @@ endif
 FILES_TO_REMOVE = $(MAIN_TARGET_COPY) libode.a ode.a
 
 CFLAGS = -DdTRIMESH_ENABLED -DdTRIMESH_OPCODE -DODE_MT -DODE_LIB -DODE_THREADMODE_PTHREAD
-ifeq ($(OSTYPE),darwin)
-  CFLAGS += -Wno-unused-but-set-variable
-else
+ifneq ($(OSTYPE),darwin)
   CFLAGS += -Wno-misleading-indentation -Wno-nonnull-compare
 endif
 
