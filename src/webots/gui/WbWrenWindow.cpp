@@ -382,8 +382,7 @@ void WbWrenWindow::updateFrameBuffer() {
     wr_texture_delete(WR_TEXTURE(mWrenDepthFrameBufferTexture));
 
   mWrenMainFrameBuffer = wr_frame_buffer_new();
-  const double frameBufferScaling = devicePixelRatio();
-  wr_frame_buffer_set_size(mWrenMainFrameBuffer, width() * frameBufferScaling, height() * frameBufferScaling);
+  wr_frame_buffer_set_size(mWrenMainFrameBuffer, width(), height());
 
   mWrenMainFrameBufferTexture = wr_texture_rtt_new();
   wr_texture_set_internal_format(WR_TEXTURE(mWrenMainFrameBufferTexture), WR_TEXTURE_INTERNAL_FORMAT_RGB16F);
