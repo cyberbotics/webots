@@ -18,7 +18,8 @@
 # See documentation in $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 C_SOURCES = $(wildcard *.c)
-LIBRARIES = -lgeneric_robot_window
+LIBRARIES = -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lgeneric_robot_window
+MAIN_TARGET_COPY = $(CURDIR)/$(MAIN_TARGET)
 
 null :=
 space := $(null) $(null)

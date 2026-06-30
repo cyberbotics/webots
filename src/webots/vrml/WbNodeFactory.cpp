@@ -13,17 +13,22 @@
 // limitations under the License.
 
 #include "WbNodeFactory.hpp"
+#include <QDebug>  // For qDebug
 
 static WbNodeFactory *gInstance = 0;
 
 WbNodeFactory *WbNodeFactory::instance() {
+  // qDebug() << "WbNodeFactory::instance() called, returning gInstance:" << gInstance;
   return gInstance;
 }
 
 WbNodeFactory::WbNodeFactory() {
+  // qDebug() << "WbNodeFactory CONSTRUCTOR (this:" << this << "). Setting gInstance.";
   gInstance = this;
+  // qDebug() << "WbNodeFactory CONSTRUCTOR: gInstance is now:" << gInstance;
 }
 
 WbNodeFactory::~WbNodeFactory() {
-  gInstance = 0;
+  if (gInstance == this)  // Only nullify if it's us
+    gInstance = 0;
 }

@@ -20,16 +20,34 @@
 #include <QtCore/QTime>
 #include <QtGui/QPainter>
 
+#include <QMessageBox>
+
 WbSplashScreen::WbSplashScreen(const QStringList &screenshots, const QString &logoFileName) {
   QPixmap background(960, 580);
   background.fill(Qt::black);
   QSplashScreen::setPixmap(background);
 
-  // rand is already given a fixed seed so use millisecond-time since epoch for pseudorandomness
-  int randomImageIndex = QTime::currentTime().msecsSinceStartOfDay() % screenshots.size();
+  // Handle empty screenshots list
+  if (screenshots.isEmpty()) {
+    QMessageBox::warning(nullptr, "Warning", "No splash screen images provided.");
+  } else {
+    // rand is already given a fixed seed so use millisecond-time since epoch for pseudorandomness
+    int randomImageIndex = QTime::currentTime().msecsSinceStartOfDay() % screenshots.size();
 
-  mScreenshot = QImage("images:splash_images/" + screenshots.at(randomImageIndex));
+    mScreenshot = QImage("images:splash_images/" + screenshots.at(randomImageIndex));
+    if (mScreenshot.isNull()) {
+      QMessageBox::warning(nullptr, "Error", "Failed to load splash screen image: " + screenshots.at(randomImageIndex));
+      // Optionally load a default image here or skip loading a screenshot
+      // mScreenshot = QImage("path/to/default/image.png");
+    }
+  }
+
   mWebotsLogo = QImage("images:" + logoFileName);
+  if (mWebotsLogo.isNull()) {
+    QMessageBox::warning(nullptr, "Error", "Failed to load Webots logo image: " + logoFileName);
+    // You might decide to exit the program here or continue without a logo
+  }
+
 #ifdef _WIN32
   setWindowModality(Qt::ApplicationModal);
 #endif

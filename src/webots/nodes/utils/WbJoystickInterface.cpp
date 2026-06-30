@@ -17,10 +17,10 @@
 
 #include <math.h>
 
-#include <OIS/OISEffect.h>
-#include <OIS/OISException.h>
-#include <OIS/OISForceFeedback.h>
-#include <OIS/OISInputManager.h>
+#include <OISEffect.h>
+#include <OISException.h>
+#include <OISForceFeedback.h>
+#include <OISInputManager.h>
 
 #define SIGMOID_LAMBDA 0.0001
 

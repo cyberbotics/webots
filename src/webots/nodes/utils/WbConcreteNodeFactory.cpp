@@ -110,13 +110,47 @@
 #include "WbWorldInfo.hpp"
 #include "WbZoom.hpp"
 
+#include <QDebug>  // For qDebug()
 #include <QtCore/QStringList>
+#include "WbToken.hpp"  // Added for full WbToken definition
 
-// this creates and destructs the global instance
-WbConcreteNodeFactory WbConcreteNodeFactory::gFactory;
+// Forward declaration for WbNodeFactory::instance() to be callable from constructor/destructor if needed for logging
+// though it's not strictly necessary for these specific logs.
+// class WbNodeFactory;
+
+WbConcreteNodeFactory *WbConcreteNodeFactory::getInstance() {
+  static WbConcreteNodeFactory instance;
+  return &instance;
+}
+
+WbConcreteNodeFactory::WbConcreteNodeFactory() {
+  // qDebug() << "WbConcreteNodeFactory CONSTRUCTOR (this:" << this << "). Base WbNodeFactory constructor should have run.";
+  // At this point, WbNodeFactory::gInstance should be 'this' (as a WbNodeFactory*)
+  // We can't directly call WbNodeFactory::instance() here to check gInstance without risking recursion
+  // if instance() itself had complex logic, but we know WbNodeFactory's constructor sets it.
+}
+
+WbConcreteNodeFactory::~WbConcreteNodeFactory() {
+  // qDebug() << "WbConcreteNodeFactory DESTRUCTOR (this:" << this << "). Base WbNodeFactory destructor will run.";
+}
 
 WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer *tokenizer, WbNode *parentNode,
                                           const QString *protoUrl) {
+  // qDebug() << "WbConcreteNodeFactory::createNode CALLED with modelName:" << modelName
+  //          << "parentNode:" << (parentNode ? parentNode->nodeModelName() : "NULL")
+  //          << "protoUrl:" << (protoUrl ? *protoUrl : "NULL");
+  if (tokenizer) {
+    const WbToken *currentToken = tokenizer->peekToken();
+    if (currentToken) {
+      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer current token:" << currentToken->word() << "at line:" <<
+      // currentToken->line() << "column:" << currentToken->column() << "pos:" << tokenizer->pos();
+    } else {
+      // qDebug() << "WbConcreteNodeFactory::createNode: Tokenizer: No current token available (peekToken() is NULL). Pos:" <<
+      // tokenizer->pos();
+    }
+  } else {
+    // qDebug() << "WbConcreteNodeFactory::createNode: tokenizer is NULL.";
+  }
   if (modelName == "Accelerometer")
     return new WbAccelerometer(tokenizer);
   if (modelName == "Altimeter")
@@ -293,34 +327,68 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbVacuumGripper(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
-  if (modelName == "WorldInfo")
-    return new WbWorldInfo(tokenizer);
-  if (modelName == "Zoom")
-    return new WbZoom(tokenizer);
+  if (modelName == "WorldInfo") {
+    // qDebug() << "WbConcreteNodeFactory::createNode: Creating WbWorldInfo";
+    WbNode *node = new WbWorldInfo(tokenizer);
+    // qDebug() << "WbConcreteNodeFactory::createNode: Created WbWorldInfo:" << (node ? node->nodeModelName() : "NULL");
+    return node;
+  }
+  if (modelName == "Zoom") {
+    // qDebug() << "WbConcreteNodeFactory::createNode: Creating WbZoom";
+    WbNode *node = new WbZoom(tokenizer);
+    // qDebug() << "WbConcreteNodeFactory::createNode: Created WbZoom:" << (node ? node->nodeModelName() : "NULL");
+    return node;
+  }
+  // ... (other built-in nodes will be here, ensure to add qDebug before and after their creation if needed for deeper
+  // debugging)
 
+  // qDebug() << "WbConcreteNodeFactory::createNode: ModelName" << modelName << "not a built-in, looking for PROTOs...";
   // look for PROTOs
   WbProtoModel *model;
   const QString &worldPath = WbWorld::instance() ? WbWorld::instance()->fileName() : "";
+  // qDebug() << "WbConcreteNodeFactory::createNode: worldPath for PROTO search:" << worldPath;
   if (protoUrl) {
+    // qDebug() << "WbConcreteNodeFactory::createNode: protoUrl provided:" << *protoUrl;
     const QString prefix = WbUrl::computePrefix(*protoUrl);
+    // qDebug() << "WbConcreteNodeFactory::createNode: prefix for protoUrl:" << prefix;
     model = WbProtoManager::instance()->readModel(*protoUrl, worldPath, prefix);
+    // qDebug() << "WbConcreteNodeFactory::createNode: WbProtoManager::readModel result:" << (model ? model->name() : "NULL");
   } else {
+    // qDebug() << "WbConcreteNodeFactory::createNode: protoUrl NOT provided, finding model based on tokenizer file info.";
     const QString &parentFilePath = tokenizer->fileName().isEmpty() ? tokenizer->referralFile() : tokenizer->fileName();
+    // qDebug() << "WbConcreteNodeFactory::createNode: parentFilePath for PROTO search:" << parentFilePath;
     model = WbProtoManager::instance()->findModel(modelName, worldPath, parentFilePath);
+    // qDebug() << "WbConcreteNodeFactory::createNode: WbProtoManager::findModel result:" << (model ? model->name() : "NULL");
   }
 
-  if (!model)
+  if (!model) {
+    // qDebug() << "WbConcreteNodeFactory::createNode: PROTO model" << modelName << "not found. Returning NULL.";
     return NULL;
+  }
+  // qDebug() << "WbConcreteNodeFactory::createNode: Found PROTO model:" << model->name();
 
   // reset global parent that could be changed while parsing the PROTO model
-  if (parentNode)
+  if (parentNode) {
+    // qDebug() << "WbConcreteNodeFactory::createNode: Setting global parent node to:" << parentNode->nodeModelName();
     WbNode::setGlobalParentNode(parentNode);
+  } else {
+    // qDebug() << "WbConcreteNodeFactory::createNode: No parentNode, not resetting global parent.";
+  }
+  // qDebug() << "WbConcreteNodeFactory::createNode: Creating PROTO instance for" << model->name();
   WbNode *protoInstance =
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
-  if (protoInstance)
-    WbTemplateManager::instance()->subscribe(protoInstance, false);
+  // qDebug() << "WbConcreteNodeFactory::createNode: Created PROTO instance:" << (protoInstance ? protoInstance->nodeModelName()
+  // : "NULL");
 
+  if (protoInstance) {
+    // qDebug() << "WbConcreteNodeFactory::createNode: Subscribing PROTO instance to TemplateManager.";
+    WbTemplateManager::instance()->subscribe(protoInstance, false);
+  }
+
+  // qDebug() << "WbConcreteNodeFactory::createNode: Fixing backward compatibility for PROTO instance (if any).";
   WbNodeUtilities::fixBackwardCompatibility(protoInstance);
+  // qDebug() << "WbConcreteNodeFactory::createNode: Returning PROTO instance:" << (protoInstance ?
+  // protoInstance->nodeModelName() : "NULL");
 
   return protoInstance;
 }

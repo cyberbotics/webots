@@ -72,6 +72,8 @@ Thumbs.db
 
 # world thumbnail files
 .*.jpg
+.aider*
+.env
 
 # Claude.ai
 /.claude
