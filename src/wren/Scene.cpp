@@ -284,8 +284,8 @@ namespace wren {
         if (!offScreen && mCurrentViewport == mMainViewport && mCurrentViewport->frameBuffer()) {
           glstate::bindDrawFrameBuffer(0);
           mCurrentViewport->frameBuffer()->blit(0, true, false, false, 0, 0, 0, 0, 0, 0,
-                                                mCurrentViewport->width() * mCurrentViewport->pixelRatio(),
-                                                mCurrentViewport->height() * mCurrentViewport->pixelRatio());
+                                                round(mCurrentViewport->width() * mCurrentViewport->pixelRatio()),
+                                                round(mCurrentViewport->height() * mCurrentViewport->pixelRatio()));
         }
       }
 
