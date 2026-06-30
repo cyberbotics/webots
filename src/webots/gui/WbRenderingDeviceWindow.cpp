@@ -236,7 +236,7 @@ void WbRenderingDeviceWindow::initialize() {
 void WbRenderingDeviceWindow::render() {
   QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
 
-  const int ratio = (int)devicePixelRatio();
+  const double ratio = devicePixelRatio();
   f->glViewport(0, 0, width() * ratio, height() * ratio);
 
   f->glClear(GL_COLOR_BUFFER_BIT);
