@@ -50,11 +50,11 @@ jobs:
             DEPENDENCIES_INSTALLATION: |
               brew tap-new --no-git $USER/local-cppcheck
               brew extract --version=2.14.2 cppcheck $USER/local-cppcheck
-              brew trust --formula $USER/local-cppcheck
+              brew trust --formula $USER/local-cppcheck/cppcheck@2.14.2
               brew install cppcheck@2.14.2
               brew tap-new --no-git $USER/local-clang-format
               brew extract --version=14.0.0 clang-format $USER/local-clang-format
-              brew trust --formula $USER/local-clang-format
+              brew trust --formula $USER/local-clang-format/clang-format@14.0.0
               brew install clang-format@14.0.0
           - os: windows-2022
             DEPENDENCIES_INSTALLATION: |
