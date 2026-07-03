@@ -47,7 +47,7 @@ jobs:
               choco install -y cppcheck || true
               choco uninstall -y llvm
               choco install -y llvm --version=14.0.0
-              export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\"
+              export PATH=$PATH:"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin"
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:

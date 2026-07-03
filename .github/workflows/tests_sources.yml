@@ -59,10 +59,10 @@ jobs:
           - os: windows-2022
             DEPENDENCIES_INSTALLATION: |
               curl -LJO https://github.com/danmar/cppcheck/releases/download/2.14.1/cppcheck-2.14.1-x64-Setup.msi
-              powershell 'Start-Process msiexec -ArgumentList \"/quiet\",\"/passive\",\"/qn\",\"/i\",\"cppcheck-2.14.1-x64-Setup.msi\" -Wait'
+              powershell 'Start-Process msiexec -ArgumentList "/quiet","/passive","/qn","/i","cppcheck-2.14.1-x64-Setup.msi" -Wait'
               choco uninstall -y llvm
               choco install -y llvm --version=14.0.0
-              export PATH=$PATH:\"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin\"
+              export PATH=$PATH:"/c/Program Files/Cppcheck:/c/Program Files/LLVM/bin"
     runs-on: ${{ matrix.os }}
     if: needs.job-skipper.outputs.should_skip != 'true'
     steps:
