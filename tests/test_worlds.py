@@ -127,7 +127,9 @@ class TestWorldsWarnings(unittest.TestCase):
         if problematicWorlds:
             details = ['The following worlds have unwanted warnings:']
             for world in problematicWorlds:
-                details.append(f'{world} ({len(worldWarnings[world])} warning(s))')
+                warning_count = len(worldWarnings[world])
+                warning_label = 'warning' if warning_count == 1 else 'warnings'
+                details.append(f'{world} ({warning_count} {warning_label})')
                 for warning in worldWarnings[world]:
                     details.append('  ' + warning)
             self.fail('\n\t'.join(details))
