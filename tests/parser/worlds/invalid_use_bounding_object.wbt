@@ -1,0 +1,22 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/parser/protos/ParserTestSupervisor.proto"
+
+WorldInfo {}
+Viewpoint {}
+ParserTestSupervisor {}
+Solid {
+  name "outer"
+  children [
+    DEF BODY Group {
+      children [
+        Solid {
+          name "inner"
+          physics Physics {}
+        }
+      ]
+    }
+  ]
+  boundingObject USE BODY
+  physics Physics {}
+}
