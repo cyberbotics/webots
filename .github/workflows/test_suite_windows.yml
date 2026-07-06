@@ -151,7 +151,7 @@ jobs:
         detached: true
   delete-artifacts:
     needs: [build, test-suite]
-    if: ${{ always() && needs.test-suite.result != 'failure' && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2022]

@@ -162,7 +162,7 @@ jobs:
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
     needs: [build, test-suite, test-worlds]
-    if: ${{ always() && needs.test-suite.result != 'failure' && needs.test-worlds.result != 'failure' && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
