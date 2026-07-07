@@ -4,6 +4,7 @@ parser/worlds/empty_value.wbt "Expected floating point value, found 'direction'.
 parser/worlds/hinge_2_joint_axes.wbt "Hinge axes are aligned: using x and z axes instead."
 parser/worlds/invalid_template_regenerator_field.wbt "Cannot insert HingeJoint node in 'slot' field of Pose node that doesn't have a Solid ancestor. Skipped node in PROTO parameter 'slot'."
 parser/worlds/invalid_template_regenerator_field_lua.wbt "Cannot insert HingeJoint node in 'slot' field of Pose node that doesn't have a Solid ancestor. Skipped node in PROTO parameter 'slot'."
+parser/worlds/invalid_use_bounding_object.wbt "WARNING: Solid \"outer\" > USE BODY: Skipped node: Cannot insert Solid node in 'children' field of Group node in bounding object."
 parser/worlds/joints_motor_min_max_position.wbt "joints_motor_min_max_position' controller exited successfully."
 parser/worlds/lua_invalid_vrml_comment.wbt "error: Template engine error:"
 parser/worlds/javascript_invalid_vrml_comment.wbt "error: Template engine error:"
