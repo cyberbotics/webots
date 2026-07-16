@@ -32,6 +32,7 @@
     - Fixed controller signal handlers not restoring the original handler (e.g. CPython's) on exit ([#6945](https://github.com/cyberbotics/webots/pull/6945)).
     - The viewport now renders correctly on systems with fractional scaling enabled ([#6991](https://github.com/cyberbotics/webots/pull/6991)).
     - USE nodes are now validated before being inserted into the Scene Tree. This fixes some crashes when loading invalid world files ([#6997](https://github.com/cyberbotics/webots/pull/6997)).
+    - Fixed a bug causing the "Plain/Wireframe Rendering" and "Follow Object > ..." buttons to incorrectly be shown as unchecked in certain circumstances ([#7000](https://github.com/cyberbotics/webots/pull/7000)).
 
 ## Webots R2025a
 Released on January 31st, 2025.
