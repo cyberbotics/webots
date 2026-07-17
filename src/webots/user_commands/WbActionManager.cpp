@@ -738,6 +738,7 @@ void WbActionManager::populateActions() {
   newAction->setCheckable(true);
   mActions[FOLLOW_PAN_AND_TILT] = newAction;
 
+  actionGroup = new QActionGroup(this);
   actionGroup->addAction(mActions[FOLLOW_NONE]);
   actionGroup->addAction(mActions[FOLLOW_TRACKING]);
   actionGroup->addAction(mActions[FOLLOW_MOUNTED]);
