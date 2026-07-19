@@ -81,7 +81,7 @@ A [Supervisor](../reference/supervisor.md) controller gets information on the co
 
 **Keywords**: Docker, extern controller, simulation server, competition
 
-This example demonstrates how to run Webots and an extern controller in separate Docker containers, which keeps competitors' controllers isolated from the simulation and from each other.
+![docker.jpg](images/samples/docker.thumbnail.jpg) This example demonstrates how to run Webots and an extern controller in separate Docker containers, which keeps competitors' controllers isolated from the simulation and from each other.
 It is meant for setups such as a robot-programming competition server, where the organizers provide the world file and a referee supervisor controller while the competitors supply the robot controllers.
 The demo works on Linux only.
 Two Python launchers are provided: `launcher_without_docker.py` starts Webots with the `--extern-urls` command line option and runs the controller directly, while `launcher.py` builds and runs the world and the controller in their own containers.
