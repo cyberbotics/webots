@@ -77,7 +77,7 @@ The JavaScript and C files deal with the interactions between the page and the r
 ![cylinder_stack.png](images/samples/cylinder_stack.thumbnail.jpg) In this example, a stack of cylinders collapses.
 A [Supervisor](../reference/supervisor.md) controller gets information on the contact points and displays the reaction forces in the `Console`.
 
-### [docker]({{ url.github_tree }}/projects/samples/howto/docker)
+### [docker.wbt]({{ url.github_tree }}/projects/samples/howto/docker/simulation/worlds/docker.wbt)
 
 **Keywords**: Docker, extern controller, simulation server, competition
 
