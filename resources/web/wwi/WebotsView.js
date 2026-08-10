@@ -42,13 +42,13 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2025a/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2025b/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
 
     this.progressCss = document.createElement('link');
-    this.progressCss.href = 'https://cyberbotics.com/wwi/R2025a/css/progress.css';
+    this.progressCss.href = 'https://cyberbotics.com/wwi/R2025b/css/progress.css';
     this.progressCss.type = 'text/css';
     this.progressCss.rel = 'stylesheet';
     document.head.appendChild(this.progressCss);
@@ -59,7 +59,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return 'https://cyberbotics.com/wwi/R2025a/' + path;
+          return 'https://cyberbotics.com/wwi/R2025b/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -100,13 +100,13 @@ export default class WebotsView extends HTMLElement {
       });
     };
 
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/dependencies/ansi_up.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/dependencies/assimpjs.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/dependencies/glm-js.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/dependencies/quaternion.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/dependencies/libtess.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/enum.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025a/wrenjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/dependencies/ansi_up.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/dependencies/assimpjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/dependencies/glm-js.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/dependencies/libtess.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/enum.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2025b/wrenjs.js'));
   }
 
   #closeWhenDOMElementRemoved() {
