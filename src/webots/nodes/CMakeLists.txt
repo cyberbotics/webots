@@ -26,8 +26,8 @@ find_path(STB_INCLUDE_DIR
         ${CMAKE_SOURCE_DIR}/include/stb
 )
 
-if(NOT STB_INCLUDE_DIR)
-    message(FATAL_ERROR "STB headers not found - please install stb package or set STB_ROOT")
+if(NOT EXISTS "${STB_INCLUDE_DIR}/stb_image.h")
+    message(FATAL_ERROR "STB headers not found in '${STB_INCLUDE_DIR}' - please install stb or initialize src/stb")
 else()
     message(STATUS "Found STB headers at: ${STB_INCLUDE_DIR}")
 endif()

@@ -49,9 +49,9 @@ add_library(${CONTROLLER_CPP_LIBRARY_NAME} SHARED ${CONTROLLER_CPP_SOURCES})
 target_include_directories(${CONTROLLER_CPP_LIBRARY_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include/controller/cpp>
+    $<INSTALL_INTERFACE:include/webots/controller/cpp>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include> # added because some include files are not in the cpp folder
-    $<INSTALL_INTERFACE:include> # added because some include files are not in the cpp folder#
+    $<INSTALL_INTERFACE:include/webots> # added because some include files are not in the cpp folder
   PRIVATE
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/controller/c>  
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/controller/cpp>  
@@ -72,10 +72,3 @@ target_link_libraries(${CONTROLLER_CPP_LIBRARY_NAME}
 #  SOVERSION 0
 #  PUBLIC_HEADER "${CONTROLLER_CPP_HEADERS}" # No need for PUBLIC_HEADER with C++
 #)
-
-# Install rules
-install(TARGETS ${CONTROLLER_CPP_LIBRARY_NAME}
-  DESTINATION lib
-)
-
-# No need to install header files separately in C++, they are typically included via target_include_directories

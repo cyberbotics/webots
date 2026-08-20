@@ -32,6 +32,7 @@ set_target_properties(nodes_utils_lib PROPERTIES
 
 target_include_directories(nodes_utils_lib PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${OIS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/src/webots/nodes
     ${CMAKE_SOURCE_DIR}/src/webots/core
     ${CMAKE_SOURCE_DIR}/src/webots/vrml

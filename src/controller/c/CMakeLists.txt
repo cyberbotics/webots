@@ -97,11 +97,11 @@ add_library(${CONTROLLER_LIBRARY_NAME} SHARED ${CONTROLLER_SOURCES} ${CONTROLLER
  target_include_directories(${CONTROLLER_LIBRARY_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/webots>
     $<BUILD_INTERFACE:${STB_INCLUDE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/controller/c>
     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/controller/c>
+    $<INSTALL_INTERFACE:include/webots/controller/c>
 )
 # Find libraries on Windows (using MSYS2)
 if (WIN32)
@@ -139,12 +139,3 @@ target_link_libraries(${CONTROLLER_LIBRARY_NAME}
 #  SOVERSION 0
 #  PUBLIC_HEADER "${CONTROLLER_HEADERS}"
 #)
-
-# Install rules
-install(TARGETS ${CONTROLLER_LIBRARY_NAME}
-  DESTINATION lib
-)
-
-install(FILES ${CONTROLLER_HEADERS}
-  DESTINATION include
-)

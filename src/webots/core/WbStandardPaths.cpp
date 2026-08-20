@@ -156,7 +156,21 @@ const QString &WbStandardPaths::webotsLibPath() {
 }
 
 const QString &WbStandardPaths::controllerLibPath() {
-  static QString path = webotsHomePath() + cMacOsContents + "lib/controller/";
+  static QString path;
+  if (path.isEmpty()) {
+    QDir packagePrefix(webotsHomePath());
+    if (packagePrefix.cdUp() && packagePrefix.cdUp()) {
+#ifdef _WIN32
+      const QString packageLibraryPath = packagePrefix.filePath("bin");
+#else
+      const QString packageLibraryPath = packagePrefix.filePath("lib");
+#endif
+      if (QDir(packageLibraryPath).exists())
+        path = QDir::cleanPath(packageLibraryPath) + "/";
+    }
+    if (path.isEmpty())
+      path = webotsHomePath() + cMacOsContents + "lib/controller/";
+  }
   return path;
 }
 

@@ -535,6 +535,24 @@ void WbBuildEditor::make(const QString &target) {
   env.remove("CXX_SOURCES");
   env.remove("USE_C_API");
 
+  // A package-managed Webots home contains resources and projects under
+  // <prefix>/share/webots, while its SDK follows the platform prefix layout.
+  // Export the SDK locations so relocated projects keep using the read-only
+  // installation as their toolchain without trying to modify it.
+  QDir packagePrefix(WbStandardPaths::webotsHomePath());
+  if (packagePrefix.cdUp() && packagePrefix.cdUp()) {
+    const QString includeRoot = packagePrefix.filePath("include/webots");
+    const QString libraryRoot = packagePrefix.filePath("lib/webots");
+    if (QDir(includeRoot).exists() && QDir(libraryRoot).exists()) {
+      env.insert("WEBOTS_CONTROLLER_C_INCLUDE_PATH", QDir(includeRoot).filePath("controller/c"));
+      env.insert("WEBOTS_CONTROLLER_CPP_INCLUDE_PATH", QDir(includeRoot).filePath("controller/cpp"));
+      env.insert("WEBOTS_ODE_INCLUDE_PATH", includeRoot);
+      env.insert("WEBOTS_CONTROLLER_LIB_PATH", libraryRoot);
+      env.insert("WEBOTS_LIB_PATH", libraryRoot);
+      env.insert("PKG_CONFIG_PATH", packagePrefix.filePath("lib/pkgconfig"));
+    }
+  }
+
 #ifdef __APPLE__
   // we should add a new environment variable for the macOS build to include the "Contents/" directory
   env.insert("WEBOTS_HOME_PATH", WbStandardPaths::webotsHomePath() + "Contents/");

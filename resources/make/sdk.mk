@@ -18,11 +18,13 @@ INCLUDE += -I.
 WBCFLAGS += -Wall
 
 WEBOTS_PKG_CONFIG ?= pkg-config
-ifeq ($(OSTYPE),linux)
- webots_pkg_config_exists = $(shell $(WEBOTS_PKG_CONFIG) --exists $(1) >/dev/null 2>&1 && echo true)
- webots_pkg_config_cflags = $(shell $(WEBOTS_PKG_CONFIG) --cflags $(1) 2>/dev/null)
- webots_pkg_config_libs = $(shell $(WEBOTS_PKG_CONFIG) --libs $(1) 2>/dev/null)
-endif
+webots_pkg_config_exists = $(shell $(WEBOTS_PKG_CONFIG) --exists $(1) >/dev/null 2>&1 && echo true)
+webots_pkg_config_cflags = $(shell $(WEBOTS_PKG_CONFIG) --cflags $(1) 2>/dev/null)
+webots_pkg_config_libs = $(shell $(WEBOTS_PKG_CONFIG) --libs $(1) 2>/dev/null)
+
+WEBOTS_CONTROLLER_C_INCLUDE_PATH ?= $(WEBOTS_HOME)/include/controller/c
+WEBOTS_CONTROLLER_CPP_INCLUDE_PATH ?= $(WEBOTS_HOME)/include/controller/cpp
+WEBOTS_ODE_INCLUDE_PATH ?= $(WEBOTS_HOME)/include
 
 ifeq ($(GOAL),debug)
  WBCFLAGS += -ggdb
@@ -77,7 +79,7 @@ ifdef USE_CXX
     INCLUDE += $(call webots_pkg_config_cflags,webots-controller)
     DYNAMIC_LIBRARIES += $(call webots_pkg_config_libs,webots-controller)
    else
-    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+    INCLUDE += -I"$(WEBOTS_CONTROLLER_C_INCLUDE_PATH)"
     DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
    endif
    ifdef USE_C_API
@@ -86,7 +88,7 @@ ifdef USE_CXX
      INCLUDE += $(call webots_pkg_config_cflags,webots-cpp-controller)
      DYNAMIC_LIBRARIES += $(call webots_pkg_config_libs,webots-cpp-controller)
     else
-     INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+     INCLUDE += -I"$(WEBOTS_CONTROLLER_CPP_INCLUDE_PATH)"
      DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController
     endif
    endif
@@ -96,14 +98,14 @@ ifdef USE_CXX
     ifeq ($(OSTYPE),darwin)
      INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
     else
-     INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+     INCLUDE += -I"$(WEBOTS_CONTROLLER_C_INCLUDE_PATH)"
     endif
    else
     DYNAMIC_LIBRARIES += -lCppController
     ifeq ($(OSTYPE),darwin)
      INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/cpp"
     else
-     INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+     INCLUDE += -I"$(WEBOTS_CONTROLLER_CPP_INCLUDE_PATH)"
     endif
    endif
    ifeq ($(OSTYPE),windows)
@@ -127,14 +129,14 @@ else
     INCLUDE += $(call webots_pkg_config_cflags,webots-controller)
     DYNAMIC_LIBRARIES += $(call webots_pkg_config_libs,webots-controller)
    else
-    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+    INCLUDE += -I"$(WEBOTS_CONTROLLER_C_INCLUDE_PATH)"
     DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
    endif
   else
    ifeq ($(OSTYPE),darwin)
     INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
    else
-    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+    INCLUDE += -I"$(WEBOTS_CONTROLLER_C_INCLUDE_PATH)"
    endif
    DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
   endif
@@ -186,7 +188,7 @@ ifdef USE_ODE
    DYNAMIC_LIBRARIES += $(call webots_pkg_config_libs,webots-ode)
   else
    DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode
-   INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
+   INCLUDE += -I"$(WEBOTS_ODE_INCLUDE_PATH)/ode" -I"$(WEBOTS_ODE_INCLUDE_PATH)"
   endif
  else
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode
