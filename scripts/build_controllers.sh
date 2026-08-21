@@ -14,6 +14,7 @@ WEBOTS_QT_LIB_DIR=${WEBOTS_QT_LIB_DIR:-}
 WEBOTS_QT_LIBRARIES=${WEBOTS_QT_LIBRARIES:-}
 WEBOTS_QT_CORE_LIBRARIES=${WEBOTS_QT_CORE_LIBRARIES:-}
 WEBOTS_QT_MOC=${WEBOTS_QT_MOC:-}
+WEBOTS_CLEAN_DISTRIBUTABLE_TARGETS=${WEBOTS_CLEAN_DISTRIBUTABLE_TARGETS:-}
 WEBOTS_SKIP_CROSS_COMPILATION=${WEBOTS_SKIP_CROSS_COMPILATION:-}
 
 if [ -n "$WEBOTS_CONTROLLER_C_LIB" ] || [ -n "$WEBOTS_CONTROLLER_CPP_LIB" ]; then
@@ -100,7 +101,8 @@ if [ -z "$WEBOTS_QT_MOC" ]; then
 fi
 
 build_makefile() {
-  make -C "$1" release WEBOTS_HOME="$WEBOTS_HOME" \
+  goal=${2:-release}
+  make -C "$1" "$goal" WEBOTS_HOME="$WEBOTS_HOME" \
     WEBOTS_CONTROLLER_LIB_PATH="$WEBOTS_CONTROLLER_LIB_PATH" \
     WEBOTS_LIB_PATH="$WEBOTS_LIB_PATH" \
     ${WEBOTS_SKIP_CROSS_COMPILATION:+WEBOTS_SKIP_CROSS_COMPILATION="$WEBOTS_SKIP_CROSS_COMPILATION"} \
@@ -125,6 +127,14 @@ build_makefile_controller() {
 
 fail=0
 for project_tree in resources/projects projects; do
+  if [ -n "$WEBOTS_CLEAN_DISTRIBUTABLE_TARGETS" ]; then
+    echo "# cleaning distributable targets in $WEBOTS_HOME/$project_tree"
+    if ! build_makefile "$WEBOTS_HOME/$project_tree" clean; then
+      echo "# distributable target clean failed in $WEBOTS_HOME/$project_tree" >&2
+      fail=1
+      continue
+    fi
+  fi
   echo "# building distributable targets in $WEBOTS_HOME/$project_tree"
   if ! build_makefile "$WEBOTS_HOME/$project_tree"; then
     echo "# distributable target build failed in $WEBOTS_HOME/$project_tree" >&2
