@@ -20,7 +20,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 .PHONY: release debug profile clean c/car c/driver cpp/car cpp/driver python java
 
 ifeq ($(WEBOTS_DISABLE_JAVA),1)
-release debug profile clean: python
+release debug profile clean: cpp/car python
 else
 release debug profile clean: java python
 endif
