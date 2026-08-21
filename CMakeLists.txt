@@ -247,9 +247,11 @@ if(WIN32)
     WEBOTS_CONTROLLER_C_LIB=${CMAKE_BINARY_DIR}/src/controller/c/libController.so
     WEBOTS_CONTROLLER_CPP_LIB=${CMAKE_BINARY_DIR}/src/controller/cpp/libCppController.so
   )
+  list(FILTER WEBOTS_SAMPLE_CONTROLLER_ENV EXCLUDE REGEX "^PKG_CONFIG_PATH=")
   list(APPEND WEBOTS_SAMPLE_CONTROLLER_ENV
     WEBOTS_CONTROLLER_C_LIB=${CMAKE_BINARY_DIR}/src/controller/c/libController.dll.a
     WEBOTS_CONTROLLER_CPP_LIB=${CMAKE_BINARY_DIR}/src/controller/cpp/libCppController.dll.a
+    "PKG_CONFIG_PATH=${CMAKE_BINARY_DIR}/pkgconfig:/ucrt64/lib/pkgconfig:/ucrt64/share/pkgconfig"
   )
   set(WEBOTS_BUILD_CONTROLLERS_TOOLCHAIN
     MSYSTEM=UCRT64
