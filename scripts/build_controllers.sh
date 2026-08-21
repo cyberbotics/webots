@@ -126,6 +126,16 @@ while IFS= read -r makefile; do
   fi
 done < "$tmp_list"
 
+find "$WEBOTS_HOME/resources/projects" "$WEBOTS_HOME/projects" -type f -name Makefile -path "*/plugins/*/Makefile" > "$tmp_list"
+while IFS= read -r makefile; do
+  dir=$(dirname "$makefile")
+  echo "# building plugin in $dir"
+  if ! build_makefile "$dir"; then
+    echo "# plugin build failed in $dir" >&2
+    fail=1
+  fi
+done < "$tmp_list"
+
 find "$WEBOTS_HOME/resources/projects" "$WEBOTS_HOME/projects" -type f -name Makefile -path "*/controllers/*/Makefile" > "$tmp_list"
 while IFS= read -r makefile; do
   dir=$(dirname "$makefile")

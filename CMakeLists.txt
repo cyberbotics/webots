@@ -279,7 +279,7 @@ add_custom_target(webots_sample_controllers
 add_dependencies(webots_sample_controllers webots_controller_sdk)
 
 set(WEBOTS_SAMPLE_CONTROLLERS_STRICT_ALL)
-if(WEBOTS_PACKAGE_BUILD AND NOT WIN32)
+if(WEBOTS_PACKAGE_BUILD)
   set(WEBOTS_SAMPLE_CONTROLLERS_STRICT_ALL ALL)
 endif()
 
