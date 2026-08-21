@@ -91,9 +91,10 @@ if [ -z "$WEBOTS_QT_MOC" ]; then
 fi
 
 build_makefile() {
-  make -C "$1" WEBOTS_HOME="$WEBOTS_HOME" \
+  make -C "$1" release WEBOTS_HOME="$WEBOTS_HOME" \
     WEBOTS_CONTROLLER_LIB_PATH="$WEBOTS_CONTROLLER_LIB_PATH" \
     WEBOTS_LIB_PATH="$WEBOTS_LIB_PATH" \
+    MAIN_TARGET_COPY='$(MAIN_TARGET)' \
     ${WEBOTS_QT_INCLUDE_DIR:+QT_INCLUDE_DIR="$WEBOTS_QT_INCLUDE_DIR"} \
     ${WEBOTS_QT_LIB_DIR:+QT_LIB_DIR="$WEBOTS_QT_LIB_DIR"} \
     ${WEBOTS_QT_LIBRARIES:+QT_LIBRARIES="$WEBOTS_QT_LIBRARIES"} \
@@ -114,38 +115,13 @@ build_makefile_controller() {
 }
 
 fail=0
-tmp_list=$(mktemp)
-
-find "$WEBOTS_HOME/resources/projects" "$WEBOTS_HOME/projects" -type f -name Makefile -path "*/libraries/*/Makefile" > "$tmp_list"
-while IFS= read -r makefile; do
-  dir=$(dirname "$makefile")
-  echo "# building library in $dir"
-  if ! build_makefile "$dir"; then
-    echo "# library build failed in $dir" >&2
+for project_tree in resources/projects projects; do
+  echo "# building distributable targets in $WEBOTS_HOME/$project_tree"
+  if ! build_makefile "$WEBOTS_HOME/$project_tree"; then
+    echo "# distributable target build failed in $WEBOTS_HOME/$project_tree" >&2
     fail=1
   fi
-done < "$tmp_list"
-
-find "$WEBOTS_HOME/resources/projects" "$WEBOTS_HOME/projects" -type f -name Makefile -path "*/plugins/*/Makefile" > "$tmp_list"
-while IFS= read -r makefile; do
-  dir=$(dirname "$makefile")
-  echo "# building plugin in $dir"
-  if ! build_makefile "$dir"; then
-    echo "# plugin build failed in $dir" >&2
-    fail=1
-  fi
-done < "$tmp_list"
-
-find "$WEBOTS_HOME/resources/projects" "$WEBOTS_HOME/projects" -type f -name Makefile -path "*/controllers/*/Makefile" > "$tmp_list"
-while IFS= read -r makefile; do
-  dir=$(dirname "$makefile")
-  echo "# building controller in $dir"
-  if ! build_makefile_controller "$dir"; then
-    echo "# controller build failed in $dir" >&2
-    fail=1
-  fi
-done < "$tmp_list"
-rm -f "$tmp_list"
+done
 
 if [ "${WEBOTS_CONTROLLERS_STRICT:-0}" = "1" ] && [ "$fail" -ne 0 ]; then
   exit 1

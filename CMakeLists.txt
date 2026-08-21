@@ -250,6 +250,12 @@ if(WIN32)
     WEBOTS_CONTROLLER_C_LIB=${CMAKE_BINARY_DIR}/src/controller/c/libController.dll.a
     WEBOTS_CONTROLLER_CPP_LIB=${CMAKE_BINARY_DIR}/src/controller/cpp/libCppController.dll.a
     "PKG_CONFIG_PATH=${CMAKE_BINARY_DIR}/pkgconfig:/ucrt64/lib/pkgconfig:/ucrt64/share/pkgconfig"
+    WEBOTS_QT_VERSION=6
+    WEBOTS_QT_INCLUDE_DIR=/ucrt64/include/qt6
+    WEBOTS_QT_LIB_DIR=/ucrt64/lib
+    "WEBOTS_QT_LIBRARIES=-lQt6Core -lQt6Gui -lQt6Widgets"
+    "WEBOTS_QT_CORE_LIBRARIES=-lQt6Core"
+    WEBOTS_QT_MOC=/ucrt64/bin/moc.exe
   )
   set(WEBOTS_BUILD_CONTROLLERS_TOOLCHAIN
     MSYSTEM=UCRT64
