@@ -192,6 +192,10 @@ ifdef USE_ODE
   endif
  else
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode
+  ifeq ($(OSTYPE),windows)
+   INCLUDE += -I"$(WEBOTS_ODE_INCLUDE_PATH)/ode" -I"$(WEBOTS_ODE_INCLUDE_PATH)"
+   DYNAMIC_LIBRARIES += -lstdc++
+  endif
  endif
  ifeq ($(GOAL),profile)
   DYNAMIC_LIBRARIES += -lstdc++
