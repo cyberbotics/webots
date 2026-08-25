@@ -1,1 +1,2 @@
-cppclean.output
+.aider*
+.env

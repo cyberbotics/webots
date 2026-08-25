@@ -209,6 +209,8 @@ void WbGuiApplication::parseArguments() {
       WbLog::enableStdOutRedirectToTerminal();
     else if (arg == "--stderr")
       WbLog::enableStdErrRedirectToTerminal();
+    else if (arg == "--stderr-to-stdout")
+      WbLog::enableStdErrMirrorToStdOut();
     else if (arg == "--log-performance")
       commandLineError(tr("invalid '--log-performance' option: log file path is missing."), false);
     else if (arg.startsWith("--log-performance=")) {

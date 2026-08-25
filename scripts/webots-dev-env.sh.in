@@ -1,0 +1,76 @@
+# CMake-generated Webots build-tree developer environment.
+
+webots_dev_to_shell_path() {
+  if command -v cygpath >/dev/null 2>&1; then
+    cygpath -u "$1"
+  else
+    printf '%s\n' "$1"
+  fi
+}
+
+WEBOTS_DEV_BINARY_DIR="$(webots_dev_to_shell_path "@WEBOTS_DEV_BINARY_DIR@")"
+WEBOTS_DEV_EXECUTABLE="$(webots_dev_to_shell_path "@WEBOTS_DEV_EXECUTABLE@")"
+WEBOTS_DEV_PKG_CONFIG_PATH="$(webots_dev_to_shell_path "@WEBOTS_DEV_PKG_CONFIG_PATH@")"
+
+export WEBOTS_HOME="$(webots_dev_to_shell_path "@WEBOTS_DEV_HOME@")"
+export WEBOTS_CONTROLLER_LIB_PATH="$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_LIB_PATH@")"
+export WEBOTS_CONTROLLER_C_LIB="$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_C_LIB@")"
+export WEBOTS_CONTROLLER_CPP_LIB="$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_CPP_LIB@")"
+export WEBOTS_LIB_PATH="$(webots_dev_to_shell_path "@WEBOTS_DEV_LIB_PATH@")"
+
+if [ -n "@WEBOTS_DEV_QT_QPA_PLATFORM@" ]; then
+  export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-@WEBOTS_DEV_QT_QPA_PLATFORM@}"
+fi
+export QT_ENABLE_HIGHDPI_SCALING="${QT_ENABLE_HIGHDPI_SCALING:-1}"
+
+if [ -z "${TMPDIR:-}" ]; then
+  export TMPDIR="/tmp"
+fi
+
+if [ -z "${WEBOTS_TMPDIR:-}" ]; then
+  export WEBOTS_TMPDIR="${TMPDIR%/}/webots-${USER:-user}"
+fi
+mkdir -p "$WEBOTS_TMPDIR" 2>/dev/null || :
+
+if [ -z "${XDG_RUNTIME_DIR:-}" ] || [ ! -d "$XDG_RUNTIME_DIR" ]; then
+  WEBOTS_DEV_RUNTIME_DIR="${TMPDIR%/}/webots-runtime-${UID:-$(id -u 2>/dev/null || echo user)}"
+  mkdir -p "$WEBOTS_DEV_RUNTIME_DIR" 2>/dev/null || :
+  chmod 700 "$WEBOTS_DEV_RUNTIME_DIR" 2>/dev/null || :
+  export XDG_RUNTIME_DIR="$WEBOTS_DEV_RUNTIME_DIR"
+  unset WEBOTS_DEV_RUNTIME_DIR
+fi
+
+webots_dev_prepend_path() {
+  if [ -d "$1" ]; then
+    eval "webots_dev_current_path=\${@WEBOTS_DEV_PATH_ENVIRONMENT_VARIABLE@:-}"
+    case ":${webots_dev_current_path:-}:" in
+      *:"$1":*) ;;
+      *) export @WEBOTS_DEV_PATH_ENVIRONMENT_VARIABLE@="$1${webots_dev_current_path:+:$webots_dev_current_path}" ;;
+    esac
+  fi
+}
+
+webots_dev_prepend_pkg_config_path() {
+  if [ -d "$1" ]; then
+    case ":${PKG_CONFIG_PATH:-}:" in
+      *:"$1":*) ;;
+      *) PKG_CONFIG_PATH="$1${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" ;;
+    esac
+  fi
+}
+
+webots_dev_prepend_pkg_config_path "$WEBOTS_DEV_PKG_CONFIG_PATH"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_PLUGINS_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_C_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_CONTROLLER_CPP_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_PICOTTS_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_WEBOTS_LIB_PATH@")"
+webots_dev_prepend_path "$(webots_dev_to_shell_path "@WEBOTS_DEV_LIB_PATH@")"
+export @WEBOTS_DEV_PATH_ENVIRONMENT_VARIABLE@="${@WEBOTS_DEV_PATH_ENVIRONMENT_VARIABLE@:-}"
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH:-}"
+
+unset -f webots_dev_prepend_path
+unset -f webots_dev_prepend_pkg_config_path
+unset -f webots_dev_to_shell_path
+unset webots_dev_current_path
