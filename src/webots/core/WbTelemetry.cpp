@@ -71,7 +71,7 @@ void WbTelemetry::sendRequest(const QString &operation) {
   data.append("&build=");
   data.append(QString::number(UNIX_TIMESTAMP).toUtf8());
   request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
+  const QNetworkReply *reply = WbNetwork::instance()->networkAccessManager()->post(request, data);
   if (id == 0) {
     QEventLoop loop;
     QTimer timer;

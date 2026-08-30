@@ -26,7 +26,7 @@ namespace wren {
     // Encapsulate memory management
     static PointLight *createPointLight() { return new PointLight(); }
 
-    LightNode::Type type() override { return TYPE_POINT; }
+    LightNode::Type type() const override { return TYPE_POINT; }
 
   private:
     PointLight();

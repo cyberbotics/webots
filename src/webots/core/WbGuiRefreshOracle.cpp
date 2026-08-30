@@ -35,7 +35,7 @@ void WbGuiRefreshOracle::cleanup() {
 WbGuiRefreshOracle::WbGuiRefreshOracle() : mCanRefreshNow(true) {
   qAddPostRoutine(WbGuiRefreshOracle::cleanup);
 
-  WbSimulationState *state = WbSimulationState::instance();
+  const WbSimulationState *state = WbSimulationState::instance();
   connect(state, &WbSimulationState::modeChanged, this, &WbGuiRefreshOracle::updateFlags);
   connect(state, &WbSimulationState::controllerReadRequestsCompleted, this, &WbGuiRefreshOracle::updateFlags);
   connect(&mGlobalRefreshTimer, &QTimer::timeout, this, &WbGuiRefreshOracle::updateFlags);

@@ -81,7 +81,7 @@ WbField::~WbField() {
 
 void WbField::listenToValueSizeChanges() const {
   if (singleType() == WB_SF_NODE) {
-    WbSFNode *sfnode = static_cast<WbSFNode *>(mValue);
+    const WbSFNode *sfnode = static_cast<WbSFNode *>(mValue);
     connect(sfnode, &WbSFNode::changed, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
     return;
   }
@@ -369,7 +369,7 @@ void WbField::redirectTo(WbField *parameter, bool skipCopy) {
   if (!skipCopy)
     mValue->copyFrom(mParameter->value());
 
-  WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
+  const WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
     connect(mfnode, &WbMFNode::itemChanged, mParameter, &WbField::parameterNodeChanged, Qt::UniqueConnection);
     connect(mfnode, &WbMFNode::itemInserted, mParameter, &WbField::parameterNodeInserted, Qt::UniqueConnection);

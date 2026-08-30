@@ -1582,7 +1582,7 @@ void WbView3D::mousePressEvent(QMouseEvent *event) {
 
   // Overlays come first - special case for overlay resize and close (resize has priority)
   bool displayOverlayClicked = false;
-  WbWrenTextureOverlay *overlay = NULL;
+  const WbWrenTextureOverlay *overlay = nullptr;
   if (!mDragOverlay) {
     WbRenderingDevice *renderingDevice = WbRenderingDevice::fromMousePosition(position.x(), position.y());
     if (renderingDevice) {
@@ -1813,7 +1813,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   // Drag overlay even if modifier keys are pressed
   WbRenderingDevice *const renderingDevice = WbRenderingDevice::fromMousePosition(position.x(), position.y());
   if (renderingDevice) {
-    WbWrenTextureOverlay *const overlay = renderingDevice->overlay();
+    const WbWrenTextureOverlay *const overlay = renderingDevice->overlay();
     if (overlay) {
       overlay->putOnTop();
       if (overlay->isInsideResizeArea(position.x(), position.y()))

@@ -1939,7 +1939,7 @@ static WbNodeRef node_get_from_id(int id, const char *function) {
 
   WbNodeRef result = find_node_by_id(id);
   if (!result) {
-    WbNodeRef node_list_before = node_list;
+    WbNodeRef *const node_list_before = node_list;
     node_id = id;
     wb_robot_flush_unlocked(function);
     if (node_list != node_list_before)
@@ -2438,7 +2438,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   WbFieldRef result = find_field_by_id(node->id, -1, index, false);
   if (!result) {
     // otherwise: need to talk to Webots
-    WbFieldRef field_list_before = field_list;
+    WbFieldRef *const field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
     proto_ref = -1;
@@ -2475,7 +2475,7 @@ WbFieldRef wb_supervisor_node_get_base_node_field_by_index(WbNodeRef node, int i
   WbFieldRef result = find_field_by_id(node->id, -1, index, true);
   if (!result) {
     // otherwise: need to talk to Webots
-    WbFieldRef field_list_before = field_list;
+    WbFieldRef *const field_list_before = field_list;
     requested_field_index = index;
     node_ref = node->id;
     proto_ref = -1;

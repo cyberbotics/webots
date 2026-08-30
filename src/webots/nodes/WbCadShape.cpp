@@ -118,7 +118,7 @@ void WbCadShape::retrieveMaterials() {
     if (!newUrl.isEmpty()) {
       mObjMaterials.insert(material, newUrl);
       // prepare a downloader
-      WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
+      const WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
       connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
       mMaterialDownloaders.push_back(downloader);
     }
@@ -126,8 +126,8 @@ void WbCadShape::retrieveMaterials() {
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
   assert(mMaterialDownloaders.size() == mObjMaterials.size());
-  foreach (WbDownloader *downloader, mMaterialDownloaders)
-    downloader->download();
+  foreach (const WbDownloader *downloader, mMaterialDownloaders)
+    const_cast<WbDownloader *>(downloader)->download();
 }
 
 void WbCadShape::materialDownloadTracker() {

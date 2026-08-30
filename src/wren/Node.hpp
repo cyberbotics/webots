@@ -55,7 +55,7 @@ namespace wren {
 
   protected:
     Node();
-    explicit Node(Node *source);
+    explicit Node(const Node *source);
     virtual ~Node() {}
 
     virtual void recomputeAabb() const;

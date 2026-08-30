@@ -129,7 +129,7 @@ void WbBasicJoint::postFinalize() {
   }
   connect(mParameters, &WbSFNode::changed, this, &WbBasicJoint::updateParameters);
 
-  WbSolid *const s = solidEndPoint();
+  const WbSolid *const s = solidEndPoint();
   if (s) {
     connect(s, &WbSolid::positionChangedArtificially, this, &WbBasicJoint::updateEndPointPosition);
     updateEndPointPosition();
