@@ -2,6 +2,7 @@
 #include <webots/display.h>
 #include <webots/distance_sensor.h>
 #include <webots/robot.h>
+#include <webots/supervisor.h>
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
@@ -156,6 +157,48 @@ int main(int argc, char **argv) {
   // after detaching the camera, the display is transparent
   // and the camera records the green plane behind the display
   quick_assert_color(camera, camera_width * 0.5, camera_height * 0.5, 0x0000CF00, "detach camera failed");
+
+  // check that embedded display textures are rediscovered after live appearance edits
+  reset_display(display);
+  wb_display_set_color(display, BLUE);
+  wb_display_fill_rectangle(display, 0, 0, display_width, display_height);
+  wb_robot_step(TIME_STEP);
+
+  quick_assert_color(camera, camera_width * 0.5, camera_height * 0.5, 0x0000CF, "embedded display precondition failed");
+
+  WbNodeRef embedded_shape = wb_supervisor_node_get_from_def("EMOTICONS_DISPLAY_SHAPE");
+  ts_assert_pointer_not_null(embedded_shape, "Failed to resolve the embedded display shape.");
+  WbFieldRef appearance_field = wb_supervisor_node_get_field(embedded_shape, "appearance");
+  ts_assert_pointer_not_null(appearance_field, "Failed to resolve the embedded display appearance field.");
+
+  wb_supervisor_field_remove_sf(appearance_field);
+  wb_robot_step(TIME_STEP);
+
+  wb_supervisor_field_import_sf_node_from_string(
+    appearance_field,
+    "Appearance { material Material { ambientIntensity 1 diffuseColor 1 1 1 } texture ImageTexture { filtering 0 } }");
+  wb_robot_step(TIME_STEP);
+
+  quick_assert_color(camera, camera_width * 0.5, camera_height * 0.5, 0x0000CF,
+                     "embedded display texture was not restored after importing a new appearance");
+
+  // check that deeper nested group edits also trigger embedded texture rediscovery
+  WbNodeRef embedded_group = wb_supervisor_node_get_from_def("EMOTICONS_DISPLAY_GROUP");
+  ts_assert_pointer_not_null(embedded_group, "Failed to resolve the embedded display group.");
+  WbFieldRef group_children_field = wb_supervisor_node_get_field(embedded_group, "children");
+  ts_assert_pointer_not_null(group_children_field, "Failed to resolve the embedded display group children field.");
+
+  wb_supervisor_field_remove_mf(group_children_field, 0);
+  wb_robot_step(TIME_STEP);
+
+  wb_supervisor_field_import_mf_node_from_string(
+    group_children_field, -1,
+    "Shape { appearance Appearance { material Material { ambientIntensity 1 diffuseColor 1 1 1 } texture "
+    "ImageTexture { filtering 0 } } geometry Plane { size 2 2 } }");
+  wb_robot_step(TIME_STEP);
+
+  quick_assert_color(camera, camera_width * 0.5, camera_height * 0.5, 0x0000CF,
+                     "embedded display texture was not restored after importing a nested group child");
 
   ts_send_success();
   return EXIT_SUCCESS;

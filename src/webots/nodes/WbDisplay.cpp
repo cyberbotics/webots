@@ -26,6 +26,7 @@
 #include "WbRobot.hpp"
 #include "WbShape.hpp"
 #include "WbSimulationState.hpp"
+#include "WbSFNode.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbWrenOpenGlContext.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -94,6 +95,7 @@ void WbDisplay::init() {
   mRequestImages = false;
   mAttachedCamera = NULL;
   mNeedToSetExternalTextures = false;
+  mIsUpdatingImageTextures = false;
 
   mDisplayFont = new WbDisplayFont();
   QString error = mDisplayFont->error();
@@ -140,7 +142,7 @@ void WbDisplay::clearImages() {
 
 void WbDisplay::preFinalize() {
   WbRenderingDevice::preFinalize();
-  findImageTextures();
+  updateImageTextures();
 }
 
 int WbDisplay::channelNumberFromPixelFormat(int pixelFormat) {
@@ -159,24 +161,41 @@ int WbDisplay::channelNumberFromPixelFormat(int pixelFormat) {
 }
 
 void WbDisplay::findImageTextures() {
-  mNeedToSetExternalTextures = true;
+  for (int i = 0; i < children().size(); ++i) {
+    WbNode *child = children().item(i);
+    if (child)
+      findImageTextures(child);
+  }
 
-  clearImageTextures();
+  for (int i = 0; i < mImageTextures.size(); ++i)
+    connect(mImageTextures.at(i), &QObject::destroyed, this, &WbDisplay::removeImageTexture, Qt::UniqueConnection);
 
-  if (children().size() < 1)
-    return;
+  // debug code - print the found materials
+  // foreach (WbImageTexture *texture, mImageTextures)
+  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
+}
 
-  WbNode *firstChild = children().item(0);
-  const WbShape *shape = dynamic_cast<WbShape *>(firstChild);
+void WbDisplay::findImageTextures(WbNode *node) {
+  const WbShape *shape = dynamic_cast<WbShape *>(node);
   if (shape) {
+    WbSFNode *appearanceField = shape->findSFNode("appearance");
+    if (appearanceField) {
+      mImageTextureConnections.append(
+        connect(appearanceField, &WbSFNode::changed, this, &WbDisplay::updateImageTextures, Qt::UniqueConnection));
+    }
+
     const WbAppearance *appearance = shape->appearance();
     const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
     if (appearance) {
+      mImageTextureConnections.append(
+        connect(appearance, &WbAppearance::changed, this, &WbDisplay::updateImageTextures, Qt::UniqueConnection));
       // cppcheck-suppress constVariablePointer
       WbImageTexture *theTexture = appearance->texture();
       if (theTexture)
         mImageTextures.push_back(theTexture);
     } else if (pbrAppearance) {
+      mImageTextureConnections.append(
+        connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbDisplay::updateImageTextures, Qt::UniqueConnection));
       // cppcheck-suppress constVariablePointer
       WbImageTexture *theTexture = pbrAppearance->baseColorMap();
       if (theTexture)
@@ -185,18 +204,18 @@ void WbDisplay::findImageTextures() {
       if (theTexture)
         mImageTextures.push_back(theTexture);
     }
-  } else {
-    WbGroup *group = dynamic_cast<WbGroup *>(firstChild);
-    if (group)
-      findImageTextures(group);
+    return;
   }
 
-  for (int i = 0; i < mImageTextures.size(); ++i)
-    connect(mImageTextures.at(i), &QObject::destroyed, this, &WbDisplay::removeImageTexture);
+  WbGroup *group = dynamic_cast<WbGroup *>(node);
+  if (!group)
+    return;
 
-  // debug code - print the found materials
-  // foreach (WbImageTexture *texture, mImageTextures)
-  //   parsingWarn(QString("found image texture %1").arg(texture->usefulName()));
+  if (group->childrenField()) {
+    mImageTextureConnections.append(
+      connect(group->childrenField(), &WbMFNode::changed, this, &WbDisplay::updateImageTextures, Qt::UniqueConnection));
+  }
+  findImageTextures(group);
 }
 
 void WbDisplay::removeImageTexture(QObject *object) {
@@ -208,33 +227,33 @@ void WbDisplay::clearImageTextures() {
   mImageTextures.clear();
 }
 
+void WbDisplay::updateImageTextures() {
+  if (mIsUpdatingImageTextures)
+    return;
+
+  mIsUpdatingImageTextures = true;
+  mNeedToSetExternalTextures = true;
+
+  while (!mImageTextureConnections.isEmpty())
+    disconnect(mImageTextureConnections.takeLast());
+
+  if (childrenField()) {
+    mImageTextureConnections.append(
+      connect(childrenField(), &WbMFNode::changed, this, &WbDisplay::updateImageTextures, Qt::UniqueConnection));
+  }
+
+  clearImageTextures();
+  findImageTextures();
+
+  mIsUpdatingImageTextures = false;
+}
+
 void WbDisplay::findImageTextures(WbGroup *group) {
   WbMFNode::Iterator i(group->children());
   while (i.hasNext()) {
     WbNode *node = i.next();
-    const WbShape *shape = dynamic_cast<WbShape *>(node);
-    if (shape) {
-      const WbAppearance *appearance = shape->appearance();
-      const WbPbrAppearance *pbrAppearance = shape->pbrAppearance();
-      if (appearance) {
-        // cppcheck-suppress constVariablePointer
-        WbImageTexture *theTexture = appearance->texture();
-        if (theTexture)
-          mImageTextures.push_back(theTexture);
-      } else if (pbrAppearance) {
-        // cppcheck-suppress constVariablePointer
-        WbImageTexture *theTexture = pbrAppearance->baseColorMap();
-        if (theTexture)
-          mImageTextures.push_back(theTexture);
-        theTexture = pbrAppearance->emissiveColorMap();
-        if (theTexture)
-          mImageTextures.push_back(theTexture);
-      }
-    } else {
-      WbGroup *g = dynamic_cast<WbGroup *>(node);
-      if (g)
-        findImageTextures(g);
-    }
+    if (node)
+      findImageTextures(node);
   }
 }
 

@@ -21,6 +21,7 @@ class WbCamera;
 class WbDisplayFont;
 class WbDisplayImage;
 class WbImageTexture;
+class WbNode;
 
 class QDataStream;
 
@@ -103,14 +104,18 @@ private:
   bool mUpdateRequired;
   WbCamera *mAttachedCamera;
   bool mNeedToSetExternalTextures;
+  bool mIsUpdatingImageTextures;
 
   void findImageTextures();
+  void findImageTextures(WbNode *node);
   void findImageTextures(WbGroup *group);
   void clearImageTextures();
   bool isAnyImageTextureFound() { return (bool)mImageTextures.size(); }
   QList<WbImageTexture *> mImageTextures;
+  QList<QMetaObject::Connection> mImageTextureConnections;
 
 private slots:
+  void updateImageTextures();
   void removeImageTexture(QObject *object);
   void removeExternalTextures();
   void detachCamera();
