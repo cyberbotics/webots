@@ -13,11 +13,6 @@
 #include <webots/robot.h>
 
 /*
- * You may want to add macros here.
- */
-#define TIME_STEP 64
-
-/*
  * This is the main program.
  * The arguments of the main function can be specified by the
  * "controllerArgs" field of the Robot node
@@ -25,6 +20,9 @@
 int main(int argc, char **argv) {
   /* necessary to initialize webots stuff */
   wb_robot_init();
+
+  /* get the time step of the current world. */
+  const int time_step = wb_robot_get_basic_time_step();
 
   /*
    * You should declare here WbDeviceTag variables for storing
@@ -34,10 +32,10 @@ int main(int argc, char **argv) {
    */
 
   /* main loop
-   * Perform simulation steps of TIME_STEP milliseconds
+   * Perform simulation steps of the current world's basic time step
    * and leave the loop when the simulation is over
    */
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     /*
      * Read the sensors :
      * Enter here functions to read sensor data, like:

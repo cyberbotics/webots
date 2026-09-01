@@ -11,7 +11,7 @@ function template
 %desktop;
 %keyboard;
 
-TIME_STEP = 64;
+TIME_STEP = wb_robot_get_basic_time_step();
 
 % get and enable devices, e.g.:
 %  camera = wb_robot_get_device('camera');
