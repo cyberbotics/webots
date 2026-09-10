@@ -129,7 +129,7 @@ Just after the import statements create the `EPuckAvoidCollision class` (the nam
 The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.
 The Webots API has to be initialized using the `wb_robot_init` function and it has to be cleaned up using the `wb_robot_cleanup` function.
-We also use the `wb_robot_get_basic_timestep` function to retrieve the value of the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+We also use the `wb_robot_get_basic_time_step` function to retrieve the value of the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
 This duration is specified in milliseconds and defines how often the controller runs (in simulation time).
 This value is used as argument to the `wb_robot_step` function, and it will also be used to enable the devices.
 

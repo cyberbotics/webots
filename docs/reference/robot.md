@@ -303,7 +303,7 @@ int main() {
   /* enable sensors to read data from them */
   wb_distance_sensor_enable(my_sensor, time_step);
 
-  /* main control loop: perform simulation steps of 32 milliseconds */
+  /* main control loop: perform simulation steps of time_step milliseconds */
   /* and leave the loop when the simulation is over */
   while (wb_robot_step(time_step) != -1) {
 
@@ -344,7 +344,7 @@ public:
   }
 
   void run() {
-    // main control loop: perform simulation steps of 32 milliseconds
+    // main control loop: perform simulation steps of timeStep milliseconds
     // and leave the loop when the simulation is over
     while (step(timeStep) != -1) {
       double val = distanceSensor->getValue();  // Read and process sensor data
@@ -356,7 +356,7 @@ private:
   int timeStep;
   DistanceSensor *distanceSensor;
   Led *led;
-}
+};
 
 // main C++ program
 int main() {
@@ -386,7 +386,7 @@ class MyController(Robot):
         self.distanceSensor.enable(self.timeStep)  # enable sensors to read data from them
 
     def run(self):
-        # main control loop: perform simulation steps of 32 milliseconds
+        # main control loop: perform simulation steps of timeStep milliseconds
         # and leave the loop when the simulation is over
         while self.step(self.timeStep) != -1:
             val = self.distanceSensor.getValue()  # Read and process sensor data
@@ -418,7 +418,7 @@ public class MyController extends Robot {
   }
 
   public void run() {
-    // main control loop: perform simulation steps of 32 milliseconds
+    // main control loop: perform simulation steps of timeStep milliseconds
     // and leave the loop when the simulation is over
     while (step(timeStep) != -1) {
       double val = distanceSensor.getValue();  // Read and process sensor data
@@ -453,7 +453,7 @@ led = wb_robot_get_device("my_led");
 % enable sensors to read data from them
 wb_distance_sensor_enable(distanceSensor, TIME_STEP);
 
-% main control loop: perform simulation steps of 32 milliseconds
+% main control loop: perform simulation steps of timeStep milliseconds
 % and leave the loop when the simulation is over
 while wb_robot_step(TIME_STEP) ~= -1
   val = wb_distance_sensor_get_value(distanceSensor);  % Read and process sensor data

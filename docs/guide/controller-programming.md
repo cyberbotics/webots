@@ -1167,7 +1167,7 @@ int main() {
   wb_distance_sensor_enable(sensor, time_step);
 
   while (wb_robot_step(time_step) != -1) {
-    const double value = wb_distance_sensor_get_value();
+    const double value = wb_distance_sensor_get_value(sensor);
     printf("sensor value is %f\n", value);
   }
 
