@@ -82,6 +82,10 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
 fi
 "$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
+if [ ! -x "$EMSDK_BINARY" ]; then
+  echo "Failed to activate EMSDK ${EMSDK_VERSION}"
+  exit 1
+fi
 printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
