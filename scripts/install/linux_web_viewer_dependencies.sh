@@ -57,12 +57,13 @@ fi
 # pyclibrary is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
 PYCLIBRARY_VENV="$WEBOTS_HOME/dependencies/pyclibrary-venv"
-if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ]; then
+if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ] || ! "$PYCLIBRARY_VENV/bin/python3" -m pip --version > /dev/null 2>&1; then
+  rm -rf "$PYCLIBRARY_VENV"
   python3 -m venv "$PYCLIBRARY_VENV"
 fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; then
-  "$PYCLIBRARY_VENV/bin/pip" install --no-input pyclibrary
+  "$PYCLIBRARY_VENV/bin/python3" -m pip install --no-input pyclibrary
   chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 fi
 
@@ -76,10 +77,16 @@ fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
-if [ ! -f "$TARGET_HOME/.bashrc" ] || ! grep -qxF "$EMSDK_SOURCE_LINE" "$TARGET_HOME/.bashrc"; then
-  echo "$EMSDK_SOURCE_LINE" >> "$TARGET_HOME/.bashrc"
+BASHRC_PATH="$TARGET_HOME/.bashrc"
+if [ ! -f "$BASHRC_PATH" ]; then
+  touch "$BASHRC_PATH"
 fi
-chown "$TARGET_USER":"$TARGET_GROUP" "$TARGET_HOME/.bashrc"
+if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC_PATH"; then
+  echo "$EMSDK_SOURCE_LINE" >> "$BASHRC_PATH"
+fi
+if [ -e "$BASHRC_PATH" ]; then
+  chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC_PATH"
+fi
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
