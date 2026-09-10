@@ -67,13 +67,18 @@ if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; the
 fi
 
 EMSDK_PATH="$WEBOTS_HOME/dependencies/emsdk"
-git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+if [ ! -d "$EMSDK_PATH" ]; then
+  git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+fi
 
 "$EMSDK_PATH/emsdk" install latest
 "$EMSDK_PATH/emsdk" activate latest
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
-echo 'source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1' >> "$TARGET_HOME/.bashrc"
+EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
+if [ ! -f "$TARGET_HOME/.bashrc" ] || ! grep -qxF "$EMSDK_SOURCE_LINE" "$TARGET_HOME/.bashrc"; then
+  echo "$EMSDK_SOURCE_LINE" >> "$TARGET_HOME/.bashrc"
+fi
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
