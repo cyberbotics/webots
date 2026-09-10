@@ -164,7 +164,8 @@ fi
 if [ -f "$EMSDK_VERSION_FILE" ]; then
   chown "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_VERSION_FILE"
 else
-  runuser -u "$TARGET_USER" -- touch "$EMSDK_VERSION_FILE"
+  touch "$EMSDK_VERSION_FILE"
+  chown "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_VERSION_FILE"
 fi
 runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" > "$2"' sh "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"
 
