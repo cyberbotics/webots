@@ -62,11 +62,10 @@ if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ] || ! "$PYCLIBRARY_VENV/bin/python3" -
   rm -rf "$PYCLIBRARY_VENV"
   python3 -m venv "$PYCLIBRARY_VENV"
 fi
-chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; then
   "$PYCLIBRARY_VENV/bin/python3" -m pip install --no-input pyclibrary
-  chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 fi
+chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 
 EMSDK_PATH="$WEBOTS_HOME/dependencies/emsdk"
 if [ ! -d "$EMSDK_PATH" ]; then
@@ -76,9 +75,9 @@ fi
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 if [ ! -f "$EMSDK_VERSION_FILE" ] || ! grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
   "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
-  "$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
   printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
 fi
+"$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'

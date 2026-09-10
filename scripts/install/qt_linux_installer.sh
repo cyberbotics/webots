@@ -19,8 +19,10 @@ if ! "$AQT_VENV/bin/python3" -m aqt version > /dev/null 2>&1; then
   "$AQT_VENV/bin/python3" -m pip install --no-input aqtinstall
 fi
 
-"$AQT_VENV/bin/python3" -m aqt install-qt --outputdir "$QT_OUTPUT_DIR" linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH="$QT_OUTPUT_DIR/${QT_VERSION}/gcc_64"
+if [ ! -d "$QT_INSTALLATION_PATH" ]; then
+  "$AQT_VENV/bin/python3" -m aqt install-qt --outputdir "$QT_OUTPUT_DIR" linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
+fi
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
 QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
 QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
