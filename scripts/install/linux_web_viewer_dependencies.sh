@@ -82,7 +82,7 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
 fi
 "$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
-if [ ! -x "$EMSDK_BINARY" ]; then
+if ! "$EMSDK_PATH/emsdk" list | grep -q "\\*.*${EMSDK_VERSION}"; then
   echo "Failed to activate EMSDK ${EMSDK_VERSION}"
   exit 1
 fi
@@ -105,15 +105,12 @@ BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-runuser -u "$TARGET_USER" -- python3 - "$BASH_PROFILE" "$EMSDK_SOURCE_LINE" "$EMSDK_LEGACY_SOURCE_LINE" <<'PY'
-from pathlib import Path
-import sys
-
-path = Path(sys.argv[1])
-lines_to_remove = set(sys.argv[2:])
-lines = path.read_text().splitlines()
-path.write_text(''.join(f'{line}\n' for line in lines if line not in lines_to_remove))
-PY
+runuser -u "$TARGET_USER" -- env EMSDK_SOURCE_LINE="$EMSDK_SOURCE_LINE" EMSDK_LEGACY_SOURCE_LINE="$EMSDK_LEGACY_SOURCE_LINE" \
+  perl -i -ne '
+    my $normalized = $_;
+    $normalized =~ s/\r?\n\z//;
+    print $_ unless $normalized eq $ENV{EMSDK_SOURCE_LINE} || $normalized eq $ENV{EMSDK_LEGACY_SOURCE_LINE};
+  ' "$BASH_PROFILE"
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
