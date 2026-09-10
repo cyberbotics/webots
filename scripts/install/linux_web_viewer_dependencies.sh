@@ -10,6 +10,8 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
+WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
+
 # Detect the operating system
 if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -54,7 +56,7 @@ fi
 
 # pyclibrary is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
-PYCLIBRARY_VENV=dependencies/pyclibrary-venv
+PYCLIBRARY_VENV="$WEBOTS_HOME/dependencies/pyclibrary-venv"
 if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ]; then
   python3 -m venv "$PYCLIBRARY_VENV"
 fi
@@ -64,14 +66,14 @@ if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; the
   chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 fi
 
-git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
+EMSDK_PATH="$WEBOTS_HOME/dependencies/emsdk"
+git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
 
-./dependencies/emsdk/emsdk install latest
-./dependencies/emsdk/emsdk activate latest
-chown -R "$TARGET_USER":"$TARGET_GROUP" dependencies/emsdk
+"$EMSDK_PATH/emsdk" install latest
+"$EMSDK_PATH/emsdk" activate latest
+chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
-WEBOTS_HOME=$(pwd)
-echo 'source "'$WEBOTS_HOME'/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> "$TARGET_HOME/.bashrc"
+echo 'source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1' >> "$TARGET_HOME/.bashrc"
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
