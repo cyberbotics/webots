@@ -45,8 +45,9 @@ esac
 
 TARGET_USER="${SUDO_USER:-root}"
 TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d ':' -f 6)
+TARGET_GROUP=$(id -gn "$TARGET_USER")
 
-if [[ -z "$TARGET_HOME" ]]; then
+if [[ -z "$TARGET_HOME" || -z "$TARGET_GROUP" ]]; then
   echo "Cannot determine the home directory for user: $TARGET_USER"
   exit 1
 fi
@@ -58,13 +59,13 @@ if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ]; then
   python3 -m venv "$PYCLIBRARY_VENV"
   "$PYCLIBRARY_VENV/bin/pip" install --no-input pyclibrary
 fi
-chown -R "$TARGET_USER" "$PYCLIBRARY_VENV"
+chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
-chown -R "$TARGET_USER" dependencies/emsdk
+chown -R "$TARGET_USER":"$TARGET_GROUP" dependencies/emsdk
 
 WEBOTS_HOME=$(pwd)
 echo 'source "'$WEBOTS_HOME'/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> "$TARGET_HOME/.bashrc"
