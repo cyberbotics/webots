@@ -77,16 +77,17 @@ fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
-BASHRC_PATH="$TARGET_HOME/.bashrc"
-if [ ! -f "$BASHRC_PATH" ]; then
-  touch "$BASHRC_PATH"
-fi
-if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC_PATH"; then
-  echo "$EMSDK_SOURCE_LINE" >> "$BASHRC_PATH"
-fi
-if [ -e "$BASHRC_PATH" ]; then
-  chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC_PATH"
-fi
+for SHELL_PROFILE in "$TARGET_HOME/.bashrc" "$TARGET_HOME/.profile"; do
+  if [ ! -f "$SHELL_PROFILE" ]; then
+    touch "$SHELL_PROFILE"
+  fi
+  if ! grep -qxF "$EMSDK_SOURCE_LINE" "$SHELL_PROFILE"; then
+    echo "$EMSDK_SOURCE_LINE" >> "$SHELL_PROFILE"
+  fi
+  if [ -e "$SHELL_PROFILE" ]; then
+    chown "$TARGET_USER":"$TARGET_GROUP" "$SHELL_PROFILE"
+  fi
+done
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
