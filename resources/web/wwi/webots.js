@@ -148,7 +148,6 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          ImageLoader.stream = true;
           MeshLoader.stream = true;
           WbCadShape.stream = true;
           this.prefix = httpServerUrl + '/';
