@@ -64,6 +64,13 @@ class LinuxWebotsPackage(WebotsPackage):
         "libzip.so.4",
         "libx264.so.164"
     ]
+    USR_LIB_X68_64_26_04 = [
+        "libIex-3_1.so.30",
+        "libIlmThread-3_1.so.30",
+        "libwebp.so.7",
+        "libzip.so.5",
+        "libx264.so.165"
+    ]
 
     def __init__(self, package_name):
         super().__init__(package_name)
@@ -206,6 +213,9 @@ class LinuxWebotsPackage(WebotsPackage):
             usr_lib_x68_64.append('libraw.so.20')
         if distro.version() == '24.04':
             usr_lib_x68_64 += self.USR_LIB_X68_64_24_04
+            usr_lib_x68_64.append('libraw.so.23')
+        if distro.version() == '26.04':
+            usr_lib_x68_64 += self.USR_LIB_X68_64_26_04
             usr_lib_x68_64.append('libraw.so.23')
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')

@@ -72,6 +72,15 @@ if [ ! -d "$EMSDK_PATH" ]; then
   git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
 fi
 
+refresh_emsdk_clone() {
+  if [ -d "$EMSDK_PATH/.git" ]; then
+    git -C "$EMSDK_PATH" pull --ff-only
+  else
+    rm -rf "$EMSDK_PATH"
+    git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+  fi
+}
+
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
 NEEDS_EMSDK_INSTALL=true
@@ -79,9 +88,14 @@ if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_
   NEEDS_EMSDK_INSTALL=false
 fi
 if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
-  "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
+  refresh_emsdk_clone
+  if ! "$EMSDK_PATH/emsdk" list | grep -q "${EMSDK_VERSION}"; then
+    rm -rf "$EMSDK_PATH"
+    git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+  fi
+  "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
-"$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
+"$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"
 if ! "$EMSDK_PATH/emsdk" list | grep -q "\\*.*${EMSDK_VERSION}"; then
   echo "Failed to activate EMSDK ${EMSDK_VERSION}"
   exit 1
@@ -100,8 +114,19 @@ if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC_PROFILE"; then
 fi
 chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC_PROFILE"
 
-BASH_PROFILE="$TARGET_HOME/.bash_profile"
+BASH_PROFILE=
+BASH_LOGIN="$TARGET_HOME/.bash_login"
+BASH_PROFILE_CANDIDATE="$TARGET_HOME/.bash_profile"
+BASH_DOT_PROFILE="$TARGET_HOME/.profile"
+BASH_LOGIN_PROFILES=("$BASH_PROFILE_CANDIDATE" "$BASH_LOGIN" "$BASH_DOT_PROFILE")
+BASH_PROFILE="$BASH_DOT_PROFILE"
 BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
+for profile in "${BASH_LOGIN_PROFILES[@]}"; do
+  if [ -f "$profile" ]; then
+    BASH_PROFILE="$profile"
+    break
+  fi
+done
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
