@@ -148,11 +148,11 @@ done
 for profile in "${BASH_LOGIN_PROFILES[@]}"; do
   if [ -f "$profile" ]; then
     runuser -u "$TARGET_USER" -- env EMSDK_SOURCE_LINE="$EMSDK_SOURCE_LINE" EMSDK_LEGACY_SOURCE_LINE="$EMSDK_LEGACY_SOURCE_LINE" \
-      perl -i -ne '
-        my $normalized = $_;
-        $normalized =~ s/\r?\n\z//;
-        print $_ unless $normalized eq $ENV{EMSDK_SOURCE_LINE} || $normalized eq $ENV{EMSDK_LEGACY_SOURCE_LINE};
-      ' "$profile"
+      python3 -c 'import os, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+skip = {os.environ["EMSDK_SOURCE_LINE"], os.environ["EMSDK_LEGACY_SOURCE_LINE"]}
+lines = path.read_text().splitlines()
+path.write_text("".join(f"{line}\n" for line in lines if line not in skip))' "$profile"
   fi
 done
 if [ ! -f "$BASH_PROFILE" ]; then
