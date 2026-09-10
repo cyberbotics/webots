@@ -126,6 +126,9 @@ if ! runuser -u "$TARGET_USER" -- test -r "$EMSDK_PATH/emsdk_env.sh"; then
   echo "Cannot access $EMSDK_PATH/emsdk_env.sh as $TARGET_USER"
   exit 1
 fi
+if [ -f "$EMSDK_VERSION_FILE" ]; then
+  chown "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_VERSION_FILE"
+fi
 runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" > "$2"' sh "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
