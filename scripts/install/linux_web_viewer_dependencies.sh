@@ -142,13 +142,15 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   fi
   "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
-if ! "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"; then
-  echo "EMSDK activate command failed for ${EMSDK_VERSION}"
-  exit 1
-fi
-if ! emsdk_is_version_active; then
-  echo "EMSDK ${EMSDK_VERSION} did not become the active SDK"
-  exit 1
+if [[ "$NEEDS_EMSDK_INSTALL" == true ]] || ! emsdk_is_version_active; then
+  if ! "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"; then
+    echo "EMSDK activate command failed for ${EMSDK_VERSION}"
+    exit 1
+  fi
+  if ! emsdk_is_version_active; then
+    echo "EMSDK ${EMSDK_VERSION} did not become the active SDK"
+    exit 1
+  fi
 fi
 if [ ! -x "$EMSDK_BINARY" ] || ! emsdk_has_version_installed; then
   echo "Failed to install EMSDK ${EMSDK_VERSION}"
