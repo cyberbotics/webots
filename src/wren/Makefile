@@ -48,7 +48,7 @@ PYTHON = python3
 endif
 
 # Check if pyclibrary is present
-PYC = $(shell "$(PYTHON)" -c "import pyclibrary; print('pyclibrary')" 2>/dev/null)
+PYC = $(shell "$(PYTHON)" -c "import pyclibrary; print('pyclibrary')" 2>/dev/null | tr -d '\r\n')
 ifeq ($(PYC), pyclibrary)
 WREN=1
 # Parse the headers for WRENJS
