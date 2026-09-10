@@ -82,6 +82,7 @@ fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
+EMSDK_LEGACY_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 BASHRC_PROFILE="$TARGET_HOME/.bashrc"
 if [ ! -f "$BASHRC_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASHRC_PROFILE"
@@ -96,14 +97,14 @@ BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-runuser -u "$TARGET_USER" -- python3 - "$BASH_PROFILE" "$EMSDK_SOURCE_LINE" <<'PY'
+runuser -u "$TARGET_USER" -- python3 - "$BASH_PROFILE" "$EMSDK_SOURCE_LINE" "$EMSDK_LEGACY_SOURCE_LINE" <<'PY'
 from pathlib import Path
 import sys
 
 path = Path(sys.argv[1])
-line_to_remove = sys.argv[2]
+lines_to_remove = set(sys.argv[2:])
 lines = path.read_text().splitlines()
-path.write_text(''.join(f'{line}\n' for line in lines if line != line_to_remove))
+path.write_text(''.join(f'{line}\n' for line in lines if line not in lines_to_remove))
 PY
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
