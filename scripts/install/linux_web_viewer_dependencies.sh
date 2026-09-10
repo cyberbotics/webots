@@ -56,8 +56,8 @@ fi
 PYCLIBRARY_VENV=dependencies/pyclibrary-venv
 if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ]; then
   python3 -m venv "$PYCLIBRARY_VENV"
+  "$PYCLIBRARY_VENV/bin/pip" install --no-input pyclibrary
 fi
-"$PYCLIBRARY_VENV/bin/pip" install --no-input pyclibrary
 chown -R "$TARGET_USER" "$PYCLIBRARY_VENV"
 
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk

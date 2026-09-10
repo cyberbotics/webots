@@ -48,11 +48,11 @@ PYTHON = python3
 endif
 
 # Check if pyclibrary is present
-PYC = $(shell $(PYTHON) -c "import pyclibrary; print('pyclibrary')" 2>/dev/null)
+PYC = $(shell "$(PYTHON)" -c "import pyclibrary; print('pyclibrary')" 2>/dev/null)
 ifeq ($(PYC), pyclibrary)
 WREN=1
 # Parse the headers for WRENJS
-ENUM := $(shell $(PYTHON) $(WEBOTS_HOME_PATH)/scripts/export_function_js/export_function.py;)
+ENUM := $(shell "$(PYTHON)" "$(WEBOTS_HOME_PATH)/scripts/export_function_js/export_function.py";)
 COPY:= $(shell mkdir $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/ > /dev/null 2>&1)
 COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/gtao_noise_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
 COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/smaa_area_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
