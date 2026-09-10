@@ -96,12 +96,15 @@ BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-runuser -u "$TARGET_USER" -- sh -c '
-  TMP_BASH_PROFILE=$(mktemp "$1.tmp.XXXXXX") || exit 1
-  grep -vxF "$2" "$1" > "$TMP_BASH_PROFILE" || true
-  chmod --reference="$1" "$TMP_BASH_PROFILE"
-  mv "$TMP_BASH_PROFILE" "$1"
-' sh "$BASH_PROFILE" "$EMSDK_SOURCE_LINE"
+runuser -u "$TARGET_USER" -- python3 - "$BASH_PROFILE" "$EMSDK_SOURCE_LINE" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+line_to_remove = sys.argv[2]
+lines = path.read_text().splitlines()
+path.write_text(''.join(f'{line}\n' for line in lines if line != line_to_remove))
+PY
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
