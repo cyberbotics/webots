@@ -85,6 +85,10 @@ emsdk_has_version_installed() {
   "$EMSDK_PATH/emsdk" list --installed | grep -qw "${EMSDK_VERSION}"
 }
 
+emsdk_can_resolve_version() {
+  "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"
+}
+
 emsdk_is_version_active() {
   "$EMSDK_PATH/emsdk" list | awk -v version="$EMSDK_VERSION" '$1 == "*" && $2 == version { found=1 } END { exit found ? 0 : 1 }'
 }
@@ -98,9 +102,13 @@ if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_
 fi
 if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   refresh_emsdk_clone
-  if ! "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"; then
+  if ! emsdk_can_resolve_version; then
     rm -rf "$EMSDK_PATH"
     git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+    if ! emsdk_can_resolve_version; then
+      echo "Cannot resolve EMSDK ${EMSDK_VERSION}"
+      exit 1
+    fi
   fi
   "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
