@@ -34,7 +34,7 @@ class LinuxWebotsPackage(WebotsPackage):
         "liblcms2.so.2",
         "libopenjp2.so.7",
         "libpng16.so.16",
-        "libssh-gcrypt.so.4",   # needed by Robotis OP2
+        ("libssh-gcrypt.so.4", "libssh.so.4"),   # needed by Robotis OP2
         "libwebpmux.so.3",
         "libXi.so.6",
         "libXrender.so.1",
@@ -210,7 +210,14 @@ class LinuxWebotsPackage(WebotsPackage):
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
         for lib in usr_lib_x68_64:
-            shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
+            candidates = lib if isinstance(lib, tuple) else (lib,)
+            for candidate in candidates:
+                lib_path = os.path.join(system_lib_path, candidate)
+                if os.path.exists(lib_path):
+                    shutil.copy(lib_path, package_webots_lib)
+                    break
+            else:
+                shutil.copy(os.path.join(system_lib_path, candidates[0]), package_webots_lib)
 
         os.chdir(self.package_webots_path)
         os.chdir('..')
