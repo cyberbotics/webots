@@ -128,6 +128,8 @@ if ! runuser -u "$TARGET_USER" -- test -r "$EMSDK_PATH/emsdk_env.sh"; then
 fi
 if [ -f "$EMSDK_VERSION_FILE" ]; then
   chown "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_VERSION_FILE"
+else
+  runuser -u "$TARGET_USER" -- touch "$EMSDK_VERSION_FILE"
 fi
 runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" > "$2"' sh "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"
 
@@ -148,6 +150,9 @@ for profile in "${BASH_LOGIN_PROFILES[@]}"; do
     break
   fi
 done
+if [ ! -f "$BASH_PROFILE" ]; then
+  runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
+fi
 for profile in "${BASH_LOGIN_PROFILES[@]}"; do
   if [ -f "$profile" ]; then
     runuser -u "$TARGET_USER" -- env EMSDK_SOURCE_LINE="$EMSDK_SOURCE_LINE" EMSDK_LEGACY_SOURCE_LINE="$EMSDK_LEGACY_SOURCE_LINE" \
@@ -158,9 +163,6 @@ lines = path.read_text().splitlines()
 path.write_text("".join(f"{line}\n" for line in lines if line not in skip))' "$profile"
   fi
 done
-if [ ! -f "$BASH_PROFILE" ]; then
-  runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
-fi
 for profile in "${BASH_LOGIN_PROFILES[@]}"; do
   if [ -f "$profile" ] && ! grep -qxF "$BASHRC_SOURCE_LINE" "$profile"; then
     runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$profile"
