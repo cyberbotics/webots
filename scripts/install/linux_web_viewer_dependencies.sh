@@ -76,7 +76,7 @@ fi
 "$EMSDK_PATH/emsdk" activate latest
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
-EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
+EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 for SHELL_PROFILE in "$TARGET_HOME/.bashrc" "$TARGET_HOME/.profile"; do
   if [ ! -f "$SHELL_PROFILE" ]; then
     runuser -u "$TARGET_USER" -- touch "$SHELL_PROFILE"
