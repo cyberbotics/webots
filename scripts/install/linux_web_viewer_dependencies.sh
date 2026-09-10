@@ -89,7 +89,7 @@ if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_
 fi
 if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   refresh_emsdk_clone
-  if ! "$EMSDK_PATH/emsdk" list | grep -q "${EMSDK_VERSION}"; then
+  if ! "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"; then
     rm -rf "$EMSDK_PATH"
     git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
   fi
