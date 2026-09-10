@@ -73,8 +73,12 @@ if [ ! -d "$EMSDK_PATH" ]; then
   git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
 fi
 
-"$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
-"$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
+EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
+if [ ! -f "$EMSDK_VERSION_FILE" ] || ! grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
+  "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
+  "$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
+  printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
+fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
