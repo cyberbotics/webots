@@ -96,10 +96,9 @@ BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-TMP_BASH_PROFILE=$(mktemp)
+TMP_BASH_PROFILE=$(mktemp "${BASH_PROFILE}.tmp.XXXXXX")
 grep -vxF "$EMSDK_SOURCE_LINE" "$BASH_PROFILE" > "$TMP_BASH_PROFILE" || true
-cat "$TMP_BASH_PROFILE" > "$BASH_PROFILE"
-rm -f "$TMP_BASH_PROFILE"
+mv "$TMP_BASH_PROFILE" "$BASH_PROFILE"
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
