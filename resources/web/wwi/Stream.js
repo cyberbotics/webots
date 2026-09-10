@@ -29,7 +29,7 @@ export default class Stream {
   close() {
     if (typeof this.socket !== 'undefined') {
       this.socket.close();
-      this.soclet = undefined;
+      this.socket = undefined;
     }
     MeshLoader.stream = false;
     WbCadShape.stream = false;
