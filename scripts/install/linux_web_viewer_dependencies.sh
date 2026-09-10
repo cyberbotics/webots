@@ -89,6 +89,25 @@ emsdk_can_resolve_version() {
   "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"
 }
 
+emsdk_is_version_active() {
+  python3 - "$EMSDK_PATH" "$EMSDK_VERSION" <<'PY'
+import importlib.util
+import os
+import pathlib
+import sys
+
+emsdk_path = pathlib.Path(sys.argv[1]).resolve()
+requested_version = sys.argv[2]
+os.chdir(emsdk_path)
+spec = importlib.util.spec_from_file_location('webots_emsdk', emsdk_path / 'emsdk.py')
+emsdk = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(emsdk)
+active_sdk = emsdk.currently_active_sdk()
+resolved_version = emsdk.resolve_sdk_aliases(requested_version)
+sys.exit(0 if active_sdk and str(active_sdk) == resolved_version else 1)
+PY
+}
+
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
 NEEDS_EMSDK_INSTALL=true
@@ -109,6 +128,10 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
 if ! "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"; then
+  echo "Failed to activate EMSDK ${EMSDK_VERSION}"
+  exit 1
+fi
+if ! emsdk_is_version_active; then
   echo "Failed to activate EMSDK ${EMSDK_VERSION}"
   exit 1
 fi
