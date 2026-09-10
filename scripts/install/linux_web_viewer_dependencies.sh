@@ -81,10 +81,15 @@ refresh_emsdk_clone() {
   fi
 }
 
+emsdk_has_version_installed() {
+  "$EMSDK_PATH/emsdk" list --installed | grep -qw "${EMSDK_VERSION}"
+}
+
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
 NEEDS_EMSDK_INSTALL=true
-if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
+if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE" && \
+   emsdk_has_version_installed; then
   NEEDS_EMSDK_INSTALL=false
 fi
 if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
@@ -98,6 +103,10 @@ fi
 "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"
 if ! "$EMSDK_PATH/emsdk" list | grep -q "\\*.*${EMSDK_VERSION}"; then
   echo "Failed to activate EMSDK ${EMSDK_VERSION}"
+  exit 1
+fi
+if [ ! -x "$EMSDK_BINARY" ] || ! emsdk_has_version_installed; then
+  echo "Failed to install EMSDK ${EMSDK_VERSION}"
   exit 1
 fi
 printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
@@ -127,15 +136,19 @@ for profile in "${BASH_LOGIN_PROFILES[@]}"; do
     break
   fi
 done
+for profile in "${BASH_LOGIN_PROFILES[@]}"; do
+  if [ -f "$profile" ]; then
+    runuser -u "$TARGET_USER" -- env EMSDK_SOURCE_LINE="$EMSDK_SOURCE_LINE" EMSDK_LEGACY_SOURCE_LINE="$EMSDK_LEGACY_SOURCE_LINE" \
+      perl -i -ne '
+        my $normalized = $_;
+        $normalized =~ s/\r?\n\z//;
+        print $_ unless $normalized eq $ENV{EMSDK_SOURCE_LINE} || $normalized eq $ENV{EMSDK_LEGACY_SOURCE_LINE};
+      ' "$profile"
+  fi
+done
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-runuser -u "$TARGET_USER" -- env EMSDK_SOURCE_LINE="$EMSDK_SOURCE_LINE" EMSDK_LEGACY_SOURCE_LINE="$EMSDK_LEGACY_SOURCE_LINE" \
-  perl -i -ne '
-    my $normalized = $_;
-    $normalized =~ s/\r?\n\z//;
-    print $_ unless $normalized eq $ENV{EMSDK_SOURCE_LINE} || $normalized eq $ENV{EMSDK_LEGACY_SOURCE_LINE};
-  ' "$BASH_PROFILE"
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
