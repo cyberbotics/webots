@@ -158,9 +158,11 @@ done
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
-  runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
-fi
+for profile in "${BASH_LOGIN_PROFILES[@]}"; do
+  if [ -f "$profile" ] && ! grep -qxF "$BASHRC_SOURCE_LINE" "$profile"; then
+    runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$profile"
+  fi
+done
 chown "$TARGET_USER":"$TARGET_GROUP" "$BASH_PROFILE"
 
 if [ ! -f "$BASHRC_PROFILE" ]; then
