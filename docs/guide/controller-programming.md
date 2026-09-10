@@ -119,15 +119,15 @@ The next example does continuously update and print the value returned by a [Dis
 #include <webots/distance_sensor.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
 
-  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(sensor, TIME_STEP);
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
+  wb_distance_sensor_enable(sensor, time_step);
+
+  while (wb_robot_step(time_step) != -1) {
     const double value = wb_distance_sensor_get_value(sensor);
     printf("Sensor value is %f\n", value);
   }
@@ -144,17 +144,17 @@ int main() {
 #include <webots/DistanceSensor.hpp>
 #include <iostream>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
-  DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
-  sensor->enable(TIME_STEP);
+  const int timeStep = (int)robot->getBasicTimeStep();
 
-  while (robot->step(TIME_STEP) != -1) {
+  DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
+  sensor->enable(timeStep);
+
+  while (robot->step(timeStep) != -1) {
     const double value = sensor->getValue();
     std::cout << "Sensor value is: " << value << std::endl;
   }
@@ -169,14 +169,14 @@ int main() {
 ```python
 from controller import Robot, DistanceSensor
 
-TIME_STEP = 32
-
 robot = Robot()
 
-sensor = robot.getDevice("my_distance_sensor")
-sensor.enable(TIME_STEP)
+timestep = int(robot.getBasicTimeStep())
 
-while robot.step(TIME_STEP) != -1:
+sensor = robot.getDevice("my_distance_sensor")
+sensor.enable(timestep)
+
+while robot.step(timestep) != -1:
     value = sensor.getValue()
     print("Sensor value is: ", value)
 ```
@@ -190,15 +190,14 @@ import com.cyberbotics.webots.controller.DistanceSensor;
 public class ReadingSensor {
 
   public static void main(String[] args) {
-
-    final int TIME_STEP = 32;
-
     final Robot robot = new Robot();
 
-    final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
-    sensor.enable(TIME_STEP);
+    final int timeStep = (int) robot.getBasicTimeStep();
 
-    while (robot.step(TIME_STEP) != -1) {
+    final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
+    sensor.enable(timeStep);
+
+    while (robot.step(timeStep) != -1) {
       final double value = sensor.getValue();
       System.out.println("Sensor value is: " + value);
     }
@@ -211,7 +210,7 @@ public class ReadingSensor {
 ```MATLAB
 function read_sensor
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 
 sensor = wb_robot_get_device('my_distance_sensor');
 wb_distance_sensor_enable(sensor, TIME_STEP);
@@ -235,7 +234,7 @@ Enabling a sensor is achieved by using the corresponding `wb_*_enable` function,
 Every `wb_*_enable` function allows to specify an update delay in milliseconds.
 The update delay specifies the desired interval between two updates of the sensor's data.
 
-In the usual case, the update delay is chosen to be similar to the control step (`TIME_STEP`) and hence the sensor will be updated at every `wb_robot_step` function call.
+In the usual case, the update delay is chosen to be similar to the control step (`time_step`) and hence the sensor will be updated at every `wb_robot_step` function call.
 If, for example, the update delay is chosen to be twice the control step then the sensor data will be updated every two `wb_robot_step` function calls: this can be used to simulate a slow device.
 Note that a larger update delay can also speed up the simulation, especially for CPU intensive devices like the [Camera](../reference/camera.md).
 On the contrary, it would be pointless to choose an update delay smaller than the control step, because it will not be possible for the controller to process the device's data at a higher frequency than that imposed by the control step.
@@ -386,20 +385,20 @@ The `wb_robot_step` function sends the actuation command to the [RotationalMotor
 #include <webots/motor.h>
 #include <math.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   WbDeviceTag motor = wb_robot_get_device("my_motor");
 
   const double F = 2.0;   // frequency 2 Hz
   double t = 0.0;         // elapsed simulation time
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     const double position = sin(t * 2.0 * M_PI * F);
     wb_motor_set_position(motor, position);
-    t += (double)TIME_STEP / 1000.0;
+    t += (double)time_step / 1000.0;
   }
 
   wb_robot_cleanup();
@@ -414,8 +413,6 @@ int main() {
 #include <webots/Motor.hpp>
 #include <cmath>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
@@ -423,13 +420,14 @@ int main() {
   Robot *robot = new Robot();
   Motor *motor = robot->getMotor("my_motor");
 
+  const int timeStep = (int)robot->getBasicTimeStep();
   const double F = 2.0;   // frequency 2 Hz
   double t = 0.0;         // elapsed simulation time
 
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
     const double position = sin(t * 2.0 * M_PI * F);
     motor->setPosition(position);
-    t += (double)TIME_STEP / 1000.0;
+    t += (double)timeStep / 1000.0;
   }
 
   delete robot;
@@ -443,18 +441,17 @@ int main() {
 from controller import Robot, Motor
 from math import pi, sin
 
-TIME_STEP = 32
-
 robot = Robot()
 motor = robot.getDevice("my_motor")
 
+timestep = int(robot.getBasicTimeStep())
 F = 2.0   # frequency 2 Hz
 t = 0.0   # elapsed simulation time
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(timestep) != -1:
     position = sin(t * 2.0 * pi * F)
     motor.setPosition(position)
-    t += TIME_STEP / 1000.0
+    t += timestep / 1000.0
 ```
 %tab-end
 
@@ -468,18 +465,18 @@ public class Actuators {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
-
     final Robot robot = new Robot();
     final Motor motor = robot.getMotor("my_motor");
+
+    final int timeStep = (int) robot.getBasicTimeStep();
 
     final double F = 2.0;   // frequency 2 Hz
     double t = 0.0;         // elapsed simulation time
 
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       final double position = Math.sin(t * 2.0 * Math.PI * F);
       motor.setPosition(position);
-      t += (double)TIME_STEP / 1000.0;
+      t += (double)timeStep / 1000.0;
     }
   }
 }
@@ -490,10 +487,9 @@ public class Actuators {
 ```MATLAB
 function actuators
 
-TIME_STEP = 32;
-
 motor = wb_robot_get_device('my_motor');
 
+TIME_STEP = wb_robot_get_basic_time_step();
 F = 2;   % frequency 2 Hz
 t = 0;   % elapsed simulation time
 
@@ -833,15 +829,15 @@ It uses two proximity sensors ([DistanceSensor](../reference/distancesensor.md))
 #include <webots/motor.h>
 #include <webots/distance_sensor.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
 
+  const int time_step = (int) wb_robot_get_basic_time_step();
+
   WbDeviceTag left_sensor = wb_robot_get_device("left_sensor");
   WbDeviceTag right_sensor = wb_robot_get_device("right_sensor");
-  wb_distance_sensor_enable(left_sensor, TIME_STEP);
-  wb_distance_sensor_enable(right_sensor, TIME_STEP);
+  wb_distance_sensor_enable(left_sensor, time_step);
+  wb_distance_sensor_enable(right_sensor, time_step);
 
   WbDeviceTag left_motor = wb_robot_get_device("left_motor");
   WbDeviceTag right_motor = wb_robot_get_device("right_motor");
@@ -850,7 +846,7 @@ int main() {
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
 
     // read sensors
     const double left_dist = wb_distance_sensor_get_value(left_sensor);
@@ -877,17 +873,17 @@ int main() {
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
+  int timeStep = (int)robot->getBasicTimeStep();
+
   DistanceSensor *left_sensor = robot->getDistanceSensor("left_sensor");
   DistanceSensor *right_sensor = robot->getDistanceSensor("right_sensor");
-  left_sensor->enable(TIME_STEP);
-  right_sensor->enable(TIME_STEP);
+  left_sensor->enable(timeStep);
+  right_sensor->enable(timeStep);
 
   Motor *left_motor = robot->getMotor("left_motor");
   Motor *right_motor = robot->getMotor("right_motor");
@@ -896,7 +892,7 @@ int main() {
   left_motor->setVelocity(0.0);
   right_motor->setVelocity(0.0);
 
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
 
     // read sensors
     const double left_dist = left_sensor->getValue();
@@ -921,14 +917,14 @@ int main() {
 ```python
 from controller import Robot, Motor, DistanceSensor
 
-TIME_STEP = 32
-
 robot = Robot()
+
+timestep = int(robot.getBasicTimeStep())
 
 left_sensor = robot.getDevice("left_sensor")
 right_sensor = robot.getDevice("right_sensor")
-left_sensor.enable(TIME_STEP)
-right_sensor.enable(TIME_STEP)
+left_sensor.enable(timestep)
+right_sensor.enable(timestep)
 
 left_motor = robot.getDevice("left_motor")
 right_motor = robot.getDevice("right_motor")
@@ -937,7 +933,7 @@ right_motor.setPosition(float('inf'))
 left_motor.setVelocity(0.0)
 right_motor.setVelocity(0.0)
 
-while robot.step(TIME_STEP) != -1:
+while robot.step(timestep) != -1:
 
     # read sensors
     left_dist = left_sensor.getValue()
@@ -963,14 +959,14 @@ public class ActuSensor {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
-
     final Robot robot = new Robot();
+
+    final int timeStep = (int) robot.getBasicTimeStep();
 
     final DistanceSensor left_sensor = robot.getDistanceSensor("left_sensor");
     final DistanceSensor right_sensor = robot.getDistanceSensor("right_sensor");
-    left_sensor.enable(TIME_STEP);
-    right_sensor.enable(TIME_STEP);
+    left_sensor.enable(timeStep);
+    right_sensor.enable(timeStep);
 
     final Motor left_motor = robot.getMotor("left_motor");
     final Motor right_motor = robot.getMotor("right_motor");
@@ -979,7 +975,7 @@ public class ActuSensor {
     left_motor.setVelocity(0.0);
     right_motor.setVelocity(0.0);
 
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       // read sensors
       final double left_dist = left_sensor.getValue();
       final double right_dist = right_sensor.getValue();
@@ -1001,7 +997,7 @@ public class ActuSensor {
 ```MATLAB
 function actu_sensor
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 left_sensor = wb_robot_get_device('left_sensor');
 right_sensor = wb_robot_get_device('right_sensor');
 wb_distance_sensor_enable(left_sensor, TIME_STEP);
@@ -1036,8 +1032,8 @@ end
 In the ".wbt" file, it is possible to specify arguments that are passed to a controller when it starts.
 They are specified in the `controllerArgs` field of the [Robot](../reference/robot.md) node, and they are passed as parameters of the `main` function.
 For example, this can be used to specify parameters that vary for each robot's controller.
-Note that the implementation will differ significantly across the different languages. 
-If using MATLAB, you should add the optional argument [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to the function declaration. 
+Note that the implementation will differ significantly across the different languages.
+If using MATLAB, you should add the optional argument [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to the function declaration.
 
 For example if we have:
 
@@ -1122,7 +1118,7 @@ public class Demo {
 ```MATLAB
 function demo(varargin)
 
-for i=1:nargin 
+for i=1:nargin
     wb_console_print(sprintf('argv[%d]=%s\n', i, varargin{i}), WB_STDOUT);
 end
 ```
@@ -1162,15 +1158,15 @@ Here is an example that shows how to save data before the upcoming termination:
 #include <webots/distance_sensor.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
 
-  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
-  wb_distance_sensor_enable(sensor, TIME_STEP);
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  WbDeviceTag sensor = wb_robot_get_device("my_distance_sensor");
+  wb_distance_sensor_enable(sensor, time_step);
+
+  while (wb_robot_step(time_step) != -1) {
     const double value = wb_distance_sensor_get_value();
     printf("sensor value is %f\n", value);
   }
@@ -1193,17 +1189,17 @@ int main() {
 #include <webots/DistanceSensor.hpp>
 #include <iostream>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Robot *robot = new Robot();
 
-  DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
-  sensor->enable(TIME_STEP);
+  const int timeStep = (int)robot->getBasicTimeStep();
 
-  while (robot->step(TIME_STEP) != -1) {
+  DistanceSensor *sensor = robot->getDistanceSensor("my_distance_sensor");
+  sensor->enable(timeStep);
+
+  while (robot->step(timeStep) != -1) {
     const double value = sensor->getValue();
     std::cout << "Sensor value is: " << value << std::endl;
   }
@@ -1224,14 +1220,14 @@ int main() {
 ```python
 from controller import Robot, DistanceSensor
 
-TIME_STEP = 32
-
 robot = Robot()
 
-sensor = robot.getDevice("my_distance_sensor")
-sensor.enable(TIME_STEP)
+timestep = int(robot.getBasicTimeStep())
 
-while robot.step(TIME_STEP) != -1:
+sensor = robot.getDevice("my_distance_sensor")
+sensor.enable(timestep)
+
+while robot.step(timestep) != -1:
     value = sensor.getValue()
     print("Sensor value is: ", value)
 
@@ -1251,13 +1247,13 @@ public class ReadingSensor {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
     final Robot robot = new Robot();
+    final int timeStep = (int) robot.getBasicTimeStep();
 
     final DistanceSensor sensor = robot.getDistanceSensor("my_distance_sensor");
-    sensor.enable(TIME_STEP);
+    sensor.enable(timeStep);
 
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       final double value = sensor.getValue();
       System.out.println("Sensor value is: " + value);
     }
@@ -1276,7 +1272,7 @@ public class ReadingSensor {
 ```MATLAB
 function reading_sensor
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 sensor = wb_robot_get_device('my_distance_sensor');
 wb_distance_sensor_enable(sensor, TIME_STEP);
 

@@ -287,24 +287,25 @@ Any subsequent Webots API function call will give unpredictable results.
 #include <webots/distance_sensor.h>
 #include <webots/led.h>
 
-#define TIME_STEP 32
-
 static WbDeviceTag my_sensor, my_led;
 
 int main() {
   /* initialize the webots controller library */
-  wb_robot_init();
+  wb_robot_init()
+
+  /* get the time step of the current world. */
+  const int time_step = (int) wb_robot_get_basic_time_step();;
 
   // get device tags
   my_sensor = wb_robot_get_device("my_distance_sensor");
   my_led = wb_robot_get_device("my_led");
 
   /* enable sensors to read data from them */
-  wb_distance_sensor_enable(my_sensor, TIME_STEP);
+  wb_distance_sensor_enable(my_sensor, time_step);
 
   /* main control loop: perform simulation steps of 32 milliseconds */
   /* and leave the loop when the simulation is over */
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
 
     /* Read and process sensor data */
     double val = wb_distance_sensor_get_value(my_sensor);
@@ -333,7 +334,7 @@ int main() {
 class MyController : public Robot {
 public:
   MyController() {
-    timeStep = 32;  // set the control time step
+    timeStep = (int) getBasicTimeStep();  // set the control time step
 
     // get device tags
     distanceSensor = getDistanceSensor("my_distance_sensor");
@@ -377,12 +378,12 @@ from controller import Robot
 class MyController(Robot):
     def __init__(self):
         super(MyController, self).__init__()
-        self.timeStep = 32  # set the control time step
+        self.timeStep = int(self.getBasicTimeStep())  # set the control time step
 
         # get device tags
         self.distanceSensor = self.getDistanceSensor('my_distance_sensor')
         self.led = self.getLed('my_led')
-        self.distanceSensor.enable(timeStep)  # enable sensors to read data from them
+        self.distanceSensor.enable(self.timeStep)  # enable sensors to read data from them
 
     def run(self):
         # main control loop: perform simulation steps of 32 milliseconds
@@ -407,7 +408,7 @@ import com.cyberbotics.webots.controller.Led;
 
 public class MyController extends Robot {
   public MyController() {
-    timeStep = 32;  // set the control time step
+    timeStep = (int) getBasicTimeStep();  // set the control time step
 
     // get device tags
     distanceSensor = getDistanceSensor("my_distance_sensor");
@@ -443,7 +444,7 @@ public class MyController extends Robot {
 
 ```MATLAB
 
-TIME_STEP = 32; % control time step
+TIME_STEP = wb_robot_get_basic_time_step(); % control time step
 
 % get device tags
 distanceSensor = wb_robot_get_device("my_distance_sensor");
@@ -476,30 +477,31 @@ end
 #include <webots/distance_sensor.h>
 #include <webots/led.h>
 
-#define TIME_STEP 32
-
 static WbDeviceTag my_sensor, my_led;
 
 int main() {
   /* initialize the webots controller library */
   wb_robot_init();
 
+  /* get the time step of the current world. */
+  const int time_step = (int) wb_robot_get_basic_time_step();
+
   // get device tags
   my_sensor = wb_robot_get_device("my_distance_sensor");
   my_led = wb_robot_get_device("my_led");
 
   /* enable sensors to read data from them */
-  wb_distance_sensor_enable(my_sensor, TIME_STEP);
+  wb_distance_sensor_enable(my_sensor, time_step);
 
   /* with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values */
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(time_step);
 
   /* main control loop */
   do {
 
     /* begin simulation step computation: send command values to Webots for update */
     /* leave the loop when the simulation is over */
-    if (wb_robot_step_begin(TIME_STEP) == -1)
+    if (wb_robot_step_begin(time_step) == -1)
       break;
 
     /* the following code (until wb_robot_step_end) is executed in parallel with the Webots simulation step */
@@ -536,7 +538,7 @@ int main() {
 class MyController : public Robot {
 public:
   MyController() {
-    timeStep = 32;  // set the control time step
+    timeStep = (int) getBasicTimeStep();  // set the control time step
 
     // get device tags
     distanceSensor = getDistanceSensor("my_distance_sensor");
@@ -595,12 +597,12 @@ from controller import Robot
 class MyController(Robot):
     def __init__(self):
         super(MyController, self).__init__()
-        self.timeStep = 32  # set the control time step
+        self.timeStep = int(self.getBasicTimeStep())  # set the control time step
 
         # get device tags
         self.distanceSensor = self.getDistanceSensor('my_distance_sensor')
         self.led = self.getLed('my_led')
-        self.distanceSensor.enable(timeStep)  # enable sensors to read data from them
+        self.distanceSensor.enable(self.timeStep)  # enable sensors to read data from them
 
     def run(self):
         # with a parallelized control loop, it may be necessary to run an initial step to initialize sensor values
@@ -642,7 +644,7 @@ import com.cyberbotics.webots.controller.Led;
 
 public class MyController extends Robot {
   public MyController() {
-    timeStep = 32;  // set the control time step
+    timeStep = (int) getBasicTimeStep();  // set the control time step
 
     // get device tags
     distanceSensor = getDistanceSensor("my_distance_sensor");
@@ -693,7 +695,7 @@ public class MyController extends Robot {
 
 ```MATLAB
 
-TIME_STEP = 32; % control time step
+TIME_STEP = wb_robot_get_basic_time_step(); % control time step
 
 % get device tags
 distanceSensor = wb_robot_get_device("my_distance_sensor");

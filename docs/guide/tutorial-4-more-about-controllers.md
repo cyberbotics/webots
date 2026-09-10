@@ -76,12 +76,6 @@ The complete code of this controller is given in the next subsection.
 > #include <webots/distance_sensor.h>
 > #include <webots/motor.h>
 > ```
-Just after the include statements add a macro that defines the duration of each physics step.
-This macro will be used as argument to the `wb_robot_step` function, and it will also be used to enable the devices.
-This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```c
-> #define TIME_STEP 64
-> ```
 %tab-end
 
 %tab "C++"
@@ -91,13 +85,7 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > #include <webots/DistanceSensor.hpp>
 > #include <webots/Motor.hpp>
 > ```
-Just after the include statements add a macro that defines the duration of each physics step.
-This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
-This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```cpp
-> #define TIME_STEP 64
-> ```
-Finally, use the `webots` namespace which is required to use the webots classes.
+Just after the include statements, use the `webots` namespace which is required to use the webots classes.
 > ```cpp
 >// All the webots classes are defined in the "webots" namespace
 >using namespace webots;
@@ -109,12 +97,6 @@ Finally, use the `webots` namespace which is required to use the webots classes.
 >```python
 > from controller import Robot, DistanceSensor, Motor
 >```
-Just after the import statements define a variable that defines the duration of each physics step.
-This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
-This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```python
-> TIME_STEP = 64
-> ```
 %tab-end
 
 %tab "Java"
@@ -125,15 +107,11 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 > import com.cyberbotics.webots.controller.Motor;
 > ```
 Just after the import statements create the `EPuckAvoidCollision class` (the name of the class should match exactly the name of the file) and the `main` function.
-In the `main function`, define a variable that defines the duration of each physics step.
-This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
-This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
 > ```c
 > public class EPuckAvoidCollision {
 >
 >   public static void main(String[] args) {
 >
->     int TIME_STEP = 64;
 >   }
 > }
 > ```
@@ -144,12 +122,6 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 >```MATLAB
 > function epuck_avoid_collision
 >```
-Just after the function declaration define a variable that defines the duration of each physics step.
-This macro will be used as argument to the `wb_robot_step` function, and it will also be used to enable the devices.
-This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
-> ```MATLAB
-> TIME_STEP = 64;
-> ```
 %tab-end
 %end
 
@@ -157,6 +129,9 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 The `main` function is where the controller program starts execution.
 The arguments passed to the `main` function are given by the `controllerArgs` field of the [Robot](../reference/robot.md) node.
 The Webots API has to be initialized using the `wb_robot_init` function and it has to be cleaned up using the `wb_robot_cleanup` function.
+We also use the `wb_robot_get_basic_timestep` function to retrieve the value of the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
+This duration is specified in milliseconds and defines how often the controller runs (in simulation time).
+This value is used as argument to the `wb_robot_step` function, and it will also be used to enable the devices.
 
 %tab-component "language"
 %tab "C"
@@ -166,9 +141,11 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 > int main(int argc, char **argv) {
 >   // initialize the Webots API
 >   wb_robot_init();
+>   // get the time step of the current world
+>   const int time_step = (int) wb_robot_get_basic_time_step();
 >   // initialize devices
 >   // feedback loop: step simulation until receiving an exit event
->   while (wb_robot_step(TIME_STEP) != -1) {
+>   while (wb_robot_step(time_step) != -1) {
 >     // read sensors outputs
 >     // process behavior
 >     // write actuators inputs
@@ -187,9 +164,11 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 > int main(int argc, char **argv) {
 >   // create the Robot instance.
 >   Robot *robot = new Robot();
+>   // get the time step of the current world
+>   int timeStep = (int)robot->getBasicTimeStep();
 >   // initialize devices
 >   // feedback loop: step simulation until receiving an exit event
->   while (robot->step(TIME_STEP) != -1) {
+>   while (robot->step(timeStep) != -1) {
 >     // read sensors outputs
 >     // process behavior
 >     // write actuators inputs
@@ -205,9 +184,11 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 >```python
 > # create the Robot instance.
 > robot = Robot()
+> # get the time step of the current world
+> timestep = int(robot.getBasicTimeStep())
 > # initialize devices
 > # feedback loop: step simulation until receiving an exit event
-> while robot.step(TIME_STEP) != -1:
+> while robot.step(timestep) != -1:
 >     # read sensors outputs
 >     # process behavior
 >     # write actuators inputs
@@ -219,14 +200,13 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 >```java
 > // entry point of the controller
 > public static void main(String[] args) {
->
->   int TIME_STEP = 64;
->
 >   // create the Robot instance.
 >   Robot robot = new Robot();
+>   // get the time step of the current world
+>   int timeStep = (int) robot.getBasicTimeStep();
 >   // initialize devices
 >   // feedback loop: step simulation until receiving an exit event
->   while (robot.step(TIME_STEP) != -1) {
+>   while (robot.step(timeStep) != -1) {
 >     // read sensors outputs
 >     // process behavior
 >     // write actuators inputs
@@ -238,6 +218,8 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 %tab "MATLAB"
 > **Hands on #3**: In Matlab, the "main" function is the function definition at the start of the file:
 >```MATLAB
+> % get the time step of the current world
+> TIME_STEP = wb_robot_get_basic_time_step();
 > % initialize devices
 > % feedback loop: step simulation until receiving an exit event
 > while wb_robot_step(TIME_STEP) ~= -1
@@ -272,7 +254,7 @@ The second argument of the enable function defines at which rate the sensor will
 >
 > for (i = 0; i < 8; i++) {
 >   ps[i] = wb_robot_get_device(ps_names[i]);
->   wb_distance_sensor_enable(ps[i], TIME_STEP);
+>   wb_distance_sensor_enable(ps[i], time_step);
 > }
 > ```
 After initialization of the devices, initialize the motors:
@@ -343,7 +325,7 @@ Reload the world.
 >
 > for (int i = 0; i < 8; i++) {
 >   ps[i] = robot->getDistanceSensor(psNames[i]);
->   ps[i]->enable(TIME_STEP);
+>   ps[i]->enable(timeStep);
 > }
 > ```
 After initialization of the devices, initialize the motors:
@@ -414,7 +396,7 @@ Reload the world.
 >
 > for i in range(8):
 >     ps.append(robot.getDevice(psNames[i]))
->     ps[i].enable(TIME_STEP)
+>     ps[i].enable(timestep)
 > ```
 After initialization of the devices, initialize the motors:
 > ```python
@@ -474,7 +456,7 @@ Reload the world.
 >
 > for (int i = 0; i < 8; i++) {
 >   ps[i] = robot.getDistanceSensor(psNames[i]);
->   ps[i].enable(TIME_STEP);
+>   ps[i].enable(timeStep);
 > }
 > ```
 After initialization of the devices, initialize the motors:
@@ -607,15 +589,15 @@ Here is the complete code of the controller detailed in the previous subsection.
 #include <webots/distance_sensor.h>
 #include <webots/motor.h>
 
-// time in [ms] of a simulation step
-#define TIME_STEP 64
-
 #define MAX_SPEED 6.28
 
 // entry point of the controller
 int main(int argc, char **argv) {
   // initialize the Webots API
   wb_robot_init();
+
+  // get the time step of the current world (time in [ms] of a simulation step)
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   // internal variables
   int i;
@@ -628,7 +610,7 @@ int main(int argc, char **argv) {
   // initialize devices
   for (i = 0; i < 8 ; i++) {
     ps[i] = wb_robot_get_device(ps_names[i]);
-    wb_distance_sensor_enable(ps[i], TIME_STEP);
+    wb_distance_sensor_enable(ps[i], time_step);
   }
 
   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
@@ -639,7 +621,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(right_motor, 0.0);
 
   // feedback loop: step simulation until an exit event is received
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     // read sensors outputs
     double ps_values[8];
     for (i = 0; i < 8 ; i++)
@@ -689,9 +671,6 @@ int main(int argc, char **argv) {
 #include <webots/DistanceSensor.hpp>
 #include <webots/Motor.hpp>
 
-// time in [ms] of a simulation step
-#define TIME_STEP 64
-
 #define MAX_SPEED 6.28
 
 // All the webots classes are defined in the "webots" namespace
@@ -702,6 +681,9 @@ int main(int argc, char **argv) {
   // create the Robot instance.
   Robot *robot = new Robot();
 
+  // get the time step of the current world (time in [ms] of a simulation step)
+  int timeStep = (int)robot->getBasicTimeStep();
+
   // initialize devices
   DistanceSensor *ps[8];
   char psNames[8][4] = {
@@ -711,7 +693,7 @@ int main(int argc, char **argv) {
 
   for (int i = 0; i < 8; i++) {
     ps[i] = robot->getDistanceSensor(psNames[i]);
-    ps[i]->enable(TIME_STEP);
+    ps[i]->enable(timeStep);
   }
 
   Motor *leftMotor = robot->getMotor("left wheel motor");
@@ -722,7 +704,7 @@ int main(int argc, char **argv) {
   rightMotor->setVelocity(0.0);
 
   // feedback loop: step simulation until an exit event is received
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
     // read sensors outputs
     double psValues[8];
     for (int i = 0; i < 8 ; i++)
@@ -767,13 +749,13 @@ int main(int argc, char **argv) {
 ```python
 from controller import Robot, DistanceSensor, Motor
 
-# time in [ms] of a simulation step
-TIME_STEP = 64
-
 MAX_SPEED = 6.28
 
 # create the Robot instance.
 robot = Robot()
+
+# get the time step of the current world (time in [ms] of a simulation step)
+timestep = int(robot.getBasicTimeStep())
 
 # initialize devices
 ps = []
@@ -784,7 +766,7 @@ psNames = [
 
 for i in range(8):
     ps.append(robot.getDevice(psNames[i]))
-    ps[i].enable(TIME_STEP)
+    ps[i].enable(timestep)
 
 leftMotor = robot.getDevice('left wheel motor')
 rightMotor = robot.getDevice('right wheel motor')
@@ -794,7 +776,7 @@ leftMotor.setVelocity(0.0)
 rightMotor.setVelocity(0.0)
 
 # feedback loop: step simulation until receiving an exit event
-while robot.step(TIME_STEP) != -1:
+while robot.step(timestep) != -1:
     # read sensors outputs
     psValues = []
     for i in range(8):
@@ -831,13 +813,13 @@ import com.cyberbotics.webots.controller.Motor;
 public class EPuckAvoidCollision {
 
   public static void main(String[] args) {
-    // time in [ms] of a simulation step
-    int TIME_STEP = 64;
-
     double MAX_SPEED = 6.28;
 
     // create the Robot instance.
     Robot robot = new Robot();
+
+    // get the time step of the current world (time in [ms] of a simulation step)
+    int timeStep = (int) robot.getBasicTimeStep();
 
     // initialize devices
     DistanceSensor[] ps = new DistanceSensor[8];
@@ -848,7 +830,7 @@ public class EPuckAvoidCollision {
 
     for (int i = 0; i < 8; i++) {
       ps[i] = robot.getDistanceSensor(psNames[i]);
-      ps[i].enable(TIME_STEP);
+      ps[i].enable(timeStep);
     }
 
     Motor leftMotor = robot.getMotor("left wheel motor");
@@ -859,7 +841,7 @@ public class EPuckAvoidCollision {
     rightMotor.setVelocity(0.0);
 
     // feedback loop: step simulation until receiving an exit event
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       // read sensors outputs
       double[] psValues = {0, 0, 0, 0, 0, 0, 0, 0};
       for (int i = 0; i < 8 ; i++)
@@ -902,8 +884,8 @@ public class EPuckAvoidCollision {
 ```MATLAB
 function epuck_avoid_collision
 
-% time in [ms] of a simulation step
-TIME_STEP = 64;
+% get the time step of the current world (time in [ms] of a simulation step)
+TIME_STEP = wb_robot_get_basic_time_step();
 
 MAX_SPEED = 6.28;
 
