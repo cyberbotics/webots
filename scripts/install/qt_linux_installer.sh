@@ -9,13 +9,13 @@ WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
 
 # aqtinstall is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
-AQT_VENV=$WEBOTS_HOME/dependencies/aqt-venv
-if [ ! -x $AQT_VENV/bin/aqt ]; then
-  python3 -m venv $AQT_VENV
-  $AQT_VENV/bin/pip install --no-input aqtinstall
+AQT_VENV="$WEBOTS_HOME/dependencies/aqt-venv"
+if [ ! -x "$AQT_VENV/bin/aqt" ]; then
+  python3 -m venv "$AQT_VENV"
+  "$AQT_VENV/bin/pip" install --no-input aqtinstall
 fi
 
-$AQT_VENV/bin/aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
+"$AQT_VENV/bin/aqt" install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
 QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
