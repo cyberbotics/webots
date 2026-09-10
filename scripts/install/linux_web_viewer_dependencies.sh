@@ -96,7 +96,7 @@ BASHRC_SOURCE_LINE='if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi'
 if [ ! -f "$BASH_PROFILE" ]; then
   runuser -u "$TARGET_USER" -- touch "$BASH_PROFILE"
 fi
-if ! grep -q '\.bashrc' "$BASH_PROFILE"; then
+if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
 chown "$TARGET_USER":"$TARGET_GROUP" "$BASH_PROFILE"
