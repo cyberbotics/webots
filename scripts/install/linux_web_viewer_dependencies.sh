@@ -82,7 +82,7 @@ for SHELL_PROFILE in "$TARGET_HOME/.bashrc" "$TARGET_HOME/.profile"; do
     runuser -u "$TARGET_USER" -- touch "$SHELL_PROFILE"
   fi
   if ! grep -qxF "$EMSDK_SOURCE_LINE" "$SHELL_PROFILE"; then
-    echo "$EMSDK_SOURCE_LINE" >> "$SHELL_PROFILE"
+    runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$EMSDK_SOURCE_LINE" "$SHELL_PROFILE"
   fi
   if [ -e "$SHELL_PROFILE" ]; then
     chown "$TARGET_USER":"$TARGET_GROUP" "$SHELL_PROFILE"
