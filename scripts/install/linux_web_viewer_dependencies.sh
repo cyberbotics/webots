@@ -109,19 +109,12 @@ if [ ! -x "$EMSDK_BINARY" ] || ! emsdk_has_version_installed; then
   echo "Failed to install EMSDK ${EMSDK_VERSION}"
   exit 1
 fi
-printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
+runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" > "$2"' sh "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 EMSDK_LEGACY_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 BASHRC_PROFILE="$TARGET_HOME/.bashrc"
-if [ ! -f "$BASHRC_PROFILE" ]; then
-  runuser -u "$TARGET_USER" -- touch "$BASHRC_PROFILE"
-fi
-if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC_PROFILE"; then
-  runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$EMSDK_SOURCE_LINE" "$BASHRC_PROFILE"
-fi
-chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC_PROFILE"
 
 BASH_PROFILE=
 BASH_PROFILE_CANDIDATE="$TARGET_HOME/.bash_profile"
@@ -153,6 +146,14 @@ if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
   runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"
 fi
 chown "$TARGET_USER":"$TARGET_GROUP" "$BASH_PROFILE"
+
+if [ ! -f "$BASHRC_PROFILE" ]; then
+  runuser -u "$TARGET_USER" -- touch "$BASHRC_PROFILE"
+fi
+if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC_PROFILE"; then
+  runuser -u "$TARGET_USER" -- sh -c 'printf "%s\n" "$1" >> "$2"' sh "$EMSDK_SOURCE_LINE" "$BASHRC_PROFILE"
+fi
+chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC_PROFILE"
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
