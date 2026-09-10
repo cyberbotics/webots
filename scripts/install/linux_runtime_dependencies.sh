@@ -32,10 +32,10 @@ install_ubuntu_runtime_packages() {
         apt install --yes xvfb
     fi
 
-    if [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" ]]; then
+    if [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" || $VERSION_ID == "26.04" ]]; then
         apt install --yes ffmpeg
     else
-        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+        echo "Unsupported Linux version: dependencies may not be completely installed. Only the latest Ubuntu LTS releases are supported."
     fi
 }
 

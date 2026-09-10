@@ -4,8 +4,18 @@
 set -e
 
 QT_VERSION=6.5.3
-pip install --no-input aqtinstall
-aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
+
+WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
+
+# aqtinstall is installed in a local virtual environment: recent Linux distributions mark
+# the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
+AQT_VENV=$WEBOTS_HOME/dependencies/aqt-venv
+if [ ! -x $AQT_VENV/bin/aqt ]; then
+  python3 -m venv $AQT_VENV
+  $AQT_VENV/bin/pip install --no-input aqtinstall
+fi
+
+$AQT_VENV/bin/aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
 QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
 QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
 QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
@@ -13,8 +23,6 @@ QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
 QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
 QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
 QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
-
-WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
 
 echo Installing Qt in Webots
 echo Source: $QT_INSTALLATION_PATH

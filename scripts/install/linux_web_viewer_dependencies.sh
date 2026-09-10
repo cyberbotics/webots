@@ -22,7 +22,7 @@ fi
 
 install_ubuntu_web_viewer_packages() {
     alias apt='apt --option="APT::Acquire::Retries=3"'
-    apt install python3-pip python3-setuptools -y
+    apt install python3-pip python3-setuptools python3-venv -y
 }
 
 install_fedora_web_viewer_packages() {
@@ -43,12 +43,20 @@ case "$OS" in
         ;;
 esac
 
-pip3 install --upgrade pip
-pip3 install pyclibrary
+USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
+
+# pyclibrary is installed in a local virtual environment: recent Linux distributions mark
+# the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
+PYCLIBRARY_VENV=dependencies/pyclibrary-venv
+if [ ! -x $PYCLIBRARY_VENV/bin/python3 ]; then
+  python3 -m venv $PYCLIBRARY_VENV
+fi
+$PYCLIBRARY_VENV/bin/pip install --no-input pyclibrary
+if [[ ! -z "$USER" ]]; then
+  chown -R $USER $PYCLIBRARY_VENV
+fi
 
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
-
-USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
 
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
