@@ -74,7 +74,11 @@ fi
 
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
-if [ ! -x "$EMSDK_BINARY" ] || [ ! -f "$EMSDK_VERSION_FILE" ] || ! grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
+NEEDS_EMSDK_INSTALL=true
+if [ -x "$EMSDK_BINARY" ] && [ -f "$EMSDK_VERSION_FILE" ] && grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
+  NEEDS_EMSDK_INSTALL=false
+fi
+if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
 fi
 "$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
