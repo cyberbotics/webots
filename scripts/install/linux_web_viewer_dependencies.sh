@@ -81,16 +81,8 @@ refresh_emsdk_clone() {
   fi
 }
 
-emsdk_has_version_installed() {
-  "$EMSDK_PATH/emsdk" list --installed | grep -qw "${EMSDK_VERSION}"
-}
-
-emsdk_can_resolve_version() {
-  "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"
-}
-
-emsdk_is_version_active() {
-  python3 - "$EMSDK_PATH" "$EMSDK_VERSION" <<'PY'
+emsdk_query_version_state() {
+  python3 - "$EMSDK_PATH" "$EMSDK_VERSION" "$1" <<'PY'
 import importlib.util
 import os
 import pathlib
@@ -98,14 +90,37 @@ import sys
 
 emsdk_path = pathlib.Path(sys.argv[1]).resolve()
 requested_version = sys.argv[2]
+query = sys.argv[3]
 os.chdir(emsdk_path)
 spec = importlib.util.spec_from_file_location('webots_emsdk', emsdk_path / 'emsdk.py')
 emsdk = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(emsdk)
+emsdk.load_sdk_manifest()
+releases = emsdk.load_releases_info()['releases']
+release_hash = emsdk.get_release_hash(requested_version, releases)
+expected_version = f'sdk-releases-{release_hash}-64bit' if release_hash else emsdk.resolve_sdk_aliases(requested_version)
+sdk = next((sdk for sdk in emsdk.sdks if str(sdk) == expected_version), None)
 active_sdk = emsdk.currently_active_sdk()
-resolved_version = emsdk.resolve_sdk_aliases(requested_version)
-sys.exit(0 if active_sdk and str(active_sdk) == resolved_version else 1)
+if query == 'resolves':
+  sys.exit(0 if sdk else 1)
+if query == 'installed':
+  sys.exit(0 if sdk and sdk.is_installed() else 1)
+if query == 'active':
+  sys.exit(0 if active_sdk and str(active_sdk) == expected_version else 1)
+sys.exit(2)
 PY
+}
+
+emsdk_has_version_installed() {
+  emsdk_query_version_state installed
+}
+
+emsdk_can_resolve_version() {
+  emsdk_query_version_state resolves
+}
+
+emsdk_is_version_active() {
+  emsdk_query_version_state active
 }
 
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
@@ -128,11 +143,11 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
 if ! "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"; then
-  echo "Failed to activate EMSDK ${EMSDK_VERSION}"
+  echo "EMSDK activate command failed for ${EMSDK_VERSION}"
   exit 1
 fi
 if ! emsdk_is_version_active; then
-  echo "Failed to activate EMSDK ${EMSDK_VERSION}"
+  echo "EMSDK ${EMSDK_VERSION} did not become the active SDK"
   exit 1
 fi
 if [ ! -x "$EMSDK_BINARY" ] || ! emsdk_has_version_installed; then
