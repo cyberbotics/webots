@@ -26,7 +26,7 @@ public class template {
     Robot robot = new Robot();
 
     // get the time step of the current world.
-    int timeStep = (int) Math.round(robot.getBasicTimeStep());
+    int timeStep = (int) robot.getBasicTimeStep();
 
     // You should insert a getDevice-like function in order to get the
     // instance of a device of the robot. Something like:
