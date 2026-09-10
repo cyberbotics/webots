@@ -244,16 +244,16 @@ webots.View = class View {
   // Functions for internal use.
 
   updateWorldList(currentWorld, worlds) {
-    if (this.broadcast)
-      // Do not show world list if in broadcast mode,
-      // where multiple users can connect to the same Webots instance.
-      return;
-
     const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
     this.currentWorld = currentWorld;
     ImageLoader.currentWorld = currentWorld;
     MeshLoader.currentWorld = currentWorld;
     this.worlds = worlds;
+
+    if (this.broadcast)
+      // Do not show world list if in broadcast mode,
+      // where multiple users can connect to the same Webots instance.
+      return;
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];
