@@ -291,10 +291,10 @@ static WbDeviceTag my_sensor, my_led;
 
 int main() {
   /* initialize the webots controller library */
-  wb_robot_init()
+  wb_robot_init();
 
   /* get the time step of the current world. */
-  const int time_step = (int) wb_robot_get_basic_time_step();;
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   // get device tags
   my_sensor = wb_robot_get_device("my_distance_sensor");
