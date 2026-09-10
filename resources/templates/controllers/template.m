@@ -11,6 +11,7 @@ function template
 %desktop;
 %keyboard;
 
+% get the time step of the current world
 TIME_STEP = wb_robot_get_basic_time_step();
 
 % get and enable devices, e.g.:
