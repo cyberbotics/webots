@@ -89,10 +89,6 @@ emsdk_can_resolve_version() {
   "$EMSDK_PATH/emsdk" list | grep -qw "${EMSDK_VERSION}"
 }
 
-emsdk_is_version_active() {
-  "$EMSDK_PATH/emsdk" list | awk -v version="$EMSDK_VERSION" '$1 == "*" && $2 == version { found=1 } END { exit found ? 0 : 1 }'
-}
-
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
 EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
 NEEDS_EMSDK_INSTALL=true
@@ -112,8 +108,7 @@ if [[ "$NEEDS_EMSDK_INSTALL" == true ]]; then
   fi
   "$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}"
 fi
-"$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"
-if ! emsdk_is_version_active; then
+if ! "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"; then
   echo "Failed to activate EMSDK ${EMSDK_VERSION}"
   exit 1
 fi
