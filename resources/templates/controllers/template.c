@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   /* get the time step of the current world. */
-  const int time_step = wb_robot_get_basic_time_step();
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   /*
    * You should declare here WbDeviceTag variables for storing
