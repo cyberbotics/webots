@@ -73,7 +73,8 @@ if [ ! -d "$EMSDK_PATH" ]; then
 fi
 
 EMSDK_VERSION_FILE="$EMSDK_PATH/.webots-emsdk-version"
-if [ ! -f "$EMSDK_VERSION_FILE" ] || ! grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
+EMSDK_BINARY="$EMSDK_PATH/upstream/emscripten/emcc"
+if [ ! -x "$EMSDK_BINARY" ] || [ ! -f "$EMSDK_VERSION_FILE" ] || ! grep -qxF "${EMSDK_VERSION}" "$EMSDK_VERSION_FILE"; then
   "$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
   printf '%s\n' "${EMSDK_VERSION}" > "$EMSDK_VERSION_FILE"
 fi
