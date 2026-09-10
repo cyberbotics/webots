@@ -11,6 +11,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
+EMSDK_VERSION=6.0.9
 
 # Detect the operating system
 if [ -f /etc/os-release ]; then
@@ -72,8 +73,8 @@ if [ ! -d "$EMSDK_PATH" ]; then
   git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
 fi
 
-"$EMSDK_PATH/emsdk" install latest
-"$EMSDK_PATH/emsdk" activate latest
+"$EMSDK_PATH/emsdk" install ${EMSDK_VERSION}
+"$EMSDK_PATH/emsdk" activate ${EMSDK_VERSION}
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
 EMSDK_SOURCE_LINE='. "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
