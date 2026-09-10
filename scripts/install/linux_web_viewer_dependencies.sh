@@ -99,6 +99,7 @@ fi
 runuser -u "$TARGET_USER" -- sh -c '
   TMP_BASH_PROFILE=$(mktemp "$1.tmp.XXXXXX") || exit 1
   grep -vxF "$2" "$1" > "$TMP_BASH_PROFILE" || true
+  chmod --reference="$1" "$TMP_BASH_PROFILE"
   mv "$TMP_BASH_PROFILE" "$1"
 ' sh "$BASH_PROFILE" "$EMSDK_SOURCE_LINE"
 if ! grep -qxF "$BASHRC_SOURCE_LINE" "$BASH_PROFILE"; then
