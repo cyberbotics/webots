@@ -43,27 +43,31 @@ case "$OS" in
         ;;
 esac
 
-USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
+TARGET_USER="${SUDO_USER:-root}"
+TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d ':' -f 6)
+
+if [[ -z "$TARGET_HOME" ]]; then
+  echo "Cannot determine the home directory for user: $TARGET_USER"
+  exit 1
+fi
 
 # pyclibrary is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
 PYCLIBRARY_VENV=dependencies/pyclibrary-venv
-if [ ! -x $PYCLIBRARY_VENV/bin/python3 ]; then
-  python3 -m venv $PYCLIBRARY_VENV
+if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ]; then
+  python3 -m venv "$PYCLIBRARY_VENV"
 fi
-$PYCLIBRARY_VENV/bin/pip install --no-input pyclibrary
-if [[ ! -z "$USER" ]]; then
-  chown -R $USER $PYCLIBRARY_VENV
-fi
+"$PYCLIBRARY_VENV/bin/pip" install --no-input pyclibrary
+chown -R "$TARGET_USER" "$PYCLIBRARY_VENV"
 
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
-chown -R $USER dependencies/emsdk
+chown -R "$TARGET_USER" dependencies/emsdk
 
 WEBOTS_HOME=$(pwd)
-echo 'source "'$WEBOTS_HOME'/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> /home/$USER/.bashrc
+echo 'source "'$WEBOTS_HOME'/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> "$TARGET_HOME/.bashrc"
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
