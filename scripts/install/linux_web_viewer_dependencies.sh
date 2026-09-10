@@ -79,6 +79,7 @@ EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 if [ ! -f "$TARGET_HOME/.bashrc" ] || ! grep -qxF "$EMSDK_SOURCE_LINE" "$TARGET_HOME/.bashrc"; then
   echo "$EMSDK_SOURCE_LINE" >> "$TARGET_HOME/.bashrc"
 fi
+chown "$TARGET_USER":"$TARGET_GROUP" "$TARGET_HOME/.bashrc"
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
