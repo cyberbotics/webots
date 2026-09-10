@@ -79,7 +79,7 @@ chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
 for SHELL_PROFILE in "$TARGET_HOME/.bashrc" "$TARGET_HOME/.profile"; do
   if [ ! -f "$SHELL_PROFILE" ]; then
-    touch "$SHELL_PROFILE"
+    runuser -u "$TARGET_USER" -- touch "$SHELL_PROFILE"
   fi
   if ! grep -qxF "$EMSDK_SOURCE_LINE" "$SHELL_PROFILE"; then
     echo "$EMSDK_SOURCE_LINE" >> "$SHELL_PROFILE"
