@@ -184,7 +184,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), "
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
-                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
+                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, libsndio7.0, "
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
                 "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0, libxcb-cursor0\n"
                 "Conflicts: webots-for-nao\n"
