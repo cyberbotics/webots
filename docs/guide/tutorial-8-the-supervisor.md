@@ -73,15 +73,15 @@ Save and compile it using the `Build` button.
 #include <webots/supervisor.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
-
 int main(int argc, char **argv) {
   wb_robot_init();
+
+  const int time_step = (int)wb_robot_get_basic_time_step();
 
   // [CODE PLACEHOLDER 1]
 
   int i = 0;
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     // [CODE PLACEHOLDER 2]
 
     i++;
@@ -102,8 +102,6 @@ Save and compile it using the `Build` button.
 ```cpp
 #include <webots/Supervisor.hpp>
 
-#define TIME_STEP 32
-
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
 
@@ -111,10 +109,12 @@ int main(int argc, char **argv) {
 
   Supervisor *robot = new Supervisor(); // create Supervisor instance
 
+  int timeStep = (int)robot->getBasicTimeStep();
+
   // [CODE PLACEHOLDER 1]
 
   int i = 0;
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
     // [CODE PLACEHOLDER 2]
 
     i++;
@@ -134,14 +134,14 @@ Replace the contents of your controller with the following and save.
 ```python
 from controller import Supervisor
 
-TIME_STEP = 32
-
 robot = Supervisor()  # create Supervisor instance
+
+timestep = int(robot.getBasicTimeStep())
 
 # [CODE PLACEHOLDER 1]
 
 i = 0
-while robot.step(TIME_STEP) != -1:
+while robot.step(timestep) != -1:
   # [CODE PLACEHOLDER 2]
 
   i += 1
@@ -161,15 +161,14 @@ import com.cyberbotics.webots.controller.Field;
 public class SupervisorController {
 
   public static void main(String[] args) {
-
-    int TIME_STEP = 32;
-
     Supervisor robot = new Supervisor(); // create Supervisor instance
+
+    int timeStep = (int) robot.getBasicTimeStep();
 
     // [CODE PLACEHOLDER 1]
 
     int i = 0;
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       // [CODE PLACEHOLDER 2]
 
       i++;
@@ -186,7 +185,7 @@ Replace the contents of your controller with the following and save it.
 ```matlab
 function supervisor_controller
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 
 % [CODE PLACEHOLDER 1]
 
@@ -830,10 +829,10 @@ Here you can find the complete code of the controller.
 #include <webots/supervisor.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
-
 int main(int argc, char **argv) {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   // [CODE PLACEHOLDER 1]
   WbNodeRef bb8_node = wb_supervisor_node_get_from_def("BB-8");
@@ -847,7 +846,7 @@ int main(int argc, char **argv) {
   WbFieldRef color_field = wb_supervisor_node_get_field(ball_node, "color");
 
   int i = 0;
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     // [CODE PLACEHOLDER 2]
     if (i == 0) {
       const double new_value[3] = {2.5, 0, 0};
@@ -884,14 +883,13 @@ int main(int argc, char **argv) {
 ```cpp
 #include <webots/Supervisor.hpp>
 
-#define TIME_STEP 32
-
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
 
 int main(int argc, char **argv) {
+  Supervisor *robot = new Supervisor();  // create Supervisor instance
 
-  Supervisor *robot = new Supervisor(); // create Supervisor instance
+  int timeStep = (int)robot->getBasicTimeStep();
 
   // [CODE PLACEHOLDER 1]
   Node *bb8Node = robot->getFromDef("BB-8");
@@ -905,7 +903,7 @@ int main(int argc, char **argv) {
   Field *colorField = ballNode->getField("color");
 
   int i = 0;
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
     // [CODE PLACEHOLDER 2]
     if (i == 0) {
       const double newValue[3] = {2.5, 0, 0};
@@ -943,9 +941,9 @@ int main(int argc, char **argv) {
 ```python
 from controller import Supervisor
 
-TIME_STEP = 32
-
 robot = Supervisor()  # create Supervisor instance
+
+timeStep = int(robot.getBasicTimeStep())
 
 # [CODE PLACEHOLDER 1]
 bb8_node = robot.getFromDef('BB-8')
@@ -959,7 +957,7 @@ ball_node = robot.getFromDef('BALL')
 color_field = ball_node.getField('color')
 
 i = 0
-while robot.step(TIME_STEP) != -1:
+while robot.step(timeStep) != -1:
   # [CODE PLACEHOLDER 2]
   if (i == 0):
     new_value = [2.5, 0, 0]
@@ -992,10 +990,9 @@ import com.cyberbotics.webots.controller.Field;
 public class SupervisorController {
 
   public static void main(String[] args) {
+    Supervisor robot = new Supervisor();  // create Supervisor instance
 
-    int TIME_STEP = 32;
-
-    Supervisor robot = new Supervisor(); // create Supervisor instance
+    int timeStep = (int) robot.getBasicTimeStep();
 
     // [CODE PLACEHOLDER 1]
     Node bb8Node = robot.getFromDef("BB-8");
@@ -1009,7 +1006,7 @@ public class SupervisorController {
     Field colorField = ballNode.getField("color");
 
     int i = 0;
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       // [CODE PLACEHOLDER 2]
       if (i == 0) {
         double newValue[] = {2.5, 0, 0};
@@ -1042,7 +1039,7 @@ public class SupervisorController {
 ```matlab
 function supervisor_controller
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 
 % [CODE PLACEHOLDER 1]
 bb8_node = wb_supervisor_node_get_from_def('BB-8');

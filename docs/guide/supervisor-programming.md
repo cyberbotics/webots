@@ -32,10 +32,10 @@ At each iteration it reads and prints the field's `values`.
 #include <webots/supervisor.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
-
 int main() {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   // do this once only
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
@@ -45,7 +45,7 @@ int main() {
   }
   WbFieldRef trans_field = wb_supervisor_node_get_field(robot_node, "translation");
 
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     // this is done repeatedly
     const double *values = wb_supervisor_field_get_sf_vec3f(trans_field);
     printf("MY_ROBOT is at position: %g %g %g\n", values[0], values[1], values[2]);
@@ -61,12 +61,12 @@ int main() {
 ```cpp
 #include <webots/Supervisor.hpp>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 int main() {
   Supervisor *supervisor = new Supervisor();
+
+  int timeStep = (int) supervisor->getBasicTimeStep();
 
   // do this once only
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
@@ -76,7 +76,7 @@ int main() {
   }
   Field *trans_field = robot_node->getField("translation");
 
-  while (supervisor->step(TIME_STEP) != -1) {
+  while (supervisor->step(timeStep) != -1) {
     // this is done repeatedly
     const double *values = trans_field->getSFVec3f();
     std::cout << "MY_ROBOT is at position: " << values[0] << ' '
@@ -94,9 +94,9 @@ int main() {
 from controller import Supervisor
 import sys
 
-TIME_STEP = 32
-
 supervisor = Supervisor()
+
+timestep = int(supervisor.getBasicTimeStep())
 
 # do this once only
 robot_node = supervisor.getFromDef("MY_ROBOT")
@@ -105,7 +105,7 @@ if robot_node is None:
     sys.exit(1)
 trans_field = robot_node.getField("translation")
 
-while supervisor.step(TIME_STEP) != -1:
+while supervisor.step(timestep) != -1:
     # this is done repeatedly
     values = trans_field.getSFVec3f()
     print("MY_ROBOT is at position: %g %g %g" % (values[0], values[1], values[2]))
@@ -122,9 +122,9 @@ public class SupervisorController {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
-
     final Supervisor supervisor = new Supervisor();
+
+    final int TIME_STEP = (int) supervisor.getBasicTimeStep();
 
     // do this once only
     final Node robot_node = supervisor.getFromDef("MY_ROBOT");
@@ -149,7 +149,7 @@ public class SupervisorController {
 ```MATLAB
 function supervisor_controller
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 % do this once only
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
 if robot_node == 0
@@ -200,8 +200,6 @@ To move the robot we need the `wb_supervisor_*` functions and hence the `supervi
 #include <stdio.h>
 #include <math.h>
 
-#define TIME_STEP 32
-
 static int my_exit(void) {
   wb_robot_cleanup();
   return 0;
@@ -209,6 +207,8 @@ static int my_exit(void) {
 
 int main() {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   // get handle to robot's translation field
   WbNodeRef robot_node = wb_supervisor_node_get_from_def("MY_ROBOT");
@@ -225,7 +225,7 @@ int main() {
         // (and possibly t) parameters.
 
         // controller termination
-        if (wb_robot_step(TIME_STEP) == -1)
+        if (wb_robot_step(time_step) == -1)
           return my_exit();
       }
 
@@ -251,8 +251,6 @@ int main() {
 #include <cmath>
 #include <webots/Supervisor.hpp>
 
-#define TIME_STEP 32
-
 using namespace webots;
 
 static int cleanUp(Supervisor *supervisor) {
@@ -262,6 +260,8 @@ static int cleanUp(Supervisor *supervisor) {
 
 int main() {
   Supervisor *supervisor = new Supervisor();
+
+  int timeStep = (int) supervisor->getBasicTimeStep();
 
   // get handle to robot's translation field
   Node *robot_node = supervisor->getFromDef("MY_ROBOT");
@@ -278,7 +278,7 @@ int main() {
         // (and possibly t) parameters.
 
         // controller termination
-        if (supervisor->step(TIME_STEP) == -1)
+        if (supervisor->step(timeStep) == -1)
           return cleanUp(supervisor);
       }
 
@@ -304,9 +304,9 @@ int main() {
 from math import sqrt
 from controller import Supervisor
 
-TIME_STEP = 32
-
 supervisor = Supervisor()
+
+timestep = int(supervisor.getBasicTimeStep())
 
 # get handle to robot's translation field
 robot_node = supervisor.getFromDef("MY_ROBOT")
@@ -322,7 +322,7 @@ for a in range(0, 25):
             # (and possibly t) parameters.
 
             # controller termination
-            if supervisor.step(TIME_STEP) == -1:
+            if supervisor.step(timestep) == -1:
                 quit()
 
         # compute travelled distance
@@ -348,8 +348,8 @@ public class SupervisorController {
 
   public static void main(String[] args) {
 
-    final int TIME_STEP = 32;
     final Supervisor supervisor = new Supervisor();
+    final int timeStep = (int) supervisor.getBasicTimeStep();
 
     // get handle to robot's translation field
     final Node robot_node = supervisor.getFromDef("MY_ROBOT");
@@ -366,7 +366,7 @@ public class SupervisorController {
           // (and possibly t) parameters.
 
           // controller termination
-          if (supervisor.step(TIME_STEP) == -1)
+          if (supervisor.step(timeStep) == -1)
             return ;
         }
 
@@ -390,7 +390,7 @@ public class SupervisorController {
 ```MATLAB
 function supervisor_controller
 
-TIME_STEP = 32;
+TIME_STEP = wb_robot_get_basic_time_step();
 
 % get handle to robot's translation field
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
@@ -408,12 +408,12 @@ for a = 0:25
         quit(0);
       end
     end
-	
+
     % compute travelled distance
     values = wb_supervisor_field_get_sf_vec3f(trans_field);
     dist = sqrt((values(1) * values(1)) + (values(3) * values(3)));
     wb_console_print(sprintf('a=%g, b=%g -> dist=%g\n', a, b, dist), WB_STDOUT);
-	
+
     % reset robot position and physics
     INITIAL = [0, 0.5, 0];
     wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
