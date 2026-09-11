@@ -27,14 +27,17 @@ install_ubuntu_optional_compilation_packages() {
     apt install --yes software-properties-common
     add-apt-repository -y ppa:deadsnakes/ppa
     apt update
-    apt install --yes curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr execstack libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
+    apt install --yes curl python3.7-dev python3.8-dev python3.9-dev python3.10-dev dirmngr libxerces-c-dev libfox-1.6-dev libgdal-dev libproj-dev libgl2ps-dev libssh-dev
 
     if [[ $VERSION_ID == "22.04" ]]; then
-        apt install --yes openjdk-18-jdk
+        apt install --yes execstack openjdk-18-jdk
     elif [[ $VERSION_ID == "24.04" ]]; then
+        apt install --yes execstack openjdk-21-jdk
+    elif [[ $VERSION_ID == "26.04" ]]; then
+        # 26.04 no longer packages execstack, which is not used by the build anyway
         apt install --yes openjdk-21-jdk
     else
-        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS versions are supported."
+        echo "Unsupported Linux version: dependencies may not be completely installed. Only the latest Ubuntu LTS versions are supported."
     fi
 }
 
