@@ -100,6 +100,7 @@ jobs:
           - os: ubuntu-26.04
             PYTHON_VERSION: "3.11"  # no 3.9 build is published for 26.04
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90  # a healthy run takes about 10 minutes, a stuck test group costs at most 10 more
     steps:
     - uses: actions/checkout@v3
       with:
