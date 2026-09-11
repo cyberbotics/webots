@@ -73,7 +73,7 @@ static void remove_comment(char *string) {
 
 // Replaces all occurrences of a character in a string with a different character.
 // cppcheck-suppress constParameterPointer
-static void replace_char(char *const string, char occurrence, char replace) {
+static void replace_char(char *string, char occurrence, char replace) {
   char *current_pos = strchr(string, occurrence);
   while (current_pos) {
     *current_pos = replace;
