@@ -44,7 +44,7 @@ export default class ImageLoader {
       url = url.replace('webots://', 'https://raw.githubusercontent.com/' + ImageLoader.repository + '/webots/' + ImageLoader.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
-      if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || ImageLoader.stream)
+      if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url))
         url = prefix + url;
       else {
         // in simulations the asset is provided relative to the world, therefore the URL has to be resolved before requesting it
