@@ -3,20 +3,29 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/clearpath/heron/protos/Heron.proto
 # keywords: robot/wheeled
-# Clearpath Heron USV is an autonomous watercraft designed for various marine tasks. 
+# Clearpath Heron USV is an autonomous watercraft designed for various marine tasks.
 # It features electric propulsion, advanced navigation systems, and integration capabilities for collaborative missions.
 # With a streamlined hull and multiple sensor suites including cameras,
 # it excels in environmental monitoring, surveillance, and research.
 
 PROTO Heron [
-  field SFVec3f    translation     0 0 0.0     # Is `Pose.translation`.
-  field SFRotation rotation        0 0 1 0       # Is `Pose.rotation`.
-  field SFString   name            "heron"       # Is `Solid.name`.
-  field SFString   controller      "heron_usv_controller"      # Is `Robot.controller`.
-  field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
-  field SFString   window          "<generic>"   # Is `Robot.window`.
-  field SFBool     synchronization TRUE          # Is `Robot.synchronization`.
-  field MFNode     bodySlot        []            # Extends the robot with new nodes in the body slot.
+  field SFVec3f    translation         0 0 0.0     # Is `Pose.translation`.
+  field SFRotation rotation            0 0 1 0       # Is `Pose.rotation`.
+  field SFString   name                "heron"       # Is `Solid.name`.
+  field SFString   controller          "heron_usv_controller"      # Is `Robot.controller`.
+  field MFString   controllerArgs      []            # Is `Robot.controllerArgs`.
+  field SFString   window              "<generic>"   # Is `Robot.window`.
+  field SFBool     synchronization     TRUE          # Is `Robot.synchronization`.
+  field MFNode     immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.01 0 0
+      dragTorqueCoefficients 0.05 0 0
+      viscousResistanceForceCoefficient 400
+      viscousResistanceTorqueCoefficient 0.1
+    }
+  ]                                                  # Is `Robot.immersionProperties`
+  field MFNode     bodySlot            []            # Extends the robot with new nodes in the body slot.
 ]
 {
   Robot {
@@ -28,6 +37,7 @@ PROTO Heron [
     controllerArgs IS controllerArgs
     window IS window
     synchronization IS synchronization
+    immersionProperties IS immersionProperties
     children [
       DEF BODY_SLOT Group {
         children IS bodySlot
@@ -149,15 +159,6 @@ PROTO Heron [
       }
     ]
     name "heron_usv"
-    immersionProperties [
-      ImmersionProperties {
-        fluidName "fluid"
-        dragForceCoefficients 0.01 0 0
-        dragTorqueCoefficients 0.05 0 0
-        viscousResistanceForceCoefficient 400
-        viscousResistanceTorqueCoefficient 0.1
-      }
-    ]
     boundingObject Group {
       children [
         Pose {

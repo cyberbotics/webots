@@ -272,7 +272,15 @@ WrTexture2d *WbWrenTextureOverlay::createIconTexture(QString filePath) {
     return imageTexture;
 
   QImageReader imageReader(filePath);
-  QImage image = imageReader.read().mirrored(false, true);  // account for inverted Y axis in OpenGL
+  QImage image = imageReader.read();
+
+  // account for inverted Y axis in OpenGL
+#ifdef _WIN32  // Windows builds against a newer version of Qt, which deprecates `mirrored`
+  image = image.flipped(Qt::Vertical);
+#else
+  image = image.mirrored(false, true);
+#endif
+
   const bool isTranslucent = image.pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
 
   imageTexture = wr_texture_2d_new();

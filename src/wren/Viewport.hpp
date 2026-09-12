@@ -39,7 +39,7 @@ namespace wren {
     void setPolygonMode(WrViewportPolygonMode polygonMode) { mPolygonMode = polygonMode; }
     void setVisbilityMask(int mask) { mVisibilityMask = mask; }
     void setSize(int width, int height);
-    void setPixelRatio(int ratio) { mPixelRatio = ratio; }
+    void setPixelRatio(double ratio) { mPixelRatio = ratio; }
     void setCamera(Camera *camera);
     void setFrameBuffer(FrameBuffer *frameBuffer);
     void enableShadows(bool enable) { mAreShadowsEnabled = enable; }
@@ -59,7 +59,7 @@ namespace wren {
 
     int width() const { return mWidth; }
     int height() const { return mHeight; }
-    int pixelRatio() const { return mPixelRatio; }
+    double pixelRatio() const { return mPixelRatio; }
     bool areShadowsEnabled() const { return mAreShadowsEnabled; }
     WrViewportPolygonMode polygonMode() const { return mPolygonMode; }
     int visibilityMask() const { return mVisibilityMask; }
@@ -90,7 +90,7 @@ namespace wren {
     int mVisibilityMask;
     int mWidth;
     int mHeight;
-    int mPixelRatio;
+    double mPixelRatio;
 
     Camera *mCamera;
     FrameBuffer *mFrameBuffer;

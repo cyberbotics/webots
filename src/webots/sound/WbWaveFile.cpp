@@ -14,6 +14,7 @@
 
 #include "WbWaveFile.hpp"
 
+#include "WbLog.hpp"
 #include "WbStandardPaths.hpp"
 
 #include <QtCore/QDir>
@@ -187,7 +188,11 @@ void WbWaveFile::loadConvertedFile(int side) {
 void WbWaveFile::loadConvertedFile(int side, const QString &filename) {
   assert(mDevice == NULL);
   mDevice = new QFile(filename);
-  mDevice->open(QIODevice::ReadOnly);
+  if (!mDevice->open(QIODevice::ReadOnly)) {
+    delete mDevice;
+    mDevice = NULL;
+    throw QObject::tr("Could not open audio device: '%1'.").arg(filename);
+  }
   loadConvertedFile(side);
   mDevice->close();
   delete mDevice;
@@ -216,7 +221,8 @@ void WbWaveFile::loadFromFile(const QString &extension, int side) {
   if (mDevice) {
     inputFilename = WbStandardPaths::webotsTmpPath() + "input." + extension;
     QFile input(inputFilename);
-    input.open(QFile::WriteOnly);
+    if (!input.open(QFile::WriteOnly))
+      throw QObject::tr("Could not create temporary audio file: '%1'.").arg(inputFilename);
     input.write(mDevice->readAll());
     input.close();
   } else

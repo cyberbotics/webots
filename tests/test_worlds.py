@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2024 Cyberbotics Ltd.
+# Copyright 1996-2025 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,7 +48,9 @@ class TestWorldsWarnings(unittest.TestCase):
             # the ros controller of complete_test.wbt is started when loading the world because the robot-window is open
             'Failed to contact master at',
             'Cannot initialize the sound engine',
-            self.crashError  # To remove once #6125 is fixed
+            self.crashError,  # To remove once #6125 is fixed
+            # fontconfig tries to restore system font directory mtimes after scanning; fails without write permission on CI
+            'Unable to revert mtime:'
         ]
         # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
         self.worlds = [os.path.join(WEBOTS_HOME, 'resources', 'projects', 'worlds', 'empty.wbt')]
@@ -75,6 +77,7 @@ class TestWorldsWarnings(unittest.TestCase):
     def test_worlds_warnings_and_cache(self):
         """Test all the 'projects' worlds for loading warnings and if they reference un-cached assets."""
         problematicWorlds = []
+        worldWarnings = {}
         crashedWorlds = []
         worldsWithNonCachedAssets = []
         cacheSizeBefore = len(os.listdir(CACHE_DIR))
@@ -99,8 +102,11 @@ class TestWorldsWarnings(unittest.TestCase):
             # First world is empty.wbt, used to trigger the warning about system requirements not being met
             if i == 0:
                 continue
-            if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
-                problematicWorlds.append(self.worlds[i])
+            if errors:
+                unwanted = [e for e in errors.splitlines() if not any(message in e for message in self.skippedMessages)]
+                if unwanted:
+                    problematicWorlds.append(self.worlds[i])
+                    worldWarnings[self.worlds[i]] = unwanted
             if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
 
@@ -118,10 +124,13 @@ class TestWorldsWarnings(unittest.TestCase):
 
         if crashedWorlds:
             print('\n\t'.join(['Impossible to test the following worlds because they crash when loading:'] + crashedWorlds))
-        self.assertTrue(
-            not problematicWorlds,
-            msg='\n\t'.join(['The following worlds have unwanted warnings:'] + problematicWorlds)
-        )
+        if problematicWorlds:
+            details = ['The following worlds have unwanted warnings:']
+            for world in problematicWorlds:
+                details.append(f'{world} ({len(worldWarnings[world])} warning(s))')
+                for warning in worldWarnings[world]:
+                    details.append('  ' + warning)
+            self.fail('\n\t'.join(details))
 
         if worldsWithNonCachedAssets:
             print('\nThe following worlds reference non-cached assets:')

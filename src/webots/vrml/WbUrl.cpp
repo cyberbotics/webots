@@ -85,6 +85,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field, true);
+    assert(f);
     const WbNode *protoNode = node->containingProto(false);
 
     protoNode = WbVrmlNodeUtilities::findFieldProtoScope(f, protoNode);
@@ -132,7 +133,10 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
 }
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
-                              const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {
+                              const QString &relativeResourcePath, const WbWriter &writer) {
+  // in addition to writing the node, we want to ensure that the resource file exists
+  // at the expected location. If not, we should copy it, possibly creating the expected
+  // directory structure.
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeResourcePath + fileName;
@@ -155,11 +159,7 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
       const QString extension = urlFileInfo.suffix();
 
       for (int i = 1; i < 100; ++i) {  // number of trials before failure
-        QString newRelativePath;
-        if (isTexture)
-          newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
-        else
-          newRelativePath = writer.relativeMeshesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+        QString newRelativePath = relativeResourcePath + baseName + '.' + QString::number(i) + '.' + extension;
 
         const QString newAbsolutePath = writer.path() + "/" + newRelativePath;
         if (QFileInfo(newAbsolutePath).exists()) {
@@ -170,33 +170,14 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
           return newRelativePath;
         }
       }
-      if (isTexture)
-        node->warn(QObject::tr("Failure exporting texture, too many textures share the same name: %1.").arg(url));
-      else
-        node->warn(QObject::tr("Failure exporting mesh, too many meshes share the same name: %1.").arg(url));
 
+      node->warn(QObject::tr("Failure exporting resource, too many resources share the same name: %1.").arg(url));
       return "";
     }
   } else {  // simple case
     QFile::copy(sourcePath, expectedPath);
     return expectedRelativePath;
   }
-}
-
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the texture file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeTexturesPath(), writer);
-}
-
-QString WbUrl::exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the mesh file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeMeshesPath(), writer, false);
 }
 
 bool WbUrl::isWeb(const QString &url) {

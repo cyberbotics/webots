@@ -121,6 +121,20 @@ void WbContactProperties::postFinalize() {
   connect(mMaxContactJoints, &WbSFInt::changed, this, &WbContactProperties::updateMaxContactJoints);
 }
 
+void WbContactProperties::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  exportSFResourceField(gUrlNames[0], mBumpSound, writer.relativeSoundsPath(), writer);
+  exportSFResourceField(gUrlNames[1], mRollSound, writer.relativeSoundsPath(), writer);
+  exportSFResourceField(gUrlNames[2], mSlideSound, writer.relativeSoundsPath(), writer);
+}
+
+QStringList WbContactProperties::customExportedFields() const {
+  QStringList fields;
+  fields << "url";
+  return fields;
+}
+
 void WbContactProperties::updateCoulombFriction() {
   const int nbElements = mCoulombFriction->size();
   if (nbElements < 1 || nbElements > 4) {

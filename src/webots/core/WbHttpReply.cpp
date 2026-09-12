@@ -78,6 +78,8 @@ QString WbHttpReply::mimeType(const QString &url, bool generic) {
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
   if (extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "ico")
     return QString("image/%1").arg(extension);
+  else if (extension == "svg")  // the MIME type is not simply "image/svg", hence the separate case
+    return "image/svg+xml";
   else if (extension == "html" || extension == "css")
     return QString("text/%1").arg(extension);
   else if (extension == "js")

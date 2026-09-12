@@ -998,6 +998,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "-classpath");
     new_argv = add_single_argument(new_argv, &current_size, classpath);
     new_argv = add_single_argument(new_argv, &current_size, java_library);
+    new_argv = add_single_argument(new_argv, &current_size, "--enable-native-access=ALL-UNNAMED");
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);

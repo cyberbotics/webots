@@ -1,5 +1,44 @@
 # Webots R2025 Change Log
 
+## Webots R2025b
+  - Enhancements
+    - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
+    - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+    - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
+    - Added missing import libraries on Windows ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+    - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
+    - Webots now prints the cause when it fails to create a memory-mapped file for a camera node ([#6896](https://github.com/cyberbotics/webots/pull/6896)).
+    - Made the timestep algorithm more consistent when running in realtime mode ([#6898](https://github.com/cyberbotics/webots/pull/6898)).
+    - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
+    - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
+  - Cleanup
+    - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
+    - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
+  - Bug Fixes
+    - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
+    - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
+    - Fixed a bug causing Webots to crash when multiple sounds were used with a [Speaker](speaker.md) node ([#6843](https://github.com/cyberbotics/webots/pull/6843)).
+    - Fixed a bug causing the "Reload/Reset" buttons in the controller recompilation popup to not work on Windows ([#6844](https://github.com/cyberbotics/webots/pull/6844)).
+    - Fixed resolution of relative paths when converting protos to their base nodes ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+      - **As a result of this change, relative paths that are not within a Webots-recognized resource field (ex. `url`) will no longer be updated when a proto is converted to its base nodes.** This should not affect most users.
+    - Fixed a bug causing `TrackWheel` nodes to lose their field values when used in a proto converted to a base node ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
+    - Fixed a bug causing supervisors to occasionally read stale field values after the simulation was reset ([#6758](https://github.com/cyberbotics/webots/pull/6758)).
+    - Fixed a bug causing Webots to occasionally crash when unloading a world ([#6857](https://github.com/cyberbotics/webots/pull/6857)).
+    - Fixed a crash occurring when Python was not found on Windows ([#6870](https://github.com/cyberbotics/webots/pull/6870)).
+    - Fixed detection of physics plugins in extra projects ([#6880](https://github.com/cyberbotics/webots/pull/6880)).
+    - Fixed `addForceWithOffset` and `addTorque` doing the same thing as `addForce` in Python ([#6881](https://github.com/cyberbotics/webots/pull/6881)).
+    - Fixed Python controllers on Windows ([#6933](https://github.com/cyberbotics/webots/pull/6933)).
+    - OSM importer no longer crashes when run in 3d mode ([#6935](https://github.com/cyberbotics/webots/pull/6935)).
+    - Fixed a crash in the OSM importer when a way has multiple layer values ([#7005](https://github.com/cyberbotics/webots/pull/7005)).
+    - Fixed Java compilation deprecation warning and run-time warning ([#6936](https://github.com/cyberbotics/webots/pull/6936)).
+    - Fixed controller signal handlers not restoring the original handler (e.g. CPython's) on exit ([#6945](https://github.com/cyberbotics/webots/pull/6945)).
+    - The viewport now renders correctly on systems with fractional scaling enabled ([#6991](https://github.com/cyberbotics/webots/pull/6991)).
+    - USE nodes are now validated before being inserted into the Scene Tree. This fixes some crashes when loading invalid world files ([#6997](https://github.com/cyberbotics/webots/pull/6997)).
+    - Fixed a bug causing the "Plain/Wireframe Rendering" and "Follow Object > ..." buttons to incorrectly be shown as unchecked in certain circumstances ([#7000](https://github.com/cyberbotics/webots/pull/7000)).
+    - SVG files are now served with the `image/svg+xml` MIME type instead of being rejected as an unsupported file type, so robot windows can use SVG images ([#7007](https://github.com/cyberbotics/webots/pull/7007)).
+    - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
+    - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
+
 ## Webots R2025a
 Released on January 31st, 2025.
   - New Features
@@ -24,7 +63,7 @@ Released on January 31st, 2025.
     - Improved the image range of the rotating [Lidar](lidar.md) ([#6324](https://github.com/cyberbotics/webots/pull/6324)).
     - Show box-plane contact point normals when showing contact points ([#6678](https://github.com/cyberbotics/webots/pull/6678)).
     - Improved the speed and accuracy of box-plane collisions ([#6688](https://github.com/cyberbotics/webots/pull/6688)).
-    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)). 
+    - Enabled the launching of MATLAB desktop from the extern launcher ([#6366](https://github.com/cyberbotics/webots/pull/6366)).
     - Improved overlays visible in Overlays menu by adding all the robots in the menu list ([#6297](https://github.com/cyberbotics/webots/pull/6297)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).

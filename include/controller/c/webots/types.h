@@ -48,21 +48,7 @@ typedef struct WbFieldStructPrivate *WbFieldRef;
 #define INFINITY (1.0 / 0.0)
 #endif
 
-#ifndef bool
-#define bool char
-#endif
-
-#ifndef true
-// clang-format off
-#define true ((bool)1)
-// clang-format on
-#endif
-
-#ifndef false
-// clang-format off
-#define false ((bool)0)
-// clang-format on
-#endif
+#include <stdbool.h>
 
 #endif
 
