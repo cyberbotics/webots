@@ -148,7 +148,6 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          ImageLoader.stream = true;
           MeshLoader.stream = true;
           WbCadShape.stream = true;
           this.prefix = httpServerUrl + '/';
@@ -245,16 +244,16 @@ webots.View = class View {
   // Functions for internal use.
 
   updateWorldList(currentWorld, worlds) {
-    if (this.broadcast)
-      // Do not show world list if in broadcast mode,
-      // where multiple users can connect to the same Webots instance.
-      return;
-
     const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
     this.currentWorld = currentWorld;
     ImageLoader.currentWorld = currentWorld;
     MeshLoader.currentWorld = currentWorld;
     this.worlds = worlds;
+
+    if (this.broadcast)
+      // Do not show world list if in broadcast mode,
+      // where multiple users can connect to the same Webots instance.
+      return;
 
     if (existingCurrentWorld) {
       const webotsView = document.getElementsByTagName('webots-view')[0];

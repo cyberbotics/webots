@@ -43,6 +43,7 @@ Released on ??.
     - Fixed a bug causing the "Plain/Wireframe Rendering" and "Follow Object > ..." buttons to incorrectly be shown as unchecked in certain circumstances ([#7000](https://github.com/cyberbotics/webots/pull/7000)).
     - SVG files are now served with the `image/svg+xml` MIME type instead of being rejected as an unsupported file type, so robot windows can use SVG images ([#7007](https://github.com/cyberbotics/webots/pull/7007)).
     - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
+    - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
 
 ## Webots R2025a
 Released on January 31st, 2025.
