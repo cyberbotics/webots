@@ -550,7 +550,7 @@ endif
 
 ifdef WREN
 $(WREN_TARGET): $(OBJECTS_EMCC)
-	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' -o wrenjs.js
+	$(SILENT) em++ -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' -o wrenjs.js
 	$(SILENT) cp wrenjs.js wrenjs.wasm wrenjs.data $(WRENJS_DIR)/ > /dev/null 2>&1
 endif
 
