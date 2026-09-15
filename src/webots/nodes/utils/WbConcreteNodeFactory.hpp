@@ -36,10 +36,11 @@ public:
   bool validateExistingChildNode(const WbField *field, const WbNode *childNode, const WbNode *node, bool isInBoundingObject,
                                  QString &errorMessage) const override;
 
+  static WbConcreteNodeFactory *getInstance();
+
 private:
-  WbConcreteNodeFactory() {}
-  virtual ~WbConcreteNodeFactory() override {}
-  static WbConcreteNodeFactory gFactory;
+  WbConcreteNodeFactory();                    // Declaration only
+  virtual ~WbConcreteNodeFactory() override;  // Declaration only
 };
 
 #endif

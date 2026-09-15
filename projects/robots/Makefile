@@ -78,7 +78,9 @@ REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 
+ifndef WEBOTS_SKIP_CROSS_COMPILATION
 RESOURCES=gctronic/e-puck/transfer.Makefile
+endif
 
 TARGETS = $(LIBRARIES) $(CONTROLLERS) $(ROBOT_WINDOWS) $(REMOTE_CONTROLS) $(PHYSICS_PLUGINS) $(RESOURCES)
 

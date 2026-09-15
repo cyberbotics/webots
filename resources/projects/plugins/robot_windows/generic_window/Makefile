@@ -19,6 +19,7 @@
 
 
 CXX_SOURCES = entry_points.cpp
+MAIN_TARGET_COPY = $(CURDIR)/$(MAIN_TARGET)
 
 USE_C_API = true
 
@@ -44,17 +45,29 @@ ifeq ($(OSTYPE),windows)
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
  MOC = /mingw64/share/qt6/bin/moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets
- INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+ QT_LIBRARIES ?= -lQt6Core -lQt6Gui -lQt6Widgets
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" $(QT_LIBRARIES)
+ INCLUDE += -isystem "$(QT_INCLUDE_DIR)" -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
 endif
 
 ifeq ($(OSTYPE),linux)
- QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
- MOC = "$(WEBOTS_HOME)/bin/qt/moc"
+ QT_CFLAGS ?= $(shell pkg-config --cflags Qt6Core Qt6Gui Qt6Widgets 2>/dev/null)
+ QT_LIBRARIES ?= $(shell pkg-config --libs Qt6Core Qt6Gui Qt6Widgets 2>/dev/null)
+ QT_INCLUDE_DIR ?= $(WEBOTS_HOME)/include/qt
+ QT_LIB_DIR ?= $(WEBOTS_HOME)/lib/webots
+ MOC ?= $(shell command -v moc-qt6 2>/dev/null || test ! -x /usr/lib/qt6/moc || echo /usr/lib/qt6/moc || command -v moc 2>/dev/null || echo "$(WEBOTS_HOME)/bin/qt/moc")
  MOC_PLATFORM_FLAGS = -D__linux__
- DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core -lQt6Gui -lQt6Widgets
- INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+ ifeq ($(strip $(QT_CFLAGS)),)
+  INCLUDE += -isystem "$(QT_INCLUDE_DIR)" -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
+ else
+  INCLUDE += $(QT_CFLAGS)
+ endif
+ ifeq ($(strip $(QT_LIBRARIES)),)
+  QT_LIBRARIES = -lQt6Core -lQt6Gui -lQt6Widgets
+  DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" $(QT_LIBRARIES)
+ else
+  DYNAMIC_LIBRARIES += $(QT_LIBRARIES)
+ endif
 endif
 
 ifeq ($(OSTYPE),darwin)
@@ -73,7 +86,7 @@ vpath %.hpp $(MOC_DIRECTORIES)
 
 .PRECIOUS: $(MOC_SOURCES)
 
-$(BUILD_DIR)/%.moc.cpp: %.hpp
+$(BUILD_DIR)/%.moc.cpp: %.hpp | $(BUILD_DIR)
 	@echo "# moc-generating" $(notdir $<)
 	$(SILENT)$(MOC) $(MOC_PLATFORM_FLAGS) $(INCLUDE:-isystem:-I) $< -o $@
 

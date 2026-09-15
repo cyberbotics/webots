@@ -529,6 +529,17 @@ void WbRobot::updateControllerDir() {
   } else if (controllerName() != "<none>" && controllerName() != "<extern>") {
     QStringList path;
     path << WbProject::current()->controllersPath() + controllerName() + '/';
+    const QString &currentProjectPath = WbProject::current()->path();
+    const QString &homeProjectsPath = WbStandardPaths::projectsPath();
+    if (!currentProjectPath.startsWith(homeProjectsPath)) {
+      const int index = currentProjectPath.indexOf("/projects/");
+      if (index != -1) {
+        const QString relativeProjectPath = currentProjectPath.mid(index + 10);
+        const QString candidateProjectPath = homeProjectsPath + relativeProjectPath;
+        if (QDir(candidateProjectPath).exists())
+          path << QDir(candidateProjectPath).absolutePath() + "/controllers/" + controllerName() + '/';
+      }
+    }
     const WbProtoModel *const protoModel = proto();
     if (protoModel)
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName()) + '/';
@@ -539,13 +550,27 @@ void WbRobot::updateControllerDir() {
     path.removeDuplicates();
 
     mControllerDir = "";
+    QString fallbackDir;
     const int size = path.size();
     for (int i = 0; i < size; ++i) {
       if (!QDir(path[i]).exists())
         continue;
-      mControllerDir = path[i];
-      break;
+      if (fallbackDir.isEmpty())
+        fallbackDir = path[i];
+      const QDir dir(path[i]);
+      const QString controllerBase = controllerName();
+      const QString exeName = controllerBase + WbStandardPaths::executableExtension();
+      if (dir.exists("Dockerfile") || dir.exists(exeName) ||
+          dir.exists(QString("build/release/%1%2").arg(controllerBase).arg(WbStandardPaths::executableExtension())) ||
+          dir.exists(controllerBase + ".class") || dir.exists(controllerBase + ".jar") || dir.exists(controllerBase + ".py") ||
+          dir.exists(controllerBase + ".m") || dir.exists(controllerBase + ".bsg")) {
+        mControllerDir = path[i];
+        break;
+      }
     }
+
+    if (mControllerDir.isEmpty())
+      mControllerDir = fallbackDir;
 
     if (mControllerDir.isEmpty()) {
       QString warning(tr("The controller directory has not been found, searched the following locations:"));

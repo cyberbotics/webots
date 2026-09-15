@@ -1,0 +1,10 @@
+prefix=@WEBOTS_PC_PREFIX@
+exec_prefix=@WEBOTS_PC_EXEC_PREFIX@
+libdir=@WEBOTS_PC_LIBDIR@
+includedir=@WEBOTS_PC_INCLUDEDIR@
+
+Name: Webots ODE
+Description: Webots Open Dynamics Engine library
+Version: @WEBOTS_VERSION@
+Libs: -L${libdir} -lode
+Cflags: -I${includedir}

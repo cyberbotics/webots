@@ -42,7 +42,7 @@ WbWindowsRegistry::WbWindowsRegistry(const QString &key) {
 #ifndef NDEBUG
   LONG successCode =
 #endif
-    RegOpenKeyEx(baseKey, keys.join("\\").toStdString().c_str(), 0, KEY_READ, &mCurrentKey);
+    RegOpenKeyExW(baseKey, keys.join(L"\\").toStdWString().c_str(), 0, KEY_READ, &mCurrentKey);
   assert(successCode == ERROR_SUCCESS);
 }
 
