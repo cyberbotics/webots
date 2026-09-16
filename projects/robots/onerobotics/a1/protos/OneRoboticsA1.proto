@@ -1,0 +1,432 @@
+#VRML_SIM R2025b utf8
+# license: OneRobotics A1 robot assets © 2026 OneRobotics, licensed under Creative Commons Attribution 4.0 International.
+# license url: https://creativecommons.org/licenses/by/4.0/
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/onerobotics/a1/protos/OneRoboticsA1.proto
+# keywords: robot/arm
+# template language: javascript
+# Model of the fixed-base OneRobotics A1 right arm.
+# Source: https://github.com/katazen/onerobot_h1/tree/ecf530911284ba0e559f7a24dc222fd8e60d31ed/source/h1_reach/h1_reach/assets/urdf/A1_2026
+# Changes: converted from URDF, approximated collision meshes with boxes, renamed mesh files to lowercase, and applied the published hardware motor limits.
+
+PROTO OneRoboticsA1 [
+  field SFVec3f     translation        0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation           0 0 1 0      # Is `Pose.rotation`.
+  field SFString   name               "OneRobotics A1" # Is `Solid.name`.
+  field SFString   controller         "<generic>"  # Is `Robot.controller`.
+  field MFString   controllerArgs     []           # Is `Robot.controllerArgs`.
+  field SFString   window             "<generic>"  # Is `Robot.window`.
+  field SFString   customData         ""           # Is `Robot.customData`.
+  field SFBool     supervisor         FALSE        # Is `Robot.supervisor`.
+  field SFBool     synchronization    TRUE         # Is `Robot.synchronization`.
+  field SFBool     selfCollision      FALSE        # Is `Robot.selfCollision`.
+  field MFNode      endEffectorSlot   []           # Extends the robot at the Link7 flange frame.
+  field SFBool      staticBase        TRUE         # Defines whether the base is fixed to the static environment.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "OneRobotics A1"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    window IS window
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Shape {
+        appearance DEF BASE_APPEARANCE PBRAppearance {
+          baseColor 0.776471 0.756863 0.737255
+          roughness 0.7
+          metalness 0
+        }
+        geometry Mesh {
+          url "OneRoboticsA1/meshes/base_link.stl"
+        }
+      }
+      DEF JOINT1_A1_R HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor 0 0 0.0125
+        }
+        device [
+          RotationalMotor {
+            name "joint1-a1_r"
+            maxVelocity 2.6179938779914944
+            minPosition -1.04
+            maxPosition 3.14
+            maxTorque 26.859
+          }
+          PositionSensor {
+            name "joint1-a1_r_sensor"
+          }
+        ]
+        endPoint DEF LINK1 Solid {
+          translation 0 0 0.0125
+          name "Link1"
+          children [
+            Shape {
+              appearance DEF LINK_APPEARANCE PBRAppearance {
+                baseColor 0.898039 0.917647 0.929412
+                roughness 0.7
+                metalness 0
+              }
+              geometry Mesh {
+                url "OneRoboticsA1/meshes/link1.stl"
+              }
+            }
+            DEF JOINT2_A1_R HingeJoint {
+              jointParameters HingeJointParameters {
+                axis -0.00000367321 -0.999999999986 0
+                anchor 0 0 0.12745
+              }
+              device [
+                RotationalMotor {
+                  name "joint2-a1_r"
+                  maxVelocity 2.6179938779914944
+                  minPosition -3.14
+                  maxPosition 0.26
+                  maxTorque 26.859
+                }
+                PositionSensor {
+                  name "joint2-a1_r_sensor"
+                }
+              ]
+              endPoint DEF LINK2 Solid {
+                translation 0 0 0.12745
+                rotation 0.57734956246 0.57734956246 -0.57735168265 2.09439934434
+                name "Link2"
+                children [
+                  Shape {
+                    appearance USE LINK_APPEARANCE
+                    geometry Mesh {
+                      url "OneRoboticsA1/meshes/link2.stl"
+                    }
+                  }
+                  DEF JOINT3_A1_R HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis -0.00000367321 -0.999999999986 0
+                      anchor 0 -0.09325 -0.0001
+                    }
+                    device [
+                      RotationalMotor {
+                        name "joint3-a1_r"
+                        maxVelocity 2.6179938779914944
+                        minPosition -2.76
+                        maxPosition 2.76
+                        maxTorque 26.859
+                      }
+                      PositionSensor {
+                        name "joint3-a1_r_sensor"
+                      }
+                    ]
+                    endPoint DEF LINK3 Solid {
+                      translation 0 -0.09325 -0.0001
+                      rotation 0.57734956246 0.57734956246 -0.57735168265 2.09439934434
+                      name "Link3"
+                      children [
+                        Shape {
+                          appearance USE LINK_APPEARANCE
+                          geometry Mesh {
+                            url "OneRoboticsA1/meshes/link3.stl"
+                          }
+                        }
+                        DEF JOINT4_A1_R HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis -0.000067335822 -0.999999997733 0
+                            anchor 0 -0.001 0.14025
+                          }
+                          device [
+                            RotationalMotor {
+                              name "joint4-a1_r"
+                              maxVelocity 12.566370614359172
+                              minPosition -1.92
+                              maxPosition 1.92
+                              maxTorque 5.975
+                            }
+                            PositionSensor {
+                              name "joint4-a1_r_sensor"
+                            }
+                          ]
+                          endPoint DEF LINK4 Solid {
+                            translation 0 -0.001 0.14025
+                            rotation 0.999999998866 -0.000033667911 -0.000033667911 1.570796327928
+                            name "Link4"
+                            children [
+                              Shape {
+                                appearance USE LINK_APPEARANCE
+                                geometry Mesh {
+                                  url "OneRoboticsA1/meshes/link4.stl"
+                                }
+                              }
+                              DEF JOINT5_A1_R HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0 1 0
+                                  anchor 0 0.088 -0.001
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "joint5-a1_r"
+                                    maxVelocity 12.566370614359172
+                                    minPosition -2.23
+                                    maxPosition 2.23
+                                    maxTorque 5.975
+                                  }
+                                  PositionSensor {
+                                    name "joint5-a1_r_sensor"
+                                  }
+                                ]
+                                endPoint DEF LINK5 Solid {
+                                  translation 0 0.088 -0.001
+                                  rotation -1 0 0 1.57079632679444
+                                  name "Link5"
+                                  children [
+                                    Shape {
+                                      appearance USE LINK_APPEARANCE
+                                      geometry Mesh {
+                                        url "OneRoboticsA1/meshes/link5.stl"
+                                      }
+                                    }
+                                    DEF JOINT6_A1_R HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 0.999999999993 -0.00000367321
+                                        anchor 0 0.0005 0.133
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "joint6-a1_r"
+                                          maxVelocity 12.566370614359172
+                                          minPosition -1.57
+                                          maxPosition 1.57
+                                          maxTorque 5.975
+                                        }
+                                        PositionSensor {
+                                          name "joint6-a1_r_sensor"
+                                        }
+                                      ]
+                                      endPoint DEF LINK6 Solid {
+                                        translation 0 0.0005 0.133
+                                        rotation -1 0 0 1.5708
+                                        name "Link6"
+                                        children [
+                                          Shape {
+                                            appearance DEF WHITE_APPEARANCE PBRAppearance {
+                                              baseColor 1 1 1
+                                              roughness 0.7
+                                              metalness 0
+                                            }
+                                            geometry Mesh {
+                                              url "OneRoboticsA1/meshes/link6.stl"
+                                            }
+                                          }
+                                          DEF JOINT7_A1_R HingeJoint {
+                                            jointParameters HingeJointParameters {
+                                              axis 0 -0.999999999993 -0.00000367321
+                                              anchor 0 -0.112 0.00025
+                                            }
+                                            device [
+                                              RotationalMotor {
+                                                name "joint7-a1_r"
+                                                maxVelocity 12.566370614359172
+                                                minPosition -2.76
+                                                maxPosition 2.76
+                                                maxTorque 5.975
+                                              }
+                                              PositionSensor {
+                                                name "joint7-a1_r_sensor"
+                                              }
+                                            ]
+                                            endPoint DEF LINK7 Solid {
+                                              translation 0 -0.112 0.00025
+                                              rotation 1 0 0 1.5708
+                                              name "Link7"
+                                              children [
+                                                Shape {
+                                                  appearance USE LINK_APPEARANCE
+                                                  geometry Mesh {
+                                                    url "OneRoboticsA1/meshes/link7.stl"
+                                                  }
+                                                }
+                                                Group {
+                                                  children IS endEffectorSlot
+                                                }
+                                              ]
+                                              boundingObject Pose {
+                                                translation 0 -0.00400022045 0.00300000224
+                                                children [
+                                                  Box {
+                                                    size 0.0399969071 0.0479973443 0.00599998352
+                                                  }
+                                                ]
+                                              }
+                                              physics Physics {
+                                                density -1
+                                                mass 0.2
+                                                centerOfMass [
+                                                  1.47613369245068e-07 -0.00220208936053254 0.00293052049190767
+                                                ]
+                                                inertiaMatrix [
+                                                  3.17582e-05 2.13489e-05 5.19434e-05
+                                                  -7.00790e-10 1.46490e-12 2.51150e-08
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                        boundingObject Pose {
+                                          translation -1.86264515e-09 -0.0427666735 0.000250000507
+                                          children [
+                                            Box {
+                                              size 0.0685922913 0.152866427 0.0755060315
+                                            }
+                                          ]
+                                        }
+                                        physics Physics {
+                                          density -1
+                                          mass 0.289938784061927
+                                          centerOfMass [
+                                            1.41083567195476e-05 -0.0616500007920044 0.00592126579182656
+                                          ]
+                                          inertiaMatrix [
+                                            0.000346578289881221 0.000183154957217547 0.000268358636952706
+                                            -3.69413578027761e-07 1.71707534440891e-07 -3.25615026642568e-05
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                  boundingObject Pose {
+                                    translation -3.7252903e-08 -7.67409801e-07 0.0962052038
+                                    children [
+                                      Box {
+                                        size 0.0736469477 0.0782774165 0.146410407
+                                      }
+                                    ]
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.333953527048094
+                                    centerOfMass [
+                                      -2.1819607269304e-06 0.000940045309240356 0.0983077176130554
+                                    ]
+                                    inertiaMatrix [
+                                      0.000324219442352689 0.000299078218859742 0.000161241194938864
+                                      -1.17918294445498e-09 -7.21118252231978e-08 5.7924183985276e-06
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                            boundingObject Pose {
+                              translation -1.06208026e-05 0.0370402206 0.00140561722
+                              children [
+                                Box {
+                                  size 0.0791052133 0.151920628 0.0950092338
+                                }
+                              ]
+                            }
+                            physics Physics {
+                              density -1
+                              mass 0.252142897202372
+                              centerOfMass [
+                                9.99808131922311e-07 0.0625047132640995 0.00555704355349793
+                              ]
+                              inertiaMatrix [
+                                0.000178779070280237 0.000146134678616042 0.000165597697680657
+                                -6.97346977234495e-09 -7.78451594087313e-10 3.30147349592292e-05
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                      boundingObject Pose {
+                        translation -6.16535544e-07 0.0022422336 0.103728811
+                        children [
+                          Box {
+                            size 0.083078187 0.0953728482 0.150957623
+                          }
+                        ]
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.407125793506889
+                        centerOfMass [
+                          -1.43987309591522e-05 0.00178404133280441 0.109669668659996
+                        ]
+                        inertiaMatrix [
+                          0.000446520666780017 0.000343044757246363 0.000286204871222088
+                          -8.24275545731468e-09 1.61110520939152e-07 -1.30123176926368e-05
+                        ]
+                      }
+                    }
+                  }
+                ]
+                boundingObject Pose {
+                  translation -2.65780836e-05 -0.0428896453 -0.00210620463
+                  children [
+                    Box {
+                      size 0.0880398937 0.162637953 0.0978501514
+                    }
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 0.387770755219132
+                  centerOfMass [
+                    -4.66303482215547e-05 -0.0610765811025605 0.00481122218899704
+                  ]
+                  inertiaMatrix [
+                    0.000597204372907025 0.000348292487571024 0.000403661570691348
+                    8.36763420077846e-07 -2.69873967501812e-08 -2.93717934653094e-05
+                  ]
+                }
+              }
+            }
+          ]
+          boundingObject Pose {
+            translation 1.5873462e-05 2.51457095e-07 0.0866788121
+            children [
+              Box {
+                size 0.0900870487 0.0800006501 0.17164011
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.438675872181416
+            centerOfMass [
+              0.000104793909039569 0.000878025489583305 0.0937688680157419
+            ]
+            inertiaMatrix [
+              0.00060517294321352 0.000501491467720591 0.00025580993277449
+              3.1414337686272e-07 9.46425739217291e-07 -3.30016145254686e-05
+            ]
+          }
+        }
+      }
+    ]
+    boundingObject Pose {
+      translation -7.96951354e-05 0 0.0167499976
+      children [
+        Box {
+          size 0.0842214301 0.0689999983 0.0649999958
+        }
+      ]
+    }
+    %< if (!fields.staticBase.value) { >%
+    physics Physics {
+      density -1
+      mass 0.401650168942009
+      centerOfMass [
+        -2.12826196715557e-05 -5.52026218782097e-05 0.0171427754448579
+      ]
+      inertiaMatrix [
+        0.000237179758518644 0.000248236117612461 0.000305122605170233
+        1.22424408206913e-07 1.57836402935181e-07 7.93541349379853e-07
+      ]
+    }
+    %< } >%
+  }
+}
