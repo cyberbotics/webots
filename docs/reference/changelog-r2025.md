@@ -5,6 +5,7 @@ Released on ??.
   - New Features
     - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
   - New Devices and Objects
+    - Added a model of the [OneRobotics A1](https://github.com/katazen/onerobot_h1) 7-DoF robotic arm.
     - Added model of the [Robolab](https://robolab.unex.es/)'s P3Bot robot and two sample worlds ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
     - Added [Kinova Gen3 7DoF](https://www.kinovarobotics.com/product/gen3-robot) manipulator ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
   - Enhancements

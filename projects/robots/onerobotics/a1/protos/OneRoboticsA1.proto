@@ -76,6 +76,7 @@ PROTO OneRoboticsA1 [
               geometry Mesh {
                 url "OneRoboticsA1/meshes/link1.stl"
               }
+              castShadows FALSE
             }
             DEF JOINT2_A1_R HingeJoint {
               jointParameters HingeJointParameters {
@@ -132,6 +133,7 @@ PROTO OneRoboticsA1 [
                           geometry Mesh {
                             url "OneRoboticsA1/meshes/link3.stl"
                           }
+                          castShadows FALSE
                         }
                         DEF JOINT4_A1_R HingeJoint {
                           jointParameters HingeJointParameters {
@@ -188,6 +190,7 @@ PROTO OneRoboticsA1 [
                                       geometry Mesh {
                                         url "OneRoboticsA1/meshes/link5.stl"
                                       }
+                                      castShadows FALSE
                                     }
                                     DEF JOINT6_A1_R HingeJoint {
                                       jointParameters HingeJointParameters {
