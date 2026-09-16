@@ -9,7 +9,7 @@
 # Changes: converted from URDF, approximated collision meshes with boxes, renamed mesh files to lowercase, and applied the published hardware motor limits.
 
 PROTO OneRoboticsA1 [
-  field SFVec3f     translation        0 0 0        # Is `Pose.translation`.
+  field SFVec3f    translation        0 0 0        # Is `Pose.translation`.
   field SFRotation rotation           0 0 1 0      # Is `Pose.rotation`.
   field SFString   name               "OneRobotics A1" # Is `Solid.name`.
   field SFString   controller         "<generic>"  # Is `Robot.controller`.
@@ -19,8 +19,8 @@ PROTO OneRoboticsA1 [
   field SFBool     supervisor         FALSE        # Is `Robot.supervisor`.
   field SFBool     synchronization    TRUE         # Is `Robot.synchronization`.
   field SFBool     selfCollision      FALSE        # Is `Robot.selfCollision`.
-  field MFNode      endEffectorSlot   []           # Extends the robot at the Link7 flange frame.
-  field SFBool      staticBase        TRUE         # Defines whether the base is fixed to the static environment.
+  field MFNode     endEffectorSlot    []           # Extends the robot at the Link7 flange frame.
+  field SFBool     staticBase         TRUE         # Defines whether the base is fixed to the static environment.
 ]
 {
   Robot {
