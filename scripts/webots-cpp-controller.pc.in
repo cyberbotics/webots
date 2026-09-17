@@ -1,0 +1,13 @@
+prefix=@WEBOTS_PC_PREFIX@
+exec_prefix=@WEBOTS_PC_EXEC_PREFIX@
+libdir=@WEBOTS_PC_LIBDIR@
+includedir=@WEBOTS_PC_INCLUDEDIR@
+controller_c_includedir=@WEBOTS_PC_CONTROLLER_C_INCLUDEDIR@
+controller_cpp_includedir=@WEBOTS_PC_CONTROLLER_CPP_INCLUDEDIR@
+
+Name: Webots C++ controller
+Description: Webots C++ controller library
+Version: @WEBOTS_VERSION@
+Requires: webots-controller
+Libs: -L${libdir} -lCppController
+Cflags: -I${includedir} -I${controller_c_includedir} -I${controller_cpp_includedir}

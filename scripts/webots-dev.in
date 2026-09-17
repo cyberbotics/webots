@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+. "@WEBOTS_DEV_BINARY_DIR@/webots-dev-env.sh"
+
+if [ "$#" -eq 0 ]; then
+  set -- "$WEBOTS_DEV_EXECUTABLE"
+elif ! command -v "$1" >/dev/null 2>&1 && [ ! -x "$1" ]; then
+  set -- "$WEBOTS_DEV_EXECUTABLE" "$@"
+fi
+
+exec "$@"

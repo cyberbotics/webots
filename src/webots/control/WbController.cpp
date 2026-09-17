@@ -440,8 +440,12 @@ void WbController::setProcessEnvironment() {
   // store a unique robot name for the controller
   env.insert("WEBOTS_ROBOT_NAME", mRobot->name());
 
-  // Add the Webots lib path to be able to load (at least) libController
-  QString ldLibraryPath = WbStandardPaths::controllerLibPath();
+  // Add the Webots lib path to be able to load (at least) libController.
+  // A CMake build tree can provide an alternate controller SDK path through
+  // the developer environment without mimicking the installed lib/controller layout.
+  QString ldLibraryPath = env.value("WEBOTS_CONTROLLER_LIB_PATH");
+  if (ldLibraryPath.isEmpty())
+    ldLibraryPath = WbStandardPaths::controllerLibPath();
   ldLibraryPath.chop(1);
   addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false, true);
   // Remove paths needed by Webots only
