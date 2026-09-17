@@ -5,10 +5,14 @@ model represents the independent right-arm revision published by OneRobotics.
 
 The model was converted from the published
 [`a1_r.urdf`](https://github.com/katazen/onerobot_h1/blob/ecf530911284ba0e559f7a24dc222fd8e60d31ed/source/h1_reach/h1_reach/assets/urdf/A1_2026/a1_r.urdf).
-The visual meshes, kinematics, joint limits, masses, centers of mass, and inertia matrices come from source commit
+The visual geometry, kinematics, joint limits, masses, centers of mass, and inertia matrices come from source commit
 [`ecf530911284ba0e559f7a24dc222fd8e60d31ed`](https://github.com/katazen/onerobot_h1/commit/ecf530911284ba0e559f7a24dc222fd8e60d31ed).
-Collision meshes were approximated with boxes, mesh filenames were changed to lowercase, and the source repository's
-published hardware motor limits were applied.
+The visual assets are derived from the eight published STL files: each connected part was conservatively decimated,
+triangles occluded by the link exterior were removed, and the remaining surfaces were exported as OBJ with
+crease-aware vertex normals and UV coordinates. This reduced the visual mesh family from 143,638 to 52,775 triangles
+while keeping the source coordinate frames and visible shape. The PROTO uses Webots' `Plastic` PBR appearance and casts
+shadows on all links. Collision geometry was approximated with boxes, and the source repository's published hardware
+motor limits were applied. The OBJ files are modified derivatives, not byte-identical copies of the source STL files.
 
 The robot assets are © 2026 OneRobotics and licensed under the
 [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/).

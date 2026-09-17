@@ -6,7 +6,9 @@
 # template language: javascript
 # Model of the fixed-base OneRobotics A1 right arm.
 # Source: https://github.com/katazen/onerobot_h1/tree/ecf530911284ba0e559f7a24dc222fd8e60d31ed/source/h1_reach/h1_reach/assets/urdf/A1_2026
-# Changes: converted from URDF, approximated collision meshes with boxes, renamed mesh files to lowercase, and applied the published hardware motor limits.
+# Changes: converted from URDF, approximated collision meshes with boxes, optimized visual meshes as smooth-shaded OBJ, and applied published motor limits.
+
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 PROTO OneRoboticsA1 [
   field SFVec3f    translation        0 0 0        # Is `Pose.translation`.
@@ -37,13 +39,11 @@ PROTO OneRoboticsA1 [
     selfCollision IS selfCollision
     children [
       Shape {
-        appearance DEF BASE_APPEARANCE PBRAppearance {
-          baseColor 0.776471 0.756863 0.737255
-          roughness 0.7
-          metalness 0
+        appearance DEF BASE_APPEARANCE Plastic {
+          colorOverride 0.776471 0.756863 0.737255
         }
         geometry Mesh {
-          url "OneRoboticsA1/meshes/base_link.stl"
+          url "OneRoboticsA1/meshes/base_link.obj"
         }
       }
       DEF JOINT1_A1_R HingeJoint {
@@ -68,15 +68,12 @@ PROTO OneRoboticsA1 [
           name "Link1"
           children [
             Shape {
-              appearance DEF LINK_APPEARANCE PBRAppearance {
-                baseColor 0.898039 0.917647 0.929412
-                roughness 0.7
-                metalness 0
+              appearance DEF LINK_APPEARANCE Plastic {
+                colorOverride 0.898039 0.917647 0.929412
               }
               geometry Mesh {
-                url "OneRoboticsA1/meshes/link1.stl"
+                url "OneRoboticsA1/meshes/link1.obj"
               }
-              castShadows FALSE
             }
             DEF JOINT2_A1_R HingeJoint {
               jointParameters HingeJointParameters {
@@ -103,7 +100,7 @@ PROTO OneRoboticsA1 [
                   Shape {
                     appearance USE LINK_APPEARANCE
                     geometry Mesh {
-                      url "OneRoboticsA1/meshes/link2.stl"
+                      url "OneRoboticsA1/meshes/link2.obj"
                     }
                   }
                   DEF JOINT3_A1_R HingeJoint {
@@ -131,9 +128,8 @@ PROTO OneRoboticsA1 [
                         Shape {
                           appearance USE LINK_APPEARANCE
                           geometry Mesh {
-                            url "OneRoboticsA1/meshes/link3.stl"
+                            url "OneRoboticsA1/meshes/link3.obj"
                           }
-                          castShadows FALSE
                         }
                         DEF JOINT4_A1_R HingeJoint {
                           jointParameters HingeJointParameters {
@@ -160,7 +156,7 @@ PROTO OneRoboticsA1 [
                               Shape {
                                 appearance USE LINK_APPEARANCE
                                 geometry Mesh {
-                                  url "OneRoboticsA1/meshes/link4.stl"
+                                  url "OneRoboticsA1/meshes/link4.obj"
                                 }
                               }
                               DEF JOINT5_A1_R HingeJoint {
@@ -188,9 +184,8 @@ PROTO OneRoboticsA1 [
                                     Shape {
                                       appearance USE LINK_APPEARANCE
                                       geometry Mesh {
-                                        url "OneRoboticsA1/meshes/link5.stl"
+                                        url "OneRoboticsA1/meshes/link5.obj"
                                       }
-                                      castShadows FALSE
                                     }
                                     DEF JOINT6_A1_R HingeJoint {
                                       jointParameters HingeJointParameters {
@@ -215,13 +210,11 @@ PROTO OneRoboticsA1 [
                                         name "Link6"
                                         children [
                                           Shape {
-                                            appearance DEF WHITE_APPEARANCE PBRAppearance {
-                                              baseColor 1 1 1
-                                              roughness 0.7
-                                              metalness 0
+                                            appearance DEF WHITE_APPEARANCE Plastic {
+                                              colorOverride 1 1 1
                                             }
                                             geometry Mesh {
-                                              url "OneRoboticsA1/meshes/link6.stl"
+                                              url "OneRoboticsA1/meshes/link6.obj"
                                             }
                                           }
                                           DEF JOINT7_A1_R HingeJoint {
@@ -249,7 +242,7 @@ PROTO OneRoboticsA1 [
                                                 Shape {
                                                   appearance USE LINK_APPEARANCE
                                                   geometry Mesh {
-                                                    url "OneRoboticsA1/meshes/link7.stl"
+                                                    url "OneRoboticsA1/meshes/link7.obj"
                                                   }
                                                 }
                                                 Group {
