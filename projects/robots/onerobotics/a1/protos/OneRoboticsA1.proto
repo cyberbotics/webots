@@ -39,14 +39,14 @@ PROTO OneRoboticsA1 [
     selfCollision IS selfCollision
     children [
       Shape {
-        appearance DEF BASE_APPEARANCE Plastic {
+        appearance Plastic {
           colorOverride 0.776471 0.756863 0.737255
         }
         geometry Mesh {
           url "OneRoboticsA1/meshes/base_link.obj"
         }
       }
-      DEF JOINT1_A1_R HingeJoint {
+      HingeJoint {
         jointParameters HingeJointParameters {
           axis 0 0 1
           anchor 0 0 0.0125
@@ -63,7 +63,7 @@ PROTO OneRoboticsA1 [
             name "joint1-a1_r_sensor"
           }
         ]
-        endPoint DEF LINK1 Solid {
+        endPoint Solid {
           translation 0 0 0.0125
           name "Link1"
           children [
@@ -75,7 +75,7 @@ PROTO OneRoboticsA1 [
                 url "OneRoboticsA1/meshes/link1.obj"
               }
             }
-            DEF JOINT2_A1_R HingeJoint {
+            HingeJoint {
               jointParameters HingeJointParameters {
                 axis -0.00000367321 -0.999999999986 0
                 anchor 0 0 0.12745
@@ -92,7 +92,7 @@ PROTO OneRoboticsA1 [
                   name "joint2-a1_r_sensor"
                 }
               ]
-              endPoint DEF LINK2 Solid {
+              endPoint Solid {
                 translation 0 0 0.12745
                 rotation 0.57734956246 0.57734956246 -0.57735168265 2.09439934434
                 name "Link2"
@@ -103,7 +103,7 @@ PROTO OneRoboticsA1 [
                       url "OneRoboticsA1/meshes/link2.obj"
                     }
                   }
-                  DEF JOINT3_A1_R HingeJoint {
+                  HingeJoint {
                     jointParameters HingeJointParameters {
                       axis -0.00000367321 -0.999999999986 0
                       anchor 0 -0.09325 -0.0001
@@ -120,7 +120,7 @@ PROTO OneRoboticsA1 [
                         name "joint3-a1_r_sensor"
                       }
                     ]
-                    endPoint DEF LINK3 Solid {
+                    endPoint Solid {
                       translation 0 -0.09325 -0.0001
                       rotation 0.57734956246 0.57734956246 -0.57735168265 2.09439934434
                       name "Link3"
@@ -131,7 +131,7 @@ PROTO OneRoboticsA1 [
                             url "OneRoboticsA1/meshes/link3.obj"
                           }
                         }
-                        DEF JOINT4_A1_R HingeJoint {
+                        HingeJoint {
                           jointParameters HingeJointParameters {
                             axis -0.000067335822 -0.999999997733 0
                             anchor 0 -0.001 0.14025
@@ -148,7 +148,7 @@ PROTO OneRoboticsA1 [
                               name "joint4-a1_r_sensor"
                             }
                           ]
-                          endPoint DEF LINK4 Solid {
+                          endPoint Solid {
                             translation 0 -0.001 0.14025
                             rotation 0.999999998866 -0.000033667911 -0.000033667911 1.570796327928
                             name "Link4"
@@ -159,7 +159,7 @@ PROTO OneRoboticsA1 [
                                   url "OneRoboticsA1/meshes/link4.obj"
                                 }
                               }
-                              DEF JOINT5_A1_R HingeJoint {
+                              HingeJoint {
                                 jointParameters HingeJointParameters {
                                   axis 0 1 0
                                   anchor 0 0.088 -0.001
@@ -176,7 +176,7 @@ PROTO OneRoboticsA1 [
                                     name "joint5-a1_r_sensor"
                                   }
                                 ]
-                                endPoint DEF LINK5 Solid {
+                                endPoint Solid {
                                   translation 0 0.088 -0.001
                                   rotation -1 0 0 1.57079632679444
                                   name "Link5"
@@ -187,7 +187,7 @@ PROTO OneRoboticsA1 [
                                         url "OneRoboticsA1/meshes/link5.obj"
                                       }
                                     }
-                                    DEF JOINT6_A1_R HingeJoint {
+                                    HingeJoint {
                                       jointParameters HingeJointParameters {
                                         axis 0 0.999999999993 -0.00000367321
                                         anchor 0 0.0005 0.133
@@ -204,20 +204,20 @@ PROTO OneRoboticsA1 [
                                           name "joint6-a1_r_sensor"
                                         }
                                       ]
-                                      endPoint DEF LINK6 Solid {
+                                      endPoint Solid {
                                         translation 0 0.0005 0.133
                                         rotation -1 0 0 1.5708
                                         name "Link6"
                                         children [
                                           Shape {
-                                            appearance DEF WHITE_APPEARANCE Plastic {
+                                            appearance Plastic {
                                               colorOverride 1 1 1
                                             }
                                             geometry Mesh {
                                               url "OneRoboticsA1/meshes/link6.obj"
                                             }
                                           }
-                                          DEF JOINT7_A1_R HingeJoint {
+                                          HingeJoint {
                                             jointParameters HingeJointParameters {
                                               axis 0 -0.999999999993 -0.00000367321
                                               anchor 0 -0.112 0.00025
@@ -234,7 +234,7 @@ PROTO OneRoboticsA1 [
                                                 name "joint7-a1_r_sensor"
                                               }
                                             ]
-                                            endPoint DEF LINK7 Solid {
+                                            endPoint Solid {
                                               translation 0 -0.112 0.00025
                                               rotation 1 0 0 1.5708
                                               name "Link7"
