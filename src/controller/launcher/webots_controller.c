@@ -72,11 +72,10 @@ static void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-static void replace_char(const char *string, char occurrence, char replace) {
-  char *current_pos = strchr(string, occurrence);
-  while (current_pos) {
-    *current_pos = replace;
-    current_pos = strchr(current_pos + 1, occurrence);
+static void replace_char(char *string, char occurrence, char replace) {
+  for (char *current_pos = string; *current_pos; ++current_pos) {
+    if (*current_pos == occurrence)
+      *current_pos = replace;
   }
 }
 

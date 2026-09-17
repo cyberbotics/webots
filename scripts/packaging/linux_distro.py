@@ -34,7 +34,7 @@ class LinuxWebotsPackage(WebotsPackage):
         "liblcms2.so.2",
         "libopenjp2.so.7",
         "libpng16.so.16",
-        "libssh-gcrypt.so.4",   # needed by Robotis OP2
+        ("libssh-gcrypt.so.4", "libssh.so.4"),   # needed by Robotis OP2
         "libwebpmux.so.3",
         "libXi.so.6",
         "libXrender.so.1",
@@ -63,6 +63,13 @@ class LinuxWebotsPackage(WebotsPackage):
         "libwebp.so.7",
         "libzip.so.4",
         "libx264.so.164"
+    ]
+    USR_LIB_X68_64_26_04 = [
+        "libIex-3_1.so.30",
+        "libIlmThread-3_1.so.30",
+        "libwebp.so.7",
+        "libzip.so.5",
+        "libx264.so.165"
     ]
 
     def __init__(self, package_name):
@@ -177,7 +184,7 @@ class LinuxWebotsPackage(WebotsPackage):
                 "Depends: make, g++, libatk1.0-0 (>= 1.9.0), ffmpeg, libdbus-1-3, libfreeimage3 (>= 3.15.4-3), "
                 "libglib2.0-0 (>= 2.10.0), libegl1, libglu1-mesa | libglu1, libgtk-3-0, "
                 "libnss3, libstdc++6 (>= 4.0.2-4), libxaw7, libxrandr2, libxrender1, "
-                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, "
+                "libssh-dev, libzip-dev, xserver-xorg-core, libxslt1.1, libsndio7.0, "
                 "libfreetype6, libxkbcommon-x11-0, libxcb-keysyms1, libxcb-image0, libxcb-icccm4, "
                 "libxcb-randr0, libxcb-render-util0, libxcb-xinerama0, libxcb-cursor0\n"
                 "Conflicts: webots-for-nao\n"
@@ -207,10 +214,20 @@ class LinuxWebotsPackage(WebotsPackage):
         if distro.version() == '24.04':
             usr_lib_x68_64 += self.USR_LIB_X68_64_24_04
             usr_lib_x68_64.append('libraw.so.23')
+        if distro.version() == '26.04':
+            usr_lib_x68_64 += self.USR_LIB_X68_64_26_04
+            usr_lib_x68_64.append('libraw.so.23')
         system_lib_path = os.path.join('/usr', 'lib', 'x86_64-linux-gnu')
         package_webots_lib = os.path.join(self.package_webots_path, 'lib', 'webots')
         for lib in usr_lib_x68_64:
-            shutil.copy(os.path.join(system_lib_path, lib), package_webots_lib)
+            candidates = lib if isinstance(lib, tuple) else (lib,)
+            for candidate in candidates:
+                lib_path = os.path.join(system_lib_path, candidate)
+                if os.path.exists(lib_path):
+                    shutil.copy(lib_path, package_webots_lib)
+                    break
+            else:
+                shutil.copy(os.path.join(system_lib_path, candidates[0]), package_webots_lib)
 
         os.chdir(self.package_webots_path)
         os.chdir('..')

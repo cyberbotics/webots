@@ -4,17 +4,32 @@
 set -e
 
 QT_VERSION=6.5.3
-pip install --no-input aqtinstall
-aqt install-qt --outputdir ~/Qt linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
-QT_INSTALLATION_PATH=~/Qt/${QT_VERSION}/gcc_64
-QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
-QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
-QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
-QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
-QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
-QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
+QT_OUTPUT_DIR="$HOME/Qt"
 
 WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
+
+# aqtinstall is installed in a local virtual environment: recent Linux distributions mark
+# the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
+AQT_VENV="$WEBOTS_HOME/dependencies/aqt-venv"
+if [ ! -x "$AQT_VENV/bin/python3" ] || ! "$AQT_VENV/bin/python3" -m pip --version > /dev/null 2>&1; then
+  rm -rf "$AQT_VENV"
+  python3 -m venv "$AQT_VENV"
+fi
+if ! "$AQT_VENV/bin/python3" -m aqt version > /dev/null 2>&1; then
+  "$AQT_VENV/bin/python3" -m pip install --no-input aqtinstall
+fi
+
+QT_INSTALLATION_PATH="$QT_OUTPUT_DIR/${QT_VERSION}/gcc_64"
+QT_INSTALLATION_BIN_PATH=${QT_INSTALLATION_PATH}/bin
+QT_INSTALLATION_LIB_PATH=${QT_INSTALLATION_PATH}/lib
+QT_INSTALLATION_INCLUDE_PATH=${QT_INSTALLATION_PATH}/include
+if [ ! -x "${QT_INSTALLATION_BIN_PATH}/qmake" ] || [ ! -d "${QT_INSTALLATION_INCLUDE_PATH}/QtWebSockets" ] || \
+   ! compgen -G "${QT_INSTALLATION_LIB_PATH}/libQt6WebSockets.so*" > /dev/null; then
+  "$AQT_VENV/bin/python3" -m aqt install-qt --outputdir "$QT_OUTPUT_DIR" linux desktop ${QT_VERSION} gcc_64 -m qtwebsockets
+fi
+QT_INSTALLATION_LIBEXEC_PATH=${QT_INSTALLATION_PATH}/libexec
+QT_INSTALLATION_PLUGINS_PATH=${QT_INSTALLATION_PATH}/plugins
+QT_INSTALLATION_TRANSLATIONS_PATH=${QT_INSTALLATION_PATH}/translations
 
 echo Installing Qt in Webots
 echo Source: $QT_INSTALLATION_PATH

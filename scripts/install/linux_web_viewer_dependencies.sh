@@ -10,6 +10,9 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
+WEBOTS_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}" )"/../.. && pwd)"
+EMSDK_VERSION=6.0.9
+
 # Detect the operating system
 if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -22,7 +25,7 @@ fi
 
 install_ubuntu_web_viewer_packages() {
     alias apt='apt --option="APT::Acquire::Retries=3"'
-    apt install python3-pip python3-setuptools -y
+    apt install python3-pip python3-setuptools python3-venv -y
 }
 
 install_fedora_web_viewer_packages() {
@@ -43,19 +46,49 @@ case "$OS" in
         ;;
 esac
 
-pip3 install --upgrade pip
-pip3 install pyclibrary
+TARGET_USER="${SUDO_USER:-root}"
+TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d ':' -f 6)
+TARGET_GROUP=$(id -gn "$TARGET_USER")
 
-git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
+if [[ -z "$TARGET_HOME" || -z "$TARGET_GROUP" ]]; then
+  echo "Cannot determine the home directory for user: $TARGET_USER"
+  exit 1
+fi
 
-USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
+# pyclibrary is installed in a local virtual environment: recent Linux distributions mark
+# the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
+PYCLIBRARY_VENV="$WEBOTS_HOME/dependencies/pyclibrary-venv"
+if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ] || ! "$PYCLIBRARY_VENV/bin/python3" -m pip --version > /dev/null 2>&1; then
+  rm -rf "$PYCLIBRARY_VENV"
+  python3 -m venv "$PYCLIBRARY_VENV"
+fi
+if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; then
+  "$PYCLIBRARY_VENV/bin/python3" -m pip install --no-input pyclibrary
+fi
+chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 
-./dependencies/emsdk/emsdk install latest
-./dependencies/emsdk/emsdk activate latest
-chown -R $USER dependencies/emsdk
+# Emscripten is pinned to a known working version; both emsdk commands are idempotent
+EMSDK_PATH="$WEBOTS_HOME/dependencies/emsdk"
+if [ ! -d "$EMSDK_PATH" ]; then
+  git clone https://github.com/emscripten-core/emsdk.git "$EMSDK_PATH"
+fi
+"$EMSDK_PATH/emsdk" install "${EMSDK_VERSION}" && "$EMSDK_PATH/emsdk" activate "${EMSDK_VERSION}"
+if [ ! -x "$EMSDK_PATH/upstream/emscripten/emcc" ]; then
+  echo "Failed to install EMSDK ${EMSDK_VERSION}"
+  exit 1
+fi
+chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
 
-WEBOTS_HOME=$(pwd)
-echo 'source "'$WEBOTS_HOME'/dependencies/emsdk/emsdk_env.sh" >/dev/null 2>&1' >> /home/$USER/.bashrc
+# Activate emsdk in interactive shells (same approach as the macOS and Windows bash profiles)
+EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
+BASHRC="$TARGET_HOME/.bashrc"
+if [ ! -f "$BASHRC" ]; then
+  touch "$BASHRC"
+  chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC"
+fi
+if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC"; then
+  echo "$EMSDK_SOURCE_LINE" >> "$BASHRC"
+fi
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
