@@ -37,7 +37,6 @@ class Command(object):
         self.expectedStringFound = False
         self.isTimeout = False
         self.mainProcess = None
-        self.mainProcessOwnsSession = False
         self.mainThread = None
         self.returncode = 0
         self.output = ''
@@ -61,8 +60,7 @@ class Command(object):
         process = self.mainProcess
         if not process:
             return
-        if self.mainProcessOwnsSession and hasattr(os, 'killpg'):
-            # the process was started in its own session: also reach its children (webots-bin, controllers)
+        if hasattr(os, 'killpg'):  # POSIX only: os.killpg does not exist on Windows
             try:
                 if os.getpgid(process.pid) != os.getpgid(0):
                     os.killpg(os.getpgid(process.pid), signal.SIGKILL if force else signal.SIGTERM)
@@ -192,7 +190,6 @@ class Command(object):
             # (on POSIX; the option is ignored on Windows)
             p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
             self.mainProcess = p
-            self.mainProcessOwnsSession = hasattr(os, 'killpg')
             q = queue.Queue()
             # daemon threads: a child keeping the pipes open after a timeout must not prevent the interpreter from exiting
             to = threading.Thread(target=enqueue_stream, args=(p.stdout, q, 1), daemon=True)
