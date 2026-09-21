@@ -47,13 +47,7 @@ case "$OS" in
 esac
 
 TARGET_USER="${SUDO_USER:-root}"
-TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d ':' -f 6)
 TARGET_GROUP=$(id -gn "$TARGET_USER")
-
-if [[ -z "$TARGET_HOME" || -z "$TARGET_GROUP" ]]; then
-  echo "Cannot determine the home directory for user: $TARGET_USER"
-  exit 1
-fi
 
 # pyclibrary is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
@@ -73,17 +67,6 @@ if [ ! -x "$EMSDK_PATH/upstream/emscripten/emcc" ]; then
   exit 1
 fi
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$EMSDK_PATH"
-
-# Activate emsdk in interactive shells (same approach as the macOS and Windows bash profiles)
-EMSDK_SOURCE_LINE='source "'$EMSDK_PATH'/emsdk_env.sh" >/dev/null 2>&1'
-BASHRC="$TARGET_HOME/.bashrc"
-if [ ! -f "$BASHRC" ]; then
-  touch "$BASHRC"
-  chown "$TARGET_USER":"$TARGET_GROUP" "$BASHRC"
-fi
-if ! grep -qxF "$EMSDK_SOURCE_LINE" "$BASHRC"; then
-  echo "$EMSDK_SOURCE_LINE" >> "$BASHRC"
-fi
 
 if [[ "$OS" == "fedora" ]]; then
     echo "WARNING: Fedora is not an officially supported OS! Dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
