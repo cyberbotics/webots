@@ -77,6 +77,16 @@ The JavaScript and C files deal with the interactions between the page and the r
 ![cylinder_stack.png](images/samples/cylinder_stack.thumbnail.jpg) In this example, a stack of cylinders collapses.
 A [Supervisor](../reference/supervisor.md) controller gets information on the contact points and displays the reaction forces in the `Console`.
 
+### [docker.wbt]({{ url.github_tree }}/projects/samples/howto/docker/simulation/worlds/docker.wbt)
+
+**Keywords**: Docker, extern controller, simulation server, competition
+
+![docker.jpg](images/samples/docker.thumbnail.jpg) This example demonstrates how to run Webots and an extern controller in separate Docker containers, which keeps competitors' controllers isolated from the simulation and from each other.
+It is meant for setups such as a robot-programming competition server, where the organizers provide the world file and a referee supervisor controller while the competitors supply the robot controllers.
+The demo works on Linux only.
+Two Python launchers are provided: `launcher_without_docker.py` starts Webots with the `--extern-urls` command line option and runs the controller directly, while `launcher.py` builds and runs the world and the controller in their own containers.
+See the [README]({{ url.github_blob }}/projects/samples/howto/docker/README.md) for the setup steps and Docker prerequisites.
+
 ### [force\_control.wbt]({{ url.github_tree }}/projects/samples/howto/force_control/worlds/force_control.wbt)
 
 **Keywords**: Force control, linear motor, spring and damper

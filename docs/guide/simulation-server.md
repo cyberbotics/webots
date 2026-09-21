@@ -116,13 +116,13 @@ If you are installing the simulation server on the same machine as the session s
     ```
     RewriteCond %{HTTP:Upgrade} websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade [NC]
-    RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
+    RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]                 # session server
     RewriteCond %{HTTP:Upgrade} websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade [NC]
-    RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
+    RewriteRule ^/2(\d{3})(?:/(.*))?$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
     RewriteCond %{HTTP:Upgrade} websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade [NC]
-    RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
+    RewriteRule ^/3(\d{3})(?:/(.*))?$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
     ⋮
 
     RewriteRule ^/1999/(.*)$ "http://localhost:$1/$2" [P,L]          # session server

@@ -28,6 +28,8 @@
 #include <QtOpenGL/QOpenGLShaderProgram>
 #include <QtOpenGL/QOpenGLVersionFunctionsFactory>
 
+#include <cmath>
+
 static const char *gVertexShaderSource = "#version 330\n"
                                          "layout (location = 0) in vec4 posAttr;\n"
                                          "layout (location = 1) in vec2 uvAttr;\n"
@@ -236,8 +238,8 @@ void WbRenderingDeviceWindow::initialize() {
 void WbRenderingDeviceWindow::render() {
   QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
 
-  const int ratio = (int)devicePixelRatio();
-  f->glViewport(0, 0, width() * ratio, height() * ratio);
+  const double ratio = devicePixelRatio();
+  f->glViewport(0, 0, std::ceil(width() * ratio), std::ceil(height() * ratio));
 
   f->glClear(GL_COLOR_BUFFER_BIT);
 

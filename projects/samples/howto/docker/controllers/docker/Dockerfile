@@ -6,11 +6,11 @@ ENV LD_LIBRARY_PATH /usr/local/webots/lib/controller
 ENV WEBOTS_STDOUT_REDIRECT 1
 ENV WEBOTS_STDERR_REDIRECT 1
 
-RUN mkdir -p /webots_project/controllers/camera
-COPY camera.c /webots_project/controllers/camera/camera.c
-COPY Makefile /webots_project/controllers/camera/Makefile
+RUN mkdir -p /webots_project/controllers/docker
+COPY docker.c /webots_project/controllers/docker/docker.c
+COPY Makefile /webots_project/controllers/docker/Makefile
 
 RUN if [ "$MAKE" = "1" ]; then \
-    cd /webots_project/controllers/camera && \
+    cd /webots_project/controllers/docker && \
     make ; \
     fi

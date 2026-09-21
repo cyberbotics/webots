@@ -127,6 +127,7 @@ typedef struct WbNodeStructPrivate {
 } WbNodeStruct;
 
 static WbNodeStruct *node_list = NULL;
+static WbPoseStruct *pose_collection = NULL;
 
 typedef struct WbProtoInfoStructPrivate {
   const char *type_name;
@@ -326,6 +327,16 @@ static void remove_proto_from_list(WbProtoRef proto) {
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
+    WbPoseStruct **pose_entry = &pose_collection;
+    while (*pose_entry) {
+      if ((*pose_entry)->from_node == node || (*pose_entry)->to_node == node) {
+        WbPoseStruct *removed_entry = *pose_entry;
+        *pose_entry = removed_entry->next;
+        free(removed_entry);
+      } else
+        pose_entry = &(*pose_entry)->next;
+    }
+
     // look for the previous node in the list
     if (node_list == node)  // the node is the first of the list
       node_list = node->next;
@@ -476,7 +487,6 @@ static void clean_field_request_garbage_collector() {
 }
 
 // Private fields
-static WbPoseStruct *pose_collection;
 static WbPoseStruct pose;
 static bool pose_requested = false;
 static WbFieldChangeTracking field_change_tracking;

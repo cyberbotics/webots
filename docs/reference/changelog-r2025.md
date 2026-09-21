@@ -13,6 +13,7 @@
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
+    - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
     - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
@@ -28,8 +29,16 @@
     - Fixed `addForceWithOffset` and `addTorque` doing the same thing as `addForce` in Python ([#6881](https://github.com/cyberbotics/webots/pull/6881)).
     - Fixed Python controllers on Windows ([#6933](https://github.com/cyberbotics/webots/pull/6933)).
     - OSM importer no longer crashes when run in 3d mode ([#6935](https://github.com/cyberbotics/webots/pull/6935)).
+    - Fixed a crash in the OSM importer when a way has multiple layer values ([#7005](https://github.com/cyberbotics/webots/pull/7005)).
     - Fixed Java compilation deprecation warning and run-time warning ([#6936](https://github.com/cyberbotics/webots/pull/6936)).
     - Fixed controller signal handlers not restoring the original handler (e.g. CPython's) on exit ([#6945](https://github.com/cyberbotics/webots/pull/6945)).
+    - The viewport now renders correctly on systems with fractional scaling enabled ([#6991](https://github.com/cyberbotics/webots/pull/6991)).
+    - USE nodes are now validated before being inserted into the Scene Tree. This fixes some crashes when loading invalid world files ([#6997](https://github.com/cyberbotics/webots/pull/6997)).
+    - Fixed a bug causing the "Plain/Wireframe Rendering" and "Follow Object > ..." buttons to incorrectly be shown as unchecked in certain circumstances ([#7000](https://github.com/cyberbotics/webots/pull/7000)).
+    - SVG files are now served with the `image/svg+xml` MIME type instead of being rejected as an unsupported file type, so robot windows can use SVG images ([#7007](https://github.com/cyberbotics/webots/pull/7007)).
+    - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
+    - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
+    - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
 
 ## Webots R2025a
 Released on January 31st, 2025.

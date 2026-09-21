@@ -774,8 +774,6 @@ WbField *WbNode::findSubField(int index, WbNode *&parent) const {
 }
 
 void WbNode::validate(const WbNode *upperNode, const WbField *upperField, bool isInBoundingObject) const {
-  if (isUseNode())
-    return;
   const WbNode *parent = upperNode == NULL ? this : upperNode;
   const QList<WbField *> fieldsToBeValidated =
     upperField ? (QList<WbField *>() << const_cast<WbField *>(upperField)) : fields();

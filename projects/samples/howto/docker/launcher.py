@@ -36,7 +36,7 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 
 controllers = {
-    "MyBot": "controllers/camera/camera"
+    "MyBot": "controllers/docker/docker"
 }
 port = 1234
 docker_image = 'cyberbotics/webots:R2023b-ubuntu22.04'  # this should correspond to the current version of Webots
@@ -46,7 +46,7 @@ with open('simulation/.env', 'w+') as env_file:
     env_file.write(f'IMAGE={docker_image}\n')
     env_file.write(f'PORT={port}\n')
     env_file.write('ROBOT_NAME_1=MyBot\n')
-    env_file.write('WORLD=/webots_project/worlds/camera.wbt\n')
+    env_file.write('WORLD=/webots_project/worlds/docker.wbt\n')
 
 command = 'docker compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:

@@ -102,7 +102,7 @@ class Parser(object):
         self.wayRefList[osmId] = refs  # we need to store them because the can then be usefull when parsin 'relations'
 
         # dont take into acount underground structure
-        if float(tags.get('layer', '0')) < 0:
+        if min(float(layer) for layer in tags.get('layer', '0').split(';')) < 0:
             return
 
         if 'building' in tags or 'building:part' in tags:
