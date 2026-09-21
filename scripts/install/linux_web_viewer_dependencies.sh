@@ -58,13 +58,8 @@ fi
 # pyclibrary is installed in a local virtual environment: recent Linux distributions mark
 # the system Python installation as externally managed (PEP 668) and refuse a plain pip install.
 PYCLIBRARY_VENV="$WEBOTS_HOME/dependencies/pyclibrary-venv"
-if [ ! -x "$PYCLIBRARY_VENV/bin/python3" ] || ! "$PYCLIBRARY_VENV/bin/python3" -m pip --version > /dev/null 2>&1; then
-  rm -rf "$PYCLIBRARY_VENV"
-  python3 -m venv "$PYCLIBRARY_VENV"
-fi
-if ! "$PYCLIBRARY_VENV/bin/python3" -c "import pyclibrary" > /dev/null 2>&1; then
-  "$PYCLIBRARY_VENV/bin/python3" -m pip install --no-input pyclibrary
-fi
+python3 -m venv "$PYCLIBRARY_VENV"
+"$PYCLIBRARY_VENV/bin/python3" -m pip install --no-input pyclibrary
 chown -R "$TARGET_USER":"$TARGET_GROUP" "$PYCLIBRARY_VENV"
 
 # Emscripten is pinned to a known working version; both emsdk commands are idempotent
