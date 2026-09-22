@@ -24,12 +24,10 @@ fi
 install_ubuntu_packages() {
     alias apt='apt --option="APT::Acquire::Retries=3"'
     apt update
-    apt install --yes git cmake swig libglu1-mesa-dev libglib2.0-dev libfreeimage3 libfreetype6-dev libxml2-dev libboost-dev libssh-gcrypt-dev libzip-dev libreadline-dev pbzip2 wget zip unzip python3 python3-pip libopenal-dev
+    apt install --yes git cmake swig libglu1-mesa-dev libglib2.0-dev libfreeimage3 libxml2-dev libboost-dev libzip-dev libfreetype-dev libssh-dev openssl libreadline-dev pbzip2 wget zip unzip python3 python3-pip python3-venv libopenal-dev
 
-    if [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" ]]; then
-        apt install --yes libzip4 openssl
-    else
-        echo "Unsupported Ubuntu version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
+    if [[ $VERSION_ID != "22.04" && $VERSION_ID != "24.04" && $VERSION_ID != "26.04" ]]; then
+        echo "Unsupported Ubuntu version: dependencies may not be completely installed. Only the latest Ubuntu LTS releases are supported."
     fi
 }
 
