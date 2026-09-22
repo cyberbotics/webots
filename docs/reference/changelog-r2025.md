@@ -107,4 +107,4 @@ Released on January 31st, 2025.
     - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
     - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
     - Fixed JNILIB_FLAGS relative reference for Java controllers ([#5181](https://github.com/cyberbotics/webots/issues/5181))
-    - Fixed Default line scale too small for joint axis ([#3757](https://github.com/cyberbotics/webots/issues/3757))
+    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
