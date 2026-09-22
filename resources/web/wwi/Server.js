@@ -1,5 +1,4 @@
 import Stream from './Stream.js';
-import ImageLoader from './ImageLoader.js';
 import MeshLoader from './MeshLoader.js';
 import WbCadShape from './nodes/WbCadShape.js';
 
@@ -86,7 +85,6 @@ export default class Server {
       if (typeof this.#view.w3dScene !== 'undefined')
         this.#view.prefix = this.#httpServerUrl + '/';
       this.#view.stream = new Stream(url, this.#view, this.#onready);
-      ImageLoader.stream = true;
       MeshLoader.stream = true;
       WbCadShape.stream = true;
       this.#view.stream.connect();
