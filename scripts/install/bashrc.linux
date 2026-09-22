@@ -5,7 +5,7 @@
 
 # export JAVA_HOME=/usr/lib/jvm/java-16-openjdk-amd64  # Defines the path to Java home.
 
-# source $HOME/webots/dependencies/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
+# source $WEBOTS_HOME/dependencies/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
 
 #######################################################
 # Edit these WEBOTS environment variables when needed #
