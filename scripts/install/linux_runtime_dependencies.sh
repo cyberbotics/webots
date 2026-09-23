@@ -24,7 +24,8 @@ fi
 install_ubuntu_runtime_packages() {
     alias apt='apt --option="APT::Acquire::Retries=3"'
     apt update
-    apt install --yes g++ make libavcodec-extra libglu1-mesa libegl1 \
+    # libsndio7.0 is needed by the bundled libopenal.so.1
+    apt install --yes g++ make libavcodec-extra libglu1-mesa libegl1 libsndio7.0 \
         libxkbcommon-x11-dev libxcb-keysyms1 libxcb-image0 libxcb-icccm4 libxcb-randr0 \
         libxcb-render-util0 libxcb-xinerama0 libxcomposite-dev libxtst6 libnss3 libxcb-cursor0
 
@@ -32,11 +33,7 @@ install_ubuntu_runtime_packages() {
         apt install --yes xvfb
     fi
 
-    if [[ $VERSION_ID == "22.04" || $VERSION_ID == "24.04" ]]; then
-        apt install --yes ffmpeg
-    else
-        echo "Unsupported Linux version: dependencies may not be completely installed. Only the two latest Ubuntu LTS are supported."
-    fi
+    apt install --yes ffmpeg
 }
 
 # Function to install runtime dependencies on Fedora
