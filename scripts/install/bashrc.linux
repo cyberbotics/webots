@@ -1,9 +1,17 @@
 
+#########################################################################
+# These environment variables are necessaries to compile and run Webots #
+#########################################################################
+
+export WEBOTS_HOME=$HOME/webots  # Defines the path to Webots home.
+
 #####################################################################################################
 # Uncomment / edit the following environment variables when the corresponding software is installed #
 #####################################################################################################
 
 # export JAVA_HOME=/usr/lib/jvm/java-16-openjdk-amd64  # Defines the path to Java home.
+
+# source $WEBOTS_HOME/dependencies/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten
 
 #######################################################
 # Edit these WEBOTS environment variables when needed #
@@ -12,8 +20,3 @@
 export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=1  # If defined, Webots will not save screen specific perspective changes when closed.
 export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are allowed to modify files in the Webots home using Webots.
 
-#########################################################################
-# These environment variables are necessaries to compile and run Webots #
-#########################################################################
-
-export WEBOTS_HOME=$HOME/webots  # Defines the path to Webots home.

@@ -9,6 +9,7 @@ Released on ??.
     - Added model of the [Robolab](https://robolab.unex.es/)'s P3Bot robot and two sample worlds ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
     - Added [Kinova Gen3 7DoF](https://www.kinovarobotics.com/product/gen3-robot) manipulator ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
   - Enhancements
+    - Added support for Ubuntu 26.04 "Resolute Raccoon" ([#7014](https://github.com/cyberbotics/webots/pull/7014)).
     - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
     - Added implementations of `wbu_system_tmpdir` and `wbu_system_webots_instance_path` to the MATLAB API ([#6756](https://github.com/cyberbotics/webots/pull/6756)).
@@ -113,4 +114,5 @@ Released on January 31st, 2025.
     - Fixed values returned by the [Receiver.getEmitterDirection](https://cyberbotics.com/doc/reference/receiver?tab-language=python#wb_receiver_get_emitter_direction) Python method ([#6394](https://github.com/cyberbotics/webots/pull/6394)).
     - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
     - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
-    - Fixed JNILIB_FLAGS relative reference for Java controllers ([#5181](https://github.com/cyberbotics/webots/issues/5181))
+    - Fixed JNILIB_FLAGS relative reference for Java controllers ([#6501](https://github.com/cyberbotics/webots/pull/6501))
+    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
