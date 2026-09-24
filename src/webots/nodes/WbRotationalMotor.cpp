@@ -104,12 +104,14 @@ double WbRotationalMotor::computeFeedback() const {
 
   const bool hinge = j->nodeType() == WB_NODE_HINGE_JOINT;
   const bool hinge2 = j->nodeType() == WB_NODE_HINGE_2_JOINT;
-  assert(hinge || hinge2);
+  const bool ball = j->nodeType() == WB_NODE_BALL_JOINT;
+  assert(hinge || hinge2 || ball);
   if (hinge2 && dJointGetNumBodies(jID) == 0) {
     // invalid hinge2 linked to static environment
     warn(tr("Hinge2Joint is invalid: feedback is not available."));
     return 0.0;
   }
+  // TODO : Check for valid ball joint
 
   assert(j->solidEndPoint());
   const dBodyID b = j->solidEndPoint()->bodyMerger();
@@ -130,16 +132,21 @@ double WbRotationalMotor::computeFeedback() const {
   // see explanations here:
   //   http://www.ode.org/old_list_archives/2005-January/014948.html
   // (all calculations are in global coordinate system)
-  dVector3 anchor, sub, t2;
-  if (hinge)
-    dJointGetHingeAnchor2(jID, anchor);
-  else
-    dJointGetHinge2Anchor2(jID, anchor);
+  dVector3 t2;
+  if (ball)
+    dCopyVector3(t2, fb->t2); // angular motor apply torque directly (no force)
+  else {   
+    dVector3 anchor, sub;
+    if (hinge)
+      dJointGetHingeAnchor2(jID, anchor);
+    else
+      dJointGetHinge2Anchor2(jID, anchor);
 
-  const dReal *const p2 = dBodyGetPosition(b);
-  dSubtractVectors3(sub, anchor, p2);
-  dCopyVector3(t2, fb->t2);
-  dAddVectorCross3(t2, fb->f2, sub);
+    const dReal *const p2 = dBodyGetPosition(b);
+    dSubtractVectors3(sub, anchor, p2);
+    dCopyVector3(t2, fb->t2);
+    dAddVectorCross3(t2, fb->f2, sub);
+  }
 
   // project torque onto hinge axis:
   // a positive torque makes the RotationalMotor rotate in the positive direction
@@ -149,12 +156,23 @@ double WbRotationalMotor::computeFeedback() const {
   dVector3 axis;
   if (hinge)
     dJointGetHingeAxis(jID, axis);
-  else {
+  else if (hinge2) {
     const QVector<WbLogicalDevice *> &devices = j->devices();
     if (this == devices.at(0))
       dJointGetHinge2Axis1(jID, axis);
     else
       dJointGetHinge2Axis2(jID, axis);
+  }
+  else {
+    int anum;
+    if (this == j->motor())
+      anum = 0;
+    else if (this == j->motor2())
+      anum = 1;
+    else
+      anum = 2;
+    
+    dJointGetAMotorAxis(jID, anum, axis);
   }
   return dCalcVectorDot3(axis, t2);
 }
