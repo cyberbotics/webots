@@ -134,8 +134,8 @@ double WbRotationalMotor::computeFeedback() const {
   // (all calculations are in global coordinate system)
   dVector3 t2;
   if (ball)
-    dCopyVector3(t2, fb->t2); // angular motor apply torque directly (no force)
-  else {   
+    dCopyVector3(t2, fb->t2);  // angular motor apply torque directly (no force)
+  else {
     dVector3 anchor, sub;
     if (hinge)
       dJointGetHingeAnchor2(jID, anchor);
@@ -162,8 +162,7 @@ double WbRotationalMotor::computeFeedback() const {
       dJointGetHinge2Axis1(jID, axis);
     else
       dJointGetHinge2Axis2(jID, axis);
-  }
-  else {
+  } else {
     int anum;
     if (this == j->motor())
       anum = 0;
@@ -171,7 +170,7 @@ double WbRotationalMotor::computeFeedback() const {
       anum = 1;
     else
       anum = 2;
-    
+
     dJointGetAMotorAxis(jID, anum, axis);
   }
   return dCalcVectorDot3(axis, t2);
