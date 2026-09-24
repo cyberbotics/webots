@@ -53,7 +53,7 @@ namespace {
       return path.replace(WbStandardPaths::localDocPath(), "webots://docs/");
     return path.replace(WbStandardPaths::webotsHomePath(), "webots://");
   }
-};
+}  // namespace
 
 void WbUrl::setWorldFileName(const QString &fileName) {
   ::gWorldFileName = fileName;
@@ -208,7 +208,7 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-QString WbUrl::computeLocalAssetUrl(QString url, bool isW3d) {
+QString WbUrl::computeLocalAssetUrl(const QString &url, bool isW3d) {
   if (!isW3d)
     return localWebotsUrl(url);
 
@@ -275,8 +275,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 
   if (WbUrl::isLocalUrl(url)) {
     // URL fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
-    if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) &&
-        !QFileInfo(QDir::cleanPath(localWebotsPath(url))).exists()) {
+    if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) && !QFileInfo(QDir::cleanPath(localWebotsPath(url))).exists()) {
       WbLog::error(QObject::tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.").arg(url));
       return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
     }
