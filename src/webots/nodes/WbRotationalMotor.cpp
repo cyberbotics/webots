@@ -152,7 +152,7 @@ double WbRotationalMotor::computeFeedback() const {
   // a positive torque makes the RotationalMotor rotate in the positive direction
   // (this assumes that ODE returns a normalized axis, i.e., with length = 1.0)
   // Note: projection on the hinge axis is not giving the actual driving torque: see latest reference about dJointFeedback in
-  // http://ode-wiki.org/wiki/index.php?title=Manual:_Joint_Types_and_Functions
+  // https://ode.org/wiki/index.php/Manual#Joint_feedback
   dVector3 axis;
   if (hinge)
     dJointGetHingeAxis(jID, axis);
