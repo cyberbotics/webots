@@ -548,10 +548,8 @@ int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int typ
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
     const QString &baseType = info->baseType();
     QString path = WbUrl::localPathToWebotsUrl(info->url());
-    if (path.startsWith("webots://"))
-      path = path.mid(QString("webots://").length());
-    else if (path.startsWith(WbStandardPaths::webotsHomePath()))
-      path = path.mid(WbStandardPaths::webotsHomePath().length());
+    if (path.startsWith(WbUrl::webotsUrlPrefix()))
+      path = path.mid(WbUrl::webotsUrlPrefix().length());
     const QString cleanPath = path.replace(re, "");
     if (!cleanPath.contains(regexp) && !baseType.contains(regexp))
       continue;

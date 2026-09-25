@@ -185,7 +185,7 @@ bool WbNewProtoWizard::generateProto() {
             if (!prefix.isEmpty()) {
               if (!WbUrl::isWeb(nestedUrl)) {
                 if (nestedUrl.startsWith("webots://"))
-                  nestedUrl = prefix + nestedUrl.mid(QString("webots://").length());
+                  nestedUrl = prefix + nestedUrl.mid(WbUrl::webotsUrlPrefix().length());
                 else if (!WbUrl::isLocalUrl(nestedUrl))  // manufacture a remote URL for relative paths
                   nestedUrl = WbUrl::combinePaths(nestedUrl, parentUrl);
               }

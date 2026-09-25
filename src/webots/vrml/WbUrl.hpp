@@ -37,6 +37,7 @@ namespace WbUrl {
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
+  const QString &webotsUrlPrefix();
   QString webotsUrlToLocalPath(const QString &url);
   QString localPathToWebotsUrl(const QString &path);
   QString computeLocalAssetUrl(const QString &url, bool isW3d);

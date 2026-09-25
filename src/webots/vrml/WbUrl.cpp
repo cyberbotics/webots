@@ -35,13 +35,18 @@ namespace {
   static QString gWorldFileName;
 }  // namespace
 
+const QString &WbUrl::webotsUrlPrefix() {
+  static const QString prefix = "webots://";
+  return prefix;
+}
+
 QString WbUrl::webotsUrlToLocalPath(const QString &url) {
   if (url.startsWith("webots://projects/"))
     return WbStandardPaths::projectsPath() + url.mid(QString("webots://projects/").length());
   if (url.startsWith("webots://resources/"))
     return WbStandardPaths::resourcesPath() + url.mid(QString("webots://resources/").length());
   if (url.startsWith("webots://"))
-    return WbStandardPaths::webotsHomePath() + url.mid(QString("webots://").length());
+    return WbStandardPaths::webotsHomePath() + url.mid(webotsUrlPrefix().length());
   return url;
 }
 
@@ -217,7 +222,7 @@ QString WbUrl::computeLocalAssetUrl(const QString &url, bool isW3d) {
     const QString prefix =
       "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/";
     const QString localUrl = localPathToWebotsUrl(url);
-    return localUrl.startsWith("webots://") ? prefix + localUrl.mid(QString("webots://").length()) : localUrl;
+    return localUrl.startsWith(webotsUrlPrefix()) ? prefix + localUrl.mid(webotsUrlPrefix().length()) : localUrl;
   }
 
   // when streaming from a distribution or nightly build, use the actual url
@@ -278,13 +283,13 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
     // URL fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
     if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) && !QFileInfo(QDir::cleanPath(webotsUrlToLocalPath(url))).exists()) {
       WbLog::error(QObject::tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.").arg(url));
-      return url.startsWith("webots://") ? WbUrl::remoteWebotsAssetPrefix() + url.mid(QString("webots://").length()) : url;
+      return url.startsWith(webotsUrlPrefix()) ? WbUrl::remoteWebotsAssetPrefix() + url.mid(webotsUrlPrefix().length()) : url;
     }
 
     // infer URL based on parent's url
     const QString &prefix = WbUrl::computePrefix(parentUrl);
     if (!prefix.isEmpty())
-      return url.startsWith("webots://") ? prefix + url.mid(QString("webots://").length()) : url;
+      return url.startsWith(webotsUrlPrefix()) ? prefix + url.mid(webotsUrlPrefix().length()) : url;
 
     if (parentUrl.isEmpty() || WbUrl::isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl))
       return QDir::cleanPath(webotsUrlToLocalPath(url));

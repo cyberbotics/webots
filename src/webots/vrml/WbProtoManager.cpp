@@ -195,7 +195,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       const QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
         if (protoDeclaration.startsWith("webots://"))
-          modelPath = match.captured(0) + protoDeclaration.mid(QString("webots://").length());
+          modelPath = match.captured(0) + protoDeclaration.mid(WbUrl::webotsUrlPrefix().length());
         else if (WbUrl::isLocalUrl(protoDeclaration))
           modelPath = protoDeclaration;
         else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
