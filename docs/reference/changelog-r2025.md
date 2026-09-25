@@ -109,3 +109,4 @@ Released on January 31st, 2025.
     - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
     - Fixed JNILIB_FLAGS relative reference for Java controllers ([#6501](https://github.com/cyberbotics/webots/pull/6501))
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
+    - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
