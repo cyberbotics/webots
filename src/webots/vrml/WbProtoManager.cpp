@@ -194,8 +194,10 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
       const QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
       const QRegularExpressionMatch match = re.match(parentFile);
       if (match.hasMatch()) {
-        if (WbUrl::isLocalUrl(protoDeclaration))  // replace the prefix (webots://) based on the parent's prefix
-          modelPath = protoDeclaration.replace("webots://", match.captured(0));
+        if (protoDeclaration.startsWith("webots://"))
+          modelPath = match.captured(0) + protoDeclaration.mid(QString("webots://").length());
+        else if (WbUrl::isLocalUrl(protoDeclaration))
+          modelPath = protoDeclaration;
         else  // if it's a relative url, then manufacture a remote url based on the relative path and the parent's path
           modelPath = WbUrl::combinePaths(protoDeclaration, parentFile);
         // if the PROTO tree was built correctly, by definition the child must be cached already too
@@ -890,9 +892,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
 }
 
 QString WbProtoManager::formatExternProtoPath(const QString &url) const {
-  QString path = url;
-  if (WbFileUtil::isLocatedInInstallationDirectory(path, true))
-    path.replace(WbStandardPaths::webotsHomePath(), "webots://");
+  QString path = WbUrl::localPathToWebotsUrl(url);
   if (path.startsWith(WbProject::current()->protosPath()))
     path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);
 
@@ -946,7 +946,7 @@ QString WbProtoManager::injectDeclarationByBackwardsCompatibility(const QString 
     }
 
     if (WbUrl::isLocalUrl(url)) {
-      url = QDir::cleanPath(url.replace("webots://", WbStandardPaths::webotsHomePath()));
+      url = QDir::cleanPath(WbUrl::webotsUrlToLocalPath(url));
       if (QFileInfo(url).exists())
         return url;
     }
