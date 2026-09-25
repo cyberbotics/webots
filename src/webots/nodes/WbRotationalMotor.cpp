@@ -164,15 +164,26 @@ double WbRotationalMotor::computeFeedback() const {
     else
       dJointGetHinge2Axis2(jID, axis);
   } else {
+    // Euler-mode AMotor rows act along c0 = ax1 x ax2, c1 = ax1, c2 = ax0 x ax1.
+    // c0 and c2 are not orthogonal when the middle angle != 0: use the reciprocal basis.
     int anum;
     if (this == j->motor())
       anum = 0;
     else if (this == j->motor2())
       anum = 1;
-    else
+    else {
+      assert(this == j->motor3());
       anum = 2;
-
-    dJointGetAMotorAxis(jID, anum, axis);
+    }
+    dVector3 c[3];
+    for (int i = 0; i < 3; ++i)
+      dJointGetAMotorAxis(jID, i, c[i]);
+    dCalcVectorCross3(axis, c[(anum + 1) % 3], c[(anum + 2) % 3]);
+    const dReal det = dCalcVectorDot3(c[anum], axis);
+    if (fabs(det) < 1e-6)  // near gimbal lock: fall back to plain projection
+      dCopyVector3(axis, c[anum]);
+    else
+      dScaleVector3(axis, 1.0 / det);
   }
   return dCalcVectorDot3(axis, t2);
 }
