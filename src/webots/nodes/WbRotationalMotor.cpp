@@ -111,7 +111,8 @@ double WbRotationalMotor::computeFeedback() const {
     warn(tr("Hinge2Joint is invalid: feedback is not available."));
     return 0.0;
   }
-  // TODO : Check for valid ball joint
+  if (ball && dJointGetNumBodies(jID) == 0)
+    return 0.0;  // AMotor is disabled when neither side has a body
 
   assert(j->solidEndPoint());
   const dBodyID b = j->solidEndPoint()->bodyMerger();
