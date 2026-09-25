@@ -135,7 +135,7 @@ double WbRotationalMotor::computeFeedback() const {
   // (all calculations are in global coordinate system)
   dVector3 t2;
   if (ball)
-    dCopyVector3(t2, fb->t2);  // angular motor apply torque directly (no force)
+    dCopyVector3(t2, fb->t2);  // AMotor applies pure torques (f2 == 0): no lever-arm correction needed
   else {
     dVector3 anchor, sub;
     if (hinge)
