@@ -40,6 +40,8 @@
     - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
     - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
+    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
+    - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
 
 ## Webots R2025a
 Released on January 31st, 2025.
@@ -108,4 +110,3 @@ Released on January 31st, 2025.
     - Fixed recognition of omnidirectional cameras with fov > pi/2 in [WbObjectDetection] ([#6396](https://github.com/cyberbotics/webots/pull/6396)).
     - Fixed [ElevationGrid](elevationgrid.md) collisions not matching the displayed when the x and y dimensions are different ([#6412](https://github.com/cyberbotics/webots/pull/6412))
     - Fixed JNILIB_FLAGS relative reference for Java controllers ([#6501](https://github.com/cyberbotics/webots/pull/6501))
-    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
