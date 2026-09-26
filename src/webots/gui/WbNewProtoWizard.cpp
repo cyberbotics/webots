@@ -159,8 +159,8 @@ bool WbNewProtoWizard::generateProto() {
   if (mBaseNode != "") {
     if (mIsProtoNode) {
       // define header
-      QString url = WbProtoManager::instance()->protoUrl(mBaseNode, mCategory);
-      externPath = QString("EXTERNPROTO \"%1\"\n").arg(url.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+      const QString url = WbProtoManager::instance()->protoUrl(mBaseNode, mCategory);
+      externPath = QString("EXTERNPROTO \"%1\"\n").arg(WbUrl::localPathToWebotsUrl(url));
       // define interface
       const WbProtoInfo *const info = WbProtoManager::instance()->protoInfo(mBaseNode, mCategory);
       assert(info);
@@ -184,9 +184,9 @@ bool WbNewProtoWizard::generateProto() {
             const QString prefix = WbUrl::computePrefix(parentUrl);
             if (!prefix.isEmpty()) {
               if (!WbUrl::isWeb(nestedUrl)) {
-                if (WbUrl::isLocalUrl(nestedUrl))  // replace the prefix (webots://) based on the parent's prefix
-                  nestedUrl.replace("webots://", prefix);
-                else  // for relative URL manufacture a remote one based on the parent's path
+                if (nestedUrl.startsWith("webots://"))
+                  nestedUrl = prefix + nestedUrl.mid(WbUrl::webotsUrlPrefix().length());
+                else if (!WbUrl::isLocalUrl(nestedUrl))  // manufacture a remote URL for relative paths
                   nestedUrl = WbUrl::combinePaths(nestedUrl, parentUrl);
               }
             } else {
@@ -194,8 +194,7 @@ bool WbNewProtoWizard::generateProto() {
               if (WbUrl::isLocalUrl(parentUrl) && (!WbUrl::isWeb(nestedUrl) && QDir::isRelativePath(nestedUrl)))
                 nestedUrl = WbUrl::combinePaths(nestedUrl, parentUrl);
             }
-            const QString declaration =
-              QString("EXTERNPROTO \"%1\"\n").arg(nestedUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+            const QString declaration = QString("EXTERNPROTO \"%1\"\n").arg(WbUrl::localPathToWebotsUrl(nestedUrl));
             if (!externPath.contains(declaration))
               externPath += declaration;
           }
@@ -210,8 +209,8 @@ bool WbNewProtoWizard::generateProto() {
           QString asset = match.captured(0);
           asset.replace("\"", "");
           if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset)) {
-            QString newUrl = QString("\"%1\"").arg(WbUrl::combinePaths(asset, info->url()));
-            interface.replace(QString("\"%1\"").arg(asset), newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
+            const QString newUrl = WbUrl::localPathToWebotsUrl(WbUrl::combinePaths(asset, info->url()));
+            interface.replace(QString("\"%1\"").arg(asset), QString("\"%1\"").arg(newUrl));
           }
         }
       }
