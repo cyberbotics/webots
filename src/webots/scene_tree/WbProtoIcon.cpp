@@ -18,7 +18,6 @@
 #include "WbDownloader.hpp"
 #include "WbFileUtil.hpp"
 #include "WbNetwork.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 
 #include <QtCore/QDir>
@@ -40,7 +39,7 @@ WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath, QOb
       mDownloader->download();
     }
   } else if (WbUrl::isLocalUrl(mPath))
-    mPath = QDir::cleanPath(mPath.replace("webots://", WbStandardPaths::webotsHomePath()));
+    mPath = QDir::cleanPath(WbUrl::webotsUrlToLocalPath(mPath));
 }
 
 void WbProtoIcon::updateIcon() {
