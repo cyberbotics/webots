@@ -61,7 +61,7 @@ static bool isPortInUse(const QHostAddress &address, int port) {
   // connection. Make sure a peer is really connected before reporting the port as busy.
   struct sockaddr_storage peer;
   socklen_t peerLength = sizeof(peer);
-  if (getpeername(socket.socketDescriptor(), (struct sockaddr *)&peer, &peerLength) != 0)
+  if (getpeername(socket.socketDescriptor(), reinterpret_cast<struct sockaddr *>(&peer), &peerLength) != 0)
     return false;
 #endif
   socket.disconnectFromHost();
