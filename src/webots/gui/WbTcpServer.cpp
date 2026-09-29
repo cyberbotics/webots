@@ -39,12 +39,40 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QRegularExpression>
 #include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
 #include <QtWebSockets/QWebSocket>
 #include <QtWebSockets/QWebSocketServer>
 
 #include <iostream>
 
+#ifndef _WIN32
+#include <sys/socket.h>
+#endif
+
 WbMainWindow *WbTcpServer::cMainWindow = NULL;
+
+static bool isPortInUse(const QHostAddress &address, int port) {
+  QTcpSocket socket;
+  socket.connectToHost(address, port);
+  if (!socket.waitForConnected(100))
+    return false;
+#ifndef _WIN32
+  // On macOS 27, a refused non-blocking connect() is reported as EISCONN, which Qt interprets as a successful
+  // connection. Make sure a peer is really connected before reporting the port as busy.
+  struct sockaddr_storage peer;
+  socklen_t peerLength = sizeof(peer);
+  if (getpeername(socket.socketDescriptor(), (struct sockaddr *)&peer, &peerLength) != 0)
+    return false;
+#endif
+  socket.disconnectFromHost();
+  return true;
+}
+
+static bool isPortInUse(int port) {
+  // Check both loopback addresses explicitly: connecting to "localhost" stops at the first address that appears to
+  // connect, which could hide a server listening only on the other one.
+  return isPortInUse(QHostAddress::LocalHostIPv6, port) || isPortInUse(QHostAddress::LocalHost, port);
+}
 
 WbTcpServer::WbTcpServer(bool stream) :
   QObject(),
@@ -131,23 +159,28 @@ void WbTcpServer::create(int port) {
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
   // See if a server is already running on port by trying to connect to it.
-  // This is needed because in some environments QTcpServer::listen() uses a socket that is configured to reuse a port [1]
-  // and Qt does not provide a way to configure the socket before calling listen() [2].
+  // This is needed because QTcpServer::listen() uses a socket configured with SO_REUSEADDR [1] and Qt does not provide
+  // a way to configure the socket before calling listen() [2]. On macOS, SO_REUSEADDR lets listen() succeed on the
+  // wildcard address even if another server is already listening on 127.0.0.1 with the same port.
   // [1] https://doc.qt.io/qt-6/qabstractsocket.html#BindFlag-enum
   // [2] https://stackoverflow.com/questions/47268023/how-to-set-so-reuseaddr-on-the-socket-used-by-qtcpserver
-  QTcpSocket socket;
-  socket.connectToHost("localhost", port);
-  if (socket.waitForConnected(100)) {
-    socket.disconnectFromHost();
+  if (isPortInUse(port))
     throw tr("Port %1 is already in use").arg(port);
-  }
 
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
-  mTcpServer = new QTcpServer();
-  if (!mTcpServer->listen(QHostAddress::Any, port))
-    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
+  mTcpServer = new QTcpServer(this);
+  if (!mTcpServer->listen(QHostAddress::Any, port)) {
+    const QString error = mTcpServer->serverError() == QAbstractSocket::AddressInUseError ?
+                            tr("Port %1 is already in use").arg(port) :
+                            tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
+    delete mTcpServer;
+    mTcpServer = NULL;
+    delete mWebSocketServer;
+    mWebSocketServer = NULL;
+    throw error;
+  }
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
   connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
