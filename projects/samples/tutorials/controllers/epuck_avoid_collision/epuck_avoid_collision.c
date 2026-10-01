@@ -58,8 +58,9 @@ int main(int argc, char **argv) {
     bool left_obstacle = ps_values[5] > 80.0 || ps_values[6] > 80.0 || ps_values[7] > 80.0;
 
     // initialize motor speeds at 50% of MAX_SPEED.
-    double left_speed = 0.5 * MAX_SPEED;
-    double right_speed = 0.5 * MAX_SPEED;
+    double speed = 0.5 * MAX_SPEED;
+    double left_speed = speed;
+    double right_speed = speed;
 
     // modify speeds according to obstacles
     if (left_obstacle) {

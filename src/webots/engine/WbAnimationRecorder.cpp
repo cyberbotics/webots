@@ -272,7 +272,7 @@ void WbAnimationRecorder::populateCommands() {
     }
   }
 
-  foreach (WbAnimationCommand *command, mCommands) {
+  foreach (const WbAnimationCommand *command, mCommands) {
     connect(command, &WbAnimationCommand::changed, this, &WbAnimationRecorder::addChangedCommandToList);
     // support node deletions
     connect(command->node(), &WbNode::destroyed, this, &WbAnimationRecorder::updateCommandsAfterNodeDeletion);
