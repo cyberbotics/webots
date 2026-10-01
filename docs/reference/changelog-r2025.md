@@ -44,6 +44,7 @@
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
   - Dependency Updates
     - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
+    - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).
 
 ## Webots R2025a
 Released on January 31st, 2025.

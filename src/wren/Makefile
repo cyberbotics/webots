@@ -34,7 +34,7 @@ ifeq ($(OSDIST), fedora)
 INCLUDE += -idirafter/usr/include
 endif
 else ifeq ($(OSTYPE),windows)
-INCLUDE += -I/ucrt64/include/freetype2 -I/ucrt64/include -I$(WEBOTS_DEPENDENCY_PATH)
+INCLUDE += -I/ucrt64/include/freetype2 -I/ucrt64/include
 endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)

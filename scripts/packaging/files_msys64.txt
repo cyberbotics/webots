@@ -1,5 +1,6 @@
 # needed to execute webots-bin.exe (64 bit binary)
 # libintl-8.dll and libwinpthread-1.dll are needed as well, but they are already included as dependencies of gcc
+/ucrt64/bin/libassimp-*.dll
 /ucrt64/bin/libb2-1.dll
 /ucrt64/bin/libbrotlicommon.dll
 /ucrt64/bin/libbrotlidec.dll

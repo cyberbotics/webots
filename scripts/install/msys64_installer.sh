@@ -20,6 +20,7 @@ declare -a BASE_PACKAGES=(
   "mingw-w64-ucrt-x86_64-qt6-websockets"   # Webots
   "mingw-w64-ucrt-x86_64-libzip"           # Webots
   "mingw-w64-ucrt-x86_64-woff2"            # Webots
+  "mingw-w64-ucrt-x86_64-assimp"           # Webots
   "mingw-w64-ucrt-x86_64-minizip"          # Webots (assimp)
   "mingw-w64-ucrt-x86_64-zlib"             # Webots (assimp)
   "liblzma"                                # Webots
