@@ -87,9 +87,18 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   connect(stringEditor, &WbExtendedStringEditor::editRequested, this, &WbFieldEditor::editRequested);
 
   WbNodePane *const nodePane = new WbNodePane(this);
-  const WbNodeEditor *nodeEditor = nodePane->nodeEditor();
+  const WbNodeEditor *nodeEditor = WbNodeEditor::instance(nodePane);
   connect(nodeEditor, &WbNodeEditor::dictionaryUpdateRequested, this, &WbFieldEditor::dictionaryUpdateRequested);
-
+  connect(nodeEditor, &WbNodeEditor::defNameChanged, WbActionManager::instance()->action(WbAction::SAVE_WORLD),
+          &QAction::setEnabled);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::setEnabled, nodeEditor,
+          &WbNodeEditor::resetDefNamesToInitial);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS), &QAction::setEnabled, nodeEditor,
+          &WbNodeEditor::resetDefNamesToInitial);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD), &QAction::triggered, nodeEditor,
+          &WbNodeEditor::switchInitialCurrentDef);
+  connect(WbActionManager::instance()->action(WbAction::SAVE_WORLD_AS), &QAction::triggered, nodeEditor,
+          &WbNodeEditor::switchInitialCurrentDef);
   // create editors
   mEditors.insert(WB_NO_FIELD, new WbEmptyEditor(this));
   mEditors.insert(WB_SF_BOOL, new WbBoolEditor(this));
