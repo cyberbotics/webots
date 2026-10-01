@@ -16,7 +16,7 @@
 
 import os
 import sys
-from controller import Supervisor
+from controller import Camera, DistanceSensor, Supervisor
 
 TIME_STEP = 64
 TEST_NAME = os.path.splitext(os.path.basename(sys.argv[0]))[0]
@@ -36,6 +36,7 @@ def finish(message):
         f.write('OK: ' + TEST_NAME + '\n' if success else 'FAILURE with ' + TEST_NAME + ': ' + message + '\n')
     print('OK: ' + TEST_NAME if success else 'FAILURE with ' + TEST_NAME + ': ' + message)
     notify(False)
+    robot.step(0)  # flush the final packet now, the supervisor waits for it
     sys.exit(0 if success else 1)
 
 
@@ -54,7 +55,7 @@ if robot.getNumberOfDevices() != devices_at_start + 1:
 sensor = robot.getDevice('late_sensor')
 if sensor is None:
     finish('Robot.getDevice did not find the imported device "late_sensor".')
-if type(sensor).__name__ != 'DistanceSensor':
+if not isinstance(sensor, DistanceSensor):
     finish('Robot.getDevice returned a %s for "late_sensor", expected a DistanceSensor.' % type(sensor).__name__)
 
 # likewise getDeviceByIndex, before any getDevice call has refreshed the devices
@@ -67,13 +68,15 @@ try:
     camera = robot.getDeviceByIndex(devices_at_start + 1)
 except KeyError:
     finish('Robot.getDeviceByIndex did not find the imported camera.')
-if type(camera).__name__ != 'Camera':
+if not isinstance(camera, Camera):
     finish('Robot.getDeviceByIndex returned a %s for the imported camera, expected a Camera.' % type(camera).__name__)
 if camera is not robot.getDevice('late_camera'):
     finish('Robot.getDeviceByIndex and Robot.getDevice returned different objects for "late_camera".')
 
 sensor.enable(TIME_STEP)
 robot.step(TIME_STEP)
-sensor.getValue()
+value = sensor.getValue()
+if not isinstance(value, float):
+    finish('The imported sensor returned %r instead of a float.' % (value,))
 
 finish(None)

@@ -128,20 +128,20 @@ class Robot:
         Robot.created = self
         wb.wb_robot_init()
         self.devices = {}
-        self._seen_device_names = set()
+        self._device_count = 0
         self._updateDevices()
         self.keyboard = Keyboard(0)
         self.mouse = Mouse(0)
         self.joystick = Joystick(0)
 
     def _updateDevices(self):
-        # also picks up devices that were added after the controller started (e.g. imported by a supervisor)
-        for i in range(0, wb.wb_robot_get_number_of_devices()):
+        # libController only appends devices (removed ones keep their tag), so only new indices need scanning
+        n = wb.wb_robot_get_number_of_devices()
+        for i in range(self._device_count, n):
             tag = wb.wb_robot_get_device_by_index(i)
             name = wb.wb_device_get_name(tag).decode()
-            if name in self._seen_device_names:
+            if name in self.devices:  # like wb_robot_get_device(), the first device with a given name wins
                 continue
-            self._seen_device_names.add(name)
             type = wb.wb_device_get_node_type(tag)
             if type == Node.ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
@@ -195,6 +195,7 @@ class Robot:
                 self.devices[name] = VacuumGripper(tag)
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
+        self._device_count = n
 
     def __del__(self):
         wb.wb_robot_cleanup()
