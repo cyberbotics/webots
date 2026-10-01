@@ -42,6 +42,8 @@
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
+    - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows.
+      - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
 
 ## Webots R2025a
 Released on January 31st, 2025.
