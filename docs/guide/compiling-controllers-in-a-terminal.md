@@ -44,7 +44,7 @@ You will also have to set the `WEBOTS_HOME` environment variable to point to the
 
 ```bash
 export WEBOTS_HOME="C:\Program Files\Webots"
-export PATH=$PATH:/C/Program\ Files/Webots/msys64/mingw64/bin:/C/Program\ Files/Webots/msys64/mingw64/bin
+export PATH=$PATH:/C/Program\ Files/Webots/msys64/ucrt64/bin:/C/Program\ Files/Webots/msys64/ucrt64/bin
 ```
 
 For convenience, the two above lines can be appended to your `~/.bash_profile` file of MSYS2.

@@ -69,7 +69,7 @@ else:
 status = os.system(f'bash -c "{webots_command} --sysinfo"')
 if status != 0:
     if sys.platform == 'win32':
-        file = os.path.join(WEBOTS_HOME, 'msys64/mingw64/bin/webots-bin.exe')
+        file = os.path.join(WEBOTS_HOME, 'msys64/ucrt64/bin/webots-bin.exe')
         os.system(f'ldd {file}')
     else:
         sys.exit("Failed to start webots")

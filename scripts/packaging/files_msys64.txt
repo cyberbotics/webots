@@ -1,62 +1,61 @@
 # needed to execute webots-bin.exe (64 bit binary)
-/mingw64/bin/libb2-1.dll
-/mingw64/bin/libbrotlicommon.dll
-/mingw64/bin/libbrotlidec.dll
-/mingw64/bin/libbz2-1.dll
-/mingw64/bin/libdouble-conversion.dll
-/mingw64/bin/libfreetype-6.dll
-/mingw64/bin/libglib-2.0-0.dll
-/mingw64/bin/libgraphite2.dll
-/mingw64/bin/libharfbuzz-0.dll
-/mingw64/bin/libicudt??.dll
-/mingw64/bin/libicuin??.dll
-/mingw64/bin/libicuuc??.dll
-/mingw64/bin/libintl-8.dll
-/mingw64/bin/libmd4c.dll
-/mingw64/bin/libminizip-1.dll
-/mingw64/bin/libopenal-1.dll
-/mingw64/bin/libpcre2-8-0.dll
-/mingw64/bin/libpcre2-16-0.dll
-/mingw64/bin/libpng16-16.dll
-/mingw64/bin/libssl-3-x64.dll
-/mingw64/bin/libwinpthread-1.dll
-/mingw64/bin/Qt6Core.dll
-/mingw64/bin/Qt6Gui.dll
-/mingw64/bin/Qt6Network.dll
-/mingw64/bin/Qt6OpenGL.dll
-/mingw64/bin/Qt6OpenGLWidgets.dll
-/mingw64/bin/Qt6PrintSupport.dll
-/mingw64/bin/Qt6Qml.dll
-/mingw64/bin/Qt6WebSockets.dll
-/mingw64/bin/Qt6Widgets.dll
-/mingw64/bin/Qt6Xml.dll
+# libintl-8.dll and libwinpthread-1.dll are needed as well, but they are already included as dependencies of gcc
+/ucrt64/bin/libb2-1.dll
+/ucrt64/bin/libbrotlicommon.dll
+/ucrt64/bin/libbrotlidec.dll
+/ucrt64/bin/libbz2-1.dll
+/ucrt64/bin/libdouble-conversion.dll
+/ucrt64/bin/libfreetype-6.dll
+/ucrt64/bin/libglib-2.0-0.dll
+/ucrt64/bin/libgraphite2.dll
+/ucrt64/bin/libharfbuzz-0.dll
+/ucrt64/bin/libicudt??.dll
+/ucrt64/bin/libicuin??.dll
+/ucrt64/bin/libicuuc??.dll
+/ucrt64/bin/libmd4c.dll
+/ucrt64/bin/libminizip-1.dll
+/ucrt64/bin/libopenal-1.dll
+/ucrt64/bin/libpcre2-8-0.dll
+/ucrt64/bin/libpcre2-16-0.dll
+/ucrt64/bin/libpng16-16.dll
+/ucrt64/bin/libssl-3-x64.dll
+/ucrt64/bin/Qt6Core.dll
+/ucrt64/bin/Qt6Gui.dll
+/ucrt64/bin/Qt6Network.dll
+/ucrt64/bin/Qt6OpenGL.dll
+/ucrt64/bin/Qt6OpenGLWidgets.dll
+/ucrt64/bin/Qt6PrintSupport.dll
+/ucrt64/bin/Qt6Qml.dll
+/ucrt64/bin/Qt6WebSockets.dll
+/ucrt64/bin/Qt6Widgets.dll
+/ucrt64/bin/Qt6Xml.dll
 # Qt6 dependencies
-/mingw64/share/qt6/plugins/imageformats/qjpeg.dll
-/mingw64/bin/libjpeg-8.dll
-/mingw64/share/qt6/plugins/platforms/qwindows.dll
-/mingw64/share/qt6/plugins/tls/qcertonlybackend.dll
-/mingw64/share/qt6/plugins/tls/qopensslbackend.dll
-/mingw64/share/qt6/plugins/tls/qschannelbackend.dll
-/mingw64/share/qt6/translations/qt_*.qm
-/mingw64/share/qt6/translations/qtbase_*.qm
-/mingw64/share/qt6/translations/qtdeclarative_*.qm
-/mingw64/share/qt6/translations/qtwebsockets_*.qm
+/ucrt64/share/qt6/plugins/imageformats/qjpeg.dll
+/ucrt64/bin/libjpeg-8.dll
+/ucrt64/share/qt6/plugins/platforms/qwindows.dll
+/ucrt64/share/qt6/plugins/tls/qcertonlybackend.dll
+/ucrt64/share/qt6/plugins/tls/qopensslbackend.dll
+/ucrt64/share/qt6/plugins/tls/qschannelbackend.dll
+/ucrt64/share/qt6/translations/qt_*.qm
+/ucrt64/share/qt6/translations/qtbase_*.qm
+/ucrt64/share/qt6/translations/qtdeclarative_*.qm
+/ucrt64/share/qt6/translations/qtwebsockets_*.qm
 
 # needed by Webots to make movies (ffmpeg.exe dependencies are automatically computed)
-/mingw64/bin/ffmpeg.exe
+/ucrt64/bin/ffmpeg.exe
 
 # needed run the darwin-op remote control library
-/mingw64/bin/libssh.dll
-/mingw64/bin/libzip.dll
-/mingw64/bin/Qt6Concurrent.dll
+/ucrt64/bin/libssh.dll
+/ucrt64/bin/libzip.dll
+/ucrt64/bin/Qt6Concurrent.dll
 
 # needed to compile the darwin-op remote control library
-/mingw64/include/libssh/*.*
-/mingw64/include/zip.h
-/mingw64/include/zipconf.h
+/ucrt64/include/libssh/*.*
+/ucrt64/include/zip.h
+/ucrt64/include/zipconf.h
 
 # needed to recompile the Qt-based robot windows (darwin-op)
-/mingw64/share/qt6/bin/moc.exe
+/ucrt64/share/qt6/bin/moc.exe
 
 # needed to execute make (Makefile)
 /usr/bin/msys-2.0.dll
