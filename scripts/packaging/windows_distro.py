@@ -280,9 +280,11 @@ class WindowsWebotsPackage(WebotsPackage):
         skip_paths = ['/usr/share/', '/ucrt64/bin/zlib1.dll', '/ucrt64/bin/libjpeg-8.dll']
 
         # add all the files and folders corresponding to the pacman dependencies
+        # (splitlines() returns no entry for meta packages without files, such as cc-libs, which would otherwise add an
+        # empty file name resulting in the msys64 root folder as source file and making ISCC fail)
         for dependency in dependencies:
             print("  processing " + dependency, flush=True)
-            for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().strip().split('\n'):
+            for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().splitlines():
                 skip = False
                 for skip_path in skip_paths:
                     if file.startswith(skip_path):
