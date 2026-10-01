@@ -62,9 +62,12 @@ assimp-clean:
 
 assimp: $(TARGET_PATH)/libassimp-5.dll
 
+# the package stores libassimp-5.dll in msys64/mingw64/bin, so it is extracted separately into the target path
 $(TARGET_PATH)/libassimp-5.dll: $(ASSIMP_PACKAGE)
 	@echo "# uncompressing $(ASSIMP_PACKAGE)"
-	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)" -d "$(WEBOTS_HOME_PATH)"
+	@mkdir -p $(TARGET_PATH)
+	@unzip -q -o "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)" -x msys64/mingw64/bin/libassimp-5.dll -d "$(WEBOTS_HOME_PATH)"
+	@unzip -q -o -j "$(WEBOTS_DEPENDENCY_PATH)/$(ASSIMP_PACKAGE)" msys64/mingw64/bin/libassimp-5.dll -d "$(TARGET_PATH)"
 	@touch "$(TARGET_PATH)/libassimp-5.dll"
 
 $(ASSIMP_PACKAGE):
