@@ -47,6 +47,9 @@ replace_projects_urls(current_tag)
 
 # recompile controllers
 print('# recompiling controller files')
+# the jobserver of the parent make is not reachable from this script, so make should not try to use it
+make_env = os.environ.copy()
+make_env['MAKEFLAGS'] = ' '.join(flag for flag in make_env.get('MAKEFLAGS', '').split() if not flag.startswith('--jobserver'))
 with open(os.path.join(WEBOTS_HOME, 'scripts', 'packaging', 'controllers_with_urls.txt')) as f:
     for line in f:
         file_path = line.strip()
@@ -54,7 +57,7 @@ with open(os.path.join(WEBOTS_HOME, 'scripts', 'packaging', 'controllers_with_ur
             dir_path = os.path.dirname(file_path)
             if dir_path.startswith('/'):
                 dir_path = dir_path[1:]
-            subprocess.run(['make', '-C', os.path.join(WEBOTS_HOME, dir_path), 'release'])
+            subprocess.run(['make', '-C', os.path.join(WEBOTS_HOME, dir_path), 'release'], env=make_env)
 
 # generating proto-list.xml
 print('# generating proto-list.xml')
