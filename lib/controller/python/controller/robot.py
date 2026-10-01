@@ -128,10 +128,20 @@ class Robot:
         Robot.created = self
         wb.wb_robot_init()
         self.devices = {}
-        n = wb.wb_robot_get_number_of_devices()
-        for i in range(0, n):
+        self._seen_device_names = set()
+        self._updateDevices()
+        self.keyboard = Keyboard(0)
+        self.mouse = Mouse(0)
+        self.joystick = Joystick(0)
+
+    def _updateDevices(self):
+        # also picks up devices that were added after the controller started (e.g. imported by a supervisor)
+        for i in range(0, wb.wb_robot_get_number_of_devices()):
             tag = wb.wb_robot_get_device_by_index(i)
             name = wb.wb_device_get_name(tag).decode()
+            if name in self._seen_device_names:
+                continue
+            self._seen_device_names.add(name)
             type = wb.wb_device_get_node_type(tag)
             if type == Node.ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
@@ -185,9 +195,6 @@ class Robot:
                 self.devices[name] = VacuumGripper(tag)
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
-        self.keyboard = Keyboard(0)
-        self.mouse = Mouse(0)
-        self.joystick = Joystick(0)
 
     def __del__(self):
         wb.wb_robot_cleanup()
@@ -290,6 +297,8 @@ class Robot:
 
     def getDevice(self, name: str) -> Device:
         if name not in self.devices:
+            self._updateDevices()
+        if name not in self.devices:
             print(f'Device "{name}" was not found on robot "{self.name}"', file=sys.stderr)
             return None
         else:
@@ -307,6 +316,8 @@ class Robot:
     def getDeviceByIndex(self, index: int) -> Device:
         tag = wb.wb_robot_get_device_by_index(index)
         name = wb.wb_device_get_name(tag).decode()
+        if name not in self.devices:
+            self._updateDevices()
         return self.devices[name]
 
     def getBasicTimeStep(self) -> float:
