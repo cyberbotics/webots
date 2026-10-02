@@ -825,7 +825,7 @@ This example is well suited for the remote compilation and we recommended that y
 
 >**Note**: This sample is also available using a MATLAB controller in the `symmetry_matlab.wbt` world.
 On recent Windows versions of MATLAB, the remote control and robot window of the ROBOTIS OP2 are not working because MATLAB is coming with a version of `libstdc++-6.dll` that is incompatible with the one coming with Webots.
-A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSION\bin\win64\libstdc++-6.dll` file by the one from `WEBOTS_HOME\msys64\mingw64\bin\libstdc++-6.dll` (make sure to backup the original file before replacing it).
+A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSION\bin\win64\libstdc++-6.dll` file by the one from `WEBOTS_HOME\msys64\ucrt64\bin\cpp\libstdc++-6.dll` (make sure to backup the original file before replacing it).
 
 #### [visual\_tracking.wbt]({{ url.github_tree }}/projects/robots/robotis/darwin-op/worlds/visual\_tracking.wbt)
 

@@ -30,7 +30,7 @@ default:
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 ifeq ($(OSTYPE),windows)
-CONTROLLER_LAUNCHER = $(WEBOTS_HOME_PATH)/msys64/mingw64/bin/webots-controller.exe
+CONTROLLER_LAUNCHER = $(WEBOTS_HOME_PATH)/msys64/ucrt64/bin/webots-controller.exe
 else ifeq ($(OSTYPE),darwin)
 CONTROLLER_LAUNCHER = $(WEBOTS_HOME_PATH)/Contents/MacOS/webots-controller
 else

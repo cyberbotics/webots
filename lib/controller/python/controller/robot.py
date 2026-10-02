@@ -74,7 +74,7 @@ if sys.platform == 'win32':
             self._r.close()
 
         def _handler(self):
-            libc = ctypes.CDLL('msvcrt')
+            libc = ctypes.CDLL('ucrtbase')  # the C runtime in which Controller.dll redirects the streams
             while not self._w.closed:
                 try:
                     while True:

@@ -339,7 +339,7 @@ To upload the last firmware on your robot, switch on your robot, press the `Uplo
 Then choose the "WEBOTS\_HOME/projects/robots/gctronic/e-puck/transfer/firmware/firmware-x.x.x.hex" file located in your Webots directory (*x.x.x* has to be replaced by the current firmware's version).
 
 >**Note**: On recent Windows versions of MATLAB, the remote control is not working because MATLAB is coming with a version of `libstdc++-6.dll` that is incompatible with the one coming with Webots.
-A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSION\bin\win64\libstdc++-6.dll` file by the one from `WEBOTS_HOME\msys64\mingw64\bin\libstdc++-6.dll` (make sure to backup the original file before replacing it).
+A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSION\bin\win64\libstdc++-6.dll` file by the one from `WEBOTS_HOME\msys64\ucrt64\bin\cpp\libstdc++-6.dll` (make sure to backup the original file before replacing it).
 
 #### Cross-Compilation
 
