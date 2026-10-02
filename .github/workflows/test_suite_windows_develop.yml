@@ -22,15 +22,16 @@ jobs:
     steps:
     - uses: msys2/setup-msys2@v2
       with:
+        msystem: UCRT64
         update: false
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
          submodules: true
          fetch-depth: 15
          ref: develop
     - name: Install Webots Compilation Dependencies
       run: |
-        echo 'export PATH=$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH' >> ~/.bash_profile
+        echo 'export PATH=$GITHUB_WORKSPACE/msys64/ucrt64/bin:$GITHUB_WORKSPACE/bin/node:/ucrt64/bin:/usr/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
     - name: Build Webots
@@ -46,13 +47,14 @@ jobs:
     steps:
     - uses: msys2/setup-msys2@v2
       with:
+        msystem: UCRT64
         update: false
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
          submodules: true
          fetch-depth: 15
          ref: develop
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.11'
     - name: Install OpenJDK 18
@@ -65,7 +67,7 @@ jobs:
         echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
         echo 'export PYTHON_HOME='$PYTHON_HOME >> ~/.bash_profile
         echo 'export INNO_SETUP_HOME="/C/Program Files (x86)/Inno Setup 6"' >> ~/.bash_profile
-        echo 'export PATH=$PYTHON_HOME:$PYTHON_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
+        echo 'export PATH=$PYTHON_HOME:$PYTHON_HOME/Scripts:$GITHUB_WORKSPACE/msys64/ucrt64/bin:$GITHUB_WORKSPACE/bin/node:/ucrt64/bin:/usr/bin:$JAVA_HOME/bin:$PATH' >> ~/.bash_profile
         export WEBOTS_HOME=$GITHUB_WORKSPACE
         ./scripts/install/msys64_installer.sh --all
     - name: Set Commit SHA in Version
@@ -80,7 +82,7 @@ jobs:
       run: |
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test distribution') }}
       with:
         name: build-${{ matrix.os }}
@@ -95,6 +97,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
-      uses: geekyeggo/delete-artifact@v5
+      uses: geekyeggo/delete-artifact@v6
       with:
         name: build-${{ matrix.os }}
