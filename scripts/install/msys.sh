@@ -1,16 +1,16 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-export PATH=/mingw64/bin:/usr/bin:/c/WINDOWS/system32
+export PATH=/ucrt64/bin:/usr/bin:/c/WINDOWS/system32
 cd ~
 else
 WINDOWS_DRIVE=${1:1:1}:\\${1:3}
 export WEBOTS_HOME=${WINDOWS_DRIVE////\\}
-PATH="$1/msys64/mingw64/bin"
+PATH="$1/msys64/ucrt64/bin"
 if [ -v PYTHON_HOME ]; then
 PATH+=":$PYTHON_HOME:$PYTHON_HOME/Scripts"
 fi
-PATH+=":/mingw64/bin:/usr/bin"
+PATH+=":/ucrt64/bin:/usr/bin"
 if [ -v JAVA_HOME ]; then
 PATH+=":$JAVA_HOME/bin"
 fi
