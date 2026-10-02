@@ -8,40 +8,41 @@ set -e
 # --all: install all the optional dependencies
 
 declare -a BASE_PACKAGES=(
-  "make"                              # Makefile
-  "mingw-w64-x86_64-gcc"              # C/C++ compiler
-  "tar"                               # Webots dependencies
-  "unzip"                             # Webots dependencies
-  "zip"                               # robotbenchmark square path
-  "mingw-w64-x86_64-qt6-base"         # Webots
-  "mingw-w64-x86_64-qt6-declarative"  # Webots
-  "mingw-w64-x86_64-qt6-tools"        # Webots (translation: lrelease and lupdate)
-  "mingw-w64-x86_64-qt6-translations" # Webots
-  "mingw-w64-x86_64-qt6-websockets"   # Webots
-  "mingw-w64-x86_64-libzip"           # Webots
-  "mingw-w64-x86_64-woff2"            # Webots
-  "mingw-w64-x86_64-minizip"          # Webots (assimp)
-  "mingw-w64-x86_64-zlib"             # Webots (assimp)
-  "liblzma"                           # Webots
-  "mingw-w64-x86_64-ffmpeg"           # Webots movies
-  "mingw-w64-x86_64-dlfcn"            # dependency of ffmpeg
-  "mingw-w64-x86_64-python"           # python controllers and scripts
-  "mingw-w64-x86_64-ca-certificates"  # CA certs needed to run tests/test_suite.py 
+  "make"                                   # Makefile
+  "mingw-w64-ucrt-x86_64-gcc"              # C/C++ compiler
+  "tar"                                    # Webots dependencies
+  "unzip"                                  # Webots dependencies
+  "zip"                                    # robotbenchmark square path
+  "mingw-w64-ucrt-x86_64-qt6-base"         # Webots
+  "mingw-w64-ucrt-x86_64-qt6-declarative"  # Webots
+  "mingw-w64-ucrt-x86_64-qt6-tools"        # Webots (translation: lrelease and lupdate)
+  "mingw-w64-ucrt-x86_64-qt6-translations" # Webots
+  "mingw-w64-ucrt-x86_64-qt6-websockets"   # Webots
+  "mingw-w64-ucrt-x86_64-libzip"           # Webots
+  "mingw-w64-ucrt-x86_64-woff2"            # Webots
+  "mingw-w64-ucrt-x86_64-assimp"           # Webots
+  "mingw-w64-ucrt-x86_64-minizip"          # Webots (assimp)
+  "mingw-w64-ucrt-x86_64-zlib"             # Webots (assimp)
+  "liblzma"                                # Webots
+  "mingw-w64-ucrt-x86_64-ffmpeg"           # Webots movies
+  "mingw-w64-ucrt-x86_64-dlfcn"            # dependency of ffmpeg
+  "mingw-w64-ucrt-x86_64-python"           # python controllers and scripts
+  "mingw-w64-ucrt-x86_64-ca-certificates"  # CA certs needed to run tests/test_suite.py
 )
 
 declare -a OPTIONAL_PACKAGES=(
-  "git"                         # Distribution script (check_submodules_update.sh)
-  "pacman-contrib"              # Distribution script (pactree)
-  "swig"                        # Python and Java API wrappers
-  "mingw-w64-x86_64-boost"      # to recompile ROS controller
-  "mingw-w64-x86_64-python-pip" # Useful for advanced python usage
+  "git"                              # Distribution script (check_submodules_update.sh)
+  "pacman-contrib"                   # Distribution script (pactree)
+  "swig"                             # Python and Java API wrappers
+  "mingw-w64-ucrt-x86_64-boost"      # to recompile ROS controller
+  "mingw-w64-ucrt-x86_64-python-pip" # Useful for advanced python usage
 )
 
 declare -a DEVELOPMENT_PACKAGES=(
-  "mingw-w64-x86_64-clang"    # coding style tests
-  "mingw-w64-x86_64-cppcheck" # coding style tests
-  "mingw-w64-x86_64-gdb"      # debugging
-  "diffutils"                 # cmp and diff utilities
+  "mingw-w64-ucrt-x86_64-clang"    # coding style tests
+  "mingw-w64-ucrt-x86_64-cppcheck" # coding style tests
+  "mingw-w64-ucrt-x86_64-gdb"      # debugging
+  "diffutils"                      # cmp and diff utilities
 )
 
 if [ "$1" == "--dev" ]; then

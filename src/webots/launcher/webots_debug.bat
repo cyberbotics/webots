@@ -6,7 +6,7 @@
 ECHO Setup environment variables...
 SET PWD=%~d0
 SET WEBOTS_HOME=%~dp0\..\..\..
-SET PATH=%PWD%\msys64\mingw64\bin;%PWD%\msys64\usr\bin;%PATH%
+SET PATH=%PWD%\msys64\ucrt64\bin;%PWD%\msys64\usr\bin;%PATH%
 
 ECHO Generate the gdb input file...
 SET INPUT=%WEBOTS_HOME%\webots_debug_input.txt
