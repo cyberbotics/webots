@@ -42,7 +42,9 @@
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
-  - Dependency Updates
+    - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
+      - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
+- Dependency Updates
     - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
     - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).
 
