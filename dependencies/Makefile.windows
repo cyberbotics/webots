@@ -24,7 +24,7 @@ clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f $(TARGET_PATH)/zlib1.dll
 	@rm -f $(TARGET_PATH)/libjpeg-8.dll
-	@rm -f $(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest
+	@rm -f $(TARGET_PATH)/Cyberbotics.Webots.Libraries.manifest
 	@rm -f ../.clang-format
 
 .ONESHELL:
@@ -36,7 +36,7 @@ cleanse: $(PACKAGES_CLEAN)
 msys64: $(TARGET_PATH) \
 	$(TARGET_PATH)/zlib1.dll \
 	$(TARGET_PATH)/libjpeg-8.dll \
-	$(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest \
+	$(TARGET_PATH)/Cyberbotics.Webots.Libraries.manifest \
 	$(WEBOTS_HOME_PATH)/msys64/ucrt64/lib
 
 $(TARGET_PATH)/zlib1.dll: $(TARGET_PATH)
@@ -45,8 +45,8 @@ $(TARGET_PATH)/zlib1.dll: $(TARGET_PATH)
 $(TARGET_PATH)/libjpeg-8.dll: $(TARGET_PATH)
 	@cp /ucrt64/bin/libjpeg-8.dll $(TARGET_PATH)/
 
-$(TARGET_PATH)/Cyberbotics.Webots.Mingw64.Libraries.manifest: $(TARGET_PATH)
-	@cp Cyberbotics.Webots.Mingw64.Libraries.manifest $(TARGET_PATH)/
+$(TARGET_PATH)/Cyberbotics.Webots.Libraries.manifest: $(TARGET_PATH)
+	@cp Cyberbotics.Webots.Libraries.manifest $(TARGET_PATH)/
 
 $(WEBOTS_HOME_PATH)/msys64/ucrt64/lib:
 	@mkdir -p $(WEBOTS_HOME_PATH)/msys64/ucrt64/lib

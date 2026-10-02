@@ -3,7 +3,7 @@
 <assemblyIdentity type="win32" name="webots-bin.exe" version="1.0.0.0" processorArchitecture="amd64" />
 <dependency>
  <dependentAssembly>
-  <assemblyIdentity name="Cyberbotics.Webots.Mingw64.Libraries" version="1.0.0.0" type="win32" processorArchitecture="amd64" />
+  <assemblyIdentity name="Cyberbotics.Webots.Libraries" version="1.0.0.0" type="win32" processorArchitecture="amd64" />
  </dependentAssembly>
 </dependency>
 </assembly>
