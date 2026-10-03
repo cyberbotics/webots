@@ -78,6 +78,11 @@ jobs:
         git config --global core.eol lf
     - uses: actions/checkout@v3
       if: steps.os_check.outputs.job_needed == 'true'
+    - name: Test WREN camera caches
+      if: steps.os_check.outputs.job_needed == 'true' && matrix.os == 'ubuntu-22.04'
+      run: |
+        git submodule update --init src/glm
+        make -C tests/wren test
     - name: Set up Python ${{ matrix.python }}
       if: steps.os_check.outputs.job_needed == 'true'
       uses: actions/setup-python@v4
