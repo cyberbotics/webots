@@ -402,17 +402,17 @@ static void add_lib_controller_to_path() {
 This function sets the environment variable for java and executable controllers execution.
 
 On Windows, the function adds a new path to the "Path" environment variable by concatenating the WEBOTS_HOME constant, the
-'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
+'msys64\ucrt64\bin' and 'msys64\ucrt64\bin\cpp' directories to the current "Path" value.
 
 The function also adds the controller library directory to the Path on all platforms.
 */
 static void exec_java_config_environment() {
 #ifdef _WIN32
-  const size_t new_windows_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s",
+  const size_t new_windows_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\ucrt64\\bin;%s\\msys64\\ucrt64\\bin\\cpp;%s",
                                                 WEBOTS_HOME, WEBOTS_HOME, getenv("Path")) +
                                        1;
   new_windows_path = malloc(new_windows_path_size);
-  sprintf(new_windows_path, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
+  sprintf(new_windows_path, "Path=%s\\msys64\\ucrt64\\bin;%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
           getenv("Path"));
   putenv(new_windows_path);
 #endif
@@ -422,7 +422,7 @@ static void exec_java_config_environment() {
 /*
 This function sets the environment variable for python controllers execution.
 
-For Windows it adds "\lib\controller\python;" to PYTHONPATH and adds "\msys64\mingw64\bin\cpp;" to the Path environment
+For Windows it adds "\lib\controller\python;" to PYTHONPATH and adds "\msys64\ucrt64\bin\cpp;" to the Path environment
 variable. For Linux, it adds "/lib/controller/python:" to PYTHONPATH. For macOS it adds "/Contents/lib/controller/python:" to
 PYTHONPATH and adds "/Contents/lib/controller:" to DYLD_LIBRARY_PATH. It sets PYTHONIOENCODING to "UTF-8" on all platforms.
 */
@@ -446,9 +446,9 @@ static void python_config_environment() {
 // On Windows add libCppController to Path (useful for C++ controllers, robot windows and remote control plugins)
 // On macOS add libController to DYLD_LIBRARY_PATH (useful for generic robot window library)
 #ifdef _WIN32
-  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
+  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
   new_path = malloc(new_path_size);
-  sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
+  sprintf(new_path, "Path=%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
 #elif defined __APPLE__
   const size_t new_path_size =

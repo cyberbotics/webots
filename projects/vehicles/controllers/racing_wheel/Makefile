@@ -42,7 +42,7 @@ CFLAGS += -std=c++17
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/ucrt64/bin" -lQt6Core
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore"
 endif
 

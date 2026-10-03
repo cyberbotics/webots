@@ -60,7 +60,7 @@ endif
 
 ifeq ($(OSTYPE),windows)
 CFLAGS      = -Wall -mwindows -frandom-seed=0 -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
-INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/mingw64/include
+INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include -I/ucrt64/include
 LD_FLAGS    = -shared -mwindows -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
 SHARED_LIBS = -lws2_32
 CC          = gcc
