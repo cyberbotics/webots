@@ -48,6 +48,8 @@ Released on ??.
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
+    - Fixed `Robot.getDevice` and `Robot.getDeviceByIndex` in the Python controller failing for devices added after the controller started, for example by a Supervisor import ([#7034](https://github.com/cyberbotics/webots/pull/7034)).
+    - Fixed a bug preventing Webots from opening its TCP server on macOS 27, where every port was incorrectly reported as already in use ([#7032](https://github.com/cyberbotics/webots/pull/7032)).
     - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
       - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
 - Dependency Updates
