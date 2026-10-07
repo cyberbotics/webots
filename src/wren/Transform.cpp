@@ -58,7 +58,7 @@ namespace wren {
   Transform::Transform() {
   }
 
-  Transform::Transform(Transform *source) : TransformNode(source) {
+  Transform::Transform(const Transform *source) : TransformNode(source) {
   }
 
   Transform::~Transform() {

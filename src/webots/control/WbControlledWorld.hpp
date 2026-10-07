@@ -31,7 +31,7 @@ public:
   explicit WbControlledWorld(WbTokenizer *tokenizer = NULL);
   virtual ~WbControlledWorld() override;
 
-  void startController(WbRobot *robot);
+  void startController(const WbRobot *robot);
   void externConnection(WbController *controller, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
