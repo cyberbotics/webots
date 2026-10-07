@@ -145,6 +145,7 @@ private:
   WbNode *getProtoParameterNodeInstance(int nodeId, const QString &functionName) const;
   void applyFieldSetRequest(struct field_set_request *request);
   QString readString(QDataStream &);
+  bool isItemIndexValid(const WbField *field, int index) const;
   void makeFilenameAbsolute(QString &filename);
   WbSimulationState::Mode convertSimulationMode(int supervisorMode);
   QString createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const;

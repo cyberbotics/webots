@@ -113,6 +113,7 @@ class WbFieldSetRequest {
 public:
   virtual void apply() const = 0;
   virtual ~WbFieldSetRequest() {}
+  const WbField *field() const { return mField; }
 
 protected:
   WbFieldSetRequest(WbField *field, int index) : mField(field), mIndex(index) {}
@@ -357,6 +358,14 @@ QString WbSupervisorUtilities::readString(QDataStream &stream) {
   return QString(txt.constData());
 }
 
+bool WbSupervisorUtilities::isItemIndexValid(const WbField *field, int index) const {
+  const WbMultipleValue *items = dynamic_cast<const WbMultipleValue *>(field->value());
+  if (!items || (index >= 0 && index < items->size()))
+    return true;
+  mRobot->warn(tr("wb_supervisor_field_get/set_mf_*() called with index out of range."));
+  return false;
+}
+
 // if filename is relative: make it absolute with respect to Supervisor's controller dir
 void WbSupervisorUtilities::makeFilenameAbsolute(QString &filename) {
   if (QDir::isRelativePath(filename)) {
@@ -548,6 +557,12 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
 void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   if (!node)
     return;
+
+  // Queued field sets hold raw field pointers: drop the ones on this node before it is freed.
+  for (int i = mFieldSetRequests.size() - 1; i >= 0; --i) {
+    if (mFieldSetRequests.at(i)->field()->parentNode() == node)
+      delete mFieldSetRequests.takeAt(i);
+  }
 
   // check if node already in the list
   if (mNodesDeletedSinceLastStep.contains(node->uniqueId()))
@@ -1572,8 +1587,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           field = protoInfo->findFieldByIndex(fieldId).actualField;
         }
 
-        if (field && field->isMultiple())
+        if (field && field->isMultiple()) {
           stream >> index;
+          if (!isItemIndexValid(field, index))
+            field = NULL;
+        }
       }
 
       assert(!mFieldGetRequest);
@@ -1595,6 +1613,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> index;
       const WbNode *const node = WbNode::findNode(uniqueId);
       WbField *field = node ? node->field(fieldId) : NULL;
+      if (field && !isItemIndexValid(field, index))
+        field = NULL;
 
       // we read the data depending on the field type
       unsigned char b = 0;
@@ -1605,37 +1625,43 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_SF_BOOL:
         case WB_MF_BOOL:
           stream >> b;
-          mFieldSetRequests << new WbBoolFieldSetRequest(field, index, b);
+          if (field)
+            mFieldSetRequests << new WbBoolFieldSetRequest(field, index, b);
           break;
         case WB_SF_INT32:
         case WB_MF_INT32:
           stream >> i;
-          mFieldSetRequests << new WbIntFieldSetRequest(field, index, i);
+          if (field)
+            mFieldSetRequests << new WbIntFieldSetRequest(field, index, i);
           break;
         case WB_SF_FLOAT:
         case WB_MF_FLOAT:
           stream >> d0;
-          mFieldSetRequests << new WbDoubleFieldSetRequest(field, index, d0);
+          if (field)
+            mFieldSetRequests << new WbDoubleFieldSetRequest(field, index, d0);
           break;
         case WB_SF_VEC2F:
         case WB_MF_VEC2F:
           stream >> d0;
           stream >> d1;
-          mFieldSetRequests << new WbVector2FieldSetRequest(field, index, d0, d1);
+          if (field)
+            mFieldSetRequests << new WbVector2FieldSetRequest(field, index, d0, d1);
           break;
         case WB_SF_COLOR:
         case WB_MF_COLOR:
           stream >> d0;
           stream >> d1;
           stream >> d2;
-          mFieldSetRequests << new WbColorFieldSetRequest(field, index, d0, d1, d2);
+          if (field)
+            mFieldSetRequests << new WbColorFieldSetRequest(field, index, d0, d1, d2);
           break;
         case WB_SF_VEC3F:
         case WB_MF_VEC3F:
           stream >> d0;
           stream >> d1;
           stream >> d2;
-          mFieldSetRequests << new WbVector3FieldSetRequest(field, index, d0, d1, d2);
+          if (field)
+            mFieldSetRequests << new WbVector3FieldSetRequest(field, index, d0, d1, d2);
           break;
         case WB_SF_ROTATION:
         case WB_MF_ROTATION:
@@ -1643,12 +1669,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d1;
           stream >> d2;
           stream >> d3;
-          mFieldSetRequests << new WbRotationFieldSetRequest(field, index, d0, d1, d2, d3);
+          if (field)
+            mFieldSetRequests << new WbRotationFieldSetRequest(field, index, d0, d1, d2, d3);
           break;
         case WB_SF_STRING:
         case WB_MF_STRING: {
           const QString s = readString(stream);
-          mFieldSetRequests << new WbStringFieldSetRequest(field, index, s);
+          if (field)
+            mFieldSetRequests << new WbStringFieldSetRequest(field, index, s);
           break;
         }
       }
