@@ -61,39 +61,46 @@ if sys.platform == 'win32':
             self._r = r
             self._w = w
             if stream == 1:  # stdout
+                self._orig = sys.stdout
                 sys.stdout = self._w
             elif stream == 2:  # stderr
+                self._orig = sys.stderr
                 sys.stderr = self._w
             self._stream = stream
-            self._thread = threading.Thread(target=self._handler)
+            self._thread = threading.Thread(target=self._handler, daemon=True)
             self._thread.start()
 
+        def close(self):
+            if not self._w.closed:
+                if self._stream == 1:
+                    sys.stdout = self._orig
+                elif self._stream == 2:
+                    sys.stderr = self._orig
+                self._w.close()
+                self._thread.join()
+                self._r.close()
+
         def __del__(self):
-            self._w.close()
-            self._thread.join()
-            self._r.close()
+            self.close()
 
         def _handler(self):
             libc = ctypes.CDLL('ucrtbase')  # the C runtime in which Controller.dll redirects the streams
-            while not self._w.closed:
-                try:
-                    while True:
-                        line = self._r.readline()
-                        if len(line) == 0:
-                            break
-                        encoded = line.encode('utf-8')
-                        libc._write(self._stream, encoded, len(encoded), 0)
-                except Exception:
-                    break
+            try:
+                while True:
+                    line = self._r.readline()
+                    if len(line) == 0:
+                        break
+                    encoded = line.encode('utf-8')
+                    libc._write(self._stream, encoded, len(encoded), 0)
+            except Exception:
+                pass
 
-    def _delete_object(object):
-        del object
     if 'WEBOTS_STDOUT_REDIRECT' in os.environ and os.environ['WEBOTS_STDOUT_REDIRECT']:
         _stdout_redirect = StdStreamRedirect(1)
-        atexit.register(_delete_object, _stdout_redirect)
+        atexit.register(_stdout_redirect.close)
     if 'WEBOTS_STDERR_REDIRECT' in os.environ and os.environ['WEBOTS_STDERR_REDIRECT']:
         _stderr_redirect = StdStreamRedirect(2)
-        atexit.register(_delete_object, _stderr_redirect)
+        atexit.register(_stderr_redirect.close)
 
 
 class Robot:
