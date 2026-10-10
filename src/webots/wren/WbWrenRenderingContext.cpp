@@ -38,7 +38,9 @@ WbWrenRenderingContext::WbWrenRenderingContext(int width, int height) :
   mSolidLineScale(0.0),
   mRenderingMode(RM_PLAIN),
   mProjectionMode(PM_PERSPECTIVE),
-  mOptionalRenderingsMask(VM_MAIN) {
+  // the mesh normals are built only when displayed, so they start hidden until the world perspective is restored,
+  // otherwise every triangle mesh would build and discard them while the world is loading
+  mOptionalRenderingsMask(VM_MAIN & ~VF_NORMALS) {
   assert(VM_WEBOTS_RANGE_CAMERA == VM_REGULAR + (unsigned int)VF_LASER_BEAM);
 }
 
