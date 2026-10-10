@@ -1848,7 +1848,7 @@ namespace wren {
     assert(mIndices.size());
 
     // the vertex count limiting the meshes casting shadows is the one the mesh was created with
-    const bool supportShadows = mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled();
+    const bool canCastShadows = mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled();
 
     mergeIdenticalVertices();
 
@@ -1930,7 +1930,7 @@ namespace wren {
     glVertexAttribPointer(GlslLayout::gLocationCoords, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
     glEnableVertexAttribArray(GlslLayout::gLocationCoords);
 
-    if (supportShadows) {
+    if (canCastShadows) {
       computeTrianglesAndEdges();
       mCacheData->mSupportShadows = true;
     } else
