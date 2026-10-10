@@ -18,6 +18,7 @@
 #include "Debug.hpp"
 #include "GlState.hpp"
 #include "Primitive.hpp"
+#include "VertexIndex.hpp"
 
 #include <wren/static_mesh.h>
 
@@ -1819,10 +1820,37 @@ namespace wren {
       mCacheData->mEdges.push_back(it.second);
   }
 
+  // Many meshes repeat their vertices: Webots gives every triangle corner of an IndexedFaceSet or a Mesh its own vertex.
+  // Only one copy of identical vertices is uploaded; the triangles, their order and the values reaching the shaders are
+  // unchanged.
+  void StaticMesh::mergeIdenticalVertices() {
+    const std::vector<unsigned int> source =
+      vertexindex::mergeIdenticalVertices(mIndices, mCoords.size(),
+                                          {{mCoords.data(), sizeof(glm::vec3)},
+                                           {mNormals.empty() ? NULL : mNormals.data(), sizeof(glm::vec3)},
+                                           {mTexCoords.empty() ? NULL : mTexCoords.data(), sizeof(glm::vec2)},
+                                           {mUnwrappedTexCoords.empty() ? NULL : mUnwrappedTexCoords.data(), sizeof(glm::vec2)},
+                                           {mColors.empty() ? NULL : mColors.data(), sizeof(glm::vec3)}});
+    vertexindex::gather(mCoords, source);
+    vertexindex::gather(mNormals, source);
+    vertexindex::gather(mTexCoords, source);
+    vertexindex::gather(mUnwrappedTexCoords, source);
+    vertexindex::gather(mColors, source);
+  }
+
+  template<typename T> static void freeMemory(std::vector<T> &values) {
+    std::vector<T>().swap(values);
+  }
+
   void StaticMesh::prepareGl() {
     assert(mCacheData);
     assert(mCoords.size());
     assert(mIndices.size());
+
+    // the vertex count limiting the meshes casting shadows is the one the mesh was created with
+    const bool canCastShadows = mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled();
+
+    mergeIdenticalVertices();
 
     glGenVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
     glGenBuffers(1, &mCacheData->mGlNameBufferIndices);
@@ -1902,7 +1930,7 @@ namespace wren {
     glVertexAttribPointer(GlslLayout::gLocationCoords, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), NULL);
     glEnableVertexAttribArray(GlslLayout::gLocationCoords);
 
-    if (mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled()) {
+    if (canCastShadows) {
       computeTrianglesAndEdges();
       mCacheData->mSupportShadows = true;
     } else
@@ -1913,11 +1941,13 @@ namespace wren {
     mCacheData->mIndexCount = mIndices.size();
     mCacheData->mVertexCount = mCoords.size();
 
-    mCoords.clear();
-    mIndices.clear();
-    mNormals.clear();
-    mTexCoords.clear();
-    mColors.clear();
+    // the data is on the GPU (see readData), clear() would keep the memory allocated
+    freeMemory(mCoords);
+    freeMemory(mIndices);
+    freeMemory(mNormals);
+    freeMemory(mTexCoords);
+    freeMemory(mUnwrappedTexCoords);
+    freeMemory(mColors);
   }
 
   void StaticMesh::cleanupGl() {
