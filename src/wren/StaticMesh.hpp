@@ -85,6 +85,7 @@ namespace wren {
     virtual ~StaticMesh() override {}
 
   private:
+    void mergeIdenticalVertices();
     void computeTrianglesAndEdges();
 
     void prepareGl() override;
