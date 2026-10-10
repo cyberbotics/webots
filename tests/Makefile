@@ -16,7 +16,7 @@
 
 release debug profile: api cache other_api parser physics protos rendering
 
-clean: api cache parser physics protos rendering
+clean: api cache other_api parser physics protos rendering
 	@-rm -rf *.txt \
 	         *.pyc \
 	         api/controllers/supervisor_animation/animation.html \
