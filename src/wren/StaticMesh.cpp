@@ -1737,7 +1737,7 @@ namespace wren {
     mCacheData->mAabb = primitive::Aabb(coords());
   }
 
-  StaticMesh::StaticMesh() : mIsCachePersistent(false), mCacheData(NULL) {
+  StaticMesh::StaticMesh() : mIsCachePersistent(false), mUnmergedVertexCount(0), mCacheData(NULL) {
   }
 
   static void createOrCompleteEdge(size_t triangleIndex, unsigned int vertexIndex0, unsigned int vertexIndex1,
@@ -1838,6 +1838,14 @@ namespace wren {
     vertexindex::gather(mColors, source);
   }
 
+  // Merging here rather than in prepareGl(), which waits for an active GL context, gives the mesh a single representation
+  // from its creation on.
+  void StaticMesh::setup() {
+    mUnmergedVertexCount = mCoords.size();
+    mergeIdenticalVertices();
+    Mesh::setup();
+  }
+
   template<typename T> static void freeMemory(std::vector<T> &values) {
     std::vector<T>().swap(values);
   }
@@ -1848,9 +1856,8 @@ namespace wren {
     assert(mIndices.size());
 
     // the vertex count limiting the meshes casting shadows is the one the mesh was created with
-    const bool canCastShadows = mCoords.size() <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled();
-
-    mergeIdenticalVertices();
+    const bool canCastShadows =
+      mUnmergedVertexCount <= config::maxVerticesPerMeshForShadowRendering() && config::areShadowsEnabled();
 
     glGenVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
     glGenBuffers(1, &mCacheData->mGlNameBufferIndices);

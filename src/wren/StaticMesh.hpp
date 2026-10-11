@@ -80,6 +80,8 @@ namespace wren {
 
     bool supportShadows() const override { return mCacheData->mSupportShadows; }
 
+    void setup() override;
+
   protected:
     StaticMesh();
     virtual ~StaticMesh() override {}
@@ -94,6 +96,7 @@ namespace wren {
     static std::unordered_map<cache::Key, cache::MeshData> cCache;
 
     bool mIsCachePersistent;
+    size_t mUnmergedVertexCount;
 
     cache::Key mCacheKey;
     cache::MeshData *mCacheData;
