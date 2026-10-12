@@ -19,6 +19,7 @@ Released on ??.
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
     - Reduced the memory used while loading a world: the mesh normals optional rendering is no longer built and discarded for every mesh ([#7047](https://github.com/cyberbotics/webots/pull/7047)).
+    - Reduced the memory used by meshes: identical vertices are uploaded to the GPU once, and the CPU copy of the mesh data is freed after the upload ([#7048](https://github.com/cyberbotics/webots/pull/7048)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
