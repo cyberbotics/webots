@@ -16,6 +16,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed Python controller hanging at exit on Windows when stdout or stderr redirection is enabled ([#7040](https://github.com/cyberbotics/webots/issues/7040)).
     - Fixed stale WREN camera frustums after reading view or projection matrices before culling ([#7043](https://github.com/cyberbotics/webots/pull/7043)).
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
     - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
