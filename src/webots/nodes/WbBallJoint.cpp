@@ -558,10 +558,11 @@ void WbBallJoint::prePhysicsStep(double ms) {
   WbJointParameters *const p3 = parameters3();
 
   if (isEnabled()) {
-    if (rm && rm->userControl())
+    if (rm && rm->userControl()) {
       // user-defined torque
-      dJointAddAMotorTorques(mJoint, -rm->rawInput(), 0.0, 0.0);
-    else {
+      const double torque = rm->rawInput();
+      dJointAddAMotorTorques(mControlMotor, mIsReverseJoint ? torque : -torque, 0.0, 0.0);
+    } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
@@ -569,10 +570,11 @@ void WbBallJoint::prePhysicsStep(double ms) {
       dJointSetAMotorParam(mControlMotor, dParamVel, currentVelocity);
     }
 
-    if (rm2 && rm2->userControl())
+    if (rm2 && rm2->userControl()) {
       // user-defined torque
-      dJointAddAMotorTorques(mJoint, 0.0, -rm2->rawInput(), 0.0);
-    else {
+      const double torque2 = rm2->rawInput();
+      dJointAddAMotorTorques(mControlMotor, 0.0, mIsReverseJoint ? torque2 : -torque2, 0.0);
+    } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity2 = rm2 ? rm2->computeCurrentDynamicVelocity(ms, mPosition2) : 0.0;
       const double fMax2 = qMax(p2 ? p2->staticFriction() : 0.0, rm2 ? rm2->torque() : 0.0);
@@ -580,10 +582,11 @@ void WbBallJoint::prePhysicsStep(double ms) {
       dJointSetAMotorParam(mControlMotor, dParamVel2, currentVelocity2);
     }
 
-    if (rm3 && rm3->userControl())
+    if (rm3 && rm3->userControl()) {
       // user-defined torque
-      dJointAddAMotorTorques(mJoint, 0.0, 0.0, -rm3->rawInput());
-    else {
+      const double torque3 = rm3->rawInput();
+      dJointAddAMotorTorques(mControlMotor, 0.0, 0.0, mIsReverseJoint ? torque3 : -torque3);
+    } else {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity3 = rm3 ? rm3->computeCurrentDynamicVelocity(ms, mPosition3) : 0.0;
       const double fMax3 = qMax(p3 ? p3->staticFriction() : 0.0, rm3 ? rm3->torque() : 0.0);
