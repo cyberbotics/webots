@@ -126,6 +126,9 @@ void WbProtoTreeItem::download() {
     return;
   }
 
+  if (WbUrl::isHomeUrl(mUrl))
+    mUrl = WbUrl::resolveUrl(mUrl);
+
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility

@@ -171,7 +171,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // a PROTO declaration is provided, enforce it
   QString modelPath;  // how the PROTO is referenced
-  if (WbUrl::isWeb(protoDeclaration)) {
+  if (WbUrl::isHomeUrl(protoDeclaration)) {
+    modelPath = WbUrl::resolveUrl(protoDeclaration);
+  } else if (WbUrl::isWeb(protoDeclaration)) {
     // The PROTO is a remote asset, check if it's already cached
     if (WbNetwork::instance()->isCachedWithMapUpdate(protoDeclaration))
       modelPath = protoDeclaration;

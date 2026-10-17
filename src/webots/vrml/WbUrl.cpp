@@ -151,6 +151,9 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
   if (isWeb(url))
     return url;
 
+  if (isHomeUrl(url))
+    return QDir::cleanPath(QDir::homePath() + "/" + url.mid(QString("home://").length()));
+
   if (isLocalUrl(url))
     return QDir::cleanPath(webotsUrlToLocalPath(url));
 
@@ -207,6 +210,10 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
 
 bool WbUrl::isWeb(const QString &url) {
   return url.startsWith("https://") || url.startsWith("http://");
+}
+
+bool WbUrl::isHomeUrl(const QString &url) {
+  return url.startsWith("home://");
 }
 
 bool WbUrl::isLocalUrl(const QString &url) {
@@ -275,6 +282,9 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   // cases where no URL manipulation is necessary
   if (isWeb(url))
     return url;
+
+  if (isHomeUrl(url))
+    return resolveUrl(url);
 
   if (QDir::isAbsolutePath(url))
     return QDir::cleanPath(url);
