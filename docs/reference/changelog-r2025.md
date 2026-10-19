@@ -48,6 +48,7 @@
     - Fixed a bug preventing Webots from opening its TCP server on macOS 27, where every port was incorrectly reported as already in use ([#7032](https://github.com/cyberbotics/webots/pull/7032)).
     - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
       - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
+    - Fixed false-positive warning about `fieldOfView` modification when updating `projection` of a `Lidar` node ([#7056](https://github.com/cyberbotics/webots/pull/7056)).
 - Dependency Updates
     - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
     - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).
