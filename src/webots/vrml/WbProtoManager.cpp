@@ -417,7 +417,7 @@ void WbProtoManager::loadWorld() {
 
   // declare all root PROTO defined at the world level, and inferred by backwards compatibility, to the list of EXTERNPROTO
   foreach (const WbProtoTreeItem *const child, mTreeRoot->children())
-    declareExternProto(child->name(), child->url(), child->isImportable());
+    declareExternProto(child->name(), child->url(), child->isImportable(), true, child->declarationUrl());
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
@@ -780,22 +780,29 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
 }
 
 QString WbProtoManager::declareExternProto(const QString &protoName, const QString &protoPath, bool importable,
-                                           bool forceUpdate) {
+                                           bool forceUpdate, const QString &declarationUrl) {
   QString previousUrl;
   const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
+  const QString originalDeclarationUrl =
+    declarationUrl.isEmpty() && WbUrl::isHomeUrl(protoPath) ? protoPath : declarationUrl;
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
-      if (mExternProto[i]->url() != expandedProtoPath) {
+      const bool urlChanged = mExternProto[i]->url() != expandedProtoPath;
+      if (urlChanged) {
         previousUrl = mExternProto[i]->url();
         if (forceUpdate)
           mExternProto[i]->setUrl(expandedProtoPath);
       }
+      if (forceUpdate && (!originalDeclarationUrl.isEmpty() || urlChanged))
+        mExternProto[i]->setDeclarationUrl(originalDeclarationUrl);
       return previousUrl;
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable));
+  WbExternProto *externProto = new WbExternProto(protoName, expandedProtoPath, importable);
+  externProto->setDeclarationUrl(originalDeclarationUrl);
+  mExternProto.push_back(externProto);
   return previousUrl;
 }
 
@@ -813,7 +820,7 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == node->modelName()) {
       if (formatted)
-        return formatExternProtoPath(mExternProto[i]->url());
+        return formatExternProtoPath(mExternProto[i]->url(), mExternProto[i]->declarationUrl());
       return mExternProto[i]->url();
     }
   }
@@ -885,6 +892,7 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setUrl(WbUrl::resolveUrl(url));
+      mExternProto[i]->setDeclarationUrl(WbUrl::isHomeUrl(url) ? url : QString());
       // loaded model still refers to previous file, it will be updated on world reload
       return;  // we can stop since the list is supposed to contain unique elements, and a match was found
     }
@@ -893,7 +901,10 @@ void WbProtoManager::updateExternProto(const QString &protoName, const QString &
   assert(false);  // should not be requesting to change something that doesn't exist
 }
 
-QString WbProtoManager::formatExternProtoPath(const QString &url) const {
+QString WbProtoManager::formatExternProtoPath(const QString &url, const QString &declarationUrl) const {
+  if (WbUrl::isHomeUrl(declarationUrl))
+    return declarationUrl;
+
   QString path = WbUrl::localPathToWebotsUrl(url);
   if (path.startsWith(WbProject::current()->protosPath()))
     path = QDir(QFileInfo(mCurrentWorld).absolutePath()).relativeFilePath(path);

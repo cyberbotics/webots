@@ -22,8 +22,10 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable,
+                                 const QString &declarationUrl) :
   mUrl(url),
+  mDeclarationUrl(declarationUrl),
   mParent(parent),
   mImportable(importable),
   mIsReady(false),
@@ -99,7 +101,7 @@ void WbProtoTreeItem::parseItem() {
       }
 
       // cppcheck-suppress constVariablePointer
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword, subProto);
       mChildren.append(child);
     }
   }
