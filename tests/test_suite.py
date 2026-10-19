@@ -92,7 +92,7 @@ def setupWebots():
     os.putenv('WEBOTS_EMPTY_PROJECT_PATH', defaultProjectPath)
 
     if sys.platform == 'win32':
-        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'mingw64', 'bin', 'webots.exe')
+        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'ucrt64', 'bin', 'webots.exe')
     elif sys.platform == 'darwin':
         webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'Contents', 'MacOS', 'webots')
     else:

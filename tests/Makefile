@@ -16,7 +16,7 @@
 
 release debug profile: api cache other_api parser physics protos rendering
 
-clean: api cache parser physics protos rendering
+clean: api cache other_api parser physics protos rendering
 	@-rm -rf *.txt \
 	         *.pyc \
 	         api/controllers/supervisor_animation/animation.html \
@@ -28,7 +28,7 @@ clean: api cache parser physics protos rendering
 	         api/controllers/supervisor_export_image/image.png \
 	         api/controllers/supervisor_save_world/test.wbt \
 	         api/controllers/supervisor_start_stop_movie/movie.mp4
-	@find . \( -name *.txt ! -name *expected_*.txt ! -path "./default/*" ! -path "./sources/*" \) | xargs rm -f
+	@find . \( -name *.txt ! -name *expected_*.txt ! -name MyBot.txt ! -path "./default/*" ! -path "./sources/*" \) | xargs rm -f
 	@find . -name *.pyc | xargs rm -f
 	@find . -name *.dif | xargs rm -f
 	@find . -name *.tif | xargs rm -f

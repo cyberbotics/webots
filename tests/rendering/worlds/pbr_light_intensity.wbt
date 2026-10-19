@@ -1,0 +1,63 @@
+#VRML_SIM R2025b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
+WorldInfo {
+  basicTimeStep 32
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  position 0 0 5
+}
+Background {
+  skyColor [
+    0 0 0
+  ]
+}
+DEF DIRECTIONAL DirectionalLight {
+  direction 0 0 -1
+  on FALSE
+}
+DEF POINT PointLight {
+  attenuation 1 0 0
+  location 0 0 3
+  on FALSE
+}
+DEF SPOT SpotLight {
+  attenuation 1 0 0
+  beamWidth 0.5
+  cutOffAngle 0.8
+  direction 0 0 -1
+  location 0 0 3
+  on FALSE
+}
+TestSuiteSupervisor {
+}
+Shape {
+  appearance DEF MATERIAL PBRAppearance {
+    baseColor 0.8 0.4 0.2
+    roughness 1
+    metalness 0
+    IBLStrength 0
+  }
+  geometry Box {
+    size 2 2 1
+  }
+}
+Robot {
+  translation 0 0 3
+  children [
+    Camera {
+      rotation -0.577350269 0.577350269 0.577350269 2.094395102
+      width 32
+      height 32
+      ambientOcclusionRadius 0
+      bloomThreshold -1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "pbr_light_intensity"
+  supervisor TRUE
+}

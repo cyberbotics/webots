@@ -447,7 +447,7 @@ void WbController::setProcessEnvironment() {
   // Remove paths needed by Webots only
 #ifdef _WIN32
   const QString msys64 = QDir::toNativeSeparators(WbStandardPaths::webotsMsys64Path());
-  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "mingw64\\bin");
+  removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "ucrt64\\bin");
   removeFromPathEnvironmentVariable(env, ldEnvironmentVariable, msys64 + "usr\\bin");
 #else
   ldLibraryPath = WbStandardPaths::webotsLibPath();

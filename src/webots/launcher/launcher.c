@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     wcscat(command_line, L" ");
     wcscat(command_line, arguments);
   }
-  // add "WEBOTS_HOME/msys64/mingw64/bin", "WEBOTS_HOME/msys64/mingw64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
+  // add "WEBOTS_HOME/msys64/ucrt64/bin", "WEBOTS_HOME/msys64/ucrt64/bin/cpp" and "WEBOTS_HOME/msys64/usr/bin" to the PATH
   // environment variable
   wchar_t *old_path = malloc(LENGTH * sizeof(wchar_t));
   wchar_t *new_path = malloc(LENGTH * sizeof(wchar_t));
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
   wcscat(new_path, L"\\cpp;");
   wcscat(new_path, module_path);
   free(module_path);
-  new_path[3 * l - 38] = '\0';
+  new_path[3 * l - 37] = '\0';  // removes "ucrt64\bin\webots.exe" or "ucrt64\bin\webotsw.exe"
   wcscat(new_path, L"usr\\bin;");
   if (!GetEnvironmentVariableW(L"PATH", old_path, LENGTH))
     fail("GetEnvironmentVariableW", "PATH");

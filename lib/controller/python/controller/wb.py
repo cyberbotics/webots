@@ -29,19 +29,19 @@ elif sys.platform == 'win32':
     for dll_dir in [
         os.path.join(webots_home, 'lib', 'controller'),
         # In the installed distribution, MinGW runtime DLLs (libgcc_s_seh-1.dll,
-        # libwinpthread-1.dll, libstdc++-6.dll) are placed in msys64/mingw64/bin/cpp.
-        os.path.join(webots_home, 'msys64', 'mingw64', 'bin', 'cpp'),
-        os.path.join(webots_home, 'msys64', 'mingw64', 'bin'),
+        # libwinpthread-1.dll, libstdc++-6.dll) are placed in msys64/ucrt64/bin/cpp.
+        os.path.join(webots_home, 'msys64', 'ucrt64', 'bin', 'cpp'),
+        os.path.join(webots_home, 'msys64', 'ucrt64', 'bin'),
     ]:
         if os.path.isdir(dll_dir):
             _dll_directory_handles.append(os.add_dll_directory(dll_dir))
     # For development builds running from source, also check the system MSYS2 installation.
-    mingw_bin = os.path.join(os.environ.get('MSYS2_HOME',
-                             os.path.splitdrive(sys.executable)[0] + os.sep + 'msys64'),
-                             'mingw64',
-                             'bin')
-    if os.path.isdir(mingw_bin):
-        _dll_directory_handles.append(os.add_dll_directory(mingw_bin))
+    ucrt_bin = os.path.join(os.environ.get('MSYS2_HOME',
+                            os.path.splitdrive(sys.executable)[0] + os.sep + 'msys64'),
+                            'ucrt64',
+                            'bin')
+    if os.path.isdir(ucrt_bin):
+        _dll_directory_handles.append(os.add_dll_directory(ucrt_bin))
 elif sys.platform == 'darwin':
     path = os.path.join('Contents', 'lib', 'controller', 'libController.dylib')
 

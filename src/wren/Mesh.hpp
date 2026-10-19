@@ -86,7 +86,7 @@ namespace wren {
     virtual const std::vector<Mesh::Triangle> &triangles() const = 0;
     virtual const Triangle &triangle(size_t index) const = 0;
 
-    void setup();
+    virtual void setup();
     virtual void bind() = 0;
     virtual void release() = 0;
     virtual void render(unsigned int drawingMode) = 0;

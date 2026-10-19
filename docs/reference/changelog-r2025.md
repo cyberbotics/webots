@@ -19,10 +19,13 @@ Released on ??.
     - Made the timestep algorithm more consistent when running in realtime mode ([#6898](https://github.com/cyberbotics/webots/pull/6898)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
+    - Reduced the memory used while loading a world: the mesh normals optional rendering is no longer built and discarded for every mesh ([#7047](https://github.com/cyberbotics/webots/pull/7047)).
+    - Reduced the memory used by meshes: identical vertices are uploaded to the GPU once, and the CPU copy of the mesh data is freed after the upload ([#7048](https://github.com/cyberbotics/webots/pull/7048)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed stale WREN camera frustums after reading view or projection matrices before culling ([#7043](https://github.com/cyberbotics/webots/pull/7043)).
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
     - Fixed a typo in the `controller.PositionSensor` Python class: the `motor` property code was calling the wrong method ([#6825](https://github.com/cyberbotics/webots/pull/6825)).
     - Fixed a bug causing Webots to crash when multiple sounds were used with a [Speaker](speaker.md) node ([#6843](https://github.com/cyberbotics/webots/pull/6843)).
@@ -49,6 +52,13 @@ Released on ??.
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
+    - Fixed `Robot.getDevice` and `Robot.getDeviceByIndex` in the Python controller failing for devices added after the controller started, for example by a Supervisor import ([#7034](https://github.com/cyberbotics/webots/pull/7034)).
+    - Fixed a bug preventing Webots from opening its TCP server on macOS 27, where every port was incorrectly reported as already in use ([#7032](https://github.com/cyberbotics/webots/pull/7032)).
+    - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
+      - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
+- Dependency Updates
+    - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
+    - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).
 
 ## Webots R2025a
 Released on January 31st, 2025.

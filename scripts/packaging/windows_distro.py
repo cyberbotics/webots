@@ -60,7 +60,7 @@ class WindowsWebotsPackage(WebotsPackage):
           "Compression=lzma2/fast\n"
           "DefaultDirName={autopf}\\" + self.application_name + "\n"
           "DefaultGroupName=Cyberbotics\n"
-          "UninstallDisplayIcon={app}\\msys64\\mingw64\\bin\\webots-bin.exe\n"
+          "UninstallDisplayIcon={app}\\msys64\\ucrt64\\bin\\webots-bin.exe\n"
           "PrivilegesRequired=admin\n"
           "UsePreviousPrivileges=no\n"
           "PrivilegesRequiredOverridesAllowed=dialog commandline\n"
@@ -89,11 +89,11 @@ class WindowsWebotsPackage(WebotsPackage):
 
         self.iss_script.write(
             "\n[Icons]\n"
-            "Name: \"{app}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; "
+            "Name: \"{app}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\ucrt64\\bin\\webotsw.exe\"; "
             "WorkingDir: \"{app}\"; Comment: \"Robot simulator\"\n"
-            "Name: \"{group}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; "
+            "Name: \"{group}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\ucrt64\\bin\\webotsw.exe\"; "
             "WorkingDir: \"{app}\"; Comment: \"Robot simulator\"\n"
-            "Name: \"{userdesktop}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"; "
+            "Name: \"{userdesktop}\\" + self.application_name + "\"; Filename: \"{app}\\msys64\\ucrt64\\bin\\webotsw.exe\"; "
             "WorkingDir: \"{app}""\"; Comment: \"Robot simulator\"\n"
             "Name: \"{group}\\Uninstall " + self.application_name + "\"; Filename: \"{uninstallexe}\"; WorkingDir: \"{app}\"; "
             "Comment: \"Uninstall " + self.application_name + "\"\n"
@@ -107,7 +107,7 @@ class WindowsWebotsPackage(WebotsPackage):
             "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\"; ValueType: string; ValueName: "
             "\"FriendlyAppName\"; ValueData: \"Webots\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\webotsfile\\shell\\open\\command\"; ValueType: string; ValueData: "
-            "\"\"\"{app}\\msys64\\mingw64\\bin\\webotsw.exe\"\" \"\"%1\"\"\"; Flags: uninsdeletekey\n"
+            "\"\"\"{app}\\msys64\\ucrt64\\bin\\webotsw.exe\"\" \"\"%1\"\"\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
             "ValueName: \"SupportedTypes\"; ValueData: \".wbt\"; Flags: uninsdeletekey\n"
             "Root: HKA; SubKey: \"Software\\Classes\\Applications\\webotsw.exe\"; ValueType: string; "
@@ -194,7 +194,7 @@ class WindowsWebotsPackage(WebotsPackage):
             "  end;\n"
             "end;\n\n"
             "\n[Run]\n"
-            "Filename: {app}\\msys64\\mingw64\\bin\\webotsw.exe; Description: \"Launch Webots\"; Flags: nowait postinstall "
+            "Filename: {app}\\msys64\\ucrt64\\bin\\webotsw.exe; Description: \"Launch Webots\"; Flags: nowait postinstall "
             "skipifsilent\n"
             )
 
@@ -266,23 +266,25 @@ class WindowsWebotsPackage(WebotsPackage):
         dependencies = list(set(  # use a set to make sure to avoid duplication
             list_dependencies('make') +
             list_dependencies('coreutils') +
-            list_dependencies('mingw-w64-x86_64-gcc')
+            list_dependencies('mingw-w64-ucrt-x86_64-gcc')
         ))
 
         # add specific folder dependencies needed by Webots
-        folders = ['/tmp', '/mingw64', '/mingw64/bin', '/mingw64/bin/cpp',
-                   '/mingw64/include',
-                   '/mingw64/include/libssh',
-                   '/mingw64/lib', '/mingw64/share',
-                   '/mingw64/share/qt6', '/mingw64/share/qt6/plugins', '/mingw64/share/qt6/translations',
-                   '/mingw64/share/qt6/plugins/imageformats', '/mingw64/share/qt6/plugins/platforms',
-                   '/mingw64/share/qt6/plugins/tls', '/mingw64/share/qt6/plugins/styles']
-        skip_paths = ['/usr/share/', '/mingw64/bin/zlib1.dll', '/mingw64/bin/libjpeg-8.dll']
+        folders = ['/tmp', '/ucrt64', '/ucrt64/bin', '/ucrt64/bin/cpp',
+                   '/ucrt64/include',
+                   '/ucrt64/include/libssh',
+                   '/ucrt64/lib', '/ucrt64/share',
+                   '/ucrt64/share/qt6', '/ucrt64/share/qt6/plugins', '/ucrt64/share/qt6/translations',
+                   '/ucrt64/share/qt6/plugins/imageformats', '/ucrt64/share/qt6/plugins/platforms',
+                   '/ucrt64/share/qt6/plugins/tls', '/ucrt64/share/qt6/plugins/styles']
+        skip_paths = ['/usr/share/', '/ucrt64/bin/zlib1.dll', '/ucrt64/bin/libjpeg-8.dll']
 
         # add all the files and folders corresponding to the pacman dependencies
+        # (splitlines() returns no entry for meta packages without files, such as cc-libs, which would otherwise add an
+        # empty file name resulting in the msys64 root folder as source file and making ISCC fail)
         for dependency in dependencies:
             print("  processing " + dependency, flush=True)
-            for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().strip().split('\n'):
+            for file in subprocess.check_output(['pacman', '-Qql', dependency]).decode().splitlines():
                 skip = False
                 for skip_path in skip_paths:
                     if file.startswith(skip_path):
@@ -313,17 +315,19 @@ class WindowsWebotsPackage(WebotsPackage):
                     else:
                         self.msys64_files.append(line)
 
-        # automatically compute the dependencies of ffmpeg
+        # automatically compute the dependencies of ffmpeg, some of which may already be included
         print("  processing ffmpeg dependencies (DLLs)", flush=True)
         for ffmpeg_dll in subprocess.check_output(['bash', 'ffmpeg_dependencies.sh'], shell=True).decode('utf-8').split():
-            self.msys64_files.append('/mingw64/bin/' + ffmpeg_dll)
+            file = '/ucrt64/bin/' + ffmpeg_dll
+            if file not in self.msys64_files:
+                self.msys64_files.append(file)
 
         # write every dependency file in the ISS file for files
         for file in self.msys64_files:
             file = file.replace('/', '\\')
-            if file in ['\\mingw64\\bin\\libstdc++-6.dll',
-                        '\\mingw64\\bin\\libgcc_s_seh-1.dll',
-                        '\\mingw64\\bin\\libwinpthread-1.dll']:
+            if file in ['\\ucrt64\\bin\\libstdc++-6.dll',
+                        '\\ucrt64\\bin\\libgcc_s_seh-1.dll',
+                        '\\ucrt64\\bin\\libwinpthread-1.dll']:
                 self.iss_script.write('Source: "' + root + file + '"; '
                                       'DestDir: "{app}\\msys64' + os.path.dirname(file) + '\\cpp"\n')
             else:
