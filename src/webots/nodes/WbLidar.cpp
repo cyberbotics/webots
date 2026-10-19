@@ -753,8 +753,8 @@ void WbLidar::updateMaxRange() {
 void WbLidar::updateFieldOfView() {
   WbAbstractCamera::updateFieldOfView();
 
-  // warn in case of width modification after the setup
-  if (hasBeenSetup())
+  // warn in case of field of view modification after the setup
+  if (hasBeenSetup() && mFieldOfView->value() != mActualFieldOfView)
     warn(tr(
       "'fieldOfView' has been modified. This modification will be taken into account after saving and reloading the world."));
 }
