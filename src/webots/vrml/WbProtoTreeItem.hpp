@@ -28,8 +28,7 @@ class WbProtoTreeItem;
 class WbProtoTreeItem : public QObject {
   Q_OBJECT
 public:
-  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable,
-                  const QString &declarationUrl = QString());
+  WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable, const QString &declarationUrl = QString());
   ~WbProtoTreeItem();
 
   const QString &name() const { return mName; }

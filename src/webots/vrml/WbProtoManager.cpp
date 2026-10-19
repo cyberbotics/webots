@@ -800,9 +800,9 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
     }
   }
 
-  WbExternProto *externProto = new WbExternProto(protoName, expandedProtoPath, importable);
-  externProto->setDeclarationUrl(originalDeclarationUrl);
-  mExternProto.push_back(externProto);
+  WbExternProto *externProtoEntry = new WbExternProto(protoName, expandedProtoPath, importable);
+  externProtoEntry->setDeclarationUrl(originalDeclarationUrl);
+  mExternProto.push_back(externProtoEntry);
   return previousUrl;
 }
 
