@@ -783,8 +783,7 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
                                            bool forceUpdate, const QString &declarationUrl) {
   QString previousUrl;
   const QString expandedProtoPath(WbUrl::resolveUrl(protoPath));
-  const QString originalDeclarationUrl =
-    declarationUrl.isEmpty() && WbUrl::isHomeUrl(protoPath) ? protoPath : declarationUrl;
+  const QString originalDeclarationUrl = declarationUrl.isEmpty() && WbUrl::isHomeUrl(protoPath) ? protoPath : declarationUrl;
   for (int i = 0; i < mExternProto.size(); ++i) {
     if (mExternProto[i]->name() == protoName) {
       mExternProto[i]->setImportable(mExternProto[i]->isImportable() || importable);
