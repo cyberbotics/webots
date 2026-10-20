@@ -22,8 +22,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable,
-                                 const QString &declarationUrl) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable, const QString &declarationUrl) :
   mUrl(url),
   mDeclarationUrl(declarationUrl),
   mParent(parent),
