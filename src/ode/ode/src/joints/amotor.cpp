@@ -501,29 +501,49 @@ void dJointAddAMotorTorques( dJointID j, dReal torque1, dReal torque2, dReal tor
 
     if ( joint->num == 0 )
         return;
-    dUASSERT(( joint->flags & dJOINT_REVERSE ) == 0, "dJointAddAMotorTorques not yet implemented for reverse AMotor joints" );
+
+    if ( joint->flags & dJOINT_REVERSE )
+    {
+        torque1 = -torque1;
+        torque2 = -torque2;
+        torque3 = -torque3;
+    }
 
     joint->computeGlobalAxes( axes );
-    axes[0][0] *= torque1;
-    axes[0][1] *= torque1;
-    axes[0][2] *= torque1;
+
+    const dReal *a0 = axes[0];
+    const dReal *a1 = axes[1];
+    const dReal *a2 = axes[2];
+    dVector3 ax0_cross_ax1, ax1_cross_ax2;
+    if ( joint->mode == dAMotorEuler )
+    {
+        dCalcVectorCross3( ax1_cross_ax2, axes[1], axes[2] );
+        a0 = ax1_cross_ax2;
+        dCalcVectorCross3( ax0_cross_ax1, axes[0], axes[1] );
+        a2 = ax0_cross_ax1;
+    }
+
+    dVector3 total_torque;
+    total_torque[0] = a0[0] * torque1;
+    total_torque[1] = a0[1] * torque1;
+    total_torque[2] = a0[2] * torque1;
     if ( joint->num >= 2 )
     {
-        axes[0][0] += axes[1][0] * torque2;
-        axes[0][1] += axes[1][1] * torque2;
-        axes[0][2] += axes[1][2] * torque2;
+        total_torque[0] += a1[0] * torque2;
+        total_torque[1] += a1[1] * torque2;
+        total_torque[2] += a1[2] * torque2;
         if ( joint->num >= 3 )
         {
-            axes[0][0] += axes[2][0] * torque3;
-            axes[0][1] += axes[2][1] * torque3;
-            axes[0][2] += axes[2][2] * torque3;
+            total_torque[0] += a2[0] * torque3;
+            total_torque[1] += a2[1] * torque3;
+            total_torque[2] += a2[2] * torque3;
         }
     }
 
     if ( joint->node[0].body != 0 )
-        dBodyAddTorque( joint->node[0].body, axes[0][0], axes[0][1], axes[0][2] );
+        dBodyAddTorque( joint->node[0].body, total_torque[0], total_torque[1], total_torque[2] );
     if ( joint->node[1].body != 0 )
-        dBodyAddTorque( joint->node[1].body, -axes[0][0], -axes[0][1], -axes[0][2] );
+        dBodyAddTorque( joint->node[1].body, -total_torque[0], -total_torque[1], -total_torque[2] );
 }
 
 dJointType
