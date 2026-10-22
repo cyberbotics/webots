@@ -16,6 +16,7 @@ Released on ??.
     - Added some missing function definitions to the existing Windows libraries ([#6753](https://github.com/cyberbotics/webots/pull/6753)).
     - Webots now prints the cause when it fails to create a memory-mapped file for a camera node ([#6896](https://github.com/cyberbotics/webots/pull/6896)).
     - Made the timestep algorithm more consistent when running in realtime mode ([#6898](https://github.com/cyberbotics/webots/pull/6898)).
+    - Added support for HOME-relative paths in `EXTERNPROTO` declarations using the `home://` scheme, preserving them when saving worlds ([#7055](https://github.com/cyberbotics/webots/pull/7055)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
     - Reduced the memory used while loading a world: the mesh normals optional rendering is no longer built and discarded for every mesh ([#7047](https://github.com/cyberbotics/webots/pull/7047)).

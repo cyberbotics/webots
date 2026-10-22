@@ -344,7 +344,8 @@ void WbSceneTree::paste() {
 
   const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   foreach (const WbExternProto *item, clipboardBuffer)
-    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
+    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable(), true,
+                                                   item->declarationUrl());
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
