@@ -30,7 +30,7 @@ Once you will become an experienced Webots developer, you will be able to addres
 
 * Follow the installation instructions in our [wiki](https://github.com/cyberbotics/webots/wiki/).
 
-## Create a Pull Request
+## Create a Pull-Request
 
 1. Fork the repository: https://help.github.com/articles/fork-a-repo
 2. Create a branch in your fork: https://help.github.com/articles/creating-and-deleting-branches-within-your-repository
