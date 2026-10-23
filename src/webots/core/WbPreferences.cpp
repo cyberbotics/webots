@@ -83,6 +83,10 @@ WbPreferences::WbPreferences(const QString &companyName, const QString &applicat
   setDefault("View3d/hideAllCameraOverlays", false);
   setDefault("View3d/hideAllRangeFinderOverlays", false);
   setDefault("View3d/hideAllDisplayOverlays", false);
+  // 3D viewport navigation scheme: "webots" (default) or "blender".
+  // In "blender" mode, middle-mouse drag orbits, Shift+middle pans, and Ctrl+middle zooms,
+  // matching the Blender / FreeCAD industry convention (see discussion #6966).
+  setDefault("View3d/mouseMode", "webots");
   setDefault("Network/cacheSize", 1024);
   setDefault("Network/uploadUrl", "https://webots.cloud");
   setDefault("RobotWindow/newBrowserWindow", false);

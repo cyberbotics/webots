@@ -91,6 +91,7 @@ public:
 
   static QString relativeTexturesPath() { return "textures/"; }
   static QString relativeMeshesPath() { return "meshes/"; }
+  static QString relativeSoundsPath() { return "sounds/"; }
 
 private:
   void setType();

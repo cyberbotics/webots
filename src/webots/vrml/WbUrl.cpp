@@ -33,7 +33,32 @@
 
 namespace {
   static QString gWorldFileName;
-};
+}  // namespace
+
+const QString &WbUrl::webotsUrlPrefix() {
+  static const QString prefix = "webots://";
+  return prefix;
+}
+
+QString WbUrl::webotsUrlToLocalPath(const QString &url) {
+  if (url.startsWith("webots://projects/"))
+    return WbStandardPaths::projectsPath() + url.mid(QString("webots://projects/").length());
+  if (url.startsWith("webots://resources/"))
+    return WbStandardPaths::resourcesPath() + url.mid(QString("webots://resources/").length());
+  if (url.startsWith("webots://"))
+    return WbStandardPaths::webotsHomePath() + url.mid(webotsUrlPrefix().length());
+  return url;
+}
+
+QString WbUrl::localPathToWebotsUrl(const QString &path) {
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::projectsPath()))
+    return "webots://projects/" + path.mid(WbStandardPaths::projectsPath().length());
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::resourcesPath()))
+    return "webots://resources/" + path.mid(WbStandardPaths::resourcesPath().length());
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::webotsHomePath()))
+    return "webots://" + path.mid(WbStandardPaths::webotsHomePath().length());
+  return path;
+}
 
 void WbUrl::setWorldFileName(const QString &fileName) {
   ::gWorldFileName = fileName;
@@ -85,6 +110,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
 
   if (QDir::isRelativePath(url)) {
     const WbField *f = node->findField(field, true);
+    assert(f);
     const WbNode *protoNode = node->containingProto(false);
 
     protoNode = WbVrmlNodeUtilities::findFieldProtoScope(f, protoNode);
@@ -125,14 +151,20 @@ QString WbUrl::resolveUrl(const QString &rawUrl) {
   if (isWeb(url))
     return url;
 
+  if (isHomeUrl(url))
+    return QDir::cleanPath(QDir::homePath() + "/" + url.mid(QString("home://").length()));
+
   if (isLocalUrl(url))
-    return QDir::cleanPath(url.replace("webots://", WbStandardPaths::webotsHomePath()));
+    return QDir::cleanPath(webotsUrlToLocalPath(url));
 
   return QDir::cleanPath(url);
 }
 
 QString WbUrl::exportResource(const WbNode *node, const QString &url, const QString &sourcePath,
-                              const QString &relativeResourcePath, const WbWriter &writer, const bool isTexture) {
+                              const QString &relativeResourcePath, const WbWriter &writer) {
+  // in addition to writing the node, we want to ensure that the resource file exists
+  // at the expected location. If not, we should copy it, possibly creating the expected
+  // directory structure.
   const QFileInfo urlFileInfo(url);
   const QString fileName = urlFileInfo.fileName();
   const QString expectedRelativePath = relativeResourcePath + fileName;
@@ -155,11 +187,7 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
       const QString extension = urlFileInfo.suffix();
 
       for (int i = 1; i < 100; ++i) {  // number of trials before failure
-        QString newRelativePath;
-        if (isTexture)
-          newRelativePath = writer.relativeTexturesPath() + baseName + '.' + QString::number(i) + '.' + extension;
-        else
-          newRelativePath = writer.relativeMeshesPath() + baseName + '.' + QString::number(i) + '.' + extension;
+        QString newRelativePath = relativeResourcePath + baseName + '.' + QString::number(i) + '.' + extension;
 
         const QString newAbsolutePath = writer.path() + "/" + newRelativePath;
         if (QFileInfo(newAbsolutePath).exists()) {
@@ -170,11 +198,8 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
           return newRelativePath;
         }
       }
-      if (isTexture)
-        node->warn(QObject::tr("Failure exporting texture, too many textures share the same name: %1.").arg(url));
-      else
-        node->warn(QObject::tr("Failure exporting mesh, too many meshes share the same name: %1.").arg(url));
 
+      node->warn(QObject::tr("Failure exporting resource, too many resources share the same name: %1.").arg(url));
       return "";
     }
   } else {  // simple case
@@ -183,39 +208,28 @@ QString WbUrl::exportResource(const WbNode *node, const QString &url, const QStr
   }
 }
 
-QString WbUrl::exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the texture file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeTexturesPath(), writer);
-}
-
-QString WbUrl::exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer) {
-  // in addition to writing the node, we want to ensure that the mesh file exists
-  // at the expected location. If not, we should copy it, possibly creating the expected
-  // directory structure.
-  return exportResource(node, QDir::fromNativeSeparators(urlField->item(index)), computePath(node, "url", urlField, index),
-                        writer.relativeMeshesPath(), writer, false);
-}
-
 bool WbUrl::isWeb(const QString &url) {
   return url.startsWith("https://") || url.startsWith("http://");
+}
+
+bool WbUrl::isHomeUrl(const QString &url) {
+  return url.startsWith("home://");
 }
 
 bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-QString WbUrl::computeLocalAssetUrl(QString url, bool isW3d) {
+QString WbUrl::computeLocalAssetUrl(const QString &url, bool isW3d) {
   if (!isW3d)
-    return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
+    return localPathToWebotsUrl(url);
 
   if (!WbApplicationInfo::repo().isEmpty() && !WbApplicationInfo::branch().isEmpty()) {
     // when streaming locally, build the URL from branch.txt in order to serve 'webots://' assets
     const QString prefix =
       "https://raw.githubusercontent.com/" + WbApplicationInfo::repo() + "/" + WbApplicationInfo::branch() + "/";
-    return url.replace("webots://", prefix).replace(WbStandardPaths::webotsHomePath(), prefix);
+    const QString localUrl = localPathToWebotsUrl(url);
+    return localUrl.startsWith(webotsUrlPrefix()) ? prefix + localUrl.mid(webotsUrlPrefix().length()) : localUrl;
   }
 
   // when streaming from a distribution or nightly build, use the actual url
@@ -269,24 +283,26 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
   if (isWeb(url))
     return url;
 
+  if (isHomeUrl(url))
+    return resolveUrl(url);
+
   if (QDir::isAbsolutePath(url))
     return QDir::cleanPath(url);
 
   if (WbUrl::isLocalUrl(url)) {
     // URL fall-back mechanism: only trigger if the parent is a world file (.wbt), and the file (webots://) does not exist
-    if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) &&
-        !QFileInfo(QDir::cleanPath(url.replace("webots://", WbStandardPaths::webotsHomePath()))).exists()) {
+    if (parentUrl.endsWith(".wbt", Qt::CaseInsensitive) && !QFileInfo(QDir::cleanPath(webotsUrlToLocalPath(url))).exists()) {
       WbLog::error(QObject::tr("URL '%1' changed by fallback mechanism. Ensure you are opening the correct world.").arg(url));
-      return url.replace("webots://", WbUrl::remoteWebotsAssetPrefix());
+      return url.startsWith(webotsUrlPrefix()) ? WbUrl::remoteWebotsAssetPrefix() + url.mid(webotsUrlPrefix().length()) : url;
     }
 
     // infer URL based on parent's url
     const QString &prefix = WbUrl::computePrefix(parentUrl);
     if (!prefix.isEmpty())
-      return url.replace("webots://", prefix);
+      return url.startsWith(webotsUrlPrefix()) ? prefix + url.mid(webotsUrlPrefix().length()) : url;
 
     if (parentUrl.isEmpty() || WbUrl::isLocalUrl(parentUrl) || QDir::isAbsolutePath(parentUrl))
-      return QDir::cleanPath(url.replace("webots://", WbStandardPaths::webotsHomePath()));
+      return QDir::cleanPath(webotsUrlToLocalPath(url));
 
     return QString();
   }
@@ -299,7 +315,7 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
       // remove filename from parent url
       parentUrl = parentUrl.sliced(0, parentUrl.lastIndexOf("/") + 1);
       if (WbUrl::isLocalUrl(parentUrl))
-        parentUrl.replace("webots://", WbStandardPaths::webotsHomePath());
+        parentUrl = webotsUrlToLocalPath(parentUrl);
 
       if (WbUrl::isWeb(parentUrl))
         return QUrl(parentUrl).resolved(QUrl(url)).toString();

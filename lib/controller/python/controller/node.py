@@ -218,11 +218,11 @@ class Node:
         wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 3)(*force), 1 if relative else 0)
 
     def addForceWithOffset(self, force: typing.List[float], offset: typing.List[float], relative: bool):
-        wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 3)(*force), (ctypes.c_double * 3)(*offset),
-                                        1 if relative else 0)
+        wb.wb_supervisor_node_add_force_with_offset(self._ref, (ctypes.c_double * 3)(*force), (ctypes.c_double * 3)(*offset),
+                                                    1 if relative else 0)
 
     def addTorque(self, torque: typing.List[float], relative: bool):
-        wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 4)(*torque), 1 if relative else 0)
+        wb.wb_supervisor_node_add_torque(self._ref, (ctypes.c_double * 3)(*torque), 1 if relative else 0)
 
     @property
     def DEF(self) -> str:

@@ -297,7 +297,7 @@ void WbJoint::updateJointAxisRepresentation() {
 
   wr_static_mesh_delete(mMesh);
 
-  const double scaling = 0.5f * wr_config_get_line_scale();
+  const double scaling = 2.0f * wr_config_get_line_scale();
 
   const WbVector3 &anchorVector = anchor();
   const WbVector3 &axisVector = scaling * axis();

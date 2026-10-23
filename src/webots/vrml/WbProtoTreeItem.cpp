@@ -17,14 +17,14 @@
 #include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
-#include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QRegularExpression>
 
-WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable) :
+WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bool importable, const QString &declarationUrl) :
   mUrl(url),
+  mDeclarationUrl(declarationUrl),
   mParent(parent),
   mImportable(importable),
   mIsReady(false),
@@ -100,7 +100,7 @@ void WbProtoTreeItem::parseItem() {
       }
 
       // cppcheck-suppress constVariablePointer
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword, subProto);
       mChildren.append(child);
     }
   }
@@ -127,12 +127,15 @@ void WbProtoTreeItem::download() {
     return;
   }
 
+  if (WbUrl::isHomeUrl(mUrl))
+    mUrl = WbUrl::resolveUrl(mUrl);
+
   if (WbUrl::isLocalUrl(mUrl)) {
     // note: this condition should only be possible in development mode when loading an old world since, during the
     // compilation, proto-list.xml urls will be local (webots://) and will be loaded as such by the backwards compatibility
     // mechanism; under any other circumstance, the on-the-fly URL manufacturing logic will convert any 'webots://' urls to
     // remote ones
-    mUrl = QDir::cleanPath(mUrl.replace("webots://", WbStandardPaths::webotsHomePath()));
+    mUrl = QDir::cleanPath(WbUrl::webotsUrlToLocalPath(mUrl));
   }
 
   if (WbUrl::isWeb(mUrl)) {

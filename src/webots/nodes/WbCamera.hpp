@@ -67,6 +67,8 @@ protected:
   void setup() override;
   void render() override;
   bool needToRender() const override;
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
 
 private:
   WbSFNode *mFocus;

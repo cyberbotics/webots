@@ -30,16 +30,18 @@ namespace WbUrl {
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
   QString exportResource(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeResourcePath,
-                         const WbWriter &writer, const bool isTexture = true);
-  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
-  QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
+                         const WbWriter &writer);
 
   QString missing(const QString &url);
   const QString &missingTexture();
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
+  bool isHomeUrl(const QString &url);
   bool isLocalUrl(const QString &url);
-  QString computeLocalAssetUrl(QString url, bool isW3d);
+  const QString &webotsUrlPrefix();
+  QString webotsUrlToLocalPath(const QString &url);
+  QString localPathToWebotsUrl(const QString &path);
+  QString computeLocalAssetUrl(const QString &url, bool isW3d);
   QString computePrefix(const QString &rawUrl);
 
   QString remoteWebotsAssetRegex(bool capturing);

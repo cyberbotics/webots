@@ -384,10 +384,8 @@ void WbMuscle::updateMeshCoordinates() {
 
   // set vertex coordinates and normals
   const WbMatrix3 rm = mMatrix.extracted3x3Matrix();
-  int vIndex = 0;
-  int nIndex = 0;
   // top vertices
-  for (int i = 0; i < SUBDIVISION; ++i, vIndex += 3, nIndex += 3) {
+  for (int i = 0; i < SUBDIVISION; ++i) {
     float vertex[3];
     (mMatrix * WbVector4(0, 0, 0, 1)).toVector3().toFloatArray(vertex);
     wr_dynamic_mesh_add_vertex(mMesh, vertex);
@@ -403,7 +401,7 @@ void WbMuscle::updateMeshCoordinates() {
   for (int j = 1; j < SUBDIVISION; ++j, y += dy) {
     const double d = y / h2;
     const double r = mRadius * sqrt(1 - d * d);
-    for (int i = 0; i <= SUBDIVISION; ++i, vIndex += 3, nIndex += 3) {
+    for (int i = 0; i <= SUBDIVISION; ++i) {
       const WbVector4 coord = WbVector4(r * gCircleCoordinates[i].x(), y + h2, r * gCircleCoordinates[i].y(), 1.0);
 
       float vertex[3];
@@ -415,7 +413,7 @@ void WbMuscle::updateMeshCoordinates() {
     }
   }
   // bottom vertices
-  for (int i = 0; i < SUBDIVISION; ++i, vIndex += 3, nIndex += 3) {
+  for (int i = 0; i < SUBDIVISION; ++i) {
     float vertex[3];
     (mMatrix * WbVector4(0, mHeight, 0, 1)).toVector3().toFloatArray(vertex);
     wr_dynamic_mesh_add_vertex(mMesh, vertex);

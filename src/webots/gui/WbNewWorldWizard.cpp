@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLineEdit.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
@@ -49,7 +50,10 @@ int WbNewWorldWizard::exec() {
 
 void WbNewWorldWizard::createWorldFile() {
   QFile file(WbProject::current()->worldsPath() + fileName());
-  file.open(QIODevice::WriteOnly);
+  if (!file.open(QIODevice::WriteOnly)) {
+    WbLog::error(tr("Could not create world file: '%1'.").arg(file.fileName()));
+    return;
+  }
   QByteArray worldContent;
   worldContent.append(QString("#VRML_SIM %1 utf8\n").arg(WbApplicationInfo::version().toString(false)).toUtf8());
   QStringList externProtoList;

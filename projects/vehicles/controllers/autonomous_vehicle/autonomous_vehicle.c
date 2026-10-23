@@ -93,17 +93,14 @@ void set_autodrive(bool onoff) {
   if (autodrive == onoff)
     return;
   autodrive = onoff;
-  switch (autodrive) {
-    case false:
-      printf("switching to manual drive...\n");
-      printf("hit [A] to return to auto-drive.\n");
-      break;
-    case true:
-      if (has_camera)
-        printf("switching to auto-drive...\n");
-      else
-        printf("impossible to switch auto-drive on without camera...\n");
-      break;
+  if (autodrive) {
+    if (has_camera)
+      printf("switching to auto-drive...\n");
+    else
+      printf("impossible to switch auto-drive on without camera...\n");
+  } else {
+    printf("switching to manual drive...\n");
+    printf("hit [A] to return to auto-drive.\n");
   }
 }
 

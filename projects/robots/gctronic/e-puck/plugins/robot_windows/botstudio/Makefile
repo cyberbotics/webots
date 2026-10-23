@@ -89,9 +89,9 @@ MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- MOC = /mingw64/share/qt6/bin/moc
+ MOC = /ucrt64/share/qt6/bin/moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/ucrt64/bin" -lQt6Core -lQt6Gui -lQt6Widgets -lQt6Concurrent
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets" -isystem "$(QT_INCLUDE_DIR)/QtConcurrent"
  OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 endif

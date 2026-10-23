@@ -5,7 +5,7 @@ set -e
 
 # install the latest Qt6 which comes with msys64
 
-QT_BASE_PACKAGE=mingw-w64-x86_64-qt6-base
+QT_BASE_PACKAGE=mingw-w64-ucrt-x86_64-qt6-base
 
 PACMAN_AVAILABLE_QT_VERSION=(`pacman -Syi $QT_BASE_PACKAGE | grep Version`)
 IFS='-' read -a QT_AVAILABLE_VERSION_SPLIT <<< "${PACMAN_AVAILABLE_QT_VERSION[2]}"
@@ -31,10 +31,10 @@ if [[ $PACMAN_AVAILABLE_QT_VERSION != $PACMAN_INSTALLED_QT_VERSION ]]
 then
   echo Installing Qt6 version ${PACMAN_AVAILABLE_QT_VERSION[2]}
   pacman -Sy --noconfirm $QT_BASE_PACKAGE
-  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-declarative
-  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-tools
-  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-translations
-  pacman -Sy --noconfirm mingw-w64-x86_64-qt6-websockets
+  pacman -Sy --noconfirm mingw-w64-ucrt-x86_64-qt6-declarative
+  pacman -Sy --noconfirm mingw-w64-ucrt-x86_64-qt6-tools
+  pacman -Sy --noconfirm mingw-w64-ucrt-x86_64-qt6-translations
+  pacman -Sy --noconfirm mingw-w64-ucrt-x86_64-qt6-websockets
 fi
 
 script_name=$0
@@ -48,7 +48,7 @@ do
   echo installing $MODULE...
   mkdir -p include/qt/$MODULE/$MODULE
   # Ignore errors while copying
-  cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory' || true
+  cp /ucrt64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory' || true
 done
 
 echo done.

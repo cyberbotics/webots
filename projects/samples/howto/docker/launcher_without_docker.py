@@ -18,7 +18,7 @@ import sys
 
 
 controllers = {
-    "MyBot": "controllers/camera/camera"
+    "MyBot": "controllers/docker/docker"
 }
 port = 1235
 
@@ -39,7 +39,7 @@ else:  # linux
         os.environ['LD_LIBRARY_PATH'] = path
 command = 'webots' if sys.platform == 'win32' else os.path.join(WEBOTS_HOME, 'webots')
 command += f' --port={port} --extern-urls '
-command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'camera.wbt')
+command += os.path.join(DOCKER_DEMO, 'simulation', 'worlds', 'docker.wbt')
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,

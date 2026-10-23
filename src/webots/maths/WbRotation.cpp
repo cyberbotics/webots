@@ -29,8 +29,9 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
     mAngle = 2.0 * M_PI;
   else
     mAngle = 2.0 * acos(q.w());
-  if (mAngle < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
-    // if the angle is close to zero, then the direction of the axis is not important
+  const double axisLength = sqrt(q.x() * q.x() + q.y() * q.y() + q.z() * q.z());
+  if (mAngle < WbPrecision::DOUBLE_EQUALITY_TOLERANCE || axisLength < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
+    // Both (1, 0, 0, 0) and (-1, 0, 0, 0) represent the identity rotation, whose axis is arbitrary.
     mX = 0.0;
     mY = 0.0;
     mZ = 1.0;
@@ -39,7 +40,7 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
   }
 
   // normalise axes
-  const double inv = 1.0 / sqrt(q.x() * q.x() + q.y() * q.y() + q.z() * q.z());
+  const double inv = 1.0 / axisLength;
   mX = q.x() * inv;
   mY = q.y() * inv;
   mZ = q.z() * inv;

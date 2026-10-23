@@ -2181,7 +2181,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
       currentRobotWindow = new WbRobotWindow(robot);
       mRobotWindows << currentRobotWindow;
       connect(mTcpServer, &WbTcpServer::sendRobotWindowClientID, currentRobotWindow, &WbRobotWindow::setClientID);
-      connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
+      connect(robot, &WbNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::externControllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
@@ -2432,7 +2432,10 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
       const QString webotsRepo = fileName.mid(0, index);
 
       QFile localFile(fileToOpen);
-      localFile.open(QIODevice::ReadWrite);
+      if (!localFile.open(QIODevice::ReadWrite)) {
+        WbLog::error(tr("Could not open file for editing: '%1'.").arg(fileToOpen));
+        return;
+      }
       const QString contents = QString(localFile.readAll());
       QStringList lines = contents.split('\n');
       for (QString &line : lines) {

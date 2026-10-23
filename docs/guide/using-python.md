@@ -8,7 +8,7 @@ The Python API is currently composed of a set of about 25 classes having about 2
 The classes are either representations of a node of the scene tree (such as Robot, LED, etc.) or utility classes (such as Motion, ImageRef, etc.).
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
-The Python API of Webots supports Python versions from 3.7.
+The Python API of Webots supports Python versions from 3.8.
 
 Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-your-ide.md#pycharm) chapter for a step-by-step procedure.
 

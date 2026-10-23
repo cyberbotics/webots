@@ -181,9 +181,35 @@ static void init_robot_window_library() {
     fprintf(stderr, "Error: Cannot load the \"%s\" robot window library.\n", robot.window_filename);
 }
 
+#ifdef _WIN32
+typedef void (*signal_handler_t)(int);
+static signal_handler_t original_sigint;
+#else
+static struct sigaction original_sigint;
+static struct sigaction original_sigterm;
+static struct sigaction original_sigquit;
+static struct sigaction original_sighup;
+#endif
+
 static void quit_controller(int signal_number) {
   should_abort_simulation_waiting = true;
-  signal(signal_number, SIG_DFL);
+#ifdef _WIN32
+  signal(signal_number, original_sigint);
+#else
+  struct sigaction *original = NULL;
+  if (signal_number == SIGINT)
+    original = &original_sigint;
+  else if (signal_number == SIGTERM)
+    original = &original_sigterm;
+  else if (signal_number == SIGQUIT)
+    original = &original_sigquit;
+  else if (signal_number == SIGHUP)
+    original = &original_sighup;
+  if (original)
+    sigaction(signal_number, original, NULL);
+  else
+    signal(signal_number, SIG_DFL);
+#endif
   raise(signal_number);
 }
 
@@ -1414,11 +1440,17 @@ int wb_robot_init() {  // API initialization
   // one uint8 giving the number of devices n
   // n \0-terminated strings giving the names of the devices 0 .. n-1
 
-  signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
-#ifndef _WIN32
-  signal(SIGTERM, quit_controller);
-  signal(SIGQUIT, quit_controller);
-  signal(SIGHUP, quit_controller);
+#ifdef _WIN32
+  original_sigint = signal(SIGINT, quit_controller);  // this signal is working on Windows when Ctrl+C from cmd.exe.
+#else
+  struct sigaction sa;
+  sa.sa_handler = quit_controller;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = 0;
+  sigaction(SIGINT, &sa, &original_sigint);
+  sigaction(SIGTERM, &sa, &original_sigterm);
+  sigaction(SIGQUIT, &sa, &original_sigquit);
+  sigaction(SIGHUP, &sa, &original_sighup);
 #endif
 
   robot.configure = 0;

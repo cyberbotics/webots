@@ -184,7 +184,7 @@ void WbWrenWindow::initialize() {
 }
 
 void WbWrenWindow::updateWrenViewportDimensions() {
-  const int ratio = (int)devicePixelRatio();
+  const double ratio = devicePixelRatio();
   wr_viewport_set_pixel_ratio(wr_scene_get_viewport(wr_scene_get_instance()), ratio);
   WbVideoRecorder::instance()->setScreenPixelRatio(ratio);
 }

@@ -527,6 +527,18 @@ void WbSkin::reset(const QString &id) {
   }
 }
 
+void WbSkin::exportNodeFields(WbWriter &writer) const {
+  WbBaseNode::exportNodeFields(writer);
+
+  exportSFResourceField("modelUrl", mModelUrl, writer.relativeMeshesPath(), writer);
+}
+
+QStringList WbSkin::customExportedFields() const {
+  QStringList fields;
+  fields << "modelUrl";
+  return fields;
+}
+
 void WbSkin::updateModel() {
   applyTranslationToWren();
   applyRotationToWren();

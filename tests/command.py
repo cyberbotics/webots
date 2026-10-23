@@ -16,6 +16,7 @@
 
 import os
 import queue
+import signal
 import subprocess
 import sys
 import threading
@@ -54,12 +55,41 @@ class Command(object):
         """Detect if the command is running."""
         return self.mainProcess is not None
 
+    def signalMainProcess(self, force):
+        """Send SIGTERM (or SIGKILL if force) to the main process, and to its whole process group if it owns one."""
+        process = self.mainProcess
+        if not process:
+            return
+        if hasattr(os, 'killpg'):  # POSIX only: os.killpg does not exist on Windows
+            try:
+                if os.getpgid(process.pid) != os.getpgid(0):
+                    os.killpg(os.getpgid(process.pid), signal.SIGKILL if force else signal.SIGTERM)
+                    return
+            except (ProcessLookupError, PermissionError):
+                pass
+        try:
+            if force:
+                process.kill()
+            else:
+                process.terminate()
+        except ProcessLookupError:
+            pass
+
     def stopMainProcess(self):
-        """Stop the main process."""
-        if self.mainProcess:
-            self.mainProcess.terminate()
+        """Stop the main process, escalating to SIGKILL if it ignores SIGTERM."""
+        process = self.mainProcess
+        if process:
+            self.signalMainProcess(force=False)
+            try:
+                process.wait(timeout=30)
+            except subprocess.TimeoutExpired:
+                self.signalMainProcess(force=True)
+                try:
+                    process.wait(timeout=30)
+                except subprocess.TimeoutExpired:
+                    pass
             if self.mainThread:
-                self.mainThread.join()
+                self.mainThread.join(timeout=30)
         self.mainProcess = None
         self.mainThread = None
 
@@ -156,11 +186,15 @@ class Command(object):
             outFile = open(self.outFileName, "w")
             errFile = open(self.errFileName, "w")
 
-            p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # start the command in its own session so that the timeout handling can terminate its whole process tree
+            # (on POSIX; the option is ignored on Windows)
+            p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+            self.mainProcess = p
             q = queue.Queue()
-            to = threading.Thread(target=enqueue_stream, args=(p.stdout, q, 1))
-            te = threading.Thread(target=enqueue_stream, args=(p.stderr, q, 2))
-            tp = threading.Thread(target=enqueue_process, args=(p, q))
+            # daemon threads: a child keeping the pipes open after a timeout must not prevent the interpreter from exiting
+            to = threading.Thread(target=enqueue_stream, args=(p.stdout, q, 1), daemon=True)
+            te = threading.Thread(target=enqueue_stream, args=(p.stderr, q, 2), daemon=True)
+            tp = threading.Thread(target=enqueue_process, args=(p, q), daemon=True)
             te.start()
             to.start()
             tp.start()
@@ -191,19 +225,19 @@ class Command(object):
         self.isRunningFlag = True
 
         try:
-            self.mainThread = threading.Thread(target=mainTarget)
+            self.mainThread = threading.Thread(target=mainTarget, daemon=True)
             self.mainThread.start()
 
             self.mainThread.join(timeout)
             self.isRunningFlag = False
 
-            if self.mainProcess and self.mainThread.is_alive():  # timeout case
+            if self.mainThread.is_alive():  # timeout case
                 self.isTimeout = True
                 if forceTermination:
                     self.stopMainProcess()
 
         except (KeyboardInterrupt, SystemExit):
             self.isRunningFlag = False
-            if self.mainProcess and self.mainThread.is_alive():
-                self.terminate(force=False)
+            if self.mainThread.is_alive():
+                self.stopMainProcess()
             exit()

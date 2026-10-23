@@ -73,8 +73,6 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
     }
   }
 
-  mSleepRealTime = basicTimeStep();
-
   WbPerformanceLog *log = WbPerformanceLog::instance();
   if (log)
     log->setTimeStep(basicTimeStep());
@@ -128,6 +126,7 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
   if (log)
     log->stopMeasure(WbPerformanceLog::LOADING);
 
+  mTimer->setTimerType(Qt::PreciseTimer);
   connect(mTimer, &QTimer::timeout, this, &WbSimulationWorld::triggerStepFromTimer);
   const WbSimulationState *const s = WbSimulationState::instance();
   connect(s, &WbSimulationState::rayTracingEnabled, this, &WbSimulationWorld::rayTracingEnabled);
@@ -185,35 +184,10 @@ void WbSimulationWorld::step() {
 
   const double timeStep = basicTimeStep();
 
-  if (WbSimulationState::instance()->isRealTime()) {
-    const int elapsed = mRealTimeTimer.restart();
-
-    // computing the mean of an history of several elapsedTime
-    // improves significantly the stability of the algorithm
-    // in case of simulations where elapsedTime oscillates often
-    // above and below basicTimeStep.
-    // Moreover it improves the stability of simulations where
-    // basicTimeStep contains significant decimals
-    mElapsedTimeHistory.append(elapsed);
-    if (mElapsedTimeHistory.size() > qMax(4.0, 128.0 / timeStep))  // history size found empirically
-      mElapsedTimeHistory.pop_front();
-    double mean = 0.0;
-    foreach (const int &v, mElapsedTimeHistory)
-      mean += v;
-    mean /= mElapsedTimeHistory.size();
-
-    // useful hack: uncomment to run Webots at 90% of the real-time
-    //              (if the real-time mode is enabled, of course)
-    // mean *= 0.90;
-
-    if (mean > timeStep && mSleepRealTime > 0.0) {
-      mSleepRealTime -= 0.03 * timeStep;
-      if (mSleepRealTime < 0)
-        mSleepRealTime = 0.0;
-    } else if (mean < timeStep)
-      mSleepRealTime += 0.03 * timeStep;
-
-    mTimer->start(mSleepRealTime);
+  // Update the timer's timestep if it's been changed
+  if (timeStep != mOldTimeStep && WbSimulationState::instance()->isRealTime()) {
+    mOldTimeStep = timeStep;
+    mTimer->start(timeStep);
   }
 
   emit physicsStepStarted();
@@ -303,6 +277,7 @@ void WbSimulationWorld::restartStepTimer() {
 
 void WbSimulationWorld::modeChanged() {
   WbPerformanceLog *log = WbPerformanceLog::instance();
+  const double timeStep = basicTimeStep();
 
   const WbSimulationState::Mode mode = WbSimulationState::instance()->mode();
   switch (mode) {
@@ -317,10 +292,10 @@ void WbSimulationWorld::modeChanged() {
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
       break;
     case WbSimulationState::REALTIME:
-      mRealTimeTimer.start();
       WbSoundEngine::setPause(false);
       WbSoundEngine::setMute(WbPreferences::instance()->value("Sound/mute").toBool());
-      mTimer->start(mSleepRealTime);
+      mOldTimeStep = timeStep;
+      mTimer->start(timeStep);
       break;
     case WbSimulationState::FAST:
       WbSoundEngine::setPause(false);
