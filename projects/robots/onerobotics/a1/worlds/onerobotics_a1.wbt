@@ -1,0 +1,50 @@
+#VRML_SIM R2025b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "webots://projects/robots/onerobotics/a1/protos/OneRoboticsA1.proto"
+
+WorldInfo {
+  info [
+    "Demonstration of the OneRobotics A1 right arm."
+  ]
+  title "OneRobotics A1"
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0 0 1 0.694
+  position -2.4 -2 0.7
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+Solid {
+  translation 0 0 0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.18 0.2 0.24
+        roughness 0.7
+        metalness 0.2
+      }
+      geometry Cylinder {
+        height 0.4
+        radius 0.09
+      }
+    }
+  ]
+  name "mounting pedestal"
+  boundingObject Cylinder {
+    height 0.4
+    radius 0.09
+  }
+}
+OneRoboticsA1 {
+  translation 0 0 0.416
+  controller "onerobotics_a1_demo"
+}
