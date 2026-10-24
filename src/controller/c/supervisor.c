@@ -327,14 +327,23 @@ static void remove_proto_from_list(WbProtoRef proto) {
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
-    WbPoseStruct **pose_entry = &pose_collection;
-    while (*pose_entry) {
-      if ((*pose_entry)->from_node == node || (*pose_entry)->to_node == node) {
-        WbPoseStruct *removed_entry = *pose_entry;
-        *pose_entry = removed_entry->next;
+    // Remove any pose entries that reference this node
+    WbPoseStruct *pose_entry = pose_collection;
+    WbPoseStruct *previous_pose_entry = NULL;
+    while (pose_entry) {
+      if (pose_entry->from_node == node || pose_entry->to_node == node) {
+        WbPoseStruct *removed_entry = pose_entry;
+        pose_entry = removed_entry->next;
         free(removed_entry);
-      } else
-        pose_entry = &(*pose_entry)->next;
+
+        if (previous_pose_entry)
+          previous_pose_entry->next = pose_entry;
+        else
+          pose_collection = pose_entry;
+      } else {
+        previous_pose_entry = pose_entry;
+        pose_entry = pose_entry->next;
+      }
     }
 
     // look for the previous node in the list
@@ -3192,18 +3201,11 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
   WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
   new_pose->from_node = from_node;
   new_pose->to_node = node;
-  new_pose->next = NULL;
   new_pose->last_update = -DBL_MAX;
 
   // Add the pose to the list
-  if (!pose_collection)
-    pose_collection = new_pose;
-  else {
-    WbPoseStruct *tmp_pose = pose_collection;
-    while (tmp_pose->next)
-      tmp_pose = tmp_pose->next;
-    tmp_pose->next = new_pose;
-  }
+  new_pose->next = pose_collection;
+  pose_collection = new_pose;
 
   assert(pose_collection);
 
