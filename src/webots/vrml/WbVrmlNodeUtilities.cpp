@@ -489,6 +489,10 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
   if (!tokenizer)
     return true;
 
+  // No need to check for backward compatibility if the file was created after Pose nodes were introduced.
+  if (tokenizer->fileVersion() >= WbVersion(2023, 0, 0))
+    return false;
+
   const int initalIndex = tokenizer->pos();
   bool inChildren = false;
   int bracketCount = 0;
