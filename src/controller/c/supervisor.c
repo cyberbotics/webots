@@ -1238,7 +1238,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       else {
         WbPoseStruct *tmp_pose = pose_collection;
         while (tmp_pose) {
-          if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
+          if (tmp_pose->to_node->id == to_node_id && tmp_pose->from_node->id == from_node_id) {
             node_pose = tmp_pose->pose;
             tmp_pose->last_update = wb_robot_get_time();
             break;
