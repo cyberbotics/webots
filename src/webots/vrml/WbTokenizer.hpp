@@ -40,7 +40,7 @@ public:
   // build list of tokens
   // returns the number of invalid tokens found
   int tokenize(const QString &fileName, const QString &prefix = QString());
-  int tokenizeString(const QString &string);
+  int tokenizeString(const QString &string, const WbVersion &fileVersion = worldFileVersion());
   const QString &fileName() const { return mFileName; }
 
   // returns the info stored as (#) comments in the file header

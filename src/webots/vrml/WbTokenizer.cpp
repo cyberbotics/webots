@@ -423,8 +423,9 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   return errors;
 }
 
-int WbTokenizer::tokenizeString(const QString &string) {
+int WbTokenizer::tokenizeString(const QString &string, const WbVersion &fileVersion) {
   mIndex = 0;
+  mFileVersion = fileVersion;
 
   mStream = new QTextStream(string.toUtf8());
   if (mStream->atEnd()) {
