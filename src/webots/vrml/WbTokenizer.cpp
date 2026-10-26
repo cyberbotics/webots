@@ -14,7 +14,6 @@
 
 #include "WbTokenizer.hpp"
 
-#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"

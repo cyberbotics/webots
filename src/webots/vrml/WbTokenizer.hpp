@@ -21,6 +21,8 @@
 
 #include "WbVersion.hpp"
 
+#include "WbApplicationInfo.hpp"
+
 #include <QtCore/QChar>
 #include <QtCore/QString>
 #include <QtCore/QVector>
@@ -40,7 +42,7 @@ public:
   // build list of tokens
   // returns the number of invalid tokens found
   int tokenize(const QString &fileName, const QString &prefix = QString());
-  int tokenizeString(const QString &string, const WbVersion &fileVersion = worldFileVersion());
+  int tokenizeString(const QString &string, const WbVersion &fileVersion = WbApplicationInfo::version());
   const QString &fileName() const { return mFileName; }
 
   // returns the info stored as (#) comments in the file header
