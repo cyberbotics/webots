@@ -14,6 +14,7 @@
 
 #include "WbTokenizer.hpp"
 
+#include "WbApplicationInfo.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbNetwork.hpp"
@@ -423,8 +424,12 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
 }
 
 int WbTokenizer::tokenizeString(const QString &string, const WbVersion &fileVersion) {
-  mIndex = 0;
   mFileVersion = fileVersion;
+  return tokenizeString(string);
+}
+
+int WbTokenizer::tokenizeString(const QString &string) {
+  mIndex = 0;
 
   mStream = new QTextStream(string.toUtf8());
   if (mStream->atEnd()) {

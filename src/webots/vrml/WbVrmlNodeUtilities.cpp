@@ -489,8 +489,9 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
   if (!tokenizer)
     return true;
 
-  // No need to check for backward compatibility if the file was created after Pose nodes were introduced.
-  if (tokenizer->fileVersion() >= WbVersion(2023, 1, 0))
+  // No need to check for backward compatibility if the file header declares a version in which Pose nodes exist.
+  const WbVersion r2023b(2023, 1, 0);
+  if (tokenizer->fileVersion() >= r2023b)
     return false;
 
   const int initalIndex = tokenizer->pos();
