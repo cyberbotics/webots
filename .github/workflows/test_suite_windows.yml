@@ -147,11 +147,6 @@ jobs:
         export MESA_GL_VERSION_OVERRIDE=3.3
         export LIBGL_ALWAYS_SOFTWARE=true
         python tests/test_suite.py
-    - name: Setup tmate session
-      if: ${{ failure() }}
-      uses: mxschmitt/action-tmate@v3
-      with:
-        detached: true
   delete-artifacts:
     needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
