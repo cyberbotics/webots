@@ -45,6 +45,7 @@ DEF ROBOT Robot {
           DEF NODE Transform {
             translation 0 0 0.3
             rotation -0.000000938185669 0.707106781184505 -0.707106781187968 3.141590777218456
+            scale 0.5 0.5 0.5
             children [
               Shape {
                 geometry Cone {
