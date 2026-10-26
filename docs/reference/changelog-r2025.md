@@ -13,7 +13,7 @@
     - Added support for HOME-relative paths in `EXTERNPROTO` declarations using the `home://` scheme, preserving them when saving worlds ([#7055](https://github.com/cyberbotics/webots/pull/7055)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
-    - World files created in Webots R2023b and later will no longer have `Transform` nodes automatically converted to `Pose` nodes, allowing for their use where a non-scaling transform is desired ([#7065](https://github.com/cyberbotics/webots/pull/7065)).
+    - **`Transform` nodes with the default scale are no longer automatically converted to `Pose` nodes in world and PROTO files whose header declares Webots R2023b or later, so that a non-scaling `Transform` can be used on purpose; such files must use a `Pose` wherever a `Transform` is not allowed ([#7065](https://github.com/cyberbotics/webots/pull/7065)).**
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
