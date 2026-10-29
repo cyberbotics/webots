@@ -66,4 +66,8 @@ for i in range(layers):
     if array[i] != rows[i]:
         finish('getRangeImageArray()[%d] should be %s, not %s.' % (i, rows[i], array[i]))
 
+# a layer that does not exist has no image
+if lidar.getLayerRangeImage(layers) is not None:
+    finish('getLayerRangeImage(%d) should be None, not %s.' % (layers, lidar.getLayerRangeImage(layers)))
+
 finish(None)
