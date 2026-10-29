@@ -729,6 +729,9 @@ void WbLidar::updateMinRange() {
 
   mNeedToConfigure = true;
 
+  if (hasBeenSetup())
+    applyMinRangeToWren();
+
   if (areWrenObjectsInitialized())
     applyFrustumToWren();
 }
@@ -927,6 +930,10 @@ void WbLidar::updateBoundingSphere(WbBaseNode *subNode) {
 
 void WbLidar::applyResolutionToWren() {
   mWrenCamera->setRangeResolution(mResolution->value());
+}
+
+void WbLidar::applyMinRangeToWren() {
+  mWrenCamera->setMinRange(mMinRange->value());
 }
 
 void WbLidar::applyMaxRangeToWren() {
