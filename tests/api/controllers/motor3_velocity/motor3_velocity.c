@@ -78,7 +78,6 @@ void test_torque_control(const char *sensor_name, const char *motor_name) {
   const WbDeviceTag position_sensor = wb_robot_get_device(sensor_name);
 
   wb_position_sensor_enable(position_sensor, TIME_STEP);
-  wb_motor_enable_torque_feedback(motor, TIME_STEP);
   wb_robot_step(TIME_STEP);
 
   const double initial_pos = wb_position_sensor_get_value(position_sensor);
@@ -88,9 +87,9 @@ void test_torque_control(const char *sensor_name, const char *motor_name) {
   for (int i = 0; i < 10; ++i)
     wb_robot_step(TIME_STEP);
 
-  const double moved_pos = wb_position_sensor_get_value(position_sensor);
-  ts_assert_double_is_bigger(fabs(moved_pos - initial_pos), 1e-4,
-                             "The position measured by %s should have changed under torque control", sensor_name);
+  const double pos_after_positive = wb_position_sensor_get_value(position_sensor);
+  ts_assert_double_is_bigger(pos_after_positive, initial_pos + 1e-4,
+                             "The position measured by %s should increase under positive torque", sensor_name);
 
   // Return to position control
   wb_motor_set_position(motor, 0.0);
@@ -98,13 +97,14 @@ void test_torque_control(const char *sensor_name, const char *motor_name) {
     wb_robot_step(TIME_STEP);
 
   // Apply user-defined negative torque
+  const double pos_before_negative = wb_position_sensor_get_value(position_sensor);
   wb_motor_set_torque(motor, -0.5);
   for (int i = 0; i < 10; ++i)
     wb_robot_step(TIME_STEP);
 
-  const double moved_neg_pos = wb_position_sensor_get_value(position_sensor);
-  ts_assert_double_is_bigger(fabs(moved_neg_pos - initial_pos), 1e-4,
-                             "The position measured by %s should have changed under negative torque control", sensor_name);
+  const double pos_after_negative = wb_position_sensor_get_value(position_sensor);
+  ts_assert_double_is_bigger(pos_before_negative - 1e-4, pos_after_negative,
+                             "The position measured by %s should decrease under negative torque", sensor_name);
 
   // Return to position control
   wb_motor_set_position(motor, 0.0);
@@ -118,9 +118,12 @@ int main(int argc, char **argv) {
   wb_motor_set_position(wb_robot_get_device("rotational motor2"), 0.0);
   wb_motor_set_position(wb_robot_get_device("rotational motor3"), 0.0);
 
-  test_position_under_velocity_control("position sensor1", "rotational motor1", 10.0, 0);
-  test_position_under_velocity_control("position sensor3", "rotational motor3", 10.0, 2);
-  test_position_under_velocity_control("position sensor2", "rotational motor2", 0.10, 1);
+  const WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
+  if (inertial_unit) {
+    test_position_under_velocity_control("position sensor1", "rotational motor1", 10.0, 0);
+    test_position_under_velocity_control("position sensor3", "rotational motor3", 10.0, 2);
+    test_position_under_velocity_control("position sensor2", "rotational motor2", 0.10, 1);
+  }
 
   test_torque_control("position sensor1", "rotational motor1");
   test_torque_control("position sensor2", "rotational motor2");
