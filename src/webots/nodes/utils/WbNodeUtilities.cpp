@@ -474,8 +474,14 @@ namespace {
         // Robots, Devices, Propellers, Lights, and Joints
         if (isTransformOrTransformDescendant) {
           if (nodeName == "PointLight" || nodeName == "SpotLight" || nodeName == "DirectionalLight" ||
-              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller" || nodeName.endsWith("Joint"))
+              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller" || nodeName.endsWith("Joint")) {
+            errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node: a Transform node cannot contain %1 "
+                                       "nodes, use a Pose node instead.")
+                             .arg(nodeName)
+                             .arg(fieldName)
+                             .arg(parentModelName);
             return false;
+          }
         }
 
         if (nodeName == "Solid")

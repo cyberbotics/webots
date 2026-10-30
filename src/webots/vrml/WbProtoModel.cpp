@@ -384,7 +384,7 @@ WbNode *WbProtoModel::generateRoot(const QVector<WbField *> &parameters, const Q
     mIsDeterministic = true;
 
   tokenizer.setReferralFile(mUrl);
-  if (tokenizer.tokenizeString(content) > 0) {
+  if (tokenizer.tokenizeString(content, mFileVersion) > 0) {
     tokenizer.reportFileError(tr("Failed to load due to syntax error(s)"));
     return NULL;
   }

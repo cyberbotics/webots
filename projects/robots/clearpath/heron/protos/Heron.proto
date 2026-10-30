@@ -42,7 +42,7 @@ PROTO Heron [
       DEF BODY_SLOT Group {
         children IS bodySlot
       }
-      Transform {
+      Pose {
         translation -0.185 0 0
         rotation 0 0 1 1.01503e-06
         children [
@@ -59,7 +59,7 @@ PROTO Heron [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.35 0.05
         children [
           Shape {
@@ -75,7 +75,7 @@ PROTO Heron [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.35 0.05
         children [
           Shape {
@@ -91,7 +91,7 @@ PROTO Heron [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.73 0.38 -0.14
         children [
           Propeller {
@@ -116,7 +116,7 @@ PROTO Heron [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.73 -0.38 -0.14
         children [
           Propeller {
