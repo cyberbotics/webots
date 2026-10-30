@@ -100,12 +100,13 @@ class Camera(Sensor):
         image = self.image
         if not image:
             return None
-        i = 0
-        for x in range(self.width):
+        width = self.width
+        height = self.height
+        for x in range(width):
             line = []
-            for y in range(self.height):
+            for y in range(height):
+                i = 4 * (y * width + x)
                 line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
-                i += 4
             array.append(line)
         return array
 
@@ -263,12 +264,13 @@ class Camera(Sensor):
         image = self.getRecognitionSegmentationImage()
         if not image:
             return None
-        i = 0
-        for x in range(self.width):
+        width = self.width
+        height = self.height
+        for x in range(width):
             line = []
-            for y in range(self.height):
+            for y in range(height):
+                i = 4 * (y * width + x)
                 line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
-                i += 4
             array.append(line)
         return array
 
