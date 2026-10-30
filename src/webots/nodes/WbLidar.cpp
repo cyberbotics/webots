@@ -724,7 +724,6 @@ void WbLidar::updateMinRange() {
   if (mMinRange->value() >= mMaxRange->value()) {
     parsingWarn(tr("'minRange' is greater or equal to 'maxRange'. Setting 'maxRange' to %1.").arg(mMinRange->value() + 1.0));
     mMaxRange->setValue(mMinRange->value() + 1.0);
-    return;
   }
 
   mNeedToConfigure = true;
