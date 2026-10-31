@@ -96,19 +96,13 @@ class Camera(Sensor):
         return self.image
 
     def getImageArray(self) -> List[List[List[int]]]:
-        array = []
         image = self.image
         if not image:
             return None
         width = self.width
-        height = self.height
-        for x in range(width):
-            line = []
-            for y in range(height):
-                i = 4 * (y * width + x)
-                line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
-            array.append(line)
-        return array
+        stride = 4 * width
+        return [[list(p) for p in zip(image[4 * x + 2::stride], image[4 * x + 1::stride], image[4 * x::stride])]  # RGB
+                for x in range(width)]
 
     @staticmethod
     def imageGetRed(image: bytes, width: int, x: int, y: int) -> int:
@@ -260,19 +254,13 @@ class Camera(Sensor):
         return self.segmentation_image
 
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
-        array = []
         image = self.getRecognitionSegmentationImage()
         if not image:
             return None
         width = self.width
-        height = self.height
-        for x in range(width):
-            line = []
-            for y in range(height):
-                i = 4 * (y * width + x)
-                line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
-            array.append(line)
-        return array
+        stride = 4 * width
+        return [[list(p) for p in zip(image[4 * x + 2::stride], image[4 * x + 1::stride], image[4 * x::stride])]  # RGB
+                for x in range(width)]
 
     def saveRecognitionSegmentationImage(self, filename: str, quality: int) -> int:
         return wb.wb_camera_recognition_save_segmentation_image(self._tag, str.encode(filename), quality)
