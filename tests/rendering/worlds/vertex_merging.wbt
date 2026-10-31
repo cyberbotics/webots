@@ -1,0 +1,122 @@
+#VRML_SIM R2025b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+
+WorldInfo {
+  basicTimeStep 32
+}
+Viewpoint {
+  orientation 0 0 1 0
+  position -2 0 0
+}
+Background {
+  skyColor [
+    0 0 0
+  ]
+}
+DirectionalLight {
+  direction 0.6 -0.3 -0.8
+}
+TestSuiteSupervisor {
+}
+DEF HARD_CUBE Pose {
+  translation 4 1.1 0
+  rotation 0.28 -0.12 0.95 0.8
+  children [
+    Shape {
+      appearance DEF WHITE Appearance {
+        material Material {
+          diffuseColor 1 1 1
+        }
+      }
+      geometry IndexedFaceSet {
+        coord DEF CUBE Coordinate {
+          point [
+            -0.5 -0.5 -0.5
+            0.5 -0.5 -0.5
+            0.5 0.5 -0.5
+            -0.5 0.5 -0.5
+            -0.5 -0.5 0.5
+            0.5 -0.5 0.5
+            0.5 0.5 0.5
+            -0.5 0.5 0.5
+          ]
+        }
+        coordIndex [
+          0, 3, 2, 1, -1, 4, 5, 6, 7, -1, 0, 1, 5, 4, -1, 1, 2, 6, 5, -1, 2, 3, 7, 6, -1, 3, 0, 4, 7, -1
+        ]
+        creaseAngle 0
+      }
+    }
+  ]
+}
+DEF SMOOTH_CUBE Pose {
+  translation 4 -1.1 0
+  rotation 0.28 -0.12 0.95 0.8
+  children [
+    Shape {
+      appearance USE WHITE
+      geometry IndexedFaceSet {
+        coord USE CUBE
+        coordIndex [
+          0, 3, 2, 1, -1, 4, 5, 6, 7, -1, 0, 1, 5, 4, -1, 1, 2, 6, 5, -1, 2, 3, 7, 6, -1, 3, 0, 4, 7, -1
+        ]
+        creaseAngle 1.6
+      }
+    }
+  ]
+}
+DEF SEAM Pose {
+  translation 4 0 -0.9
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+          emissiveColor 1 1 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/red_blue.png"
+          ]
+          filtering 0
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0.6 -0.3
+            0 -0.6 -0.3
+            0 -0.6 0.3
+            0 0.6 0.3
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0.25 0.5
+            0.75 0.5
+          ]
+        }
+        coordIndex [
+          0, 1, 3, -1, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 0, 0, -1, 1, 1, 1, -1
+        ]
+      }
+    }
+  ]
+}
+Robot {
+  children [
+    Camera {
+      fieldOfView 1.2
+      width 300
+      height 200
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "vertex_merging"
+}
