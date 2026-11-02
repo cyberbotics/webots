@@ -283,7 +283,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
       stream >> size;
-      QByteArray font(size, '\0');
+      QByteArray font(size, Qt::Uninitialized);
       stream.readRawData(font.data(), size);
       setFont(font.data(), fontSize);
       break;

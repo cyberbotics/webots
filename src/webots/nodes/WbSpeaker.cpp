@@ -100,7 +100,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
         for (int i = 0; i < numberOfSound; ++i) {
           short size;
           stream >> size;
-          QByteArray sound(size, '\0');
+          QByteArray sound(size, Qt::Uninitialized);
           stream.readRawData(sound.data(), size);
           stop(sound.constData());
         }
@@ -110,7 +110,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     case C_SPEAKER_SET_ENGINE: {
       short size;
       stream >> size;
-      QByteArray engine(size, '\0');
+      QByteArray engine(size, Qt::Uninitialized);
       stream.readRawData(engine.data(), size);
       mEngine = QString(engine.constData());
       return;
@@ -118,7 +118,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     case C_SPEAKER_SET_LANGUAGE: {
       short size;
       stream >> size;
-      QByteArray language(size, '\0');
+      QByteArray language(size, Qt::Uninitialized);
       stream.readRawData(language.data(), size);
       mLanguage = QString(language.constData());
       return;
@@ -127,7 +127,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
       short size;
       double volume;
       stream >> size;
-      QByteArray text(size, '\0');
+      QByteArray text(size, Qt::Uninitialized);
       stream.readRawData(text.data(), size);
       stream >> volume;
       playText(text.constData(), volume);
@@ -299,7 +299,7 @@ WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData
   short size;
   unsigned char loopByte;
   stream >> size;
-  QByteArray soundFile(size, '\0');
+  QByteArray soundFile(size, Qt::Uninitialized);
   stream.readRawData(soundFile.data(), size);
   mFile = QString(soundFile.constData());
 

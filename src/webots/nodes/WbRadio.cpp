@@ -139,7 +139,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
     case C_RADIO_SET_ADDRESS: {
       int adressSize = 0;
       stream >> adressSize;
-      QByteArray address(adressSize, '\0');
+      QByteArray address(adressSize, Qt::Uninitialized);
       stream.readRawData(address.data(), adressSize);
       mAddress->setValue(address.constData());
       if (plugin)
@@ -190,11 +190,11 @@ void WbRadio::handleMessage(QDataStream &stream) {
     case C_RADIO_SEND: {
       int destSize = 0;
       stream >> destSize;
-      QByteArray dest(destSize, '\0');
+      QByteArray dest(destSize, Qt::Uninitialized);
       stream.readRawData(dest.data(), destSize);
       int dataSize = 0;
       stream >> dataSize;
-      QByteArray data(dataSize, '\0');  // 'void *' previously
+      QByteArray data(dataSize, Qt::Uninitialized);  // 'void *' previously
       stream.readRawData(data.data(), dataSize);
       double delay;
       stream >> delay;

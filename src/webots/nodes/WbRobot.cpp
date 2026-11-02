@@ -868,7 +868,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
 
       mNeedToWriteUrdf = true;
       stream >> size;
-      QByteArray data(size, '\0');
+      QByteArray data(size, Qt::Uninitialized);
       stream.readRawData(data.data(), size);
       setUrdfPrefix(QString(data.constData()));
 
@@ -894,7 +894,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     case C_ROBOT_SET_DATA: {
       short size;
       stream >> size;
-      QByteArray data(size, '\0');
+      QByteArray data(size, Qt::Uninitialized);
       stream.readRawData(data.data(), size);
       mCustomData->setValue(data.constData());
       return;
@@ -1011,7 +1011,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       stream >> streamChannel;
       unsigned int size;
       stream >> size;
-      QByteArray nativeMessage(size, '\0');
+      QByteArray nativeMessage(size, Qt::Uninitialized);
       stream.readRawData(nativeMessage.data(), size);
       QString message(nativeMessage.constData());
       if (!message.endsWith('\n'))
