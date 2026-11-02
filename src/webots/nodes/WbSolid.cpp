@@ -73,6 +73,7 @@
 #include <QtCore/QQueue>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QStringList>
+#include <QtCore/QVector>
 
 using namespace WbHiddenKinematicParameters;
 using namespace WbSolidUtilities;
@@ -2142,7 +2143,7 @@ void WbSolid::reset(const QString &id) {
   if (isSolidMerger()) {
     dBodyID b = body();
     int jointNumber = dBodyGetNumJoints(b);
-    dJointID joints[jointNumber];
+    QVector<dJointID> joints(jointNumber);
     for (int i = 0; i < jointNumber; ++i)
       joints[i] = dBodyGetJoint(b, i);
     for (int i = 0; i < jointNumber; ++i) {
