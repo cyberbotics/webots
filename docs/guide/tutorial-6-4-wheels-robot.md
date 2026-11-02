@@ -341,17 +341,16 @@ Here is the complete code of the controller developed in the previous subsection
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 64
-
 int main(int argc, char **argv) {
   wb_robot_init();
+  const int time_step = (int) wb_robot_get_basic_time_step();
   int i;
   bool avoid_obstacle_counter = 0;
   WbDeviceTag ds[2];
   char ds_names[2][10] = {"ds_left", "ds_right"};
   for (i = 0; i < 2; i++) {
     ds[i] = wb_robot_get_device(ds_names[i]);
-    wb_distance_sensor_enable(ds[i], TIME_STEP);
+    wb_distance_sensor_enable(ds[i], time_step);
   }
   WbDeviceTag wheels[4];
   char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
@@ -359,7 +358,7 @@ int main(int argc, char **argv) {
     wheels[i] = wb_robot_get_device(wheels_names[i]);
     wb_motor_set_position(wheels[i], INFINITY);
   }
-  while (wb_robot_step(TIME_STEP) != -1) {
+  while (wb_robot_step(time_step) != -1) {
     double left_speed = 1.0;
     double right_speed = 1.0;
     if (avoid_obstacle_counter > 0) {
@@ -390,16 +389,16 @@ int main(int argc, char **argv) {
 #include <webots/Motor.hpp>
 #include <webots/Robot.hpp>
 
-#define TIME_STEP 64
 using namespace webots;
 
 int main(int argc, char **argv) {
   Robot *robot = new Robot();
+  int timeStep = (int)robot->getBasicTimeStep();
   DistanceSensor *ds[2];
   char dsNames[2][10] = {"ds_right", "ds_left"};
   for (int i = 0; i < 2; i++) {
     ds[i] = robot->getDistanceSensor(dsNames[i]);
-    ds[i]->enable(TIME_STEP);
+    ds[i]->enable(timeStep);
   }
   Motor *wheels[4];
   char wheels_names[4][8] = {"wheel1", "wheel2", "wheel3", "wheel4"};
@@ -409,7 +408,7 @@ int main(int argc, char **argv) {
     wheels[i]->setVelocity(0.0);
   }
   int avoidObstacleCounter = 0;
-  while (robot->step(TIME_STEP) != -1) {
+  while (robot->step(timeStep) != -1) {
     double leftSpeed = 1.0;
     double rightSpeed = 1.0;
     if (avoidObstacleCounter > 0) {
@@ -437,13 +436,13 @@ int main(int argc, char **argv) {
 ```python
 from controller import Robot
 
-TIME_STEP = 64
 robot = Robot()
+timestep = int(robot.getBasicTimeStep())
 ds = []
 dsNames = ['ds_right', 'ds_left']
 for i in range(2):
     ds.append(robot.getDevice(dsNames[i]))
-    ds[i].enable(TIME_STEP)
+    ds[i].enable(timestep)
 wheels = []
 wheelsNames = ['wheel1', 'wheel2', 'wheel3', 'wheel4']
 for i in range(4):
@@ -451,7 +450,7 @@ for i in range(4):
     wheels[i].setPosition(float('inf'))
     wheels[i].setVelocity(0.0)
 avoidObstacleCounter = 0
-while robot.step(TIME_STEP) != -1:
+while robot.step(timestep) != -1:
     leftSpeed = 1.0
     rightSpeed = 1.0
     if avoidObstacleCounter > 0:
@@ -477,13 +476,13 @@ import com.cyberbotics.webots.controller.Motor;
 
 public class FourWheelsCollisionAvoidance {
   public static void main(String[] args) {
-    int TIME_STEP = 64;
     Robot robot = new Robot();
+    int timeStep = (int) robot.getBasicTimeStep();
     DistanceSensor[] ds = new DistanceSensor[2];
     String[] dsNames = {"ds_right", "ds_left"};
     for (int i = 0; i < 2; i++) {
       ds[i] = robot.getDistanceSensor(dsNames[i]);
-      ds[i].enable(TIME_STEP);
+      ds[i].enable(timeStep);
     }
     Motor[] wheels = new Motor[4];
     String[] wheelsNames = {"wheel1", "wheel2", "wheel3", "wheel4"};
@@ -493,7 +492,7 @@ public class FourWheelsCollisionAvoidance {
       wheels[i].setVelocity(0.0);
     }
     int avoidObstacleCounter = 0;
-    while (robot.step(TIME_STEP) != -1) {
+    while (robot.step(timeStep) != -1) {
       double leftSpeed = 1.0;
       double rightSpeed = 1.0;
       if (avoidObstacleCounter > 0) {
@@ -520,7 +519,7 @@ public class FourWheelsCollisionAvoidance {
 ```MATLAB
 function four_wheeled_collision_avoidance
 
-TIME_STEP = 64;
+TIME_STEP = wb_robot_get_basic_time_step();
 ds = [];
 ds_names = [ "ds_right", "ds_left" ];
 for i = 1:2

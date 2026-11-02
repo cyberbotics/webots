@@ -116,7 +116,7 @@ WbRenderingDeviceWindow *WbRenderingDeviceWindowFactory::getWindowForDevice(WbRe
     return NULL;
 
   WbRenderingDeviceWindow *window = new WbRenderingDeviceWindow(device);
-  connect(device, &WbRenderingDevice::isBeingDestroyed, this, &WbRenderingDeviceWindowFactory::deleteWindow);
+  connect(device, &WbNode::isBeingDestroyed, this, &WbRenderingDeviceWindowFactory::deleteWindow);
   mWindowsList.append(window);
   return window;
 }
@@ -140,7 +140,7 @@ void WbRenderingDeviceWindowFactory::setWindowsEnabled(bool enabled) {
 }
 
 void WbRenderingDeviceWindowFactory::deleteWindow() {
-  WbBaseNode *node = dynamic_cast<WbBaseNode *>(sender());
+  WbNode *node = dynamic_cast<WbNode *>(sender());
   assert(node);
   for (int i = 0; i < mWindowsList.size(); ++i) {
     if (mWindowsList[i]->deviceId() == node->uniqueId()) {

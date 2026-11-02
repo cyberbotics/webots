@@ -104,12 +104,15 @@ double WbRotationalMotor::computeFeedback() const {
 
   const bool hinge = j->nodeType() == WB_NODE_HINGE_JOINT;
   const bool hinge2 = j->nodeType() == WB_NODE_HINGE_2_JOINT;
-  assert(hinge || hinge2);
+  const bool ball = j->nodeType() == WB_NODE_BALL_JOINT;
+  assert(hinge || hinge2 || ball);
   if (hinge2 && dJointGetNumBodies(jID) == 0) {
     // invalid hinge2 linked to static environment
     warn(tr("Hinge2Joint is invalid: feedback is not available."));
     return 0.0;
   }
+  if (ball && dJointGetNumBodies(jID) == 0)
+    return 0.0;  // AMotor is disabled when neither side has a body
 
   assert(j->solidEndPoint());
   const dBodyID b = j->solidEndPoint()->bodyMerger();
@@ -130,31 +133,57 @@ double WbRotationalMotor::computeFeedback() const {
   // see explanations here:
   //   http://www.ode.org/old_list_archives/2005-January/014948.html
   // (all calculations are in global coordinate system)
-  dVector3 anchor, sub, t2;
-  if (hinge)
-    dJointGetHingeAnchor2(jID, anchor);
-  else
-    dJointGetHinge2Anchor2(jID, anchor);
+  dVector3 t2;
+  if (ball)
+    dCopyVector3(t2, fb->t2);  // AMotor applies pure torques (f2 == 0): no lever-arm correction needed
+  else {
+    dVector3 anchor, sub;
+    if (hinge)
+      dJointGetHingeAnchor2(jID, anchor);
+    else
+      dJointGetHinge2Anchor2(jID, anchor);
 
-  const dReal *const p2 = dBodyGetPosition(b);
-  dSubtractVectors3(sub, anchor, p2);
-  dCopyVector3(t2, fb->t2);
-  dAddVectorCross3(t2, fb->f2, sub);
+    const dReal *const p2 = dBodyGetPosition(b);
+    dSubtractVectors3(sub, anchor, p2);
+    dCopyVector3(t2, fb->t2);
+    dAddVectorCross3(t2, fb->f2, sub);
+  }
 
   // project torque onto hinge axis:
   // a positive torque makes the RotationalMotor rotate in the positive direction
   // (this assumes that ODE returns a normalized axis, i.e., with length = 1.0)
   // Note: projection on the hinge axis is not giving the actual driving torque: see latest reference about dJointFeedback in
-  // http://ode-wiki.org/wiki/index.php?title=Manual:_Joint_Types_and_Functions
+  // https://ode.org/wiki/index.php/Manual#Joint_feedback
   dVector3 axis;
   if (hinge)
     dJointGetHingeAxis(jID, axis);
-  else {
+  else if (hinge2) {
     const QVector<WbLogicalDevice *> &devices = j->devices();
     if (this == devices.at(0))
       dJointGetHinge2Axis1(jID, axis);
     else
       dJointGetHinge2Axis2(jID, axis);
+  } else {
+    // Euler-mode AMotor rows act along c0 = ax1 x ax2, c1 = ax1, c2 = ax0 x ax1.
+    // c0 and c2 are not orthogonal when the middle angle != 0: use the reciprocal basis.
+    int anum;
+    if (this == j->motor())
+      anum = 0;
+    else if (this == j->motor2())
+      anum = 1;
+    else {
+      assert(this == j->motor3());
+      anum = 2;
+    }
+    dVector3 c[3];
+    for (int i = 0; i < 3; ++i)
+      dJointGetAMotorAxis(jID, i, c[i]);
+    dCalcVectorCross3(axis, c[(anum + 1) % 3], c[(anum + 2) % 3]);
+    const dReal det = dCalcVectorDot3(c[anum], axis);
+    if (fabs(det) < 1e-6)  // near gimbal lock: fall back to plain projection
+      dCopyVector3(axis, c[anum]);
+    else
+      dScaleVector3(axis, 1.0 / det);
   }
   return dCalcVectorDot3(axis, t2);
 }

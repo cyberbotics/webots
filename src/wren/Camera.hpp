@@ -162,6 +162,8 @@ namespace wren {
     // May be modified when getting view/projection matrices, thus mutable
     mutable bool mIsViewDirty;
     mutable bool mIsProjectionDirty;
+    // Matrix getters can clear their dirty flags before the frustum is requested.
+    mutable bool mIsFrustumDirty;
     mutable Frustum mFrustum;
     mutable GlslLayout::CameraTransforms mMatrices;
     mutable glm::dmat4 mDpProjectionMatrix;  // double precision matrix (used for frustum culling)

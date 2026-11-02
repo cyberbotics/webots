@@ -175,10 +175,11 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >// Added a new include file
 >#include <webots/motor.h>
 >
->#define TIME_STEP 64
->
 >int main(int argc, char **argv) {
 >  wb_robot_init();
+>
+>  // get the time step of the current world
+>  const int time_step = (int) wb_robot_get_basic_time_step();
 >
 >  // get the motor devices
 >  WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
@@ -187,7 +188,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >  wb_motor_set_position(left_motor, 10.0);
 >  wb_motor_set_position(right_motor, 10.0);
 >
->  while (wb_robot_step(TIME_STEP) != -1);
+>  while (wb_robot_step(time_step) != -1);
 >
 >  wb_robot_cleanup();
 >
@@ -209,13 +210,14 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >// Added a new include file
 >#include <webots/Motor.hpp>
 >
->#define TIME_STEP 64
->
 >// All the webots classes are defined in the "webots" namespace
 >using namespace webots;
 >
 >int main(int argc, char **argv) {
 >  Robot *robot = new Robot();
+>
+>  // get the time step of the current world
+>  int timeStep = (int)robot->getBasicTimeStep();
 >
 >  // get the motor devices
 >  Motor *leftMotor = robot->getMotor("left wheel motor");
@@ -224,7 +226,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >  leftMotor->setPosition(10.0);
 >  rightMotor->setPosition(10.0);
 >
->  while (robot->step(TIME_STEP) != -1);
+>  while (robot->step(timeStep) != -1);
 >
 >  delete robot;
 >
@@ -243,10 +245,11 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >```python
 >from controller import Robot, Motor
 >
->TIME_STEP = 64
->
 ># create the Robot instance.
 >robot = Robot()
+>
+># get the time step of the current world
+>timestep = int(robot.getBasicTimeStep())
 >
 ># get the motor devices
 >leftMotor = robot.getDevice('left wheel motor')
@@ -255,7 +258,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >leftMotor.setPosition(10.0)
 >rightMotor.setPosition(10.0)
 >
->while robot.step(TIME_STEP) != -1:
+>while robot.step(timestep) != -1:
 >    pass
 >```
 >Save the modified source code (`File / Save Text File`), reset and run the simulation.
@@ -275,9 +278,10 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >
 >  public static void main(String[] args) {
 >
->    int TIME_STEP = 64;
->
 >    Robot robot = new Robot();
+>
+>    // get the time step of the current world.
+>    int timeStep = (int) robot.getBasicTimeStep();
 >
 >    // get the motor devices
 >    Motor leftMotor = robot.getMotor("left wheel motor");
@@ -286,7 +290,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >    leftMotor.setPosition(10.0);
 >    rightMotor.setPosition(10.0);
 >
->    while (robot.step(TIME_STEP) != -1);
+>    while (robot.step(timeStep) != -1);
 >  }
 >}
 >```
@@ -302,7 +306,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >```MATLAB
 >function epuck_go_forward
 >
->TIME_STEP = 64;
+> % get the time step of the current world
+>TIME_STEP = wb_robot_get_basic_time_step();
 >
 >% get the motor devices
 >left_motor = wb_robot_get_device('left wheel motor');
@@ -339,12 +344,13 @@ In order to control the motors of the wheels in speed you need to set the target
 > // Added a new include file
 > #include <webots/motor.h>
 >
-> #define TIME_STEP 64
->
 > #define MAX_SPEED 6.28
 >
 > int main(int argc, char **argv) {
 >   wb_robot_init();
+>
+>   // get the time step of the current world
+>   const int time_step = (int) wb_robot_get_basic_time_step();
 >
 >   // get a handler to the motors and set target position to infinity (speed control)
 >   WbDeviceTag left_motor = wb_robot_get_device("left wheel motor");
@@ -356,7 +362,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >   wb_motor_set_velocity(left_motor, 0.1 * MAX_SPEED);
 >   wb_motor_set_velocity(right_motor, 0.1 * MAX_SPEED);
 >
->   while (wb_robot_step(TIME_STEP) != -1) {
+>   while (wb_robot_step(time_step) != -1) {
 >   }
 >
 >   wb_robot_cleanup();
@@ -374,8 +380,6 @@ In order to control the motors of the wheels in speed you need to set the target
 >// Added a new include file
 >#include <webots/Motor.hpp>
 >
->#define TIME_STEP 64
->
 >#define MAX_SPEED 6.28
 >
 >// All the webots classes are defined in the "webots" namespace
@@ -383,6 +387,9 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 >int main(int argc, char **argv) {
 >  Robot *robot = new Robot();
+>
+>  // get the time step of the current world
+>  int timeStep = (int)robot->getBasicTimeStep();
 >
 >  // get a handler to the motors and set target position to infinity (speed control)
 >  Motor *leftMotor = robot->getMotor("left wheel motor");
@@ -394,7 +401,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >  leftMotor->setVelocity(0.1 * MAX_SPEED);
 >  rightMotor->setVelocity(0.1 * MAX_SPEED);
 >
->  while (robot->step(TIME_STEP) != -1);
+>  while (robot->step(timeStep) != -1);
 >
 >  delete robot;
 >
@@ -408,12 +415,13 @@ In order to control the motors of the wheels in speed you need to set the target
 >```python
 >from controller import Robot, Motor
 >
->TIME_STEP = 64
->
 >MAX_SPEED = 6.28
 >
 ># create the Robot instance.
 >robot = Robot()
+>
+># get the time step of the current world
+>timestep = int(robot.getBasicTimeStep())
 >
 ># get a handler to the motors and set target position to infinity (speed control)
 >leftMotor = robot.getDevice('left wheel motor')
@@ -425,7 +433,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >leftMotor.setVelocity(0.1 * MAX_SPEED)
 >rightMotor.setVelocity(0.1 * MAX_SPEED)
 >
->while robot.step(TIME_STEP) != -1:
+>while robot.step(timestep) != -1:
 >    pass
 >```
 %tab-end
@@ -442,11 +450,12 @@ In order to control the motors of the wheels in speed you need to set the target
 >
 >  public static void main(String[] args) {
 >
->    int TIME_STEP = 64;
->
 >    double MAX_SPEED = 6.28;
 >
 >    Robot robot = new Robot();
+>
+>    // get the time step of the current world.
+>    int timeStep = (int)robot.getBasicTimeStep();
 >
 >    // get a handler to the motors and set target position to infinity (speed control)
 >    Motor leftMotor = robot.getMotor("left wheel motor");
@@ -458,7 +467,7 @@ In order to control the motors of the wheels in speed you need to set the target
 >    leftMotor.setVelocity(0.1 * MAX_SPEED);
 >    rightMotor.setVelocity(0.1 * MAX_SPEED);
 >
->    while (robot.step(TIME_STEP) != -1);
+>    while (robot.step(timeStep) != -1);
 >  }
 >}
 >```
@@ -469,9 +478,10 @@ In order to control the motors of the wheels in speed you need to set the target
 >```MATLAB
 >function epuck_go_forward
 >
->TIME_STEP = 64;
->
 >MAX_SPEED = 6.28;
+>
+>% get the time step of the current world
+>TIME_STEP = wb_robot_get_basic_time_step();
 >
 >% get a handler to the motors and set target position to infinity (speed control)
 >left_motor = wb_robot_get_device('left wheel motor');

@@ -94,7 +94,7 @@ static void quitApplication(int sig) {
 
 int main(int argc, char *argv[]) {
 #ifdef _WIN32
-  // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/mingw64/bin/webots
+  // on Windows, the webots binary is located in $WEBOTS_HOME/msys64/ucrt64/bin/webots
   // we need to use GetModuleFileName as argv[0] doesn't always provide an absolute path
   const int BUFFER_SIZE = 4096;
   wchar_t *tmp = new wchar_t[BUFFER_SIZE];
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
   const QString MSYS2_HOME = QDir::fromNativeSeparators(getenv("MSYS2_HOME"));
   if (MSYS2_HOME.isEmpty())                                              // Webots was not started from a MSYS2 console
     qputenv("MSYS2_HOME", QString(webotsDirPath + "/msys64").toUtf8());  // useful to Python >= 3.8 controllers
-  const QString relativeQtPluginsPath("/mingw64/share/qt6/plugins");
+  const QString relativeQtPluginsPath("/ucrt64/share/qt6/plugins");
   const QString webotsQtPluginsPath(webotsDirPath + "/msys64" + relativeQtPluginsPath);
   const QString qtPluginsPath = QDir(webotsQtPluginsPath).exists() ? webotsQtPluginsPath : MSYS2_HOME + relativeQtPluginsPath;
 #endif

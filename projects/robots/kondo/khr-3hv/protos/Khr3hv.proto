@@ -63,10 +63,10 @@ PROTO Khr3hv [
           creaseAngle 1
         }
       }
-      DEF KHR3HV_Accelerometer Pose {
+      DEF KHR3HV_Accelerometer Accelerometer {
         translation -0.0833 0.0345 0.0
       }
-      DEF KHR3HV_Gyro Pose {
+      DEF KHR3HV_Gyro Gyro {
         translation -0.0833 0.0345 -0.024
       }
       DEF KHR3HV_Head HingeJoint {

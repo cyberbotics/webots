@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -42,11 +42,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
         include:
           - os: ubuntu-22.04
             JAVA_VERSION: "18"
           - os: ubuntu-24.04
+            JAVA_VERSION: "21"
+          - os: ubuntu-26.04
             JAVA_VERSION: "21"
     runs-on: ${{ matrix.os }}
     steps:
@@ -93,8 +95,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
+        include:
+          - os: ubuntu-22.04
+            PYTHON_VERSION: "3.9"
+          - os: ubuntu-24.04
+            PYTHON_VERSION: "3.9"
+          - os: ubuntu-26.04
+            PYTHON_VERSION: "3.11"  # no 3.9 build is published for 26.04
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90  # a healthy run takes about 10 minutes, a stuck test group costs at most 10 more
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
@@ -106,10 +116,10 @@ jobs:
       run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh
-    - name: Set up Python 3.9
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: ${{ matrix.PYTHON_VERSION }}
     - name: Test Suite
       run: |
         export LIBGL_ALWAYS_SOFTWARE=true
@@ -165,7 +175,7 @@ jobs:
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts

@@ -72,11 +72,10 @@ static void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-static void replace_char(const char *string, char occurrence, char replace) {
-  char *current_pos = strchr(string, occurrence);
-  while (current_pos) {
-    *current_pos = replace;
-    current_pos = strchr(current_pos + 1, occurrence);
+static void replace_char(char *string, char occurrence, char replace) {
+  for (char *current_pos = string; *current_pos; ++current_pos) {
+    if (*current_pos == occurrence)
+      *current_pos = replace;
   }
 }
 
@@ -403,17 +402,17 @@ static void add_lib_controller_to_path() {
 This function sets the environment variable for java and executable controllers execution.
 
 On Windows, the function adds a new path to the "Path" environment variable by concatenating the WEBOTS_HOME constant, the
-'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
+'msys64\ucrt64\bin' and 'msys64\ucrt64\bin\cpp' directories to the current "Path" value.
 
 The function also adds the controller library directory to the Path on all platforms.
 */
 static void exec_java_config_environment() {
 #ifdef _WIN32
-  const size_t new_windows_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s",
+  const size_t new_windows_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\ucrt64\\bin;%s\\msys64\\ucrt64\\bin\\cpp;%s",
                                                 WEBOTS_HOME, WEBOTS_HOME, getenv("Path")) +
                                        1;
   new_windows_path = malloc(new_windows_path_size);
-  sprintf(new_windows_path, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
+  sprintf(new_windows_path, "Path=%s\\msys64\\ucrt64\\bin;%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
           getenv("Path"));
   putenv(new_windows_path);
 #endif
@@ -423,7 +422,7 @@ static void exec_java_config_environment() {
 /*
 This function sets the environment variable for python controllers execution.
 
-For Windows it adds "\lib\controller\python;" to PYTHONPATH and adds "\msys64\mingw64\bin\cpp;" to the Path environment
+For Windows it adds "\lib\controller\python;" to PYTHONPATH and adds "\msys64\ucrt64\bin\cpp;" to the Path environment
 variable. For Linux, it adds "/lib/controller/python:" to PYTHONPATH. For macOS it adds "/Contents/lib/controller/python:" to
 PYTHONPATH and adds "/Contents/lib/controller:" to DYLD_LIBRARY_PATH. It sets PYTHONIOENCODING to "UTF-8" on all platforms.
 */
@@ -447,9 +446,9 @@ static void python_config_environment() {
 // On Windows add libCppController to Path (useful for C++ controllers, robot windows and remote control plugins)
 // On macOS add libController to DYLD_LIBRARY_PATH (useful for generic robot window library)
 #ifdef _WIN32
-  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
+  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
   new_path = malloc(new_path_size);
-  sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
+  sprintf(new_path, "Path=%s\\msys64\\ucrt64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
 #elif defined __APPLE__
   const size_t new_path_size =
@@ -998,6 +997,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "-classpath");
     new_argv = add_single_argument(new_argv, &current_size, classpath);
     new_argv = add_single_argument(new_argv, &current_size, java_library);
+    new_argv = add_single_argument(new_argv, &current_size, "--enable-native-access=ALL-UNNAMED");
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);

@@ -67,6 +67,10 @@ public:
 signals:
   void wrenMaterialChanged();
 
+protected:
+  void exportNodeFields(WbWriter &writer) const override;
+  QStringList customExportedFields() const override;
+
 private:
   WbSkin &operator=(const WbSkin &);  // non copyable
   WbNode *clone() const override { return new WbSkin(*this); }

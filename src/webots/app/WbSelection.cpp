@@ -72,7 +72,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
 
       if (mSelectedAbstractPose && poseChanged) {
         mSelectedAbstractPose->detachTranslateRotateManipulator();
-        disconnect(mSelectedAbstractPose->baseNode(), &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear);
+        disconnect(mSelectedAbstractPose->baseNode(), &WbNode::isBeingDestroyed, this, &WbSelection::clear);
       }
     }
   }
@@ -88,7 +88,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
     updateMatterSelection(true);
 
     if (mSelectedAbstractPose && poseChanged) {
-      connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
+      connect(mSelectedNode, &WbNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
       if (!handlesDisabled && !mSelectedNode->isUseNode() &&
           !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
         mSelectedAbstractPose->attachTranslateRotateManipulator();

@@ -30,26 +30,29 @@ ifeq ($(OSTYPE),darwin)
 INCLUDE += -I$(WEBOTS_DEPENDENCY_PATH)/freetype2 -I$(WEBOTS_DEPENDENCY_PATH)/assimp/include
 else ifeq ($(OSTYPE),linux)
 INCLUDE += -I/usr/include/freetype2 -I$(WEBOTS_HOME_PATH)/include/libassimp/include
+ifeq ($(OSDIST), fedora)
+INCLUDE += -idirafter/usr/include
+endif
 else ifeq ($(OSTYPE),windows)
-INCLUDE += -I/mingw64/include/freetype2 -I/mingw64/include -I$(WEBOTS_DEPENDENCY_PATH)
+INCLUDE += -I/ucrt64/include/freetype2 -I/ucrt64/include
 endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
 
 ifneq ($(EMSDK),)
-# Check if pyclibrary is present
-PYC = $(shell \
-	pip list 2>/dev/null | grep pyclibrary | awk '{print $$1}'; \
-	)
-ifneq ($(PYC), pyclibrary)
-PYC = $(shell \
-	pip3 list 2>/dev/null | grep pyclibrary | awk '{print $$1}'; \
-	)
+# pyclibrary is installed in a local virtual environment by linux_web_viewer_dependencies.sh,
+# but it may also be installed system-wide, e.g. on macOS and Windows
+PYTHON = $(WEBOTS_DEPENDENCY_PATH)/pyclibrary-venv/bin/python3
+ifeq ($(wildcard $(PYTHON)),)
+PYTHON = python3
 endif
+
+# Check if pyclibrary is present
+PYC = $(shell "$(PYTHON)" -m pip list 2>/dev/null | grep pyclibrary | awk '{print $$1}')
 ifeq ($(PYC), pyclibrary)
 WREN=1
 # Parse the headers for WRENJS
-ENUM := $(shell python3 $(WEBOTS_HOME_PATH)/scripts/export_function_js/export_function.py;)
+ENUM := $(shell "$(PYTHON)" "$(WEBOTS_HOME_PATH)/scripts/export_function_js/export_function.py";)
 COPY:= $(shell mkdir $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/ > /dev/null 2>&1)
 COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/gtao_noise_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
 COPY:= $(shell cp $(WEBOTS_HOME_PATH)/resources/wren/textures/smaa_area_texture.png $(WEBOTS_HOME_PATH)/resources/web/wwi/images/post_processing/)
