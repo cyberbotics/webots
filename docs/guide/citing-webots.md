@@ -6,19 +6,19 @@ To make this simpler, we provide here some citation examples, including BibTex e
 
 ### Citing Cyberbotics' Website
 
-*This project uses [Webots](http://www.cyberbotics.com), an open-source mobile robot simulation software developed by Cyberbotics Ltd.*
+*This project uses [Webots](https://cyberbotics.com), an open-source mobile robot simulation software developed by Cyberbotics Ltd.*
 
-*This project uses Webots (http://www.cyberbotics.com), an open-source mobile robot simulation software developed by Cyberbotics Ltd.*
+*This project uses Webots (https://cyberbotics.com), an open-source mobile robot simulation software developed by Cyberbotics Ltd.*
 
 The BibTex reference entry may look odd, as it is very different from a standard paper citation and we want the specified fields to appear in the normal plain citation mode of LaTeX.
 
 ```tex
 @MISC{Webots,
-  AUTHOR = {Webots},
-  TITLE  = {http://www.cyberbotics.com},
+  AUTHOR = {Cyberbotics},
+  TITLE  = {Webots},
   NOTE   = {Open-source Mobile Robot Simulation Software},
   EDITOR = {Cyberbotics Ltd.},
-  URL    = {http://www.cyberbotics.com}
+  URL    = {https://cyberbotics.com}
 }
 ```
 
@@ -27,9 +27,10 @@ Once compiled with LaTeX, it should display as follows:
 *References*
 
 ```
-[1] Webots.
-http://www.cyberbotics.com.
+[1] Cyberbotics.
+Webots.
 Open-source Mobile Robot Simulation Software.
+https://cyberbotics.com
 ```
 
 ### Citing a Reference Journal Paper about Webots
@@ -46,7 +47,6 @@ Here is the BibTex entry:
   VOLUME  = {1},
   NUMBER  = {1},
   PAGES   = {39--42},
-  URL     = {http://www.ars-journal.com/International-Journal-of-
-             Advanced-Robotic-Systems/Volume-1/39-42.pdf}
+  URL     = {https://arxiv.org/pdf/cs/0412052}
 }
 ```

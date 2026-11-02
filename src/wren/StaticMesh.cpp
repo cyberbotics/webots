@@ -1072,8 +1072,8 @@ namespace wren {
       mesh->estimateIndexCount(indexCounter);
 
       const float factor = 2.0f * glm::pi<float>() / subdivision;
-      float x[sub1];
-      float y[sub1];
+      std::vector<float> x(sub1);
+      std::vector<float> y(sub1);
       for (int i = 0; i < sub1; ++i) {
         const float alpha = factor * i;
         x[i] = glm::sin(alpha);
@@ -1097,8 +1097,8 @@ namespace wren {
       }
 
       // compute quarter of circle profile for capsule top
-      float ay[sub5];
-      float ar[sub5];
+      std::vector<float> ay(sub5);
+      std::vector<float> ar(sub5);
       const float factor4 = 0.5f * glm::pi<float>() / sub4;
       for (int i = 0; i < sub5; ++i) {
         float alpha = factor4 * i;
@@ -1215,8 +1215,8 @@ namespace wren {
       if (hasSide) {
         // define points around capsule
         const float factor = 2.0f * glm::pi<float>() / subdivision;
-        float x[sub1];
-        float y[sub1];
+        std::vector<float> x(sub1);
+        std::vector<float> y(sub1);
         for (int i = 0; i < sub1; ++i) {
           const float alpha = factor * i;
           x[i] = glm::sin(alpha);
@@ -1256,8 +1256,8 @@ namespace wren {
 
       if (hasTop || hasBottom) {
         // compute quarter of circle profile for capsule top
-        float ay[sub5];
-        float ar[sub5];
+        std::vector<float> ay(sub5);
+        std::vector<float> ar(sub5);
         const float factor4 = 0.5f * glm::pi<float>() / sub4;
         for (int i = 0; i < sub5; ++i) {
           float alpha = factor4 * i;

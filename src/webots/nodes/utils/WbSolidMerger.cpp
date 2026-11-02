@@ -24,6 +24,8 @@
 #include "WbWorld.hpp"
 
 #include <ode/ode.h>
+
+#include <QtCore/QVector>
 #include <cassert>
 
 WbSolidMerger::WbSolidMerger(WbSolid *solid) :
@@ -405,7 +407,7 @@ void WbSolidMerger::attachGeomsToBody(dGeomID g) {
   if (spaceId) {
     const int n = dSpaceGetNumGeoms(spaceId);
     // we need to store the geoms since dGeomSetBody() changes the way they are sorted in their common space
-    dGeomID geoms[n];
+    QVector<dGeomID> geoms(n);
     for (int i = 0; i < n; ++i)
       geoms[i] = dSpaceGetGeom(spaceId, i);
 
