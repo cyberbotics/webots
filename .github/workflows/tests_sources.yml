@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14, windows-2022]
+        os: [ubuntu-22.04, macos-15, windows-2022]
         python: [3.9]
         include:
           - os: ubuntu-22.04
@@ -46,7 +46,7 @@ jobs:
               cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
               cmake --build . --config RelWithDebInfo
               export PATH=~/cppcheck-2.14.2/build/bin:$PATH
-          - os: macos-14
+          - os: macos-15
             DEPENDENCIES_INSTALLATION: |
               brew tap-new --no-git $USER/local-cppcheck
               brew extract --version=2.14.2 cppcheck $USER/local-cppcheck
