@@ -30,12 +30,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14, windows-2022]
+        os: [ubuntu-22.04, macos-15, windows-2022]
         python: [3.9]
         include:
           - os: ubuntu-22.04
             DEPENDENCIES_INSTALLATION: "sudo apt -y install cppcheck"
-          - os: macos-14
+          - os: macos-15
             DEPENDENCIES_INSTALLATION: |
               brew install cppcheck
               brew tap-new --no-git $USER/local-clang-format
