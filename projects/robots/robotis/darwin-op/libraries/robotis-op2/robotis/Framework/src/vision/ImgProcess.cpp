@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <vector>
 
 #include "ImgProcess.h"
 
@@ -213,7 +214,7 @@ void ImgProcess::HFlipYUV(Image* img)
     int sizeline = img->m_Width * 2; /* 2 bytes per pixel*/
     unsigned char *pframe;
     pframe=img->m_ImageData;
-    unsigned char line[sizeline-1];/*line buffer*/
+    std::vector<unsigned char> line(sizeline);/*line buffer*/
     for (int h = 0; h < img->m_Height; h++)
     {   /*line iterator*/
         for(int w = sizeline-1; w > 0; w = w - 4)
@@ -223,22 +224,22 @@ void ImgProcess::HFlipYUV(Image* img)
             line[w-3]=*pframe++;
             line[w]=*pframe++;
         }
-        memcpy(img->m_ImageData+(h*sizeline), line, sizeline); /*copy reversed line to frame buffer*/
+        memcpy(img->m_ImageData+(h*sizeline), line.data(), sizeline); /*copy reversed line to frame buffer*/
     }
 }
 
 void ImgProcess::VFlipYUV(Image* img)
 {
     int sizeline = img->m_Width * 2; /* 2 bytes per pixel */
-    unsigned char line1[sizeline-1];/*line1 buffer*/
-    unsigned char line2[sizeline-1];/*line2 buffer*/
+    std::vector<unsigned char> line1(sizeline);/*line1 buffer*/
+    std::vector<unsigned char> line2(sizeline);/*line2 buffer*/
     for(int h = 0; h < img->m_Height/2; h++)
     {   /*line iterator*/
-        memcpy(line1,img->m_ImageData+h*sizeline,sizeline);
-        memcpy(line2,img->m_ImageData+(img->m_Height-1-h)*sizeline,sizeline);
+        memcpy(line1.data(),img->m_ImageData+h*sizeline,sizeline);
+        memcpy(line2.data(),img->m_ImageData+(img->m_Height-1-h)*sizeline,sizeline);
 
-        memcpy(img->m_ImageData+h*sizeline, line2, sizeline);
-        memcpy(img->m_ImageData+(img->m_Height-1-h)*sizeline, line1, sizeline);
+        memcpy(img->m_ImageData+h*sizeline, line2.data(), sizeline);
+        memcpy(img->m_ImageData+(img->m_Height-1-h)*sizeline, line1.data(), sizeline);
     }
 }
 

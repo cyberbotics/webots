@@ -121,14 +121,13 @@ namespace wren {
       int logLength;
       glGetShaderiv(shaderGlName, GL_INFO_LOG_LENGTH, &logLength);
 
-      char log[logLength];
+      std::string log(logLength, '\0');
       glGetShaderInfoLog(shaderGlName, logLength, nullptr, &log[0]);
 
       DEBUG("ShaderProgram::compileShader: compilation failed!");
       DEBUG("Shader source path: " << path.c_str());
-      DEBUG("InfoLog: " << log);
-      // cppcheck-suppress danglingLifetime
-      mCompilationLog.assign(log);
+      DEBUG("InfoLog: " << log.c_str());
+      mCompilationLog.assign(log.c_str());
 
       glDeleteShader(shaderGlName);
       shaderGlName = 0;
@@ -179,11 +178,11 @@ namespace wren {
       int logLength;
       glGetProgramiv(mGlName, GL_INFO_LOG_LENGTH, &logLength);
 
-      char log[logLength];
+      std::string log(logLength, '\0');
       glGetProgramInfoLog(mGlName, logLength, nullptr, &log[0]);
 
       DEBUG("ShaderProgram::createProgram: linking failed!");
-      DEBUG("InfoLog:" << log);
+      DEBUG("InfoLog:" << log.c_str());
 
       glDeleteProgram(mGlName);
       mGlName = 0;
