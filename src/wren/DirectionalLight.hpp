@@ -31,7 +31,7 @@ namespace wren {
 
     void setDirection(const glm::vec3 &direction);
 
-    LightNode::Type type() override { return TYPE_DIRECTIONAL; }
+    LightNode::Type type() const override { return TYPE_DIRECTIONAL; }
 
   private:
     DirectionalLight();

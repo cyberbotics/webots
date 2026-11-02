@@ -207,8 +207,6 @@ void KeyboardInterface::startListenKeyboard() {
 void KeyboardInterface::setKeyPressed(int key) {
   if (mKeyPressed[key] == VALIDATED)
     mKeyPressed[key] = VALIDATED_STILL_PRESSED;
-  else if (mKeyPressed[key] == VALIDATED_STILL_PRESSED)
-    mKeyPressed[key] = VALIDATED_STILL_PRESSED;
   else
     mKeyPressed[key] = PRESSED;
 }

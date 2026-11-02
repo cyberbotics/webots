@@ -132,7 +132,7 @@ WbNewVersionDialog::WbNewVersionDialog() {
   vBoxLayout->addWidget(telemetryBox);
 
   // main button
-  QPushButton *startButton = new QPushButton(tr("Start Webots with the selected theme."));
+  const QPushButton *startButton = new QPushButton(tr("Start Webots with the selected theme."));
   vBoxLayout->addWidget(startButton);
 
   setLayout(vBoxLayout);

@@ -61,7 +61,7 @@ namespace wren {
   Node::Node() : mIsVisible(true), mIsAabbDirty(true), mIsBoundingSphereDirty(true), mParent(NULL) {
   }
 
-  Node::Node(Node *source) :
+  Node::Node(const Node *source) :
     mIsVisible(source->mIsVisible),
     mIsAabbDirty(source->mIsAabbDirty),
     mIsBoundingSphereDirty(source->mIsBoundingSphereDirty),
