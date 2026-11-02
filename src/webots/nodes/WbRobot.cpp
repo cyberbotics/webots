@@ -53,6 +53,7 @@
 #include "../../../include/controller/c/webots/supervisor.h"
 #include "../../controller/c/messages.h"
 
+#include <QtCore/QByteArray>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
@@ -867,9 +868,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
 
       mNeedToWriteUrdf = true;
       stream >> size;
-      char data[size];
-      stream.readRawData(data, size);
-      setUrdfPrefix(QString(data));
+      QByteArray data(size, Qt::Uninitialized);
+      stream.readRawData(data.data(), size);
+      setUrdfPrefix(QString(data.constData()));
 
       return;
     }
@@ -893,9 +894,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
     case C_ROBOT_SET_DATA: {
       short size;
       stream >> size;
-      char data[size];
-      stream.readRawData(data, size);
-      mCustomData->setValue(data);
+      QByteArray data(size, Qt::Uninitialized);
+      stream.readRawData(data.data(), size);
+      mCustomData->setValue(data.constData());
       return;
     }
     case C_ROBOT_SET_KEYBOARD_SAMPLING_PERIOD: {
@@ -1010,9 +1011,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
       stream >> streamChannel;
       unsigned int size;
       stream >> size;
-      char nativeMessage[size];
-      stream.readRawData(nativeMessage, size);
-      QString message(nativeMessage);
+      QByteArray nativeMessage(size, Qt::Uninitialized);
+      stream.readRawData(nativeMessage.data(), size);
+      QString message(nativeMessage.constData());
       if (!message.endsWith('\n'))
         message += '\n';
       // cppcheck-suppress knownConditionTrueFalse
