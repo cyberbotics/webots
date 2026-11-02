@@ -13,7 +13,7 @@
     - Added support for HOME-relative paths in `EXTERNPROTO` declarations using the `home://` scheme, preserving them when saving worlds ([#7055](https://github.com/cyberbotics/webots/pull/7055)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
-    - Added a `baseSlot` field to the Franka Emika `Panda` robot and aligned its joint position limits with Franka's specifications ([#PR_NUMBER](https://github.com/cyberbotics/webots/pull/PR_NUMBER)).
+    - Added a `baseSlot` field to the Franka Emika `Panda` robot and aligned its joint position limits with Franka's specifications ([#7079](https://github.com/cyberbotics/webots/pull/7079)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
