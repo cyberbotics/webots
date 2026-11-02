@@ -38,7 +38,9 @@
 #include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
 #include "../../controller/c/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
+#include <QtCore/QByteArray>
 #include <QtCore/QDataStream>
+#include <QtCore/QVector>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -281,9 +283,9 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
       stream >> size;
-      char font[size];
-      stream.readRawData(font, size);
-      setFont(font, fontSize);
+      QByteArray font(size, '\0');
+      stream.readRawData(font.data(), size);
+      setFont(font.data(), fontSize);
       break;
     }
     case C_DISPLAY_DRAW_PIXEL:
@@ -828,8 +830,10 @@ void WbDisplay::drawPolygon(const int *px, const int *py, int size, bool fill) {
   if (minX >= width() || minY >= height() || maxX < 0 || maxY < 0)
     return;  // out of bounds
 
-  int nodeX[size], pixelY, swap;
-  int horizontalEdgesCounter = 0, horizontalEdges[3 * size];
+  QVector<int> nodeX(size);
+  QVector<int> horizontalEdges(3 * size);
+  int pixelY, swap;
+  int horizontalEdgesCounter = 0;
 
   // Loop through visible rows of the polygon
   for (pixelY = qMax(0, minY); pixelY <= qMin(height() - 1, maxY); pixelY++) {

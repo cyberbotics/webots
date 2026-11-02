@@ -28,6 +28,7 @@
 #include "../../controller/c/messages.h"
 
 #include <QtCore/QBuffer>
+#include <QtCore/QByteArray>
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>
 
@@ -99,9 +100,9 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
         for (int i = 0; i < numberOfSound; ++i) {
           short size;
           stream >> size;
-          char sound[size];
-          stream.readRawData(sound, size);
-          stop(sound);
+          QByteArray sound(size, '\0');
+          stream.readRawData(sound.data(), size);
+          stop(sound.constData());
         }
       }
       return;
@@ -109,27 +110,27 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
     case C_SPEAKER_SET_ENGINE: {
       short size;
       stream >> size;
-      char engine[size];
-      stream.readRawData(engine, size);
-      mEngine = QString(engine);
+      QByteArray engine(size, '\0');
+      stream.readRawData(engine.data(), size);
+      mEngine = QString(engine.constData());
       return;
     }
     case C_SPEAKER_SET_LANGUAGE: {
       short size;
       stream >> size;
-      char language[size];
-      stream.readRawData(language, size);
-      mLanguage = QString(language);
+      QByteArray language(size, '\0');
+      stream.readRawData(language.data(), size);
+      mLanguage = QString(language.constData());
       return;
     }
     case C_SPEAKER_SPEAK: {
       short size;
       double volume;
       stream >> size;
-      char text[size];
-      stream.readRawData(text, size);
+      QByteArray text(size, '\0');
+      stream.readRawData(text.data(), size);
       stream >> volume;
-      playText(text, volume);
+      playText(text.constData(), volume);
       return;
     }
     default:
@@ -298,9 +299,9 @@ WbSpeaker::SoundPlayData::SoundPlayData(QDataStream &stream) : mFile(), mRawData
   short size;
   unsigned char loopByte;
   stream >> size;
-  char soundFile[size];
-  stream.readRawData(soundFile, size);
-  mFile = QString(soundFile);
+  QByteArray soundFile(size, '\0');
+  stream.readRawData(soundFile.data(), size);
+  mFile = QString(soundFile.constData());
 
   stream >> mVolume;
   stream >> mPitch;
