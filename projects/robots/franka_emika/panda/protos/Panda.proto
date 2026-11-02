@@ -21,6 +21,7 @@ PROTO Panda [
   field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
   field  SFBool      selfCollision      FALSE         # Is `Robot.selfCollision`.
   field  MFNode      endEffectorSlot    PandaHand {}  # Defines the end effector.
+  field  MFNode      baseSlot           []            # Extends the robot with new nodes in the base slot.
 ]
 {
   Robot {
@@ -28,6 +29,9 @@ PROTO Panda [
     rotation IS rotation
     name IS name
     children [
+      Group {
+        children IS baseSlot
+      }
       Solid {
         children [
           CadShape {
@@ -45,8 +49,8 @@ PROTO Panda [
               RotationalMotor {
                 name "panda_joint1"
                 maxVelocity 2.5
-                minPosition -2.9671
-                maxPosition 2.9671
+                minPosition -2.8973
+                maxPosition 2.8973
                 maxTorque 87.0
               }
               PositionSensor {
@@ -70,8 +74,8 @@ PROTO Panda [
                     RotationalMotor {
                       name "panda_joint2"
                       maxVelocity 2.5
-                      minPosition -1.8326
-                      maxPosition 1.8326
+                      minPosition -1.7628
+                      maxPosition 1.7628
                       maxTorque 87.0
                     }
                     PositionSensor {
@@ -96,8 +100,8 @@ PROTO Panda [
                           RotationalMotor {
                             name "panda_joint3"
                             maxVelocity 2.5
-                            minPosition -2.9671
-                            maxPosition 2.9671
+                            minPosition -2.8973
+                            maxPosition 2.8973
                             maxTorque 87.0
                           }
                           PositionSensor {
@@ -124,8 +128,8 @@ PROTO Panda [
                                 RotationalMotor {
                                   name "panda_joint4"
                                   maxVelocity 2.5
-                                  minPosition -3.1416
-                                  maxPosition -0.4
+                                  minPosition -3.0718
+                                  maxPosition -0.0698
                                   maxTorque 87.0
                                 }
                                 PositionSensor {
@@ -152,8 +156,8 @@ PROTO Panda [
                                       RotationalMotor {
                                         name "panda_joint5"
                                         maxVelocity 3.0
-                                        minPosition -2.9671
-                                        maxPosition 2.9671
+                                        minPosition -2.8973
+                                        maxPosition 2.8973
                                         maxTorque 12.0
                                       }
                                       PositionSensor {
@@ -179,8 +183,8 @@ PROTO Panda [
                                             RotationalMotor {
                                               name "panda_joint6"
                                               maxVelocity 3.0
-                                              minPosition -0.0873
-                                              maxPosition 3.8223
+                                              minPosition -0.0175
+                                              maxPosition 3.7525
                                               maxTorque 12.0
                                             }
                                             PositionSensor {
@@ -206,8 +210,8 @@ PROTO Panda [
                                                   RotationalMotor {
                                                     name "panda_joint7"
                                                     maxVelocity 3.0
-                                                    minPosition -2.9671
-                                                    maxPosition 2.9671
+                                                    minPosition -2.8973
+                                                    maxPosition 2.8973
                                                     maxTorque 12.0
                                                   }
                                                   PositionSensor {
