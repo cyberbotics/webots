@@ -17,7 +17,7 @@ import sys
 from .sensor import Sensor
 from .lidar_point import LidarPoint
 from .wb import wb
-from typing import List, Union
+from typing import List, Optional, Union
 
 
 class Lidar(Sensor):
@@ -71,7 +71,7 @@ class Lidar(Sensor):
     def getNumberOfPoints(self) -> int:
         return self.number_of_points
 
-    def getRangeImage(self) -> List[float]:
+    def getRangeImage(self) -> Optional[List[float]]:
         image = self.range_image
         if not image:
             return None
@@ -143,21 +143,32 @@ class Lidar(Sensor):
     def isPointCloudEnabled(self) -> bool:
         return wb.wb_lidar_is_point_cloud_enabled(self._tag) != 0
 
-    def getPointCloud(self, data_type: str = 'list') -> Union[List[LidarPoint], bytes, None]:
-        return self._point_cloud('getPointCloud', wb.wb_lidar_get_point_cloud(self._tag), self.number_of_points, data_type)
-
-    def getLayerPointCloud(self, layer: int, data_type: str = 'list') -> Union[List[LidarPoint], bytes, None]:
-        return self._point_cloud('getLayerPointCloud', wb.wb_lidar_get_layer_point_cloud(self._tag, layer),
-                                 int(self.number_of_points / self.number_of_layers), data_type)
-
-    @staticmethod
-    def _point_cloud(name: str, points, number_of_points: int, data_type: str) -> Union[List[LidarPoint], bytes, None]:
-        if data_type not in ('list', 'buffer'):
-            print(f"Error: {name}(): 'data_type' cannot be '{data_type}', supported values are 'list' and 'buffer'.",
-                  file=sys.stderr)
+    def getPointCloud(self, data_type: str = 'list') -> Optional[Union[List[LidarPoint], bytes]]:
+        if not Lidar._check_data_type('getPointCloud', data_type):
             return None
+        points = wb.wb_lidar_get_point_cloud(self._tag)
         if not points:  # NULL, e.g. before the first step or for a disabled point cloud
             return None
+        return Lidar._unpack_points(points, self.number_of_points, data_type)
+
+    def getLayerPointCloud(self, layer: int, data_type: str = 'list') -> Optional[Union[List[LidarPoint], bytes]]:
+        if not Lidar._check_data_type('getLayerPointCloud', data_type):
+            return None
+        points = wb.wb_lidar_get_layer_point_cloud(self._tag, layer)
+        if not points:
+            return None
+        return Lidar._unpack_points(points, self.number_of_points // self.number_of_layers, data_type)
+
+    @staticmethod
+    def _check_data_type(name: str, data_type: str) -> bool:
+        if data_type in ('list', 'buffer'):
+            return True
+        print(f"Error: {name}(): 'data_type' cannot be '{data_type}', supported values are 'list' and 'buffer'.",
+              file=sys.stderr)
+        return False
+
+    @staticmethod
+    def _unpack_points(points, number_of_points: int, data_type: str) -> Union[List[LidarPoint], bytes]:
         data = ctypes.string_at(points, number_of_points * 20)
         if data_type == 'buffer':
             return data
