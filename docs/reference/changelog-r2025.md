@@ -13,6 +13,8 @@
     - Added support for HOME-relative paths in `EXTERNPROTO` declarations using the `home://` scheme, preserving them when saving worlds ([#7055](https://github.com/cyberbotics/webots/pull/7055)).
     - The `immersionProperties` field of the Clearpath Heron USV robot is now exported, so users can modify it without changing the proto file ([#6961](https://github.com/cyberbotics/webots/pull/6961)).
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
+    - Added a `baseSlot` field to the Franka Emika `Panda` robot and aligned its joint position limits with Franka's specifications ([#7079](https://github.com/cyberbotics/webots/pull/7079)).
+    - **`Transform` nodes with the default scale are no longer automatically converted to `Pose` nodes in world and PROTO files whose header declares Webots R2025b or later, so that a non-scaling `Transform` can be used on purpose; such files must use a `Pose` wherever a `Transform` is not allowed ([#7065](https://github.com/cyberbotics/webots/pull/7065)).**
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
@@ -53,6 +55,8 @@
       - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
     - Fixed false-positive warning about `fieldOfView` modification when updating `projection` of a `Lidar` node ([#7056](https://github.com/cyberbotics/webots/pull/7056)).
     - Fixed `Lidar.getLayerRangeImage` and `Lidar.getRangeImageArray` in the Python controller returning the first layer for every layer ([#7070](https://github.com/cyberbotics/webots/pull/7070)).
+    - Fixed the joint positions of the Franka Emika `Panda` robot: the initial `position` of joints 4 and 5 did not match the pose of the links, so the joint angles did not follow Franka's kinematic convention ([#7078](https://github.com/cyberbotics/webots/pull/7078)).
+      - **The joint 4 and 5 position sensor values of the Panda are now shifted by +0.1708 rad and +1.6 rad respectively: controllers commanding these joints with positions tuned to the previous values need to be updated.**
 - Dependency Updates
     - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
     - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).
