@@ -3231,6 +3231,25 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
     return;
   }
 
+  // Delete the relevant pose entry from the list
+  WbPoseStruct *pose_entry = pose_collection;
+  WbPoseStruct *previous_pose_entry = NULL;
+  while (pose_entry) {
+    if (pose_entry->from_node == from_node && pose_entry->to_node == node) {
+      WbPoseStruct *removed_entry = pose_entry;
+      pose_entry = removed_entry->next;
+      free(removed_entry);
+
+      if (previous_pose_entry)
+        previous_pose_entry->next = pose_entry;
+      else
+        pose_collection = pose_entry;
+    } else {
+      previous_pose_entry = pose_entry;
+      pose_entry = pose_entry->next;
+    }
+  }
+
   robot_mutex_lock();
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
