@@ -19,12 +19,17 @@ Panda {
   SFBool     synchronization  TRUE
   SFBool     selfCollision    FALSE
   MFNode     endEffectorSlot  []
+  MFNode     baseSlot         []
 }
 ```
 
 #### Field Summary
 
 - `endEffectorSlot`: Extend the robot with new nodes at the end of the arm.
+
+- `baseSlot`: Extend the robot with new nodes in the base slot, for example a camera fixed relative to the robot base.
+
+The joint angles and position limits follow Franka's [robot specifications](https://frankarobotics.github.io/docs/robot_specifications.html#fer-joint-limits).
 
 ### Panda Hand
 
