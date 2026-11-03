@@ -21,8 +21,8 @@
 
 #define TIME_STEP 32
 
-static float block_positions[3][3] = {{0.37, -2.7, 2.9}, {0.52, -2.37, 2.73}, {0.74, -1.96, 2.53}};
-static float block_clearings[3][3] = {{-0.1, -2.78, 2.61}, {0.22, -2.48, 2.53}, {0.33, -2.18, 2.35}};
+static float block_positions[3][3] = {{0.37, -2.5292, 2.9}, {0.52, -2.1992, 2.73}, {0.74, -1.7892, 2.53}};
+static float block_clearings[3][3] = {{-0.1, -2.6092, 2.61}, {0.22, -2.3092, 2.53}, {0.33, -2.0092, 2.35}};
 
 enum Joints { JOINT1, JOINT2, JOINT3, JOINT4, JOINT5, JOINT6, JOINT7, FINGER };
 enum Blocks { BLOCK1, BLOCK2, BLOCK3 };
