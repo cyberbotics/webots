@@ -20,6 +20,21 @@ DEF BACKGROUND Background {
   ]
 }
 DEF SELF_TARGET Pose {
+  children [
+    Shape {
+      geometry DEF SELF_LINES IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+          ]
+        }
+        coordIndex [
+          0 1
+        ]
+      }
+    }
+  ]
 }
 DEF T0 Pose {
 }

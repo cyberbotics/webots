@@ -111,27 +111,31 @@ struct WbUpdatedFieldInfo {
 
 class WbFieldSetRequest {
 public:
-  virtual void apply() const = 0;
+  virtual void apply(WbField *field) const = 0;
   virtual ~WbFieldSetRequest() {}
-  const WbField *field() const { return mField; }
+  int nodeId() const { return mNodeId; }
+  int fieldId() const { return mFieldId; }
+  int index() const { return mIndex; }
 
 protected:
-  WbFieldSetRequest(WbField *field, int index) : mField(field), mIndex(index) {}
-  WbField *mField;
+  WbFieldSetRequest(int nodeId, int fieldId, int index) : mNodeId(nodeId), mFieldId(fieldId), mIndex(index) {}
+  int mNodeId;
+  int mFieldId;
   int mIndex;
 };
 
 class WbBoolFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbBoolFieldSetRequest(WbField *f, int index, bool value) : WbFieldSetRequest(f, index), mValue(value) {
-    assert((f->type() == WB_SF_BOOL && dynamic_cast<WbSFBool *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_BOOL && dynamic_cast<WbMFBool *>(f->value()) && index >= 0));
-  }
-  void apply() const override {
+  WbBoolFieldSetRequest(int nodeId, int fieldId, int index, bool value) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(value) {}
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_BOOL && dynamic_cast<WbSFBool *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_BOOL && dynamic_cast<WbMFBool *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFBool *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFBool *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFBool *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFBool *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -140,15 +144,16 @@ private:
 
 class WbIntFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbIntFieldSetRequest(WbField *f, int index, int value) : WbFieldSetRequest(f, index), mValue(value) {
-    assert((f->type() == WB_SF_INT32 && dynamic_cast<WbSFInt *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_INT32 && dynamic_cast<WbMFInt *>(f->value()) && index >= 0));
-  }
-  void apply() const override {
+  WbIntFieldSetRequest(int nodeId, int fieldId, int index, int value) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(value) {}
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_INT32 && dynamic_cast<WbSFInt *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_INT32 && dynamic_cast<WbMFInt *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFInt *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFInt *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFInt *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFInt *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -157,15 +162,16 @@ private:
 
 class WbDoubleFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbDoubleFieldSetRequest(WbField *f, int index, double value) : WbFieldSetRequest(f, index), mValue(value) {
-    assert((f->type() == WB_SF_FLOAT && dynamic_cast<WbSFDouble *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_FLOAT && dynamic_cast<WbMFDouble *>(f->value()) && index >= 0));
-  }
-  void apply() const override {
+  WbDoubleFieldSetRequest(int nodeId, int fieldId, int index, double value) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(value) {}
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_FLOAT && dynamic_cast<WbSFDouble *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_FLOAT && dynamic_cast<WbMFDouble *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFDouble *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFDouble *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFDouble *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFDouble *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -174,16 +180,18 @@ private:
 
 class WbVector2FieldSetRequest : public WbFieldSetRequest {
 public:
-  WbVector2FieldSetRequest(WbField *f, int index, double x, double y) : WbFieldSetRequest(f, index), mValue(x, y) {
+  WbVector2FieldSetRequest(int nodeId, int fieldId, int index, double x, double y) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(x, y) {
     mValue.clamp();
-    assert((f->type() == WB_SF_VEC2F && dynamic_cast<WbSFVector2 *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_VEC2F && dynamic_cast<WbMFVector2 *>(f->value()) && index >= 0));
   }
-  void apply() const override {
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_VEC2F && dynamic_cast<WbSFVector2 *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_VEC2F && dynamic_cast<WbMFVector2 *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFVector2 *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFVector2 *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFVector2 *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFVector2 *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -192,16 +200,18 @@ private:
 
 class WbVector3FieldSetRequest : public WbFieldSetRequest {
 public:
-  WbVector3FieldSetRequest(WbField *f, int index, double x, double y, double z) : WbFieldSetRequest(f, index), mValue(x, y, z) {
+  WbVector3FieldSetRequest(int nodeId, int fieldId, int index, double x, double y, double z) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(x, y, z) {
     mValue.clamp();
-    assert((f->type() == WB_SF_VEC3F && dynamic_cast<WbSFVector3 *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_VEC3F && dynamic_cast<WbMFVector3 *>(f->value()) && index >= 0));
   }
-  void apply() const override {
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_VEC3F && dynamic_cast<WbSFVector3 *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_VEC3F && dynamic_cast<WbMFVector3 *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFVector3 *>(mField->value()))->setValueByUser(mValue, true);
+      (dynamic_cast<WbSFVector3 *>(field->value()))->setValueByUser(mValue, true);
     else
-      (dynamic_cast<WbMFVector3 *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFVector3 *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -210,17 +220,16 @@ private:
 
 class WbColorFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbColorFieldSetRequest(WbField *f, int index, double red, double green, double blue) :
-    WbFieldSetRequest(f, index),
-    mValue(red, green, blue) {
-    assert((f->type() == WB_SF_COLOR && dynamic_cast<WbSFColor *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_COLOR && dynamic_cast<WbMFColor *>(f->value()) && index >= 0));
-  }
-  void apply() const override {
+  WbColorFieldSetRequest(int nodeId, int fieldId, int index, double red, double green, double blue) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(red, green, blue) {}
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_COLOR && dynamic_cast<WbSFColor *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_COLOR && dynamic_cast<WbMFColor *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFColor *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFColor *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFColor *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFColor *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -229,18 +238,18 @@ private:
 
 class WbRotationFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbRotationFieldSetRequest(WbField *f, int index, double x, double y, double z, double a) :
-    WbFieldSetRequest(f, index),
+  WbRotationFieldSetRequest(int nodeId, int fieldId, int index, double x, double y, double z, double a) :
+    WbFieldSetRequest(nodeId, fieldId, index),
     mValue(x, y, z, a) {
-    assert((f->type() == WB_SF_ROTATION && dynamic_cast<WbSFRotation *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_ROTATION && dynamic_cast<WbMFRotation *>(f->value()) && index >= 0));
     mValue.normalize();
   }
-  void apply() const override {
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_ROTATION && dynamic_cast<WbSFRotation *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_ROTATION && dynamic_cast<WbMFRotation *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFRotation *>(mField->value()))->setValueByUser(mValue, true);
+      (dynamic_cast<WbSFRotation *>(field->value()))->setValueByUser(mValue, true);
     else
-      (dynamic_cast<WbMFRotation *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFRotation *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -249,15 +258,16 @@ private:
 
 class WbStringFieldSetRequest : public WbFieldSetRequest {
 public:
-  WbStringFieldSetRequest(WbField *f, int index, const QString &string) : WbFieldSetRequest(f, index), mValue(string) {
-    assert((f->type() == WB_SF_STRING && dynamic_cast<WbSFString *>(f->value()) && index == -1) ||
-           (f->type() == WB_MF_STRING && dynamic_cast<WbMFString *>(f->value()) && index >= 0));
-  }
-  void apply() const override {
+  WbStringFieldSetRequest(int nodeId, int fieldId, int index, const QString &string) :
+    WbFieldSetRequest(nodeId, fieldId, index),
+    mValue(string) {}
+  void apply(WbField *field) const override {
+    assert((field->type() == WB_SF_STRING && dynamic_cast<WbSFString *>(field->value()) && mIndex == -1) ||
+           (field->type() == WB_MF_STRING && dynamic_cast<WbMFString *>(field->value()) && mIndex >= 0));
     if (mIndex == -1)
-      (dynamic_cast<WbSFString *>(mField->value()))->setValue(mValue);
+      (dynamic_cast<WbSFString *>(field->value()))->setValue(mValue);
     else
-      (dynamic_cast<WbMFString *>(mField->value()))->setItem(mIndex, mValue);
+      (dynamic_cast<WbMFString *>(field->value()))->setItem(mIndex, mValue);
   }
 
 private:
@@ -358,11 +368,16 @@ QString WbSupervisorUtilities::readString(QDataStream &stream) {
   return QString(txt.constData());
 }
 
-bool WbSupervisorUtilities::isItemIndexValid(const WbField *field, int index) const {
+WbField *WbSupervisorUtilities::findField(int nodeId, int fieldId) {
+  const WbNode *const node = WbNode::findNode(nodeId);
+  return node ? node->field(fieldId) : NULL;
+}
+
+bool WbSupervisorUtilities::isItemIndexValid(const WbField *field, int index, bool inserting) const {
   const WbMultipleValue *items = dynamic_cast<const WbMultipleValue *>(field->value());
-  if (!items || (index >= 0 && index < items->size()))
+  if (!items || (index >= 0 && index < items->size() + inserting))
     return true;
-  mRobot->warn(tr("wb_supervisor_field_get/set_mf_*() called with index out of range."));
+  mRobot->warn(tr("wb_supervisor_field_*_mf_*() called with index out of range."));
   return false;
 }
 
@@ -392,9 +407,12 @@ void WbSupervisorUtilities::processImmediateMessages(bool blockRegeneration) {
   WbTemplateManager::instance()->blockRegeneration(true);
   for (int i = 0; i < n; ++i) {
     const WbFieldSetRequest *r = mFieldSetRequests.at(i);
-    WbWrenOpenGlContext::makeWrenCurrent();
-    r->apply();
-    WbWrenOpenGlContext::doneWren();
+    WbField *field = findField(r->nodeId(), r->fieldId());
+    if (field && isItemIndexValid(field, r->index())) {
+      WbWrenOpenGlContext::makeWrenCurrent();
+      r->apply(field);
+      WbWrenOpenGlContext::doneWren();
+    }
     delete r;
   }
   mFieldSetRequests.clear();
@@ -557,12 +575,6 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
 void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   if (!node)
     return;
-
-  // Queued field sets hold raw field pointers: drop the ones on this node before it is freed.
-  for (int i = mFieldSetRequests.size() - 1; i >= 0; --i) {
-    if (mFieldSetRequests.at(i)->field()->parentNode() == node)
-      delete mFieldSetRequests.takeAt(i);
-  }
 
   // check if node already in the list
   if (mNodesDeletedSinceLastStep.contains(node->uniqueId()))
@@ -1575,6 +1587,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> protoId;
       stream >> fieldId;
       stream >> internal;
+      stream >> index;
 
       const WbNode *const node = WbNode::findNode(uniqueId);
       WbField *field = NULL;
@@ -1587,11 +1600,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           field = protoInfo->findFieldByIndex(fieldId).actualField;
         }
 
-        if (field && field->isMultiple()) {
-          stream >> index;
-          if (!isItemIndexValid(field, index))
-            field = NULL;
-        }
+        if (field && !isItemIndexValid(field, index))
+          field = NULL;
       }
 
       assert(!mFieldGetRequest);
@@ -1611,10 +1621,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> fieldId;
       stream >> fieldType;
       stream >> index;
-      const WbNode *const node = WbNode::findNode(uniqueId);
-      WbField *field = node ? node->field(fieldId) : NULL;
-      if (field && !isItemIndexValid(field, index))
-        field = NULL;
 
       // we read the data depending on the field type
       unsigned char b = 0;
@@ -1625,43 +1631,37 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_SF_BOOL:
         case WB_MF_BOOL:
           stream >> b;
-          if (field)
-            mFieldSetRequests << new WbBoolFieldSetRequest(field, index, b);
+          mFieldSetRequests << new WbBoolFieldSetRequest(uniqueId, fieldId, index, b);
           break;
         case WB_SF_INT32:
         case WB_MF_INT32:
           stream >> i;
-          if (field)
-            mFieldSetRequests << new WbIntFieldSetRequest(field, index, i);
+          mFieldSetRequests << new WbIntFieldSetRequest(uniqueId, fieldId, index, i);
           break;
         case WB_SF_FLOAT:
         case WB_MF_FLOAT:
           stream >> d0;
-          if (field)
-            mFieldSetRequests << new WbDoubleFieldSetRequest(field, index, d0);
+          mFieldSetRequests << new WbDoubleFieldSetRequest(uniqueId, fieldId, index, d0);
           break;
         case WB_SF_VEC2F:
         case WB_MF_VEC2F:
           stream >> d0;
           stream >> d1;
-          if (field)
-            mFieldSetRequests << new WbVector2FieldSetRequest(field, index, d0, d1);
+          mFieldSetRequests << new WbVector2FieldSetRequest(uniqueId, fieldId, index, d0, d1);
           break;
         case WB_SF_COLOR:
         case WB_MF_COLOR:
           stream >> d0;
           stream >> d1;
           stream >> d2;
-          if (field)
-            mFieldSetRequests << new WbColorFieldSetRequest(field, index, d0, d1, d2);
+          mFieldSetRequests << new WbColorFieldSetRequest(uniqueId, fieldId, index, d0, d1, d2);
           break;
         case WB_SF_VEC3F:
         case WB_MF_VEC3F:
           stream >> d0;
           stream >> d1;
           stream >> d2;
-          if (field)
-            mFieldSetRequests << new WbVector3FieldSetRequest(field, index, d0, d1, d2);
+          mFieldSetRequests << new WbVector3FieldSetRequest(uniqueId, fieldId, index, d0, d1, d2);
           break;
         case WB_SF_ROTATION:
         case WB_MF_ROTATION:
@@ -1669,51 +1669,54 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d1;
           stream >> d2;
           stream >> d3;
-          if (field)
-            mFieldSetRequests << new WbRotationFieldSetRequest(field, index, d0, d1, d2, d3);
+          mFieldSetRequests << new WbRotationFieldSetRequest(uniqueId, fieldId, index, d0, d1, d2, d3);
           break;
         case WB_SF_STRING:
         case WB_MF_STRING: {
           const QString s = readString(stream);
-          if (field)
-            mFieldSetRequests << new WbStringFieldSetRequest(field, index, s);
+          mFieldSetRequests << new WbStringFieldSetRequest(uniqueId, fieldId, index, s);
           break;
         }
       }
       return;
     }
     case C_SUPERVISOR_FIELD_INSERT_VALUE: {
-      unsigned int nodeId, fieldId, index;
+      unsigned int nodeId, fieldId, fieldType, index;
 
       stream >> nodeId;
       stream >> fieldId;
+      stream >> fieldType;
       stream >> index;
 
       // apply queued set field operations
       processImmediateMessages(true);
 
-      const WbNode *const node = WbNode::findNode(nodeId);
-      const WbField *field = node->field(fieldId);
+      const WbField *field = findField(nodeId, fieldId);
+      if (field && !isItemIndexValid(field, index, true))
+        field = NULL;
 
-      switch (field->type()) {  // import value
+      switch (fieldType) {  // import value
         case WB_MF_BOOL: {
           // cppcheck-suppress unassignedVariable
           unsigned char value;
           stream >> value;
-          // cppcheck-suppress knownConditionTrueFalse
-          (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
+          if (field)
+            // cppcheck-suppress knownConditionTrueFalse
+            (dynamic_cast<WbMFBool *>(field->value()))->insertItem(index, value == 1);
           break;
         }
         case WB_MF_INT32: {
           int value;
           stream >> value;
-          (dynamic_cast<WbMFInt *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFInt *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_FLOAT: {
           double value;
           stream >> value;
-          (dynamic_cast<WbMFDouble *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFDouble *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_VEC2F: {
@@ -1721,7 +1724,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d0;
           stream >> d1;
           WbVector2 value(d0, d1);
-          (dynamic_cast<WbMFVector2 *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFVector2 *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_VEC3F: {
@@ -1730,7 +1734,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d1;
           stream >> d2;
           WbVector3 value(d0, d1, d2);
-          (dynamic_cast<WbMFVector3 *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFVector3 *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_ROTATION: {
@@ -1740,7 +1745,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d2;
           stream >> d3;
           WbRotation value(d0, d1, d2, d3);
-          (dynamic_cast<WbMFRotation *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFRotation *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_COLOR: {
@@ -1749,20 +1755,24 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           stream >> d1;
           stream >> d2;
           WbRgb value(d0, d1, d2);
-          (dynamic_cast<WbMFColor *>(field->value()))->insertItem(index, value);
+          if (field)
+            (dynamic_cast<WbMFColor *>(field->value()))->insertItem(index, value);
           break;
         }
         case WB_MF_STRING: {
           const QString string = readString(stream);
-          (dynamic_cast<WbMFString *>(field->value()))->insertItem(index, string);
+          if (field)
+            (dynamic_cast<WbMFString *>(field->value()))->insertItem(index, string);
           break;
         }
         case WB_MF_NODE:
         case WB_SF_NODE: {
           const QString nodeString = readString(stream);
+          if (!field)
+            break;
           processImmediateMessages(true);  // apply queued set field operations
           WbNodeOperations::instance()->importNode(nodeId, fieldId, index, WbNodeOperations::FROM_SUPERVISOR, nodeString);
-          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(WbNode::findNode(nodeId)->field(fieldId)->value());
+          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(findField(nodeId, fieldId)->value());
           mImportedNodeId = sfNode && sfNode->value() ? sfNode->value()->uniqueId() : -1;
           break;
         }
@@ -1771,7 +1781,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
 
       WbTemplateManager::instance()->blockRegeneration(false);
-      emit worldModified();
+      if (field)
+        emit worldModified();
       return;
     }
     case C_SUPERVISOR_NODE_REMOVE_NODE: {
@@ -1810,9 +1821,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       // apply queued set field operations
       processImmediateMessages(true);
 
+      const WbField *field = findField(nodeId, fieldId);
+      if (!field || !isItemIndexValid(field, index)) {
+        WbTemplateManager::instance()->blockRegeneration(false);
+        return;
+      }
+
       bool modified = false;
-      const WbNode *parentNode = WbNode::findNode(nodeId);
-      WbField *field = parentNode->field(fieldId);
       switch (field->type()) {  // remove value
         case WB_MF_BOOL:
         case WB_MF_INT32:
@@ -1823,14 +1838,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         case WB_MF_COLOR:
         case WB_MF_STRING: {
           WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(field->value());
-          assert(multipleValue->size() > index);
           multipleValue->removeItem(index);
           modified = true;
           break;
         }
         case WB_MF_NODE: {
           const WbMFNode *mfNode = dynamic_cast<WbMFNode *>(field->value());
-          assert(mfNode->size() > index);
           WbNode *node = mfNode->item(index);
 
           const WbViewpoint *viewpoint = dynamic_cast<WbViewpoint *>(node);

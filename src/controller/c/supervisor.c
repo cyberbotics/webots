@@ -708,8 +708,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         request_write_int32(r, f->proto_id);
         request_write_uint32(r, f->id);
         request_write_uchar(r, f->is_proto_internal_field ? 1 : 0);
-        if (request->index != -1)
-          request_write_uint32(r, request->index);  // MF fields only
+        request_write_int32(r, request->index);  // -1 for SF fields
       } else if (request->type == SET) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_SET_VALUE);
         request_write_uint32(r, f->node_unique_id);
@@ -761,6 +760,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_INSERT_VALUE);
         request_write_uint32(r, f->node_unique_id);
         request_write_uint32(r, f->id);
+        request_write_uint32(r, f->type);
         request_write_uint32(r, request->index);
         switch (f->type) {
           case WB_MF_BOOL:

@@ -37,10 +37,21 @@ int main(int argc, char **argv) {
   }
 
   WbNodeRef self_target = wb_supervisor_node_get_from_def("SELF_TARGET");
+  WbFieldRef children = wb_supervisor_node_get_field(self_target, "children");
+  WbFieldRef coord_index = wb_supervisor_node_get_field(wb_supervisor_node_get_from_def("SELF_LINES"), "coordIndex");
   const double position[3] = {0.1, 0.2, 0.3};
   wb_supervisor_field_set_sf_vec3f(wb_supervisor_node_get_field(self_target, "translation"), position);
   wb_supervisor_node_remove(self_target);
 
+  wb_supervisor_field_get_mf_node(children, 0);
+  wb_supervisor_field_set_mf_int32(coord_index, 0, 1);
+  wb_supervisor_field_get_mf_int32(coord_index, 0);
+  wb_supervisor_field_insert_mf_int32(coord_index, 0, 1);
+  wb_supervisor_field_remove_mf(coord_index, 0);
+  wb_supervisor_field_import_mf_node_from_string(children, 0, "Pose {}");
+  wb_supervisor_field_remove_mf(children, 0);
+
+  // Best-effort: the remover's messages usually reach Webots before this supervisor's queued sets in the same step.
   for (int step = 0; step < 2 * N_TARGETS; ++step) {
     for (int i = 0; i < N_TARGETS; ++i)
       wb_supervisor_field_set_sf_vec3f(translations[i], position);
