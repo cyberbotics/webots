@@ -53,7 +53,9 @@
       - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
     - Fixed false-positive warning about `fieldOfView` modification when updating `projection` of a `Lidar` node ([#7056](https://github.com/cyberbotics/webots/pull/7056)).
     - Controllers now correctly keep track of nodes for which pose tracking is enabled against multiple reference nodes ([#7066](https://github.com/cyberbotics/webots/pull/7066)).
-    - The sampling period is now correctly applied to pose tracking and contact point tracking ([#7066](https://github.com/cyberbotics/webots/pull/7066)).
+    - Supervisors now correctly apply the sampling period for pose tracking and contact point tracking ([#7066](https://github.com/cyberbotics/webots/pull/7066)).
+    - Fixed the joint positions of the Franka Emika `Panda` robot: the initial `position` of joints 4 and 5 did not match the pose of the links, so the joint angles did not follow Franka's kinematic convention ([#7078](https://github.com/cyberbotics/webots/pull/7078)).
+      - **The joint 4 and 5 position sensor values of the Panda are now shifted by +0.1708 rad and +1.6 rad respectively: controllers commanding these joints with positions tuned to the previous values need to be updated.**
 - Dependency Updates
     - **Windows: switched from the MSYS2 MINGW64 environment to UCRT64. The Webots binaries and the bundled MinGW-w64 compiler are now located in `msys64\ucrt64` instead of `msys64\mingw64` ([#7033](https://github.com/cyberbotics/webots/pull/7033)).**
     - Windows: replaced the custom build of assimp 5.2.3 with the assimp package of MSYS2 ([#7033](https://github.com/cyberbotics/webots/pull/7033)).

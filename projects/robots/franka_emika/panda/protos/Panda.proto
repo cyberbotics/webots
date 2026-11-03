@@ -115,7 +115,7 @@ PROTO Panda [
                             }
                             DEF panda_joint4 HingeJoint {
                               jointParameters HingeJointParameters {
-                                position -1.770800
+                                position -1.6
                                 axis 0 -1 0
                                 anchor 0.0825 0 0
                                 dampingConstant 0.003
@@ -143,7 +143,7 @@ PROTO Panda [
                                   }
                                   DEF panda_joint5 HingeJoint {
                                     jointParameters HingeJointParameters {
-                                      position -1.6
+                                      position 0
                                       axis 0 1 0
                                       anchor -0.0825 0.125 0
                                       dampingConstant 0.003
