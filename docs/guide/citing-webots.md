@@ -16,7 +16,7 @@ The BibTex reference entry may look odd, as it is very different from a standard
 @MISC{Webots,
   AUTHOR = {Cyberbotics},
   TITLE  = {Webots},
-  NOTE   = {Open-source Mobile Robot Simulation Software},
+  NOTE   = {Open-source Mobile Robot Simulation Software. https://cyberbotics.com},
   EDITOR = {Cyberbotics Ltd.},
   URL    = {https://cyberbotics.com}
 }
@@ -27,10 +27,7 @@ Once compiled with LaTeX, it should display as follows:
 *References*
 
 ```
-[1] Cyberbotics.
-Webots.
-Open-source Mobile Robot Simulation Software.
-https://cyberbotics.com
+[1] Cyberbotics. Webots. Open-source Mobile Robot Simulation Software. https://cyberbotics.com
 ```
 
 ### Citing a Reference Journal Paper about Webots
