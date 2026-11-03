@@ -102,10 +102,12 @@ class Supervisor(Robot):
         return wb.wb_supervisor_virtual_reality_headset_is_used() != 0
 
     def virtualRealityHeadsetGetPosition(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_position()
+        p = wb.wb_supervisor_virtual_reality_headset_get_position()
+        return [p[0], p[1], p[2]]
 
     def virtualRealityHeadsetGetOrientation(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_orientation()
+        o = wb.wb_supervisor_virtual_reality_headset_get_orientation()
+        return [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8]]
 
     @property
     def simulation_mode(self) -> int:
