@@ -489,6 +489,11 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
   if (!tokenizer)
     return true;
 
+  // Until R2025a, every default-scale Transform was converted, so only files declaring R2025a or older may rely on it.
+  const WbVersion r2025b(2025, 1, 0);
+  if (tokenizer->fileVersion() >= r2025b)
+    return false;
+
   const int initalIndex = tokenizer->pos();
   bool inChildren = false;
   int bracketCount = 0;
