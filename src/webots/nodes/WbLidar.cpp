@@ -29,6 +29,7 @@
 #include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
+#include <QtCore/QVector>
 
 #include <wren/config.h>
 #include <wren/dynamic_mesh.h>
@@ -609,7 +610,7 @@ void WbLidar::applyFrustumToWren() {
 
   const int intermediatePointsNumber = floor(fovH / 0.2);
   const int vertexCount = 4 * actualNumberOfLayers() * (intermediatePointsNumber + 3);
-  float vertices[3 * vertexCount];
+  QVector<float> vertices(3 * vertexCount);
 
   for (int layer = 0; layer < actualNumberOfLayers(); ++layer) {
     double vAngle = 0;
@@ -617,19 +618,19 @@ void WbLidar::applyFrustumToWren() {
       vAngle = fovV / 2.0 - ((int)layer / ((int)actualNumberOfLayers() - 1.0)) * fovV + mTiltAngle->value();
     const double cosV = cos(vAngle);
     const double sinV = sin(vAngle);
-    pushVertex(vertices, i++, 0, 0, 0);
+    pushVertex(vertices.data(), i++, 0, 0, 0);
     // min range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
       const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
       const double x = n * cos(tmpHAngle) * cosV;
       const double y = n * sin(tmpHAngle) * cosV;
       const double z = n * sinV;
-      pushVertex(vertices, i++, x, y, z);
-      pushVertex(vertices, i++, x, y, z);
+      pushVertex(vertices.data(), i++, x, y, z);
+      pushVertex(vertices.data(), i++, x, y, z);
     }
 
-    pushVertex(vertices, i++, 0, 0, 0);
-    pushVertex(vertices, i++, 0, 0, 0);
+    pushVertex(vertices.data(), i++, 0, 0, 0);
+    pushVertex(vertices.data(), i++, 0, 0, 0);
 
     // max range
     for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
@@ -637,13 +638,13 @@ void WbLidar::applyFrustumToWren() {
       const double x = f * cos(tmpHAngle) * cosV;
       const double y = f * sin(tmpHAngle) * cosV;
       const double z = f * sinV;
-      pushVertex(vertices, i++, x, y, z);
-      pushVertex(vertices, i++, x, y, z);
+      pushVertex(vertices.data(), i++, x, y, z);
+      pushVertex(vertices.data(), i++, x, y, z);
     }
-    pushVertex(vertices, i++, 0, 0, 0);
+    pushVertex(vertices.data(), i++, 0, 0, 0);
   }
 
-  mFrustumMesh = wr_static_mesh_line_set_new(vertexCount, vertices, NULL);
+  mFrustumMesh = wr_static_mesh_line_set_new(vertexCount, vertices.constData(), NULL);
   wr_renderable_set_mesh(mFrustumRenderable, WR_MESH(mFrustumMesh));
   wr_node_set_visible(WR_NODE(mFrustumRenderable), true);
 }

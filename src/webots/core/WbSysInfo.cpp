@@ -180,8 +180,8 @@ const QString &WbSysInfo::processor() {
   WbWindowsRegistry cpu("\\HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0");
   processor = cpu.stringValue("ProcessorNameString");
 #elif defined(__APPLE__)
-  size_t buflen = 100;
-  char buf[buflen];
+  char buf[100];
+  size_t buflen = sizeof(buf);
   sysctlbyname("machdep.cpu.brand_string", &buf, &buflen, NULL, 0);
   processor = buf;
 #elif defined(__linux__)

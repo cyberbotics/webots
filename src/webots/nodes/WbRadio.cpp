@@ -19,6 +19,7 @@
 #include "WbSFInt.hpp"
 #include "WbSensor.hpp"
 
+#include <QtCore/QByteArray>
 #include <QtCore/QDataStream>
 #include <cassert>
 #include "../../../include/plugins/radio.h"
@@ -138,11 +139,11 @@ void WbRadio::handleMessage(QDataStream &stream) {
     case C_RADIO_SET_ADDRESS: {
       int adressSize = 0;
       stream >> adressSize;
-      char address[adressSize];
-      stream.readRawData(address, adressSize);
-      mAddress->setValue(address);
+      QByteArray address(adressSize, Qt::Uninitialized);
+      stream.readRawData(address.data(), adressSize);
+      mAddress->setValue(address.constData());
       if (plugin)
-        plugin->setAddress(mID, address);
+        plugin->setAddress(mID, address.constData());
       return;
     }
 
@@ -189,16 +190,16 @@ void WbRadio::handleMessage(QDataStream &stream) {
     case C_RADIO_SEND: {
       int destSize = 0;
       stream >> destSize;
-      char dest[destSize];
-      stream.readRawData(dest, destSize);
+      QByteArray dest(destSize, Qt::Uninitialized);
+      stream.readRawData(dest.data(), destSize);
       int dataSize = 0;
       stream >> dataSize;
-      char data[dataSize];  // 'void *' previously
-      stream.readRawData(data, dataSize);
+      QByteArray data(dataSize, Qt::Uninitialized);  // 'void *' previously
+      stream.readRawData(data.data(), dataSize);
       double delay;
       stream >> delay;
       if (plugin)
-        plugin->send(mID, dest, data, dataSize, delay);
+        plugin->send(mID, dest.constData(), data.constData(), dataSize, delay);
       return;
     }
 

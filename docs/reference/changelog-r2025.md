@@ -25,6 +25,7 @@ Released on ??.
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed `Camera.getImageArray` and `Camera.getRecognitionSegmentationImageArray` in the Python controller returning pixels in the wrong order for `image[x][y]` ([#7071](https://github.com/cyberbotics/webots/pull/7071)).
     - Fixed `Lidar` `minRange` changes not taking effect in the range image while the simulation is running ([#7069](https://github.com/cyberbotics/webots/pull/7069)).
     - Fixed stale WREN camera frustums after reading view or projection matrices before culling ([#7043](https://github.com/cyberbotics/webots/pull/7043)).
     - Fixed a bug preventing the `webots-controller` executable from running on arm-based mac devices ([#6806](https://github.com/cyberbotics/webots/pull/6806)).
@@ -53,6 +54,7 @@ Released on ??.
     - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
+    - Fixed `wb_motor_set_torque` on `BallJoint` motors (assertion failure in debug builds, undefined behavior in release builds), including joints attached to a `Solid` without `physics` ([#7054](https://github.com/cyberbotics/webots/pull/7054)).
     - Fixed `Robot.getDevice` and `Robot.getDeviceByIndex` in the Python controller failing for devices added after the controller started, for example by a Supervisor import ([#7034](https://github.com/cyberbotics/webots/pull/7034)).
     - Fixed a bug preventing Webots from opening its TCP server on macOS 27, where every port was incorrectly reported as already in use ([#7032](https://github.com/cyberbotics/webots/pull/7032)).
     - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
