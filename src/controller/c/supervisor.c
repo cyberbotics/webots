@@ -3083,6 +3083,7 @@ void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampl
   robot_mutex_lock();
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
+  contact_point_change_tracking.sampling_period = sampling_period;
   contact_point_change_tracking.enable = true;
   contact_point_change_tracking.include_descendants = include_descendants;
   node->contact_points[descendants].last_update = -DBL_MAX;
@@ -3196,6 +3197,7 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
   pose_change_tracking_requested = true;
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
+  pose_change_tracking.sampling_period = sampling_period;
   pose_change_tracking.enable = true;
 
   // Check if pose tracking is already enabled
