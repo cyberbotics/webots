@@ -3192,6 +3192,16 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
     return;
   }
 
+  // Check if pose tracking is already enabled
+  WbPoseStruct *pose_entry = pose_collection;
+  while (pose_entry) {
+    if (pose_entry->from_node == from_node && pose_entry->to_node == node)
+      // If so, no need to do anything
+      return;
+
+    pose_entry = pose_entry->next;
+  }
+
   robot_mutex_lock();
   pose_change_tracking_requested = true;
   pose_change_tracking.node = node;
@@ -3232,6 +3242,7 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
   }
 
   // Delete the relevant pose entry from the list
+  bool found = false;
   WbPoseStruct *pose_entry = pose_collection;
   WbPoseStruct *previous_pose_entry = NULL;
   while (pose_entry) {
@@ -3239,6 +3250,7 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
       WbPoseStruct *removed_entry = pose_entry;
       pose_entry = removed_entry->next;
       free(removed_entry);
+      found = true;
 
       if (previous_pose_entry)
         previous_pose_entry->next = pose_entry;
@@ -3249,6 +3261,10 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
       pose_entry = pose_entry->next;
     }
   }
+
+  // Pose tracking was never enabled for this node
+  if (!found)
+    return;
 
   robot_mutex_lock();
   pose_change_tracking.node = node;
