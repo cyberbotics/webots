@@ -583,7 +583,8 @@ The `wb_lidar_get_number_of_points` function returns the total number of points 
 
 > **Note** [Python]: The `getPointCloud` and `getLayerPointCloud` methods have `data_type` parameter which can be `list` (default) or `buffer`.
 If `data_type` is equal to `list` then the function returns a list of points, but it is slow as it has to create a list of objects.
-If `data_type` is equal to `buffer` then the function returns `bytearray` and it is fast as there is no memory copying.
+If `data_type` is equal to `buffer` then the function returns `bytes` holding the points in the `WbLidarPoint` layout (20 bytes per point: `x`, `y`, `z`, `layer_id` and `time`), and it is fast as no Python object is created per point.
+Both methods return `None` if no point cloud is available, for example before the first step or when the point cloud is not enabled.
 
 ---
 

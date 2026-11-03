@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import ctypes
+import sys
 from .sensor import Sensor
 from .lidar_point import LidarPoint
 from .wb import wb
@@ -71,7 +72,10 @@ class Lidar(Sensor):
         return self.number_of_points
 
     def getRangeImage(self) -> List[float]:
-        return self.range_image[:self.horizontal_resolution * self.number_of_layers]
+        image = self.range_image
+        if not image:
+            return None
+        return image[:self.horizontal_resolution * self.number_of_layers]
 
     def getRangeImageArray(self) -> List[List[float]]:
         array = []
@@ -139,18 +143,22 @@ class Lidar(Sensor):
     def isPointCloudEnabled(self) -> bool:
         return wb.wb_lidar_is_point_cloud_enabled(self._tag) != 0
 
-    def getPointCloud(self) -> List[LidarPoint]:
-        number_of_points = self.number_of_points
-        data = bytes(wb.wb_lidar_get_point_cloud(self._tag)[:number_of_points * 20])
-        list = []
-        for i in range(number_of_points):
-            list.append(LidarPoint(data, i))
-        return list
+    def getPointCloud(self, data_type: str = 'list') -> Union[List[LidarPoint], bytes, None]:
+        return self._point_cloud('getPointCloud', wb.wb_lidar_get_point_cloud(self._tag), self.number_of_points, data_type)
 
-    def getLayerPointCloud(self, layer: int) -> List[LidarPoint]:
-        number_of_points = int(self.number_of_points / self.number_of_layers)
-        data = bytes(wb.wb_lidar_get_layer_point_cloud(self._tag, layer)[:number_of_points * 20])
-        list = []
-        for i in range(number_of_points):
-            list.append(LidarPoint(data, i))
-        return list
+    def getLayerPointCloud(self, layer: int, data_type: str = 'list') -> Union[List[LidarPoint], bytes, None]:
+        return self._point_cloud('getLayerPointCloud', wb.wb_lidar_get_layer_point_cloud(self._tag, layer),
+                                 int(self.number_of_points / self.number_of_layers), data_type)
+
+    @staticmethod
+    def _point_cloud(name: str, points, number_of_points: int, data_type: str) -> Union[List[LidarPoint], bytes, None]:
+        if data_type not in ('list', 'buffer'):
+            print(f"Error: {name}(): 'data_type' cannot be '{data_type}', supported values are 'list' and 'buffer'.",
+                  file=sys.stderr)
+            return None
+        if not points:  # NULL, e.g. before the first step or for a disabled point cloud
+            return None
+        data = ctypes.string_at(points, number_of_points * 20)
+        if data_type == 'buffer':
+            return data
+        return [LidarPoint(data, i) for i in range(number_of_points)]
