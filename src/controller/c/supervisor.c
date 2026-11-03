@@ -3192,31 +3192,36 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
     return;
   }
 
-  // Check if pose tracking is already enabled
-  WbPoseStruct *pose_entry = pose_collection;
-  while (pose_entry) {
-    if (pose_entry->from_node == from_node && pose_entry->to_node == node)
-      // If so, no need to do anything
-      return;
-
-    pose_entry = pose_entry->next;
-  }
-
   robot_mutex_lock();
   pose_change_tracking_requested = true;
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = true;
 
-  // Create a new pose item
-  WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
-  new_pose->from_node = from_node;
-  new_pose->to_node = node;
-  new_pose->last_update = -DBL_MAX;
+  // Check if pose tracking is already enabled
+  // If so, we only need to update the sampling period by sending a message to Webots
+  bool pose_entry_exists = false;
+  WbPoseStruct *pose_entry = pose_collection;
+  while (pose_entry) {
+    if (pose_entry->from_node == from_node && pose_entry->to_node == node) {
+      pose_entry_exists = true;
+      break;
+    }
 
-  // Add the pose to the list
-  new_pose->next = pose_collection;
-  pose_collection = new_pose;
+    pose_entry = pose_entry->next;
+  }
+
+  if (!pose_entry_exists) {
+    // Create a new pose item
+    WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
+    new_pose->from_node = from_node;
+    new_pose->to_node = node;
+    new_pose->last_update = -DBL_MAX;
+
+    // Add the pose to the list
+    new_pose->next = pose_collection;
+    pose_collection = new_pose;
+  }
 
   assert(pose_collection);
 
