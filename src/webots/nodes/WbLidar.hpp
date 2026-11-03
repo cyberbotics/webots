@@ -150,6 +150,7 @@ private:
   void deleteWren();
   void displayPointCloud();
   void hidePointCloud();
+  void applyMinRangeToWren();
   void applyMaxRangeToWren();
   void applyResolutionToWren();
   void applyTiltAngleToWren();

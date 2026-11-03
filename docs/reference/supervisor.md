@@ -2019,15 +2019,16 @@ Here is a C example:
 #include <webots/supervisor.h>
 #include <stdlib.h>
 
-#define TIME_STEP 32
-
 int main(int argc, char *argv[]) {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
+
   ...
   while (! finished) {
     // your controller code here
     ...
-    if (wb_robot_step(TIME_STEP) == -1)
+    if (wb_robot_step(time_step) == -1)
       break;
   }
   saveExperimentsData();
@@ -2040,23 +2041,23 @@ int main(int argc, char *argv[]) {
 In object-oriented languages, there is no `wb_robot_cleanup` function, in this case the controller should call its destructor.
 Here is a C++ example:
 
-```c
+```cpp
 #include <webots/Robot.hpp>
 #include <webots/Supervisor.hpp>
 #include <cstdlib>
-
-#define TIME_STEP 32
 
 using namespace webots;
 
 int main(int argc, char *argv[]) {
   Supervisor *controller = new Supervisor();
 
+  int timeStep = (int)controller->getBasicTimeStep();
+
   ...
   while (! finished) {
     // your controller code here
     ...
-    if (controller->step(TIME_STEP) == -1)
+    if (controller->step(timeStep) == -1)
       break;
   }
   controller->simulationQuit(EXIT_SUCCESS);  // ask Webots to terminate
@@ -3686,10 +3687,10 @@ For example, if you want to create a new robot with a specific controller:
 #include <webots/robot.h>
 #include <webots/supervisor.h>
 
-#define TIME_STEP 32
-
 int main(int argc, char **argv) {
   wb_robot_init();
+
+  const int time_step = (int) wb_robot_get_basic_time_step();
 
   WbNodeRef root_node = wb_supervisor_node_get_root();
   WbFieldRef root_children_field = wb_supervisor_node_get_field(root_node, "children");

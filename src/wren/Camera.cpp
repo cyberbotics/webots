@@ -68,20 +68,20 @@ namespace wren {
   }
 
   void Camera::update() const {
-    const bool updateFrustum = mIsViewDirty || mIsProjectionDirty;
-
     updateView();
     updateProjection();
 
-    if (updateFrustum) {
+    if (mIsFrustumDirty) {
       const glm::dmat4 dpView = mMatrices.mView;
       mFrustum.recomputeFromMatrix(mDpProjectionMatrix * dpView);
+      mIsFrustumDirty = false;
     }
   }
 
   Camera::Camera() :
     mIsViewDirty(true),
     mIsProjectionDirty(true),
+    mIsFrustumDirty(true),
     mProjectionMode(WR_CAMERA_PROJECTION_MODE_PERSPECTIVE),
     mAspectRatio(1.0f),
     mNear(0.05f),
@@ -104,6 +104,7 @@ namespace wren {
     mMatrices.mView = glm::lookAt(position(), position() + mForward, mUp);
 
     mIsViewDirty = false;
+    mIsFrustumDirty = true;
   }
 
   static glm::mat4 infinitePerspective(float fovy, float aspectRatio, float near) {
@@ -140,6 +141,7 @@ namespace wren {
     }
 
     mIsProjectionDirty = false;
+    mIsFrustumDirty = true;
   }
 
 }  // namespace wren

@@ -72,7 +72,6 @@ WbBaseNode::WbBaseNode(const QString &modelName) : WbNode(modelName) {
 }
 
 WbBaseNode::~WbBaseNode() {
-  emit isBeingDestroyed(this);
   if (mPostFinalizeCalled && !defName().isEmpty() && !WbWorld::instance()->isCleaning() && !WbTemplateManager::isRegenerating())
     WbDictionary::instance()->removeNodeFromDictionary(this);
 }

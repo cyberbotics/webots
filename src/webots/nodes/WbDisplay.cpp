@@ -38,7 +38,9 @@
 #include "../../../include/controller/c/webots/display.h"  // contains the definitions of the image format
 #include "../../controller/c/messages.h"  // contains the definitions for the macros C_DISPLAY_SET_COLOR, C_DISPLAY_SET_ALPHA, C_DISPLAY_SET_OPACITY, ...
 
+#include <QtCore/QByteArray>
 #include <QtCore/QDataStream>
+#include <QtCore/QVector>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -281,9 +283,9 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       // cppcheck-suppress knownConditionTrueFalse
       mAntiAliasing = antiAliasing == 1;
       stream >> size;
-      char font[size];
-      stream.readRawData(font, size);
-      setFont(font, fontSize);
+      QByteArray font(size, Qt::Uninitialized);
+      stream.readRawData(font.data(), size);
+      setFont(font.data(), fontSize);
       break;
     }
     case C_DISPLAY_DRAW_PIXEL:
@@ -828,8 +830,10 @@ void WbDisplay::drawPolygon(const int *px, const int *py, int size, bool fill) {
   if (minX >= width() || minY >= height() || maxX < 0 || maxY < 0)
     return;  // out of bounds
 
-  int nodeX[size], pixelY, swap;
-  int horizontalEdgesCounter = 0, horizontalEdges[3 * size];
+  QVector<int> nodeX(size);
+  QVector<int> horizontalEdges(3 * size);
+  int pixelY, swap;
+  int horizontalEdgesCounter = 0;
 
   // Loop through visible rows of the polygon
   for (pixelY = qMax(0, minY); pixelY <= qMin(height() - 1, maxY); pixelY++) {
@@ -905,19 +909,18 @@ unsigned int *WbDisplay::imageCopy(short int x, short int y, short int &w, short
   if (mAttachedCamera) {
     // blend camera background image and display image
     const unsigned int *const cameraImage = reinterpret_cast<const unsigned int *>(mAttachedCamera->constImage());
-    int destIndex = 0;
     int displayPixel, displayAlpha, oneMinusDisplayAlpha, cameraPixel;
     for (int j = 0; j < h; j++) {
       int srcRowIndex = (clippedY + j) * width();
-      for (int i = 0; i < w; i++, destIndex++) {
+      for (int i = 0; i < w; i++) {
         int srcPixelIndex = srcRowIndex + clippedX + i;
         displayPixel = mImage[srcPixelIndex];
         displayAlpha = SHIFT(displayPixel, 24);
         oneMinusDisplayAlpha = 0xFF - displayAlpha;
         cameraPixel = cameraImage[srcPixelIndex];
-        clippedImage[srcPixelIndex] = 0xFF000000;
+        clippedImage[j * w + i] = 0xFF000000;
         for (int k = 0; k < 3; k++)
-          clippedImage[srcPixelIndex] +=
+          clippedImage[j * w + i] +=
             (((oneMinusDisplayAlpha * SHIFT(cameraPixel, 8 * k) + displayAlpha * SHIFT(displayPixel, 8 * k)) / 0xFF) << 8 * k);
       }
     }

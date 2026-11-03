@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "boolean.h"
+#include <stdbool.h>
 #include "helper.h"
 #include "parameters.h"
 #include "texture_generator.h"

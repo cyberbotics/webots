@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   // test textures
-  const int expected_red_color[3] = {210, 32, 40};
+  const int expected_red_color[3] = {165, 32, 40};
   test_camera_color(0, expected_red_color);
 
   wb_robot_step(TIME_STEP);
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  const int expected_blue_color[3] = {27, 48, 237};
+  const int expected_blue_color[3] = {27, 43, 221};
   test_camera_color(1, expected_blue_color);
 
   // test meshes

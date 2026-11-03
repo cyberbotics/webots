@@ -201,7 +201,7 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
   float G = geometricOcclusion(pbrInputs);
   float D = microfacetDistribution(pbrInputs);
 
-  vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs) * lightColorAndIntensity.w;
+  vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs);
   vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
   // Obtain final intensity as reflectance (BRDF) scaled by the energy of the light (cosine law)
   color = NdotL * lightColorAndIntensity.xyz * (diffuseContrib + specContrib) * lightColorAndIntensity.w;

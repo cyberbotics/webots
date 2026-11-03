@@ -21,7 +21,7 @@ TARGETS=robotis-op2.Makefile managers.Makefile
 
 .PHONY: release debug profile clean
 
-release debug profile: $(TARGETS)
+release debug profile clean: $(TARGETS)
 
 managers.Makefile: robotis-op2.Makefile
 

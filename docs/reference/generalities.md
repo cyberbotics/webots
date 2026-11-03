@@ -4,10 +4,10 @@ Webots world files must use the ".wbt" file name extension.
 The first line of a ".wbt" file uses this header:
 
 ```
-#VRML_SIM V8.5 utf8
+#VRML_SIM R2025a utf8
 ```
 
-The version *8.5* specifies that the file can be open with *Webots 8*.
+The version *R2025a* specifies that the file can be open with *Webots 2025a*.
 Although the header specifies *utf8*, at the moment only ascii is supported.
 
 The comments placed just below the header store the window configuration associated with this world.
@@ -16,7 +16,7 @@ One (and only one) instance of each of the `WorldInfo, ViewPoint` and `Backgroun
 For example:
 
 ```
-#VRML_SIM V8.5 utf8
+#VRML_SIM R2025a utf8
 
 WorldInfo {
   info [

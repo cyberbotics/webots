@@ -27,6 +27,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
+#include <QtCore/QVector>
 
 #include <cstdio>
 
@@ -252,11 +253,11 @@ int EPuckFacade::cameraValue() const {
   const unsigned char *image = wb_camera_get_image(mCamera);
   if (image == NULL)
     return 0;
-  int values[size];
+  QVector<int> values(size);
   for (int i = 0; i < size; i++)
     values[i] = wb_camera_image_get_gray(image, size, i, heightToRead);
 
-  return lineDetectionAlgorithm(values, size);
+  return lineDetectionAlgorithm(values.constData(), size);
 }
 
 void EPuckFacade::setLeftSpeed(int speed) {

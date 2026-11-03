@@ -38,17 +38,21 @@ public:
   WbExternProto(const QString &name, const QString &url, bool isImportable) :
     mName(name),
     mUrl(url),
+    mDeclarationUrl(),
     mImportable(isImportable) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
+  void setDeclarationUrl(const QString &url) { mDeclarationUrl = url; }
+  const QString &declarationUrl() const { return mDeclarationUrl; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
 
 private:
   QString mName;
   QString mUrl;
+  QString mDeclarationUrl;
   bool mImportable;
 };
 
@@ -173,7 +177,8 @@ public:
 
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
-  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true);
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true,
+                             const QString &declarationUrl = QString());
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
@@ -193,7 +198,7 @@ public:
   void resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls);
 
   void updateExternProto(const QString &protoName, const QString &url);
-  QString formatExternProtoPath(const QString &url) const;
+  QString formatExternProtoPath(const QString &url, const QString &declarationUrl = QString()) const;
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
 

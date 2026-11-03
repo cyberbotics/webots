@@ -1,4 +1,4 @@
-# Copyright 1996-2024 Cyberbotics Ltd.
+# Copyright 1996-2026 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 WEBOTS_SRC_PATH = $(WEBOTS_HOME_PATH)/src/webots
 
 ifeq ($(OSTYPE),windows)
-LUPDATE = lupdate-qt6
-LRELEASE = lrelease-qt6
+LUPDATE = lupdate
+LRELEASE = lrelease
 else
 QT_BINARIES_PATH = $(WEBOTS_HOME_PATH)/bin/qt
 

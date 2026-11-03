@@ -468,12 +468,12 @@ namespace webots {
     if (cPtr == 0)
       return null;
 
-    Field field = fields.get(new Long(cPtr));
+    Field field = fields.get(Long.valueOf(cPtr));
     if (field != null)
       return field;
 
     field = new Field(cPtr, false);
-    fields.put(new Long(cPtr), field);
+    fields.put(Long.valueOf(cPtr), field);
     return field;
   }
 %}
@@ -727,12 +727,12 @@ namespace webots {
     if (cPtr == 0)
       return null;
 
-    Node node = nodes.get(new Long(cPtr));
+    Node node = nodes.get(Long.valueOf(cPtr));
     if (node != null)
       return node;
 
     node = new Node(cPtr, false);
-    nodes.put(new Long(cPtr), node);
+    nodes.put(Long.valueOf(cPtr), node);
     return node;
   }
 %}
@@ -810,12 +810,12 @@ namespace webots {
     if (cPtr == 0)
       return null;
 
-    Proto proto = protos.get(new Long(cPtr));
+    Proto proto = protos.get(Long.valueOf(cPtr));
     if (proto != null)
       return proto;
 
     proto = new Proto(cPtr, false);
-    protos.put(new Long(cPtr), proto);
+    protos.put(Long.valueOf(cPtr), proto);
     return proto;
   }
 %}

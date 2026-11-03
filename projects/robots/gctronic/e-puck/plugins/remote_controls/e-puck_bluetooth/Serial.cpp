@@ -43,10 +43,6 @@
 #include <IOKit/serial/IOSerialKeys.h>
 #include <IOKit/serial/ioss.h>
 #include <sys/param.h>
-
-#else  // __linux__
-#include <termio.h>
-
 #endif
 #endif
 

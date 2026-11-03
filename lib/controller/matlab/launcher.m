@@ -20,7 +20,7 @@ if isempty(WEBOTS_CONTROLLER_NAME)
   else
     cd(WEBOTS_HOME_PATH)
   end
-  [status, cmdout] = system('msys64/mingw64/bin/webots.exe --version');
+  [status, cmdout] = system('msys64/ucrt64/bin/webots.exe --version');
   k = strfind(cmdout, ' Nightly Build ');
   if isempty(k)
     WEBOTS_VERSION = strrep(cmdout(17:end-1),'.','_');
@@ -37,7 +37,7 @@ end
 addpath([WEBOTS_HOME_PATH '/lib/controller/matlab']);
 
 if ispc
-  setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\mingw64'));
+  setenv('MINGWROOT', strcat(WEBOTS_HOME,'\\msys64\\ucrt64'));
   libname = 'Controller';
   % in MATLAB 2017b, the following tests are crashing MATLAB
   % in MATLAB 2019b, the MingGW-w64 C/C++ Compiler is not needed any more
@@ -48,7 +48,7 @@ if ispc
       disp('The MATLAB "MinGW-w64 C/C++ Compiler" addon is not installed, please install it from: https://fr.mathworks.com/matlabcentral/fileexchange/52848-matlab-support-for-mingw-w64-c-c-compiler');
     end
   end
-  addpath([WEBOTS_HOME '/msys64/mingw64/bin']);
+  addpath([WEBOTS_HOME '/msys64/ucrt64/bin']);
 else
   libname = 'libController';
   % add path to libController

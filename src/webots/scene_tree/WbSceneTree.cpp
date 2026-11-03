@@ -344,7 +344,8 @@ void WbSceneTree::paste() {
 
   const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   foreach (const WbExternProto *item, clipboardBuffer)
-    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
+    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable(), true,
+                                                   item->declarationUrl());
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
@@ -749,20 +750,6 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     else
       writer.setRootNode(NULL);
     currentNode->write(writer);
-
-    // relative urls that get exposed by the conversion need to be changed to remote ones
-    QRegularExpressionMatchIterator it = WbUrl::vrmlResourceRegex().globalMatch(nodeString);
-    while (it.hasNext()) {
-      const QRegularExpressionMatch match = it.next();
-      if (match.hasMatch()) {
-        QString asset = match.captured(0);
-        asset.replace("\"", "");
-        if (!WbUrl::isWeb(asset) && QDir::isRelativePath(asset)) {
-          QString newUrl = QString("\"%1\"").arg(WbUrl::combinePaths(asset, currentNode->proto()->url()));
-          nodeString.replace(QString("\"%1\"").arg(asset), newUrl.replace(WbStandardPaths::webotsHomePath(), "webots://"));
-        }
-      }
-    }
 
     const bool skipTemplateRegeneration =
       WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
@@ -1607,7 +1594,10 @@ void WbSceneTree::openTemplateInstanceInTextEditor() {
   tmpDir.mkdir(generatedProtos);
   QFile file(
     QString("%1%2/%3.generated_proto").arg(WbStandardPaths::webotsTmpPath()).arg(generatedProtos).arg(node->proto()->name()));
-  file.open(QIODevice::WriteOnly | QIODevice::Text);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    WbLog::error(tr("Could not create temporary file: '%1'.").arg(file.fileName()));
+    return;
+  }
   file.write(node->protoInstanceTemplateContent());
   file.close();
   if (!file.fileName().isEmpty())
