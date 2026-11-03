@@ -3270,8 +3270,10 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
   }
 
   // Pose tracking was never enabled for this node
-  if (!found)
+  if (!found) {
+    fprintf(stderr, "Error: %s() called for a node that is not being tracked.\n", __FUNCTION__);
     return;
+  }
 
   robot_mutex_lock();
   pose_change_tracking.node = node;
