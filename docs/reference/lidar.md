@@ -481,7 +481,7 @@ The `wb_lidar_get_layer_range_image` function is a convenient way of getting dir
 > **Note** [Python]: The Lidar class has two methods for getting the lidar image.
 The `getRangeImage` function returns a one-dimensional list of floats, while the `getRangeImageArray` function returns a two-dimensional list of floats.
 Their content are identical but their handling is of course different.
-`getRangeImage` returns `None` if the C API returns a NULL image pointer, for example before the first step.
+`getRangeImage`, `getRangeImageArray` and `getLayerRangeImage` return `None` if no range image is available, for example before the first step.
 
 ---
 
@@ -592,7 +592,7 @@ Once a point cloud is available, the buffer can be viewed as a NumPy structured 
 import numpy as np
 
 points = np.frombuffer(lidar.getPointCloud(data_type='buffer'),
-                      dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'), ('layer_id', 'i4'), ('time', 'f4')])
+                       dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'), ('layer_id', 'i4'), ('time', 'f4')])
 ```
 
 The array is read-only because the buffer is immutable `bytes`; use `points.copy()` if a writable array is needed.

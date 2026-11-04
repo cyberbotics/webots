@@ -77,13 +77,11 @@ class Lidar(Sensor):
             return None
         return image[:self.horizontal_resolution * self.number_of_layers]
 
-    def getRangeImageArray(self) -> List[List[float]]:
-        array = []
-        for i in range(self.number_of_layers):
-            array.append(self.getLayerRangeImage(i))
-        return array
+    def getRangeImageArray(self) -> Optional[List[List[float]]]:
+        array = [self.getLayerRangeImage(i) for i in range(self.number_of_layers)]
+        return None if any(layer is None for layer in array) else array
 
-    def getLayerRangeImage(self, layer: int) -> List[float]:
+    def getLayerRangeImage(self, layer: int) -> Optional[List[float]]:
         image = wb.wb_lidar_get_layer_range_image(self._tag, layer)
         if not image:
             return None

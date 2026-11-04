@@ -60,53 +60,72 @@ def test_point_cloud():
     lidar.enablePointCloud()
 
     # The C API has not mapped the image data before the first step.
-    assert lidar.getRangeImage() is None, 'getRangeImage should return None before the first step.'
+    if lidar.getRangeImage() is not None:
+        finish('getRangeImage should return None before the first step.')
+    if lidar.getRangeImageArray() is not None:
+        finish('getRangeImageArray should return None before the first step.')
+    if lidar.getLayerRangeImage(0) is not None:
+        finish('getLayerRangeImage should return None before the first step.')
     for data_type in ('list', 'buffer'):
-        assert lidar.getPointCloud(data_type) is None, 'getPointCloud should return None before the first step.'
-        assert lidar.getLayerPointCloud(0, data_type) is None, \
-            'getLayerPointCloud should return None before the first step.'
+        if lidar.getPointCloud(data_type) is not None:
+            finish('getPointCloud should return None before the first step.')
+        if lidar.getLayerPointCloud(0, data_type) is not None:
+            finish('getLayerPointCloud should return None before the first step.')
 
     if robot.step(TIME_STEP) == -1:
         raise RuntimeError('The simulation ended before the first sample.')
     count = lidar.getNumberOfPoints()
     width = lidar.getHorizontalResolution()
     layers = lidar.getNumberOfLayers()
-    assert count == width * layers, 'The number of points should include every layer.'
-    assert len(lidar.getRangeImage()) == count, 'The range image should contain one value per point.'
+    if count != width * layers:
+        finish('The number of points should include every layer.')
+    if len(lidar.getRangeImage()) != count:
+        finish('The range image should contain one value per point.')
 
     points = lidar.getPointCloud()
     buffer = lidar.getPointCloud(data_type='buffer')
-    assert isinstance(points, list) and len(points) == count, 'The list should contain every point.'
-    assert isinstance(buffer, bytes) and len(buffer) == 20 * count, 'The buffer should contain 20 bytes per point.'
+    if not isinstance(points, list) or len(points) != count:
+        finish('The list should contain every point.')
+    if not isinstance(buffer, bytes) or len(buffer) != 20 * count:
+        finish('The buffer should contain 20 bytes per point.')
     values = [point_values(point) for point in points]
-    assert same_points(values, list(struct.iter_unpack('fffif', buffer))), 'List and buffer points should match.'
-    assert any(all(math.isfinite(v) for v in point[:3]) and any(v != 0 for v in point[:3]) for point in values), \
-        'The test scene should produce a sampled, finite point.'
+    if not same_points(values, list(struct.iter_unpack('fffif', buffer))):
+        finish('List and buffer points should match.')
+    if not any(all(math.isfinite(v) for v in point[:3]) and any(v != 0 for v in point[:3]) for point in values):
+        finish('The test scene should produce a sampled, finite point.')
 
     for layer in range(layers):
         start = layer * width
         end = start + width
         layer_points = lidar.getLayerPointCloud(layer)
         layer_buffer = lidar.getLayerPointCloud(layer, data_type='buffer')
-        assert same_points([point_values(point) for point in layer_points], values[start:end]), \
-            'Layer %d should match the corresponding full-cloud slice.' % layer
-        assert layer_buffer == buffer[20 * start:20 * end], 'Layer %d buffers should match.' % layer
+        if not same_points([point_values(point) for point in layer_points], values[start:end]):
+            finish('Layer %d should match the corresponding full-cloud slice.' % layer)
+        if layer_buffer != buffer[20 * start:20 * end]:
+            finish('Layer %d buffers should match.' % layer)
 
     for data_type in ('list', 'buffer'):
         for layer in (-1, layers):
-            assert lidar.getLayerPointCloud(layer, data_type) is None, 'An invalid layer should return None.'
-    assert lidar.getPointCloud(data_type='invalid') is None, 'An invalid data_type should return None.'
-    assert lidar.getLayerPointCloud(0, data_type='invalid') is None, 'An invalid layer data_type should return None.'
+            if lidar.getLayerPointCloud(layer, data_type) is not None:
+                finish('An invalid layer should return None.')
+    if lidar.getPointCloud(data_type='invalid') is not None:
+        finish('An invalid data_type should return None.')
+    if lidar.getLayerPointCloud(0, data_type='invalid') is not None:
+        finish('An invalid layer data_type should return None.')
 
     lidar.disablePointCloud()
     for data_type in ('list', 'buffer'):
-        assert lidar.getPointCloud(data_type) is None, 'A disabled point cloud should return None.'
-        assert lidar.getLayerPointCloud(0, data_type) is None, 'A disabled layer point cloud should return None.'
+        if lidar.getPointCloud(data_type) is not None:
+            finish('A disabled point cloud should return None.')
+        if lidar.getLayerPointCloud(0, data_type) is not None:
+            finish('A disabled layer point cloud should return None.')
     lidar.enablePointCloud()
     lidar.disable()
     for data_type in ('list', 'buffer'):
-        assert lidar.getPointCloud(data_type) is None, 'A disabled lidar should have no point cloud.'
-        assert lidar.getLayerPointCloud(0, data_type) is None, 'A disabled lidar should have no layer point cloud.'
+        if lidar.getPointCloud(data_type) is not None:
+            finish('A disabled lidar should have no point cloud.')
+        if lidar.getLayerPointCloud(0, data_type) is not None:
+            finish('A disabled lidar should have no layer point cloud.')
 
 
 notify(True)
