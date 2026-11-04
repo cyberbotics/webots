@@ -59,8 +59,8 @@ class Field:
     wb.wb_supervisor_field_set_sf_rotation.argtypes = [ctypes.c_void_p, ctypes.c_double * 4]
     wb.wb_supervisor_field_set_sf_color.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
     wb.wb_supervisor_field_get_mf_float.restype = ctypes.c_double
-    wb.wb_supervisor_virtual_reality_headset_get_position = ctypes.POINTER(ctypes.c_double)
-    wb.wb_supervisor_virtual_reality_headset_get_orientation = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_virtual_reality_headset_get_position.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_virtual_reality_headset_get_orientation.restype = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, ref: ctypes.c_void_p):
         self._ref = ctypes.c_void_p(ref)
