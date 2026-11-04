@@ -423,6 +423,11 @@ int WbTokenizer::tokenize(const QString &fileName, const QString &prefix) {
   return errors;
 }
 
+int WbTokenizer::tokenizeString(const QString &string, const WbVersion &fileVersion) {
+  mFileVersion = fileVersion;
+  return tokenizeString(string);
+}
+
 int WbTokenizer::tokenizeString(const QString &string) {
   mIndex = 0;
 
