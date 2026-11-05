@@ -1232,8 +1232,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int from_node_id = request_read_int32(r);
       const int to_node_id = request_read_int32(r);
       double *node_pose = NULL;
-      if (pose_requested && pose.to_node->id == to_node_id &&
-          ((!pose.from_node && !from_node_id) || pose.from_node->id == from_node_id))
+      const int requested_from_node_id = pose.from_node ? pose.from_node->id : 0;
+      if (pose_requested && pose.to_node->id == to_node_id && requested_from_node_id == from_node_id)
         node_pose = pose.pose;
       else {
         WbPoseStruct *tmp_pose = pose_collection;
