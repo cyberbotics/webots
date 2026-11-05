@@ -1,0 +1,69 @@
+#VRML_SIM R2025b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.5 0.5 0.7 2
+  position 0 -2 2
+}
+DEF BACKGROUND Background {
+  skyColor [
+    0.4 0.7 1
+    1 0 0
+    0 1 0
+    0 0 1
+    1 1 0
+    1 0 1
+  ]
+}
+DEF SELF_TARGET Pose {
+  children [
+    Shape {
+      geometry DEF SELF_LINES IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            1 0 0
+          ]
+        }
+        coordIndex [
+          0 1
+        ]
+      }
+    }
+  ]
+}
+DEF T0 Pose {
+}
+DEF T1 Pose {
+}
+DEF T2 Pose {
+}
+DEF T3 Pose {
+}
+DEF T4 Pose {
+}
+Robot {
+  name "remover"
+  controller "supervisor_field_deleted_node"
+  controllerArgs [
+    "Remover"
+  ]
+  supervisor TRUE
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+  ]
+  controller "supervisor_field_deleted_node"
+  controllerArgs [
+    "Supervisor"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}
