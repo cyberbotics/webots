@@ -3248,6 +3248,8 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
     return;
   }
 
+  robot_mutex_lock();
+
   // Delete the relevant pose entry from the list
   bool found = false;
   WbPoseStruct *pose_entry = pose_collection;
@@ -3272,10 +3274,10 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
   // Pose tracking was never enabled for this node
   if (!found) {
     fprintf(stderr, "Error: %s() called for a node that is not being tracked.\n", __FUNCTION__);
+    robot_mutex_unlock();
     return;
   }
 
-  robot_mutex_lock();
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = false;
