@@ -1,4 +1,4 @@
-// Copyright 1996-2024 Cyberbotics Ltd.
+// Copyright 1996-2025 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -80,11 +80,14 @@ namespace wren {
 
     bool supportShadows() const override { return mCacheData->mSupportShadows; }
 
+    void setup() override;
+
   protected:
     StaticMesh();
     virtual ~StaticMesh() override {}
 
   private:
+    void mergeIdenticalVertices();
     void computeTrianglesAndEdges();
 
     void prepareGl() override;
@@ -93,6 +96,7 @@ namespace wren {
     static std::unordered_map<cache::Key, cache::MeshData> cCache;
 
     bool mIsCachePersistent;
+    size_t mUnmergedVertexCount;
 
     cache::Key mCacheKey;
     cache::MeshData *mCacheData;
