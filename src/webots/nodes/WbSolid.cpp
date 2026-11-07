@@ -2970,7 +2970,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportUrdfShape(writer, geometries[j].first, pose, geometries[j].second + writer.jointOffset());
+              exportUrdfShape(writer, geometries[j].first, pose, geometries[j].second + writer.urdfLinkOffset(this));
           }
         }
       }

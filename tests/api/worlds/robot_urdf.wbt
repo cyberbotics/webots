@@ -28,6 +28,7 @@ UR5e {
   controller "robot_urdf"
   controllerArgs [
     "ur5e"
+    "move"
   ]
   toolSlot [
     TestSuiteEmitter {
