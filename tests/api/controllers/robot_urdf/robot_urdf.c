@@ -44,6 +44,8 @@ int main(int argc, char **argv) {
       const WbDeviceTag tag = wb_robot_get_device_by_index(i);
       if (wb_device_get_node_type(tag) == WB_NODE_ROTATIONAL_MOTOR)
         wb_motor_set_position(tag, 0.5);
+      else if (wb_device_get_node_type(tag) == WB_NODE_LINEAR_MOTOR)
+        wb_motor_set_position(tag, 0.05);
     }
     for (int i = 0; i < 50; ++i)
       wb_robot_step(TIME_STEP);

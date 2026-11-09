@@ -141,8 +141,17 @@ Robot {
                 }
               ]
               endPoint Solid {
-                translation 0.05 0.02 0.03
+                translation 0.01 0.07 0.03
+                rotation 0 0 1 0.3
                 name "hinge link"
+                boundingObject Pose {
+                  translation 0 0 0.01
+                  children [
+                    Box {
+                      size 0.01 0.02 0.03
+                    }
+                  ]
+                }
               }
             }
             SliderJoint {
