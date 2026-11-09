@@ -19,6 +19,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed devices added to a running robot causing the controller to show the robot window ([#1](https://github.com/CR3op/webots/pull/1)).
     - Fixed Webots crashing when a supervisor gets, sets, inserts or removes a field value of a node that was removed or regenerated, or at an index another supervisor removed ([#7080](https://github.com/cyberbotics/webots/pull/7080)).
     - Fixed `Supervisor.virtualRealityHeadsetGetPosition` and `Supervisor.virtualRealityHeadsetGetOrientation` in the Python controller returning a null pointer instead of the headset position and orientation ([#7081](https://github.com/cyberbotics/webots/pull/7081)).
     - Fixed `Camera.getImageArray` and `Camera.getRecognitionSegmentationImageArray` in the Python controller returning pixels in the wrong order for `image[x][y]` ([#7071](https://github.com/cyberbotics/webots/pull/7071)).
