@@ -81,13 +81,13 @@ WbVector3 WbMatrix3::toEulerAnglesZYX() const {
       angles.setZ(atan2(mM[3], mM[0]));
     } else {
       angles.setX(0);
-      angles.setY(-M_PI / 2);
-      angles.setZ(atan2(-mM[5], mM[4]));
+      angles.setY(M_PI / 2);
+      angles.setZ(atan2(-mM[1], mM[4]));
     }
   } else {
     angles.setX(0);
     angles.setY(-M_PI / 2);
-    angles.setZ(atan2(-mM[5], mM[4]));
+    angles.setZ(atan2(-mM[1], mM[4]));
   }
   return angles;
 }
