@@ -533,6 +533,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       const int firstTag = robot.n_device;
       robot.n_device += n;
       init_devices_from_tag(r, firstTag);
+      break;
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;
