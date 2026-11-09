@@ -297,17 +297,8 @@ WbVector3 WbSliderJoint::anchor() const {
 void WbSliderJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    // URDF describes the robot at the zero position of its joints, so the end point pose at the zero position is used.
-    // Vectors expressed in the frame of the joint parent are rotated into the frame of parentRoot.
-    const WbMatrix3 upperRotation =
-      solidEndPoint()->rotationMatrixFrom(parentRoot) * solidEndPoint()->rotation().toMatrix3().transposed();
-    const WbMatrix3 zeroRotation = zeroEndPointRotation().toMatrix3();
-    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
-    const WbVector3 translation =
-      solidEndPoint()->translationFrom(parentRoot) - upperRotation * currentOffset + writer.urdfLinkOffset(parentRoot);
-    writer.setUrdfLinkOffset(solidEndPoint(), zeroRotation.transposed() * (zeroEndPointTranslation() - anchor()));
-    const WbVector3 rotationAxis = axis() * zeroRotation;
-    const WbVector3 eulerRotation = (upperRotation * zeroRotation).toEulerAnglesZYX();
+    WbVector3 translation, rotationAxis, eulerRotation;
+    computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation);
 
     writer.increaseIndent();
     writer.indent();

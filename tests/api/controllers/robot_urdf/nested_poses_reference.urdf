@@ -21,11 +21,23 @@
   <joint name="hinge" type="continuous">
     <parent link="base_link"/>
     <child link="hinge link"/>
-    <axis xyz="1 0 0"/>
+    <axis xyz="0.955336 -0.29552 0"/>
     <limit effort="10" velocity="10"/>
-    <origin xyz="-0.12 0.03 -0.01" rpy="0 1.570796 1.570796"/>
+    <origin xyz="-0.12 0.03 -0.01" rpy="1.570796 1.270796 3.141593"/>
   </joint>
   <link name="hinge link">
+    <visual>
+      <origin xyz="0.014776 0.047767 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.02 0.03"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.014776 0.047767 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.02 0.03"/>
+      </geometry>
+    </collision>
   </link>
   <link name="ts_emitter">
   </link>

@@ -48,6 +48,7 @@ jobs:
               export PATH=~/cppcheck-2.14.2/build/bin:$PATH
           - os: macos-15
             DEPENDENCIES_INSTALLATION: |
+              brew tap --force homebrew/core
               brew tap-new --no-git $USER/local-cppcheck
               brew extract --version=2.14.2 cppcheck $USER/local-cppcheck
               brew trust --formula $USER/local-cppcheck/cppcheck@2.14.2
