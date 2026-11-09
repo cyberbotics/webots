@@ -54,8 +54,9 @@ public:
   void writeFieldStart(const QString &name, bool w3dQuote);
   void writeFieldEnd(bool w3dQuote);
 
-  const WbVector3 &jointOffset() const { return mJointOffset; }
-  void setJointOffset(const WbVector3 &offset) { mJointOffset = offset; }
+  // URDF: position of the node of a link in the frame of the link, which is located at the joint anchor
+  WbVector3 urdfLinkOffset(const WbNode *link) const { return mUrdfLinkOffsets.value(link); }
+  void setUrdfLinkOffset(const WbNode *link, const WbVector3 &offset) { mUrdfLinkOffsets.insert(link, offset); }
 
   // change current indentation
   void increaseIndent() { mIndent++; }
@@ -104,7 +105,7 @@ private:
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
   bool mIsWritingToFile;
-  WbVector3 mJointOffset;
+  QHash<const WbNode *, WbVector3> mUrdfLinkOffsets;
   // variables used by 'convert root to basenode' writer
   WbNode *mRootNode;
   QList<std::pair<QString, QString>> mTrackedDeclarations;  // keep track of declarations that need to change level

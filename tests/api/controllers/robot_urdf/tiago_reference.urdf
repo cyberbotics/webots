@@ -224,7 +224,7 @@
     <child link="wheel_right_link"/>
     <axis xyz="0 -0.000004 -1"/>
     <limit effort="10" velocity="10.1523"/>
-    <origin xyz="0 -0.2022 0.0002" rpy="1.5708 0 0"/>
+    <origin xyz="0 -0.2022 0" rpy="1.5708 0 0"/>
   </joint>
   <link name="wheel_right_link">
     <visual>
@@ -245,7 +245,7 @@
   <joint name="base_link_base_sonar_01_link_joint" type="fixed">
     <parent link="base_link"/>
     <child link="base_sonar_01_link"/>
-    <origin xyz="-0.183 -0.183 0.1728" rpy="0 0 -2.356185"/>
+    <origin xyz="-0.183 -0.183 0.173" rpy="0 0 -2.356185"/>
   </joint>
   <link name="base_sonar_02_link">
   </link>
@@ -824,13 +824,13 @@
   </link>
   <link name="wrist_left_ft_tool_link">
     <visual>
-      <origin xyz="0 0 0.055" rpy="3.141593 -1.570793 3.141593"/>
+      <origin xyz="0 0 0" rpy="3.141593 -1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.055" rpy="3.141593 -1.570793 3.141593"/>
+      <origin xyz="0 0 0" rpy="3.141593 -1.570793 3.141593"/>
       <geometry>
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
@@ -1426,13 +1426,13 @@
   </link>
   <link name="wrist_right_ft_tool_link">
     <visual>
-      <origin xyz="0 0 0.055" rpy="0 1.57 0"/>
+      <origin xyz="0 0 0" rpy="0 1.57 0"/>
       <geometry>
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0.055" rpy="0 1.57 0"/>
+      <origin xyz="0 0 0" rpy="0 1.57 0"/>
       <geometry>
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
