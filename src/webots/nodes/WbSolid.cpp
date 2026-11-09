@@ -2942,7 +2942,7 @@ void WbSolid::exportUrdfInertial(WbWriter &writer) const {
                        I[10] - m * (c.x() * c.x() + c.y() * c.y())};  // izz
   // remove the round-off errors of the products of inertia
   const double scale = fabs(inertia[0]) + fabs(inertia[3]) + fabs(inertia[5]);
-  for (int i = 0; i < 6; ++i) {
+  for (const int i : {1, 2, 4}) {
     if (fabs(inertia[i]) < 1e-12 * scale)
       inertia[i] = 0.0;
   }
