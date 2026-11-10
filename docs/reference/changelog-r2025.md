@@ -1,6 +1,12 @@
 # Webots R2025 Change Log
 
 ## Webots R2025b
+Released on ??.
+  - New Features
+    - Added the `wbenv` Javascript module for procedural protos to get environment variables ([#6793](https://github.com/cyberbotics/webots/pull/6793)).
+  - New Devices and Objects
+    - Added model of the [Robolab](https://robolab.unex.es/)'s P3Bot robot and two sample worlds ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
+    - Added [Kinova Gen3 7DoF](https://www.kinovarobotics.com/product/gen3-robot) manipulator ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
   - Enhancements
     - Added support for Ubuntu 26.04 "Resolute Raccoon" ([#7014](https://github.com/cyberbotics/webots/pull/7014)).
     - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
@@ -15,6 +21,8 @@
     - Added a Blender-style mouse mode for 3D viewport navigation, selectable via Tools > Preferences > General ([#6971](https://github.com/cyberbotics/webots/pull/6971)).
     - Added a `baseSlot` field to the Franka Emika `Panda` robot and aligned its joint position limits with Franka's specifications ([#7079](https://github.com/cyberbotics/webots/pull/7079)).
     - **`Transform` nodes with the default scale are no longer automatically converted to `Pose` nodes in world and PROTO files whose header declares Webots R2025b or later, so that a non-scaling `Transform` can be used on purpose; such files must use a `Pose` wherever a `Transform` is not allowed ([#7065](https://github.com/cyberbotics/webots/pull/7065)).**
+    - Reduced the memory used while loading a world: the mesh normals optional rendering is no longer built and discarded for every mesh ([#7047](https://github.com/cyberbotics/webots/pull/7047)).
+    - Reduced the memory used by meshes: identical vertices are uploaded to the GPU once, and the CPU copy of the mesh data is freed after the upload ([#7048](https://github.com/cyberbotics/webots/pull/7048)).
   - Cleanup
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
