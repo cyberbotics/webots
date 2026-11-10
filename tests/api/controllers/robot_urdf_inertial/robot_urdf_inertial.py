@@ -58,7 +58,7 @@ EXPECTED = {
     # density 1000 and a 0.2 x 0.1 x 0.05 box translated by (0.05, 0, 0.02)
     'base_link': (1.0, [0.05, 0, 0.02], box_inertia(1.0, 0.2, 0.1, 0.05)),
     # custom inertia matrix, the solid is 0.1 m above the anchor of its joint
-    'link B': (2.0, [0.01, 0.02, 0.13], [[0.1, 0.01, 0.02], [0.01, 0.2, 0.03], [0.02, 0.03, 0.3]]),
+    'link B': (2.0, [0.01, 0.02, 0.13], [[0.2, 0.01, 0.02], [0.01, 0.3, 0.03], [0.02, 0.03, 0.4]]),
     # box rotated by 0.5 rad, the solid is rotated by 0.3 rad about x and 0.1 m away from the anchor of its joint
     'link C': (3.0, [0, 0.1 * math.cos(0.3), -0.1 * math.sin(0.3)], rotate_inertia(box_inertia(3.0, 0.3, 0.1, 0.1), 0.5)),
     # center of mass given in the Physics node, the solid is 0.05 m away from the anchor of its joint
