@@ -1,3 +1,6 @@
+#include <webots/device.h>
+#include <webots/motor.h>
+#include <webots/nodes.h>
 #include <webots/robot.h>
 
 #include <stdio.h>
@@ -34,6 +37,19 @@ int main(int argc, char **argv) {
   snprintf(test, 256, "%s_%s", argv[0], argv[1]);
 
   ts_setup(test);
+
+  // URDF describes the robot at the zero position of its joints: moving the joints must not change the exported file
+  if (argc > 2 && strcmp(argv[2], "move") == 0) {
+    for (int i = 0; i < wb_robot_get_number_of_devices(); ++i) {
+      const WbDeviceTag tag = wb_robot_get_device_by_index(i);
+      if (wb_device_get_node_type(tag) == WB_NODE_ROTATIONAL_MOTOR)
+        wb_motor_set_position(tag, 0.5);
+      else if (wb_device_get_node_type(tag) == WB_NODE_LINEAR_MOTOR)
+        wb_motor_set_position(tag, 0.05);
+    }
+    for (int i = 0; i < 50; ++i)
+      wb_robot_step(TIME_STEP);
+  }
 
   // Write URDF to file
   FILE *f_urdf = fopen(generated_filename, "w");
