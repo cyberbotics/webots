@@ -221,6 +221,24 @@ Robot {
         solidName "slider target"
       }
     }
+    Solid {
+      translation 0 -0.1 0
+      name "hinge target"
+    }
+    HingeJoint {
+      device [
+        RotationalMotor {
+          name "hinge to a reference in a slot"
+        }
+      ]
+      endPoint Slot {
+        endPoint Slot {
+          endPoint SolidReference {
+            solidName "hinge target"
+          }
+        }
+      }
+    }
   ]
   name "export cases"
   controller "robot_urdf"

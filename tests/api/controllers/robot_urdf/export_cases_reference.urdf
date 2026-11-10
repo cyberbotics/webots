@@ -2,6 +2,13 @@
 <robot name="export cases" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
   </link>
+  <link name="hinge target">
+  </link>
+  <joint name="base_link_hinge target_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="hinge target"/>
+    <origin xyz="0 -0.1 0" rpy="0 0 0"/>
+  </joint>
   <link name="slider target">
   </link>
   <joint name="base_link_slider target_joint" type="fixed">
