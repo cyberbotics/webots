@@ -2955,12 +2955,12 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
               pair.first = QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(capsule->radius()).arg(capsule->height());
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
-              pair.second = WbVector3(0.0, 0.5 * capsule->height(), 0.0);
+              pair.second = WbVector3(0.0, 0.0, 0.5 * capsule->height());  // a Capsule is aligned along its z-axis
               if (pose && pose != this)
                 pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
-              pair.second = WbVector3(0.0, -0.5 * capsule->height(), 0.0);
+              pair.second = WbVector3(0.0, 0.0, -0.5 * capsule->height());  // a Capsule is aligned along its z-axis
               if (pose && pose != this)
                 pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;

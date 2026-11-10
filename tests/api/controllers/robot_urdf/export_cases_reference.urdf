@@ -2,6 +2,90 @@
 <robot name="export cases" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
   </link>
+  <link name="capsule in a pose">
+    <visual>
+      <origin xyz="0.01 0.02 0.03" rpy="0 0.6 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.08"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.01 0.02 0.03" rpy="0 0.6 0"/>
+      <geometry>
+        <cylinder radius="0.01" length="0.08"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.032586 0.02 0.063013" rpy="0 0.6 0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.032586 0.02 0.063013" rpy="0 0.6 0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.012586 0.02 -0.003013" rpy="0 0.6 0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.012586 0.02 -0.003013" rpy="0 0.6 0"/>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_link_capsule in a pose_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="capsule in a pose"/>
+    <origin xyz="0.3 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="capsule bounding object">
+    <visual>
+      <geometry>
+        <cylinder radius="0.02" length="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.02" length="0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_link_capsule bounding object_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="capsule bounding object"/>
+    <origin xyz="0.2 0 0" rpy="0.5 0 0"/>
+  </joint>
   <link name="hinge target">
   </link>
   <joint name="base_link_hinge target_joint" type="fixed">
