@@ -321,6 +321,21 @@ const QString WbJoint::urdfName() const {
   return WbBaseNode::urdfName();
 }
 
+void WbJoint::computeUrdfJointFrame(WbWriter &writer, const WbNode *parentRoot, WbVector3 &translation, WbVector3 &rotationAxis,
+                                    WbVector3 &eulerRotation) const {
+  // URDF describes the robot at the zero position of its joints, so the end point pose at the zero position is used.
+  // Vectors expressed in the frame of the joint parent are rotated into the frame of parentRoot.
+  const WbMatrix3 upperRotation =
+    solidEndPoint()->rotationMatrixFrom(parentRoot) * solidEndPoint()->rotation().toMatrix3().transposed();
+  const WbMatrix3 zeroRotation = zeroEndPointRotation().toMatrix3();
+  const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
+  translation =
+    solidEndPoint()->translationFrom(parentRoot) - upperRotation * currentOffset + writer.urdfLinkOffset(parentRoot);
+  writer.setUrdfLinkOffset(solidEndPoint(), zeroRotation.transposed() * (zeroEndPointTranslation() - anchor()));
+  rotationAxis = axis() * zeroRotation;
+  eulerRotation = (upperRotation * zeroRotation).toEulerAnglesZYX();
+}
+
 void WbJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     if (dynamic_cast<WbSolidReference *>(mEndPoint->value())) {
@@ -329,11 +344,8 @@ void WbJoint::writeExport(WbWriter &writer) const {
     }
 
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
-    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
-    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
-    const WbVector3 eulerRotation = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
-    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(WbNodeUtilities::findUpperPose(this));
+    WbVector3 translation, rotationAxis, eulerRotation;
+    computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation);
 
     writer.increaseIndent();
     writer.indent();

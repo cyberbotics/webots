@@ -28,6 +28,7 @@ UR5e {
   controller "robot_urdf"
   controllerArgs [
     "ur5e"
+    "move"
   ]
   toolSlot [
     TestSuiteEmitter {
@@ -114,6 +115,75 @@ E-puck {
   turretSlot [
     TestSuiteEmitter {
     }
+  ]
+}
+Robot {
+  translation 0.5 0 -0.48
+  children [
+    TestSuiteEmitter {
+    }
+    Pose {
+      translation 0.1 0 0
+      rotation 0 0 1 1.5707963267948966
+      children [
+        Pose {
+          translation 0 0.2 0
+          rotation 0 1 0 1.5707963267948966
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 1 0 0
+                anchor 0.01 0.02 0.03
+              }
+              device [
+                RotationalMotor {
+                  name "hinge"
+                }
+              ]
+              endPoint Solid {
+                translation 0.01 0.07 0.03
+                rotation 0 0 1 0.3
+                name "hinge link"
+                boundingObject Pose {
+                  translation 0 0 0.01
+                  children [
+                    Box {
+                      size 0.01 0.02 0.03
+                    }
+                  ]
+                }
+              }
+            }
+            SliderJoint {
+              jointParameters JointParameters {
+                axis 0 1 0
+              }
+              device [
+                LinearMotor {
+                  name "slider"
+                  minPosition -0.1
+                  maxPosition 0.1
+                }
+              ]
+              endPoint Solid {
+                translation 0 0 0.1
+                name "slider link"
+              }
+            }
+            Solid {
+              translation 0 0.1 0
+              name "fixed link"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "nested poses"
+  controller "robot_urdf"
+  controllerArgs [
+    "nested_poses"
+    "move"
   ]
 }
 TestSuiteSupervisor {

@@ -14,7 +14,6 @@
 
 #include "WbMatrix3.hpp"
 
-#include "WbMathsUtilities.hpp"
 #include "WbQuaternion.hpp"
 
 static const double IDENTITY[9] = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
@@ -74,20 +73,15 @@ WbQuaternion WbMatrix3::toQuaternion() const {
 WbVector3 WbMatrix3::toEulerAnglesZYX() const {
   WbVector3 angles;
 
-  if (mM[6] < 1) {
-    if (mM[6] > -1) {
-      angles.setX(atan2(mM[7], mM[8]));
-      angles.setY(WbMathsUtilities::clampedAsin(-mM[6]));
-      angles.setZ(atan2(mM[3], mM[0]));
-    } else {
-      angles.setX(0);
-      angles.setY(-M_PI / 2);
-      angles.setZ(atan2(-mM[5], mM[4]));
-    }
-  } else {
+  const double cosPitch = sqrt(mM[0] * mM[0] + mM[3] * mM[3]);
+  if (cosPitch > 1e-9) {  // general case
+    angles.setX(atan2(mM[7], mM[8]));
+    angles.setY(atan2(-mM[6], cosPitch));
+    angles.setZ(atan2(mM[3], mM[0]));
+  } else {  // pitch = +/-90 degrees: roll and yaw are not independent, so the roll is set to 0
     angles.setX(0);
-    angles.setY(-M_PI / 2);
-    angles.setZ(atan2(-mM[5], mM[4]));
+    angles.setY(mM[6] < 0 ? M_PI_2 : -M_PI_2);
+    angles.setZ(atan2(-mM[1], mM[4]));
   }
   return angles;
 }
