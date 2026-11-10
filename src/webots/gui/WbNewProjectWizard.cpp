@@ -124,7 +124,7 @@ QWizardPage *WbNewProjectWizard::createDirectoryPage() {
   page->setTitle(tr("Directory selection"));
   page->setSubTitle(tr("Please choose a directory for your new project:"));
   mDirEdit = new WbLineEdit(page);
-  QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
+  const QPushButton *chooseButton = new QPushButton(tr("Choose"), page);
   connect(chooseButton, &QPushButton::pressed, this, &WbNewProjectWizard::chooseDirectory);
   QHBoxLayout *layout = new QHBoxLayout(page);
   layout->addWidget(mDirEdit);

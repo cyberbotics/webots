@@ -132,7 +132,7 @@ void WbTrack::postFinalize() {
   connect(mDeviceField, &WbMFNode::itemInserted, this, &WbTrack::addDevice);
 
   if (childCount() > 0) {
-    WbGroup *group = dynamic_cast<WbGroup *>(child(0));
+    const WbGroup *group = dynamic_cast<WbGroup *>(child(0));
     if (group)
       connect(group, &WbGroup::childrenChanged, this, &WbTrack::updateChildren);
     if (mShape)
@@ -235,7 +235,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
       return false;
     }
 
-    WbShape *s = dynamic_cast<WbShape *>(node);
+    const WbShape *s = dynamic_cast<WbShape *>(node);
     if (s) {
       if (connectSignals) {
         // material automatically updated
@@ -259,7 +259,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
       for (int j = 0; j < g->childCount(); ++j)
         geometryNodes.append(g->child(j));
 
-      WbPose *t = dynamic_cast<WbPose *>(g);
+      const WbPose *t = dynamic_cast<WbPose *>(g);
       if (t) {
         t->enablePoseChangedSignal();
         connect(t, &WbPose::poseChanged, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
@@ -951,7 +951,7 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   // write animated geometries
   if (!writer.isW3d() && !writer.isUrdf() && !isEmpty)
     writer << "\n";
-  isEmpty |= mAnimatedObjectList.isEmpty();
+  isEmpty = isEmpty || mAnimatedObjectList.isEmpty();
 
   exportAnimatedGeometriesMesh(writer);
 

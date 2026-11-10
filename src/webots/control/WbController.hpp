@@ -32,7 +32,7 @@ public:
   // constructor & destructor
   // name: controller name as in Robot.controller, e.g. "<generic>"
   // arguments: controller arguments as in Robot.controllerArgs
-  explicit WbController(WbRobot *robot);
+  explicit WbController(const WbRobot *robot);
   virtual ~WbController();
 
   // start the controller

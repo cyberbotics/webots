@@ -97,7 +97,7 @@ private:
 
   // methods and variables to handle obj materials
   QMap<QString, QString> mObjMaterials;  // maps materials as referenced in the obj to their remote counterpart
-  QVector<WbDownloader *> mMaterialDownloaders;
+  QVector<const WbDownloader *> mMaterialDownloaders;
   QStringList objMaterialList(const QString &url) const;
   bool areMaterialAssetsAvailable(const QString &url);
   void retrieveMaterials();

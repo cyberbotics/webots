@@ -27,7 +27,7 @@ namespace wren {
   public:
     // Encapsulate memory management
     static Transform *createTransform() { return new Transform(); }
-    static Transform *copyTransform(Transform *source) { return new Transform(source); }
+    static Transform *copyTransform(const Transform *source) { return new Transform(source); }
 
     void attachChild(Node *child);
     void detachChild(Node *child);
@@ -51,7 +51,7 @@ namespace wren {
 
   protected:
     Transform();
-    explicit Transform(Transform *source);
+    explicit Transform(const Transform *source);
     virtual ~Transform() override;
 
   private:

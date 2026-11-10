@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
   int i, j;
   double speed[2] = {0, 0};
   double sensors_value[8];
-  double braitenberg_coefficients[8][2] = {{10, 8}, {7, -1.5}, {5, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, 5}, {-1.5, 7}};
+  const double braitenberg_coefficients[8][2] = {{10, 8}, {7, -1.5}, {5, -1}, {-1, -1}, {-1, -1}, {-1, -1}, {-1, 5}, {-1.5, 7}};
 
   /* initialize Webots */
   wb_robot_init();

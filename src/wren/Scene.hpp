@@ -125,7 +125,7 @@ namespace wren {
     void renderStencilShadowVolumesDepthPass(ShadowVolumeCaster *shadowVolume, LightNode *light);
     void renderStencilShadowVolumesDepthFail(ShadowVolumeCaster *shadowVolume, LightNode *light);
     static void renderStencilAmbientEmissive(RenderQueueIterator first, RenderQueueIterator last);
-    static void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, LightNode *light,
+    static void renderStencilDiffuseSpecular(RenderQueueIterator first, RenderQueueIterator last, const LightNode *light,
                                              bool applyShadows = true);
     void renderStencilFog(RenderQueueIterator first, RenderQueueIterator last) const;
     static void renderStencilWithoutProgram(RenderQueueIterator first, RenderQueueIterator last);
