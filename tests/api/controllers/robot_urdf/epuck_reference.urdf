@@ -402,7 +402,7 @@
     <child link="left wheel"/>
     <axis xyz="0 1 0"/>
     <limit effort="10" velocity="6.28"/>
-    <origin xyz="0 -0.026 0.02" rpy="0 0 0"/>
+    <origin xyz="0 0 0.02" rpy="0 0 0"/>
   </joint>
   <link name="left wheel">
     <visual>
