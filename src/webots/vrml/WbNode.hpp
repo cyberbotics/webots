@@ -122,8 +122,6 @@ public:
   virtual const QString urdfName() const;
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
-  // it's useless to write a empty Group or an invisible Cylinder (with no top, bottom or side)
-  virtual bool shallExport() const { return true; };
 
   // error reporting
   // field name will be extracted from the first single quoted text in the message

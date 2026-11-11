@@ -2930,7 +2930,8 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
     const bool ret = WbMatter::exportNodeHeader(writer);
     if (!ret) {
       if (boundingObject()) {
-        QList<WbNode *> nodes = boundingObject()->subNodes(true);
+        // the bounding object itself can be a geometry
+        QList<WbNode *> nodes = QList<WbNode *>() << boundingObject() << boundingObject()->subNodes(true);
         for (int i = 0; i < nodes.size(); ++i) {
           const WbNode *node = nodes[i];
           const WbCylinder *cylinder = dynamic_cast<const WbCylinder *>(node);
@@ -2955,12 +2956,12 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
               pair.second = WbVector3(0.0, 0.5 * capsule->height(), 0.0);
-              if (pose)
+              if (pose && pose != this)
                 pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
               pair.second = WbVector3(0.0, -0.5 * capsule->height(), 0.0);
-              if (pose)
+              if (pose && pose != this)
                 pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;
             } else if (sphere) {
