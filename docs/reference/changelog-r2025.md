@@ -2,6 +2,7 @@
 
 ## Webots R2025b
   - Enhancements
+    - Added the mass, center of mass and inertia matrix of the [Solid](solid.md) nodes having a [Physics](physics.md) node to the URDF export (`wb_robot_get_urdf`) ([#7095](https://github.com/cyberbotics/webots/pull/7095)).
     - Added support for Ubuntu 26.04 "Resolute Raccoon" ([#7014](https://github.com/cyberbotics/webots/pull/7014)).
     - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
@@ -29,6 +30,7 @@
     - Fixed the URDF export (`wb_robot_get_urdf`) using the current joint positions as the zero position of the joints, and misplacing the joints and collision shapes of links having several child links or a joint inside rotated `Pose` nodes, and exporting wrong rotations at a pitch of ±90° ([#7091](https://github.com/cyberbotics/webots/pull/7091)).
     - Fixed devices added to a running robot causing the controller to show the robot window ([#1](https://github.com/CR3op/webots/pull/1)).
     - Fixed Webots crashing when a supervisor gets, sets, inserts or removes a field value of a node that was removed or regenerated, or at an index another supervisor removed ([#7080](https://github.com/cyberbotics/webots/pull/7080)).
+    - Fixed `Lidar.getPointCloud` and `Lidar.getLayerPointCloud` in the Python controller crashing the controller process when no point cloud is available (before the first step or when the point cloud is disabled); they and `Lidar.getRangeImage`, `Lidar.getRangeImageArray` and `Lidar.getLayerRangeImage` now return `None` in that case, and the point cloud methods accept the documented `data_type` argument again ([#7082](https://github.com/cyberbotics/webots/pull/7082)).
     - Fixed `Supervisor.virtualRealityHeadsetGetPosition` and `Supervisor.virtualRealityHeadsetGetOrientation` in the Python controller returning a null pointer instead of the headset position and orientation ([#7081](https://github.com/cyberbotics/webots/pull/7081)).
     - Fixed `Camera.getImageArray` and `Camera.getRecognitionSegmentationImageArray` in the Python controller returning pixels in the wrong order for `image[x][y]` ([#7071](https://github.com/cyberbotics/webots/pull/7071)).
     - Fixed `Lidar` `minRange` changes not taking effect in the range image while the simulation is running ([#7069](https://github.com/cyberbotics/webots/pull/7069)).
