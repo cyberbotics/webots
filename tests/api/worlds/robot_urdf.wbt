@@ -225,6 +225,29 @@ Robot {
       translation 0 -0.1 0
       name "hinge target"
     }
+    Solid {
+      translation 0.2 0 0
+      rotation 1 0 0 0.5
+      name "capsule bounding object"
+      boundingObject Capsule {
+        height 0.1
+        radius 0.02
+      }
+    }
+    Solid {
+      translation 0.3 0 0
+      name "capsule in a pose"
+      boundingObject Pose {
+        translation 0.01 0.02 0.03
+        rotation 0 1 0 0.6
+        children [
+          Capsule {
+            height 0.08
+            radius 0.01
+          }
+        ]
+      }
+    }
     HingeJoint {
       device [
         RotationalMotor {

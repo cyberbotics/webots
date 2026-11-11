@@ -303,7 +303,8 @@ void WbSliderJoint::writeExport(WbWriter &writer) const {
 
     const WbNode *const parentRoot = findUrdfLinkRoot();
     WbVector3 translation, rotationAxis, eulerRotation;
-    computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation);
+    if (!computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation))
+      return;
 
     writer.increaseIndent();
     writer.indent();

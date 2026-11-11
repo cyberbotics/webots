@@ -20,6 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed the URDF export (`wb_robot_get_urdf`) placing the half-spheres of a `Capsule` along its y-axis instead of its z-axis ([#7098](https://github.com/cyberbotics/webots/pull/7098)).
     - Fixed the URDF export (`wb_robot_get_urdf`) ignoring a geometry set directly as `boundingObject`, exporting a `SliderJoint` with a `SolidReference` end point as a second parent of the referenced link, and giving tilted cameras a wrong orientation ([#7096](https://github.com/cyberbotics/webots/pull/7096)).
     - Fixed the robot window logging a "WebSocket error: Unknown message received" for every empty line of a message from the streaming server.
     - Fixed the W3D export leaving out empty `Group`, `Pose` and `Solid` nodes, so that a node a supervisor inserted into one of them while streaming landed at the root of the web viewer's scene.

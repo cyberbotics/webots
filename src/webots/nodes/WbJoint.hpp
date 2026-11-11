@@ -71,7 +71,8 @@ public slots:
 protected:
   void writeExport(WbWriter &writer) const override;
   // URDF: frame of the joint at its zero position, also stores the offset of the child link in the writer
-  void computeUrdfJointFrame(WbWriter &writer, const WbNode *parentRoot, WbVector3 &translation, WbVector3 &rotationAxis,
+  // returns false with a warning if the joint cannot be exported
+  bool computeUrdfJointFrame(WbWriter &writer, const WbNode *parentRoot, WbVector3 &translation, WbVector3 &rotationAxis,
                              WbVector3 &eulerRotation) const;
 
   WbJoint(const QString &modelName, WbTokenizer *tokenizer = NULL);
