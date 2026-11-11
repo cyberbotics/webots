@@ -78,6 +78,7 @@ protected:
 
   static QString clientToId(QWebSocket *client);
   static QString simulationStateString(bool pauseTime = true);
+  static QString filePathInDirectory(const QString &directory, const QString &url);
   static WbMainWindow *cMainWindow;
 
 private slots:
