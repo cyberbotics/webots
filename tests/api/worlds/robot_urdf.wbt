@@ -186,5 +186,65 @@ Robot {
     "move"
   ]
 }
+Robot {
+  translation -0.5 0 -0.48
+  children [
+    TestSuiteEmitter {
+    }
+    Camera {
+      translation 0.05 0.01 0.1
+      rotation 0.3 0.8 0.2 0.6
+      name "tilted camera"
+    }
+    Solid {
+      translation 0.1 0 0
+      rotation 0 0 1 0.4
+      name "primitive bounding object"
+      boundingObject Box {
+        size 0.02 0.04 0.06
+      }
+    }
+    Solid {
+      translation 0 0.1 0
+      name "slider target"
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 1 0
+      }
+      device [
+        LinearMotor {
+          name "slider to a reference"
+        }
+      ]
+      endPoint SolidReference {
+        solidName "slider target"
+      }
+    }
+    Solid {
+      translation 0 -0.1 0
+      name "hinge target"
+    }
+    HingeJoint {
+      device [
+        RotationalMotor {
+          name "hinge to a reference in a slot"
+        }
+      ]
+      endPoint Slot {
+        endPoint Slot {
+          endPoint SolidReference {
+            solidName "hinge target"
+          }
+        }
+      }
+    }
+  ]
+  name "export cases"
+  controller "robot_urdf"
+  controllerArgs [
+    "export_cases"
+  ]
+}
 TestSuiteSupervisor {
 }
