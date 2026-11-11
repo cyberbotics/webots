@@ -86,12 +86,20 @@ static void replace_char(char *string, char occurrence, char replace) {
 // unable to replace itself; elsewhere the launcher becomes the controller and this only returns if that failed.
 static int run_controller(char **argv) {
 #ifdef _WIN32
-  const intptr_t status = _spawnvpe(_P_WAIT, argv[0], (const char *const *)argv, NULL);
-  if (status == -1) {
+  // The controller is started and then waited for, in two calls: asked to do both with _P_WAIT, _spawnvpe() returns the
+  // exit status of the controller, and so -1 for a controller that ended with -1, as exit(-1) does, just as for one that
+  // could not be started.
+  const intptr_t process = _spawnvpe(_P_NOWAIT, argv[0], (const char *const *)argv, NULL);
+  if (process == -1) {
     fprintf(stderr, "Cannot start '%s': %s\n", argv[0], strerror(errno));
     return 1;
   }
-  return (int)status;
+  int status;
+  if (_cwait(&status, process, _WAIT_CHILD) == -1) {
+    fprintf(stderr, "Cannot wait for '%s': %s\n", argv[0], strerror(errno));
+    return 1;
+  }
+  return status;
 #else
   execvp(argv[0], argv);
   fprintf(stderr, "Cannot start '%s': %s\n", argv[0], strerror(errno));
