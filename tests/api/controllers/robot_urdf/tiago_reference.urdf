@@ -37,6 +37,11 @@
         <cylinder radius="0.007" length="0.173"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.000176 0 0.060192" rpy="0 0 0"/>
+      <mass value="28.26649"/>
+      <inertia ixx="0.6766339" ixy="0" ixz="0.0010914467" iyy="0.6773524" iyz="0" izz="0.9929161"/>
+    </inertial>
   </link>
   <joint name="CASTER_WHEEL_BACK_LEFT_JOINT" type="continuous">
     <parent link="base_link"/>
@@ -57,6 +62,11 @@
         <box size="0.036 0.032 0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.003 0 -0.022" rpy="0 0 0"/>
+      <mass value="0.051448"/>
+      <inertia ixx="1.1249963e-05" ixy="0" ixz="0" iyy="1.2416117e-05" iyz="0" izz="9.946613e-06"/>
+    </inertial>
   </link>
   <joint name="SMALL_WHEEL_JOINT" type="continuous">
     <parent link="caster_back_left_1_link"/>
@@ -77,6 +87,11 @@
         <cylinder radius="0.025" length="0.015"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.088558"/>
+      <inertia ixx="1.549765e-05" ixy="0" ixz="0" iyy="1.549765e-05" iyz="0" izz="2.7674376e-05"/>
+    </inertial>
   </link>
   <joint name="CASTER_WHEEL_BACK_RIGHT_JOINT" type="continuous">
     <parent link="base_link"/>
@@ -97,6 +112,11 @@
         <box size="0.036 0.032 0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.003 0 -0.022" rpy="0 0 0"/>
+      <mass value="0.051448"/>
+      <inertia ixx="1.1249963e-05" ixy="0" ixz="0" iyy="1.2416117e-05" iyz="0" izz="9.946613e-06"/>
+    </inertial>
   </link>
   <joint name="SMALL_WHEEL_JOINT_0" type="continuous">
     <parent link="caster_back_right_1_link"/>
@@ -117,6 +137,11 @@
         <cylinder radius="0.025" length="0.015"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.088558"/>
+      <inertia ixx="1.549765e-05" ixy="0" ixz="0" iyy="1.549765e-05" iyz="0" izz="2.7674376e-05"/>
+    </inertial>
   </link>
   <joint name="CASTER_WHEEL_FRONT_LEFT_JOINT" type="continuous">
     <parent link="base_link"/>
@@ -137,6 +162,11 @@
         <box size="0.036 0.032 0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.003 0 -0.022" rpy="0 0 0"/>
+      <mass value="0.051448"/>
+      <inertia ixx="1.1249963e-05" ixy="0" ixz="0" iyy="1.2416117e-05" iyz="0" izz="9.946613e-06"/>
+    </inertial>
   </link>
   <joint name="SMALL_WHEEL_JOINT_1" type="continuous">
     <parent link="caster_front_left_1_link"/>
@@ -157,6 +187,11 @@
         <cylinder radius="0.025" length="0.015"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.088558"/>
+      <inertia ixx="1.549765e-05" ixy="0" ixz="0" iyy="1.549765e-05" iyz="0" izz="2.7674376e-05"/>
+    </inertial>
   </link>
   <joint name="CASTER_WHEEL_FRONT_RIGHT_JOINT" type="continuous">
     <parent link="base_link"/>
@@ -177,6 +212,11 @@
         <box size="0.036 0.032 0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.003 0 -0.022" rpy="0 0 0"/>
+      <mass value="0.051448"/>
+      <inertia ixx="1.1249963e-05" ixy="0" ixz="0" iyy="1.2416117e-05" iyz="0" izz="9.946613e-06"/>
+    </inertial>
   </link>
   <joint name="SMALL_WHEEL_JOINT_2" type="continuous">
     <parent link="caster_front_right_1_link"/>
@@ -197,6 +237,11 @@
         <cylinder radius="0.025" length="0.015"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.088558"/>
+      <inertia ixx="1.549765e-05" ixy="0" ixz="0" iyy="1.549765e-05" iyz="0" izz="2.7674376e-05"/>
+    </inertial>
   </link>
   <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
@@ -218,6 +263,11 @@
         <cylinder radius="0.0985" length="0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.0002" rpy="0 0 0"/>
+      <mass value="1.82362"/>
+      <inertia ixx="0.0046664537" ixy="0" ixz="0" iyy="0.0046664537" iyz="0" izz="0.008846609"/>
+    </inertial>
   </link>
   <joint name="wheel_right_joint" type="continuous">
     <parent link="base_link"/>
@@ -239,6 +289,11 @@
         <cylinder radius="0.0985" length="0.04"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 -0.0002" rpy="0 0 0"/>
+      <mass value="1.82362"/>
+      <inertia ixx="0.0046664537" ixy="0" ixz="0" iyy="0.0046664537" iyz="0" izz="0.008846609"/>
+    </inertial>
   </link>
   <link name="base_sonar_01_link">
   </link>
@@ -274,6 +329,11 @@
         <cylinder radius="0.272" length="0.086"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.043" rpy="0 0 0"/>
+      <mass value="0.25821"/>
+      <inertia ixx="0.0049349954" ixy="0" ixz="0" iyy="0.0049349954" iyz="0" izz="0.009551704"/>
+    </inertial>
   </link>
   <joint name="base_link_base_cover_link_joint" type="fixed">
     <parent link="base_link"/>
@@ -321,6 +381,11 @@
         <box size="0.05 0.07 0.05"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 -0.018" rpy="0 0 0"/>
+      <mass value="0.16"/>
+      <inertia ixx="9.8666664e-05" ixy="2.07855e-13" ixz="-1.7571439e-09" iyy="9.8666664e-05" iyz="3.7853245e-09" izz="6.666667e-05"/>
+    </inertial>
   </link>
   <joint name="base_link_Hokuyo URG-04LX-UG01_joint" type="fixed">
     <parent link="base_link"/>
@@ -364,6 +429,11 @@
         <box size="0.233 0.26 0.12"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.011329 0 0.189177" rpy="0 0 0"/>
+      <mass value="14.0136"/>
+      <inertia ixx="0.46818808" ixy="0" ixz="0.026760159" iyy="0.4848905" iyz="0" izz="0.13265258"/>
+    </inertial>
   </link>
   <joint name="base_link_Torso_joint" type="fixed">
     <parent link="base_link"/>
@@ -426,6 +496,11 @@
         <box size="0.228 0.263 0.358"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.010271 0 -0.190941" rpy="0 0 0"/>
+      <mass value="6.93198"/>
+      <inertia ixx="0.18413027" ixy="0" ixz="-0.008309453" iyy="0.18734697" iyz="0" izz="0.09257909"/>
+    </inertial>
   </link>
   <joint name="head_1_joint" type="revolute">
     <parent link="torso_lift_link"/>
@@ -459,6 +534,11 @@
         <box size="0.103 0.088 0.103"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.00506 0 0.066701" rpy="0 0 0"/>
+      <mass value="0.6222"/>
+      <inertia ixx="0.0024597154" ixy="0" ixz="-0.00018965061" iyy="0.0029593497" iyz="-1.5419747e-09" izz="0.0013274462"/>
+    </inertial>
   </link>
   <joint name="head_2_joint" type="revolute">
     <parent link="head_1_link"/>
@@ -528,6 +608,11 @@
         <cylinder radius="0.0667" length="0.111"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.029488 0.050583 0" rpy="0 0 0"/>
+      <mass value="0.66123"/>
+      <inertia ixx="0.003963292" ixy="-0.00023158043" ixz="7.203292e-11" iyy="0.0042777155" iyz="0" izz="0.0021697856"/>
+    </inertial>
   </link>
   <link name="ts_emitter">
   </link>
@@ -573,6 +658,11 @@
         <cylinder radius="0.053" length="0.075"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.025952 0.173812 -0.2299" rpy="0 0 0"/>
+      <mass value="6.93198"/>
+      <inertia ixx="0.012195038" ixy="4.3240857e-06" ixz="-1.2063426e-05" iyy="0.009855014" iyz="-0.00046852542" izz="0.012225575"/>
+    </inertial>
   </link>
   <joint name="torso_lift_link_TIAGo left arm_joint" type="fixed">
     <parent link="torso_lift_link"/>
@@ -635,6 +725,11 @@
         <cylinder radius="0.053" length="0.069"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.062987 0.023333 -0.017631" rpy="0 0 0"/>
+      <mass value="1.563428"/>
+      <inertia ixx="0.0031921503" ixy="-0.0018796256" ixz="0.0015605212" iyy="0.0062932386" iyz="0.0007484651" izz="0.0068815695"/>
+    </inertial>
   </link>
   <joint name="arm_left_2_joint" type="revolute">
     <parent link="TIAGo_left_arm"/>
@@ -668,6 +763,11 @@
         <cylinder radius="0.053" length="0.057"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.025071 0 0.016069" rpy="0 0 0"/>
+      <mass value="1.800397"/>
+      <inertia ixx="0.0024579363" ixy="0" ixz="0.00074789365" iyy="0.0034638802" iyz="0" izz="0.003492284"/>
+    </inertial>
   </link>
   <joint name="arm_left_3_joint" type="revolute">
     <parent link="arm_left_2_link"/>
@@ -701,6 +801,11 @@
         <cylinder radius="0.056" length="0.056"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.003612 0.006412 -0.128279" rpy="0 0 0"/>
+      <mass value="2.343502"/>
+      <inertia ixx="0.015503208" ixy="0.00019966648" ixz="-0.0007653882" iyy="0.015523036" iyz="0.0013586762" izz="0.0035784696"/>
+    </inertial>
   </link>
   <joint name="arm_left_4_joint" type="revolute">
     <parent link="arm_left_3_link"/>
@@ -734,6 +839,11 @@
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.070659 0.014676 0.020033" rpy="0 0 0"/>
+      <mass value="1.432697"/>
+      <inertia ixx="0.0021171696" ixy="0.00043773794" ixz="0.000705235" iyy="0.006867458" iyz="-0.00013649893" izz="0.006893224"/>
+    </inertial>
   </link>
   <joint name="arm_left_5_joint" type="revolute">
     <parent link="arm_left_4_link"/>
@@ -779,6 +889,11 @@
         <cylinder radius="0.053" length="0.06"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.090942" rpy="0 0 0"/>
+      <mass value="1.655819"/>
+      <inertia ixx="0.005632084" ixy="0" ixz="0" iyy="0.005632084" iyz="0" izz="0.0028297992"/>
+    </inertial>
   </link>
   <joint name="arm_left_6_joint" type="revolute">
     <parent link="arm_left_5_link"/>
@@ -800,6 +915,11 @@
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.0409 0 0" rpy="0 0 0"/>
+      <mass value="0.370063"/>
+      <inertia ixx="9.4506686e-05" ixy="0" ixz="1.5442751e-10" iyy="5.2465064e-05" iyz="0" izz="5.2465064e-05"/>
+    </inertial>
   </link>
   <joint name="arm_left_7_joint" type="revolute">
     <parent link="arm_left_6_link"/>
@@ -821,6 +941,11 @@
         <cylinder radius="0.0225" length="0.0157"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.055" rpy="0 0 0"/>
+      <mass value="0.234"/>
+      <inertia ixx="3.442218e-05" ixy="0" ixz="0" iyy="3.442218e-05" iyz="0" izz="5.923125e-05"/>
+    </inertial>
   </link>
   <link name="wrist_left_ft_tool_link">
     <visual>
@@ -835,6 +960,11 @@
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="3.20045e-05" ixy="0" ixz="5.5075732e-11" iyy="1.7010583e-05" iyz="0" izz="1.7010583e-05"/>
+    </inertial>
   </link>
   <joint name="arm_left_7_link_wrist_left_ft_tool_link_joint" type="fixed">
     <parent link="arm_left_7_link"/>
@@ -902,6 +1032,11 @@
         <box size="0.106 0.056 0.071"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 -0.044052" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="0.0013559479" ixy="-6.446474e-05" ixz="1.4931141e-09" iyy="0.0017123665" iyz="0" izz="0.0011037927"/>
+    </inertial>
   </link>
   <joint name="wrist_left_ft_tool_link_left_joint" type="fixed">
     <parent link="wrist_left_ft_tool_link"/>
@@ -952,6 +1087,11 @@
         <box size="0.03213 0.02959 0.01487"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.00064 0.005119 -0.152186" rpy="0 0 0"/>
+      <mass value="0.10998"/>
+      <inertia ixx="0.00018367989" ixy="3.8747908e-06" ixz="1.7600378e-05" iyy="0.00016563966" iyz="-2.5160823e-05" izz="3.08497e-05"/>
+    </inertial>
   </link>
   <joint name="left_hand_gripper_left_finger_joint" type="prismatic">
     <parent link="left"/>
@@ -997,6 +1137,11 @@
         <box size="0.03213 0.02959 0.01487"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.00064 0.005119 -0.152186" rpy="0 0 0"/>
+      <mass value="0.10998"/>
+      <inertia ixx="0.00018367989" ixy="3.8747908e-06" ixz="1.7600378e-05" iyy="0.00016563966" iyz="-2.5160823e-05" izz="3.08497e-05"/>
+    </inertial>
   </link>
   <link name="cap screw(19)">
   </link>
@@ -1175,6 +1320,11 @@
         <cylinder radius="0.053" length="0.075"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.025952 -0.173837 -0.22966" rpy="0 0 0"/>
+      <mass value="6.93198"/>
+      <inertia ixx="0.012080779" ixy="-5.9624085e-06" ixz="-1.1489916e-05" iyy="0.009737232" iyz="0.00031564487" izz="0.012229099"/>
+    </inertial>
   </link>
   <joint name="torso_lift_link_TIAGo right arm_joint" type="fixed">
     <parent link="torso_lift_link"/>
@@ -1237,6 +1387,11 @@
         <cylinder radius="0.053" length="0.069"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.062987 0.023333 -0.007631" rpy="0 0 0"/>
+      <mass value="1.563428"/>
+      <inertia ixx="0.0031921503" ixy="0.0018796256" ixz="-0.0015605212" iyy="0.0062932386" iyz="0.0007484651" izz="0.0068815695"/>
+    </inertial>
   </link>
   <joint name="arm_right_2_joint" type="revolute">
     <parent link="TIAGo_right_arm"/>
@@ -1270,6 +1425,11 @@
         <cylinder radius="0.053" length="0.057"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.025071 0 0.016069" rpy="0 0 0"/>
+      <mass value="1.800397"/>
+      <inertia ixx="0.0024579363" ixy="0" ixz="-0.00074789365" iyy="0.0034638802" iyz="0" izz="0.003492284"/>
+    </inertial>
   </link>
   <joint name="arm_right_3_joint" type="revolute">
     <parent link="arm_right_2_link"/>
@@ -1303,6 +1463,11 @@
         <cylinder radius="0.056" length="0.056"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.003612 0.007911 -0.306679" rpy="0 0 0"/>
+      <mass value="2.343502"/>
+      <inertia ixx="0.015503208" ixy="-0.00019966648" ixz="0.0007653882" iyy="0.015523036" iyz="0.0013586762" izz="0.0035784696"/>
+    </inertial>
   </link>
   <joint name="arm_right_4_joint" type="revolute">
     <parent link="arm_right_3_link"/>
@@ -1336,6 +1501,11 @@
         <cylinder radius="0.052" length="0.191"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.070659 0.014676 -0.005967" rpy="0 0 0"/>
+      <mass value="1.432697"/>
+      <inertia ixx="0.0021171696" ixy="-0.00043773794" ixz="-0.0007052539" iyy="0.006867458" iyz="-0.00013649893" izz="0.006893224"/>
+    </inertial>
   </link>
   <joint name="arm_right_5_joint" type="revolute">
     <parent link="arm_right_4_link"/>
@@ -1381,6 +1551,11 @@
         <cylinder radius="0.053" length="0.06"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.090942" rpy="0 0 0"/>
+      <mass value="1.655819"/>
+      <inertia ixx="0.005632084" ixy="0" ixz="0" iyy="0.005632084" iyz="0" izz="0.0028297992"/>
+    </inertial>
   </link>
   <joint name="arm_right_6_joint" type="revolute">
     <parent link="arm_right_5_link"/>
@@ -1402,6 +1577,11 @@
         <cylinder radius="0.0226" length="0.013"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="-0.0409 0 0" rpy="0 0 0"/>
+      <mass value="0.370063"/>
+      <inertia ixx="9.4506686e-05" ixy="0" ixz="1.5442751e-10" iyy="5.2465064e-05" iyz="0" izz="5.2465064e-05"/>
+    </inertial>
   </link>
   <joint name="arm_right_7_joint" type="revolute">
     <parent link="arm_right_6_link"/>
@@ -1423,6 +1603,11 @@
         <cylinder radius="0.0225" length="0.0157"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.055" rpy="0 0 0"/>
+      <mass value="0.234"/>
+      <inertia ixx="3.442218e-05" ixy="0" ixz="0" iyy="3.442218e-05" iyz="0" izz="5.923125e-05"/>
+    </inertial>
   </link>
   <link name="wrist_right_ft_tool_link">
     <visual>
@@ -1437,6 +1622,11 @@
         <cylinder radius="0.0253" length="0.011"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="3.200449e-05" ixy="0" ixz="1.19400525e-08" iyy="1.7010583e-05" iyz="0" izz="1.7010592e-05"/>
+    </inertial>
   </link>
   <joint name="arm_right_7_link_wrist_right_ft_tool_link_joint" type="fixed">
     <parent link="arm_right_7_link"/>
@@ -1504,6 +1694,11 @@
         <box size="0.106 0.056 0.071"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 -0.044052" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="0.0013559479" ixy="-6.446474e-05" ixz="1.4931141e-09" iyy="0.0017123665" iyz="0" izz="0.0011037927"/>
+    </inertial>
   </link>
   <joint name="wrist_right_ft_tool_link_right_joint" type="fixed">
     <parent link="wrist_right_ft_tool_link"/>
@@ -1554,6 +1749,11 @@
         <box size="0.03213 0.02959 0.01487"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.00064 0.005119 -0.152186" rpy="0 0 0"/>
+      <mass value="0.10998"/>
+      <inertia ixx="0.00018367989" ixy="3.8747908e-06" ixz="1.7600378e-05" iyy="0.00016563966" iyz="-2.5160823e-05" izz="3.08497e-05"/>
+    </inertial>
   </link>
   <joint name="right_hand_gripper_left_finger_joint" type="prismatic">
     <parent link="right"/>
@@ -1599,6 +1799,11 @@
         <box size="0.03213 0.02959 0.01487"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0.00064 0.005119 -0.152186" rpy="0 0 0"/>
+      <mass value="0.10998"/>
+      <inertia ixx="0.00018367989" ixy="3.8747908e-06" ixz="1.7600378e-05" iyy="0.00016563966" iyz="-2.5160823e-05" izz="3.08497e-05"/>
+    </inertial>
   </link>
   <link name="cap screw(19)_5">
   </link>
