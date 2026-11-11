@@ -2925,6 +2925,51 @@ void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const W
   }
 }
 
+void WbSolid::exportUrdfInertial(WbWriter &writer) const {
+  if (!isDynamic() || !mOdeMass || mOdeMass->mass <= 0.0)
+    return;
+
+  // mOdeMass is the mass simulated by ODE: its center of mass is expressed in the solid frame and its inertia matrix is
+  // computed about the origin of the solid frame, while URDF expects the inertia matrix about the center of mass
+  const double m = mOdeMass->mass;
+  const WbVector3 c(mOdeMass->c[0], mOdeMass->c[1], mOdeMass->c[2]);
+  const dReal *const I = mOdeMass->I;                                 // 3x4 matrix
+  double inertia[6] = {I[0] - m * (c.y() * c.y() + c.z() * c.z()),    // ixx
+                       I[1] + m * c.x() * c.y(),                      // ixy
+                       I[2] + m * c.x() * c.z(),                      // ixz
+                       I[5] - m * (c.x() * c.x() + c.z() * c.z()),    // iyy
+                       I[6] + m * c.y() * c.z(),                      // iyz
+                       I[10] - m * (c.x() * c.x() + c.y() * c.y())};  // izz
+  // remove the round-off errors of the products of inertia
+  const double scale = fabs(inertia[0]) + fabs(inertia[3]) + fabs(inertia[5]);
+  for (const int i : {1, 2, 4}) {
+    if (fabs(inertia[i]) < 1e-12 * scale)
+      inertia[i] = 0.0;
+  }
+
+  writer.increaseIndent();
+  writer.indent();
+  writer << "<inertial>\n";
+  writer.increaseIndent();
+  writer.indent();
+  writer << QString("<origin xyz=\"%1\" rpy=\"0 0 0\"/>\n")
+              .arg((c + writer.urdfLinkOffset(this)).toString(WbPrecision::FLOAT_ROUND_6));
+  writer.indent();
+  writer << QString("<mass value=\"%1\"/>\n").arg(WbPrecision::doubleToString(m, WbPrecision::FLOAT_MAX));
+  writer.indent();
+  writer << QString("<inertia ixx=\"%1\" ixy=\"%2\" ixz=\"%3\" iyy=\"%4\" iyz=\"%5\" izz=\"%6\"/>\n")
+              .arg(WbPrecision::doubleToString(inertia[0], WbPrecision::FLOAT_MAX))
+              .arg(WbPrecision::doubleToString(inertia[1], WbPrecision::FLOAT_MAX))
+              .arg(WbPrecision::doubleToString(inertia[2], WbPrecision::FLOAT_MAX))
+              .arg(WbPrecision::doubleToString(inertia[3], WbPrecision::FLOAT_MAX))
+              .arg(WbPrecision::doubleToString(inertia[4], WbPrecision::FLOAT_MAX))
+              .arg(WbPrecision::doubleToString(inertia[5], WbPrecision::FLOAT_MAX));
+  writer.decreaseIndent();
+  writer.indent();
+  writer << "</inertial>\n";
+  writer.decreaseIndent();
+}
+
 bool WbSolid::exportNodeHeader(WbWriter &writer) const {
   if (writer.isUrdf()) {
     const bool ret = WbMatter::exportNodeHeader(writer);
@@ -2975,6 +3020,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
           }
         }
       }
+      exportUrdfInertial(writer);
     }
     return ret;
   }

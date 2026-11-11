@@ -2,6 +2,7 @@
 
 ## Webots R2025b
   - Enhancements
+    - Added the mass, center of mass and inertia matrix of the [Solid](solid.md) nodes having a [Physics](physics.md) node to the URDF export (`wb_robot_get_urdf`) ([#7095](https://github.com/cyberbotics/webots/pull/7095)).
     - Added support for Ubuntu 26.04 "Resolute Raccoon" ([#7014](https://github.com/cyberbotics/webots/pull/7014)).
     - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
