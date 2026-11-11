@@ -296,6 +296,11 @@ WbVector3 WbSliderJoint::anchor() const {
 
 void WbSliderJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
+    if (solidReference()) {
+      this->warn("Exporting a Joint node with a SolidReference endpoint to URDF is not supported.");
+      return;
+    }
+
     const WbNode *const parentRoot = findUrdfLinkRoot();
     WbVector3 translation, rotationAxis, eulerRotation;
     if (!computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation))
