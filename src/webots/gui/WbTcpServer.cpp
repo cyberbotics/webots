@@ -335,14 +335,26 @@ void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString 
   else if (streamerFiles.contains(url))
     filePath = WbStandardPaths::resourcesWebPath() + "streaming_viewer/" + url;
   else if (url.startsWith("robot_windows/generic/"))
-    filePath = WbStandardPaths::resourcesProjectsPath() + "plugins/" + url;
+    filePath = filePathInDirectory(WbStandardPaths::resourcesProjectsPath() + "plugins/", url);
   else if (url.startsWith("robot_windows/"))
-    filePath = WbProject::current()->pluginsPath() + url;
+    filePath = filePathInDirectory(WbProject::current()->pluginsPath(), url);
   else if (url.startsWith("~WEBOTS_HOME/"))
-    filePath = WbStandardPaths::webotsHomePath() + url.mid(13);
+    filePath = filePathInDirectory(WbStandardPaths::webotsHomePath(), url.mid(13));
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
-    filePath = WbStandardPaths::webotsHomePath() + url;
+    filePath = filePathInDirectory(WbStandardPaths::webotsHomePath(), url);
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
+}
+
+// Returns the path of the file a URL designates in a directory, or an empty string for a URL leading out of this
+// directory by its ".." segments. The port is open to the network, and only the directories named above are to be read
+// through it, not any file of the user that has an extension WbHttpReply::mimeType() knows. A browser resolves these
+// segments before it sends its request, so that no page is refused its files here.
+QString WbTcpServer::filePathInDirectory(const QString &directory, const QString &url) {
+  QString root = QDir::cleanPath(directory);
+  if (!root.endsWith('/'))
+    root += '/';
+  const QString filePath = QDir::cleanPath(root + url);
+  return filePath.startsWith(root) ? filePath : QString();
 }
 
 void WbTcpServer::onNewWebSocketConnection() {
