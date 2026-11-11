@@ -19,6 +19,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed the robot window logging a "WebSocket error: Unknown message received" for every empty line of a message from the streaming server.
     - Fixed the W3D export leaving out empty `Group`, `Pose` and `Solid` nodes, so that a node a supervisor inserted into one of them while streaming landed at the root of the web viewer's scene.
     - Fixed the streaming server refusing `.w3d`, `.wasm`, `.data` and `.json` files under `robot_windows/`.
     - Fixed the `webots-controller` launcher ending with 0 on Windows whatever the controller ended with, and when the controller could not be started.
