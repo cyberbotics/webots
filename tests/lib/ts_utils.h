@@ -120,29 +120,10 @@ void ts_v_send_error_and_exit(const char *error_format, va_list args) {
 
 // please use rather the assertion tests that this function
 void ts_send_error_and_exit(const char *error_format, ...) {
-  assert(ts_setup_done);
   va_list args;
-
   va_start(args, error_format);
-  // write the result to the file
-  if (!ts_disable_output_log_flag) {
-    FILE *f = fopen(ts_results_filename, "a");
-    fprintf(f, "FAILURE with %s: ", ts_test_name);
-    vfprintf(f, error_format, args);
-    fprintf(f, "\n");
-    fclose(f);
-  }
-
-  // write the result to the console
-  printf("FAILURE with %s: ", ts_test_name);
-  vprintf(error_format, args);
-  printf("\n");
-
-  // cleanup
+  ts_v_send_error_and_exit(error_format, args);  // exits, and copies args to print them twice
   va_end(args);
-  ts_notify_controller_status(false);
-  wb_robot_cleanup();
-  exit(EXIT_FAILURE);
 }
 
 #endif
