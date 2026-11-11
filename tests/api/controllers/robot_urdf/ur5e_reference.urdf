@@ -297,6 +297,16 @@
     </collision>
   </link>
   <link name="track">
+    <visual>
+      <geometry>
+        <box size="0.3 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.3 0.1 0.1"/>
+      </geometry>
+    </collision>
   </link>
   <joint name="wrist_3_link_track_joint" type="fixed">
     <parent link="wrist_3_link"/>
