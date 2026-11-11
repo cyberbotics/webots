@@ -581,6 +581,16 @@
     <origin xyz="0.013 0.02 0.118" rpy="0.523599 0 0"/>
   </joint>
   <link name="button 7">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -593,6 +603,16 @@
     <origin xyz="0.050302 0.042999 0.02965" rpy="-1.570796 0 2.28"/>
   </joint>
   <link name="button 6">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -605,6 +625,16 @@
     <origin xyz="0.064201 0.015645 0.02965" rpy="-1.570796 0 1.8"/>
   </joint>
   <link name="button 5">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -617,6 +647,16 @@
     <origin xyz="0.064216 -0.015083 0.02965" rpy="-1.570796 0 1.309"/>
   </joint>
   <link name="button 4">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -629,6 +669,16 @@
     <origin xyz="0.050259 -0.043265 0.02965" rpy="-1.570796 0 0.9163"/>
   </joint>
   <link name="button 3">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -641,6 +691,16 @@
     <origin xyz="-0.05053 -0.043194 0.02965" rpy="-1.570796 0 2.28"/>
   </joint>
   <link name="button 2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -653,6 +713,16 @@
     <origin xyz="-0.064201 -0.015644 0.02965" rpy="-1.570796 0 1.8"/>
   </joint>
   <link name="button 1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>
@@ -665,6 +735,16 @@
     <origin xyz="-0.064313 0.015109 0.02965" rpy="-1.570796 0 1.309"/>
   </joint>
   <link name="button 0">
+    <visual>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.007" length="0.005"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.0007696902"/>

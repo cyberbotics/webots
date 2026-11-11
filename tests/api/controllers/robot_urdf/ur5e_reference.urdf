@@ -327,6 +327,16 @@
     </inertial>
   </link>
   <link name="track">
+    <visual>
+      <geometry>
+        <box size="0.3 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.3 0.1 0.1"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="3"/>
