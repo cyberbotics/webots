@@ -57,15 +57,17 @@
     - SVG files are now served with the `image/svg+xml` MIME type instead of being rejected as an unsupported file type, so robot windows can use SVG images ([#7007](https://github.com/cyberbotics/webots/pull/7007)).
     - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
     - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
-    - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
-    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
-    - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
+    - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/pull/7023)).
+    - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025)).
+    - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028)).
     - Fixed `wb_motor_set_torque` on `BallJoint` motors (assertion failure in debug builds, undefined behavior in release builds), including joints attached to a `Solid` without `physics` ([#7054](https://github.com/cyberbotics/webots/pull/7054)).
     - Fixed `Robot.getDevice` and `Robot.getDeviceByIndex` in the Python controller failing for devices added after the controller started, for example by a Supervisor import ([#7034](https://github.com/cyberbotics/webots/pull/7034)).
     - Fixed a bug preventing Webots from opening its TCP server on macOS 27, where every port was incorrectly reported as already in use ([#7032](https://github.com/cyberbotics/webots/pull/7032)).
     - Fixed duplicate light-intensity scaling in PBR diffuse lighting so it scales linearly with light intensity, with and without shadows ([#7036](https://github.com/cyberbotics/webots/pull/7036)).
       - **Existing scenes tuned around the previous response may need lighting adjustments when using intensities other than 0 or 1.**
     - Fixed false-positive warning about `fieldOfView` modification when updating `projection` of a `Lidar` node ([#7056](https://github.com/cyberbotics/webots/pull/7056)).
+    - Controllers now correctly keep track of nodes for which pose tracking is enabled against multiple reference nodes ([#7066](https://github.com/cyberbotics/webots/pull/7066)).
+    - Supervisors now correctly apply the sampling period for pose tracking and contact point tracking ([#7066](https://github.com/cyberbotics/webots/pull/7066)).
     - Fixed `Lidar.getLayerRangeImage` and `Lidar.getRangeImageArray` in the Python controller returning the first layer for every layer ([#7070](https://github.com/cyberbotics/webots/pull/7070)).
     - Fixed the joint positions of the Franka Emika `Panda` robot: the initial `position` of joints 4 and 5 did not match the pose of the links, so the joint angles did not follow Franka's kinematic convention ([#7078](https://github.com/cyberbotics/webots/pull/7078)).
       - **The joint 4 and 5 position sensor values of the Panda are now shifted by +0.1708 rad and +1.6 rad respectively: controllers commanding these joints with positions tuned to the previous values need to be updated.**

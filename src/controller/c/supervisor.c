@@ -327,14 +327,23 @@ static void remove_proto_from_list(WbProtoRef proto) {
 static void remove_node_from_list(int uid) {
   WbNodeRef node = find_node_by_id(uid);
   if (node) {  // make sure this node is in the list
-    WbPoseStruct **pose_entry = &pose_collection;
-    while (*pose_entry) {
-      if ((*pose_entry)->from_node == node || (*pose_entry)->to_node == node) {
-        WbPoseStruct *removed_entry = *pose_entry;
-        *pose_entry = removed_entry->next;
+    // Remove any pose entries that reference this node
+    WbPoseStruct *pose_entry = pose_collection;
+    WbPoseStruct *previous_pose_entry = NULL;
+    while (pose_entry) {
+      if (pose_entry->from_node == node || pose_entry->to_node == node) {
+        WbPoseStruct *removed_entry = pose_entry;
+        pose_entry = removed_entry->next;
         free(removed_entry);
-      } else
-        pose_entry = &(*pose_entry)->next;
+
+        if (previous_pose_entry)
+          previous_pose_entry->next = pose_entry;
+        else
+          pose_collection = pose_entry;
+      } else {
+        previous_pose_entry = pose_entry;
+        pose_entry = pose_entry->next;
+      }
     }
 
     // look for the previous node in the list
@@ -1223,13 +1232,14 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int from_node_id = request_read_int32(r);
       const int to_node_id = request_read_int32(r);
       double *node_pose = NULL;
-      if (pose_requested && pose.to_node->id == to_node_id &&
-          ((!pose.from_node && !from_node_id) || pose.from_node->id == from_node_id))
+      const int requested_from_node_id = pose.from_node ? pose.from_node->id : 0;
+      if (pose_requested && pose.to_node->id == to_node_id && requested_from_node_id == from_node_id)
         node_pose = pose.pose;
       else {
         WbPoseStruct *tmp_pose = pose_collection;
         while (tmp_pose) {
-          if (tmp_pose->to_node->id == to_node_id && (!tmp_pose->from_node || tmp_pose->from_node->id == from_node_id)) {
+          const int entry_from_node_id = tmp_pose->from_node ? tmp_pose->from_node->id : 0;
+          if (tmp_pose->to_node->id == to_node_id && entry_from_node_id == from_node_id) {
             node_pose = tmp_pose->pose;
             tmp_pose->last_update = wb_robot_get_time();
             break;
@@ -3073,6 +3083,7 @@ void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampl
   robot_mutex_lock();
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
+  contact_point_change_tracking.sampling_period = sampling_period;
   contact_point_change_tracking.enable = true;
   contact_point_change_tracking.include_descendants = include_descendants;
   node->contact_points[descendants].last_update = -DBL_MAX;
@@ -3186,23 +3197,32 @@ void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period
   pose_change_tracking_requested = true;
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
+  pose_change_tracking.sampling_period = sampling_period;
   pose_change_tracking.enable = true;
 
-  // Create a new pose item
-  WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
-  new_pose->from_node = from_node;
-  new_pose->to_node = node;
-  new_pose->next = NULL;
-  new_pose->last_update = -DBL_MAX;
+  // Check if pose tracking is already enabled
+  // If so, we only need to update the sampling period by sending a message to Webots
+  bool pose_entry_exists = false;
+  WbPoseStruct *pose_entry = pose_collection;
+  while (pose_entry) {
+    if (pose_entry->from_node == from_node && pose_entry->to_node == node) {
+      pose_entry_exists = true;
+      break;
+    }
 
-  // Add the pose to the list
-  if (!pose_collection)
+    pose_entry = pose_entry->next;
+  }
+
+  if (!pose_entry_exists) {
+    // Create a new pose item
+    WbPoseStruct *const new_pose = malloc(sizeof(WbPoseStruct));
+    new_pose->from_node = from_node;
+    new_pose->to_node = node;
+    new_pose->last_update = -DBL_MAX;
+
+    // Add the pose to the list
+    new_pose->next = pose_collection;
     pose_collection = new_pose;
-  else {
-    WbPoseStruct *tmp_pose = pose_collection;
-    while (tmp_pose->next)
-      tmp_pose = tmp_pose->next;
-    tmp_pose->next = new_pose;
   }
 
   assert(pose_collection);
@@ -3229,6 +3249,35 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
   }
 
   robot_mutex_lock();
+
+  // Delete the relevant pose entry from the list
+  bool found = false;
+  WbPoseStruct *pose_entry = pose_collection;
+  WbPoseStruct *previous_pose_entry = NULL;
+  while (pose_entry) {
+    if (pose_entry->from_node == from_node && pose_entry->to_node == node) {
+      WbPoseStruct *removed_entry = pose_entry;
+      pose_entry = removed_entry->next;
+      free(removed_entry);
+      found = true;
+
+      if (previous_pose_entry)
+        previous_pose_entry->next = pose_entry;
+      else
+        pose_collection = pose_entry;
+    } else {
+      previous_pose_entry = pose_entry;
+      pose_entry = pose_entry->next;
+    }
+  }
+
+  // Pose tracking was never enabled for this node
+  if (!found) {
+    fprintf(stderr, "Error: %s() called for a node that is not being tracked.\n", __FUNCTION__);
+    robot_mutex_unlock();
+    return;
+  }
+
   pose_change_tracking.node = node;
   pose_change_tracking.from_node = from_node;
   pose_change_tracking.enable = false;

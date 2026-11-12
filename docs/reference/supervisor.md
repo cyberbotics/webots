@@ -957,8 +957,10 @@ The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
+A value of `0` means that the pose data will be sent at every simulation step.
 Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Pose](pose.md) node (or a derived node).
-If the `from_node` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
+If the `from_node` argument is null or it is invalid, it returns the absolute pose of the node in the global coordinate system.
+If `wb_supervisor_node_enable_pose_tracking` is called for an already-tracked `node`-`from_node` combination, the sampling period of the tracking will be updated.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
 Both the node and the `from_node` arguments should match the ones passed to the `wb_supervisor_node_enable_pose_tracking` to successfully disable the tracking.
@@ -1137,6 +1139,8 @@ The `size` argument is an output argument and it returns a number of contact poi
 The `wb_supervisor_node_enable_contact_points_tracking` function forces Webots to stream contact points data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
 The `sampling_period` argument determines how often the contact points data should be sent to the controller.
+A value of `0` means that the contact points data will be sent at every simulation step.
+If `wb_supervisor_node_enable_contact_points_tracking` is called for an already-tracked `node`, the sampling period and descendant-inclusion of the tracking will be updated.
 
 The `wb_supervisor_node_disable_contact_points_tracking` function disables contact points data tracking.
 
