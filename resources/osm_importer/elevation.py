@@ -146,7 +146,7 @@ class Elevation(object):
 
         self.floorString = ""
         self.floorString += "DEF FLOOR Solid {\n"
-        self.floorString += "  translation %.2f %.2f 0\n" % (-Ydiff / 2, -Xdiff / 2)
+        self.floorString += "  translation %.2f %.2f 0\n" % (-Xdiff / 2, -Ydiff / 2)
         self.floorString += "  children [\n"
         self.floorString += "    DEF FLOOR_SHAPE Shape {\n"
         self.floorString += "      appearance PBRAppearance {\n"
@@ -164,16 +164,16 @@ class Elevation(object):
         self.floorString += "      }\n"
         self.floorString += "      geometry ElevationGrid {\n"
         self.floorString += "        height [\n"
-        for x in reversed(range(0, xDiv + 1)):
+        for y in range(0, yDiv + 1):
             self.floorString += "        "
-            for y in reversed(range(0, yDiv + 1)):
+            for x in reversed(range(0, xDiv + 1)):
                 self.floorString += str(result[x + y * (xDiv + 1)]) + " "
             self.floorString += "\n"
         self.floorString += "        ]\n"
-        self.floorString += "        xDimension " + str(yDiv + 1) + "\n"
-        self.floorString += "        xSpacing " + str(self.yStep) + "\n"
-        self.floorString += "        yDimension " + str(xDiv + 1) + "\n"
-        self.floorString += "        ySpacing " + str(self.xStep) + "\n"
+        self.floorString += "        xDimension " + str(xDiv + 1) + "\n"
+        self.floorString += "        xSpacing " + str(self.xStep) + "\n"
+        self.floorString += "        yDimension " + str(yDiv + 1) + "\n"
+        self.floorString += "        ySpacing " + str(self.yStep) + "\n"
         self.floorString += "      }\n"
         self.floorString += "    }\n"
         self.floorString += "  ]\n"
@@ -189,14 +189,13 @@ class Elevation(object):
                     'height': result[x + y * (xDiv + 1)]
                 })
 
-    def interpolate_height(self, Y, X):
+    def interpolate_height(self, X, Y):
         """Interpolate the height at a given position."""
         xMinus = -float('inf')
         yMinus = -float('inf')
         xPlus = float('inf')
         yPlus = float('inf')
         heights = [0, 0, 0, 0]
-        Y = -Y
         # get the 'boundary' box:
         #        yMinus
         #        0---1
@@ -219,6 +218,16 @@ class Elevation(object):
                 if currentY < yPlus:
                     yPlus = currentY
 
+        # At the minimum grid edge, use the cell on its positive side.
+        if xMinus == -float('inf') and X == xPlus:
+            xMinus = xPlus
+            xPlus = min(e['x'] for e in self.elevationArray if e['x'] > X)
+        if yMinus == -float('inf') and Y == yPlus:
+            yMinus = yPlus
+            yPlus = min(e['y'] for e in self.elevationArray if e['y'] > Y)
+        if not all(math.isfinite(v) for v in (xMinus, xPlus, yMinus, yPlus)):
+            return 0
+
         for elevation in self.elevationArray:
             if elevation['x'] == xMinus and elevation['y'] == yMinus:
                 heights[0] = elevation['height']
@@ -229,15 +238,14 @@ class Elevation(object):
             elif elevation['x'] == xPlus and elevation['y'] == yPlus:
                 heights[2] = elevation['height']
 
-        # compute the ration to determine in which of the two triangle of the box the point lies
-        ratio1 = (yPlus - yMinus) / (xPlus - xMinus)
-        ratio2 = (Y - yMinus) / (X - xMinus)
+        # Determine the triangle without dividing by zero on the minimum X edge.
+        belowDiagonal = (Y - yMinus) * (xPlus - xMinus) < (X - xMinus) * (yPlus - yMinus)
 
         # use a barycentric coordinate system in order to interpolate the value in the triangle
         # http://en.wikipedia.org/wiki/Barycentric_coordinate_system
         x1 = xMinus
         y1 = yMinus
-        if ratio2 < ratio1:    # use triangle 0-1-2
+        if belowDiagonal:    # use triangle 0-1-2
             x2 = xPlus
             x3 = xPlus
             y2 = yMinus
@@ -251,7 +259,7 @@ class Elevation(object):
         lambda1 = ((y2 - y3) * (X - x3) + (x3 - x2) * (Y - y3)) / denominator
         lambda2 = ((y3 - y1) * (X - x3) + (x1 - x3) * (Y - y3)) / denominator
         lambda3 = 1 - lambda1 - lambda2
-        if ratio2 < ratio1:
+        if belowDiagonal:
             height = lambda1 * heights[0] + lambda2 * heights[1] + lambda3 * heights[2]
         else:
             height = lambda1 * heights[0] + lambda2 * heights[2] + lambda3 * heights[3]
