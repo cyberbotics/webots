@@ -1,4 +1,4 @@
-// Copyright 1996-2024 Cyberbotics Ltd.
+// Copyright 1996-2025 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ namespace wren {
     virtual const std::vector<Mesh::Triangle> &triangles() const = 0;
     virtual const Triangle &triangle(size_t index) const = 0;
 
-    void setup();
+    virtual void setup();
     virtual void bind() = 0;
     virtual void release() = 0;
     virtual void render(unsigned int drawingMode) = 0;
