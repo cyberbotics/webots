@@ -63,9 +63,10 @@ void WbW3dStreamingServer::create(int port) {
 void WbW3dStreamingServer::sendTcpRequestReply(const QString &url, const QString &etag, const QString &host,
                                                QTcpSocket *socket) {
   const QString decodedUrl = QUrl::fromPercentEncoding(url.toUtf8());
-  QFileInfo file(WbProject::current()->dir().absolutePath() + "/" + decodedUrl);
-  if (file.exists())
-    socket->write(WbHttpReply::forgeFileReply(file.absoluteFilePath(), etag, host, decodedUrl));
+  // the files of the project directory are served whatever their extension, but no file out of it
+  const QString filePath = filePathInDirectory(WbProject::current()->dir().absolutePath(), decodedUrl);
+  if (!filePath.isEmpty() && QFileInfo::exists(filePath))
+    socket->write(WbHttpReply::forgeFileReply(filePath, etag, host, decodedUrl));
   else
     WbTcpServer::sendTcpRequestReply(url, etag, host, socket);
 }

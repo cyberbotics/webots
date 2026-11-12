@@ -8,6 +8,7 @@ Released on ??.
     - Added model of the [Robolab](https://robolab.unex.es/)'s P3Bot robot and two sample worlds ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
     - Added [Kinova Gen3 7DoF](https://www.kinovarobotics.com/product/gen3-robot) manipulator ([#5973](https://github.com/cyberbotics/webots/pull/6919)).
   - Enhancements
+    - Added the mass, center of mass and inertia matrix of the [Solid](solid.md) nodes having a [Physics](physics.md) node to the URDF export (`wb_robot_get_urdf`) ([#7095](https://github.com/cyberbotics/webots/pull/7095)).
     - Added support for Ubuntu 26.04 "Resolute Raccoon" ([#7014](https://github.com/cyberbotics/webots/pull/7014)).
     - Added proper `Accelerometer` and `Gyro` nodes for the KHR-3HV robot ([#6959](https://github.com/cyberbotics/webots/pull/6959)).
     - `WbCamera`, `WbContactProperties`, `WbMotor`, and `WbSkin` will now locally-download their resources if-necessary (like other nodes) when steaming or exporting to `w3d` ([#6856](https://github.com/cyberbotics/webots/pull/6856)).
@@ -27,9 +28,16 @@ Released on ??.
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed the URDF export (`wb_robot_get_urdf`) ignoring a geometry set directly as `boundingObject`, exporting a `SliderJoint` with a `SolidReference` end point as a second parent of the referenced link, and giving tilted cameras a wrong orientation ([#7096](https://github.com/cyberbotics/webots/pull/7096)).
+    - Fixed the robot window logging a "WebSocket error: Unknown message received" for every empty line of a message from the streaming server.
+    - Fixed the W3D export leaving out empty `Group`, `Pose` and `Solid` nodes, so that a node a supervisor inserted into one of them while streaming landed at the root of the web viewer's scene.
+    - Fixed the streaming server refusing `.w3d`, `.wasm`, `.data` and `.json` files under `robot_windows/`.
+    - Fixed the HTTP server of Webots serving files located outside of the robot window, Webots and project directories when the URL of the request contains `..` ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
+    - Fixed the `webots-controller` launcher ending with 0 on Windows whatever the controller ended with, and when the controller could not be started.
     - Fixed the URDF export (`wb_robot_get_urdf`) using the current joint positions as the zero position of the joints, and misplacing the joints and collision shapes of links having several child links or a joint inside rotated `Pose` nodes, and exporting wrong rotations at a pitch of ±90° ([#7091](https://github.com/cyberbotics/webots/pull/7091)).
     - Fixed devices added to a running robot causing the controller to show the robot window ([#1](https://github.com/CR3op/webots/pull/1)).
     - Fixed Webots crashing when a supervisor gets, sets, inserts or removes a field value of a node that was removed or regenerated, or at an index another supervisor removed ([#7080](https://github.com/cyberbotics/webots/pull/7080)).
+    - Fixed `Lidar.getPointCloud` and `Lidar.getLayerPointCloud` in the Python controller crashing the controller process when no point cloud is available (before the first step or when the point cloud is disabled); they and `Lidar.getRangeImage`, `Lidar.getRangeImageArray` and `Lidar.getLayerRangeImage` now return `None` in that case, and the point cloud methods accept the documented `data_type` argument again ([#7082](https://github.com/cyberbotics/webots/pull/7082)).
     - Fixed `Supervisor.virtualRealityHeadsetGetPosition` and `Supervisor.virtualRealityHeadsetGetOrientation` in the Python controller returning a null pointer instead of the headset position and orientation ([#7081](https://github.com/cyberbotics/webots/pull/7081)).
     - Fixed `Camera.getImageArray` and `Camera.getRecognitionSegmentationImageArray` in the Python controller returning pixels in the wrong order for `image[x][y]` ([#7071](https://github.com/cyberbotics/webots/pull/7071)).
     - Fixed `Lidar` `minRange` changes not taking effect in the range image while the simulation is running ([#7069](https://github.com/cyberbotics/webots/pull/7069)).

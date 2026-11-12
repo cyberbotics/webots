@@ -92,6 +92,14 @@ QString WbHttpReply::mimeType(const QString &url, bool generic) {
     return "model/mtl";
   else if (extension == "stl")
     return "model/stl";
+  else if (extension == "json")
+    return "application/json";
+  else if (extension == "w3d")  // Webots' own scene format, which the web viewer parses as XML
+    return "text/xml";
+  else if (extension == "wasm")  // the web renderer (wrenjs), which browsers compile as it arrives only under this type
+    return "application/wasm";
+  else if (extension == "data")  // the files preloaded with it (wrenjs.data)
+    return "application/octet-stream";
   else
     return generic ? "application/octet-stream" : "";  // generic binary format
 }

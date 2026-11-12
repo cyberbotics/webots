@@ -323,10 +323,6 @@ void WbGroup::monitorChildFinalization(WbBaseNode *child) {
   emit finalizedChildAdded(child);
 }
 
-bool WbGroup::shallExport() const {
-  return !mChildren->isEmpty();
-}
-
 void WbGroup::reset(const QString &id) {
   WbBaseNode::reset(id);
   WbMFNode::Iterator it(*mChildren);

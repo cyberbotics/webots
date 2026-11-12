@@ -44,7 +44,6 @@ public:
   void setScaleNeedUpdate() override;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = true) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-  bool shallExport() const override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
