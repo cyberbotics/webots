@@ -549,8 +549,17 @@ endif
 ### End ifdef MAIN_TARGET
 
 ifdef WREN
+# The web viewer calls the renderer's functions as globals (_wr_scene_init(), ...). The emscripten that
+# built the R2025a renderer declared a global for every exported function, as a wrapper that read the
+# global itself; a current one declares the globals and assigns them straight from the wasm exports, and
+# then its JS optimizer, finding nothing in the file that reads them, strips the globals out and leaves the
+# functions on Module alone, so the viewer found none of them. With DECLARE_ASM_MODULE_EXPORTS off the
+# runtime writes every export into the global scope itself when the wasm is up, under its real name
+# (emscripten keeps the names unminified for it), which no optimizer sees through. The heap view the
+# viewer reads (Module.HEAPU8, in nodes/utils/utils.js) is a runtime method as well since emscripten 4,
+# which no longer puts the views on Module unasked, so it is asked for with ccall and getValue.
 $(WREN_TARGET): $(OBJECTS_EMCC)
-	$(SILENT) em++ -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' -o wrenjs.js
+	$(SILENT) em++ -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 -s DECLARE_ASM_MODULE_EXPORTS=0 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue", "HEAPU8"]' -o wrenjs.js
 	$(SILENT) cp wrenjs.js wrenjs.wasm wrenjs.data $(WRENJS_DIR)/ > /dev/null 2>&1
 endif
 
@@ -616,9 +625,12 @@ $(BUILD_GOAL_DIR)/arm64/%.o:%.cpp
 	@echo "# compiling" $(notdir $<) "(arm64)"
 	$(SILENT)$(CXX) -c -target arm64-apple-macos12 $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
+# The flags Windows adds for every target above (-mwindows and the subsystem) are for the host's
+# linker, and clang refuses -mwindows for wasm32, so they are left out here: the web renderer is
+# built the same on every platform.
 $(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
 	@echo "# compiling with emcc " $(notdir $<)
-	$(SILENT)emcc -O3 -c $(WBCFLAGS) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(@)
+	$(SILENT)emcc -O3 -c $(filter-out -mwindows -Wl%,$(WBCFLAGS)) $(WBCXXFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(@)
 
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory
