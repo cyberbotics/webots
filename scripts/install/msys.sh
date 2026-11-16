@@ -24,3 +24,9 @@ if [[ "$1" == *"$MSYS64_HOME"/home/"$USER/"* ]]; then
 cd ${1#$MSYS64_HOME"/home/"$USER/}
 fi
 fi
+
+# MSYS2's emscripten package installs emcc and em++ outside of /ucrt64/bin, and adds their directory
+# to the PATH of a login shell, which the PATH set above replaces.
+if [ -d /ucrt64/lib/emscripten ]; then
+export PATH=$PATH:/ucrt64/lib/emscripten
+fi
