@@ -51,4 +51,5 @@ export PYTHONIOENCODING=UTF-8  # needed on some locales to avoid file read/write
 # Uncomment / edit the following environment variable when Emscripten is installed #
 ####################################################################################
 
+# export EMSDK=/ucrt64/lib/emscripten               # With the emscripten package of MSYS2: has make build the web renderer (wren.js)
 # source $HOME/emsdk/emsdk_env.sh >/dev/null 2>&1 # Activate PATH and other environment variables needed by Emscripten

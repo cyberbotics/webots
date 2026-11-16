@@ -53,6 +53,11 @@ ifneq ($(EMSDK),)
 # but it may also be installed system-wide, e.g. on macOS and Windows
 PYTHON = $(WEBOTS_DEPENDENCY_PATH)/pyclibrary-venv/bin/python3
 ifeq ($(wildcard $(PYTHON)),)
+# Where a virtual environment made by the Python of python.org keeps its interpreter, on Windows. That
+# Python is python.exe, so python3 would be MSYS2's own, to which pip cannot add pyclibrary.
+PYTHON = $(WEBOTS_DEPENDENCY_PATH)/pyclibrary-venv/Scripts/python.exe
+endif
+ifeq ($(wildcard $(PYTHON)),)
 PYTHON = python3
 endif
 
