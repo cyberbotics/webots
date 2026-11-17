@@ -34,7 +34,16 @@ ifeq ($(OSDIST), fedora)
 INCLUDE += -idirafter/usr/include
 endif
 else ifeq ($(OSTYPE),windows)
-INCLUDE += -I/ucrt64/include/freetype2 -I/ucrt64/include
+# The host's include directory comes after the compiler's own (as for Fedora above): the web renderer is
+# compiled by emscripten's clang against a sysroot of its own, whose C headers must come first, and the
+# host's directory is searched for what that sysroot has not got, assimp and freetype. The host's gcc has
+# it as a system directory anyway.
+INCLUDE += -I/ucrt64/include/freetype2 -idirafter /ucrt64/include
+# MSYS2's wasm-opt (binaryen, which em++ runs on the linked module) hangs in its thread pool: under em++
+# its main thread waits for workers that never start, and run by hand it does its passes in a second,
+# writes the module and then takes minutes to exit, or never does. On one thread it has no pool, and is
+# done in that second; so that is how it is run here (the variable is binaryen's, read by every tool).
+export BINARYEN_CORES = 1
 endif
 
 CXX_SOURCES = $(wildcard *.cpp) $(wildcard mesh/*.cpp)
