@@ -63,7 +63,9 @@ protected:
   virtual bool prepareWorld();
   virtual void connectNewRobot(const WbRobot *robot);
   virtual void sendWorldToClient(QWebSocket *client);
-  virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host, QTcpSocket *socket);
+  // answers a HTTP request: returns true if the reply is complete, so that the connection is to be closed once it is written,
+  // false if the socket is kept to write more to it later
+  virtual bool sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host, QTcpSocket *socket);
   virtual void addNewTcpController(QTcpSocket *socket);
   virtual void propagateNodeDeletion(WbNode *node);
 
