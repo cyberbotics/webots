@@ -251,6 +251,13 @@ void WbTcpServer::onNewTcpData() {
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
     sendTcpRequestReply(tokens[1].startsWith("/") ? tokens[1].sliced(1) : tokens[1], etag, host, socket);
+    // One request per connection: the request above was peeked, not read. It stays at the head of the socket buffer until
+    // the QWebSocketServer this socket was handed to (see onNewTcpConnection()) discards it and closes the socket, which
+    // happens later, from the event loop. If the client sent its next request on this connection before that (a browser
+    // loading a page does, as soon as it got the previous reply), the request peeked here would be the previous one
+    // again, and the client would be answered the previous file: this was observed when several requests came in at the
+    // same time. So nothing more is answered on this socket, and the replies say "Connection: close" (see WbHttpReply).
+    disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
   }
 }
 
