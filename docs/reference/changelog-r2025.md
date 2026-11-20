@@ -20,6 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed the streaming server discarding the changes of fields that were not sent to the web viewers yet whenever a node was added to the world: when a supervisor set the translation of a node and then imported another node in the same step, the web viewer went on drawing the first one where it was.
     - Fixed Webots closing the connection of the remote (TCP) extern controllers and of the MJPEG streams after 10 seconds on Windows, where it is built with Qt 6.11.1 or later ([#7106](https://github.com/cyberbotics/webots/pull/7106)).
     - Fixed Webots crashing when a client sent only `GET` to its TCP port, and its HTTP server answering a request it had only received the beginning of ([#7106](https://github.com/cyberbotics/webots/pull/7106)).
     - Fixed the HTTP server of Webots answering a request with the previously requested file when a client sent several requests on the same connection, which could leave the web viewer or a robot window partially loaded when several files were requested at the same time ([#7105](https://github.com/cyberbotics/webots/pull/7105)).
