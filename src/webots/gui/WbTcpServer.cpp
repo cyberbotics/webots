@@ -51,6 +51,9 @@
 
 WbMainWindow *WbTcpServer::cMainWindow = NULL;
 
+// A HTTP request whose header is longer than this is not answered.
+static const int MAXIMUM_HTTP_HEADER_SIZE = 64 * 1024;
+
 static bool isPortInUse(const QHostAddress &address, int port) {
   QTcpSocket socket;
   socket.connectToHost(address, port);
@@ -225,33 +228,69 @@ void WbTcpServer::closeClient(const QString &clientID) {
 void WbTcpServer::onNewTcpConnection() {
   QTcpSocket *socket = mTcpServer->nextPendingConnection();
   if (socket) {
-    mWebSocketServer->handleConnection(socket);
     connect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+    connect(socket, &QTcpSocket::disconnected, socket, &QObject::deleteLater);
   }
+}
+
+// Returns true if the data received so far, which may be incomplete, starts with a string or is the beginning of it.
+static bool mayStartWith(const QByteArray &data, const QByteArray &start) {
+  return data.size() < start.size() ? start.startsWith(data) : data.startsWith(start);
+}
+
+// Returns the value of a field of a HTTP header given as its lines, or an empty string if the header does not have this
+// field. The names of the fields are case-insensitive.
+static QString httpHeaderField(const QStringList &lines, const QString &name) {
+  for (int i = 1; i < lines.size(); ++i) {  // the first line is the request line
+    if (lines[i].startsWith(name + ':', Qt::CaseInsensitive))
+      return lines[i].mid(name.size() + 1).trimmed();
+  }
+  return QString();
 }
 
 void WbTcpServer::onNewTcpData() {
   QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
 
-  const QByteArray request = socket->peek(3);
-  if (request == "CTR") {
+  // What the client sent is peeked, not read, until it is known who has to read it.
+  const QByteArray data = socket->peek(MAXIMUM_HTTP_HEADER_SIZE);
+  if (data.startsWith("CTR")) {
     addNewTcpController(socket);
     return;
   }
 
-  if (request != "GET")  // probably a WebSocket message
+  // Anything else has to be a HTTP GET request.
+  if (!mayStartWith(data, "GET ") && !mayStartWith(data, "CTR")) {
+    socket->close();
     return;
-  const QString &line(socket->peek(8 * 1024));  // Peek the request header to determine the requested url.
-  QStringList tokens = QString(line).split(QRegularExpression("[ \r\n][ \r\n]*"));
-  if (tokens[0] == "GET" && tokens[1] != "/") {  // "/" is reserved for the websocket.
-    const int hostIndex = tokens.indexOf("Host:") + 1;
-    const QString host = hostIndex ? tokens[hostIndex] : "";
-    const int etagIndex = tokens.indexOf("If-None-Match:") + 1;
-    const QString etag = etagIndex ? tokens[etagIndex] : "";
-    if (host.isEmpty())
-      WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].startsWith("/") ? tokens[1].sliced(1) : tokens[1], etag, host, socket);
   }
+  const int headerSize = data.indexOf("\r\n\r\n") + 4;
+  if (headerSize < 4) {  // the header may come in several parts: wait for the rest of it, unless it is too long to be one
+    if (data.size() >= MAXIMUM_HTTP_HEADER_SIZE)
+      socket->close();
+    return;
+  }
+  disconnect(socket, &QTcpSocket::readyRead, this, &WbTcpServer::onNewTcpData);
+  const QStringList lines = QString::fromUtf8(data.left(headerSize)).split("\r\n");
+
+  // Only the socket of a WebSocket client is handed to the QWebSocketServer, which reads the request itself and takes care
+  // of the socket from then on. It expects a WebSocket handshake on any socket it gets: since Qt 6.11.1, it closes the
+  // socket if this handshake did not succeed after 10 seconds, which is what happened to the extern controllers and to
+  // the multimedia streams when it was handed every socket.
+  if (httpHeaderField(lines, "Upgrade").contains("websocket", Qt::CaseInsensitive)) {
+    mWebSocketServer->handleConnection(socket);
+    return;
+  }
+
+  socket->skip(headerSize);
+  const QString target = lines[0].split(' ', Qt::SkipEmptyParts).value(1);  // empty if the request line has no target
+  const QString host = httpHeaderField(lines, "Host");
+  if (host.isEmpty())
+    WbLog::warning(tr("No host specified in HTTP header."));
+  // One request is answered per connection, and the replies say so with "Connection: close" (see WbHttpReply): the socket
+  // is closed as soon as the reply is written, and whatever else the client sent on it is ignored.
+  if (sendTcpRequestReply(target.startsWith('/') ? target.sliced(1) : target, httpHeaderField(lines, "If-None-Match"), host,
+                          socket))
+    socket->close();
 }
 
 void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
@@ -320,13 +359,13 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   return;
 }
 
-void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
+bool WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host,
                                       QTcpSocket *socket) {
   const QString url = completeUrl.left(completeUrl.lastIndexOf('?'));
   if (WbHttpReply::mimeType(url).isEmpty()) {
     WbLog::warning(tr("Unsupported file type '/%2'").arg(url));
     socket->write(WbHttpReply::forge404Reply("/" + url));
-    return;
+    return true;
   }
   QString filePath;
   static const QStringList streamerFiles = {"index.html", "setup_viewer.js", "style.css", "webots_icon.png"};
@@ -343,6 +382,7 @@ void WbTcpServer::sendTcpRequestReply(const QString &completeUrl, const QString 
   else if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html"))
     filePath = filePathInDirectory(WbStandardPaths::webotsHomePath(), url);
   socket->write(filePath.isEmpty() ? WbHttpReply::forge404Reply(url) : WbHttpReply::forgeFileReply(filePath, etag, host, url));
+  return true;
 }
 
 // Returns the path of the file a URL designates in a directory, or an empty string for a URL leading out of this

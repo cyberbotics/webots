@@ -66,12 +66,10 @@ void WbMultimediaStreamingServer::start(int port) {
   connect(&mLimiterTimer, &QTimer::timeout, this, &WbMultimediaStreamingServer::processLimiterTimeout);
 }
 
-void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host,
+bool WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host,
                                                       QTcpSocket *socket) {
-  if (requestedUrl != "mjpeg") {
-    WbTcpServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
-    return;
-  }
+  if (requestedUrl != "mjpeg")
+    return WbTcpServer::sendTcpRequestReply(requestedUrl, etag, host, socket);
   socket->readAll();
 
   static const QByteArray &contentType = ("HTTP/1.0 200 OK\r\nServer: Webots\r\nConnection: close\r\nMax-Age: 0\r\n"
@@ -89,6 +87,7 @@ void WbMultimediaStreamingServer::sendTcpRequestReply(const QString &requestedUr
 
   if (!mLimiterTimer.isActive())
     mLimiterTimer.start(1000);
+  return false;  // the images are written to this socket for as long as the client remains connected
 }
 
 int WbMultimediaStreamingServer::bytesToWrite() {
