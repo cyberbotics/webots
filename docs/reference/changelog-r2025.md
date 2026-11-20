@@ -20,14 +20,19 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed the streaming server discarding the changes of fields that were not sent to the web viewers yet whenever a node was added to the world: when a supervisor set the translation of a node and then imported another node in the same step, the web viewer went on drawing the first one where it was ([#7109](https://github.com/cyberbotics/webots/pull/7109)).
+    - Fixed Webots closing the connection of the remote (TCP) extern controllers and of the MJPEG streams after 10 seconds on Windows, where it is built with Qt 6.11.1 or later ([#7106](https://github.com/cyberbotics/webots/pull/7106)).
+    - Fixed Webots crashing when a client sent only `GET` to its TCP port, and its HTTP server answering a request it had only received the beginning of ([#7106](https://github.com/cyberbotics/webots/pull/7106)).
+    - Fixed the HTTP server of Webots answering a request with the previously requested file when a client sent several requests on the same connection, which could leave the web viewer or a robot window partially loaded when several files were requested at the same time ([#7105](https://github.com/cyberbotics/webots/pull/7105)).
     - Fixed the URDF export (`wb_robot_get_urdf`) ignoring a geometry set directly as `boundingObject`, exporting a `SliderJoint` with a `SolidReference` end point as a second parent of the referenced link, and giving tilted cameras a wrong orientation ([#7096](https://github.com/cyberbotics/webots/pull/7096)).
-    - Fixed the robot window logging a "WebSocket error: Unknown message received" for every empty line of a message from the streaming server.
-    - Fixed the W3D export leaving out empty `Group`, `Pose` and `Solid` nodes, so that a node a supervisor inserted into one of them while streaming landed at the root of the web viewer's scene.
-    - Fixed the streaming server refusing `.w3d`, `.wasm`, `.data` and `.json` files under `robot_windows/`.
+    - Fixed the robot window logging a "WebSocket error: Unknown message received" for every empty line of a message from the streaming server ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
+    - Fixed the W3D export leaving out empty `Group`, `Pose` and `Solid` nodes, so that a node a supervisor inserted into one of them while streaming landed at the root of the web viewer's scene ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
+    - Fixed the streaming server refusing `.w3d`, `.wasm`, `.data` and `.json` files under `robot_windows/` ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
     - Fixed the HTTP server of Webots serving files located outside of the robot window, Webots and project directories when the URL of the request contains `..` ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
-    - Fixed the `webots-controller` launcher ending with 0 on Windows whatever the controller ended with, and when the controller could not be started.
+    - Fixed the `webots-controller` launcher ending with 0 on Windows whatever the controller ended with, and when the controller could not be started ([#7099](https://github.com/cyberbotics/webots/pull/7099)).
+    - Fixed building the web renderer (`wrenjs`) with emscripten on Windows, and with a recent emscripten anywhere, whose renderer the web viewer could not call ([#7102](https://github.com/cyberbotics/webots/pull/7102)).
     - Fixed the URDF export (`wb_robot_get_urdf`) using the current joint positions as the zero position of the joints, and misplacing the joints and collision shapes of links having several child links or a joint inside rotated `Pose` nodes, and exporting wrong rotations at a pitch of ±90° ([#7091](https://github.com/cyberbotics/webots/pull/7091)).
-    - Fixed devices added to a running robot causing the controller to show the robot window ([#1](https://github.com/CR3op/webots/pull/1)).
+    - Fixed devices added to a running robot causing the controller to show the robot window ([#7089](https://github.com/cyberbotics/webots/pull/7089)).
     - Fixed Webots crashing when a supervisor gets, sets, inserts or removes a field value of a node that was removed or regenerated, or at an index another supervisor removed ([#7080](https://github.com/cyberbotics/webots/pull/7080)).
     - Fixed `Lidar.getPointCloud` and `Lidar.getLayerPointCloud` in the Python controller crashing the controller process when no point cloud is available (before the first step or when the point cloud is disabled); they and `Lidar.getRangeImage`, `Lidar.getRangeImageArray` and `Lidar.getLayerRangeImage` now return `None` in that case, and the point cloud methods accept the documented `data_type` argument again ([#7082](https://github.com/cyberbotics/webots/pull/7082)).
     - Fixed `Supervisor.virtualRealityHeadsetGetPosition` and `Supervisor.virtualRealityHeadsetGetOrientation` in the Python controller returning a null pointer instead of the headset position and orientation ([#7081](https://github.com/cyberbotics/webots/pull/7081)).
@@ -57,7 +62,7 @@
     - SVG files are now served with the `image/svg+xml` MIME type instead of being rejected as an unsupported file type, so robot windows can use SVG images ([#7007](https://github.com/cyberbotics/webots/pull/7007)).
     - Fixed a crash when entering a quaternion with a negative scalar and a zero vector in the rotation editor ([#7009](https://github.com/cyberbotics/webots/pull/7009)).
     - Fixed textures referenced relative to the world file not loading in web streaming, and PROTO textures not loading when Webots is reached through a path-prefixed proxy ([#7015](https://github.com/cyberbotics/webots/pull/7015)).
-    - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node. ([#7023](https://github.com/cyberbotics/webots/issues/7023)).
+    - Fixed a crash in the controller library when removing a node while pose tracking was enabled on another node ([#7023](https://github.com/cyberbotics/webots/pull/7023)).
     - Fixed Default line scale too small for joint axis ([#7025](https://github.com/cyberbotics/webots/pull/7025))
     - Fixed torque feedback on ball joints ([#7028](https://github.com/cyberbotics/webots/pull/7028))
     - Fixed `wb_motor_set_torque` on `BallJoint` motors (assertion failure in debug builds, undefined behavior in release builds), including joints attached to a `Solid` without `physics` ([#7054](https://github.com/cyberbotics/webots/pull/7054)).
@@ -81,7 +86,7 @@ Released on January 31st, 2025.
     - Removed support for macOS 11 "Big Sur" and added support for macOS 14 "Sonoma" ([#6580](https://github.com/cyberbotics/webots/pull/6580)).
     - Added the `indirectFieldAccess` tag to allow the `fields` variable to be used in proto templates without referencing a specific field ([#6614](https://github.com/cyberbotics/webots/pull/6614)).
     - Added a method to include all subtypes of a node type in a PROTO field restriction ([#6574](https://github.com/cyberbotics/webots/pull/6574)).
-    - Improved the node field query api ([#6613](https://github.com/cyberbotics/webots/issues/6613)).
+    - Improved the node field query api ([#6613](https://github.com/cyberbotics/webots/pull/6613)).
       - **Renamed the `wb_supervisor_node_get_proto_*` methods to `wb_supervisor_node_get_base_node_*`**
       - **Renamed the `proto` field in the `supervisor_node_get_field_*` ROS services to `queryBaseNode`**
       - Added the `WbProtoRef` type to the supervisor API.
@@ -122,7 +127,7 @@ Released on January 31st, 2025.
     - Fixed error on macos when when putting displays and cameras in separate windows ([#6635](https://github.com/cyberbotics/webots/pull/6635)).
     - Fixed crash when `wb_supervisor_field_get_name` was called with NULL ([#6647](https://github.com/cyberbotics/webots/pull/6647)).
     - Fixed bug where the wrong y coordinate was used for one corner of the box drawn to represent a box-plane collision ([#6677](https://github.com/cyberbotics/webots/pull/6677)).
-    - Fixed bug where the rotation axis of the omni wheel rollers were incorrect ([6710](https://github.com/cyberbotics/webots/pull/6710)).
+    - Fixed bug where the rotation axis of the omni wheel rollers were incorrect ([#6710](https://github.com/cyberbotics/webots/pull/6710)).
     - Fixed a bug where Webots would crash if a geometry was inserted into a `Shape` node used a bounding box ([#6691](https://github.com/cyberbotics/webots/pull/6691)).
     - Removed the old `wb_supervisor_field_import_sf_node` and `wb_supervisor_field_import_mf_node` functions from the list of editor autocomplete suggestions ([#6701](https://github.com/cyberbotics/webots/pull/6701)).
     - Fixed a bug preventing nodes from being inserted into unconnected proto fields ([#6735](https://github.com/cyberbotics/webots/pull/6735)).
