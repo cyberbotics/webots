@@ -237,12 +237,22 @@ void WbAnimationRecorder::propagateNodeAddition(WbNode *node) {
   if (!mStreamingServer)
     return;
 
-  populateCommands();
+  // Only the nodes that have no command yet get one. The commands of the other nodes are kept, and with them the changes
+  // that were not sent to the clients yet. Creating all the commands anew discarded these changes: when a supervisor set a
+  // field and then imported a node in the same step, to move a slot before putting a node into it for example, the clients
+  // were never told about the change of the field, and the web viewer went on drawing the slot where it was.
+  populateCommands(true);
 }
 
-void WbAnimationRecorder::populateCommands() {
-  cleanCommands();
+void WbAnimationRecorder::populateCommands(bool keepCommands) {
+  QSet<const WbNode *> nodesWithCommand;
+  if (keepCommands) {
+    foreach (const WbAnimationCommand *command, mCommands)
+      nodesWithCommand << command->node();
+  } else
+    cleanCommands();
 
+  QList<WbAnimationCommand *> newCommands;
   const WbWorld *world = WbWorld::instance();
   if (world) {
     QList<WbNode *> nodes = WbWorld::instance()->root()->subNodes(true);
@@ -252,11 +262,13 @@ void WbAnimationRecorder::populateCommands() {
         // skip updates for USE nodes
         // DEF/USE mechanism is handled in webots.min.js
         continue;
+      if (nodesWithCommand.contains(node))
+        continue;
       const QStringList fields = node->fieldsToSynchronizeWithW3d();
       if (fields.size() > 0) {
         // cppcheck-suppress constVariablePointer
         WbAnimationCommand *command = new WbAnimationCommand(node, fields, !mStreamingServer);
-        mCommands << command;
+        newCommands << command;
       }
     }
 
@@ -272,11 +284,12 @@ void WbAnimationRecorder::populateCommands() {
     }
   }
 
-  foreach (WbAnimationCommand *command, mCommands) {
+  foreach (WbAnimationCommand *command, newCommands) {
     connect(command, &WbAnimationCommand::changed, this, &WbAnimationRecorder::addChangedCommandToList);
     // support node deletions
     connect(command->node(), &WbNode::destroyed, this, &WbAnimationRecorder::updateCommandsAfterNodeDeletion);
   }
+  mCommands << newCommands;
 }
 
 void WbAnimationRecorder::cleanCommands() {
