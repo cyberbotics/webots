@@ -86,10 +86,16 @@ int main(int argc, char **argv) {
   // DIAGNOSTIC: report whether the physical skin model loaded before checking the image
   WbDeviceTag physical_skin = wb_robot_get_device("physical skin");
   const int physical_bones_count = wb_skin_get_bone_count(physical_skin);
-  static char first_message[256];
-  snprintf(first_message, sizeof(first_message),
-           "Skin mesh is not detected at the beginning of the test (physical skin tag=%d bones=%d, graphical bones=%d).",
-           (int)physical_skin, physical_bones_count, bones_count);
+  static char first_message[1024];
+  int len = snprintf(first_message, sizeof(first_message),
+                     "Skin mesh is not detected at the beginning of the test (physical skin tag=%d bones=%d, graphical bones=%d).",
+                     (int)physical_skin, physical_bones_count, bones_count);
+  for (int i = 0; i < physical_bones_count && len < (int)sizeof(first_message) - 200; ++i) {
+    const double *p = wb_skin_get_bone_position(physical_skin, i, true);
+    const double *o = wb_skin_get_bone_orientation(physical_skin, i, true);
+    len += snprintf(first_message + len, sizeof(first_message) - len, " bone%d abs pos=(%g %g %g) rot=(%g %g %g %g)", i, p[0],
+                    p[1], p[2], o[0], o[1], o[2], o[3]);
+  }
   check_image(camera, skin_color, first_message);
 
   ts_assert_int_equal(physical_bones_count, 2, "Wrong number of bones in simple_skin FBX skeleton.");
