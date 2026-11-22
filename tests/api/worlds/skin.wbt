@@ -64,8 +64,8 @@ Robot {
       translation 0.96 0 0
       rotation 0 0 1 1.5708
       fieldOfView 0.2
-      width 1
-      height 1
+      width 15
+      height 15
     }
     TestSuiteEmitter {
     }
