@@ -112,6 +112,10 @@ void wbu_car_init() {
   wb_robot_init();
   int i;
   instance = (car *)malloc(sizeof(car));
+  if (instance == NULL) {
+    fprintf(stderr, "Error: Not enough memory to initialize the car library.\n");
+    exit(-1);
+  }
   for (i = 0; i < 4; i++) {
     instance->wheels[i] = 0;
     instance->speeds[i] = 0.0;
@@ -164,6 +168,10 @@ void wbu_car_init() {
 
   // Extract the gear ratio from the rest of the string (variable size)
   instance->gear_ratio = (double *)malloc(instance->gear_number * sizeof(double));
+  if (instance->gear_ratio == NULL) {
+    fprintf(stderr, "Error: Not enough memory to store the gear ratios.\n");
+    exit(-1);
+  }
   // skip first twenty parameters (beginning of the string already parsed)
   for (i = 0; i < 20; ++i)
     sub_data_string = strchr(sub_data_string, ' ') + 1;
@@ -180,6 +188,10 @@ void wbu_car_init() {
 
   // Extract the engine sound file name
   instance->engine_sound = (char *)malloc(engine_sound_length + 1);
+  if (instance->engine_sound == NULL) {
+    fprintf(stderr, "Error: Not enough memory to store the engine sound file name.\n");
+    exit(-1);
+  }
   memcpy(instance->engine_sound, sub_data_string, engine_sound_length);
   instance->engine_sound[engine_sound_length] = '\0';
 
