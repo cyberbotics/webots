@@ -83,10 +83,15 @@ int main(int argc, char **argv) {
   const int skin_color[3] = {153, 0, 0};
   const int sky_color[3] = {102, 178, 255};
 
-  check_image(camera, skin_color, "Skin mesh is not detected at the beginning of the test: detected color [%d %d %d].");
-
+  // DIAGNOSTIC: report whether the physical skin model loaded before checking the image
   WbDeviceTag physical_skin = wb_robot_get_device("physical skin");
   const int physical_bones_count = wb_skin_get_bone_count(physical_skin);
+  static char first_message[256];
+  snprintf(first_message, sizeof(first_message),
+           "Skin mesh is not detected at the beginning of the test (physical skin tag=%d bones=%d, graphical bones=%d).",
+           (int)physical_skin, physical_bones_count, bones_count);
+  check_image(camera, skin_color, first_message);
+
   ts_assert_int_equal(physical_bones_count, 2, "Wrong number of bones in simple_skin FBX skeleton.");
 
   ts_assert_string_equal(wb_skin_get_bone_name(physical_skin, 0), "Head", "Wrong name of physical first bone.");
