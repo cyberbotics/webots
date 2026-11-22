@@ -276,9 +276,15 @@ bool WbGps::refreshSensorIfNeeded() {
     double north = mUTMConverter->getNorth();
     double east = mUTMConverter->getEast();
     const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
-    reference[coordinateSystem.indexOf('E')] = east;
-    reference[coordinateSystem.indexOf('N')] = north;
-    reference[coordinateSystem.indexOf('U')] = altitude;
+    const int eastIndex = coordinateSystem.indexOf('E');
+    const int northIndex = coordinateSystem.indexOf('N');
+    const int upIndex = coordinateSystem.indexOf('U');
+    // coordinateSystem always contains 'E', 'N' and 'U', but indexOf() may return -1 as far as the compiler knows
+    if (eastIndex >= 0 && northIndex >= 0 && upIndex >= 0) {
+      reference[eastIndex] = east;
+      reference[northIndex] = north;
+      reference[upIndex] = altitude;
+    }
   }
 
   for (int i = 0; i < 3; ++i)  // get exact position
