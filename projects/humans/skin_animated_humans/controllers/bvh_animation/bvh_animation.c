@@ -108,10 +108,18 @@ int main(int argc, char **argv) {
   // Get the bone names in the Skin device
   char **joint_name_list;
   joint_name_list = (char **)malloc((skin_bone_count) * sizeof(char *));
+  if (joint_name_list == NULL) {
+    fprintf(stderr, "Error: Not enough memory to store the joint names.\n");
+    exit(-1);
+  }
   int root_bone_index = -1;
   for (i = 0; i < skin_bone_count; ++i) {
     const char *name = wb_skin_get_bone_name(skin, i);
     joint_name_list[i] = (char *)malloc(strlen(name) + 1);
+    if (joint_name_list[i] == NULL) {
+      fprintf(stderr, "Error: Not enough memory to store a joint name.\n");
+      exit(-1);
+    }
     strcpy(joint_name_list[i], name);
     if (strcmp(name, "Hips") == 0)
       root_bone_index = i;
@@ -128,6 +136,10 @@ int main(int argc, char **argv) {
   // Find correspondencies between the Skin's bones and BVH's joint.
   // For example 'hip' could be bone 0 in Skin device, and joint 5 in BVH motion file
   int *index_skin_to_bvh = (int *)malloc(skin_bone_count * sizeof(int));
+  if (index_skin_to_bvh == NULL) {
+    fprintf(stderr, "Error: Not enough memory to map the skin bones to the BVH joints.\n");
+    exit(-1);
+  }
   for (i = 0; i < skin_bone_count; ++i) {
     index_skin_to_bvh[i] = -1;
 

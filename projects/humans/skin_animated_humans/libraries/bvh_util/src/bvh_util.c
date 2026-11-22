@@ -77,7 +77,15 @@ static BvhMotionJointPrivate_t *add_new_joint(FILE *file, WbuBvhMotion motion, c
                                               BvhMotionJointPrivate_t *parent, int *channels_count) {
   // create and init new joint
   BvhMotionJointPrivate_t *new_joint = malloc(sizeof(BvhMotionJointPrivate_t));
+  if (new_joint == NULL) {
+    fprintf(stderr, "Error: wbu_bvh_read_file(): not enough memory to create a new joint.\n");
+    exit(-1);
+  }
   new_joint->name = (char *)malloc(strlen(this_name) + 1);
+  if (new_joint->name == NULL) {
+    fprintf(stderr, "Error: wbu_bvh_read_file(): not enough memory to store the joint name.\n");
+    exit(-1);
+  }
   strcpy(new_joint->name, this_name);
   new_joint->parent = parent;
   new_joint->bvh_t_pose = wbu_quaternion_zero();
@@ -225,7 +233,6 @@ static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_coun
 
       // initialize variables needed to compute rotation
       WbuQuaternion frame_rotation = wbu_quaternion_zero();
-      WbuQuaternion q;
       WbuVector3 axes[3];
       axes[0] = wbu_vector3(X_AXIS);
       axes[1] = wbu_vector3(Y_AXIS);
@@ -247,7 +254,8 @@ static void read_motion(FILE *file, WbuBvhMotion motion, int frame_channels_coun
           // compute and store rotation
           double angle = motion_value * D2R;
           int rotation_index = joint->channels[channel_index] - X_ROTATION;
-          q = wbu_quaternion_from_axis_angle(axes[rotation_index].x, axes[rotation_index].y, axes[rotation_index].z, angle);
+          WbuQuaternion q =
+            wbu_quaternion_from_axis_angle(axes[rotation_index].x, axes[rotation_index].y, axes[rotation_index].z, angle);
           int j = 0;
           for (; j < 3; ++j) {
             if (j != rotation_index)
