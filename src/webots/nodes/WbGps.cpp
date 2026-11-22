@@ -268,21 +268,14 @@ bool WbGps::refreshSensorIfNeeded() {
   if (accuracy != 0.0 && correlation != 0.0)
     ratio = pow(correlation, mSensor->elapsedTime() / 1000.0);
 
-  WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
+  const WbWorldInfo *worldInfo = WbWorld::instance()->worldInfo();
+  WbVector3 reference = worldInfo->gpsReference();
+  if (worldInfo->gpsCoordinateSystem() == "WGS84") {
     // convert reference from lat-long into UTM X-Y coordinates
     mUTMConverter->computeNorthEast(reference[0], reference[1]);
-    const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
-    const int eastIndex = coordinateSystem.indexOf('E');
-    const int northIndex = coordinateSystem.indexOf('N');
-    const int upIndex = coordinateSystem.indexOf('U');
-    // coordinateSystem always contains 'E', 'N' and 'U', but indexOf() may return -1 as far as the compiler knows
-    if (eastIndex >= 0 && northIndex >= 0 && upIndex >= 0) {
-      const double altitude = reference[2];
-      reference[eastIndex] = mUTMConverter->getEast();
-      reference[northIndex] = mUTMConverter->getNorth();
-      reference[upIndex] = altitude;
-    }
+    const double altitude = reference[2];
+    reference = mUTMConverter->getEast() * worldInfo->eastVector() + mUTMConverter->getNorth() * worldInfo->northVector() +
+                altitude * worldInfo->upVector();
   }
 
   for (int i = 0; i < 3; ++i)  // get exact position
@@ -303,13 +296,12 @@ bool WbGps::refreshSensorIfNeeded() {
       mMeasuredPosition[i] = WbMathsUtilities::discretize(mMeasuredPosition[i], mResolution->value());
   }
 
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0) {
+  if (worldInfo->gpsCoordinateSystem().compare("WGS84") == 0) {
     // convert position from X-Y UTM coordinates into lat-long
     // we need to swap coordinates according to the world coordinate system
-    const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
-    const double north = mMeasuredPosition[coordinateSystem.indexOf('N')];
-    const double east = mMeasuredPosition[coordinateSystem.indexOf('E')];
-    const double altitude = mMeasuredPosition[coordinateSystem.indexOf('U')];
+    const double north = mMeasuredPosition.dot(worldInfo->northVector());
+    const double east = mMeasuredPosition.dot(worldInfo->eastVector());
+    const double altitude = mMeasuredPosition.dot(worldInfo->upVector());
     mUTMConverter->computeLatitudeLongitude(north, east);
     mMeasuredPosition[0] = mUTMConverter->getLatitude();
     mMeasuredPosition[1] = mUTMConverter->getLongitude();
