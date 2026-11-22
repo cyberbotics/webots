@@ -49,6 +49,10 @@ void WbDownloader::download() {
 
   QNetworkRequest request;
   request.setUrl(mUrl);
+  // Many PROTO and texture files are downloaded in parallel from the same host. Over HTTP/2 they share a single
+  // connection, and when the server drops it (e.g. "Connection closed" or "header compression context" errors on
+  // raw.githubusercontent.com) all of them fail at once. HTTP/1.1 uses separate connections, which is more robust.
+  request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
   mFinished = false;
 
   assert(mNetworkReply == NULL);
