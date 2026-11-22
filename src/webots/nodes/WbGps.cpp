@@ -272,17 +272,15 @@ bool WbGps::refreshSensorIfNeeded() {
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84") {
     // convert reference from lat-long into UTM X-Y coordinates
     mUTMConverter->computeNorthEast(reference[0], reference[1]);
-    double altitude = reference[2];
-    double north = mUTMConverter->getNorth();
-    double east = mUTMConverter->getEast();
     const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
     const int eastIndex = coordinateSystem.indexOf('E');
     const int northIndex = coordinateSystem.indexOf('N');
     const int upIndex = coordinateSystem.indexOf('U');
     // coordinateSystem always contains 'E', 'N' and 'U', but indexOf() may return -1 as far as the compiler knows
     if (eastIndex >= 0 && northIndex >= 0 && upIndex >= 0) {
-      reference[eastIndex] = east;
-      reference[northIndex] = north;
+      const double altitude = reference[2];
+      reference[eastIndex] = mUTMConverter->getEast();
+      reference[northIndex] = mUTMConverter->getNorth();
       reference[upIndex] = altitude;
     }
   }
