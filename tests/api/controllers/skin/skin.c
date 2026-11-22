@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <webots/camera.h>
 #include <webots/robot.h>
 #include <webots/skin.h>
@@ -9,22 +10,7 @@
 
 #define TIME_STEP 32
 
-// DIAGNOSTIC (temporary): print a coarse colour map of the camera image
-static void print_image(WbDeviceTag camera) {
-  const unsigned char *image = wb_camera_get_image(camera);
-  const int w = wb_camera_get_width(camera);
-  const int h = wb_camera_get_height(camera);
-  printf("DIAG camera %dx%d\n", w, h);
-  for (int y = 0; y < h; ++y) {
-    printf("DIAG ");
-    for (int x = 0; x < w; ++x)
-      printf("%02x%02x%02x ", wb_camera_image_get_red(image, w, x, y), wb_camera_image_get_green(image, w, x, y),
-             wb_camera_image_get_blue(image, w, x, y));
-    printf("\n");
-  }
-  fflush(stdout);
-}
-
+// DIAGNOSTIC (temporary): on failure, include a coarse colour map of the camera image in the error message
 static void check_image(WbDeviceTag camera, const int *color, const char *message) {
   const unsigned char *image = wb_camera_get_image(camera);
   const int w = wb_camera_get_width(camera);
@@ -32,8 +18,17 @@ static void check_image(WbDeviceTag camera, const int *color, const char *messag
   const int r = wb_camera_image_get_red(image, w, w / 2, h / 2);
   const int g = wb_camera_image_get_green(image, w, w / 2, h / 2);
   const int b = wb_camera_image_get_blue(image, w, w / 2, h / 2);
-  print_image(camera);
-  ts_assert_color_in_delta(r, g, b, color[0], color[1], color[2], 5, message, r, g, b);
+  if (abs(r - color[0]) <= 5 && abs(g - color[1]) <= 5 && abs(b - color[2]) <= 5)
+    return;
+  static char map[8192];
+  int n = snprintf(map, sizeof(map), "centre=[%d %d %d] map %dx%d:", r, g, b, w, h);
+  for (int y = 0; y < h && n < (int)sizeof(map) - 64; ++y) {
+    n += snprintf(map + n, sizeof(map) - n, " |");
+    for (int x = 0; x < w && n < (int)sizeof(map) - 16; ++x)
+      n += snprintf(map + n, sizeof(map) - n, " %02x%02x%02x", wb_camera_image_get_red(image, w, x, y),
+                    wb_camera_image_get_green(image, w, x, y), wb_camera_image_get_blue(image, w, x, y));
+  }
+  ts_send_error_and_exit("%s %s", message, map);
 }
 
 int main(int argc, char **argv) {
