@@ -77,8 +77,13 @@ if sys.platform == 'win32':
                 elif self._stream == 2:
                     sys.stderr = self._orig
                 self._w.close()
-                self._thread.join()
-                self._r.close()
+                # The thread ends once it has forwarded what is left in the pipe, unless that is more than fits in the
+                # pipe of the controller library: that one is only emptied by wb_robot_step(), which nothing calls while
+                # we wait here, so the thread then stays blocked in _write(). The wait is bounded so that the controller
+                # still exits in that case, leaving the daemon thread behind.
+                self._thread.join(timeout=1)
+                if not self._thread.is_alive():
+                    self._r.close()
 
         def __del__(self):
             self.close()
