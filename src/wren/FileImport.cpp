@@ -161,6 +161,7 @@ namespace wren {
     // Since version 5.4.0, assimp applies the axis and unit settings of an FBX file to the root node of the scene.
     // Neither the vertices nor the offset matrices of the bones are changed by this, and importRiggedMesh() expects
     // the same scene on every platform, whatever the assimp version is: ask for the scene as it is in the file.
+    // cppcheck-suppress constParameterReference
     static void setupRiggedMeshImporter(Assimp::Importer &importer) {
 #ifdef AI_CONFIG_IMPORT_FBX_IGNORE_UP_DIRECTION
       importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_IGNORE_UP_DIRECTION, true);
