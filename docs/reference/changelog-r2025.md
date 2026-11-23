@@ -20,7 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
-    - Fixed the mesh of a [Skin](skin.md) node being rotated away from its skeleton on Windows when the up axis of its FBX file is not the y-axis.
+    - Fixed the mesh of a [Skin](skin.md) node being rotated away from its skeleton on Windows when the up axis of its FBX file is not the y-axis ([#7119](https://github.com/cyberbotics/webots/pull/7119)).
     - Fixed the build on Windows with recent GCC versions ([#7115](https://github.com/cyberbotics/webots/pull/7115)).
     - Fixed the URDF export (`wb_robot_get_urdf`) placing the half-spheres of a `Capsule` along its y-axis instead of its z-axis ([#7098](https://github.com/cyberbotics/webots/pull/7098)).
     - Fixed the streaming server discarding the changes of fields that were not sent to the web viewers yet whenever a node was added to the world: when a supervisor set the translation of a node and then imported another node in the same step, the web viewer went on drawing the first one where it was ([#7109](https://github.com/cyberbotics/webots/pull/7109)).
