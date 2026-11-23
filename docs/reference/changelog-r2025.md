@@ -20,6 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed [Connector](connector.md) and [VacuumGripper](vacuumgripper.md) nodes sometimes detaching right after locking, because the force of their joint was read before it was computed ([#7120](https://github.com/cyberbotics/webots/pull/7120)).
     - Fixed the mesh of a [Skin](skin.md) node being rotated away from its skeleton on Windows when the up axis of its FBX file is not the y-axis ([#7119](https://github.com/cyberbotics/webots/pull/7119)).
     - Fixed the build on Windows with recent GCC versions ([#7115](https://github.com/cyberbotics/webots/pull/7115)).
     - Fixed the URDF export (`wb_robot_get_urdf`) placing the half-spheres of a `Capsule` along its y-axis instead of its z-axis ([#7098](https://github.com/cyberbotics/webots/pull/7098)).
@@ -111,6 +112,7 @@ Released on January 31st, 2025.
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
     - Remove ROS (1) support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
   - Bug Fixes
+    - Fixed [Connector](connector.md) and [VacuumGripper](vacuumgripper.md) nodes sometimes detaching right after locking, because the force of their joint was read before it was computed ([#7120](https://github.com/cyberbotics/webots/pull/7120)).
     - Fixed error message on Windows when `libssl-3-x64.dll` was added to `PATH` ([#6553](https://github.com/cyberbotics/webots/pull/6553)).
     - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
     - Fixed length of arrays returned by `CameraRecognitionObject.getColors()` in Java ([#6564](https://github.com/cyberbotics/webots/pull/6564)).
