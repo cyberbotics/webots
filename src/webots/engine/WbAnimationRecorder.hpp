@@ -104,7 +104,9 @@ private:
   void startRecording(const QString &targetFile);
   void stopRecording();
 
-  void populateCommands();
+  // creates the commands of the nodes of the world: all of them anew, or only the ones of the nodes that have none yet,
+  // keeping the other commands and the changes they hold that were not sent yet
+  void populateCommands(bool keepCommands = false);
   void cleanCommands();
 
   QString mResults;
