@@ -112,7 +112,6 @@ Released on January 31st, 2025.
     - Removed deprecated `windowPosition`, `pixelSize` fields of [Display](display.md) node ([#6327](https://github.com/cyberbotics/webots/pull/6327)).
     - Remove ROS (1) support ([#6697](https://github.com/cyberbotics/webots/pull/6697)).
   - Bug Fixes
-    - Fixed the vertex buffer of a [Skin](skin.md) mesh without normals being left mapped when its shadows are enabled ([#7121](https://github.com/cyberbotics/webots/pull/7121)).
     - Fixed error message on Windows when `libssl-3-x64.dll` was added to `PATH` ([#6553](https://github.com/cyberbotics/webots/pull/6553)).
     - Fixed length of arrays returned by `getPose()` in Java ([#6556](https://github.com/cyberbotics/webots/pull/6556)).
     - Fixed length of arrays returned by `CameraRecognitionObject.getColors()` in Java ([#6564](https://github.com/cyberbotics/webots/pull/6564)).
