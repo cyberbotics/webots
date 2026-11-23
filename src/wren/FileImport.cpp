@@ -134,13 +134,12 @@ namespace wren {
       return true;
     }
 
-    // Sets the bones to their binding pose, the parent bones before their children. This pose comes from the offset matrix of
-    // the bones, that is, it is expressed in the coordinate system of the mesh: the transformations of the nodes are not used.
-    static void applyTransforms(aiNode *node, std::unordered_map<std::string, size_t> &boneIndices,
+    static void applyTransforms(aiNode *node, aiMatrix4x4 parentTransform, std::unordered_map<std::string, size_t> &boneIndices,
                                 std::vector<SkeletonBone *> &bones, std::vector<aiMatrix4x4> &matrices) {
       if (!node)
         return;
 
+      aiMatrix4x4 globalTransform = parentTransform * node->mTransformation;
       std::string nodeName(node->mName.data);
       if (boneIndices.find(nodeName) != boneIndices.end()) {
         const size_t boneIndex = boneIndices[nodeName];
@@ -156,12 +155,22 @@ namespace wren {
       }
 
       for (size_t i = 0; i < node->mNumChildren; ++i)
-        applyTransforms(node->mChildren[i], boneIndices, bones, matrices);
+        applyTransforms(node->mChildren[i], globalTransform, boneIndices, bones, matrices);
+    }
+
+    // Since version 5.4.0, assimp applies the axis and unit settings of an FBX file to the root node of the scene.
+    // Neither the vertices nor the offset matrices of the bones are changed by this, and importRiggedMesh() expects
+    // the same scene on every platform, whatever the assimp version is: ask for the scene as it is in the file.
+    static void setupRiggedMeshImporter(Assimp::Importer &importer) {
+#ifdef AI_CONFIG_IMPORT_FBX_IGNORE_UP_DIRECTION
+      importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_IGNORE_UP_DIRECTION, true);
+#endif
     }
 
     const char *importRiggedMeshFromFile(const char *fileName, Skeleton **outputSkeleton, DynamicMesh ***outputMeshes,
                                          const char ***materialNames, int *count) {
       Assimp::Importer importer;
+      setupRiggedMeshImporter(importer);
 
       const aiScene *scene = importer.ReadFile(
         fileName, aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |
@@ -172,6 +181,7 @@ namespace wren {
     const char *importRiggedMeshFromMemory(const char *data, int size, const char *hint, Skeleton **outputSkeleton,
                                            DynamicMesh ***outputMeshes, const char ***materialNames, int *count) {
       Assimp::Importer importer;
+      setupRiggedMeshImporter(importer);
       const aiScene *scene = importer.ReadFileFromMemory(
         data, size,
         aiProcess_ValidateDataStructure | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_GenSmoothNormals |
@@ -193,6 +203,9 @@ namespace wren {
       std::vector<aiMatrix4x4> offsetMatrices;
       std::unordered_map<std::string, size_t> boneIndices;
 
+      aiMatrix4x4 globalInvTransform = scene->mRootNode->mTransformation;
+      globalInvTransform.Inverse();
+
       Skeleton *skeleton = Skeleton::createSkeleton();
 
       std::list<aiNode *> queue;
@@ -211,16 +224,13 @@ namespace wren {
 
           DynamicMesh *dynamicMesh = DynamicMesh::createDynamicMesh(mesh->HasNormals(), mesh->HasTextureCoords(0), false);
 
-          // The transformation of the root node is not applied to the mesh, because it is not applied to the bones (see
-          // applyTransforms()): applying it here would move the mesh away from its skeleton. Up to assimp 5.3, this
-          // transformation is always the identity for a FBX file. Since assimp 5.4, it holds the axes and the unit of the file:
-          // it is a rotation for a file whose up axis is the z-axis, for instance.
           aiMatrix4x4 transform;
           const aiNode *current = node->mParent;
           while (current != scene->mRootNode && current != NULL) {
             transform = transform * node->mTransformation;
             current = current->mParent;
           }
+          transform = globalInvTransform * transform;
 
           glm::mat4 matrix = glm::transpose(glm::make_mat4(&transform[0][0]));
 
@@ -299,7 +309,7 @@ namespace wren {
       }
 
       // Setup bone transformations
-      applyTransforms(scene->mRootNode, boneIndices, bones, offsetMatrices);
+      applyTransforms(scene->mRootNode, globalInvTransform, boneIndices, bones, offsetMatrices);
 
       *count = meshes.size();
       if (*count > 0) {
