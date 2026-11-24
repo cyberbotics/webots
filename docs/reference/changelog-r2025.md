@@ -20,6 +20,8 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed Python controllers hanging at exit on Windows when stdout or stderr redirection is enabled ([#7123](https://github.com/cyberbotics/webots/pull/7123)).
+    - Fixed controllers with stdout or stderr redirection blocking for good on Windows when printing more between two steps than the 1 KB their redirection pipe could hold, and getting only 1 KB of their output displayed per step on all platforms ([#7123](https://github.com/cyberbotics/webots/pull/7123)).
     - Fixed a crash on Windows when changing the `projection` field of a [Camera](camera.md) node while its controller is running ([#7122](https://github.com/cyberbotics/webots/pull/7122)).
     - Fixed [Connector](connector.md) and [VacuumGripper](vacuumgripper.md) nodes sometimes detaching right after locking, because the force of their joint was read before it was computed ([#7120](https://github.com/cyberbotics/webots/pull/7120)).
     - Fixed the vertex buffer of a [Skin](skin.md) mesh without normals being left mapped when its shadows are enabled ([#7121](https://github.com/cyberbotics/webots/pull/7121)).
