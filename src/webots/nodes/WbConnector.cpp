@@ -352,11 +352,19 @@ void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
 
 // shift both connectors (parent) bodies such that the connectors VRML origins match
 // the shift is performed halfway by each body
-void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2) {
-  // get positions of connector 1 and 2
+// o1 and o2 are the origins of the connectors in the frame of b1 and b2 (or in world coordinates if there is no body)
+void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2, const double o1[3], const double o2[3]) {
+  // get positions of connector 1 and 2 from the current poses of the bodies:
+  // the bodies may have been rotated since the connectors' matrices were last updated
   dVector3 p1, p2;
-  getOriginInWorldCoordinates(p1);
-  other->getOriginInWorldCoordinates(p2);
+  if (b1)
+    dBodyGetRelPointPos(b1, o1[0], o1[1], o1[2], p1);
+  else
+    memcpy(p1, o1, 3 * sizeof(double));
+  if (b2)
+    dBodyGetRelPointPos(b2, o2[0], o2[1], o2[2], p2);
+  else
+    memcpy(p2, o2, 3 * sizeof(double));
 
   // each body must be shifted towards the other by half the distance
   dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
@@ -386,6 +394,15 @@ void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyI
 // will be created with the adjusted ("snapped") relative position and
 // orientation between the two bodies
 void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2) {
+  // store the origins of the connectors in the frames of their bodies before rotating the bodies
+  dVector3 o1, o2;
+  getOriginInWorldCoordinates(o1);
+  other->getOriginInWorldCoordinates(o2);
+  if (b1)
+    dBodyGetPosRelPoint(b1, o1[0], o1[1], o1[2], o1);
+  if (b2)
+    dBodyGetPosRelPoint(b2, o2[0], o2[1], o2[2], o2);
+
   // rotate bodies such that x-axes become aligned and return corresponding quaternion
   dQuaternion qa;
   snapXAxes(other, qa, b1, b2);
@@ -406,7 +423,7 @@ void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2
   snapRotation(other, z1, z2, b1, b2);
 
   // finally shift bodies such that the CS origins match
-  snapOrigins(other, b1, b2);
+  snapOrigins(other, b1, b2, o1, o2);
 }
 
 // this function must be called once the connectors are aligned
