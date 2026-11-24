@@ -116,7 +116,7 @@ private:
   void detachIfForceExceedStrength();
   double findClosestRotationalAlignment(double alpha) const;
   void snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1, const dBodyID b2);
-  void snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2);
+  void snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2, const dVector3 o1, const dVector3 o2);
   void snapRotation(WbConnector *other, const WbVector3 &z1, const WbVector3 &z2, const dBodyID b1, const dBodyID b2);
   void rotateBodies(WbConnector *other, const dQuaternion q, const dBodyID b1, const dBodyID b2);
   void getOriginInWorldCoordinates(double out[3]) const;
