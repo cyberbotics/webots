@@ -20,7 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
-    - Fixed the origins of [Connector](connector.md) nodes not meeting after snapping when the connectors had to be rotated to be aligned ([#PRNUM](https://github.com/cyberbotics/webots/pull/PRNUM)).
+    - Fixed the origins of [Connector](connector.md) nodes not meeting after snapping when the connectors had to be rotated to be aligned ([#7125](https://github.com/cyberbotics/webots/pull/7125)).
     - Fixed [Connector](connector.md) and [VacuumGripper](vacuumgripper.md) nodes sometimes detaching right after locking, because the force of their joint was read before it was computed ([#7120](https://github.com/cyberbotics/webots/pull/7120)).
     - Fixed the vertex buffer of a [Skin](skin.md) mesh without normals being left mapped when its shadows are enabled ([#7121](https://github.com/cyberbotics/webots/pull/7121)).
     - Fixed the mesh of a [Skin](skin.md) node being rotated away from its skeleton on Windows when the up axis of its FBX file is not the y-axis ([#7119](https://github.com/cyberbotics/webots/pull/7119)).
