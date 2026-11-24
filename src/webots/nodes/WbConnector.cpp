@@ -353,19 +353,18 @@ void WbConnector::getOriginInWorldCoordinates(dReal out[3]) const {
 // shift both connectors (parent) bodies such that the connectors VRML origins match
 // the shift is performed halfway by each body
 // o1 and o2 are the origins of the connectors in the frame of b1 and b2 (or in world coordinates if there is no body)
-void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2, const dVector3 o1,
-                              const dVector3 o2) {
+void WbConnector::snapOrigins(WbConnector *other, const dBodyID b1, const dBodyID b2, const double o1[3], const double o2[3]) {
   // get positions of connector 1 and 2 from the current poses of the bodies:
   // the bodies may have been rotated since the connectors' matrices were last updated
   dVector3 p1, p2;
   if (b1)
     dBodyGetRelPointPos(b1, o1[0], o1[1], o1[2], p1);
   else
-    memcpy(p1, o1, sizeof(dVector3));
+    memcpy(p1, o1, 3 * sizeof(double));
   if (b2)
     dBodyGetRelPointPos(b2, o2[0], o2[1], o2[2], p2);
   else
-    memcpy(p2, o2, sizeof(dVector3));
+    memcpy(p2, o2, 3 * sizeof(double));
 
   // each body must be shifted towards the other by half the distance
   dReal h[3] = {p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]};
