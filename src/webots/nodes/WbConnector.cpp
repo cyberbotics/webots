@@ -436,7 +436,7 @@ void WbConnector::createFixedJoint(WbConnector *other, const dBodyID b1, const d
   // if necessary add feedback structure to joint
   if (mTensileStrength->value() != -1.0 || mShearStrength->value() != -1.0 || mPeer->mTensileStrength->value() != -1.0 ||
       mPeer->mShearStrength->value() != -1.0)
-    dJointSetFeedback(mFixedJoint, new dJointFeedback);
+    dJointSetFeedback(mFixedJoint, new dJointFeedback());
 }
 
 void WbConnector::attachTo(WbConnector *other) {
