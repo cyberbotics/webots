@@ -23,7 +23,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5.3.0
+        uses: fkirc/skip-duplicate-actions@v5.3.2
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           paths_ignore: '["docs/**"]'
@@ -77,11 +77,11 @@ jobs:
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
       if: steps.os_check.outputs.job_needed == 'true'
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python }}
     - name: Tests

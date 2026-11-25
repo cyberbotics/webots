@@ -149,7 +149,9 @@ jobs:
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
-    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    # not if the build job was skipped: there is no artifact then, and listing the artifacts of a run that has just
+    # started sometimes fails with "check suite does not exist"
+    if: ${{ always() && needs.build.result != 'skipped' && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
         os: [windows-2022]
