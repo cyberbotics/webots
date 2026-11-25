@@ -947,6 +947,13 @@
       <inertia ixx="3.442218e-05" ixy="0" ixz="0" iyy="3.442218e-05" iyz="0" izz="5.923125e-05"/>
     </inertial>
   </link>
+  <link name="arm_left_tool_link">
+  </link>
+  <joint name="arm_left_7_link_arm_left_tool_link_joint" type="fixed">
+    <parent link="arm_left_7_link"/>
+    <child link="arm_left_tool_link"/>
+    <origin xyz="0 0 0.056873" rpy="-2.356193 -1.570792 -2.356193"/>
+  </joint>
   <link name="wrist_left_ft_tool_link">
     <visual>
       <origin xyz="0 0 0" rpy="3.141593 -1.570793 3.141593"/>
@@ -1609,6 +1616,13 @@
       <inertia ixx="3.442218e-05" ixy="0" ixz="0" iyy="3.442218e-05" iyz="0" izz="5.923125e-05"/>
     </inertial>
   </link>
+  <link name="arm_right_tool_link">
+  </link>
+  <joint name="arm_right_7_link_arm_right_tool_link_joint" type="fixed">
+    <parent link="arm_right_7_link"/>
+    <child link="arm_right_tool_link"/>
+    <origin xyz="0 0 0.056873" rpy="2.356193 -1.570792 2.356193"/>
+  </joint>
   <link name="wrist_right_ft_tool_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 1.57 0"/>

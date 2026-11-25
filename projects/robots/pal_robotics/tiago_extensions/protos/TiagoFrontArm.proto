@@ -370,6 +370,11 @@ PROTO TiagoFrontArm [
                                                       mass 0.1
                                                     }
                                                   }
+                                                  Solid {
+                                                    translation 0 0 0.001873
+                                                    rotation -0.5774 -0.5774 -0.5774 2.0944
+                                                    name "arm_tool_link"
+                                                  }
                                                 ]
                                                 name "arm_7_link"
                                                 boundingObject Pose {
