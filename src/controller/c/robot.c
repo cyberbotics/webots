@@ -136,11 +136,16 @@ static bool waiting_for_step_end = false;
 static int stdout_read = -1;
 static int stderr_read = -1;
 
+// Size of the pipe a redirected stream is written to on Windows, the same as the default one on Linux. A write of more
+// than what is left of it only returns once wb_robot_step() has read the pipe, so it has to hold what a controller prints
+// between two steps and after the last one, the traceback of a Python controller for instance.
+#define STREAM_PIPE_SIZE 65536
+
 // Static functions
 static int stream_pipe_create(int stream) {
   int fds[2];
 #ifdef WIN32
-  _pipe(fds, 1024, O_TEXT);
+  _pipe(fds, STREAM_PIPE_SIZE, O_TEXT);
 #else
   if (pipe(fds) == -1) {
     fprintf(stderr, "Error: cannot create pipe for WEBOTS_STDOUT_REDIRECT.\n");
@@ -152,20 +157,30 @@ static int stream_pipe_create(int stream) {
   return fds[0];
 }
 
+// Reads what is pending in the pipe of a redirected stream, without waiting if there is nothing.
 void stream_pipe_read(int fd, char **buffer) {
   if (fd == -1)
     return;
   assert(*buffer == NULL);
-  *buffer = malloc(1024);  // FIXME: buffer is limited to 1024 bytes
+  int size = 0;
+  // everything is read, otherwise a controller printing more than one chunk per step would fill the pipe and block, but
+  // no more than the capacity of the pipe, so that this ends even if another thread keeps on writing
+  while (size < STREAM_PIPE_SIZE) {
+    char *chunk = realloc(*buffer, size + 1024);
+    if (chunk == NULL)
+      break;
+    *buffer = chunk;
 #ifdef _WIN32
-  int len = eof(fd) ? 0 : read(fd, *buffer, 1023);
+    const int len = eof(fd) ? 0 : read(fd, *buffer + size, 1023);
 #else
-  int len = read(fd, *buffer, 1023);
-  if (len == -1)
-    len = 0;
+    const int len = read(fd, *buffer + size, 1023);
 #endif
-  if (len != 0)
-    (*buffer)[len] = '\0';
+    if (len <= 0)
+      break;
+    size += len;
+  }
+  if (size != 0)
+    (*buffer)[size] = '\0';
   else {
     free(*buffer);
     *buffer = NULL;
@@ -533,6 +548,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
       const int firstTag = robot.n_device;
       robot.n_device += n;
       init_devices_from_tag(r, firstTag);
+      break;
     case C_ROBOT_WINDOW_SHOW:
       robot.show_window = true;
       break;

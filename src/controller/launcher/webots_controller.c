@@ -16,6 +16,7 @@
 
 #include <ctype.h>
 #include <dirent.h>
+#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,6 +78,33 @@ static void replace_char(char *string, char occurrence, char replace) {
     if (*current_pos == occurrence)
       *current_pos = replace;
   }
+}
+
+// Runs the controller and returns its exit status, which becomes the launcher's own: whoever started the launcher, a
+// script starting an extern controller for instance, is told what the controller ended with, not merely that the
+// launcher managed to start it. On Windows the controller is a child process that is waited for, a process there being
+// unable to replace itself; elsewhere the launcher becomes the controller and this only returns if that failed.
+static int run_controller(char **argv) {
+#ifdef _WIN32
+  // The controller is started and then waited for, in two calls: asked to do both with _P_WAIT, _spawnvpe() returns the
+  // exit status of the controller, and so -1 for a controller that ended with -1, as exit(-1) does, just as for one that
+  // could not be started.
+  const intptr_t process = _spawnvpe(_P_NOWAIT, argv[0], (const char *const *)argv, NULL);
+  if (process == -1) {
+    fprintf(stderr, "Cannot start '%s': %s\n", argv[0], strerror(errno));
+    return 1;
+  }
+  int status;
+  if (_cwait(&status, process, _WAIT_CHILD) == -1) {
+    fprintf(stderr, "Cannot wait for '%s': %s\n", argv[0], strerror(errno));
+    return 1;
+  }
+  return status;
+#else
+  execvp(argv[0], argv);
+  fprintf(stderr, "Cannot start '%s': %s\n", argv[0], strerror(errno));
+  return 1;
+#endif
 }
 
 // Removes all occurrences of a character from a string.
@@ -768,6 +796,9 @@ int main(int argc, char **argv) {
   replace_char(controller, '/', '\\');
 #endif
 
+  // The controller's exit status, returned as the launcher's own
+  int status = 0;
+
   // ROS 2 controller doesn't refer to a file but on the webots_ros2_driver package
   if (strcmp(controller, "ros2") == 0) {
     // Add the controller library to the Path.
@@ -782,14 +813,9 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "driver");
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
-#ifdef _WIN32
-    const char *const *windows_argv = (const char **)new_argv;
-    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
-#else
-    execvp(new_argv[0], new_argv);
-#endif
+    status = run_controller(new_argv);
     free_memory();
-    return 0;
+    return status;
   }
 
   // Check if controller file exists
@@ -857,12 +883,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, controller);
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
-#ifdef _WIN32
-    const char *const *windows_argv = (const char **)new_argv;
-    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
-#else
-    execvp(new_argv[0], new_argv);
-#endif
+    status = run_controller(new_argv);
   }
   // Python controller
   else if (strcmp(controller_extension, ".py") == 0) {
@@ -888,12 +909,7 @@ int main(int argc, char **argv) {
 #endif
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
-#ifdef _WIN32
-    const char *const *windows_argv = (const char **)new_argv;
-    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
-#else
-    execvp(new_argv[0], new_argv);
-#endif
+    status = run_controller(new_argv);
   }
   // MATLAB controller
   else if (strcmp(controller_extension, ".m") == 0) {
@@ -933,12 +949,7 @@ int main(int argc, char **argv) {
       new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 
-#ifdef _WIN32
-    const char *const *windows_argv = (const char **)new_argv;
-    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
-#else
-    execvp(new_argv[0], new_argv);
-#endif
+    status = run_controller(new_argv);
     free(matlab_command);
   }
   // Java controller
@@ -1001,23 +1012,20 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
     new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
-#ifdef _WIN32
-    const char *const *windows_argv = (const char **)new_argv;
-    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
-#else
-    execvp(new_argv[0], new_argv);
-#endif
+    status = run_controller(new_argv);
 
     free(lib_controller);
     free(short_controller_path);
     free(classpath);
     free(java_library);
-  } else
+  } else {
     fprintf(stderr,
             "The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
             "'.jar', '.class' and '.m'.\n",
             controller_extension);
+    status = 1;
+  }
 
   free_memory();
-  return 0;
+  return status;
 }

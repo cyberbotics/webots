@@ -194,15 +194,11 @@ int WbMFNode::nodeIndex(const WbNode *node) const {
 
 void WbMFNode::write(WbWriter &writer) const {
   writer.writeMFStart();
-  int c = 0;
   const int vectorSize = mVector.size();
   for (int i = 0; i < vectorSize; ++i) {
-    if (writer.isWebots() || writer.isUrdf() || mVector[i]->shallExport()) {
-      if (!writer.isW3d())
-        writer.writeMFSeparator(c == 0, smallSeparator(i));
-      writeItem(writer, i);
-      ++c;
-    }
+    if (!writer.isW3d())
+      writer.writeMFSeparator(i == 0, smallSeparator(i));
+    writeItem(writer, i);
   }
-  writer.writeMFEnd(c == 0);
+  writer.writeMFEnd(vectorSize == 0);
 }

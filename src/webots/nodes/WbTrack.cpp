@@ -916,17 +916,14 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
 
   foreach (const WbField *field, fields()) {
     if (!field->isDeprecated() && (field->isW3d() && field->singleType() == WB_SF_NODE)) {
-      const WbSFNode *const node = dynamic_cast<WbSFNode *>(field->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport()) {
-        if (field->name() == "children")
-          // export it manually in order to include animated geometries
-          continue;
+      if (field->name() == "children")
+        // export it manually in order to include animated geometries
+        continue;
 
-        if (writer.isW3d())
-          field->value()->write(writer);
-        else
-          field->write(writer);
-      }
+      if (writer.isW3d())
+        field->value()->write(writer);
+      else
+        field->write(writer);
     }
   }
 
@@ -941,11 +938,9 @@ void WbTrack::exportNodeSubNodes(WbWriter &writer) const {
   const WbBaseNode *subNode = NULL;
   for (int i = 0; i < childCount(); ++i) {
     subNode = child(i);
-    if (subNode->shallExport()) {
-      writer.writeMFSeparator(!isEmpty, false);
-      subNode->write(writer);
-      isEmpty = false;
-    }
+    writer.writeMFSeparator(!isEmpty, false);
+    subNode->write(writer);
+    isEmpty = false;
   }
 
   // write animated geometries

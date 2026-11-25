@@ -297,11 +297,9 @@ WbVector3 WbSliderJoint::anchor() const {
 void WbSliderJoint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     const WbNode *const parentRoot = findUrdfLinkRoot();
-    const WbVector3 currentOffset = solidEndPoint()->translation() - anchor();
-    const WbVector3 translation = solidEndPoint()->translationFrom(parentRoot) - currentOffset + writer.jointOffset();
-    writer.setJointOffset(solidEndPoint()->rotationMatrixFrom(parentRoot).transposed() * currentOffset);
-    const WbVector3 eulerRotation = solidEndPoint()->rotationMatrixFrom(parentRoot).toEulerAnglesZYX();
-    const WbVector3 rotationAxis = axis() * solidEndPoint()->rotationMatrixFrom(parentRoot);
+    WbVector3 translation, rotationAxis, eulerRotation;
+    if (!computeUrdfJointFrame(writer, parentRoot, translation, rotationAxis, eulerRotation))
+      return;
 
     writer.increaseIndent();
     writer.indent();

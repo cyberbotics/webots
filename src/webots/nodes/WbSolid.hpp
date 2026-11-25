@@ -296,6 +296,7 @@ private:
   void init();
 
   void exportUrdfShape(WbWriter &writer, const QString &geometry, const WbPose *pose, const WbVector3 &offset) const;
+  void exportUrdfInertial(WbWriter &writer) const;
 
   // list of finalized solids
   static QList<const WbSolid *> cSolids;

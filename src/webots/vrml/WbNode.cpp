@@ -1119,13 +1119,10 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
 void WbNode::exportNodeSubNodes(WbWriter &writer) const {
   foreach (const WbField *f, fields()) {
     if (!f->isDeprecated() && ((f->isW3d() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
-      const WbSFNode *const node = dynamic_cast<WbSFNode *>(f->value());
-      if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
-        if (writer.isW3d() || writer.isUrdf())
-          f->value()->write(writer);
-        else
-          f->write(writer);
-      }
+      if (writer.isW3d() || writer.isUrdf())
+        f->value()->write(writer);
+      else
+        f->write(writer);
     }
   }
 }

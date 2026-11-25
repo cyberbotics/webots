@@ -377,12 +377,13 @@ WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
     assert(parentNode);
   }
 
-  const WbPose *previousPose = const_cast<WbPose *>(poseList.takeLast());
-  WbVector3 translationResult = previousPose->translation();
+  const WbPose *pose = poseList.takeLast();
+  WbVector3 translationResult = pose->translation();
+  WbMatrix3 rotationResult = pose->rotation().toMatrix3();
   while (poseList.size() > 0) {
-    const WbPose *pose = poseList.takeLast();
-    translationResult += previousPose->rotation().toMatrix3() * pose->translation();
-    previousPose = const_cast<WbPose *>(pose);
+    pose = poseList.takeLast();
+    translationResult += rotationResult * pose->translation();
+    rotationResult *= pose->rotation().toMatrix3();
   }
 
   return translationResult;

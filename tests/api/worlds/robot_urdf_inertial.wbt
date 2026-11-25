@@ -1,0 +1,134 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  gravity 0
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.2 0.2 0.96 1.6
+  position 0.1 -1.5 0.6
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 0.5 0.5 -1
+}
+Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 0.2
+      }
+      device [
+        RotationalMotor {
+          name "joint B"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.3
+        children [
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 1 0 0
+              anchor 0 0.1 0
+            }
+            device [
+              RotationalMotor {
+                name "joint C"
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.2 0
+              rotation 1 0 0 0.3
+              name "link C"
+              boundingObject Pose {
+                rotation 0 0 1 0.5
+                children [
+                  Box {
+                    size 0.3 0.1 0.1
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 3
+              }
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0.1 0 0
+            }
+            device [
+              RotationalMotor {
+                name "joint D"
+              }
+            ]
+            endPoint Solid {
+              translation 0.15 0 0
+              children [
+                Solid {
+                  translation 0 0 0.2
+                  name "link E"
+                  boundingObject Box {
+                    size 0.05 0.05 0.05
+                  }
+                }
+              ]
+              name "link D"
+              boundingObject Box {
+                size 0.1 0.2 0.3
+              }
+              physics Physics {
+                density -1
+                mass 1
+                centerOfMass [
+                  0.1 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "link B"
+        boundingObject Sphere {
+          radius 0.05
+        }
+        physics Physics {
+          density -1
+          mass 2
+          centerOfMass [
+            0.01 0.02 0.03
+          ]
+          inertiaMatrix [
+            0.2 0.3 0.4
+            0.01 0.02 0.03
+          ]
+        }
+      }
+    }
+  ]
+  name "inertial"
+  boundingObject Pose {
+    translation 0.05 0 0.02
+    children [
+      Box {
+        size 0.2 0.1 0.05
+      }
+    ]
+  }
+  physics Physics {
+  }
+  controller "robot_urdf_inertial"
+}
+TestSuiteSupervisor {
+}

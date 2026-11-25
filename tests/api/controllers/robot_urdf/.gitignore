@@ -1,6 +1,8 @@
 /robot_urdf
-/result.txt
+/*_check_urdf.txt
 /tiago.urdf
 /ur5e.urdf
 /prob3.urdf
 /epuck.urdf
+/nested_poses.urdf
+/export_cases.urdf

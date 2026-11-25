@@ -298,8 +298,7 @@ void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
     eulerRotation = urdfRotation(upperLinkRootPose->rotationMatrixFrom(upperLinkRoot));
   }
 
-  translation += writer.jointOffset();
-  writer.setJointOffset(WbVector3(0.0, 0.0, 0.0));
+  translation += writer.urdfLinkOffset(upperLinkRoot);
 
   writer.increaseIndent();
   writer.indent();

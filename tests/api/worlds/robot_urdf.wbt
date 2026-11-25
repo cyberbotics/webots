@@ -28,6 +28,7 @@ UR5e {
   controller "robot_urdf"
   controllerArgs [
     "ur5e"
+    "move"
   ]
   toolSlot [
     TestSuiteEmitter {
@@ -114,6 +115,158 @@ E-puck {
   turretSlot [
     TestSuiteEmitter {
     }
+  ]
+}
+Robot {
+  translation 0.5 0 -0.48
+  children [
+    TestSuiteEmitter {
+    }
+    Pose {
+      translation 0.1 0 0
+      rotation 0 0 1 1.5707963267948966
+      children [
+        Pose {
+          translation 0 0.2 0
+          rotation 0 1 0 1.5707963267948966
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 1 0 0
+                anchor 0.01 0.02 0.03
+              }
+              device [
+                RotationalMotor {
+                  name "hinge"
+                }
+              ]
+              endPoint Solid {
+                translation 0.01 0.07 0.03
+                rotation 0 0 1 0.3
+                name "hinge link"
+                boundingObject Pose {
+                  translation 0 0 0.01
+                  children [
+                    Box {
+                      size 0.01 0.02 0.03
+                    }
+                  ]
+                }
+              }
+            }
+            SliderJoint {
+              jointParameters JointParameters {
+                axis 0 1 0
+              }
+              device [
+                LinearMotor {
+                  name "slider"
+                  minPosition -0.1
+                  maxPosition 0.1
+                }
+              ]
+              endPoint Solid {
+                translation 0 0 0.1
+                name "slider link"
+              }
+            }
+            Solid {
+              translation 0 0.1 0
+              name "fixed link"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "nested poses"
+  controller "robot_urdf"
+  controllerArgs [
+    "nested_poses"
+    "move"
+  ]
+}
+Robot {
+  translation -0.5 0 -0.48
+  children [
+    TestSuiteEmitter {
+    }
+    Camera {
+      translation 0.05 0.01 0.1
+      rotation 0.3 0.8 0.2 0.6
+      name "tilted camera"
+    }
+    Solid {
+      translation 0.1 0 0
+      rotation 0 0 1 0.4
+      name "primitive bounding object"
+      boundingObject Box {
+        size 0.02 0.04 0.06
+      }
+    }
+    Solid {
+      translation 0 0.1 0
+      name "slider target"
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 0 1 0
+      }
+      device [
+        LinearMotor {
+          name "slider to a reference"
+        }
+      ]
+      endPoint SolidReference {
+        solidName "slider target"
+      }
+    }
+    Solid {
+      translation 0 -0.1 0
+      name "hinge target"
+    }
+    Solid {
+      translation 0.2 0 0
+      rotation 1 0 0 0.5
+      name "capsule bounding object"
+      boundingObject Capsule {
+        height 0.1
+        radius 0.02
+      }
+    }
+    Solid {
+      translation 0.3 0 0
+      name "capsule in a pose"
+      boundingObject Pose {
+        translation 0.01 0.02 0.03
+        rotation 0 1 0 0.6
+        children [
+          Capsule {
+            height 0.08
+            radius 0.01
+          }
+        ]
+      }
+    }
+    HingeJoint {
+      device [
+        RotationalMotor {
+          name "hinge to a reference in a slot"
+        }
+      ]
+      endPoint Slot {
+        endPoint Slot {
+          endPoint SolidReference {
+            solidName "hinge target"
+          }
+        }
+      }
+    }
+  ]
+  name "export cases"
+  controller "robot_urdf"
+  controllerArgs [
+    "export_cases"
   ]
 }
 TestSuiteSupervisor {
