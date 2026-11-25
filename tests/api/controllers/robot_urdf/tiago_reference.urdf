@@ -952,7 +952,7 @@
   <joint name="arm_left_7_link_arm_left_tool_link_joint" type="fixed">
     <parent link="arm_left_7_link"/>
     <child link="arm_left_tool_link"/>
-    <origin xyz="0 0 0.056873" rpy="2.356193 -1.570792 2.356193"/>
+    <origin xyz="0 0 0.056873" rpy="-2.356193 -1.570792 -2.356193"/>
   </joint>
   <link name="wrist_left_ft_tool_link">
     <visual>
