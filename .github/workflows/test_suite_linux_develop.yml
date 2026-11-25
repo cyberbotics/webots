@@ -20,7 +20,7 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
          submodules: true
          fetch-depth: 15
@@ -47,7 +47,7 @@ jobs:
             JAVA_VERSION: "21"
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
          submodules: true
          fetch-depth: 15
@@ -70,14 +70,14 @@ jobs:
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -102,11 +102,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90  # a healthy run takes about 10 minutes, a stuck test group costs at most 10 more
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
          ref: develop
     - name: Download Artifacts
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v8
       with:
         name: build-ubuntu-22.04
         path: artifact
@@ -115,7 +115,7 @@ jobs:
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.PYTHON_VERSION }}
     - name: Test Suite
@@ -133,14 +133,14 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Download Scripts
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         sparse-checkout: |
           scripts/install/linux_runtime_dependencies.sh
           tests/test_worlds.py
         sparse-checkout-cone-mode: false
     - name: Download Artifacts
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v8
       with:
         name: build-ubuntu-22.04
         path: artifact
@@ -151,7 +151,7 @@ jobs:
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v7
       with:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
@@ -173,6 +173,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete artifacts
-      uses: geekyeggo/delete-artifact@v5
+      uses: geekyeggo/delete-artifact@v6
       with:
         name: build-${{ matrix.os }}
