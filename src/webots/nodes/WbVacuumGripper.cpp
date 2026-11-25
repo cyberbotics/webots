@@ -137,7 +137,7 @@ void WbVacuumGripper::createFixedJoint(WbSolid *other) {
 
   // if necessary add feedback structure to joint
   if (mTensileStrength->value() != -1.0 || mShearStrength->value() != -1.0)
-    dJointSetFeedback(mFixedJoint, new dJointFeedback);
+    dJointSetFeedback(mFixedJoint, new dJointFeedback());
 }
 
 void WbVacuumGripper::destroyFixedJoint() {

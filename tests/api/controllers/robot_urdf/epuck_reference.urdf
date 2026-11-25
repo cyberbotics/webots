@@ -25,6 +25,11 @@
         <box size="0.05 0.04 0.01"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0 0.015" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia ixx="9.78585e-05" ixy="0" ixz="0" iyy="8.64333e-05" iyz="0" izz="8.74869e-05"/>
+    </inertial>
   </link>
   <link name="ts_emitter">
   </link>
@@ -396,6 +401,11 @@
         <cylinder radius="0.02" length="0.005"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 -0.026 0" rpy="0 0 0"/>
+      <mass value="0.005"/>
+      <inertia ixx="5.1041667e-07" ixy="0" ixz="0" iyy="1e-06" iyz="-1.5999333e-13" izz="5.1041667e-07"/>
+    </inertial>
   </link>
   <joint name="left wheel motor" type="continuous">
     <parent link="base_link"/>
@@ -417,5 +427,10 @@
         <cylinder radius="0.02" length="0.005"/>
       </geometry>
     </collision>
+    <inertial>
+      <origin xyz="0 0.026 0" rpy="0 0 0"/>
+      <mass value="0.005"/>
+      <inertia ixx="5.1041667e-07" ixy="0" ixz="0" iyy="1e-06" iyz="-1.5999333e-13" izz="5.1041667e-07"/>
+    </inertial>
   </link>
 </robot>

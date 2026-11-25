@@ -188,8 +188,8 @@ void WbAbstractCamera::initializeImageMemoryMappedFile() {
   mSendMemoryMappedFile = true;
   delete mImageMemoryMappedFile;
   mImageMemoryMappedFile = initializeMemoryMappedFile();
-  if (mImageMemoryMappedFile)
-    mImageData = static_cast<unsigned char *>(mImageMemoryMappedFile->data());
+  // never keep a pointer to the data of the deleted memory mapped file
+  mImageData = mImageMemoryMappedFile ? static_cast<unsigned char *>(mImageMemoryMappedFile->data()) : NULL;
 }
 
 WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {
@@ -203,7 +203,15 @@ WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &
   // crashes). This can be detected by trying to attach, and the memory mapped file may be cleaned by detaching.
   if (imageMemoryMappedFile->attach())
     imageMemoryMappedFile->detach();
-  if (!imageMemoryMappedFile->create(size())) {
+  // On Windows, a running controller keeps the previous memory mapped file of this device alive until it is told about the
+  // new one, e.g. when the camera is set up again after a change of its projection: use another name in this case.
+  bool created = imageMemoryMappedFile->create(size());
+  for (int i = 1; !created && i < 100; ++i) {
+    delete imageMemoryMappedFile;
+    imageMemoryMappedFile = new WbMemoryMappedFile(memoryMappedFileName + "." + QString::number(i));
+    created = imageMemoryMappedFile->create(size());
+  }
+  if (!created) {
     const QString message =
       tr("Cannot allocate memory mapped file for camera image.\nCaused by: %1.").arg(imageMemoryMappedFile->errorString());
     warn(message);

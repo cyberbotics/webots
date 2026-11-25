@@ -298,17 +298,19 @@ namespace wren {
       mAabb.extend(mCoords[i]);
     }
 
+    // bind each mapped buffer before unmapping it: the normals buffer is mapped only if the mesh has normals
     if (mShadowVolume) {
+      glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferShadowCoords);
       glUnmapBuffer(GL_ARRAY_BUFFER);
-      glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferNormals);
       mShadowCoordsDirty = false;
     }
 
     if (mHasNormals) {
+      glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferNormals);
       glUnmapBuffer(GL_ARRAY_BUFFER);
-      glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
     }
 
+    glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
     glUnmapBuffer(GL_ARRAY_BUFFER);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 

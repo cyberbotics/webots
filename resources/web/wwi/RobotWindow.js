@@ -45,6 +45,8 @@ export default class RobotWindow {
     const socketData = event.data.split(/\r?\n/);
     for (let i = 0, len = socketData.length; i < len; i++) {
       const data = socketData[i];
+      if (data === '') // what a line of controller output ending with a newline leaves behind, no message
+        continue;
       const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
       if (data.startsWith('robot:')) {
         let message = data.match('"message":"(.*)","name"')[1];

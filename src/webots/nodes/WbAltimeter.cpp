@@ -75,15 +75,15 @@ bool WbAltimeter::refreshSensorIfNeeded() {
   // compute current altitude
   double accuracy = mAccuracy->value();
 
-  const WbVector3 reference = WbWorld::instance()->worldInfo()->gpsReference();
-  const QString &coordinateSystem = WbWorld::instance()->worldInfo()->coordinateSystem();
-  const int upIndex = coordinateSystem.indexOf('U');
-  if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem() == "WGS84")
+  const WbWorldInfo *worldInfo = WbWorld::instance()->worldInfo();
+  const WbVector3 reference = worldInfo->gpsReference();
+  const WbVector3 &upVector = worldInfo->upVector();
+  if (worldInfo->gpsCoordinateSystem() == "WGS84")
     mMeasuredAltitude = reference[2];
   else
-    mMeasuredAltitude = reference[upIndex];
+    mMeasuredAltitude = reference.dot(upVector);
 
-  mMeasuredAltitude += t[upIndex];  // get exact altitude
+  mMeasuredAltitude += t.dot(upVector);  // get exact altitude
   // add noise if necessary
   if (accuracy != 0.0)
     mMeasuredAltitude += accuracy * WbRandom::nextGaussian();
