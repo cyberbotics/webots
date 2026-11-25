@@ -61,7 +61,7 @@ For the "laser" sensor type, this field specifies (in meters) the radius of the 
 
 - `gaussianWidth`: width of the Gaussian distribution of sensor ray weights (for "generic" and "infra-red" sensors).
 When averaging the sensor's response, the individual weight of each sensor ray is computed according to a Gaussian distribution as described in [this figure](#weight-distribution-formulas).
-where *w<sub>i</sub>* is the weight of the *i*th ray, *t<sub>i</sub>* is the angle between the *i*th ray and the sensor axis, *a* is the aperture angle of the sensor, *g* is the Gaussian width, and *n* is the number of rays.
+In the formula, *w<sub>i</sub>* is the weight of the *i*th ray, *t<sub>i</sub>* is the angle between the *i*th ray and the sensor axis, *a* is the aperture angle of the sensor, *g* is the Gaussian width, and *n* is the number of rays.
 As depicted in [this figure](#example-distribution-for-10-rays-using-a-gaussian-width-of-0-5), rays in the center of the sensor cone are given a greater weight than rays in the periphery.
 A wider or narrower distribution can be obtained by tuning the `gaussianWidth` field.
 An approximation of a flat distribution is obtained if a sufficiently large number is chosen for the `gaussianWidth`.
