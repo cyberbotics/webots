@@ -47,6 +47,7 @@ PROTO Irb4600-40 [
         device [
           RotationalMotor {
             name "A motor"
+            maxVelocity 3.054326
             maxTorque 10000
             minPosition -3.1415
             maxPosition 3.1415
@@ -72,6 +73,7 @@ PROTO Irb4600-40 [
               device [
                 RotationalMotor {
                   name "B motor"
+                  maxVelocity 3.054326
                   minPosition -1.5708
                   maxPosition 2.61799
                   maxTorque 10000
@@ -97,6 +99,7 @@ PROTO Irb4600-40 [
                     device [
                       RotationalMotor {
                         name "C motor"
+                        maxVelocity 3.054326
                         minPosition -3.1415
                         maxPosition 1.309
                         maxTorque 10000
@@ -121,6 +124,7 @@ PROTO Irb4600-40 [
                           device [
                             RotationalMotor {
                               name "D motor"
+                              maxVelocity 4.363323
                               minPosition -6.98132
                               maxPosition 6.98132
                               maxTorque 10000
@@ -146,6 +150,7 @@ PROTO Irb4600-40 [
                                 device [
                                   RotationalMotor {
                                     name "E motor"
+                                    maxVelocity 4.363323
                                     minPosition -2.18166
                                     maxPosition 2.0944
                                     maxTorque 10000
@@ -170,6 +175,7 @@ PROTO Irb4600-40 [
                                       device [
                                         RotationalMotor {
                                           name "F motor"
+                                          maxVelocity 6.283185
                                           minPosition -6.98132
                                           maxPosition 6.98132
                                           maxTorque 10000
@@ -182,7 +188,7 @@ PROTO Irb4600-40 [
                                         translation 0.125 0 0
                                         children [
                                           Pose {
-                                            translation 0.06 0 0
+                                            translation 0.01 0 0
                                             rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.094399693899575
                                             children IS handSlot
                                           }
