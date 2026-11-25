@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
 
       case 'J':
         printf("Move --> joint_5");
-        wb_motor_set_position(motors[5], 1.4);
+        wb_motor_set_position(motors[5], 1.0);
         break;
 
       case 'B':

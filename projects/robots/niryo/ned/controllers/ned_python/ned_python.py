@@ -216,7 +216,7 @@ while True:
 
         elif key == Keyboard.SHIFT + ord('H'):
             print("Move --> joint_5 left")
-            m5.setPosition(1.4)
+            m5.setPosition(1.0)
 
         elif key == Keyboard.SHIFT + ord('J'):
             print("Move --> joint_5 right")
