@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot name="nested poses" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <link name="fixed link">
+  </link>
+  <joint name="base_link_fixed link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="fixed link"/>
+    <origin xyz="-0.2 0 0" rpy="0 1.570796 1.570796"/>
+  </joint>
+  <joint name="slider" type="prismatic">
+    <parent link="base_link"/>
+    <child link="slider link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.1 0.1 0" rpy="0 1.570796 1.570796"/>
+    <limit effort="10" lower="-0.1" upper="0.1" velocity="10"/>
+  </joint>
+  <link name="slider link">
+  </link>
+  <joint name="hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="hinge link"/>
+    <axis xyz="0.955336 -0.29552 0"/>
+    <limit effort="10" velocity="10"/>
+    <origin xyz="-0.12 0.03 -0.01" rpy="1.570796 1.270796 3.141593"/>
+  </joint>
+  <link name="hinge link">
+    <visual>
+      <origin xyz="0.014776 0.047767 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.02 0.03"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.014776 0.047767 0.01" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.02 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="ts_emitter">
+  </link>
+  <joint name="base_link_ts_emitter_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="ts_emitter"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

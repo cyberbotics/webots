@@ -30,7 +30,6 @@ WbWriter::WbWriter(QIODevice *device, const QString &fileName) :
   mFileName(fileName),
   mIndent(0),
   mIsWritingToFile(true),
-  mJointOffset(0.0, 0.0, 0.0),
   mRootNode(NULL) {
   setType();
 }
@@ -41,7 +40,6 @@ WbWriter::WbWriter(QString *target, const QString &fileName) :
   mFileName(fileName),
   mIndent(0),
   mIsWritingToFile(false),
-  mJointOffset(0.0, 0.0, 0.0),
   mRootNode(NULL) {
   setType();
 }

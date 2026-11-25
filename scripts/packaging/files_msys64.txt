@@ -19,7 +19,7 @@
 /ucrt64/bin/libpcre2-8-0.dll
 /ucrt64/bin/libpcre2-16-0.dll
 /ucrt64/bin/libpng16-16.dll
-/ucrt64/bin/libssl-3-x64.dll
+/ucrt64/bin/libssl-*-x64.dll
 /ucrt64/bin/Qt6Core.dll
 /ucrt64/bin/Qt6Gui.dll
 /ucrt64/bin/Qt6Network.dll

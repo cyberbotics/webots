@@ -1,0 +1,372 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "webots://projects/robots/abb/irb/protos/Irb4600-40.proto"
+EXTERNPROTO "webots://projects/robots/epson/scara_t6/protos/ScaraT6.proto"
+EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto"
+EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
+EXTERNPROTO "webots://projects/robots/franka_emika/panda/protos/Panda.proto"
+EXTERNPROTO "webots://projects/robots/franka_emika/panda/protos/PandaHand.proto"
+EXTERNPROTO "webots://projects/robots/kuka/youbot/protos/Youbot.proto"
+EXTERNPROTO "webots://projects/robots/neuronics/ipr/protos/IprHd6m180.proto"
+EXTERNPROTO "webots://projects/robots/unimation/puma/protos/Puma560.proto"
+EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR3e.proto"
+
+WorldInfo {
+  gravity 0
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.3 0.3 0.9 1.7
+  position 4 -12 9
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  direction 0.5 0.5 -1
+}
+Robot {
+  translation 0 0 0.5
+  rotation 0 0 1 0.3
+  children [
+    TestSuiteEmitter {
+    }
+    Pose {
+      translation 0.1 0.05 0
+      rotation 1 0 0 0.7
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0.3
+            anchor 0.02 0.03 0.1
+          }
+          device [
+            RotationalMotor {
+              name "hinge in rotated pose"
+              minPosition -2
+              maxPosition 2
+            }
+          ]
+          endPoint Solid {
+            translation 0.05 0.04 0.2
+            rotation 0 0 1 0.4
+            children [
+              Pose {
+                translation 0 0 0.1
+                rotation 0 1 0 0.5
+                children [
+                  SliderJoint {
+                    jointParameters JointParameters {
+                      axis 1 0 0
+                    }
+                    device [
+                      LinearMotor {
+                        name "slider in rotated pose"
+                        minPosition -0.1
+                        maxPosition 0.1
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 0.05
+                      rotation 1 0 0 0.3
+                      children [
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            axis 1 0 0
+                            anchor 0 0.02 0
+                          }
+                          device [
+                            RotationalMotor {
+                              name "hinge after slider"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation 0 0.05 0.03
+                            name "link 3"
+                          }
+                        }
+                      ]
+                      name "link 2"
+                    }
+                  }
+                ]
+              }
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0 0 1
+                  anchor 0.03 0 0
+                }
+                device [
+                  RotationalMotor {
+                    name "sibling hinge"
+                    minPosition -1
+                    maxPosition 1
+                  }
+                ]
+                endPoint Solid {
+                  translation 0.06 0.01 0
+                  name "link 4"
+                }
+              }
+            ]
+            name "link 1"
+          }
+        }
+      ]
+    }
+  ]
+  name "joints in rotated poses"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "rotated_poses"
+  ]
+  supervisor TRUE
+}
+Robot {
+  translation 0 1 0.5
+  rotation 0 0 1 -0.4
+  children [
+    TestSuiteEmitter {
+    }
+    Pose {
+      translation 0.1 0.02 0.03
+      rotation 0 0 1 0.8
+      children [
+        Pose {
+          translation 0 0.1 -0.04
+          rotation 0 1 0 0.6
+          children [
+            Pose {
+              translation 0.02 0 0.05
+              rotation 1 0 0 0.4
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0.3
+                    anchor 0.02 0.03 0.1
+                  }
+                  device [
+                    RotationalMotor {
+                      name "hinge"
+                      minPosition -2
+                      maxPosition 2
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.05 0.04 0.2
+                    rotation 0 0 1 0.4
+                    name "hinge link"
+                  }
+                }
+                SliderJoint {
+                  jointParameters JointParameters {
+                    axis 1 0 0
+                  }
+                  device [
+                    LinearMotor {
+                      name "slider"
+                      minPosition -0.1
+                      maxPosition 0.1
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0 0.05
+                    rotation 1 0 0 0.3
+                    name "slider link"
+                  }
+                }
+                Solid {
+                  translation 0 0.02 0.03
+                  rotation 0 1 0 0.5
+                  children [
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 1 0 0
+                        anchor 0 0.02 0
+                      }
+                      device [
+                        RotationalMotor {
+                          name "hinge after fixed link"
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0 0.05 0.03
+                        name "link after fixed link"
+                      }
+                    }
+                  ]
+                  name "fixed link"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    Pose {
+      rotation 0 0 1 1.5707963267948966
+      children [
+        Pose {
+          rotation 0 1 0 1.5707963267948966
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+                anchor 0.01 0.02 0.03
+              }
+              device [
+                RotationalMotor {
+                  name "hinge at a pitch of 90 degrees"
+                }
+              ]
+              endPoint Solid {
+                translation 0.01 0.02 0.13
+                name "link at a pitch of 90 degrees"
+              }
+            }
+          ]
+        }
+        Pose {
+          rotation 0 1 0 -1.5707963267948966
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+                anchor 0.01 0.02 0.03
+              }
+              device [
+                RotationalMotor {
+                  name "hinge at a pitch of -90 degrees"
+                }
+              ]
+              endPoint Solid {
+                translation 0.01 0.02 0.13
+                name "link at a pitch of -90 degrees"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "joints in nested poses"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "nested_poses"
+  ]
+  supervisor TRUE
+}
+Panda {
+  translation 2 0 0
+  name "Panda"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "panda"
+  ]
+  supervisor TRUE
+  endEffectorSlot [
+    PandaHand {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+}
+Irb4600-40 {
+  translation 4 0 0
+  name "IRB 4600"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "irb4600"
+  ]
+  supervisor TRUE
+  handSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+ScaraT6 {
+  translation 7 0 0
+  name "SCARA T6"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "scara_t6"
+  ]
+  supervisor TRUE
+  handSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+P-Rob3 {
+  translation 0 3 0
+  name "P-Rob3"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "prob3"
+  ]
+  supervisor TRUE
+  toolSlot [
+    P-Grip {
+    }
+    TestSuiteEmitter {
+    }
+  ]
+}
+Youbot {
+  translation 2 3 0.1
+  name "youBot"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "youbot"
+  ]
+  supervisor TRUE
+  bodySlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+IprHd6m180 {
+  translation 4 3 0
+  name "IPR"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "ipr"
+  ]
+  supervisor TRUE
+  sensorsSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+Puma560 {
+  translation 6 3 0
+  name "PUMA 560"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "puma560"
+  ]
+  supervisor TRUE
+  bodySlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+UR3e {
+  translation 8 3 0
+  name "UR3e"
+  controller "robot_urdf_kinematics"
+  controllerArgs [
+    "ur3e"
+  ]
+  supervisor TRUE
+  toolSlot [
+    TestSuiteEmitter {
+    }
+  ]
+}
+TestSuiteSupervisor {
+}
