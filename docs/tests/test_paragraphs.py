@@ -4,7 +4,7 @@ import re
 import sys
 import unittest
 
-from books import Books
+from books import Books, without_code_blocks
 
 
 class TestParagraphs(unittest.TestCase):
@@ -24,11 +24,10 @@ class TestParagraphs(unittest.TestCase):
                 # Extract MD content.
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    content = f.read()
+                    content = without_code_blocks(f.read())
 
                 # Remove annoying string sequences.
-                # - Multiline code sections.
-                content = re.sub(r'```.+?(?=```)```', '\n', content, flags=re.S)
+                # - Code enclosed in single backticks.
                 content = re.sub(r'\n`.+?(?=`\n)`\n', '\n', content, flags=re.S)
                 # - Notes.
                 content = re.sub(r'\n\s*>.+?(?=\n\n)', '\n', content, flags=re.S)

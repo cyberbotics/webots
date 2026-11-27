@@ -1,6 +1,6 @@
 """Test module of the references."""
 import unittest
-from books import Books
+from books import Books, without_code_blocks
 
 import os
 import re
@@ -21,6 +21,19 @@ def slugify(txt):
     return output.strip(' ').strip('-')
 
 
+class TestFencedExamples(unittest.TestCase):
+    """Check which parts of a Markdown example are used for validation."""
+
+    def test_references_outside_fences(self):
+        """Keep prose around unquoted, indented, and quoted code blocks."""
+        before = '[first](#first)\n'
+        after = '[broken](missing.md)\n'
+        for prefix in ('', '  ', '>', '> '):
+            example = '\n'.join(prefix + line for line in (
+                '```python', 'print("```")', '# Example', '[example_name](sample.md)', '```'))
+            self.assertEqual(without_code_blocks(before + example + '\n' + after), before + '\n' + after)
+
+
 class TestReferences(unittest.TestCase):
     """Unit test of the references."""
 
@@ -38,21 +51,13 @@ class TestReferences(unittest.TestCase):
                 anchors = []
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    skipUntil = ''
-                    for line in f:
-                        if skipUntil:
-                            if skipUntil in line:
-                                skipUntil = ''
-                            continue
+                    for line in without_code_blocks(f.read()).splitlines():
                         if '<a' in line and 'name=' in line:
                             for m in re.finditer(
                                     r'<a[^>]*name\s*=\s*"(.*)"[^>]*>',
                                     line.strip()):
                                 anchors.append(m.group(1))
-                        if re.match(r'```', line):
-                            skipUntil = '```'
-                            continue
-                        elif line.startswith('#'):
+                        if line.startswith('#'):
                             m = re.match(r'^#{1,4} .*$', line)
                             if m:
                                 title = re.sub(r'^#*', '', line)
@@ -103,7 +108,7 @@ class TestReferences(unittest.TestCase):
             for md_path in book.md_paths:
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    content = f.read()
+                    content = without_code_blocks(f.read())
                 for m in re.finditer(r"[^!]\[(.*?)\]\(([^\)]+)\)", content):
                     # remove parameters
                     ref = m.group(2)

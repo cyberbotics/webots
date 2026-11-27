@@ -62,7 +62,8 @@ Additionally, for each device type, specific information is provided.
     "height": <double>,
     "recognition": <0|1>,
     "segmentation": <0|1>
-  }```
+  }
+    ```
 * [DistanceSensor](distancesensor.md):
     ```
   {
@@ -70,13 +71,15 @@ Additionally, for each device type, specific information is provided.
     "minValue": <double>,
     "maxValue": <double>,
     "aperture": <double>
-  }```
+  }
+    ```
 * [Lidar](lidar.md):
     ```
   {
     "width": <double>,
     "height": <double>
-  }```
+  }
+    ```
 * [Motor](motor.md):
     ```
   {
@@ -84,25 +87,29 @@ Additionally, for each device type, specific information is provided.
     "maxPosition": <double>,
     "maxVelocity": <double>,
     <"maxTorque"|"maxForce">: <double>
-  }```
+  }
+    ```
 * [Radar](radar.md):
     ```
   {
     "fieldOfView": <double>,
     "minRange": <double>,
     "maxRange": <double>
-  }```
+  }
+    ```
 * [RangeFinder](rangefinder.md):
     ```
   {
     "width": <double>,
     "height": <double>
-  }```
+  }
+    ```
 * [TouchSensor](touchsensor.md):
     ```
   {
     "sensorType": <"bumper"|"force"|"force-3d">
-  }```
+  }
+    ```
 
 The `wbu_default_robot_window_update` function sends to the HTML robot window an update JSON message, prefixed with the "update" label, containing the current devices measurements.
 Here is the sample structure of the update message:
@@ -124,20 +131,23 @@ Devices update data depends on the type:
         "value": <double|[<double>]>
       }
     ]
-  }```
+  }
+    ```
 * [Camera](camera.md):
     ```
   {
     "recognitionEnabled": <"true"|"false">,
     "segmentationEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64," + <data>
-  }```
+  }
+    ```
 * [Lidar](lidar.md):
     ```
   {
     "cloudPointEnabled": <"true"|"false">,
     "image": "data:image/jpg;base64,<data>"
-  }```
+  }
+    ```
 * [Radar](radar.md):
     ```
   {
@@ -145,12 +155,14 @@ Devices update data depends on the type:
       "distance": <double>,
       "azimuth": <double>
     ]
-  }```
+  }
+    ```
 * [RangeFinder](rangefinder.md):
     ```
   {
     "image": "data:image/jpg;base64," + <data>
- }```
+ }
+    ```
 
 The `wbu_default_robot_window_set_images_max_size` function sets the maximum size for the images of rendering devices sent from the controller to the robot window.
 If the size of an image is bigger than the maximum size, then the image is scaled down before it is appended to the update message.

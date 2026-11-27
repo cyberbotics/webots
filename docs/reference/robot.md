@@ -236,10 +236,10 @@ If the `synchronization` field is TRUE, this function always returns 0 (or -1 to
 If the `synchronization` field is FALSE, the return value can be different from 0: Let `controller_time` be the current time of the controller and let `dt` be the return value.
 Then `dt` may be interpreted as follows:
 
-- if `dt` = 0, then the asynchronous behavior was equivalent to the synchronous behavior.
-- if 0 <= `dt` <= `duration`, then the actuator values were set at `controller_time` + `dt`, and the sensor values were measured at `controller_time` + `duration`, as requested.
+- If `dt` = 0, then the asynchronous behavior was equivalent to the synchronous behavior.
+- If 0 <= `dt` <= `duration`, then the actuator values were set at `controller_time` + `dt`, and the sensor values were measured at `controller_time` + `duration`, as requested.
 It means that the step actually lasted the requested number of milliseconds, but the actuator commands could not be executed on time.
-- if `dt` > `duration`, then the actuators values were set at `controller_time` + `dt`, and the sensor values were also measured at `controller_time` + `dt`.
+- If `dt` > `duration`, then the actuators values were set at `controller_time` + `dt`, and the sensor values were also measured at `controller_time` + `dt`.
 It means that the requested step duration could not be respected.
 
 When using `wb_robot_step`, the controller code is executed sequentially with the Webots simulation step, i.e., not in parallel.

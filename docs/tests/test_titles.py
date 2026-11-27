@@ -4,7 +4,7 @@ import re
 import sys
 import unittest
 
-from books import Books
+from books import Books, without_code_blocks
 
 exceptions = [  # Words which can start with a lowercase.
     'e-puck', 'e-puck2', 'etc.', 'iCub', 'iRobot', 'macOS', 'micromagic', 'youBot'
@@ -62,11 +62,8 @@ class TestTitles(unittest.TestCase):
                 # Extract MD content.
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    content = f.read()
+                    content = without_code_blocks(f.read())
 
-                # Remove annoying string sequences.
-                # - Multiline code sections.
-                content = re.sub(r'```.+?(?=```)```', '', content, flags=re.S)
                 # Extract titles.
                 for match in re.finditer(r'^#+ .*', content):  # Title on the first line.
                     title = content[match.start():match.end()]
