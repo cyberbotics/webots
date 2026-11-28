@@ -1326,5 +1326,7 @@ The `id` represents the node id corresponding to the object, and it is possible 
 The `position` and `orientation` are expressed relatively to the camera (the relative position is the one of the center of the object which can differ from its origin) and the units are meter and radian.
 The `size` represents the Y and Z sizes in meters relatively to the camera (it is of course impossible to know the depth of the object along the [Camera](camera.md) X axis).
 The `position_on_image` and `size_on_image` can be used to determine the bounding box of the object in the camera image, the units are pixels.
-The `number_of_colors` and `colors` returns respectively the number of colors of the objects and pointer to the colors array, each color is represented by 3 doubles (R, G and B), therefore the size of the array is equal to 3 * `number_of_colors`.
+The `colors` array contains the RGB triples from the recognized [Solid](solid.md) node's `recognitionColors` field, in the order they appear in that field.
+The `number_of_colors` field gives the number of triples, so the array contains `3 * number_of_colors` doubles.
+To read pixel colors as seen by the camera, use the [camera image](#wb_camera_get_image).
 Finally `model` returns the `model` field of the [Solid](solid.md) node.
