@@ -1,5 +1,11 @@
 """Get the books paths."""
 import os
+import re
+
+
+def without_code_blocks(markdown):
+    """Remove fenced examples, including those in lists and block quotes."""
+    return re.sub(r'^([ \t>]*)```[^`\n]*\n.*?^\1```[ \t]*$', '', markdown, flags=re.M | re.S)
 
 
 class Book:

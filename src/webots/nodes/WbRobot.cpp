@@ -989,6 +989,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
       stream >> axis;
       if (mJoystickInterface && mJoystickInterface->isCorrectlyInitialized())
         mJoystickInterface->setForceAxis(axis);
+      return;
     }
     case C_ROBOT_CLIENT_EXIT_NOTIFY:
       emit controllerExited();

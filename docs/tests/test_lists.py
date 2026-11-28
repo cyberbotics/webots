@@ -4,7 +4,7 @@ import unittest
 import re
 import sys
 
-from books import Books
+from books import Books, without_code_blocks
 
 
 class TestLists(unittest.TestCase):
@@ -26,23 +26,14 @@ class TestLists(unittest.TestCase):
             for md_path in book.md_paths:
                 # Extract MD content.
                 itemBuffer = ''
-                skipUntil = ''
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    content = f.readlines()
+                    content = without_code_blocks(f.read()).splitlines(True)
                 for line in content:
-                    if skipUntil:
-                        if skipUntil in line:
-                            skipUntil = ''
-                        else:
-                            continue
                     if itemBuffer and not line.strip():
                         self.items.append({'item': itemBuffer, 'md': md_path})
                         itemBuffer = ''
-                    if re.match(r'\s*```', line):
-                        skipUntil = '```'
-                        continue
-                    elif re.match(r'^\s*- ', line) or re.match(r'^\s*\d+\. ', line):
+                    if re.match(r'^\s*- ', line) or re.match(r'^\s*\d+\. ', line):
                         if itemBuffer:
                             self.items.append({'item': itemBuffer, 'md': md_path})
                             itemBuffer = ''
@@ -74,7 +65,7 @@ class TestLists(unittest.TestCase):
                 if not line:  # If it remains something, then test it.
                     continue
                 self.assertTrue(
-                    line.endswith('.') or line.endswith(':') or line.endswith('!'),
+                    line.endswith(('.', ':', '!', '."')),
                     msg='"%s": The following line does not end correctly: "%s"' % (p['md'], line)
                 )
                 self.assertFalse(
