@@ -5,7 +5,7 @@ import re
 import os
 import sys
 
-from books import Books
+from books import Books, without_code_blocks
 
 
 class TestHyperlinks(unittest.TestCase):
@@ -26,9 +26,8 @@ class TestHyperlinks(unittest.TestCase):
                 # Extract MD content.
                 args = {} if sys.version_info[0] < 3 else {'encoding': 'utf-8'}
                 with open(md_path, **args) as f:
-                    content = f.read()
-                # Remove code statements
-                content = re.sub(r'```.+?(?=```)```', '', content, flags=re.S)
+                    content = without_code_blocks(f.read())
+                # Remove inline code
                 content = re.sub(r'`.+?(?=`)`', '', content, flags=re.S)
                 # Remove charts
                 content = re.sub(r'%chart.+?(?=%end)%end', '\n', content, flags=re.S)
