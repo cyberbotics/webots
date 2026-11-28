@@ -20,6 +20,7 @@
     - **Removed `libController.a` and `libCppController.a` libraries on Windows. Please use `Controller.lib` and `CppController.lib` instead ([#6753](https://github.com/cyberbotics/webots/pull/6753)).**
     - Unified the timestep values used in the template controllers across all languages to use the truncated value returned by `wb_robot_get_basic_time_step()` ([#7013](https://github.com/cyberbotics/webots/pull/7013)).
   - Bug Fixes
+    - Fixed [Connector](connector.md) nodes snapping to a skewed orientation when one of the connectors is static or when their x-axes are already collinear ([#7138](https://github.com/cyberbotics/webots/issues/7126)).
     - Fixed extern controllers being disconnected and reported as exited after calling `wb_joystick_set_force_axis` ([#7136](https://github.com/cyberbotics/webots/pull/7136)).
     - Fixed the origins of [Connector](connector.md) nodes not meeting after snapping when the connectors had to be rotated to be aligned ([#7125](https://github.com/cyberbotics/webots/pull/7125)).
     - Fixed Python controllers hanging at exit on Windows when stdout or stderr redirection is enabled ([#7123](https://github.com/cyberbotics/webots/pull/7123)).

@@ -270,10 +270,12 @@ void WbConnector::snapXAxes(WbConnector *other, dQuaternion q, const dBodyID b1,
   WbVector3 w = x1.cross(x2);
 
   // if x1 and x2 are collinear we are already x-aligned
-  if (w.isNull())
+  if (w.isNull()) {
+    dQSetIdentity(q);
     return;  // nothing to do
+  }
 
-  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())  // rotate b1 and b2 towards each other halfway
+  if (b1 && b2)  // rotate b1 and b2 towards each other halfway
     dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2) / 2.0);
   else  // rotate only one body (the other one is static)
     dQFromAxisAndAngle(q, w[0], w[1], w[2], unitVectorsAngle(x1, x2));
@@ -335,7 +337,7 @@ void WbConnector::snapRotation(WbConnector *other, const WbVector3 &z1, const Wb
   assert(beta != -1.0);
 
   dQuaternion q;
-  if (upperSolid()->bodyMerger() && other->upperSolid()->bodyMerger())
+  if (b1 && b2)
     dQFromAxisAndAngle(q, w[0], w[1], w[2], (alpha - beta) / 2.0);  // rotate b1 and b2 towards each other halfway
   else
     dQFromAxisAndAngle(q, w[0], w[1], w[2], alpha - beta);  // rotate b1 or b2 towards the other
@@ -412,12 +414,14 @@ void WbConnector::snapNow(WbConnector *other, const dBodyID b1, const dBodyID b2
   WbVector3 z1 = zAxis();
   WbVector3 z2 = other->zAxis();
 
-  // aq = inversion of qa rotation
-  dQuaternion aq = {qa[0], -qa[1], -qa[2], -qa[3]};
-
-  // rotate y vectors to take into account previous rotation carried out by snapXAxes()
-  rotateVector(qa, z1);
-  rotateVector(aq, z2);
+  // rotate z vectors to take into account previous rotation carried out by snapXAxes()
+  if (b1)
+    rotateVector(qa, z1);
+  if (b2) {
+    // aq = inversion of qa rotation
+    const dQuaternion aq = {qa[0], -qa[1], -qa[2], -qa[3]};
+    rotateVector(aq, z2);
+  }
 
   // now mSnap rotational alignement (z-axes)
   snapRotation(other, z1, z2, b1, b2);

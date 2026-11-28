@@ -1,0 +1,191 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
+WorldInfo {
+  title "Snap static and dynamic connectors"
+  basicTimeStep 8
+  physicsDisableTime 0
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.10833828102060336 0.9839846395851807 0.1415522727684823 4.121503424005624
+  position -0.8 0.9 -0.8
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+PointLight {
+  attenuation 0 0 4
+  location 0 1 1.5
+}
+DEF SUPERVISOR Robot {
+  children [
+    TestSuiteEmitter {
+    }
+    DEF STATIC_CONNECTOR_1 Connector {
+      translation 0 0.5 0
+      name "static_connector_1"
+      model "pair1"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+    DEF STATIC_CONNECTOR_3 Connector {
+      translation 0 0.5 2
+      rotation 0.14779696163853043 -0.9779121209295023 0.14779696163853043 1.5931299388170219
+      name "static_connector_3"
+      model "pair3"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "supervisor"
+  controller "connector_static_snap"
+  supervisor TRUE
+}
+DEF DYNAMIC_SOLID_1 Solid {
+  translation 0.088387838736 0.529428610719 0.006992702731
+  rotation 0.0943875102954288 -0.0993877136745039 0.9905620022344817 3.1226525400167939
+  children [
+    DEF SPHERE_BODY Pose {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+          }
+          geometry Sphere {
+            radius 0.03
+            subdivision 3
+          }
+        }
+      ]
+    }
+    DEF DYNAMIC_CONNECTOR_1 Connector {
+      translation 0.08 0.03 -0.02
+      name "dynamic_connector_1"
+      model "pair1"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "dynamic_solid_1"
+  boundingObject USE SPHERE_BODY
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF STATIC_SOLID_2 Solid {
+  translation 0 0.5 1
+  children [
+    DEF STATIC_CONNECTOR_2 Connector {
+      name "static_connector_2"
+      model "pair2"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "static_solid_2"
+}
+DEF DYNAMIC_ROBOT_2 Robot {
+  translation 0.072248918473 0.536641515942 1.032465448055
+  rotation -0.0918146038395695 0.1093146103222865 0.9897577453558368 3.1213122694589113
+  children [
+    USE SPHERE_BODY
+    DEF DYNAMIC_CONNECTOR_2 Connector {
+      translation 0.08 0.03 -0.02
+      name "connector"
+      model "pair2"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "dynamic_robot_2"
+  boundingObject USE SPHERE_BODY
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+  controller "connector_static_snap"
+  controllerArgs [
+    "dynamic"
+  ]
+}
+DEF DYNAMIC_SOLID_3 Solid {
+  translation 0.024 0.533 2.076
+  children [
+    USE SPHERE_BODY
+    DEF DYNAMIC_CONNECTOR_3 Connector {
+      translation -0.02 -0.03 -0.08
+      rotation 0.69491923677140277 0.18486348674116801 -0.69491923677140299 2.7759931189767717
+      name "dynamic_connector_3"
+      model "pair3"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "dynamic_solid_3"
+  boundingObject USE SPHERE_BODY
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF STATIC_SOLID_4 Solid {
+  translation 0 0.5 3
+  children [
+    DEF STATIC_CONNECTOR_4 Connector {
+      rotation 0.14779696163853043 -0.9779121209295023 0.14779696163853043 1.5931299388170219
+      name "static_connector_4"
+      model "pair4"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "static_solid_4"
+}
+DEF DYNAMIC_ROBOT_4 Robot {
+  translation 0.016 0.527 3.084
+  children [
+    USE SPHERE_BODY
+    DEF DYNAMIC_CONNECTOR_4 Connector {
+      translation -0.02 -0.03 -0.08
+      rotation 0.46048506280656804 0.75888537597193295 -0.46048506280656809 1.8432655766177313
+      name "connector"
+      model "pair4"
+      distanceTolerance 0.05
+      axisTolerance 0.2
+      rotationTolerance 0.4
+      numberOfRotations 4
+    }
+  ]
+  name "dynamic_robot_4"
+  boundingObject USE SPHERE_BODY
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+  controller "connector_static_snap"
+  controllerArgs [
+    "dynamic"
+  ]
+}
+TestSuiteSupervisor {
+}
